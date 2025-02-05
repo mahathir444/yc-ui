@@ -5,20 +5,14 @@
       class="yc-drawer-wrapper"
       :style="{
         zIndex,
-      }">
-      <div
-        v-if="mask"
-        class="yc-drawer-mask"
-        @click="handleMaskClose"></div>
+      }"
+    >
+      <div v-if="mask" class="yc-drawer-mask" @click="handleMaskClose"></div>
       <Transition name="slide">
-        <div
-          v-if="visible"
-          class="yc-drawer-container"
-          :style="style">
+        <div v-show="visible" class="yc-drawer-container" :style="style">
+          <!-- header -->
           <slot name="header">
-            <div
-              v-if="header"
-              class="yc-drawer-header">
+            <div v-if="header" class="yc-drawer-header">
               <div class="yc-drawer-header-title text-ellipsis">
                 <slot name="title">
                   <span>{{ title }}</span>
@@ -27,21 +21,22 @@
               <div
                 v-if="closable"
                 class="yc-drawer-close-icon"
-                @click="handleBtnClose">
-                <svg-icon
-                  name="drawerClose"
-                  size="12"
-                  color="rgb(29,33,41)" />
+                @click="handleBtnClose"
+              >
+                <svg-icon name="drawerClose" size="12" color="rgb(29,33,41)" />
               </div>
             </div>
           </slot>
+          <!-- body -->
           <div class="yc-drawer-body">
             <slot />
           </div>
+          <!-- footer -->
           <slot name="footer">
-            <div
-              v-if="footer"
-              class="yc-drawer-footer"></div>
+            <div v-if="footer" class="yc-drawer-footer">
+              <YcButton>取消</YcButton>
+              <YcButton type="primary">确认</YcButton>
+            </div>
           </slot>
         </div>
       </Transition>
@@ -51,43 +46,30 @@
 
 <script lang="ts" setup>
 import { toRefs, computed, ref, watch, CSSProperties } from 'vue';
-import { POSTION_MAP } from './index.ts';
+import { POSTION_MAP, BORDER_MAP } from './index.ts';
+import { YcDrawerProps } from './type';
 import { sleep } from '@/utils/fn';
-
-const props = withDefaults(
-  defineProps<{
-    visible?: boolean;
-    placement?: 'right' | 'left' | 'top' | 'bottom';
-    title?: string;
-    mask?: boolean;
-    maskClosable?: boolean;
-    closable?: boolean;
-    width?: number;
-    height?: number;
-    zIndex?: number;
-    header?: boolean;
-    footer?: boolean;
-    drawerStyle?: CSSProperties;
-    popupContainer: string | HTMLElement;
-  }>(),
-  {
-    visible: false,
-    placement: 'top',
-    title: '',
-    mask: true,
-    maskClosable: true,
-    closable: true,
-    width: 330,
-    height: 330,
-    zIndex: 1001,
-    header: true,
-    footer: true,
-    popupContainer: 'body',
-    drawerStyle: () => {
-      return {};
-    },
-  }
-);
+import { useMagicKeys, whenever } from '@vueuse/core';
+import YcButton from '../YcButton/index.vue';
+const props = withDefaults(defineProps<YcDrawerProps>(), {
+  visible: false,
+  placement: 'right',
+  title: '',
+  mask: true,
+  maskClosable: true,
+  closable: true,
+  unmountOnClose: false,
+  width: 250,
+  height: 250,
+  zIndex: 1001,
+  header: true,
+  footer: true,
+  popupContainer: 'body',
+  escToClose: true,
+  drawerStyle: () => {
+    return {};
+  },
+});
 const emits = defineEmits<{
   (e: 'update:visible', value: boolean): void;
   (e: 'open'): void;
@@ -95,14 +77,23 @@ const emits = defineEmits<{
   (e: 'close'): void;
   (e: 'beforeClose'): void;
 }>();
-const { width, height, zIndex, placement, visible, maskClosable, drawerStyle } =
-  toRefs(props);
+const {
+  width,
+  height,
+  zIndex,
+  placement,
+  visible,
+  maskClosable,
+  drawerStyle,
+  unmountOnClose,
+} = toRefs(props);
 // drawer的可见性
 const drawerVisible = ref<boolean>(false);
 // drawer绝对定位的left,top
 const style = computed(() => {
   return {
     ...POSTION_MAP[placement.value],
+    ...BORDER_MAP[placement.value],
     height:
       placement.value == 'left' || placement.value == 'right'
         ? '100%'
@@ -112,8 +103,9 @@ const style = computed(() => {
         ? `${width.value}px`
         : `100%`,
     zIndex: zIndex.value + 10,
-    ...drawerStyle,
-  };
+    // 传入样式
+    ...drawerStyle.value,
+  } as CSSProperties;
 });
 // drawer的动画
 const leaveFrom = computed(() => {
@@ -130,14 +122,23 @@ const enterTo = computed(() => {
     ? 'translateX(0)'
     : 'translateY(0)';
 });
-// 处理drawer关闭
+// 处理点击关闭按钮drawer关闭
 const handleBtnClose = () => {
   emits('update:visible', false);
 };
+// 处理点击mask关闭
 const handleMaskClose = () => {
   if (!maskClosable.value) return;
   emits('update:visible', false);
 };
+// 处理esc关闭
+const handleEscClose = () => {
+  const keys = useMagicKeys();
+  whenever(keys.escape, () => {
+    emits('update:visible', false);
+  });
+};
+handleEscClose();
 // 检测抽屉的开关
 watch(
   () => visible.value,
@@ -244,7 +245,9 @@ watch(
       width: 100%;
       border-top: 1px solid rgb(229, 230, 235);
       display: flex;
+      justify-content: flex-end;
       align-items: center;
+      gap: 12px;
     }
   }
 }

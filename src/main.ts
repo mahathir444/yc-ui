@@ -5,7 +5,7 @@ import pinia from './store';
 import '@/assets/styles/base.less';
 import '@/assets/styles/global.less';
 import 'virtual:svg-icons-register';
-
+// arco测试
 import ArcoVue from '@arco-design/web-vue';
 import ArcoVueIcon from '@arco-design/web-vue/es/icon';
 import '@arco-design/web-vue/dist/arco.css';
