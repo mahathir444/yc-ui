@@ -70,6 +70,6 @@ declare module 'vue' {
     Message: typeof import('./src/components/Ancient/CxMessage/message.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
-    SvgIcon: typeof import('./src/components/Common/SvgIcon/index.vue')['default']
+    SvgIcon: typeof import('./src/components/SvgIcon/index.vue')['default']
   }
 }

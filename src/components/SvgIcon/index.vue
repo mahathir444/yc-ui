@@ -1,10 +1,6 @@
 <template>
-  <svg
-    aria-hidden="true"
-    :opacity="opacity"
-    :class="['svg-icon', $attrs.class]"
-  >
-    <use :xlink:href="symbolId" :fill="color" />
+  <svg aria-hidden="true" :class="['svg-icon', $attrs.class]">
+    <use :xlink:href="symbolId" fill="currentColor" />
   </svg>
 </template>
 
@@ -14,17 +10,15 @@ import { toRefs } from 'vue';
 import { computed } from 'vue';
 const props = withDefaults(
   defineProps<{
-    prefix?: string;
     name: string;
+    prefix?: string;
     size?: number | string | Array<number | string>;
     color?: string;
-    opacity?: number | string;
   }>(),
   {
     prefix: 'icon',
     size: 16,
     color: '#333',
-    opacity: 1,
   }
 );
 const symbolId = computed(() => `#${props.prefix}-${props.name}`);
