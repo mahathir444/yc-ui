@@ -1,15 +1,14 @@
 <template>
   <div class="test">
-    <a-button :loading="true" @click="visible = true">这是有个测试</a-button>
     <!-- <a-drawer v-model:visible="visible"></a-drawer> -->
     <YcDrawer v-model:visible="visible" title="这是一个测试">
       这是一个测试drawer
     </YcDrawer>
-    <YcButton>
+    <YcButton @click="visible = true">
       <template #icon>
         <IconAlignLeft />
       </template>
-      谢谢你的
+      这是一个test
     </YcButton>
   </div>
 </template>

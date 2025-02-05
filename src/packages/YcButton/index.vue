@@ -2,13 +2,14 @@
   <div
     class="yc-button-wrapper"
     :class="{
-      'yc-button-disabled': disabled,
-      'yc-button-loading': loading,
+      'is-disabled': disabled,
+      'is-loading': loading,
     }"
   >
     <button
       :class="{
         'yc-button': true,
+        'yc-button-only-icon': !$slots.default,
         // 大小
         'yc-button-mini': size == 'mini',
         'yc-button-small': size == 'small',
@@ -36,7 +37,8 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, reactive } from 'vue';
+import { ref, computed, toRefs } from 'vue';
+import { SIZE_MAP } from './index';
 const props = withDefaults(
   defineProps<{
     type?: 'primary' | 'secondary' | 'dashed' | 'outline' | 'text';
@@ -49,16 +51,22 @@ const props = withDefaults(
     type: 'secondary',
     size: 'medium',
     shape: 'square',
-    disabled: true,
+    disabled: false,
     loading: false,
   }
 );
+const { size } = toRefs(props);
+// 当前的size
+const curSize = computed(() => SIZE_MAP[size.value] + 'px');
+// shape为round的borderRadius
+const roundBorderRadius = computed(() => SIZE_MAP[size.value] / 2 + 'px');
 </script>
 
 <style lang="less" scoped>
 .yc-button-wrapper {
   .yc-button {
     cursor: pointer;
+    justify-content: center;
     padding: 0 15px;
     outline: none;
     border: 1px solid transparent;
@@ -79,8 +87,7 @@ const props = withDefaults(
     }
   }
 }
-
-// 禁用 ,loading
+// diabled,loading
 @keyframes yc-loading {
   0% {
     transform: rotate(0deg);
@@ -89,8 +96,8 @@ const props = withDefaults(
     transform: rotate(360deg);
   }
 }
-.yc-button-disabled,
-.yc-button-loading {
+.is-disabled,
+.is-loading {
   position: relative;
   overflow: hidden;
 
@@ -106,14 +113,19 @@ const props = withDefaults(
     opacity: 0.4;
   }
 }
-.yc-button-disabled {
+.is-disabled {
   cursor: not-allowed;
 }
-.yc-button-loading {
+.is-loading {
   cursor: default;
   .svg-icon {
     animation: yc-loading 1s infinite cubic-bezier(0, 0, 1, 1);
   }
+}
+// 是否只有icon
+.yc-button-only-icon {
+  width: v-bind(curSize);
+  padding: 0;
 }
 // 类型
 .yc-button-primary {
@@ -215,6 +227,6 @@ const props = withDefaults(
   border-radius: 50%;
 }
 .yc-button-shape-round {
-  // border-radius: calc(100% / 2);
+  border-radius: v-bind(roundBorderRadius);
 }
 </style>

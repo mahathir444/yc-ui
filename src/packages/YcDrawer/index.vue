@@ -34,8 +34,8 @@
           <!-- footer -->
           <slot name="footer">
             <div v-if="footer" class="yc-drawer-footer">
-              <YcButton>取消</YcButton>
-              <YcButton type="primary">确认</YcButton>
+              <YcButton @click="handleCancel">{{ cancelText }}</YcButton>
+              <YcButton type="primary" @click="handleOk">{{ okText }}</YcButton>
             </div>
           </slot>
         </div>
@@ -64,6 +64,8 @@ const props = withDefaults(defineProps<YcDrawerProps>(), {
   zIndex: 1001,
   header: true,
   footer: true,
+  okText: '确认',
+  cancelText: '取消',
   popupContainer: 'body',
   escToClose: true,
   drawerStyle: () => {
@@ -72,6 +74,8 @@ const props = withDefaults(defineProps<YcDrawerProps>(), {
 });
 const emits = defineEmits<{
   (e: 'update:visible', value: boolean): void;
+  (e: 'ok'): void;
+  (e: 'cancel'): void;
   (e: 'open'): void;
   (e: 'beforeOpen'): void;
   (e: 'close'): void;
@@ -139,6 +143,16 @@ const handleEscClose = () => {
   });
 };
 handleEscClose();
+//处理确认
+const handleOk = () => {
+  emits('ok');
+  emits('update:visible', false);
+};
+// 处理取消
+const handleCancel = () => {
+  emits('cancel');
+  emits('update:visible', false);
+};
 // 检测抽屉的开关
 watch(
   () => visible.value,

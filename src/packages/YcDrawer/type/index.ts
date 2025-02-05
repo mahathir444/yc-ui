@@ -8,6 +8,8 @@ export interface YcDrawerProps {
   mask?: boolean;
   maskClosable?: boolean;
   closable?: boolean;
+  okText?: string;
+  cancelText?: string;
   width?: number;
   height?: number;
   zIndex?: number;
