@@ -1,9 +1,14 @@
 <template>
-  <router-view />
+  <div id="container">
+    <router-view />
+  </div>
 </template>
 
 <style lang="less">
-#app {
+body {
+  overflow: hidden;
+}
+#container {
   height: 100vh;
   width: 100vw;
   overflow: hidden;

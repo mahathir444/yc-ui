@@ -1,10 +1,13 @@
 import dayjs from 'dayjs';
 
-type Task = (...args: any) => Promise<any>;
+//获取时间错
+export const getTimeStap = () => {
+  return new Date().getTime();
+};
 
 //格式化事件
 export const formatTime = (
-  date: string | number | Date,
+  date: string | number,
   template: string = 'YYYY-MM-DD HH:mm:ss'
 ) => {
   return dayjs(date).format(template);
@@ -35,34 +38,7 @@ export const calFileSize = (size: number) => {
   return size.toFixed(2) + ' ' + sizeMap[count];
 };
 
-export const taskRunner = async (tasks: Task[], max: number) => {
-  let index = 0;
-  const results = new Array(tasks.length);
-  const executing: Promise<any>[] = [];
-  const runTask = async () => {
-    if (index === tasks.length) {
-      return;
-    }
-    const taskIndex = index++;
-    const task = tasks[taskIndex] as Task;
-    const p = task()
-      .then((result) => {
-        results[taskIndex] = result;
-        executing.splice(executing.indexOf(p), 1);
-      })
-      .catch((error) => {
-        results[taskIndex] = error;
-        executing.splice(executing.indexOf(p), 1);
-      });
-    executing.push(p);
-    let r = Promise.resolve();
-    if (executing.length >= max) {
-      r = Promise.race(executing);
-    }
-    await r;
-    await runTask();
-  };
-  await runTask();
-  await Promise.all(executing);
-  return results;
+//获取文件后缀
+export const getFileExt = (filename: string) => {
+  return filename.split('.').at(-1);
 };

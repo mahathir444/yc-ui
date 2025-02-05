@@ -10,6 +10,7 @@ import { visualizer } from 'rollup-plugin-visualizer';
 import autoprefixer from 'autoprefixer';
 import { resolve } from 'path';
 import { createSvgIconsPlugin } from 'vite-plugin-svg-icons';
+import VueJsx from '@vitejs/plugin-vue-jsx';
 
 // https://vitejs.dev/config/
 export default defineConfig(({ mode }) => {
@@ -19,6 +20,7 @@ export default defineConfig(({ mode }) => {
   return {
     plugins: [
       vue(),
+      VueJsx(),
       AutoImport({
         resolvers: [ArcoResolver(), ElementPlusResolver()],
       }),
@@ -112,10 +114,10 @@ export default defineConfig(({ mode }) => {
         ],
       },
       preprocessorOptions: {
-        // less: {
-        //   javascriptEnabled: true,
-        //   additionalData: `@import "${resolve(__dirname, 'src/assets/styles/global.less')}";`,
-        // },
+        less: {
+          javascriptEnabled: true,
+          additionalData: `@import "${resolve(__dirname, 'src/assets/styles/global.less')}";`,
+        },
       },
     },
   };
