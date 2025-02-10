@@ -5,7 +5,7 @@
       这是一个测试drawer
     </YcDrawer>
     <a-button href="https://v1.chaoxing.com/manage?refer=">测试</a-button>
-    <YcButton status="warning" @click="visible = true">
+    <YcButton status="success" @click="visible = true">
       <template #icon>
         <IconApps />
       </template>

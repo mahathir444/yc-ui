@@ -10,6 +10,7 @@
       'yc-button-long': long,
       // 禁用和加载
       'yc-button-loading': loading,
+      'yc-button-disabled': disabled,
       // 大小
       'yc-button-mini': size == 'mini',
       'yc-button-small': size == 'small',
@@ -25,8 +26,10 @@
       'yc-button-shape-round': shape == 'round',
       'yc-button-shape-circle': shape == 'circle',
       'yc-button-shape-square': shape == 'square',
-      //
+      // 状态
       'yc-button-status-warning': status == 'warning',
+      'yc-button-status-success': status == 'success',
+      'yc-button-status-danger': status == 'danger',
     }"
     @click="handleEvent('click', $event)"
     @dblclick="handleEvent('dblclick', $event)"
@@ -43,27 +46,17 @@
 <script lang="ts" setup>
 import { computed, toRefs } from 'vue';
 import { SIZE_MAP } from './index';
-const props = withDefaults(
-  defineProps<{
-    type?: 'primary' | 'secondary' | 'dashed' | 'outline' | 'text';
-    shape?: 'square' | 'circle' | 'round';
-    status?: 'normal' | 'warning' | 'success' | 'danger';
-    size?: 'mini' | 'small' | 'medium' | 'large';
-    long?: boolean;
-    loading?: boolean;
-    disabled?: boolean;
-    htmlType?: 'button' | 'reset' | 'submit';
-  }>(),
-  {
-    type: 'secondary',
-    size: 'medium',
-    shape: 'square',
-    disabled: false,
-    loading: false,
-    long: false,
-    htmlType: 'button',
-  }
-);
+import { YcButtonProps } from './type';
+const props = withDefaults(defineProps<YcButtonProps>(), {
+  type: 'secondary',
+  status: 'normal',
+  size: 'medium',
+  shape: 'square',
+  disabled: false,
+  loading: false,
+  long: false,
+  htmlType: 'button',
+});
 const emits = defineEmits<{
   (e: 'click', event: MouseEvent): void;
   (e: 'dblclick', event: MouseEvent): void;
@@ -82,7 +75,7 @@ const handleEvent = (type: string, e: MouseEvent) => {
 </script>
 
 <style lang="less" scoped>
-@import './theme.less';
+@import './index.less';
 .yc-button {
   cursor: pointer;
   justify-content: center;
@@ -95,11 +88,7 @@ const handleEvent = (type: string, e: MouseEvent) => {
   display: flex;
   align-items: center;
   gap: 8px;
-  &:disabled {
-    cursor: not-allowed;
-    pointer-events: none; /* 禁用 hover 效果 */
-    opacity: 0.4;
-  }
+
   .yc-button-icon {
     flex-shrink: 0;
     width: 14px;
@@ -146,22 +135,10 @@ const handleEvent = (type: string, e: MouseEvent) => {
     animation: loading 1s infinite cubic-bezier(0, 0, 1, 1);
   }
 }
-// size
-.yc-button-mini {
-  height: 24px;
-  font-size: 12px;
-}
-.yc-button-small {
-  height: 28px;
-  font-size: 14px;
-}
-.yc-button-medium {
-  height: 32px;
-  font-size: 14px;
-}
-.yc-button-large {
-  height: 36px;
-  font-size: 14px;
+.yc-button-disabled {
+  cursor: not-allowed;
+  pointer-events: none; /* 禁用 hover 效果 */
+  opacity: 0.4;
 }
 // shape
 .yc-button-shape-square {
