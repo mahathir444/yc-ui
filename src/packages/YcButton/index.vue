@@ -78,28 +78,7 @@ const handleEvent = (type: string, e: MouseEvent) => {
 
 <style lang="less" scoped>
 @import './index.less';
-.yc-button {
-  cursor: pointer;
-  user-select: none;
-  outline: none;
-  border: 1px solid transparent;
-  font-weight: 400;
-  transition: all 0.1s cubic-bezier(0, 0, 1, 1);
-  display: flex;
-  justify-content: center;
-  align-items: center;
 
-  .yc-button-icon {
-    flex-shrink: 0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-}
-//是否自适应容器
-.yc-button-long {
-  width: 100%;
-}
 // 是否只有icon
 .yc-button-only-icon {
   width: v-bind(sizeToPx);

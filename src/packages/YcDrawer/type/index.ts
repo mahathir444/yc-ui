@@ -1,4 +1,5 @@
 import { CSSProperties } from 'vue';
+import { YcButtonProps } from '@/packages/YcButton/type';
 type DrawerPlacement = 'right' | 'left' | 'top' | 'bottom';
 
 export interface YcDrawerProps {
@@ -10,13 +11,15 @@ export interface YcDrawerProps {
   closable?: boolean;
   okText?: string;
   cancelText?: string;
+  okButtonProps?: YcButtonProps;
+  cancelButtonProps?: YcButtonProps;
   width?: number;
   height?: number;
   zIndex?: number;
   header?: boolean;
   footer?: boolean;
   drawerStyle?: CSSProperties;
-  // unmountOnClose?: boolean;
   popupContainer?: string | HTMLElement;
   escToClose?: boolean;
+  hideCancel?: boolean;
 }

@@ -34,7 +34,9 @@
           <!-- footer -->
           <slot name="footer">
             <div v-if="footer" class="yc-drawer-footer">
-              <YcButton @click="handleCancel">{{ cancelText }}</YcButton>
+              <YcButton v-if="!hideCancel" @click="handleCancel">
+                {{ cancelText }}
+              </YcButton>
               <YcButton type="primary" @click="handleOk">{{ okText }}</YcButton>
             </div>
           </slot>
@@ -50,6 +52,7 @@ import { POSTION_MAP, BORDER_MAP } from './index.ts';
 import { YcDrawerProps } from './type';
 import { sleep } from '@/utils/fn';
 import { useMagicKeys, whenever } from '@vueuse/core';
+
 import YcButton from '../YcButton/index.vue';
 const props = withDefaults(defineProps<YcDrawerProps>(), {
   visible: false,
@@ -58,18 +61,25 @@ const props = withDefaults(defineProps<YcDrawerProps>(), {
   mask: true,
   maskClosable: true,
   closable: true,
-  width: 250,
-  height: 250,
-  zIndex: 1001,
-  header: true,
-  footer: true,
   okText: '确认',
   cancelText: '取消',
+  okButtonProps: () => {
+    return {};
+  },
+  cancelButtonProps: () => {
+    return {};
+  },
+  width: 250,
+  height: 250,
   popupContainer: 'body',
-  escToClose: true,
   drawerStyle: () => {
     return {};
   },
+  zIndex: 1001,
+  header: true,
+  footer: true,
+  escToClose: true,
+  hideCancel: false,
 });
 const emits = defineEmits<{
   (e: 'update:visible', value: boolean): void;

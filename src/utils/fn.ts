@@ -1,10 +1,5 @@
 import dayjs from 'dayjs';
 
-//获取时间错
-export const getTimeStap = () => {
-  return new Date().getTime();
-};
-
 //格式化事件
 export const formatTime = (
   date: string | number,
