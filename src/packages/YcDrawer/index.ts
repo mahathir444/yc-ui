@@ -47,10 +47,3 @@ export const BORDER_MAP = {
     borderLeft: 0,
   },
 };
-
-export const TRANSFORM_MAP = {
-  left: 'translateX(-100%)',
-  right: 'translateX(100%)',
-  top: 'translateY(-100%)',
-  bottom: 'translateY(100%)',
-};

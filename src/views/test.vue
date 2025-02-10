@@ -4,7 +4,8 @@
     <YcDrawer v-model:visible="visible" title="这是一个测试">
       这是一个测试drawer
     </YcDrawer>
-    <YcButton disabled @click="visible = true">
+    <a-button href="https://v1.chaoxing.com/manage?refer=">测试</a-button>
+    <YcButton status="warning" @click="visible = true">
       <template #icon>
         <IconApps />
       </template>

@@ -4,7 +4,10 @@
     :disabled="disabled"
     :class="{
       'yc-button': true,
+      // 是否只有图标
       'yc-button-only-icon': !$slots.default,
+      // 是否自适应容器
+      'yc-button-long': long,
       // 禁用和加载
       'yc-button-loading': loading,
       // 大小
@@ -22,6 +25,8 @@
       'yc-button-shape-round': shape == 'round',
       'yc-button-shape-circle': shape == 'circle',
       'yc-button-shape-square': shape == 'square',
+      //
+      'yc-button-status-warning': status == 'warning',
     }"
     @click="handleEvent('click', $event)"
     @dblclick="handleEvent('dblclick', $event)"
@@ -36,15 +41,17 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, computed, toRefs } from 'vue';
+import { computed, toRefs } from 'vue';
 import { SIZE_MAP } from './index';
 const props = withDefaults(
   defineProps<{
     type?: 'primary' | 'secondary' | 'dashed' | 'outline' | 'text';
-    size?: 'mini' | 'small' | 'medium' | 'large';
     shape?: 'square' | 'circle' | 'round';
-    disabled?: boolean;
+    status?: 'normal' | 'warning' | 'success' | 'danger';
+    size?: 'mini' | 'small' | 'medium' | 'large';
+    long?: boolean;
     loading?: boolean;
+    disabled?: boolean;
     htmlType?: 'button' | 'reset' | 'submit';
   }>(),
   {
@@ -53,6 +60,7 @@ const props = withDefaults(
     shape: 'square',
     disabled: false,
     loading: false,
+    long: false,
     htmlType: 'button',
   }
 );
@@ -63,7 +71,7 @@ const emits = defineEmits<{
 }>();
 const { size, disabled, loading } = toRefs(props);
 // 当前的size
-const curSize = computed(() => SIZE_MAP[size.value] + 'px');
+const sizeToPx = computed(() => SIZE_MAP[size.value] + 'px');
 // shape为round的borderRadius
 const roundBorderRadius = computed(() => SIZE_MAP[size.value] / 2 + 'px');
 // 拦截事件
@@ -74,6 +82,7 @@ const handleEvent = (type: string, e: MouseEvent) => {
 </script>
 
 <style lang="less" scoped>
+@import './theme.less';
 .yc-button {
   cursor: pointer;
   justify-content: center;
@@ -87,11 +96,10 @@ const handleEvent = (type: string, e: MouseEvent) => {
   align-items: center;
   gap: 8px;
   &:disabled {
-    cursor: not-allowed; /* 显示禁用光标 */
-    // pointer-events: none; /* 禁用 hover 效果 */
+    cursor: not-allowed;
+    pointer-events: none; /* 禁用 hover 效果 */
     opacity: 0.4;
   }
-
   .yc-button-icon {
     flex-shrink: 0;
     width: 14px;
@@ -101,20 +109,19 @@ const handleEvent = (type: string, e: MouseEvent) => {
     align-items: center;
   }
 }
-
+//是否自适应容器
+.yc-button-long {
+  width: 100%;
+}
+// 是否只有icon
+.yc-button-only-icon {
+  width: v-bind(sizeToPx);
+  padding: 0;
+}
 // 加载
 .yc-button-loading {
   position: relative;
   pointer-events: none;
-
-  @keyframes loading {
-    0% {
-      transform: rotate(0deg);
-    }
-    100% {
-      transform: rotate(360deg);
-    }
-  }
 
   &::before {
     content: '';
@@ -125,95 +132,18 @@ const handleEvent = (type: string, e: MouseEvent) => {
     background-color: #fff;
     opacity: 0.4;
   }
+
+  @keyframes loading {
+    0% {
+      transform: rotate(0deg);
+    }
+    100% {
+      transform: rotate(360deg);
+    }
+  }
+
   .svg-icon {
     animation: loading 1s infinite cubic-bezier(0, 0, 1, 1);
-  }
-}
-// 是否只有icon
-.yc-button-only-icon {
-  width: v-bind(curSize);
-  padding: 0;
-}
-// 类型
-.yc-button-primary {
-  background-color: rgb(22, 93, 255);
-  color: #fff;
-  &:hover {
-    background-color: rgb(64, 128, 255);
-  }
-  &:active {
-    background-color: rgb(14, 66, 210);
-  }
-  .yc-button-icon {
-    color: #fff;
-  }
-}
-.yc-button-secondary {
-  background-color: rgb(242, 243, 245);
-  color: rgb(78, 89, 105);
-  &:hover {
-    background-color: rgb(229, 230, 235);
-  }
-  &:active {
-    background-color: rgb(201, 205, 212);
-  }
-  .yc-button-icon {
-    color: rgb(78, 89, 105);
-  }
-}
-.yc-button-dashed {
-  border: 1px dashed rgb(229, 230, 235);
-  background-color: rgb(242, 243, 245);
-  color: rgb(78, 89, 105);
-  &:hover {
-    border-color: rgb(201, 205, 212);
-    background-color: rgb(229, 230, 235);
-  }
-  &:active {
-    border-color: rgb(169, 174, 184);
-    background-color: rgb(201, 205, 212);
-  }
-  .yc-button-icon {
-    color: rgb(78, 89, 105);
-  }
-}
-.yc-button-outline {
-  border: 1px solid rgb(22, 93, 255);
-  background-color: transparent;
-  color: rgb(22, 93, 255);
-
-  &:hover {
-    color: rgb(64, 128, 255);
-    border-color: rgb(64, 128, 255);
-    .yc-button-icon {
-      color: rgb(64, 128, 255);
-    }
-  }
-  &:active {
-    color: rgb(14, 66, 210);
-    border-color: rgb(14, 66, 210);
-    .yc-button-icon {
-      color: rgb(14, 66, 210);
-    }
-  }
-
-  .yc-button-icon {
-    color: rgb(22, 93, 255);
-  }
-}
-.yc-button-text {
-  background-color: transparent;
-  color: rgb(22, 93, 255);
-
-  &:hover {
-    background-color: rgb(242, 243, 245);
-  }
-  &:active {
-    background-color: rgb(229, 230, 235);
-  }
-
-  .yc-button-icon {
-    color: rgb(22, 93, 255);
   }
 }
 // size
