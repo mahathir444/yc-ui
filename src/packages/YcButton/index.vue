@@ -1,5 +1,17 @@
 <template>
+  <YcLink
+    v-if="herf"
+    :href="herf"
+    :status="status"
+    :disabled="disabled"
+    :loading="loading"
+  >
+    <template #icon>
+      <slot name="icon"></slot>
+    </template>
+  </YcLink>
   <button
+    v-else
     :type="htmlType"
     :disabled="disabled"
     :class="{
@@ -47,6 +59,7 @@
 import { computed, toRefs } from 'vue';
 import { SIZE_MAP } from './index';
 import { YcButtonProps } from './type';
+import YcLink from '../YcLink/index.vue';
 const props = withDefaults(defineProps<YcButtonProps>(), {
   type: 'secondary',
   status: 'normal',
@@ -56,6 +69,7 @@ const props = withDefaults(defineProps<YcButtonProps>(), {
   loading: false,
   long: false,
   htmlType: 'button',
+  href: '',
 });
 const emits = defineEmits<{
   (e: 'click', event: MouseEvent): void;
@@ -78,14 +92,14 @@ const handleEvent = (type: string, e: MouseEvent) => {
 @import './index.less';
 .yc-button {
   cursor: pointer;
-  justify-content: center;
+  user-select: none;
   padding: 0 15px;
   outline: none;
   border: none;
   font-weight: 400;
   transition: all 0.1s cubic-bezier(0, 0, 1, 1);
-  user-select: none;
   display: flex;
+  justify-content: center;
   align-items: center;
   gap: 8px;
 
@@ -145,9 +159,28 @@ const handleEvent = (type: string, e: MouseEvent) => {
   border-radius: 2px;
 }
 .yc-button-shape-circle {
+  width: v-bind(sizeToPx);
+  padding: 0;
   border-radius: 50%;
 }
 .yc-button-shape-round {
   border-radius: v-bind(roundBorderRadius);
+}
+// size
+.yc-button-mini {
+  height: 24px;
+  font-size: 12px;
+}
+.yc-button-small {
+  height: 28px;
+  font-size: 14px;
+}
+.yc-button-medium {
+  height: 32px;
+  font-size: 14px;
+}
+.yc-button-large {
+  height: 36px;
+  font-size: 14px;
 }
 </style>

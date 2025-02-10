@@ -1,0 +1,89 @@
+.yc-drawer-wrapper {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+
+  .yc-drawer-mask {
+    position: absolute;
+    left: 0;
+    top: 0;
+    height: 100%;
+    width: 100%;
+    background-color: rgba(29, 33, 41, 0.6);
+  }
+  .yc-drawer-container {
+    position: absolute;
+    height: 100%;
+    background-color: #fff;
+    border: 1px solid rgb(229, 230, 235);
+    display: flex;
+    flex-direction: column;
+    .yc-drawer-footer,
+    .yc-drawer-body,
+    .yc-drawer-header {
+      flex-shrink: 0;
+    }
+    .yc-drawer-header {
+      padding: 0 16px;
+      height: 48px;
+      width: 100%;
+      border-bottom: 1px solid rgb(229, 230, 235);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 8px;
+      overflow: hidden;
+      .yc-drawer-header-title {
+        flex-shrink: 0;
+        flex: 1;
+        overflow: hidden;
+        span {
+          font-size: 16px;
+          font-weight: 500;
+          color: rgb(29, 33, 41);
+        }
+      }
+      .yc-drawer-close-icon {
+        width: 12px;
+        height: 12px;
+        cursor: pointer;
+        position: relative;
+        &:hover::before {
+          display: block;
+        }
+        &::before {
+          content: '';
+          top: 50%;
+          left: 50%;
+          transform: translate(-50%, -50%);
+          position: absolute;
+          width: 20px;
+          height: 20px;
+          background-color: rgb(242, 243, 245);
+          border-radius: 50%;
+          display: none;
+        }
+        .svg-icon {
+          position: relative;
+          z-index: 10;
+        }
+      }
+    }
+    .yc-drawer-body {
+      padding: 12px 16px;
+      flex: 1;
+    }
+    .yc-drawer-footer {
+      padding: 0 16px;
+      height: 64px;
+      width: 100%;
+      border-top: 1px solid rgb(229, 230, 235);
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+      gap: 12px;
+    }
+  }
+}

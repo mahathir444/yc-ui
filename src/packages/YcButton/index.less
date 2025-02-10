@@ -141,7 +141,7 @@
   }
   //   warning
   &.yc-button-status-warning {
-    border-color: rgb(255, 228, 186);
+    border: 1px dashed rgb(255, 228, 186);
     background-color: rgb(255, 247, 232);
     &,
     &:hover,
@@ -162,7 +162,7 @@
   }
   //   success
   &.yc-button-status-success {
-    border-color: rgb(175, 240, 181);
+    border: 1px dashed rgb(175, 240, 181);
     background-color: rgb(232, 255, 234);
     &,
     &:hover,
@@ -183,7 +183,7 @@
   }
   //   danger
   &.yc-button-status-danger {
-    border-color: rgb(253, 205, 197);
+    border: 1px dashed rgb(253, 205, 197);
     background-color: rgb(255, 236, 232);
     &,
     &:hover,
@@ -231,21 +231,21 @@
   }
   //   warning
   &.yc-button-status-warning {
-    border-color: rgb(255, 125, 0);
+    border: 1px solid rgb(255, 125, 0);
     color: rgb(255, 125, 0);
     .yc-button-icon {
       color: rgb(255, 125, 0);
     }
     &:hover {
       border-color: rgb(255, 154, 46);
-      background-color: rgb(255, 154, 46);
+      color: rgb(255, 154, 46);
       .yc-button-icon {
         color: rgb(255, 154, 46);
       }
     }
     &:active {
       border-color: rgb(210, 95, 0);
-      background-color: rgb(210, 95, 0);
+      color: rgb(210, 95, 0);
       .yc-button-icon {
         color: rgb(210, 95, 0);
       }
@@ -253,21 +253,21 @@
   }
   //   success
   &.yc-button-status-success {
+    border: 1px solid rgb(0, 180, 42);
     color: rgb(0, 180, 42);
-    border-color: rgb(0, 180, 42);
     .yc-button-icon {
       color: rgb(0, 180, 42);
     }
     &:hover {
       border-color: rgb(35, 195, 67);
-      background-color: rgb(35, 195, 67);
+      color: rgb(35, 195, 67);
       .yc-button-icon {
         color: rgb(35, 195, 67);
       }
     }
     &:active {
       border-color: rgb(0, 154, 41);
-      background-color: rgb(0, 154, 41);
+      color: rgb(0, 154, 41);
       .yc-button-icon {
         color: rgb(0, 154, 41);
       }
@@ -275,21 +275,21 @@
   }
   //   danger
   &.yc-button-status-danger {
+    border: 1px solid rgb(245, 63, 63);
     color: rgb(245, 63, 63);
-    border-color: rgb(245, 63, 63);
     .yc-button-icon {
       color: rgb(245, 63, 63);
     }
     &:hover {
       border-color: rgb(247, 101, 96);
-      background-color: rgb(247, 101, 96);
+      color: rgb(247, 101, 96);
       .yc-button-icon {
         color: rgb(247, 101, 96);
       }
     }
     &:active {
       border-color: rgb(203, 39, 45);
-      background-color: rgb(203, 39, 45);
+      color: rgb(203, 39, 45);
       .yc-button-icon {
         color: rgb(203, 39, 45);
       }
@@ -330,22 +330,4 @@
       color: rgb(245, 63, 63);
     }
   }
-}
-
-// size
-.yc-button-mini {
-  height: 24px;
-  font-size: 12px;
-}
-.yc-button-small {
-  height: 28px;
-  font-size: 14px;
-}
-.yc-button-medium {
-  height: 32px;
-  font-size: 14px;
-}
-.yc-button-large {
-  height: 36px;
-  font-size: 14px;
 }

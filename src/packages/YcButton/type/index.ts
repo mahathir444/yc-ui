@@ -7,6 +7,7 @@ export type YcButtonType =
   | 'dashed'
   | 'outline'
   | 'text';
+export type YcButtonHtmlType = 'button' | 'reset' | 'submit';
 
 export interface YcButtonProps {
   type?: YcButtonType;
@@ -16,5 +17,6 @@ export interface YcButtonProps {
   long?: boolean;
   loading?: boolean;
   disabled?: boolean;
-  htmlType?: 'button' | 'reset' | 'submit';
+  htmlType?: YcButtonHtmlType;
+  herf?: string;
 }
