@@ -4,9 +4,9 @@
     <YcDrawer v-model:visible="visible" title="这是一个测试">
       这是一个测试drawer
     </YcDrawer>
-    <YcButton @click="visible = true">
+    <YcButton disabled @click="visible = true">
       <template #icon>
-        <IconAlignLeft />
+        <IconApps />
       </template>
       这是一个test
     </YcButton>
