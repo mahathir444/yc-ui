@@ -1,3 +1,23 @@
+.yc-button {
+  cursor: pointer;
+  user-select: none;
+  outline: none;
+  border: 1px solid transparent;
+  font-weight: 400;
+  transition: all 0.1s cubic-bezier(0, 0, 1, 1);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  .yc-button-icon {
+    flex-shrink: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+}
+
+//status
 // primary
 .yc-button-primary {
   background-color: rgb(22, 93, 255);
@@ -364,4 +384,78 @@
       color: rgb(245, 63, 63);
     }
   }
+}
+
+// size
+.yc-button-mini {
+  height: 24px;
+  font-size: 12px;
+  padding: 0 11px;
+
+  .yc-button-icon {
+    width: 12px;
+    height: 12px;
+    margin-right: 4px;
+  }
+}
+.yc-button-small {
+  height: 28px;
+  font-size: 14px;
+  padding: 0 15px;
+
+  .yc-button-icon {
+    width: 14px;
+    height: 14px;
+    margin-right: 6px;
+  }
+}
+.yc-button-medium {
+  height: 32px;
+  font-size: 14px;
+  padding: 0 15px;
+  .yc-button-icon {
+    width: 14px;
+    height: 14px;
+    margin-right: 8px;
+  }
+}
+.yc-button-large {
+  height: 36px;
+  font-size: 14px;
+  padding: 0 19px;
+  .yc-button-icon {
+    width: 14px;
+    height: 14px;
+    margin-right: 8px;
+  }
+}
+
+// loading
+.yc-button-loading {
+  cursor: default;
+  opacity: 0.4;
+
+  @keyframes loading {
+    0% {
+      transform: rotate(0deg);
+    }
+    100% {
+      transform: rotate(360deg);
+    }
+  }
+
+  .svg-icon {
+    animation: loading 1s infinite cubic-bezier(0, 0, 1, 1);
+  }
+}
+
+// disabled
+.yc-button-disabled {
+  cursor: not-allowed;
+  opacity: 0.4;
+}
+
+// long
+.yc-button-long {
+  width: 100%;
 }

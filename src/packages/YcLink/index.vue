@@ -29,23 +29,14 @@
 
 <script lang="ts" setup>
 import { toRefs, computed } from 'vue';
-import { YcButtonStatus } from '../YcButton/type';
-const props = withDefaults(
-  defineProps<{
-    href?: string;
-    status?: YcButtonStatus;
-    hoverable?: boolean;
-    disabled?: boolean;
-    loading?: boolean;
-  }>(),
-  {
-    href: '',
-    status: 'normal',
-    hoverable: true,
-    loading: false,
-    disabled: false,
-  }
-);
+import { YcLinkProps } from './type';
+const props = withDefaults(defineProps<YcLinkProps>(), {
+  href: '',
+  status: 'normal',
+  hoverable: true,
+  loading: false,
+  disabled: false,
+});
 const emits = defineEmits<{
   (e: 'click', event: MouseEvent): void;
   (e: 'dblclick', event: MouseEvent): void;

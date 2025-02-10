@@ -108,29 +108,6 @@ const handleEvent = (type: string, e: MouseEvent) => {
     margin: 0 !important;
   }
 }
-// loading
-.yc-button-loading {
-  cursor: default;
-  opacity: 0.4;
-
-  @keyframes loading {
-    0% {
-      transform: rotate(0deg);
-    }
-    100% {
-      transform: rotate(360deg);
-    }
-  }
-
-  .svg-icon {
-    animation: loading 1s infinite cubic-bezier(0, 0, 1, 1);
-  }
-}
-// disabled
-.yc-button-disabled {
-  cursor: not-allowed;
-  opacity: 0.4;
-}
 // shape
 .yc-button-shape-square {
   border-radius: 2px;
@@ -142,48 +119,5 @@ const handleEvent = (type: string, e: MouseEvent) => {
 }
 .yc-button-shape-round {
   border-radius: v-bind(roundBorderRadius);
-}
-// size
-.yc-button-mini {
-  height: 24px;
-  font-size: 12px;
-  padding: 0 11px;
-
-  .yc-button-icon {
-    width: 12px;
-    height: 12px;
-    margin-right: 4px;
-  }
-}
-.yc-button-small {
-  height: 28px;
-  font-size: 14px;
-  padding: 0 15px;
-
-  .yc-button-icon {
-    width: 14px;
-    height: 14px;
-    margin-right: 6px;
-  }
-}
-.yc-button-medium {
-  height: 32px;
-  font-size: 14px;
-  padding: 0 15px;
-  .yc-button-icon {
-    width: 14px;
-    height: 14px;
-    margin-right: 8px;
-  }
-}
-.yc-button-large {
-  height: 36px;
-  font-size: 14px;
-  padding: 0 19px;
-  .yc-button-icon {
-    width: 14px;
-    height: 14px;
-    margin-right: 8px;
-  }
 }
 </style>

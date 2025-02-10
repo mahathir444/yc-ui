@@ -58,7 +58,6 @@ const props = withDefaults(defineProps<YcDrawerProps>(), {
   mask: true,
   maskClosable: true,
   closable: true,
-  unmountOnClose: false,
   width: 250,
   height: 250,
   zIndex: 1001,
@@ -81,16 +80,8 @@ const emits = defineEmits<{
   (e: 'close'): void;
   (e: 'beforeClose'): void;
 }>();
-const {
-  width,
-  height,
-  zIndex,
-  placement,
-  visible,
-  maskClosable,
-  drawerStyle,
-  unmountOnClose,
-} = toRefs(props);
+const { width, height, zIndex, placement, visible, maskClosable, drawerStyle } =
+  toRefs(props);
 // drawer的可见性
 const drawerVisible = ref<boolean>(false);
 // drawer绝对定位的left,top

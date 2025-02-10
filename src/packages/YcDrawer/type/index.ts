@@ -16,7 +16,7 @@ export interface YcDrawerProps {
   header?: boolean;
   footer?: boolean;
   drawerStyle?: CSSProperties;
-  unmountOnClose?: boolean;
+  // unmountOnClose?: boolean;
   popupContainer?: string | HTMLElement;
   escToClose?: boolean;
 }
