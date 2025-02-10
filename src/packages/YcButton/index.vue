@@ -1,21 +1,11 @@
 <template>
-  <YcLink
-    v-if="herf"
-    :href="herf"
-    :status="status"
-    :disabled="disabled"
-    :loading="loading"
-  >
-    <template #icon>
-      <slot name="icon"></slot>
-    </template>
-  </YcLink>
   <button
-    v-else
     :type="htmlType"
     :disabled="disabled"
     :class="{
       'yc-button': true,
+      // button是否hoverable
+      'yc-button-hoverable': !disabled && !loading,
       // 是否只有图标
       'yc-button-only-icon': !$slots.default,
       // 是否自适应容器
@@ -49,7 +39,7 @@
   >
     <span v-if="$slots.icon || loading" class="yc-button-icon">
       <slot v-if="!loading" name="icon"></slot>
-      <svg-icon v-else name="loading" size="14" />
+      <svg-icon v-else name="loading" :size="size == 'mini' ? 12 : 14" />
     </span>
     <slot></slot>
   </button>
@@ -59,7 +49,6 @@
 import { computed, toRefs } from 'vue';
 import { SIZE_MAP } from './index';
 import { YcButtonProps } from './type';
-import YcLink from '../YcLink/index.vue';
 const props = withDefaults(defineProps<YcButtonProps>(), {
   type: 'secondary',
   status: 'normal',
@@ -69,7 +58,6 @@ const props = withDefaults(defineProps<YcButtonProps>(), {
   loading: false,
   long: false,
   htmlType: 'button',
-  href: '',
 });
 const emits = defineEmits<{
   (e: 'click', event: MouseEvent): void;
@@ -93,20 +81,16 @@ const handleEvent = (type: string, e: MouseEvent) => {
 .yc-button {
   cursor: pointer;
   user-select: none;
-  padding: 0 15px;
   outline: none;
-  border: none;
+  border: 1px solid transparent;
   font-weight: 400;
   transition: all 0.1s cubic-bezier(0, 0, 1, 1);
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: 8px;
 
   .yc-button-icon {
     flex-shrink: 0;
-    width: 14px;
-    height: 14px;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -120,21 +104,14 @@ const handleEvent = (type: string, e: MouseEvent) => {
 .yc-button-only-icon {
   width: v-bind(sizeToPx);
   padding: 0;
-}
-// 加载
-.yc-button-loading {
-  position: relative;
-  pointer-events: none;
-
-  &::before {
-    content: '';
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    z-index: 100;
-    background-color: #fff;
-    opacity: 0.4;
+  .yc-button-icon {
+    margin: 0 !important;
   }
+}
+// loading
+.yc-button-loading {
+  cursor: default;
+  opacity: 0.4;
 
   @keyframes loading {
     0% {
@@ -149,9 +126,9 @@ const handleEvent = (type: string, e: MouseEvent) => {
     animation: loading 1s infinite cubic-bezier(0, 0, 1, 1);
   }
 }
+// disabled
 .yc-button-disabled {
   cursor: not-allowed;
-  pointer-events: none; /* 禁用 hover 效果 */
   opacity: 0.4;
 }
 // shape
@@ -170,17 +147,43 @@ const handleEvent = (type: string, e: MouseEvent) => {
 .yc-button-mini {
   height: 24px;
   font-size: 12px;
+  padding: 0 11px;
+
+  .yc-button-icon {
+    width: 12px;
+    height: 12px;
+    margin-right: 4px;
+  }
 }
 .yc-button-small {
   height: 28px;
   font-size: 14px;
+  padding: 0 15px;
+
+  .yc-button-icon {
+    width: 14px;
+    height: 14px;
+    margin-right: 6px;
+  }
 }
 .yc-button-medium {
   height: 32px;
   font-size: 14px;
+  padding: 0 15px;
+  .yc-button-icon {
+    width: 14px;
+    height: 14px;
+    margin-right: 8px;
+  }
 }
 .yc-button-large {
   height: 36px;
   font-size: 14px;
+  padding: 0 19px;
+  .yc-button-icon {
+    width: 14px;
+    height: 14px;
+    margin-right: 8px;
+  }
 }
 </style>

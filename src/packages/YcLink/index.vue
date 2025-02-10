@@ -1,6 +1,6 @@
 <template>
   <a
-    :href="href || 'javascript:void(0)'"
+    :href="resultHref"
     :class="{
       'yc-link': true,
       // hoverable
@@ -15,6 +15,9 @@
       'yc-link-status-success': status == 'success',
       'yc-link-status-danger': status == 'danger',
     }"
+    @click="handleEvent('click', $event)"
+    @dblclick="handleEvent('dblclick', $event)"
+    @contextmenu="handleEvent('contextmenu', $event)"
   >
     <span v-if="$slots.icon || loading" class="yc-link-icon">
       <slot v-if="!loading" name="icon" />
@@ -25,8 +28,9 @@
 </template>
 
 <script lang="ts" setup>
+import { toRefs, computed } from 'vue';
 import { YcButtonStatus } from '../YcButton/type';
-withDefaults(
+const props = withDefaults(
   defineProps<{
     href?: string;
     status?: YcButtonStatus;
@@ -42,6 +46,22 @@ withDefaults(
     disabled: false,
   }
 );
+const emits = defineEmits<{
+  (e: 'click', event: MouseEvent): void;
+  (e: 'dblclick', event: MouseEvent): void;
+  (e: 'contextmenu', event: MouseEvent): void;
+}>();
+const { disabled, loading, href } = toRefs(props);
+// 最终的herf
+const resultHref = computed(() => {
+  if (loading.value || disabled.value) return 'javascript:void(0)';
+  return href.value || 'javascript:void(0)';
+});
+// 拦截事件
+const handleEvent = (type: string, e: MouseEvent) => {
+  if (disabled.value || loading.value) return;
+  emits(type as any, e);
+};
 </script>
 
 <style lang="less" scoped>
@@ -79,15 +99,15 @@ withDefaults(
     background-color: rgb(229, 230, 235);
   }
 }
-// loading
-.yc-link-loading,
+// disabled
 .yc-link-disabled {
   opacity: 0.4;
-}
-.yc-link-disabled {
   cursor: not-allowed;
 }
+// loading
 .yc-link-loading {
+  opacity: 0.4;
+  cursor: default;
   @keyframes loading {
     0% {
       transform: rotate(0deg);

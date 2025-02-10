@@ -1,4 +1,3 @@
-// status
 // primary
 .yc-button-primary {
   background-color: rgb(22, 93, 255);
@@ -10,40 +9,49 @@
       color: #fff;
     }
   }
-  &:hover {
-    background-color: rgb(64, 128, 255);
-  }
-  &:active {
-    background-color: rgb(14, 66, 210);
+  // hover样式
+  &.yc-button-hoverable {
+    &:hover {
+      background-color: rgb(64, 128, 255);
+    }
+    &:active {
+      background-color: rgb(14, 66, 210);
+    }
   }
   //   warning
   &.yc-button-status-warning {
     background-color: rgb(255, 125, 0);
-    &:hover {
-      background-color: rgb(255, 154, 46);
-    }
-    &:active {
-      background-color: rgb(210, 95, 0);
+    &.yc-button-hoverable {
+      &:hover {
+        background-color: rgb(255, 154, 46);
+      }
+      &:active {
+        background-color: rgb(210, 95, 0);
+      }
     }
   }
   //   success
   &.yc-button-status-success {
     background-color: rgb(0, 180, 42);
-    &:hover {
-      background-color: rgb(35, 195, 67);
-    }
-    &:active {
-      background-color: rgb(0, 154, 41);
+    &.yc-button-hoverable {
+      &:hover {
+        background-color: rgb(35, 195, 67);
+      }
+      &:active {
+        background-color: rgb(0, 154, 41);
+      }
     }
   }
   //   danger
   &.yc-button-status-danger {
     background-color: rgb(245, 63, 63);
-    &:hover {
-      background-color: rgb(247, 101, 96);
-    }
-    &:active {
-      background-color: rgb(203, 39, 45);
+    &.yc-button-hoverable {
+      &:hover {
+        background-color: rgb(247, 101, 96);
+      }
+      &:active {
+        background-color: rgb(203, 39, 45);
+      }
     }
   }
 }
@@ -58,11 +66,13 @@
       color: rgb(78, 89, 105);
     }
   }
-  &:hover {
-    background-color: rgb(229, 230, 235);
-  }
-  &:active {
-    background-color: rgb(201, 205, 212);
+  &.yc-button-hoverable {
+    &:hover {
+      background-color: rgb(229, 230, 235);
+    }
+    &:active {
+      background-color: rgb(201, 205, 212);
+    }
   }
   //   warning
   &.yc-button-status-warning {
@@ -75,11 +85,13 @@
         color: rgb(255, 125, 0);
       }
     }
-    &:hover {
-      background-color: rgb(255, 228, 186);
-    }
-    &:active {
-      background-color: rgb(255, 207, 139);
+    &.yc-button-hoverable {
+      &:hover {
+        background-color: rgb(255, 228, 186);
+      }
+      &:active {
+        background-color: rgb(255, 207, 139);
+      }
     }
   }
   //   success
@@ -93,11 +105,13 @@
         color: rgb(0, 180, 42);
       }
     }
-    &:hover {
-      background-color: rgb(175, 240, 181);
-    }
-    &:active {
-      background-color: rgb(123, 225, 136);
+    &.yc-button-hoverable {
+      &:hover {
+        background-color: rgb(175, 240, 181);
+      }
+      &:active {
+        background-color: rgb(123, 225, 136);
+      }
     }
   }
   //   danger
@@ -111,11 +125,13 @@
         color: rgb(245, 63, 63);
       }
     }
-    &:hover {
-      background-color: rgb(253, 205, 197);
-    }
-    &:active {
-      background-color: rgb(251, 172, 163);
+    &.yc-button-hoverable {
+      &:hover {
+        background-color: rgb(253, 205, 197);
+      }
+      &:active {
+        background-color: rgb(251, 172, 163);
+      }
     }
   }
 }
@@ -131,13 +147,15 @@
       color: rgb(78, 89, 105);
     }
   }
-  &:hover {
-    border-color: rgb(201, 205, 212);
-    background-color: rgb(229, 230, 235);
-  }
-  &:active {
-    border-color: rgb(169, 174, 184);
-    background-color: rgb(201, 205, 212);
+  &.yc-button-hoverable {
+    &:hover {
+      border-color: rgb(201, 205, 212);
+      background-color: rgb(229, 230, 235);
+    }
+    &:active {
+      border-color: rgb(169, 174, 184);
+      background-color: rgb(201, 205, 212);
+    }
   }
   //   warning
   &.yc-button-status-warning {
@@ -151,13 +169,15 @@
         color: rgb(255, 125, 0);
       }
     }
-    &:hover {
-      border-color: rgb(255, 207, 139);
-      background-color: rgb(255, 228, 186);
-    }
-    &:active {
-      border-color: rgb(255, 182, 93);
-      background-color: rgb(255, 207, 139);
+    &.yc-button-hoverable {
+      &:hover {
+        border-color: rgb(255, 207, 139);
+        background-color: rgb(255, 228, 186);
+      }
+      &:active {
+        border-color: rgb(255, 182, 93);
+        background-color: rgb(255, 207, 139);
+      }
     }
   }
   //   success
@@ -172,13 +192,15 @@
         color: rgb(255, 125, 0);
       }
     }
-    &:hover {
-      border-color: rgb(123, 225, 136);
-      background-color: rgb(175, 240, 181);
-    }
-    &:active {
-      background-color: rgb(123, 225, 136);
-      border-color: rgb(76, 210, 99);
+    &.yc-button-hoverable {
+      &:hover {
+        border-color: rgb(123, 225, 136);
+        background-color: rgb(175, 240, 181);
+      }
+      &:active {
+        background-color: rgb(123, 225, 136);
+        border-color: rgb(76, 210, 99);
+      }
     }
   }
   //   danger
@@ -193,13 +215,15 @@
         color: rgb(245, 63, 63);
       }
     }
-    &:hover {
-      background-color: rgb(253, 205, 197);
-      border-color: rgb(251, 172, 163);
-    }
-    &:active {
-      background-color: rgb(251, 172, 163);
-      border-color: rgb(249, 137, 129);
+    &.yc-button-hoverable {
+      &:hover {
+        background-color: rgb(253, 205, 197);
+        border-color: rgb(251, 172, 163);
+      }
+      &:active {
+        background-color: rgb(251, 172, 163);
+        border-color: rgb(249, 137, 129);
+      }
     }
   }
 }
@@ -215,18 +239,20 @@
   &:active {
     background-color: transparent;
   }
-  &:hover {
-    color: rgb(64, 128, 255);
-    border-color: rgb(64, 128, 255);
-    .yc-button-icon {
+  &.yc-button-hoverable {
+    &:hover {
       color: rgb(64, 128, 255);
+      border-color: rgb(64, 128, 255);
+      .yc-button-icon {
+        color: rgb(64, 128, 255);
+      }
     }
-  }
-  &:active {
-    color: rgb(14, 66, 210);
-    border-color: rgb(14, 66, 210);
-    .yc-button-icon {
+    &:active {
       color: rgb(14, 66, 210);
+      border-color: rgb(14, 66, 210);
+      .yc-button-icon {
+        color: rgb(14, 66, 210);
+      }
     }
   }
   //   warning
@@ -236,18 +262,20 @@
     .yc-button-icon {
       color: rgb(255, 125, 0);
     }
-    &:hover {
-      border-color: rgb(255, 154, 46);
-      color: rgb(255, 154, 46);
-      .yc-button-icon {
+    &.yc-button-hoverable {
+      &:hover {
+        border-color: rgb(255, 154, 46);
         color: rgb(255, 154, 46);
+        .yc-button-icon {
+          color: rgb(255, 154, 46);
+        }
       }
-    }
-    &:active {
-      border-color: rgb(210, 95, 0);
-      color: rgb(210, 95, 0);
-      .yc-button-icon {
+      &:active {
+        border-color: rgb(210, 95, 0);
         color: rgb(210, 95, 0);
+        .yc-button-icon {
+          color: rgb(210, 95, 0);
+        }
       }
     }
   }
@@ -258,18 +286,20 @@
     .yc-button-icon {
       color: rgb(0, 180, 42);
     }
-    &:hover {
-      border-color: rgb(35, 195, 67);
-      color: rgb(35, 195, 67);
-      .yc-button-icon {
+    &.yc-button-hoverable {
+      &:hover {
+        border-color: rgb(35, 195, 67);
         color: rgb(35, 195, 67);
+        .yc-button-icon {
+          color: rgb(35, 195, 67);
+        }
       }
-    }
-    &:active {
-      border-color: rgb(0, 154, 41);
-      color: rgb(0, 154, 41);
-      .yc-button-icon {
+      &:active {
+        border-color: rgb(0, 154, 41);
         color: rgb(0, 154, 41);
+        .yc-button-icon {
+          color: rgb(0, 154, 41);
+        }
       }
     }
   }
@@ -280,18 +310,20 @@
     .yc-button-icon {
       color: rgb(245, 63, 63);
     }
-    &:hover {
-      border-color: rgb(247, 101, 96);
-      color: rgb(247, 101, 96);
-      .yc-button-icon {
+    &.yc-button-hoverable {
+      &:hover {
+        border-color: rgb(247, 101, 96);
         color: rgb(247, 101, 96);
+        .yc-button-icon {
+          color: rgb(247, 101, 96);
+        }
       }
-    }
-    &:active {
-      border-color: rgb(203, 39, 45);
-      color: rgb(203, 39, 45);
-      .yc-button-icon {
+      &:active {
+        border-color: rgb(203, 39, 45);
         color: rgb(203, 39, 45);
+        .yc-button-icon {
+          color: rgb(203, 39, 45);
+        }
       }
     }
   }
@@ -303,11 +335,13 @@
   .yc-button-icon {
     color: rgb(22, 93, 255);
   }
-  &:hover {
-    background-color: rgb(242, 243, 245);
-  }
-  &:active {
-    background-color: rgb(229, 230, 235);
+  &.yc-button-hoverable {
+    &:hover {
+      background-color: rgb(242, 243, 245);
+    }
+    &:active {
+      background-color: rgb(229, 230, 235);
+    }
   }
   //  warning
   &.yc-button-status-warning {

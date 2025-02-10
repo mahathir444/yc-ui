@@ -4,7 +4,7 @@
     <YcDrawer v-model:visible="visible" title="这是一个测试">
       这是一个测试drawer
     </YcDrawer>
-    <a-button> 测试2 </a-button>
+
     <!-- <a-button-group status="warning" type="dashed">
       <a-button>测试</a-button>
       <a-button>测试1</a-button>
@@ -21,11 +21,21 @@
       测试
     </YcLink>
 
-    <YcButton type="secondary" @click="visible = true">
+    <a-button type="secondary" shape="round" size="mini">
       <template #icon>
         <IconApps />
       </template>
-      这是一个test
+    </a-button>
+
+    <YcButton
+      type="secondary"
+      shape="round"
+      size="mini"
+      @click="visible = true"
+    >
+      <template #icon>
+        <IconApps />
+      </template>
     </YcButton>
   </div>
 </template>
