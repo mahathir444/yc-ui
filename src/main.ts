@@ -3,6 +3,7 @@ import App from './App.vue';
 import router from './router';
 import '@/assets/styles/base.less';
 import '@/assets/styles/global.less';
+import '@/assets/styles/translation.less';
 import 'virtual:svg-icons-register';
 // arco测试
 import ArcoVue from '@arco-design/web-vue';

@@ -1,69 +1,92 @@
 <template>
   <Teleport :to="popupContainer">
-    <div
-      v-show="modalVisible"
-      class="yc-modal-container"
-      :style="{
-        zIndex: 1006,
-      }"
-    >
+    <Transition name="fade">
       <div
-        v-if="mask"
-        class="yc-modal-mask"
-        :style="maskStyle"
-        @click="handleClose('mask')"
-      ></div>
-      <Transition name="modalShow">
+        v-show="modalVisible"
+        class="yc-modal-container"
+        :style="{
+          zIndex: 1006,
+        }"
+      >
+        <!-- mask -->
         <div
-          v-if="visible"
+          v-if="mask"
+          class="yc-modal-mask"
+          :style="maskStyle"
+          @click="handleClose('mask')"
+        ></div>
+        <!-- modal-wrapper -->
+        <div
           class="yc-modal-wrapper"
           :class="{
             'yc-modal-wrapper-align-center': alignCenter,
           }"
         >
-          <div class="yc-modal" :style="modalCss" :class="modalClass">
-            <!-- header -->
-            <div class="yc-modal-header">
-              <div v-if="!hideTitle" class="yc-modal-title text-ellipsis">
-                <slot name="title">
-                  <span>{{ title }}</span>
+          <Transition name="zoom-modal">
+            <!-- modal -->
+            <div
+              v-if="visible"
+              :class="[
+                'yc-modal',
+                fullscreen ? 'yc-modal-fullscreen' : '',
+                modalClass,
+              ]"
+              :style="modalCss"
+            >
+              <!-- header -->
+              <div class="yc-modal-header">
+                <div
+                  v-if="!hideTitle"
+                  :class="{
+                    'yc-modal-title': true,
+                    'text-ellipsis': true,
+                    'title-align-center': titleAlign == 'center',
+                  }"
+                >
+                  <slot name="title">
+                    <span>{{ title }}</span>
+                  </slot>
+                </div>
+                <div
+                  v-if="closable"
+                  class="yc-modal-close-button"
+                  @click="handleClose('closeBtn')"
+                >
+                  <svg-icon
+                    name="drawerClose"
+                    size="12"
+                    color="rgb(29,33,41)"
+                  />
+                </div>
+              </div>
+              <!-- body -->
+              <div class="yc-modal-body" :class="bodyClass" :style="bodyStyle">
+                <slot />
+              </div>
+              <!-- footer -->
+              <div v-if="footer" class="yc-modal-footer">
+                <slot name="footer">
+                  <YcButton
+                    v-if="!hideCancel"
+                    v-bind="cancelButtonProps"
+                    @click="handleClose('cancelBtn')"
+                  >
+                    {{ cancelText }}
+                  </YcButton>
+                  <YcButton
+                    type="primary"
+                    v-bind="okButtonProps"
+                    @click="handleClose('confirmBtn')"
+                  >
+                    {{ okText }}
+                  </YcButton>
                 </slot>
               </div>
-              <div
-                v-if="closable"
-                class="yc-modal-close-button"
-                @click="handleClose('closeBtn')"
-              >
-                <svg-icon name="drawerClose" size="12" color="rgb(29,33,41)" />
-              </div>
             </div>
-            <!-- body -->
-            <div class="yc-modal-body" :class="bodyClass" :style="bodyStyle">
-              <slot />
-            </div>
-            <!-- footer -->
-            <div v-if="footer" class="yc-modal-footer">
-              <slot name="footer">
-                <YcButton
-                  v-if="!hideCancel"
-                  v-bind="cancelButtonProps"
-                  @click="handleClose('cancelBtn')"
-                >
-                  {{ cancelText }}
-                </YcButton>
-                <YcButton
-                  type="primary"
-                  v-bind="okButtonProps"
-                  @click="handleClose('confirmBtn')"
-                >
-                  {{ okText }}
-                </YcButton>
-              </slot>
-            </div>
-          </div>
+          </Transition>
         </div>
-      </Transition>
-    </div>
+      </div>
+    </Transition>
   </Teleport>
 </template>
 
@@ -107,7 +130,7 @@ const props = withDefaults(
     width: 520,
     top: 100,
     mask: true,
-    title: '测试',
+    title: '',
     titleAlign: 'center',
     alignCenter: true,
     maskClosable: true,
@@ -155,6 +178,7 @@ const {
   maskClosable,
   escToClose,
   modalStyle,
+  fullscreen,
 } = toRefs(props);
 // drawer的可见性
 const modalVisible = ref<boolean>(false);
@@ -163,10 +187,9 @@ const closeType = ref<ModalCloseType>('');
 // modalCss
 const modalCss = computed(() => {
   return {
-    width: width.value + 'px',
+    width: fullscreen.value ? '100%' : width.value + 'px',
+    margin: '0 auto',
     top: alignCenter.value ? 'unset' : top.value + 'px',
-    left: alignCenter.value ? 'unset' : '50%',
-    transform: alignCenter.value ? 'unset' : 'translateX(-50%)',
     ...modalStyle.value,
   } as CSSProperties;
 });
@@ -220,7 +243,6 @@ watch(
 .yc-modal-container {
   position: fixed;
   inset: 0 0 0 0;
-
   .yc-modal-mask {
     position: absolute;
     left: 0;
@@ -233,26 +255,35 @@ watch(
     position: absolute;
     inset: 0 0 0 0;
     overflow: auto;
+
     &.yc-modal-wrapper-align-center {
       display: flex;
       justify-content: center;
       align-items: center;
     }
-
     .yc-modal {
-      position: absolute;
-      background-color: #fff;
+      position: relative;
       border-radius: 4px;
+      background-color: #fff;
+      line-height: 1.5715;
+      &.yc-modal-fullscreen {
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        .yc-modal-body {
+          flex: 1;
+        }
+      }
       .yc-modal-header {
-        padding: 0 16px;
+        overflow: hidden;
         height: 48px;
         width: 100%;
+        padding: 0 20px;
         border-bottom: 1px solid rgb(229, 230, 235);
         display: flex;
         justify-content: space-between;
         align-items: center;
         gap: 8px;
-        overflow: hidden;
         .yc-modal-title {
           flex-shrink: 0;
           flex: 1;
@@ -262,12 +293,19 @@ watch(
             font-weight: 500;
             color: rgb(29, 33, 41);
           }
+          &.title-align-center {
+            display: flex;
+            justify-content: center;
+          }
         }
         .yc-modal-close-button {
-          width: 12px;
-          height: 12px;
           cursor: pointer;
           position: relative;
+          width: 12px;
+          height: 12px;
+          display: flex;
+          justify-content: center;
+          align-items: center;
           &:hover::before {
             display: block;
           }
@@ -296,9 +334,9 @@ watch(
         font-size: 14px;
       }
       .yc-modal-footer {
-        padding: 16px 20px;
         height: 64px;
         width: 100%;
+        padding: 16px 20px;
         border-top: 1px solid rgb(229, 230, 235);
         display: flex;
         justify-content: flex-end;

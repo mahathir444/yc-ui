@@ -19,6 +19,7 @@ export interface YcDrawerProps {
   header?: boolean;
   footer?: boolean;
   drawerStyle?: CSSProperties;
+  renderToBody?: boolean;
   popupContainer?: string | HTMLElement;
   escToClose?: boolean;
   hideCancel?: boolean;

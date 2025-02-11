@@ -1,0 +1,37 @@
+// fade过度
+.fade-enter-from,
+.fade-appear-from,
+.fade-leave-to {
+  opacity: 0;
+}
+.fade-enter-to,
+.fade-appear-to,
+.fade-leave-from {
+  opacity: 1;
+}
+.fade-enter-active,
+.fade-appear-active,
+.fade-leave-active {
+  transition: opacity 0.4s cubic-bezier(0.3, 1.3, 0.3, 1);
+}
+
+// modal过度
+.zoom-modal-enter-from,
+.zoom-modal-appear-from,
+.zoom-modal-leave-to {
+  transform: scale(0.5, 0.5);
+  opacity: 0;
+}
+.zoom-modal-enter-to,
+.zoom-modal-appear-to,
+.zoom-modal-leave-from {
+  transform: scale(1, 1);
+  opacity: 1;
+}
+.zoom-modal-enter-active,
+.zoom-modal-appear-active,
+.zoom-modal-leave-active {
+  transition:
+    opacity 0.4s cubic-bezier(0.3, 1.3, 0.3, 1),
+    transform 0.4s cubic-bezier(0.3, 1.3, 0.3, 1);
+}

@@ -1,9 +1,8 @@
 <template>
   <div class="test">
-    <!-- <a-drawer v-model:visible="visible"></a-drawer> -->
-    <!-- <YcDrawer v-model:visible="visible" title="这是一个测试">
+    <YcDrawer v-model:visible="visible" title="这是一个测试">
       这是一个测试drawer
-    </YcDrawer> -->
+    </YcDrawer>
 
     <!-- <a-button-group status="warning" type="dashed">
       <a-button>测试</a-button>
@@ -21,28 +20,15 @@
       测试
     </YcLink>
 
-    <a-button type="secondary" shape="round" size="mini">
+    <!-- <YcModal v-model:visible="visible" :top="300" /> -->
+
+    <!-- <a-modal v-model:visible="visible" :align-center="false" :top="200" /> -->
+
+    <YcButton type="secondary" @click="visible = true">
       <template #icon>
         <IconApps />
       </template>
-    </a-button>
-
-    <YcModal v-model:visible="visible" />
-    <a-modal :visible="true" :mask="false" modal-class="csss">
-      <template #title>
-        <div class="test">aa</div>
-      </template>
-    </a-modal>
-
-    <YcButton
-      type="secondary"
-      shape="round"
-      size="mini"
-      @click="visible = true"
-    >
-      <template #icon>
-        <IconApps />
-      </template>
+      测试按钮
     </YcButton>
   </div>
 </template>

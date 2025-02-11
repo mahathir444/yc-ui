@@ -1,48 +1,56 @@
 <template>
-  <Teleport :to="popupContainer">
-    <div
-      v-show="drawerVisible"
-      class="yc-drawer-wrapper"
-      :style="{
-        zIndex,
-      }"
-    >
-      <div v-if="mask" class="yc-drawer-mask" @click="handleMaskClose"></div>
-      <Transition name="slide">
-        <div v-show="visible" class="yc-drawer-container" :style="style">
-          <!-- header -->
-          <slot name="header">
-            <div v-if="header" class="yc-drawer-header">
-              <div class="yc-drawer-header-title text-ellipsis">
-                <slot name="title">
-                  <span>{{ title }}</span>
-                </slot>
+  <Teleport :to="popupContainer" :disabled="renderToBody">
+    <Transition name="fade">
+      <div
+        v-show="drawerVisible"
+        class="yc-drawer-wrapper"
+        :style="{
+          zIndex,
+        }"
+      >
+        <div v-if="mask" class="yc-drawer-mask" @click="handleMaskClose"></div>
+        <Transition name="slide-drawer">
+          <div v-if="visible" class="yc-drawer-container" :style="style">
+            <!-- header -->
+            <slot name="header">
+              <div v-if="header" class="yc-drawer-header">
+                <div class="yc-drawer-header-title text-ellipsis">
+                  <slot name="title">
+                    <span>{{ title }}</span>
+                  </slot>
+                </div>
+                <div
+                  v-if="closable"
+                  class="yc-drawer-close-icon"
+                  @click="handleBtnClose"
+                >
+                  <svg-icon
+                    name="drawerClose"
+                    size="12"
+                    color="rgb(29,33,41)"
+                  />
+                </div>
               </div>
-              <div
-                v-if="closable"
-                class="yc-drawer-close-icon"
-                @click="handleBtnClose"
-              >
-                <svg-icon name="drawerClose" size="12" color="rgb(29,33,41)" />
-              </div>
+            </slot>
+            <!-- body -->
+            <div class="yc-drawer-body">
+              <slot />
             </div>
-          </slot>
-          <!-- body -->
-          <div class="yc-drawer-body">
-            <slot />
+            <!-- footer -->
+            <slot name="footer">
+              <div v-if="footer" class="yc-drawer-footer">
+                <YcButton v-if="!hideCancel" @click="handleCancel">
+                  {{ cancelText }}
+                </YcButton>
+                <YcButton type="primary" @click="handleOk">{{
+                  okText
+                }}</YcButton>
+              </div>
+            </slot>
           </div>
-          <!-- footer -->
-          <slot name="footer">
-            <div v-if="footer" class="yc-drawer-footer">
-              <YcButton v-if="!hideCancel" @click="handleCancel">
-                {{ cancelText }}
-              </YcButton>
-              <YcButton type="primary" @click="handleOk">{{ okText }}</YcButton>
-            </div>
-          </slot>
-        </div>
-      </Transition>
-    </div>
+        </Transition>
+      </div>
+    </Transition>
   </Teleport>
 </template>
 
@@ -55,7 +63,7 @@ import { useMagicKeys, whenever } from '@vueuse/core';
 import YcButton from '../YcButton/index.vue';
 const props = withDefaults(defineProps<YcDrawerProps>(), {
   visible: false,
-  placement: 'right',
+  placement: 'bottom',
   title: '',
   mask: true,
   maskClosable: true,
@@ -70,6 +78,7 @@ const props = withDefaults(defineProps<YcDrawerProps>(), {
   },
   width: 250,
   height: 250,
+  renderToBody: true,
   popupContainer: 'body',
   drawerStyle: () => {
     return {};
@@ -114,10 +123,10 @@ const style = computed(() => {
 // drawer的动画
 const leaveFrom = computed(() => {
   const TRANSFORM_MAP = {
-    left: `translateX(-${width.value}px)`,
-    right: `translateX(${width.value}px)`,
-    top: `translateY(-${height.value}px)`,
-    bottom: `translateY(${height.value}px)`,
+    left: `translateX(-100%)`,
+    right: `translateX(100%)`,
+    top: `translateY(-100%)`,
+    bottom: `translateY(100%)`,
   };
   return TRANSFORM_MAP[placement.value];
 });
@@ -177,17 +186,18 @@ watch(
 
 <style lang="less" scoped>
 @import './index.less';
+// 内容过度
 
-.slide-enter-from,
-.slide-leave-to {
+.slide-drawer-enter-from,
+.slide-drawer-leave-to {
   transform: v-bind(leaveFrom);
 }
-.slide-enter-to,
-.slide-leave-from {
+.slide-drawer-enter-to,
+.slide-drawer-leave-from {
   transform: v-bind(enterTo);
 }
-.slide-enter-active,
-.slide-leave-active {
-  transition: transform 0.3s ease;
+.slide-drawer-enter-active,
+.slide-drawer-leave-active {
+  transition: transform 0.3s cubic-bezier(0.34, 0.69, 0.1, 1);
 }
 </style>
