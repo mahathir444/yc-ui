@@ -1,6 +1,6 @@
 <template>
   <Teleport :to="popupContainer">
-    <Transition name="fade">
+    <Transition name="fade" appear>
       <div
         v-show="modalVisible"
         class="yc-modal-container"
@@ -22,7 +22,14 @@
             'yc-modal-wrapper-align-center': alignCenter,
           }"
         >
-          <Transition name="zoom-modal">
+          <Transition
+            name="zoom-modal"
+            appear
+            @before-enter="$emit('beforeOpen')"
+            @before-leave="$emit('beforeClose', closeType)"
+            @after-enter="$emit('open')"
+            @after-leave="$emit('close', closeType)"
+          >
             <!-- modal -->
             <div
               v-if="visible"
@@ -96,7 +103,7 @@ import { sleep } from '@/utils/fn';
 import { useMagicKeys, whenever } from '@vueuse/core';
 import { YcButtonProps } from '@/packages/YcButton/type';
 import YcButton from '../YcButton/index.vue';
-import { ModalCloseType } from './type';
+import { ComptCloseType } from '@/type';
 const props = withDefaults(
   defineProps<{
     visible?: boolean;
@@ -167,8 +174,8 @@ const emits = defineEmits<{
   (e: 'cancel'): void;
   (e: 'open'): void;
   (e: 'beforeOpen'): void;
-  (e: 'close', type: ModalCloseType): void;
-  (e: 'beforeClose', type: ModalCloseType): void;
+  (e: 'close', type: ComptCloseType): void;
+  (e: 'beforeClose', type: ComptCloseType): void;
 }>();
 const {
   visible,
@@ -183,7 +190,7 @@ const {
 // drawer的可见性
 const modalVisible = ref<boolean>(false);
 // 关闭类型
-const closeType = ref<ModalCloseType>('');
+const closeType = ref<ComptCloseType>('');
 // modalCss
 const modalCss = computed(() => {
   return {
@@ -194,7 +201,8 @@ const modalCss = computed(() => {
   } as CSSProperties;
 });
 // 处理关闭
-const handleClose = (type: ModalCloseType) => {
+const handleClose = (type: ComptCloseType) => {
+  closeType.value = type;
   if (type == 'mask') {
     if (!maskClosable.value) return;
     emits('update:visible', false);
@@ -207,29 +215,15 @@ const handleClose = (type: ModalCloseType) => {
     emits('update:visible', false);
   }
 };
-// 处理esc关闭
-const handleEscClose = () => {
-  const keys = useMagicKeys();
-  whenever(keys.escape, () => {
-    if (!escToClose.value) return;
-    handleClose('esc');
-  });
-};
-handleEscClose();
-// 检测modal的开关,处理对应的事件
+// 检测modal的开关处理对应的显影
 watch(
   () => visible.value,
   async (v) => {
     if (v) {
       closeType.value = '';
       modalVisible.value = v;
-      emits('beforeOpen');
-      await sleep(300);
-      emits('open');
     } else {
-      emits('beforeClose', closeType.value);
-      await sleep(300);
-      emits('close', closeType.value);
+      await sleep(400);
       modalVisible.value = v;
     }
   },
@@ -237,6 +231,16 @@ watch(
     immediate: true,
   }
 );
+
+// 处理esc关闭
+const initHotKeys = () => {
+  const keys = useMagicKeys();
+  whenever(keys.escape, () => {
+    if (!escToClose.value) return;
+    handleClose('esc');
+  });
+};
+initHotKeys();
 </script>
 
 <style lang="less" scoped>

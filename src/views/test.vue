@@ -39,7 +39,7 @@ import YcDrawer from '@/packages/YcDrawer/index.vue';
 import YcButton from '@/packages/YcButton/index.vue';
 import YcLink from '@/packages/YcLink/index.vue';
 import YcModal from '@/packages/YcModal/index.vue';
-const visible = ref<boolean>(true);
+const visible = ref<boolean>(false);
 </script>
 
 <style lang="less" scoped>

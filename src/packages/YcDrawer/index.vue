@@ -1,28 +1,38 @@
 <template>
-  <Teleport :to="popupContainer" :disabled="renderToBody">
-    <Transition name="fade">
-      <div
-        v-show="drawerVisible"
-        class="yc-drawer-wrapper"
-        :style="{
-          zIndex,
-        }"
-      >
-        <div v-if="mask" class="yc-drawer-mask" @click="handleMaskClose"></div>
-        <Transition name="slide-drawer">
-          <div v-if="visible" class="yc-drawer-container" :style="style">
+  <!-- v-if="" -->
+  <Teleport :to="popupContainer" :disabled="!renderToBody">
+    <Transition name="fade" appear>
+      <div v-show="drawerVisible" class="yc-drawer-wrapper">
+        <!-- mask -->
+        <div
+          v-if="mask"
+          class="yc-drawer-mask"
+          @click="handleClose('mask')"
+        ></div>
+        <!-- drawer -->
+        <Transition
+          name="slide-drawer"
+          appear
+          @before-enter="$emit('beforeOpen')"
+          @before-leave="$emit('beforeClose', closeType)"
+          @after-enter="$emit('open')"
+          @after-leave="$emit('close', closeType)"
+        >
+          <div v-if="visible" class="yc-drawer-container" :style="drawerCss">
             <!-- header -->
             <slot name="header">
               <div v-if="header" class="yc-drawer-header">
+                <!-- title -->
                 <div class="yc-drawer-header-title text-ellipsis">
                   <slot name="title">
                     <span>{{ title }}</span>
                   </slot>
                 </div>
+                <!-- close-btn -->
                 <div
                   v-if="closable"
                   class="yc-drawer-close-icon"
-                  @click="handleBtnClose"
+                  @click="handleClose('closeBtn')"
                 >
                   <svg-icon
                     name="drawerClose"
@@ -39,12 +49,12 @@
             <!-- footer -->
             <slot name="footer">
               <div v-if="footer" class="yc-drawer-footer">
-                <YcButton v-if="!hideCancel" @click="handleCancel">
+                <YcButton v-if="!hideCancel" @click="handleClose('cancelBtn')">
                   {{ cancelText }}
                 </YcButton>
-                <YcButton type="primary" @click="handleOk">{{
-                  okText
-                }}</YcButton>
+                <YcButton type="primary" @click="handleClose('confirmBtn')">
+                  {{ okText }}
+                </YcButton>
               </div>
             </slot>
           </div>
@@ -60,10 +70,11 @@ import { POSTION_MAP, BORDER_MAP } from './index.ts';
 import { YcDrawerProps } from './type';
 import { sleep } from '@/utils/fn';
 import { useMagicKeys, whenever } from '@vueuse/core';
+import { ComptCloseType } from '@/type';
 import YcButton from '../YcButton/index.vue';
 const props = withDefaults(defineProps<YcDrawerProps>(), {
   visible: false,
-  placement: 'bottom',
+  placement: 'right',
   title: '',
   mask: true,
   maskClosable: true,
@@ -76,34 +87,43 @@ const props = withDefaults(defineProps<YcDrawerProps>(), {
   cancelButtonProps: () => {
     return {};
   },
+  unmountOnClose: false,
   width: 250,
   height: 250,
-  renderToBody: true,
   popupContainer: 'body',
   drawerStyle: () => {
     return {};
   },
-  zIndex: 1001,
+  escToClose: true,
+  renderToBody: true,
   header: true,
   footer: true,
-  escToClose: true,
   hideCancel: false,
 });
 const emits = defineEmits<{
   (e: 'update:visible', value: boolean): void;
   (e: 'ok'): void;
   (e: 'cancel'): void;
-  (e: 'open'): void;
   (e: 'beforeOpen'): void;
-  (e: 'close'): void;
-  (e: 'beforeClose'): void;
+  (e: 'open'): void;
+  (e: 'beforeClose', type: ComptCloseType): void;
+  (e: 'close', type: ComptCloseType): void;
 }>();
-const { width, height, zIndex, placement, visible, maskClosable, drawerStyle } =
-  toRefs(props);
+const {
+  width,
+  height,
+  placement,
+  visible,
+  maskClosable,
+  escToClose,
+  drawerStyle,
+} = toRefs(props);
 // drawer的可见性
 const drawerVisible = ref<boolean>(false);
+// 关闭类型
+const closeType = ref<ComptCloseType>('');
 // drawer绝对定位的left,top
-const style = computed(() => {
+const drawerCss = computed(() => {
   return {
     ...POSTION_MAP[placement.value],
     ...BORDER_MAP[placement.value],
@@ -115,7 +135,6 @@ const style = computed(() => {
       placement.value == 'left' || placement.value == 'right'
         ? `${width.value}px`
         : `100%`,
-    zIndex: zIndex.value + 10,
     // 传入样式
     ...drawerStyle.value,
   } as CSSProperties;
@@ -135,53 +154,47 @@ const enterTo = computed(() => {
     ? 'translateX(0)'
     : 'translateY(0)';
 });
-// 处理点击关闭按钮drawer关闭
-const handleBtnClose = () => {
-  emits('update:visible', false);
-};
-// 处理点击mask关闭
-const handleMaskClose = () => {
-  if (!maskClosable.value) return;
-  emits('update:visible', false);
-};
-// 处理esc关闭
-const handleEscClose = () => {
-  const keys = useMagicKeys();
-  whenever(keys.escape, () => {
+// 处理关闭
+const handleClose = (type: ComptCloseType) => {
+  closeType.value = type;
+  if (type == 'mask') {
+    if (!maskClosable.value) return;
     emits('update:visible', false);
-  });
-};
-handleEscClose();
-//处理确认
-const handleOk = () => {
-  emits('ok');
-  emits('update:visible', false);
-};
-// 处理取消
-const handleCancel = () => {
-  emits('cancel');
-  emits('update:visible', false);
+  } else {
+    if (type == 'cancelBtn') {
+      emits('cancel');
+    } else if (type == 'confirmBtn') {
+      emits('ok');
+    }
+    emits('update:visible', false);
+  }
 };
 // 检测抽屉的开关
 watch(
   () => visible.value,
   async (v) => {
-    if (!v) {
-      emits('beforeClose');
-      await sleep(300);
-      emits('close');
+    if (v) {
+      closeType.value = '';
       drawerVisible.value = v;
     } else {
-      drawerVisible.value = v;
-      emits('beforeOpen');
       await sleep(300);
-      emits('open');
+      drawerVisible.value = v;
     }
   },
   {
     immediate: true,
   }
 );
+
+// 处理esc关闭
+const initHotKeys = () => {
+  const keys = useMagicKeys();
+  whenever(keys.escape, () => {
+    if (!escToClose.value) return;
+    handleClose('esc');
+  });
+};
+initHotKeys();
 </script>
 
 <style lang="less" scoped>
