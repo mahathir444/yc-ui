@@ -1,6 +1,6 @@
 import ServiceModal from './component/ServiceModal.vue';
 import { h, render } from 'vue';
-import { ModalConfig } from './type';
+import { ModalConfig } from './type/interface';
 
 const id = 'ycServiceModalContainer';
 if (!document.getElementById(id)) {

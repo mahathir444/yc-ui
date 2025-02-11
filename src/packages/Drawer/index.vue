@@ -1,5 +1,4 @@
 <template>
-  <!-- v-if="" -->
   <Teleport :to="popupContainer" :disabled="!renderToBody">
     <div
       v-if="!unmountOnClose || drawerVisible"
@@ -77,11 +76,11 @@
 <script lang="ts" setup>
 import { toRefs, computed, ref, watch, CSSProperties } from 'vue';
 import { POSTION_MAP, BORDER_MAP } from './index.ts';
-import { DrawerProps } from './type';
 import { sleep } from '@/utils/fn';
 import { useMagicKeys, whenever } from '@vueuse/core';
+import { DrawerProps } from './type';
 import { ComptCloseType } from '@/type';
-import YcButton from '../YcButton/index.vue';
+import YcButton from '@/packages/Button/index.vue';
 const props = withDefaults(defineProps<DrawerProps>(), {
   visible: false,
   placement: 'right',

@@ -98,9 +98,9 @@
 import { ref, toRefs, watch, computed, CSSProperties } from 'vue';
 import { sleep } from '@/utils/fn';
 import { useMagicKeys, whenever } from '@vueuse/core';
-import YcButton from '../YcButton/index.vue';
 import { ComptCloseType } from '@/type';
 import { ModalProps } from './type';
+import YcButton from '@/packages/Button/index.vue';
 const props = withDefaults(defineProps<ModalProps>(), {
   visible: false,
   width: 520,

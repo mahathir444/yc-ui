@@ -48,7 +48,7 @@
 <script lang="ts" setup>
 import { computed, toRefs } from 'vue';
 import { SIZE_MAP } from './index';
-import { ButtonProps } from './type';
+import { ButtonProps } from './interface';
 const props = withDefaults(defineProps<ButtonProps>(), {
   type: 'secondary',
   status: 'normal',

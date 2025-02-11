@@ -29,7 +29,7 @@
 
 <script lang="ts" setup>
 import { toRefs, computed } from 'vue';
-import { LinkProps } from './type';
+import { LinkProps } from './interface';
 const props = withDefaults(defineProps<LinkProps>(), {
   href: '',
   status: 'normal',
