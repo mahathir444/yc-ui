@@ -1,20 +1,17 @@
 <template>
   <a
     :href="resultHref"
-    :class="{
-      'yc-link': true,
-      // hoverable
-      'yc-link-hoverable': hoverable && !disabled && !loading,
+    :class="[
+      'yc-link',
+      // link是否hoverable
+      hoverable && !disabled && !loading ? 'yc-button-hoverable' : '',
       // loading
-      'yc-link-loading': loading,
+      loading ? 'yc-button-loading' : '',
       // disabled
-      'yc-link-disabled': disabled,
+      disabled ? 'yc-button-disabled' : '',
       // status
-      'yc-link-status-normal': status == 'normal',
-      'yc-link-status-warning': status == 'warning',
-      'yc-link-status-success': status == 'success',
-      'yc-link-status-danger': status == 'danger',
-    }"
+      STATUS_CLASS[status],
+    ]"
     @click="handleEvent('click', $event)"
     @dblclick="handleEvent('dblclick', $event)"
     @contextmenu="handleEvent('contextmenu', $event)"
@@ -30,6 +27,7 @@
 <script lang="ts" setup>
 import { toRefs, computed } from 'vue';
 import { LinkProps } from './type';
+import { STATUS_CLASS } from './constants';
 const props = withDefaults(defineProps<LinkProps>(), {
   href: '',
   status: 'normal',

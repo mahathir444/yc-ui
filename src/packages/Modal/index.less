@@ -1,0 +1,107 @@
+.yc-modal-container {
+  position: fixed;
+  inset: 0 0 0 0;
+  z-index: 1001;
+  .yc-modal-mask {
+    position: absolute;
+    left: 0;
+    top: 0;
+    height: 100%;
+    width: 100%;
+    background-color: rgba(29, 33, 41, 0.6);
+  }
+  .yc-modal-wrapper {
+    position: absolute;
+    inset: 0 0 0 0;
+    overflow: auto;
+
+    &.yc-modal-wrapper-align-center {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    .yc-modal {
+      position: relative;
+      border-radius: 4px;
+      background-color: #fff;
+      line-height: 1.5715;
+      &.yc-modal-fullscreen {
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        .yc-modal-body {
+          flex: 1;
+        }
+      }
+      .yc-modal-header {
+        overflow: hidden;
+        height: 48px;
+        width: 100%;
+        padding: 0 20px;
+        border-bottom: 1px solid rgb(229, 230, 235);
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 8px;
+        .yc-modal-title {
+          flex-shrink: 0;
+          flex: 1;
+          overflow: hidden;
+          span {
+            font-size: 16px;
+            font-weight: 500;
+            color: rgb(29, 33, 41);
+          }
+          &.title-align-center {
+            display: flex;
+            justify-content: center;
+          }
+        }
+        .yc-modal-close-button {
+          cursor: pointer;
+          position: relative;
+          width: 12px;
+          height: 12px;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          &:hover::before {
+            display: block;
+          }
+          &::before {
+            content: '';
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background-color: rgb(242, 243, 245);
+            border-radius: 50%;
+            display: none;
+          }
+          .svg-icon {
+            position: relative;
+            z-index: 10;
+          }
+        }
+      }
+      .yc-modal-body {
+        padding: 24px 20px;
+        overflow: auto;
+        color: rgb(29, 33, 41);
+        font-size: 14px;
+      }
+      .yc-modal-footer {
+        height: 64px;
+        width: 100%;
+        padding: 16px 20px;
+        border-top: 1px solid rgb(229, 230, 235);
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
+        gap: 12px;
+      }
+    }
+  }
+}

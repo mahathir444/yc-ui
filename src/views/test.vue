@@ -1,10 +1,10 @@
 <template>
   <div class="test">
-    <!-- <YcDrawer v-model:visible="visible" title="这是一个测试">
+    <YcDrawer v-model:visible="visible" title="这是一个测试">
       这是一个测试drawer
-    </YcDrawer> -->
+    </YcDrawer>
 
-    <YcModal v-model:visible="visible" />
+    <!-- <YcModal v-model:visible="visible" /> -->
 
     <!-- <a-modal v-model:visible="visible" @cancel="console.log('关闭了')" /> -->
 
@@ -14,6 +14,10 @@
       </template>
       测试按钮
     </YcButton>
+
+    <div>
+      <YcInput />
+    </div>
   </div>
 </template>
 
@@ -23,6 +27,7 @@ import YcDrawer from '@/packages/Drawer';
 import YcButton from '@/packages/Button';
 import YcLink from '@/packages/Link';
 import YcModal, { ModalService } from '@/packages/Modal';
+import YcInput from '@/packages/Input/index.vue';
 const visible = ref<boolean>(false);
 </script>
 

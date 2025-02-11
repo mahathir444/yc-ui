@@ -75,7 +75,7 @@
 
 <script lang="ts" setup>
 import { toRefs, computed, ref, watch, CSSProperties } from 'vue';
-import { DRAWER_POSTION_STYLE } from './index.ts';
+import { DRAWER_POSTION_STYLE } from './constatns';
 import { sleep } from '@/utils/fn';
 import { useMagicKeys, whenever } from '@vueuse/core';
 import { DrawerProps } from './type';
@@ -211,7 +211,6 @@ initHotKeys();
 <style lang="less" scoped>
 @import './index.less';
 // 内容过度
-
 .slide-drawer-enter-from,
 .slide-drawer-leave-to {
   transform: v-bind(leaveFrom);

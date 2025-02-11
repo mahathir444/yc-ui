@@ -2,37 +2,27 @@
   <button
     :type="htmlType"
     :disabled="disabled"
-    :class="{
-      'yc-button': true,
+    :class="[
+      'yc-button',
       // button是否hoverable
-      'yc-button-hoverable': !disabled && !loading,
+      !disabled && !loading ? 'yc-button-hoverable' : '',
       // 是否只有图标
-      'yc-button-only-icon': !$slots.default,
-      // 是否自适应容器
-      'yc-button-long': long,
-      // 禁用和加载
-      'yc-button-loading': loading,
-      'yc-button-disabled': disabled,
-      // 大小
-      'yc-button-mini': size == 'mini',
-      'yc-button-small': size == 'small',
-      'yc-button-medium': size == 'medium',
-      'yc-button-large': size == 'large',
-      // 类型
-      'yc-button-primary': type == 'primary',
-      'yc-button-secondary': type == 'secondary',
-      'yc-button-dashed': type == 'dashed',
-      'yc-button-outline': type == 'outline',
-      'yc-button-text': type == 'text',
-      // 形状
-      'yc-button-shape-round': shape == 'round',
-      'yc-button-shape-circle': shape == 'circle',
-      'yc-button-shape-square': shape == 'square',
-      // 状态
-      'yc-button-status-warning': status == 'warning',
-      'yc-button-status-success': status == 'success',
-      'yc-button-status-danger': status == 'danger',
-    }"
+      !$slots.default ? 'yc-button-only-icon' : '',
+      // long
+      long ? 'yc-button-long' : '',
+      // loading
+      loading ? 'yc-button-loading' : '',
+      // disabled
+      disabled ? 'yc-button-disabled' : '',
+      // size
+      SIZE_CLASS[size],
+      // type
+      TYPE_CLASS[type],
+      // status
+      STATUS_CLASS[status],
+      // shape
+      SHAPE_CLASS[shape],
+    ]"
     @click="handleEvent('click', $event)"
     @dblclick="handleEvent('dblclick', $event)"
     @contextmenu="handleEvent('contextmenu', $event)"
@@ -47,7 +37,8 @@
 
 <script lang="ts" setup>
 import { computed, toRefs } from 'vue';
-import { BUTTON_SIZE_MAP } from './index';
+import { SIZE_MAP } from '@/constants';
+import { SIZE_CLASS, TYPE_CLASS, STATUS_CLASS, SHAPE_CLASS } from './constants';
 import { ButtonProps } from './type';
 const props = withDefaults(defineProps<ButtonProps>(), {
   type: 'secondary',
@@ -66,11 +57,9 @@ const emits = defineEmits<{
 }>();
 const { size, disabled, loading } = toRefs(props);
 // 当前的size
-const sizeToPx = computed(() => BUTTON_SIZE_MAP[size.value] + 'px');
+const sizeToPx = computed(() => SIZE_MAP[size.value] + 'px');
 // shape为round的borderRadius
-const roundBorderRadius = computed(
-  () => BUTTON_SIZE_MAP[size.value] / 2 + 'px'
-);
+const roundBorderRadius = computed(() => SIZE_MAP[size.value] / 2 + 'px');
 // 拦截事件
 const handleEvent = (type: string, e: MouseEvent) => {
   if (disabled.value || loading.value) return;
