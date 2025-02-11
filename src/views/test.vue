@@ -10,13 +10,37 @@
 
     <YcButton type="secondary" @click="visible = true">
       <template #icon>
-        <IconApps />
+        <svg-icon name="loading" />
       </template>
       测试按钮
     </YcButton>
-
     <div>
-      <YcInput />
+      <a-input
+        default-value="text"
+        size="mini"
+        allow-clear
+        show-word-limit
+        error
+      >
+        <template #prefix>
+          <svg-icon name="loading" />
+        </template>
+        <template #prepend> +86 </template>
+        <template #suffix>
+          <IconPenFill />
+        </template>
+        <template #append> RMB </template>
+      </a-input>
+    </div>
+    <div>
+      <YcInput v-model="text">
+        <template #prefix>
+          <IconApps />
+        </template>
+        <template #suffix>
+          <IconPenFill />
+        </template>
+      </YcInput>
     </div>
   </div>
 </template>
@@ -29,6 +53,7 @@ import YcLink from '@/packages/Link';
 import YcModal, { ModalService } from '@/packages/Modal';
 import YcInput from '@/packages/Input/index.vue';
 const visible = ref<boolean>(false);
+const text = ref<string>('');
 </script>
 
 <style lang="less" scoped>
