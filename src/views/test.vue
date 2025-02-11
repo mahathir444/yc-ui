@@ -19,11 +19,10 @@
 
 <script lang="ts" setup>
 import { ref, reactive } from 'vue';
-import YcDrawer from '@/packages/Drawer/index.vue';
-import YcButton from '@/packages/Button/index.vue';
-import YcLink from '@/packages/Link/index.vue';
-import YcModal from '@/packages/Modal/index.vue';
-import { ModalService } from '@/packages/Modal';
+import YcDrawer from '@/packages/Drawer';
+import YcButton from '@/packages/Button';
+import YcLink from '@/packages/Link';
+import YcModal, { ModalService } from '@/packages/Modal';
 const visible = ref<boolean>(false);
 </script>
 

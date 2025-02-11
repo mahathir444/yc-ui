@@ -1,6 +1,7 @@
 import ServiceModal from './component/ServiceModal.vue';
 import { h, render } from 'vue';
-import { ModalConfig } from './type/interface';
+import { ModalConfig } from './type';
+import Modal from './index.vue';
 
 const id = 'ycServiceModalContainer';
 if (!document.getElementById(id)) {
@@ -30,3 +31,5 @@ export const ModalService = (props: ModalConfig) => {
   // 渲染 VNode 到容器
   render(vnode, modalContainer);
 };
+
+export default Modal;

@@ -1,3 +1,8 @@
+import Drawer from './index.vue';
+
+export default Drawer;
+
+// drawer不同位置的映射
 export const DRAWER_POSTION_STYLE = {
   left: {
     top: 0,
