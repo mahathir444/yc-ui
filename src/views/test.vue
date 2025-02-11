@@ -1,28 +1,12 @@
 <template>
   <div class="test">
-    <YcDrawer v-model:visible="visible" title="这是一个测试">
+    <!-- <YcDrawer v-model:visible="visible" title="这是一个测试">
       这是一个测试drawer
-    </YcDrawer>
+    </YcDrawer> -->
 
-    <!-- <a-button-group status="warning" type="dashed">
-      <a-button>测试</a-button>
-      <a-button>测试1</a-button>
-    </a-button-group> -->
-    <a-link>
-      <template #icon> <IconApps /> </template>
-      测试
-    </a-link>
+    <YcModal v-model:visible="visible" />
 
-    <YcLink>
-      <template #icon>
-        <IconApps />
-      </template>
-      测试
-    </YcLink>
-
-    <!-- <YcModal v-model:visible="visible" :top="300" /> -->
-
-    <!-- <a-modal v-model:visible="visible" :align-center="false" :top="200" /> -->
+    <!-- <a-modal v-model:visible="visible" @cancel="console.log('关闭了')" /> -->
 
     <YcButton type="secondary" @click="visible = true">
       <template #icon>
@@ -39,6 +23,7 @@ import YcDrawer from '@/packages/YcDrawer/index.vue';
 import YcButton from '@/packages/YcButton/index.vue';
 import YcLink from '@/packages/YcLink/index.vue';
 import YcModal from '@/packages/YcModal/index.vue';
+import { ModalService } from '@/packages/YcModal';
 const visible = ref<boolean>(false);
 </script>
 

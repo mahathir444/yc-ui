@@ -1,22 +1,26 @@
 import { ComptSize } from '@/type';
-export type YcButtonStatus = 'normal' | 'warning' | 'success' | 'danger';
-export type YcButtonShape = 'square' | 'circle' | 'round';
-export type YcButtonType =
+
+export type ButtonStatus = 'normal' | 'warning' | 'success' | 'danger';
+
+export type ButtonShape = 'square' | 'circle' | 'round';
+
+export type ButtonType =
   | 'primary'
   | 'secondary'
   | 'dashed'
   | 'outline'
   | 'text';
-export type YcButtonHtmlType = 'button' | 'reset' | 'submit';
+
+export type ButtonHtmlType = 'button' | 'reset' | 'submit';
 
 // herf
-export interface YcButtonProps {
-  type?: YcButtonType;
-  shape?: YcButtonShape;
-  status?: YcButtonStatus;
+export interface ButtonProps {
+  type?: ButtonType;
+  shape?: ButtonShape;
+  status?: ButtonStatus;
   size?: ComptSize;
   long?: boolean;
   loading?: boolean;
   disabled?: boolean;
-  htmlType?: YcButtonHtmlType;
+  htmlType?: ButtonHtmlType;
 }

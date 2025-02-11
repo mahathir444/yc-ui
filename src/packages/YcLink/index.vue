@@ -29,8 +29,8 @@
 
 <script lang="ts" setup>
 import { toRefs, computed } from 'vue';
-import { YcLinkProps } from './type';
-const props = withDefaults(defineProps<YcLinkProps>(), {
+import { LinkProps } from './type';
+const props = withDefaults(defineProps<LinkProps>(), {
   href: '',
   status: 'normal',
   hoverable: true,

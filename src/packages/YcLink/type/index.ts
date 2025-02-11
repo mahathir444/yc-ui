@@ -1,9 +1,8 @@
-export type YcButtonStatus = 'normal' | 'warning' | 'success' | 'danger';
-
+export type LinkStatus = 'normal' | 'warning' | 'success' | 'danger';
 // icon
-export interface YcLinkProps {
+export interface LinkProps {
   href?: string;
-  status?: YcButtonStatus;
+  status?: LinkStatus;
   hoverable?: boolean;
   disabled?: boolean;
   loading?: boolean;

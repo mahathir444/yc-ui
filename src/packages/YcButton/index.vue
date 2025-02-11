@@ -48,8 +48,8 @@
 <script lang="ts" setup>
 import { computed, toRefs } from 'vue';
 import { SIZE_MAP } from './index';
-import { YcButtonProps } from './type';
-const props = withDefaults(defineProps<YcButtonProps>(), {
+import { ButtonProps } from './type';
+const props = withDefaults(defineProps<ButtonProps>(), {
   type: 'secondary',
   status: 'normal',
   size: 'medium',

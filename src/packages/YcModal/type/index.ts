@@ -1,8 +1,8 @@
-import { YcButtonProps } from '@/packages/YcButton/type';
 import { CSSProperties } from 'vue';
+import { ButtonProps } from '@/packages/YcButton/type';
 
 // default-visible simple on-before-ok on-before-cancel
-export interface YcModalProps {
+export interface ModalProps {
   visible?: boolean;
   width?: number;
   top?: number;
@@ -17,8 +17,8 @@ export interface YcModalProps {
   okText?: string;
   cancelText?: string;
   okLoading?: boolean;
-  okButtonProps?: YcButtonProps;
-  cancelButtonProps?: YcButtonProps;
+  okButtonProps?: ButtonProps;
+  cancelButtonProps?: ButtonProps;
   footer?: boolean;
   renderToBody?: boolean;
   popupContainer?: string;
@@ -33,4 +33,14 @@ export interface YcModalProps {
   bodyClass?: string;
   bodyStyle?: CSSProperties;
   hideTitle?: boolean;
+}
+
+export interface ModalConfig extends Omit<ModalProps, 'visible'> {
+  content?: string;
+  onOk?: () => void | Promise<void>;
+  onCancel?: () => void | Promise<void>;
+  onOpen?: () => void;
+  onClose?: () => void;
+  onBeforeOpen?: () => void;
+  onBeforeClose?: () => void;
 }

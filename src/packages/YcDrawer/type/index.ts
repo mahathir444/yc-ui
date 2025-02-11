@@ -1,9 +1,9 @@
 import { CSSProperties } from 'vue';
-import { YcButtonProps } from '@/packages/YcButton/type';
+import { ButtonProps } from '@/packages/YcButton/type';
 type DrawerPlacement = 'right' | 'left' | 'top' | 'bottom';
 
 // default-visible on-before-ok on-before-cancel
-export interface YcDrawerProps {
+export interface DrawerProps {
   visible?: boolean;
   placement?: DrawerPlacement;
   title?: string;
@@ -13,8 +13,8 @@ export interface YcDrawerProps {
   okText?: string;
   cancelText?: string;
   okLoading?: boolean;
-  okButtonProps?: YcButtonProps;
-  cancelButtonProps?: YcButtonProps;
+  okButtonProps?: ButtonProps;
+  cancelButtonProps?: ButtonProps;
   unmountOnClose?: boolean;
   width?: number;
   height?: number;

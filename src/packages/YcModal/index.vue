@@ -1,100 +1,96 @@
 <template>
   <Teleport :to="popupContainer" :disabled="!renderToBody">
-    <Transition :name="maskAnimationName || 'fade'" appear>
-      <div
-        v-show="modalVisible"
-        class="yc-modal-container"
-        :style="{
-          zIndex: 1006,
-        }"
-      >
-        <!-- mask -->
+    <div
+      v-if="!unmountOnClose || modalVisible"
+      v-show="modalVisible"
+      class="yc-modal-container"
+    >
+      <!-- mask -->
+      <Transition :name="maskAnimationName || 'fade'" appear>
         <div
           v-if="mask"
+          v-show="visible"
           class="yc-modal-mask"
           :style="maskStyle"
-          @click="handleClose('mask')"
         ></div>
-        <!-- modal-wrapper -->
-        <div
-          class="yc-modal-wrapper"
-          :class="{
-            'yc-modal-wrapper-align-center': alignCenter,
-          }"
+      </Transition>
+      <!-- modal-wrapper -->
+      <div
+        class="yc-modal-wrapper"
+        :class="{
+          'yc-modal-wrapper-align-center': alignCenter,
+        }"
+        @click="handleClose('mask')"
+      >
+        <Transition
+          :name="modalAnimationName || 'zoom-modal'"
+          appear
+          @before-enter="$emit('beforeOpen')"
+          @before-leave="$emit('beforeClose', closeType)"
+          @after-enter="$emit('open')"
+          @after-leave="$emit('close', closeType)"
         >
-          <Transition
-            :name="modalAnimationName || 'zoom-modal'"
-            appear
-            @before-enter="$emit('beforeOpen')"
-            @before-leave="$emit('beforeClose', closeType)"
-            @after-enter="$emit('open')"
-            @after-leave="$emit('close', closeType)"
+          <!-- modal -->
+          <div
+            v-show="visible"
+            :class="[
+              'yc-modal',
+              fullscreen ? 'yc-modal-fullscreen' : '',
+              modalClass,
+            ]"
+            :style="modalCss"
+            @click.stop="() => {}"
           >
-            <!-- modal -->
-            <div
-              v-if="visible"
-              :class="[
-                'yc-modal',
-                fullscreen ? 'yc-modal-fullscreen' : '',
-                modalClass,
-              ]"
-              :style="modalCss"
-            >
-              <!-- header -->
-              <div class="yc-modal-header">
-                <div
-                  v-if="!hideTitle"
-                  :class="{
-                    'yc-modal-title': true,
-                    'text-ellipsis': true,
-                    'title-align-center': titleAlign == 'center',
-                  }"
-                >
-                  <slot name="title">
-                    <span>{{ title }}</span>
-                  </slot>
-                </div>
-                <div
-                  v-if="closable"
-                  class="yc-modal-close-button"
-                  @click="handleClose('closeBtn')"
-                >
-                  <svg-icon
-                    name="drawerClose"
-                    size="12"
-                    color="rgb(29,33,41)"
-                  />
-                </div>
-              </div>
-              <!-- body -->
-              <div class="yc-modal-body" :class="bodyClass" :style="bodyStyle">
-                <slot />
-              </div>
-              <!-- footer -->
-              <div v-if="footer" class="yc-modal-footer">
-                <slot name="footer">
-                  <YcButton
-                    v-if="!hideCancel"
-                    v-bind="cancelButtonProps"
-                    @click="handleClose('cancelBtn')"
-                  >
-                    {{ cancelText }}
-                  </YcButton>
-                  <YcButton
-                    type="primary"
-                    :loading="okLoading"
-                    v-bind="okButtonProps"
-                    @click="handleClose('confirmBtn')"
-                  >
-                    {{ okText }}
-                  </YcButton>
+            <!-- header -->
+            <div class="yc-modal-header">
+              <div
+                v-if="!hideTitle"
+                :class="{
+                  'yc-modal-title': true,
+                  'text-ellipsis': true,
+                  'title-align-center': titleAlign == 'center',
+                }"
+              >
+                <slot name="title">
+                  <span>{{ title }}</span>
                 </slot>
               </div>
+              <div
+                v-if="closable"
+                class="yc-modal-close-button"
+                @click="handleClose('closeBtn')"
+              >
+                <svg-icon name="drawerClose" size="12" color="rgb(29,33,41)" />
+              </div>
             </div>
-          </Transition>
-        </div>
+            <!-- body -->
+            <div class="yc-modal-body" :class="bodyClass" :style="bodyStyle">
+              <slot />
+            </div>
+            <!-- footer -->
+            <div v-if="footer" class="yc-modal-footer">
+              <slot name="footer">
+                <YcButton
+                  v-if="!hideCancel"
+                  v-bind="cancelButtonProps"
+                  @click="handleClose('cancelBtn')"
+                >
+                  {{ cancelText }}
+                </YcButton>
+                <YcButton
+                  type="primary"
+                  :loading="okLoading"
+                  v-bind="okButtonProps"
+                  @click="handleClose('confirmBtn')"
+                >
+                  {{ okText }}
+                </YcButton>
+              </slot>
+            </div>
+          </div>
+        </Transition>
       </div>
-    </Transition>
+    </div>
   </Teleport>
 </template>
 
@@ -104,8 +100,8 @@ import { sleep } from '@/utils/fn';
 import { useMagicKeys, whenever } from '@vueuse/core';
 import YcButton from '../YcButton/index.vue';
 import { ComptCloseType } from '@/type';
-import { YcModalProps } from './type';
-const props = withDefaults(defineProps<YcModalProps>(), {
+import { ModalProps } from './type';
+const props = withDefaults(defineProps<ModalProps>(), {
   visible: false,
   width: 520,
   top: 100,
@@ -146,7 +142,7 @@ const props = withDefaults(defineProps<YcModalProps>(), {
 const emits = defineEmits<{
   (e: 'update:visible', value: boolean): void;
   (e: 'ok'): void;
-  (e: 'cancel'): void;
+  (e: 'cancel', type: ComptCloseType): void;
   (e: 'open'): void;
   (e: 'beforeOpen'): void;
   (e: 'close', type: ComptCloseType): void;
@@ -177,17 +173,20 @@ const modalCss = computed(() => {
 });
 // 处理关闭
 const handleClose = (type: ComptCloseType) => {
+  console.log('函数触发了');
   closeType.value = type;
+  // 关闭
   if (type == 'mask') {
     if (!maskClosable.value) return;
     emits('update:visible', false);
   } else {
-    if (type == 'cancelBtn') {
-      emits('cancel');
-    } else if (type == 'confirmBtn') {
-      emits('ok');
-    }
     emits('update:visible', false);
+  }
+  // 触发事件
+  if (type == 'confirmBtn') {
+    emits('ok');
+  } else {
+    emits('cancel', closeType.value);
   }
 };
 // 检测modal的开关处理对应的显影
@@ -222,6 +221,7 @@ initHotKeys();
 .yc-modal-container {
   position: fixed;
   inset: 0 0 0 0;
+  z-index: 1001;
   .yc-modal-mask {
     position: absolute;
     left: 0;

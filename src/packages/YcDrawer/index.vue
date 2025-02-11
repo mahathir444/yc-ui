@@ -1,87 +1,88 @@
 <template>
   <!-- v-if="" -->
   <Teleport :to="popupContainer" :disabled="!renderToBody">
-    <Transition name="fade" appear>
-      <div v-show="drawerVisible" class="yc-drawer-wrapper">
-        <!-- mask -->
+    <div
+      v-if="!unmountOnClose || drawerVisible"
+      v-show="drawerVisible"
+      class="yc-drawer-wrapper"
+    >
+      <!-- mask -->
+      <Transition name="fade" appear>
         <div
           v-if="mask"
+          v-show="visible"
           class="yc-drawer-mask"
           @click="handleClose('mask')"
         ></div>
-        <!-- drawer -->
-        <Transition
-          name="slide-drawer"
-          appear
-          @before-enter="$emit('beforeOpen')"
-          @before-leave="$emit('beforeClose', closeType)"
-          @after-enter="$emit('open')"
-          @after-leave="$emit('close', closeType)"
-        >
-          <div v-if="visible" class="yc-drawer-container" :style="drawerCss">
-            <!-- header -->
-            <slot name="header">
-              <div v-if="header" class="yc-drawer-header">
-                <!-- title -->
-                <div class="yc-drawer-header-title text-ellipsis">
-                  <slot name="title">
-                    <span>{{ title }}</span>
-                  </slot>
-                </div>
-                <!-- close-btn -->
-                <div
-                  v-if="closable"
-                  class="yc-drawer-close-icon"
-                  @click="handleClose('closeBtn')"
-                >
-                  <svg-icon
-                    name="drawerClose"
-                    size="12"
-                    color="rgb(29,33,41)"
-                  />
-                </div>
+      </Transition>
+      <!-- drawer -->
+      <Transition
+        name="slide-drawer"
+        appear
+        @before-enter="$emit('beforeOpen')"
+        @before-leave="$emit('beforeClose', closeType)"
+        @after-enter="$emit('open')"
+        @after-leave="$emit('close', closeType)"
+      >
+        <div v-show="visible" class="yc-drawer-container" :style="drawerCss">
+          <!-- header -->
+          <slot name="header">
+            <div v-if="header" class="yc-drawer-header">
+              <!-- title -->
+              <div class="yc-drawer-header-title text-ellipsis">
+                <slot name="title">
+                  <span>{{ title }}</span>
+                </slot>
               </div>
-            </slot>
-            <!-- body -->
-            <div class="yc-drawer-body">
-              <slot />
+              <!-- close-btn -->
+              <div
+                v-if="closable"
+                class="yc-drawer-close-icon"
+                @click="handleClose('closeBtn')"
+              >
+                <svg-icon name="drawerClose" size="12" color="rgb(29,33,41)" />
+              </div>
             </div>
-            <!-- footer -->
-            <slot name="footer">
-              <div v-if="footer" class="yc-drawer-footer">
-                <YcButton
-                  v-if="!hideCancel"
-                  v-bind="cancelButtonProps"
-                  @click="handleClose('cancelBtn')"
-                >
-                  {{ cancelText }}
-                </YcButton>
-                <YcButton
-                  type="primary"
-                  :loading="okLoading"
-                  v-bind="okButtonProps"
-                  @click="handleClose('confirmBtn')"
-                >
-                  {{ okText }}
-                </YcButton>
-              </div>
-            </slot>
+          </slot>
+          <!-- body -->
+          <div class="yc-drawer-body">
+            <slot />
           </div>
-        </Transition>
-      </div>
-    </Transition>
+          <!-- footer -->
+          <slot name="footer">
+            <div v-if="footer" class="yc-drawer-footer">
+              <YcButton
+                v-if="!hideCancel"
+                v-bind="cancelButtonProps"
+                @click="handleClose('cancelBtn')"
+              >
+                {{ cancelText }}
+              </YcButton>
+              <YcButton
+                type="primary"
+                :loading="okLoading"
+                v-bind="okButtonProps"
+                @click="handleClose('confirmBtn')"
+              >
+                {{ okText }}
+              </YcButton>
+            </div>
+          </slot>
+        </div>
+      </Transition>
+    </div>
   </Teleport>
 </template>
 
 <script lang="ts" setup>
 import { toRefs, computed, ref, watch, CSSProperties } from 'vue';
 import { POSTION_MAP, BORDER_MAP } from './index.ts';
-import { YcDrawerProps } from './type';
+import { DrawerProps } from './type';
 import { sleep } from '@/utils/fn';
 import { useMagicKeys, whenever } from '@vueuse/core';
 import { ComptCloseType } from '@/type';
 import YcButton from '../YcButton/index.vue';
-const props = withDefaults(defineProps<YcDrawerProps>(), {
+const props = withDefaults(defineProps<DrawerProps>(), {
   visible: false,
   placement: 'right',
   title: '',
@@ -113,7 +114,7 @@ const props = withDefaults(defineProps<YcDrawerProps>(), {
 const emits = defineEmits<{
   (e: 'update:visible', value: boolean): void;
   (e: 'ok'): void;
-  (e: 'cancel'): void;
+  (e: 'cancel', type: ComptCloseType): void;
   (e: 'beforeOpen'): void;
   (e: 'open'): void;
   (e: 'beforeClose', type: ComptCloseType): void;
@@ -167,15 +168,17 @@ const enterTo = computed(() => {
 // 处理关闭
 const handleClose = (type: ComptCloseType) => {
   closeType.value = type;
+  // 触发事件
+  if (type == 'confirmBtn') {
+    emits('ok');
+  } else {
+    emits('cancel', closeType.value);
+  }
+  // 关闭
   if (type == 'mask') {
     if (!maskClosable.value) return;
     emits('update:visible', false);
   } else {
-    if (type == 'cancelBtn') {
-      emits('cancel');
-    } else if (type == 'confirmBtn') {
-      emits('ok');
-    }
     emits('update:visible', false);
   }
 };
