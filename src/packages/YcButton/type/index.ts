@@ -9,6 +9,7 @@ export type YcButtonType =
   | 'text';
 export type YcButtonHtmlType = 'button' | 'reset' | 'submit';
 
+// herf
 export interface YcButtonProps {
   type?: YcButtonType;
   shape?: YcButtonShape;
@@ -18,5 +19,4 @@ export interface YcButtonProps {
   loading?: boolean;
   disabled?: boolean;
   htmlType?: YcButtonHtmlType;
-  herf?: string;
 }

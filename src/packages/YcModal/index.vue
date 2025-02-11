@@ -1,6 +1,6 @@
 <template>
-  <Teleport :to="popupContainer">
-    <Transition name="fade" appear>
+  <Teleport :to="popupContainer" :disabled="!renderToBody">
+    <Transition :name="maskAnimationName || 'fade'" appear>
       <div
         v-show="modalVisible"
         class="yc-modal-container"
@@ -23,7 +23,7 @@
           }"
         >
           <Transition
-            name="zoom-modal"
+            :name="modalAnimationName || 'zoom-modal'"
             appear
             @before-enter="$emit('beforeOpen')"
             @before-leave="$emit('beforeClose', closeType)"
@@ -82,6 +82,7 @@
                   </YcButton>
                   <YcButton
                     type="primary"
+                    :loading="okLoading"
                     v-bind="okButtonProps"
                     @click="handleClose('confirmBtn')"
                   >
@@ -101,73 +102,47 @@
 import { ref, toRefs, watch, computed, CSSProperties } from 'vue';
 import { sleep } from '@/utils/fn';
 import { useMagicKeys, whenever } from '@vueuse/core';
-import { YcButtonProps } from '@/packages/YcButton/type';
 import YcButton from '../YcButton/index.vue';
 import { ComptCloseType } from '@/type';
-const props = withDefaults(
-  defineProps<{
-    visible?: boolean;
-    width?: number;
-    top?: number;
-    mask?: boolean;
-    title?: string;
-    titleAlign?: 'start' | 'center';
-    alignCenter?: boolean;
-    maskClosable?: boolean;
-    hideCancel?: boolean;
-    closable?: boolean;
-    okText?: string;
-    cancelText?: string;
-    okButtonProps?: YcButtonProps;
-    cancelButtonProps?: YcButtonProps;
-    footer?: boolean;
-    popupContainer?: string;
-    maskStyle?: CSSProperties;
-    modalClass?: string;
-    modalStyle?: CSSProperties;
-    escToClose?: boolean;
-    draggable?: boolean;
-    fullscreen?: boolean;
-    bodyClass?: string;
-    bodyStyle?: CSSProperties;
-    hideTitle?: boolean;
-  }>(),
-  {
-    visible: false,
-    width: 520,
-    top: 100,
-    mask: true,
-    title: '',
-    titleAlign: 'center',
-    alignCenter: true,
-    maskClosable: true,
-    hideCancel: false,
-    closable: true,
-    okText: '确认',
-    cancelText: '取消',
-    okButtonProps: () => {
-      return {};
-    },
-    cancelButtonProps: () => {
-      return {};
-    },
-    footer: true,
-    popupContainer: 'body',
-    maskStyle: () => {
-      return {};
-    },
-    modalStyle: () => {
-      return {};
-    },
-    escToClose: true,
-    draggable: false,
-    fullscreen: false,
-    bodyStyle: () => {
-      return {};
-    },
-    hideTitle: false,
-  }
-);
+import { YcModalProps } from './type';
+const props = withDefaults(defineProps<YcModalProps>(), {
+  visible: false,
+  width: 520,
+  top: 100,
+  mask: true,
+  title: '',
+  titleAlign: 'center',
+  alignCenter: true,
+  unmountOnClose: false,
+  maskClosable: true,
+  hideCancel: false,
+  closable: true,
+  okText: '确认',
+  cancelText: '取消',
+  okLoading: false,
+  okButtonProps: () => {
+    return {};
+  },
+  cancelButtonProps: () => {
+    return {};
+  },
+  footer: true,
+  renderToBody: true,
+  popupContainer: 'body',
+  maskStyle: () => {
+    return {};
+  },
+  modalStyle: () => {
+    return {};
+  },
+  escToClose: true,
+  draggable: false,
+  fullscreen: false,
+  bodyStyle: () => {
+    return {};
+  },
+  hideTitle: false,
+});
 const emits = defineEmits<{
   (e: 'update:visible', value: boolean): void;
   (e: 'ok'): void;

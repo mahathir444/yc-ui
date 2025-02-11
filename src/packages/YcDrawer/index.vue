@@ -49,10 +49,19 @@
             <!-- footer -->
             <slot name="footer">
               <div v-if="footer" class="yc-drawer-footer">
-                <YcButton v-if="!hideCancel" @click="handleClose('cancelBtn')">
+                <YcButton
+                  v-if="!hideCancel"
+                  v-bind="cancelButtonProps"
+                  @click="handleClose('cancelBtn')"
+                >
                   {{ cancelText }}
                 </YcButton>
-                <YcButton type="primary" @click="handleClose('confirmBtn')">
+                <YcButton
+                  type="primary"
+                  :loading="okLoading"
+                  v-bind="okButtonProps"
+                  @click="handleClose('confirmBtn')"
+                >
                   {{ okText }}
                 </YcButton>
               </div>
@@ -81,6 +90,7 @@ const props = withDefaults(defineProps<YcDrawerProps>(), {
   closable: true,
   okText: '确认',
   cancelText: '取消',
+  okLoading: false,
   okButtonProps: () => {
     return {};
   },
