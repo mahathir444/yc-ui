@@ -1,9 +1,9 @@
 <template>
   <div class="test">
     <!-- <a-drawer v-model:visible="visible"></a-drawer> -->
-    <YcDrawer v-model:visible="visible" title="这是一个测试">
+    <!-- <YcDrawer v-model:visible="visible" title="这是一个测试">
       这是一个测试drawer
-    </YcDrawer>
+    </YcDrawer> -->
 
     <!-- <a-button-group status="warning" type="dashed">
       <a-button>测试</a-button>
@@ -27,6 +27,13 @@
       </template>
     </a-button>
 
+    <YcModal v-model:visible="visible" />
+    <a-modal :visible="true" :mask="false" modal-class="csss">
+      <template #title>
+        <div class="test">aa</div>
+      </template>
+    </a-modal>
+
     <YcButton
       type="secondary"
       shape="round"
@@ -45,7 +52,8 @@ import { ref, reactive } from 'vue';
 import YcDrawer from '@/packages/YcDrawer/index.vue';
 import YcButton from '@/packages/YcButton/index.vue';
 import YcLink from '@/packages/YcLink/index.vue';
-const visible = ref<boolean>(false);
+import YcModal from '@/packages/YcModal/index.vue';
+const visible = ref<boolean>(true);
 </script>
 
 <style lang="less" scoped>
