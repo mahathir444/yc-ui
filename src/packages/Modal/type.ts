@@ -1,5 +1,5 @@
 import { CSSProperties } from 'vue';
-import { ButtonProps } from '@/packages/Button/interface';
+import { ButtonProps } from '@/packages/Button/type';
 
 // default-visible simple on-before-ok on-before-cancel
 export interface ModalProps {

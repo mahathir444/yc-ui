@@ -21,7 +21,7 @@
 
 <script lang="ts" setup>
 import { ref } from 'vue';
-import { ModalConfig } from '../interface';
+import { ModalConfig } from '../type';
 import YcModal from '../index.vue';
 withDefaults(defineProps<ModalConfig>(), {
   width: 520,

@@ -1,5 +1,5 @@
 import { CSSProperties } from 'vue';
-import { ButtonProps } from '@/packages/Button/interface';
+import { ButtonProps } from '@/packages/Button/type';
 type DrawerPlacement = 'right' | 'left' | 'top' | 'bottom';
 
 // default-visible on-before-ok on-before-cancel

@@ -75,7 +75,7 @@
 
 <script lang="ts" setup>
 import { toRefs, computed, ref, watch, CSSProperties } from 'vue';
-import { POSTION_MAP, BORDER_MAP } from './index.ts';
+import { DRAWER_POSTION_STYLE } from './index.ts';
 import { sleep } from '@/utils/fn';
 import { useMagicKeys, whenever } from '@vueuse/core';
 import { DrawerProps } from './type';
@@ -135,8 +135,7 @@ const closeType = ref<ComptCloseType>('');
 // drawer绝对定位的left,top
 const drawerCss = computed(() => {
   return {
-    ...POSTION_MAP[placement.value],
-    ...BORDER_MAP[placement.value],
+    ...DRAWER_POSTION_STYLE[placement.value],
     height:
       placement.value == 'left' || placement.value == 'right'
         ? '100%'

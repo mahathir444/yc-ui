@@ -1,4 +1,4 @@
-export const SIZE_MAP = {
+export const BUTTON_SIZE_MAP = {
   mini: 24,
   small: 28,
   medium: 32,

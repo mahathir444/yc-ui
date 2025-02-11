@@ -47,8 +47,8 @@
 
 <script lang="ts" setup>
 import { computed, toRefs } from 'vue';
-import { SIZE_MAP } from './index';
-import { ButtonProps } from './interface';
+import { BUTTON_SIZE_MAP } from './index';
+import { ButtonProps } from './type';
 const props = withDefaults(defineProps<ButtonProps>(), {
   type: 'secondary',
   status: 'normal',
@@ -66,9 +66,11 @@ const emits = defineEmits<{
 }>();
 const { size, disabled, loading } = toRefs(props);
 // 当前的size
-const sizeToPx = computed(() => SIZE_MAP[size.value] + 'px');
+const sizeToPx = computed(() => BUTTON_SIZE_MAP[size.value] + 'px');
 // shape为round的borderRadius
-const roundBorderRadius = computed(() => SIZE_MAP[size.value] / 2 + 'px');
+const roundBorderRadius = computed(
+  () => BUTTON_SIZE_MAP[size.value] / 2 + 'px'
+);
 // 拦截事件
 const handleEvent = (type: string, e: MouseEvent) => {
   if (disabled.value || loading.value) return;
