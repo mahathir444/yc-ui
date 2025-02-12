@@ -8,12 +8,26 @@
 
     <!-- <a-modal v-model:visible="visible" @cancel="console.log('关闭了')" /> -->
 
-    <YcButton type="secondary" @click="visible = true">
+    <YcButton
+      type="outline"
+      status="danger"
+      size="small"
+      disabled
+      @click="visible = true"
+    >
       <template #icon>
-        <svg-icon name="loading" />
+        <svg-icon name="drawerClose" />
       </template>
       测试按钮
     </YcButton>
+
+    <yc-link>
+      <template #icon>
+        <svg-icon name="drawerClose" />
+      </template>
+      测试按钮
+    </yc-link>
+
     <div>
       <a-input
         default-value="text"
@@ -35,7 +49,7 @@
     <div>
       <YcInput v-model="text">
         <template #prefix>
-          <IconApps />
+          <svg-icon name="drawerClose" />
         </template>
         <template #suffix>
           <IconPenFill />

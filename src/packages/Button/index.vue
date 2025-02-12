@@ -29,7 +29,7 @@
   >
     <span v-if="$slots.icon || loading" class="yc-button-icon">
       <slot v-if="!loading" name="icon"></slot>
-      <svg-icon v-else name="loading" :size="size == 'mini' ? 12 : 14" />
+      <svg-icon v-else name="loading" />
     </span>
     <slot></slot>
   </button>

@@ -39,7 +39,7 @@
                 class="yc-drawer-close-icon"
                 @click="handleClose('closeBtn')"
               >
-                <svg-icon name="drawerClose" size="12" color="rgb(29,33,41)" />
+                <svg-icon name="drawerClose" />
               </div>
             </div>
           </slot>

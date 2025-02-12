@@ -36,7 +36,7 @@
       class="yc-input-clear-button"
       @click="handleClear"
     >
-      <svg-icon name="drawerClose" size="12" color="rgb(29,33,41)" />
+      <svg-icon name="drawerClose" />
     </div>
     <!-- suffix-icon -->
     <div v-if="$slots.suffix" class="yc-input-suffix">
@@ -142,6 +142,8 @@ defineExpose({
     display: flex;
     justify-content: center;
     align-items: center;
+    color: rgb(78, 89, 105);
+    font-size: 14px;
 
     &.yc-input-prefix {
       padding-right: 12px;
@@ -154,8 +156,8 @@ defineExpose({
   .yc-input-clear-button {
     cursor: pointer;
     position: relative;
-    width: 12px;
-    height: 12px;
+    color: rgb(29, 33, 41);
+    font-size: 12px;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -248,26 +250,5 @@ defineExpose({
   padding: 6px 0;
   font-size: 14px;
   line-height: 1.5715;
-}
-</style>
-
-<style lang="less">
-.yc-input-wrapper {
-  .yc-input-prefix,
-  .yc-input-suffix {
-    svg {
-      width: 14px !important;
-      height: 14px !important;
-      color: rgb(78, 89, 105);
-    }
-  }
-  &.yc-input-disabled {
-    .yc-input-prefix,
-    .yc-input-suffix {
-      svg {
-        color: inherit !important;
-      }
-    }
-  }
 }
 </style>

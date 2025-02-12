@@ -2,5 +2,5 @@ export const STATUS_CLASS = {
   warning: 'yc-link-status-warning',
   success: 'yc-link-status-success',
   danger: 'yc-link-status-danger',
-  normal: '',
+  normal: 'yc-link-status-normal',
 };

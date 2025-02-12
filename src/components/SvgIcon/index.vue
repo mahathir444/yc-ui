@@ -1,13 +1,20 @@
 <template>
-  <svg aria-hidden="true" :class="['svg-icon', $attrs.class]">
+  <svg
+    aria-hidden="true"
+    :class="['svg-icon', $attrs.class]"
+    :style="{
+      color,
+      height,
+      width,
+    }"
+  >
     <use :xlink:href="symbolId" fill="currentColor" />
   </svg>
 </template>
 
 <script lang="ts" setup>
+import { toRefs, computed } from 'vue';
 import is from '@/utils/is';
-import { toRefs } from 'vue';
-import { computed } from 'vue';
 const props = withDefaults(
   defineProps<{
     name: string;
@@ -17,13 +24,17 @@ const props = withDefaults(
   }>(),
   {
     prefix: 'icon',
-    size: 16,
+    color: 'inherit',
   }
 );
-const symbolId = computed(() => `#${props.prefix}-${props.name}`);
-const { size, color } = toRefs(props);
+const { size, color, name, prefix } = toRefs(props);
+// 计算图标id
+const symbolId = computed(() => `#${prefix.value}-${name.value}`);
+// 计算width
 const width = computed(() => {
-  if (is.string(size.value)) {
+  if (is.undefined(size.value)) {
+    return '1em';
+  } else if (is.string(size.value)) {
     return `${size.value.replace('px', '')}px`;
   } else if (is.number(size.value)) {
     return `${size.value}px`;
@@ -31,8 +42,11 @@ const width = computed(() => {
     return size.value[0] + 'px';
   }
 });
+// 计算height
 const height = computed(() => {
-  if (is.string(size.value)) {
+  if (is.undefined(size.value)) {
+    return '1em';
+  } else if (is.string(size.value)) {
     return `${size.value.replace('px', '')}px`;
   } else if (is.number(size.value)) {
     return `${size.value}px`;
@@ -46,8 +60,5 @@ const height = computed(() => {
 .svg-icon {
   display: inline-block;
   overflow: hidden;
-  width: v-bind(width);
-  height: v-bind(height);
-  color: v-bind(color);
 }
 </style>
