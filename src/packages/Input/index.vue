@@ -49,7 +49,6 @@ import { ComptSize } from '@/type';
 import { SIZE_CLASS } from './index';
 import { SIZE_MAP } from '@/constants';
 import ClearButton from '@/components/CloseButton/index.vue';
-import
 const props = withDefaults(
   defineProps<{
     modelValue?: string;

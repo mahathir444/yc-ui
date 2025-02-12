@@ -2,13 +2,13 @@ module.exports = {
   env: {
     browser: true,
     es2021: true,
-    node: true
+    node: true,
   },
   extends: [
     'eslint:recommended',
     'plugin:vue/vue3-essential',
     'plugin:@typescript-eslint/recommended',
-    'plugin:prettier/recommended' // 解决ESlint和Prettier冲突
+    'plugin:prettier/recommended', // 解决ESlint和Prettier冲突
   ],
   overrides: [],
   // 配置解析vue文件
@@ -16,7 +16,7 @@ module.exports = {
   parserOptions: {
     ecmaVersion: 'latest',
     parser: '@typescript-eslint/parser',
-    sourceType: 'module'
+    sourceType: 'module',
   },
   plugins: ['vue', '@typescript-eslint'],
   // 添加规则
@@ -29,11 +29,19 @@ module.exports = {
       {
         extendDefaults: true,
         types: {
-          '{}': false
-        }
-      }
+          '{}': false,
+        },
+      },
     ],
     '@typescript-eslint/no-unused-vars': 'off',
-    'no-debugger': 'off'
-  }
-}
+    'no-debugger': 'off',
+    'vue/component-name-in-template-casing': [
+      'error',
+      'kebab-case',
+      {
+        registeredComponentsOnly: false, // 根据需要
+        ignores: [], // 可以列出要忽略的组件
+      },
+    ],
+  },
+};
