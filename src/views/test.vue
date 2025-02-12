@@ -1,6 +1,9 @@
 <template>
   <div class="test">
-    <!-- <yc-drawer v-model:visible="visible" title="这是一个测试">
+    <!-- <yc-drawer
+      v-model:visible="visible"
+      title="这是一个测试这是一个测试这是一个测试"
+    >
       这是一个测试drawer
     </yc-drawer> -->
 
@@ -8,11 +11,20 @@
       v-model:visible="visible"
       :mask-closable="false"
       draggable
-      title="谢谢"
-      title-align="start"
-    />
+      title="测试yc"
+    >
+      <div style="height: 2000px"></div>
+    </YcModal>
 
-    <!-- <a-modal v-model:visible="visible" @cancel="console.log('关闭了')" /> -->
+    <!-- <a-modal
+      v-model:visible="visible"
+      title="测试arco"
+      draggable
+      :mask-closable="false"
+      @cancel="console.log('关闭了')"
+    >
+      <div style="height: 2000px"></div>
+    </a-modal> -->
 
     <yc-button type="outline" status="warning" @click="visible = true">
       <template #icon>
@@ -25,7 +37,7 @@
       <template #icon>
         <svg-icon name="close" />
       </template>
-      测试按钮
+      测试link
     </yc-link>
 
     <div>
@@ -46,6 +58,7 @@
         <template #append> RMB </template>
       </a-input>
     </div>
+
     <div>
       <yc-input v-model="text">
         <template #prefix>

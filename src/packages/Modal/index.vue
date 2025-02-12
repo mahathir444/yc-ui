@@ -35,8 +35,10 @@
             v-show="visible"
             :class="[
               'yc-modal',
+              // 全屏
               fullscreen ? 'yc-modal-fullscreen' : '',
-              draggable ? 'yc-modal-draggable' : '',
+              // 拖拽
+              draggable && !fullscreen ? 'yc-modal-draggable' : '',
               modalClass,
             ]"
             :style="modalCss"
@@ -172,10 +174,11 @@ const closeType = ref<ComptCloseType>('');
 const headerRef = ref<HTMLDivElement>();
 // modalRef,用于获取宽高处理越界问题
 const modalRef = ref<HTMLDivElement>();
-// modal拖拽
+// modal
 const { dragStyle } = useModalDraggable({
   visible,
   draggable,
+  fullscreen,
   alignCenter,
   top,
   triggerRef: headerRef,
@@ -183,12 +186,13 @@ const { dragStyle } = useModalDraggable({
 });
 // modalCss
 const modalCss = computed(() => {
-  const baseCss: CSSProperties = draggable.value
-    ? dragStyle.value
-    : {
-        margin: '0 auto',
-        top: alignCenter.value ? 'unset' : top.value + 'px',
-      };
+  const baseCss: CSSProperties =
+    draggable.value && !fullscreen.value
+      ? dragStyle.value
+      : {
+          margin: '0 auto',
+          top: alignCenter.value ? 'unset' : top.value + 'px',
+        };
   return {
     width: fullscreen.value ? '100%' : width.value + 'px',
     ...baseCss,

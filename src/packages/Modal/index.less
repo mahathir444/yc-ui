@@ -1,7 +1,7 @@
 .yc-modal-container {
   position: fixed;
   inset: 0 0 0 0;
-  z-index: 1006;
+  z-index: 1001;
   .yc-modal-mask {
     position: absolute;
     left: 0;
@@ -25,6 +25,7 @@
       border-radius: 4px;
       background-color: #fff;
       line-height: 1.5715;
+      // 全屏
       &.yc-modal-fullscreen {
         height: 100%;
         display: flex;
@@ -33,37 +34,41 @@
           flex: 1;
         }
       }
+      // 推拽
       &.yc-modal-draggable {
         .yc-modal-header {
           cursor: move;
+          user-select: none;
         }
       }
+      .yc-modal-footer,
+      .yc-modal-body,
+      .yc-modal-header,
+      .yc-modal-title,
+      .yc-modal-close-button {
+        flex-shrink: 0;
+      }
       .yc-modal-header {
-        overflow: hidden;
         height: 48px;
         width: 100%;
         padding: 0 20px;
         border-bottom: 1px solid rgb(229, 230, 235);
         display: flex;
-        justify-content: space-between;
         align-items: center;
-        gap: 8px;
         .yc-modal-title {
-          flex-shrink: 0;
           flex: 1;
-          overflow: hidden;
           span {
             font-size: 16px;
             font-weight: 500;
             color: rgb(29, 33, 41);
           }
           &.title-align-center {
-            display: flex;
-            justify-content: center;
+            text-align: center;
           }
         }
-        // .yc-modal-close-button {
-        // }
+        .yc-modal-close-button {
+          margin-left: -12px;
+        }
       }
       .yc-modal-body {
         padding: 24px 20px;

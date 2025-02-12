@@ -23,40 +23,41 @@
     flex-direction: column;
     .yc-drawer-footer,
     .yc-drawer-body,
-    .yc-drawer-header {
+    .yc-drawer-header,
+    .yc-drawer-title,
+    .yc-drawer-close-button {
       flex-shrink: 0;
     }
     .yc-drawer-header {
-      padding: 0 16px;
       height: 48px;
       width: 100%;
+      padding: 0 16px;
       border-bottom: 1px solid rgb(229, 230, 235);
       display: flex;
-      justify-content: space-between;
       align-items: center;
-      gap: 8px;
-      overflow: hidden;
+
       .yc-drawer-title {
-        flex-shrink: 0;
         flex: 1;
-        overflow: hidden;
         span {
           font-size: 16px;
           font-weight: 500;
           color: rgb(29, 33, 41);
         }
       }
-      // .yc-drawer-close-button {
-      // }
+      .yc-drawer-close-button {
+        margin-left: -12px;
+      }
     }
     .yc-drawer-body {
-      padding: 12px 16px;
       flex: 1;
+      padding: 12px 16px;
+      color: rgb(29, 33, 41);
+      font-size: 14px;
     }
     .yc-drawer-footer {
-      padding: 0 16px;
       height: 64px;
       width: 100%;
+      padding: 0 16px;
       border-top: 1px solid rgb(229, 230, 235);
       display: flex;
       justify-content: flex-end;

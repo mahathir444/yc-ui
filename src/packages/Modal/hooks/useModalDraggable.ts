@@ -12,13 +12,22 @@ import { useDraggable } from '@vueuse/core';
 export default (config: {
   visible: Ref<boolean>;
   draggable: Ref<boolean>;
+  fullscreen: Ref<boolean>;
   alignCenter: Ref<boolean>;
   top: Ref<number>;
   triggerRef: Ref<HTMLDivElement | undefined>;
   modalRef: Ref<HTMLDivElement | undefined>;
 }) => {
   // 结构钢通用属性
-  const { visible, triggerRef, modalRef, draggable, alignCenter, top } = config;
+  const {
+    visible,
+    triggerRef,
+    modalRef,
+    draggable,
+    fullscreen,
+    alignCenter,
+    top,
+  } = config;
   //   拖拽
   const { x, y, isDragging } = useDraggable(triggerRef);
   // 拖拽样式
@@ -49,12 +58,14 @@ export default (config: {
   watch(
     () => visible.value,
     async (v) => {
-      if (!v || !draggable.value) return;
+      if (!v || !draggable.value || fullscreen.value) return;
       await sleep(0);
-      y.value = (window.innerHeight - modalRef.value!.offsetHeight) / 2;
-      x.value = alignCenter.value
-        ? (window.innerWidth - modalRef.value!.offsetWidth) / 2
-        : top.value;
+      const offsetX = (window.innerHeight - modalRef.value!.offsetHeight) / 2;
+      const offsetY = (window.innerWidth - modalRef.value!.offsetWidth) / 2;
+      const finalX = offsetX <= 0 ? 0 : offsetX;
+      const finalY = offsetY <= 0 ? 0 : offsetY;
+      y.value = finalX;
+      x.value = alignCenter.value ? finalY : top.value;
     },
     {
       immediate: true,
