@@ -73,7 +73,7 @@
 
 <script lang="ts" setup>
 import { toRefs, computed, ref, watch, CSSProperties } from 'vue';
-import { DRAWER_POSTION_STYLE } from './constatns';
+import { DRAWER_POSTION_STYLE } from './constants';
 import { sleep } from '@/utils/fn';
 import { useMagicKeys, whenever } from '@vueuse/core';
 import { DrawerProps } from './type';
@@ -179,6 +179,15 @@ const handleClose = (type: ComptCloseType) => {
     emits('update:visible', false);
   }
 };
+// 处理esc关闭
+const initHotKeys = () => {
+  const keys = useMagicKeys();
+  whenever(keys.escape, () => {
+    if (!escToClose.value) return;
+    handleClose('esc');
+  });
+};
+initHotKeys();
 // 检测抽屉的开关
 watch(
   () => visible.value,
@@ -195,16 +204,6 @@ watch(
     immediate: true,
   }
 );
-
-// 处理esc关闭
-const initHotKeys = () => {
-  const keys = useMagicKeys();
-  whenever(keys.escape, () => {
-    if (!escToClose.value) return;
-    handleClose('esc');
-  });
-};
-initHotKeys();
 </script>
 
 <style lang="less" scoped>

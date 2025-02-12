@@ -46,7 +46,7 @@
 <script lang="ts" setup>
 import { ref, computed, toRefs } from 'vue';
 import { ComptSize } from '@/type';
-import { SIZE_CLASS } from './index';
+import { SIZE_CLASS } from './constants';
 import { SIZE_MAP } from '@/constants';
 import ClearButton from '@/components/CloseButton/index.vue';
 const props = withDefaults(

@@ -1,7 +1,7 @@
 .yc-modal-container {
   position: fixed;
   inset: 0 0 0 0;
-  z-index: 1001;
+  z-index: 1006;
   .yc-modal-mask {
     position: absolute;
     left: 0;
@@ -31,6 +31,11 @@
         flex-direction: column;
         .yc-modal-body {
           flex: 1;
+        }
+      }
+      &.yc-modal-draggable {
+        .yc-modal-header {
+          cursor: move;
         }
       }
       .yc-modal-header {

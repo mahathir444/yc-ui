@@ -36,9 +36,11 @@
             :class="[
               'yc-modal',
               fullscreen ? 'yc-modal-fullscreen' : '',
+              draggable ? 'yc-modal-draggable' : '',
               modalClass,
             ]"
             :style="modalCss"
+            ref="modalRef"
             @click.stop="() => {}"
           >
             <!-- header -->
@@ -51,6 +53,7 @@
                   'text-ellipsis': true,
                   'title-align-center': titleAlign == 'center',
                 }"
+                ref="headerRef"
               >
                 <slot name="title">
                   <span>{{ title }}</span>
@@ -100,6 +103,7 @@ import { sleep } from '@/utils/fn';
 import { useMagicKeys, whenever } from '@vueuse/core';
 import { ComptCloseType } from '@/type';
 import { ModalProps } from './type';
+import useModalDraggable from './hooks/useModalDraggable';
 import YcButton from '@/packages/Button/index.vue';
 import CloseButton from '@/components/CloseButton/index.vue';
 const props = withDefaults(defineProps<ModalProps>(), {
@@ -158,23 +162,41 @@ const {
   escToClose,
   modalStyle,
   fullscreen,
+  draggable,
 } = toRefs(props);
 // drawer的可见性
 const modalVisible = ref<boolean>(false);
 // 关闭类型
 const closeType = ref<ComptCloseType>('');
+// headerRef,用于拖拽
+const headerRef = ref<HTMLDivElement>();
+// modalRef,用于获取宽高处理越界问题
+const modalRef = ref<HTMLDivElement>();
+// modal拖拽
+const { dragStyle } = useModalDraggable({
+  visible,
+  draggable,
+  alignCenter,
+  top,
+  triggerRef: headerRef,
+  modalRef,
+});
 // modalCss
 const modalCss = computed(() => {
+  const baseCss: CSSProperties = draggable.value
+    ? dragStyle.value
+    : {
+        margin: '0 auto',
+        top: alignCenter.value ? 'unset' : top.value + 'px',
+      };
   return {
     width: fullscreen.value ? '100%' : width.value + 'px',
-    margin: '0 auto',
-    top: alignCenter.value ? 'unset' : top.value + 'px',
+    ...baseCss,
     ...modalStyle.value,
   } as CSSProperties;
 });
 // 处理关闭
 const handleClose = (type: ComptCloseType) => {
-  console.log('函数触发了');
   closeType.value = type;
   // 关闭
   if (type == 'mask') {
@@ -190,6 +212,15 @@ const handleClose = (type: ComptCloseType) => {
     emits('cancel', closeType.value);
   }
 };
+// 处理esc关闭
+const initHotKeys = () => {
+  const keys = useMagicKeys();
+  whenever(keys.escape, () => {
+    if (!escToClose.value) return;
+    handleClose('esc');
+  });
+};
+initHotKeys();
 // 检测modal的开关处理对应的显影
 watch(
   () => visible.value,
@@ -206,16 +237,6 @@ watch(
     immediate: true,
   }
 );
-
-// 处理esc关闭
-const initHotKeys = () => {
-  const keys = useMagicKeys();
-  whenever(keys.escape, () => {
-    if (!escToClose.value) return;
-    handleClose('esc');
-  });
-};
-initHotKeys();
 </script>
 
 <style lang="less" scoped>

@@ -4,11 +4,11 @@
     :class="[
       'yc-link',
       // link是否hoverable
-      hoverable && !disabled && !loading ? 'yc-button-hoverable' : '',
+      hoverable && !disabled && !loading ? 'yc-link-hoverable' : '',
       // loading
-      loading ? 'yc-button-loading' : '',
+      loading ? 'yc-link-loading' : '',
       // disabled
-      disabled ? 'yc-button-disabled' : '',
+      disabled ? 'yc-link-disabled' : '',
       // status
       STATUS_CLASS[status],
     ]"

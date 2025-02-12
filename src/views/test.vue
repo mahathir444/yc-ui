@@ -1,27 +1,27 @@
 <template>
   <div class="test">
-    <yc-drawer v-model:visible="visible" title="这是一个测试">
+    <!-- <yc-drawer v-model:visible="visible" title="这是一个测试">
       这是一个测试drawer
-    </yc-drawer>
+    </yc-drawer> -->
 
-    <!-- <YcModal v-model:visible="visible" /> -->
+    <YcModal
+      v-model:visible="visible"
+      :mask-closable="false"
+      draggable
+      title="谢谢"
+      title-align="start"
+    />
 
     <!-- <a-modal v-model:visible="visible" @cancel="console.log('关闭了')" /> -->
 
-    <yc-button
-      type="outline"
-      status="danger"
-      size="small"
-      disabled
-      @click="visible = true"
-    >
+    <yc-button type="outline" status="warning" @click="visible = true">
       <template #icon>
         <svg-icon name="close" />
       </template>
       测试按钮
     </yc-button>
 
-    <yc-link>
+    <yc-link status="success" disabled>
       <template #icon>
         <svg-icon name="close" />
       </template>
@@ -66,7 +66,7 @@ import YcButton from '@/packages/Button';
 import YcLink from '@/packages/Link';
 import YcModal, { ModalService } from '@/packages/Modal';
 import YcInput from '@/packages/Input/index.vue';
-const visible = ref<boolean>(false);
+const visible = ref<boolean>(true);
 const text = ref<string>('');
 </script>
 
