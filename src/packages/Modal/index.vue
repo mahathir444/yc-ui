@@ -1,19 +1,19 @@
 <template>
-  <Teleport :to="popupContainer" :disabled="!renderToBody">
+  <teleport :to="popupContainer" :disabled="!renderToBody">
     <div
       v-if="!unmountOnClose || modalVisible"
       v-show="modalVisible"
       class="yc-modal-container"
     >
       <!-- mask -->
-      <Transition :name="maskAnimationName || 'fade'" appear>
+      <transition :name="maskAnimationName || 'fade'" appear>
         <div
           v-if="mask"
           v-show="visible"
           class="yc-modal-mask"
           :style="maskStyle"
         ></div>
-      </Transition>
+      </transition>
       <!-- modal-wrapper -->
       <div
         class="yc-modal-wrapper"
@@ -22,7 +22,7 @@
         }"
         @click="handleClose('mask')"
       >
-        <Transition
+        <transition
           :name="modalAnimationName || 'zoom-modal'"
           appear
           @before-enter="$emit('beforeOpen')"
@@ -57,7 +57,7 @@
                 </slot>
               </div>
               <!-- close-btn -->
-              <CloseButton
+              <close-button
                 v-if="closable"
                 class="yc-modal-close-button"
                 @click="handleClose('closeBtn')"
@@ -70,28 +70,28 @@
             <!-- footer -->
             <div v-if="footer" class="yc-modal-footer">
               <slot name="footer">
-                <YcButton
+                <yc-button
                   v-if="!hideCancel"
                   v-bind="cancelButtonProps"
                   @click="handleClose('cancelBtn')"
                 >
                   {{ cancelText }}
-                </YcButton>
-                <YcButton
+                </yc-button>
+                <yc-button
                   type="primary"
                   :loading="okLoading"
                   v-bind="okButtonProps"
                   @click="handleClose('confirmBtn')"
                 >
                   {{ okText }}
-                </YcButton>
+                </yc-button>
               </slot>
             </div>
           </div>
-        </Transition>
+        </transition>
       </div>
     </div>
-  </Teleport>
+  </teleport>
 </template>
 
 <script lang="ts" setup>

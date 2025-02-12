@@ -1,14 +1,14 @@
 <template>
   <div class="test">
-    <YcDrawer v-model:visible="visible" title="这是一个测试">
+    <yc-drawer v-model:visible="visible" title="这是一个测试">
       这是一个测试drawer
-    </YcDrawer>
+    </yc-drawer>
 
     <!-- <YcModal v-model:visible="visible" /> -->
 
     <!-- <a-modal v-model:visible="visible" @cancel="console.log('关闭了')" /> -->
 
-    <YcButton
+    <yc-button
       type="outline"
       status="danger"
       size="small"
@@ -19,7 +19,7 @@
         <svg-icon name="close" />
       </template>
       测试按钮
-    </YcButton>
+    </yc-button>
 
     <yc-link>
       <template #icon>
@@ -41,20 +41,20 @@
         </template>
         <template #prepend> +86 </template>
         <template #suffix>
-          <IconPenFill />
+          <icon-pen-fill />
         </template>
         <template #append> RMB </template>
       </a-input>
     </div>
     <div>
-      <YcInput v-model="text">
+      <yc-input v-model="text">
         <template #prefix>
           <svg-icon name="close" />
         </template>
         <template #suffix>
-          <IconPenFill />
+          <icon-pen-fill />
         </template>
-      </YcInput>
+      </yc-input>
     </div>
   </div>
 </template>

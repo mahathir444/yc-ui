@@ -1,21 +1,21 @@
 <template>
-  <Teleport :to="popupContainer" :disabled="!renderToBody">
+  <teleport :to="popupContainer" :disabled="!renderToBody">
     <div
       v-if="!unmountOnClose || drawerVisible"
       v-show="drawerVisible"
       class="yc-drawer-wrapper"
     >
       <!-- mask -->
-      <Transition name="fade" appear>
+      <transition name="fade" appear>
         <div
           v-if="mask"
           v-show="visible"
           class="yc-drawer-mask"
           @click="handleClose('mask')"
         ></div>
-      </Transition>
+      </transition>
       <!-- drawer -->
-      <Transition
+      <transition
         name="slide-drawer"
         appear
         @before-enter="$emit('beforeOpen')"
@@ -34,7 +34,7 @@
                 </slot>
               </div>
               <!-- close-btn -->
-              <CloseButton
+              <close-button
                 v-if="closable"
                 @click="handleClose('closeBtn')"
                 class="yc-drawer-close-button"
@@ -48,27 +48,27 @@
           <!-- footer -->
           <slot name="footer">
             <div v-if="footer" class="yc-drawer-footer">
-              <YcButton
+              <yc-button
                 v-if="!hideCancel"
                 v-bind="cancelButtonProps"
                 @click="handleClose('cancelBtn')"
               >
                 {{ cancelText }}
-              </YcButton>
-              <YcButton
+              </yc-button>
+              <yc-button
                 type="primary"
                 :loading="okLoading"
                 v-bind="okButtonProps"
                 @click="handleClose('confirmBtn')"
               >
                 {{ okText }}
-              </YcButton>
+              </yc-button>
             </div>
           </slot>
         </div>
-      </Transition>
+      </transition>
     </div>
-  </Teleport>
+  </teleport>
 </template>
 
 <script lang="ts" setup>

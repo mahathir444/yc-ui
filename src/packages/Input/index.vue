@@ -31,7 +31,7 @@
       @keydown.enter="(e) => emits('press-enter', e)"
     />
     <!-- clear-btn -->
-    <ClearButton
+    <clear-button
       v-if="allowClear && (modelValue.length || defaultValue.length)"
       class="yc-input-clear-button"
       @click="handleClear"
