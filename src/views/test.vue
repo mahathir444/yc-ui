@@ -16,14 +16,14 @@
       @click="visible = true"
     >
       <template #icon>
-        <svg-icon name="drawerClose" />
+        <svg-icon name="close" />
       </template>
       测试按钮
     </YcButton>
 
     <yc-link>
       <template #icon>
-        <svg-icon name="drawerClose" />
+        <svg-icon name="close" />
       </template>
       测试按钮
     </yc-link>
@@ -49,7 +49,7 @@
     <div>
       <YcInput v-model="text">
         <template #prefix>
-          <svg-icon name="drawerClose" />
+          <svg-icon name="close" />
         </template>
         <template #suffix>
           <IconPenFill />

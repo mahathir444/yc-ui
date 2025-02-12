@@ -28,19 +28,17 @@
           <slot name="header">
             <div v-if="header" class="yc-drawer-header">
               <!-- title -->
-              <div class="yc-drawer-header-title text-ellipsis">
+              <div class="yc-drawer-title text-ellipsis">
                 <slot name="title">
                   <span>{{ title }}</span>
                 </slot>
               </div>
               <!-- close-btn -->
-              <div
+              <CloseButton
                 v-if="closable"
-                class="yc-drawer-close-icon"
                 @click="handleClose('closeBtn')"
-              >
-                <svg-icon name="drawerClose" />
-              </div>
+                class="yc-drawer-close-button"
+              />
             </div>
           </slot>
           <!-- body -->
@@ -81,6 +79,7 @@ import { useMagicKeys, whenever } from '@vueuse/core';
 import { DrawerProps } from './type';
 import { ComptCloseType } from '@/type';
 import YcButton from '@/packages/Button/index.vue';
+import CloseButton from '@/components/CloseButton/index.vue';
 const props = withDefaults(defineProps<DrawerProps>(), {
   visible: false,
   placement: 'right',

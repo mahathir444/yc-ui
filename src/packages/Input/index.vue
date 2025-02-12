@@ -31,13 +31,11 @@
       @keydown.enter="(e) => emits('press-enter', e)"
     />
     <!-- clear-btn -->
-    <div
+    <ClearButton
       v-if="allowClear && (modelValue.length || defaultValue.length)"
       class="yc-input-clear-button"
       @click="handleClear"
-    >
-      <svg-icon name="drawerClose" />
-    </div>
+    />
     <!-- suffix-icon -->
     <div v-if="$slots.suffix" class="yc-input-suffix">
       <slot name="suffix" />
@@ -50,6 +48,8 @@ import { ref, computed, toRefs } from 'vue';
 import { ComptSize } from '@/type';
 import { SIZE_CLASS } from './index';
 import { SIZE_MAP } from '@/constants';
+import ClearButton from '@/components/CloseButton/index.vue';
+import
 const props = withDefaults(
   defineProps<{
     modelValue?: string;
@@ -150,36 +150,6 @@ defineExpose({
     }
     &.yc-input-suffix {
       padding-left: 12px;
-    }
-  }
-
-  .yc-input-clear-button {
-    cursor: pointer;
-    position: relative;
-    color: rgb(29, 33, 41);
-    font-size: 12px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    visibility: hidden;
-    &:hover::before {
-      display: block;
-    }
-    &::before {
-      content: '';
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      position: absolute;
-      width: 20px;
-      height: 20px;
-      background-color: rgb(242, 243, 245);
-      border-radius: 50%;
-      display: none;
-    }
-    .svg-icon {
-      position: relative;
-      z-index: 10;
     }
   }
 

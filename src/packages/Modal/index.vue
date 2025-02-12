@@ -43,6 +43,7 @@
           >
             <!-- header -->
             <div class="yc-modal-header">
+              <!-- title -->
               <div
                 v-if="!hideTitle"
                 :class="{
@@ -55,13 +56,12 @@
                   <span>{{ title }}</span>
                 </slot>
               </div>
-              <div
+              <!-- close-btn -->
+              <CloseButton
                 v-if="closable"
                 class="yc-modal-close-button"
                 @click="handleClose('closeBtn')"
-              >
-                <svg-icon name="drawerClose" />
-              </div>
+              />
             </div>
             <!-- body -->
             <div class="yc-modal-body" :class="bodyClass" :style="bodyStyle">
@@ -101,6 +101,7 @@ import { useMagicKeys, whenever } from '@vueuse/core';
 import { ComptCloseType } from '@/type';
 import { ModalProps } from './type';
 import YcButton from '@/packages/Button/index.vue';
+import CloseButton from '@/components/CloseButton/index.vue';
 const props = withDefaults(defineProps<ModalProps>(), {
   visible: false,
   width: 520,
