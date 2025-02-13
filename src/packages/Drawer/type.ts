@@ -5,6 +5,7 @@ type DrawerPlacement = 'right' | 'left' | 'top' | 'bottom';
 // default-visible on-before-ok on-before-cancel
 export interface DrawerProps {
   visible?: boolean;
+  defaultVisible?: boolean;
   placement?: DrawerPlacement;
   title?: string;
   mask?: boolean;

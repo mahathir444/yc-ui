@@ -1,9 +1,10 @@
 import { CSSProperties } from 'vue';
 import { ButtonProps } from '@/packages/Button/type';
 
-// default-visible simple on-before-ok on-before-cancel
+// simple on-before-ok on-before-cancel
 export interface ModalProps {
   visible?: boolean;
+  defaultVisible?: boolean;
   width?: number;
   top?: number;
   mask?: boolean;

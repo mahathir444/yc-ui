@@ -1,15 +1,15 @@
 <template>
   <teleport :to="popupContainer" :disabled="!renderToBody">
     <div
-      v-if="!unmountOnClose || drawerVisible"
-      v-show="drawerVisible"
+      v-if="!unmountOnClose || outerVisible"
+      v-show="outerVisible"
       class="yc-drawer-wrapper"
     >
       <!-- mask -->
       <transition name="fade" appear>
         <div
           v-if="mask"
-          v-show="visible"
+          v-show="innerVisible && controlVisible"
           class="yc-drawer-mask"
           @click="handleClose('mask')"
         ></div>
@@ -21,9 +21,13 @@
         @before-enter="$emit('beforeOpen')"
         @before-leave="$emit('beforeClose', closeType)"
         @after-enter="$emit('open')"
-        @after-leave="$emit('close', closeType)"
+        @after-leave="handleAfterLeave"
       >
-        <div v-show="visible" class="yc-drawer-container" :style="drawerCss">
+        <div
+          v-show="innerVisible && controlVisible"
+          class="yc-drawer-container"
+          :style="drawerCss"
+        >
           <!-- header -->
           <slot name="header">
             <div v-if="header" class="yc-drawer-header">
@@ -72,16 +76,16 @@
 </template>
 
 <script lang="ts" setup>
-import { toRefs, computed, ref, watch, CSSProperties } from 'vue';
+import { toRefs, computed, CSSProperties } from 'vue';
 import { DRAWER_POSTION_STYLE } from './constants';
-import { sleep } from '@/utils/fn';
-import { useMagicKeys, whenever } from '@vueuse/core';
 import { DrawerProps } from './type';
 import { ComptCloseType } from '@/type';
+import useCloseCompt from '@/hooks/useCloseCompt';
 import YcButton from '@/packages/Button/index.vue';
 import CloseButton from '@/components/CloseButton/index.vue';
 const props = withDefaults(defineProps<DrawerProps>(), {
-  visible: false,
+  visible: undefined,
+  defaultVisible: undefined,
   placement: 'right',
   title: '',
   mask: true,
@@ -119,18 +123,15 @@ const emits = defineEmits<{
   (e: 'close', type: ComptCloseType): void;
 }>();
 const {
+  visible,
+  defaultVisible,
   width,
   height,
   placement,
-  visible,
   maskClosable,
   escToClose,
   drawerStyle,
 } = toRefs(props);
-// drawer的可见性
-const drawerVisible = ref<boolean>(false);
-// 关闭类型
-const closeType = ref<ComptCloseType>('');
 // drawer绝对定位的left,top
 const drawerCss = computed(() => {
   return {
@@ -162,48 +163,20 @@ const enterTo = computed(() => {
     ? 'translateX(0)'
     : 'translateY(0)';
 });
-// 处理关闭
-const handleClose = (type: ComptCloseType) => {
-  closeType.value = type;
-  // 触发事件
-  if (type == 'confirmBtn') {
-    emits('ok');
-  } else {
-    emits('cancel', closeType.value);
-  }
-  // 关闭
-  if (type == 'mask') {
-    if (!maskClosable.value) return;
-    emits('update:visible', false);
-  } else {
-    emits('update:visible', false);
-  }
-};
-// 处理esc关闭
-const initHotKeys = () => {
-  const keys = useMagicKeys();
-  whenever(keys.escape, () => {
-    if (!escToClose.value) return;
-    handleClose('esc');
-  });
-};
-initHotKeys();
-// 检测抽屉的开关
-watch(
-  () => visible.value,
-  async (v) => {
-    if (v) {
-      closeType.value = '';
-      drawerVisible.value = v;
-    } else {
-      await sleep(300);
-      drawerVisible.value = v;
-    }
-  },
-  {
-    immediate: true,
-  }
-);
+// 处理组件关闭开启
+const {
+  outerVisible,
+  innerVisible,
+  controlVisible,
+  closeType,
+  handleClose,
+  handleAfterLeave,
+} = useCloseCompt(emits, {
+  visible,
+  defaultVisible,
+  escToClose,
+  maskClosable,
+});
 </script>
 
 <style lang="less" scoped>

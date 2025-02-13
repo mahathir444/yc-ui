@@ -1,22 +1,22 @@
 <template>
   <div class="test">
-    <!-- <yc-drawer
-      v-model:visible="visible"
+    <yc-drawer
+      :default-visible="true"
       title="这是一个测试这是一个测试这是一个测试"
     >
       这是一个测试drawer
-    </yc-drawer> -->
-
-    <!-- <yc-modal
+    </yc-drawer>
+    <!-- 
+    <yc-modal
       v-model:visible="visible"
       draggable
       :mask-closable="false"
       title="测试yc"
     >
     </yc-modal> -->
-    <!-- 
-    <a-modal
-      v-model:visible="visible"
+
+    <!-- <a-modal
+      :visible="true"
       title="测试arco"
       draggable
       :mask-closable="false"
@@ -32,17 +32,10 @@
       测试按钮
     </yc-button>
 
-    <yc-link status="success" disabled>
-      <template #icon>
-        <svg-icon name="close" />
-      </template>
-      测试link
-    </yc-link>
-
     <div>
       <a-input
-        default-value="text"
-        size="mini"
+        v-model="text"
+        default-value="123123"
         allow-clear
         :max-length="10"
         :word-length="calcLength"
@@ -61,17 +54,19 @@
 
     <div>
       <yc-input
-        v-model="text"
+        v-model="text1"
         :max-length="10"
         :word-length="calcLength"
         show-word-limit
       >
         <template #prefix>
-          <svg-icon name="close" />
+          <svg-icon name="loading" />
         </template>
+        <template #prepend> +86 </template>
         <template #suffix>
           <icon-pen-fill />
         </template>
+        <template #append> RMB </template>
       </yc-input>
     </div>
   </div>
@@ -85,11 +80,11 @@ import YcLink from '@/packages/Link';
 import YcModal, { ModalService } from '@/packages/Modal';
 import YcInput from '@/packages/Input/index.vue';
 import { Modal as ArcoModal } from '@arco-design/web-vue';
-const visible = ref<boolean>(true);
+const visible = ref<boolean>(false);
 const text = ref<string>('');
+const text1 = ref<string>('');
 
 const calcLength = (value: string) => {
-  console.log(value);
   return value.length - 2;
 };
 </script>
@@ -102,6 +97,5 @@ const calcLength = (value: string) => {
   justify-content: center;
   align-items: center;
   gap: 5px;
-  background-color: #000;
 }
 </style>

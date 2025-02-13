@@ -1,0 +1,114 @@
+.yc-input-wrapper {
+  cursor: text;
+  padding: 0 12px;
+  background-color: rgb(242, 243, 245);
+  border: 1px solid transparent;
+  border-radius: 2px;
+  transition:
+    color 0.1s cubic-bezier(0, 0, 1, 1),
+    border-color 0.1s cubic-bezier(0, 0, 1, 1),
+    background-color 0.1s cubic-bezier(0, 0, 1, 1);
+  color: rgb(29, 33, 41);
+  display: flex;
+  align-items: center;
+  &:focus-within {
+    background-color: #fff !important;
+    border-color: rgb(22, 93, 255) !important;
+    box-shadow: 0 0 0 0 rgb(190, 218, 255);
+  }
+  .yc-input-prefix,
+  .yc-input-suffix {
+    flex-shrink: 0;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: rgb(78, 89, 105);
+    font-size: 14px;
+
+    .yc-input-word-limit {
+      color: rgb(134, 144, 156);
+      font-size: 12px;
+    }
+
+    &.yc-input-prefix {
+      padding-right: 12px;
+    }
+    &.yc-input-suffix {
+      padding-left: 12px;
+    }
+  }
+  .yc-input-clear-button {
+    visibility: hidden;
+  }
+  .yc-input {
+    flex: 1;
+    cursor: inherit;
+    outline: none;
+    border: none;
+    border-radius: 0;
+    background-color: transparent;
+    color: inherit;
+    font-weight: 400;
+    &::placeholder {
+      color: rgb(134, 144, 156);
+    }
+  }
+}
+// hoverable
+.yc-input-hoverable {
+  &:hover {
+    border-color: transparent;
+    background-color: rgb(229, 230, 235);
+  }
+  &:hover .yc-input-clear-button {
+    visibility: visible;
+  }
+  &.yc-input-error {
+    &:hover {
+      border-color: transparent;
+      background-color: rgb(253, 205, 197);
+    }
+  }
+}
+// disabled
+.yc-input-disabled {
+  background-color: rgb(242, 243, 245);
+  border-color: transparent;
+  cursor: not-allowed;
+  color: rgb(201, 205, 212);
+  .yc-input-prefix,
+  .yc-input-suffix {
+    color: inherit;
+  }
+}
+// error
+.yc-input-error {
+  background-color: rgb(255, 236, 232);
+  &:focus-within {
+    border-color: rgb(245, 63, 63) !important;
+    box-shadow: 0 0 0 0 rgb(253, 205, 197);
+  }
+}
+//size
+.yc-input-size-mini {
+  font-size: 12px;
+  padding: 1px 0;
+  font-size: 12px;
+  line-height: 1.667;
+}
+.yc-input-size-small {
+  padding: 2px 0;
+  font-size: 14px;
+  line-height: 1.5715;
+}
+.yc-input-size-medium {
+  padding: 4px 0;
+  font-size: 14px;
+  line-height: 1.5715;
+}
+.yc-input-size-large {
+  padding: 6px 0;
+  font-size: 14px;
+  line-height: 1.5715;
+}
