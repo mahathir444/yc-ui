@@ -102,5 +102,6 @@ const calcLength = (value: string) => {
   justify-content: center;
   align-items: center;
   gap: 5px;
+  background-color: #000;
 }
 </style>

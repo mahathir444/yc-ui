@@ -1,7 +1,7 @@
 import { createApp } from 'vue';
 import App from './App.vue';
 import router from './router';
-import '@/assets/styles/base.less';
+import '@/assets/styles/reset.less';
 import '@/assets/styles/global.less';
 import '@/assets/styles/translation.less';
 import 'virtual:svg-icons-register';
