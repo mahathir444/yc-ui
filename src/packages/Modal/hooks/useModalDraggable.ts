@@ -1,4 +1,5 @@
 import {
+  ref,
   Ref,
   computed,
   CSSProperties,
@@ -28,19 +29,28 @@ export default (config: {
     alignCenter,
     top,
   } = config;
+  // 用于计算初始modal位置
+  const originX = ref<number>(0);
+  const originY = ref<number>(0);
   //   拖拽
   const { x, y, isDragging } = useDraggable(triggerRef);
+  // 是否可拖拽
+  const isDraggable = computed(() => draggable.value && !fullscreen.value);
   // 拖拽样式
-  const dragStyle = computed(() => {
-    return {
-      position: 'absolute',
-      left: x.value + 'px',
-      top: y.value + 'px',
-    } as CSSProperties;
+  const dragStyle = computed<CSSProperties>(() => {
+    return isDraggable.value &&
+      (x.value != originX.value || y.value != originY.value)
+      ? {
+          transform: `translate(${x.value}px,${y.value}px)`,
+        }
+      : {
+          left: `${originX.value}px`,
+          top: `${originY.value}px`,
+        };
   });
   // 处理越界问题
   const handleOutOfBound = () => {
-    if (!isDragging.value) return;
+    if (!isDragging.value || !isDraggable.value) return;
     const maxX = window.innerWidth - modalRef.value!.offsetWidth;
     const maxY = window.innerHeight - modalRef.value!.offsetHeight;
     x.value = x.value >= maxX ? maxX : x.value;
@@ -58,20 +68,24 @@ export default (config: {
   watch(
     () => visible.value,
     async (v) => {
-      if (!v || !draggable.value || fullscreen.value) return;
+      if (!v) return;
       await sleep(0);
-      const offsetX = (window.innerHeight - modalRef.value!.offsetHeight) / 2;
-      const offsetY = (window.innerWidth - modalRef.value!.offsetWidth) / 2;
+      const offsetX = (window.innerWidth - modalRef.value!.offsetWidth) / 2;
+      const offsetY = (window.innerHeight - modalRef.value!.offsetHeight) / 2;
       const finalX = offsetX <= 0 ? 0 : offsetX;
       const finalY = offsetY <= 0 ? 0 : offsetY;
-      y.value = finalX;
-      x.value = alignCenter.value ? finalY : top.value;
+      originX.value = finalX;
+      originY.value = alignCenter.value ? finalY : top.value;
+      x.value = originX.value;
+      y.value = originY.value;
     },
     {
       immediate: true,
     }
   );
+
   return {
     dragStyle,
+    isDraggable,
   };
 };

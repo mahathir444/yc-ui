@@ -15,13 +15,7 @@
         ></div>
       </transition>
       <!-- modal-wrapper -->
-      <div
-        class="yc-modal-wrapper"
-        :class="{
-          'yc-modal-wrapper-align-center': alignCenter,
-        }"
-        @click="handleClose('mask')"
-      >
+      <div class="yc-modal-wrapper" @click="handleClose('mask')">
         <transition
           :name="modalAnimationName || 'zoom-modal'"
           appear
@@ -38,7 +32,8 @@
               // 全屏
               fullscreen ? 'yc-modal-fullscreen' : '',
               // 拖拽
-              draggable && !fullscreen ? 'yc-modal-draggable' : '',
+              isDraggable ? 'yc-modal-draggable' : '',
+              // 外被类名
               modalClass,
             ]"
             :style="modalCss"
@@ -175,7 +170,7 @@ const headerRef = ref<HTMLDivElement>();
 // modalRef,用于获取宽高处理越界问题
 const modalRef = ref<HTMLDivElement>();
 // modal
-const { dragStyle } = useModalDraggable({
+const { dragStyle, isDraggable } = useModalDraggable({
   visible,
   draggable,
   fullscreen,
@@ -186,16 +181,9 @@ const { dragStyle } = useModalDraggable({
 });
 // modalCss
 const modalCss = computed(() => {
-  const baseCss: CSSProperties =
-    draggable.value && !fullscreen.value
-      ? dragStyle.value
-      : {
-          margin: '0 auto',
-          top: alignCenter.value ? 'unset' : top.value + 'px',
-        };
   return {
     width: fullscreen.value ? '100%' : width.value + 'px',
-    ...baseCss,
+    ...dragStyle.value,
     ...modalStyle.value,
   } as CSSProperties;
 });

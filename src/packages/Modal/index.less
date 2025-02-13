@@ -15,21 +15,16 @@
     inset: 0 0 0 0;
     overflow: auto;
 
-    &.yc-modal-wrapper-align-center {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-    }
     .yc-modal {
-      position: relative;
+      position: absolute;
       border-radius: 4px;
       background-color: #fff;
       line-height: 1.5715;
+      display: flex;
+      flex-direction: column;
       // 全屏
       &.yc-modal-fullscreen {
         height: 100%;
-        display: flex;
-        flex-direction: column;
         .yc-modal-body {
           flex: 1;
         }

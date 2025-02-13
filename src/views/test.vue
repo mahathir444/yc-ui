@@ -7,23 +7,22 @@
       这是一个测试drawer
     </yc-drawer> -->
 
-    <YcModal
+    <yc-modal
       v-model:visible="visible"
-      :mask-closable="false"
       draggable
+      :mask-closable="false"
       title="测试yc"
     >
-      <div style="height: 2000px"></div>
-    </YcModal>
+    </yc-modal>
 
     <!-- <a-modal
       v-model:visible="visible"
       title="测试arco"
-      draggable
+      simple
       :mask-closable="false"
       @cancel="console.log('关闭了')"
     >
-      <div style="height: 2000px"></div>
+      <div>sdadsa</div>
     </a-modal> -->
 
     <yc-button type="outline" status="warning" @click="visible = true">
