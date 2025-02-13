@@ -33,7 +33,16 @@ export default (config: {
   const originX = ref<number>(0);
   const originY = ref<number>(0);
   //   拖拽
-  const { x, y, isDragging } = useDraggable(triggerRef);
+  const { x, y, isDragging, style } = useDraggable(triggerRef);
+  watch(
+    style,
+    () => {
+      console.log(style.value);
+    },
+    {
+      deep: true,
+    }
+  );
   // 是否可拖拽
   const isDraggable = computed(() => draggable.value && !fullscreen.value);
   // 拖拽样式

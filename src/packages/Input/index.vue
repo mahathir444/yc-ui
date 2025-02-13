@@ -21,6 +21,7 @@
       :class="['yc-input', SIZE_CLASS[size]]"
       :disabled="disabled"
       :readonly="readonly"
+      :maxlength="wordMaxLength"
       :placeholder="placeholder"
       v-bind="inputAttrs"
       ref="inputRef"
@@ -32,12 +33,17 @@
     />
     <!-- clear-btn -->
     <clear-button
-      v-if="allowClear && (modelValue.length || defaultValue.length)"
+      v-if="showClearBtn"
       class="yc-input-clear-button"
       @click="handleClear"
     />
     <!-- suffix-icon -->
-    <div v-if="$slots.suffix" class="yc-input-suffix">
+    <div v-if="$slots.suffix || showLimit" class="yc-input-suffix">
+      <span v-if="showLimit" class="yc-input-word-limit">
+        {{ modelValue.length }}
+        /
+        {{ maxLength }}
+      </span>
       <slot name="suffix" />
     </div>
   </div>
@@ -48,7 +54,9 @@ import { ref, computed, toRefs } from 'vue';
 import { ComptSize } from '@/type';
 import { SIZE_CLASS } from './constants';
 import { SIZE_MAP } from '@/constants';
+import { isUndefined } from '@/utils/is';
 import ClearButton from '@/components/CloseButton/index.vue';
+// wordSlice?: (value: string, maxLength: number) => string;
 const props = withDefaults(
   defineProps<{
     modelValue?: string;
@@ -59,6 +67,9 @@ const props = withDefaults(
     readonly?: boolean;
     error?: boolean;
     placeholder?: string;
+    maxLength?: number;
+    wordLength?: (value: string) => number;
+    showWordLimit?: boolean;
     inputAttrs?: Record<string, any>;
   }>(),
   {
@@ -68,7 +79,9 @@ const props = withDefaults(
     allowClear: true,
     disabled: false,
     readonly: false,
-    error: true,
+    error: false,
+    showWordLimit: false,
+    maxLength: 10,
     placeholder: '',
   }
 );
@@ -81,11 +94,44 @@ const emits = defineEmits<{
   (e: 'focus', ev: FocusEvent): void;
   (e: 'blur', ev: FocusEvent): void;
 }>();
-const { size } = toRefs(props);
+const {
+  size,
+  showWordLimit,
+  maxLength,
+  allowClear,
+  modelValue,
+  defaultValue,
+  disabled,
+  readonly,
+} = toRefs(props);
+const { wordLength } = props;
 // 输入实例
 const inputRef = ref<HTMLInputElement>();
 // size到px
 const sizeToPx = computed(() => SIZE_MAP[size.value] + 'px');
+// 是否展示字数限制
+const showLimit = computed(
+  () => showWordLimit.value && !isUndefined(maxLength.value)
+);
+// 是否展示清除按钮
+const showClearBtn = computed(
+  () =>
+    allowClear &&
+    !disabled.value &&
+    !readonly.value &&
+    (modelValue.value.length || defaultValue.value.length)
+);
+// 最大长度
+const wordMaxLength = computed(() => {
+  if (isUndefined(maxLength.value)) {
+    return maxLength.value;
+  }
+  if (wordLength) {
+    return wordLength(new Array(maxLength.value).fill('1').join(''));
+  }
+  return maxLength.value;
+});
+
 // 处理输入
 const handleInput = (e: Event) => {
   const { value } = e.target as HTMLInputElement;
@@ -144,12 +190,21 @@ defineExpose({
     color: rgb(78, 89, 105);
     font-size: 14px;
 
+    .yc-input-word-limit {
+      color: rgb(134, 144, 156);
+      font-size: 12px;
+    }
+
     &.yc-input-prefix {
       padding-right: 12px;
     }
     &.yc-input-suffix {
       padding-left: 12px;
     }
+  }
+
+  .yc-input-clear-button {
+    visibility: hidden;
   }
 
   .yc-input {

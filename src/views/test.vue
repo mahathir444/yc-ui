@@ -7,25 +7,25 @@
       这是一个测试drawer
     </yc-drawer> -->
 
-    <yc-modal
+    <!-- <yc-modal
       v-model:visible="visible"
       draggable
       :mask-closable="false"
       title="测试yc"
     >
-    </yc-modal>
-
-    <!-- <a-modal
+    </yc-modal> -->
+    <!-- 
+    <a-modal
       v-model:visible="visible"
       title="测试arco"
-      simple
+      draggable
       :mask-closable="false"
       @cancel="console.log('关闭了')"
     >
       <div>sdadsa</div>
     </a-modal> -->
 
-    <yc-button type="outline" status="warning" @click="visible = true">
+    <yc-button type="primary" @click="visible = true">
       <template #icon>
         <svg-icon name="close" />
       </template>
@@ -44,8 +44,9 @@
         default-value="text"
         size="mini"
         allow-clear
+        :max-length="10"
+        :word-length="calcLength"
         show-word-limit
-        error
       >
         <template #prefix>
           <svg-icon name="loading" />
@@ -59,7 +60,12 @@
     </div>
 
     <div>
-      <yc-input v-model="text">
+      <yc-input
+        v-model="text"
+        :max-length="10"
+        :word-length="calcLength"
+        show-word-limit
+      >
         <template #prefix>
           <svg-icon name="close" />
         </template>
@@ -78,8 +84,14 @@ import YcButton from '@/packages/Button';
 import YcLink from '@/packages/Link';
 import YcModal, { ModalService } from '@/packages/Modal';
 import YcInput from '@/packages/Input/index.vue';
+import { Modal as ArcoModal } from '@arco-design/web-vue';
 const visible = ref<boolean>(true);
 const text = ref<string>('');
+
+const calcLength = (value: string) => {
+  console.log(value);
+  return value.length - 2;
+};
 </script>
 
 <style lang="less" scoped>
