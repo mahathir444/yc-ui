@@ -7,8 +7,10 @@ export {}
 /* prettier-ignore */
 declare module 'vue' {
   export interface GlobalComponents {
+    AButton: typeof import('@arco-design/web-vue')['Button']
     AInput: typeof import('@arco-design/web-vue')['Input']
     AModal: typeof import('@arco-design/web-vue')['Modal']
+    ATag: typeof import('@arco-design/web-vue')['Tag']
     CloseButton: typeof import('./src/components/CloseButton/index.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']

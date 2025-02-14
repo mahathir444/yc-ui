@@ -66,20 +66,24 @@
         <template #suffix>
           <icon-pen-fill />
         </template>
-        <template #append> RMB </template>
+        <template #append>
+          <yc-button type="outline">测试</yc-button>
+          <yc-button type="outline" status="warning">测试</yc-button>
+        </template>
       </yc-input>
     </div>
   </div>
 </template>
 
 <script lang="ts" setup>
-import { ref, reactive } from 'vue';
+import { ref, toRefs } from 'vue';
 import YcDrawer from '@/packages/Drawer';
 import YcButton from '@/packages/Button';
 import YcLink from '@/packages/Link';
 import YcModal, { ModalService } from '@/packages/Modal';
 import YcInput from '@/packages/Input/index.vue';
 import { Modal as ArcoModal } from '@arco-design/web-vue';
+
 const visible = ref<boolean>(false);
 const text = ref<string>('');
 const text1 = ref<string>('');
@@ -97,5 +101,6 @@ const calcLength = (value: string) => {
   justify-content: center;
   align-items: center;
   gap: 5px;
+  font-size: 20px;
 }
 </style>

@@ -1,13 +1,5 @@
 <template>
-  <svg
-    aria-hidden="true"
-    :class="['svg-icon', $attrs.class]"
-    :style="{
-      color,
-      height,
-      width,
-    }"
-  >
+  <svg aria-hidden="true" :class="['svg-icon', $attrs.class]">
     <use :xlink:href="symbolId" fill="currentColor" />
   </svg>
 </template>
@@ -24,7 +16,6 @@ const props = withDefaults(
   }>(),
   {
     prefix: 'icon',
-    color: 'inherit',
   }
 );
 const { size, color, name, prefix } = toRefs(props);
@@ -60,5 +51,8 @@ const height = computed(() => {
 .svg-icon {
   display: inline-block;
   overflow: hidden;
+  color: v-bind(color);
+  width: v-bind(width);
+  height: v-bind(height);
 }
 </style>

@@ -55,7 +55,7 @@
 </template>
 
 <script lang="ts" setup>
-import { ref } from 'vue';
+import { ref, useSlots } from 'vue';
 import { InputProps } from './type';
 import { OUTER_SIZE_CLASS } from './constants';
 import BaseInput from './component/BaseInput/index.vue';
@@ -96,6 +96,7 @@ const handleClear = (e: MouseEvent) => {
   emits('clear', e);
   emits('update:modelValue', '');
 };
+
 defineExpose({
   focus() {
     baseInputRef.value?.focus();
