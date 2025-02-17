@@ -9,7 +9,7 @@
       <transition name="fade" appear>
         <div
           v-if="mask"
-          v-show="innerVisible && controlVisible"
+          v-show="innerVisible"
           class="yc-drawer-mask"
           @click="handleClose('mask')"
         ></div>
@@ -24,7 +24,7 @@
         @after-leave="handleAfterLeave"
       >
         <div
-          v-show="innerVisible && controlVisible"
+          v-show="innerVisible"
           class="yc-drawer-container"
           :style="drawerCss"
         >
@@ -86,7 +86,7 @@ import YcButton from '@/packages/Button/index.vue';
 import YcIconButton from '@/components/IconButton/index.vue';
 const props = withDefaults(defineProps<DrawerProps>(), {
   visible: undefined,
-  defaultVisible: undefined,
+  defaultVisible: false,
   placement: 'right',
   title: '',
   mask: true,
@@ -165,19 +165,13 @@ const enterTo = computed(() => {
     : 'translateY(0)';
 });
 // 处理组件关闭开启
-const {
-  outerVisible,
-  innerVisible,
-  controlVisible,
-  closeType,
-  handleClose,
-  handleAfterLeave,
-} = useCloseCompt(emits, {
-  visible,
-  defaultVisible,
-  escToClose,
-  maskClosable,
-});
+const { outerVisible, innerVisible, closeType, handleClose, handleAfterLeave } =
+  useCloseCompt(emits, {
+    visible,
+    defaultVisible,
+    escToClose,
+    maskClosable,
+  });
 </script>
 
 <style lang="less" scoped>

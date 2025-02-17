@@ -1,6 +1,6 @@
 import { ComptSize } from '@/type';
 import { ButtonProps } from '../Button/type';
-// wordSlice
+// wordSlice,wordLength
 export interface InputProps {
   modelValue?: string;
   defaultValue?: string;
@@ -11,7 +11,6 @@ export interface InputProps {
   error?: boolean;
   placeholder?: string;
   maxLength?: number;
-  wordLength?: (value: string) => number;
   showWordLimit?: boolean;
   inputAttrs?: Record<string, any>;
   type?: 'password' | 'text';

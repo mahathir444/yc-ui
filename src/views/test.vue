@@ -1,11 +1,11 @@
 <template>
   <div class="test">
-    <!-- <yc-drawer
-      :default-visible="true"
+    <yc-drawer
+      v-model:visible="visible"
       title="这是一个测试这是一个测试这是一个测试"
     >
       这是一个测试drawer
-    </yc-drawer> -->
+    </yc-drawer>
     <!-- 
     <yc-modal
       v-model:visible="visible"
@@ -16,7 +16,7 @@
     </yc-modal> -->
 
     <!-- <a-modal
-      :visible="true"
+      v-model:visible="visible"
       title="测试arco"
       draggable
       :mask-closable="false"
@@ -34,36 +34,6 @@
 
     <div>
       <span>arco</span>
-      <a-input-password allow-clear>
-        <template #prefix>
-          <icon-desktop />
-        </template>
-        <template #prepend> +86 </template>
-        <template #suffix>
-          <icon-pen-fill />
-        </template>
-        <template #append> RMB </template>
-      </a-input-password>
-    </div>
-
-    <div>
-      <span>yc</span>
-      <yc-input-password model-value="123">
-        <yc-input-search>
-          <template #prefix>
-            <icon-desktop />
-          </template>
-          <template #prepend> +86 </template>
-          <template #suffix>
-            <icon-pen-fill />
-          </template>
-          <template #append> RMB </template>
-        </yc-input-search>
-      </yc-input-password>
-    </div>
-
-    <div>
-      <span>arco</span>
       <a-input-search @search="(v) => console.log(v)">
         <template #prefix>
           <svg-icon name="loading" />
@@ -78,7 +48,11 @@
 
     <div>
       <span>yc</span>
-      <yc-input-search default-value="123123" @search="(v) => console.log(v)">
+      <yc-input-search
+        default-value="123123"
+        search-button
+        @search="(v: string) => console.log(v)"
+      >
         <template #prefix>
           <icon-desktop />
         </template>
@@ -92,14 +66,7 @@
     <!--  -->
     <div>
       <span>arco</span>
-      <a-input
-        allow-clear
-        error
-        v-model="text"
-        default-value="123123"
-        :word-length="calcLength"
-        show-word-limit
-      >
+      <a-input :default-value="text" show-word-limit>
         <template #prefix>
           <svg-icon name="loading" />
         </template>
@@ -113,12 +80,7 @@
 
     <div>
       <span>yc</span>
-      <yc-input
-        v-model="text1"
-        :max-length="10"
-        :word-length="calcLength"
-        show-word-limit
-      >
+      <yc-input :max-length="10" show-word-limit>
         <template #prefix>
           <svg-icon name="loading" />
         </template>
@@ -133,7 +95,7 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, toRefs } from 'vue';
+import { ref, watch } from 'vue';
 import YcDrawer from '@/packages/Drawer';
 import YcButton from '@/packages/Button';
 import YcLink from '@/packages/Link';
@@ -149,13 +111,13 @@ const text = ref<string>('');
 const text1 = ref<string>('');
 const text2 = ref<string>('');
 
-const calcLength = (value: string) => {
-  return value.length - 2;
-};
-
+watch(
+  () => text1.value,
+  () => {
+    console.log(text1.value, 'text1');
+  }
+);
 const handleClick = () => {
-  console.log('12312');
-
   visible.value = true;
 };
 </script>

@@ -1,7 +1,7 @@
 <template>
   <yc-input
     v-bind="props"
-    :type="computedVisibility || controlVisibility ? 'text' : 'password'"
+    :type="computedVisibility ? 'text' : 'password'"
     class="yc-input-password"
     ref="inputBaseRef"
     @input="handleInput"
@@ -30,11 +30,9 @@
     <!-- extra -->
     <template v-if="invisibleButton" #extra>
       <yc-icon-button
-        :name="
-          computedVisibility || controlVisibility ? 'eye-open' : 'eye-close'
-        "
+        :name="computedVisibility ? 'eye-open' : 'eye-close'"
         size="14"
-        @click="handleVisibility"
+        @click="computedVisibility = !computedVisibility"
       />
     </template>
   </yc-input>
@@ -48,7 +46,7 @@ import YcInput from './InputBase.vue';
 import YcIconButton from '@/components/IconButton/index.vue';
 const props = withDefaults(defineProps<InputPassword>(), {
   modelValue: undefined,
-  defaultValue: undefined,
+  defaultValue: '',
   size: 'medium',
   allowClear: false,
   disabled: false,
@@ -72,26 +70,26 @@ const emits = defineEmits<{
   (e: 'visibilityChange', value: boolean): void;
 }>();
 const { defaultVisibility, visibility } = toRefs(props);
+// 非受控的vis
+const controlVisibility = ref<boolean>(defaultVisibility.value);
+// vis的value,包括受控与非受控
+const computedVisibility = computed({
+  get() {
+    return !isUndefined(visibility.value)
+      ? visibility.value
+      : controlVisibility.value;
+  },
+  set(val) {
+    if (!isUndefined(visibility.value)) {
+      emits('update:visibility', val);
+    } else {
+      controlVisibility.value = val;
+    }
+    emits('visibilityChange', val);
+  },
+});
 // 组件实例
 const inputBaseRef = ref<InstanceType<typeof YcInput>>();
-// 处理visib
-const computedVisibility = computed(() => {
-  if (!isUndefined(visibility.value)) return visibility.value;
-  if (!isUndefined(defaultVisibility.value)) return defaultVisibility.value;
-  return false;
-});
-// 非受控的vis
-const controlVisibility = ref<boolean>(false);
-// 处理vis改变
-const handleVisibility = () => {
-  if (isUndefined(visibility.value) && !isUndefined(defaultVisibility.value)) {
-    controlVisibility.value = !controlVisibility.value;
-    emits('visibilityChange', controlVisibility.value);
-  } else {
-    emits('update:visibility', !computedVisibility.value);
-    emits('visibilityChange', !computedVisibility.value);
-  }
-};
 // 处理输入
 const handleInput = (value: string, ev: Event) => {
   emits('input', value, ev);

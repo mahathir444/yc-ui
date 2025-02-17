@@ -15,7 +15,7 @@
     <div
       class="yc-input-wrapper"
       :style="{
-        height: sizeToPx,
+        height: `${SIZE_MAP[size]}px`,
       }"
     >
       <!-- prefix-icon -->
@@ -24,11 +24,11 @@
       </div>
       <!-- input -->
       <input
-        :value="isControl ? computedValue : controlValue"
+        v-model="computedValue"
         :type="type"
         :disabled="disabled"
         :readonly="readonly"
-        :maxlength="wordMaxLength"
+        :maxlength="maxLength"
         :placeholder="placeholder"
         class="yc-input"
         ref="inputRef"
@@ -53,7 +53,7 @@
       >
         <!-- word-limit -->
         <span v-if="showLimit" class="yc-input-word-limit">
-          {{ modelValue.length }}
+          {{ computedValue.length }}
           /
           {{ maxLength }}
         </span>
@@ -71,20 +71,20 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, computed, toRefs, watch } from 'vue';
+import { ref, computed, toRefs } from 'vue';
 import { SIZE_CLASS } from './constants';
 import { SIZE_MAP } from '@/constants';
-import { isUndefined, isFunction } from '@/utils/is';
+import { isUndefined, isNumber } from '@/utils/is';
 import { InputProps } from './type';
 import YcIconButton from '@/components/IconButton/index.vue';
 const props = withDefaults(defineProps<InputProps>(), {
   modelValue: undefined,
-  defaultValue: undefined,
+  defaultValue: '',
   size: 'medium',
-  allowClear: true,
+  allowClear: false,
   disabled: false,
   readonly: false,
-  error: true,
+  error: false,
   showWordLimit: false,
   placeholder: '',
   type: 'text',
@@ -108,24 +108,26 @@ const {
   disabled,
   readonly,
 } = toRefs(props);
-const { wordLength } = props;
-// 输入实例
-const inputRef = ref<HTMLInputElement>();
-// 计算值
-const computedValue = computed(() => {
-  if (!isUndefined(modelValue.value)) return modelValue.value;
-  if (!isUndefined(defaultValue.value)) return defaultValue.value;
-  return '';
-});
-//是否受控
-const isControl = computed(() => !isUndefined(modelValue.value));
 // 受控制的值
-const controlValue = ref<string>('');
-// size到px
-const sizeToPx = computed(() => SIZE_MAP[size.value] + 'px');
+const controlValue = ref<string>(defaultValue.value);
+// 计算值
+const computedValue = computed({
+  get() {
+    return !isUndefined(modelValue.value)
+      ? modelValue.value
+      : controlValue.value;
+  },
+  set(val) {
+    if (!isUndefined(modelValue.value)) {
+      emits('update:modelValue', val);
+    } else {
+      controlValue.value = val;
+    }
+  },
+});
 // 是否展示字数限制
 const showLimit = computed(
-  () => isFunction(maxLength.value) && showWordLimit.value
+  () => isNumber(maxLength.value) && showWordLimit.value
 );
 // 是否展示清除按钮
 const showClearBtn = computed(
@@ -135,61 +137,30 @@ const showClearBtn = computed(
     !readonly.value &&
     computedValue.value.length
 );
-// 最大长度
-const wordMaxLength = computed(() => {
-  if (isUndefined(maxLength.value)) {
-    return maxLength.value;
-  }
-  if (wordLength) {
-    return wordLength(new Array(maxLength.value).fill('1').join(''));
-  }
-  return maxLength.value;
-});
-// 是否展示
-const showLength = computed(() => {
-  return wordLength
-    ? wordLength(computedValue.value)
-    : computedValue.value.length;
-});
+// 输入实例
+const inputRef = ref<HTMLInputElement>();
 // 处理输入
-const handleInput = (e: Event) => {
-  const { value } = e.target as HTMLInputElement;
+const handleInput = async (e: Event) => {
+  const target = e.target as HTMLInputElement;
+  const { value } = target;
   emits('input', value, e);
-  if (isControl.value) {
-    emits('update:modelValue', value);
-  } else {
-    controlValue.value = value;
+  if (computedValue.value != value) {
+    target.value = computedValue.value;
   }
 };
 // 处理改变
 const handleChange = (e: Event) => {
-  const { value } = e.target as HTMLInputElement;
+  const target = e.target as HTMLInputElement;
+  const { value } = target;
   emits('change', value, e);
-  if (isControl.value) {
-    emits('update:modelValue', value);
-  } else {
-    controlValue.value = value;
+  if (computedValue.value != value) {
+    target.value = computedValue.value;
   }
 };
 // 处理清除
 const handleClear = (e: MouseEvent) => {
   emits('clear', e);
-  if (isControl.value) {
-    emits('update:modelValue', '');
-  } else {
-    controlValue.value = '';
-  }
 };
-// 赋予初始值
-watch(
-  computedValue,
-  (v) => {
-    controlValue.value = v;
-  },
-  {
-    immediate: true,
-  }
-);
 // 暴露方法
 defineExpose({
   focus() {
@@ -199,7 +170,7 @@ defineExpose({
     inputRef.value?.blur();
   },
   getValue() {
-    return isControl.value ? computedValue.value : controlValue.value;
+    return computedValue.value;
   },
 });
 </script>

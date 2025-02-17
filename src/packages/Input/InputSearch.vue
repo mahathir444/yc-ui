@@ -57,7 +57,7 @@ import YcButton from '@/packages/Button/index.vue';
 import YcIconButton from '@/components/IconButton/index.vue';
 const props = withDefaults(defineProps<InputSearch>(), {
   modelValue: undefined,
-  defaultValue: undefined,
+  defaultValue: '',
   size: 'medium',
   allowClear: false,
   disabled: false,

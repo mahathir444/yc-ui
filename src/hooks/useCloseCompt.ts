@@ -10,20 +10,28 @@ export default (
     maskClosable: Ref<boolean>;
     escToClose: Ref<boolean>;
     visible: Ref<boolean | undefined>;
-    defaultVisible: Ref<boolean | undefined>;
+    defaultVisible: Ref<boolean>;
   }
 ) => {
   const { maskClosable, escToClose, visible, defaultVisible } = config;
   // 外层visible，用于播放动画
   const outerVisible = ref<boolean>(false);
-  // 内存visible，用于显示组件
-  const innerVisible = computed(() => {
-    if (!isUndefined(visible.value)) return visible.value;
-    if (!isUndefined(defaultVisible.value)) return defaultVisible.value;
-    return false;
-  });
   // 非受控状态下的visible
-  const controlVisible = ref<boolean>(false);
+  const controlVisible = ref<boolean>(defaultVisible.value);
+  // 内存visible，用于显示组件
+  const innerVisible = computed({
+    get() {
+      return !isUndefined(visible.value) ? visible.value : controlVisible.value;
+    },
+    set(val) {
+      // 如果是非受控状态关闭
+      if (!isUndefined(visible.value)) {
+        emits('update:visible', val);
+      } else {
+        controlVisible.value = val;
+      }
+    },
+  });
   // 关闭类型
   const closeType = ref<ComptCloseType>('');
   // 处理动画离开
@@ -42,12 +50,7 @@ export default (
     }
     // 关闭
     if (type == 'mask' && !maskClosable.value) return;
-    // 如果是非受控状态关闭
-    if (isUndefined(visible.value) && !isUndefined(defaultVisible.value)) {
-      controlVisible.value = false;
-    } else {
-      emits('update:visible', false);
-    }
+    innerVisible.value = false;
   };
   // 初始化关闭快捷键
   const initHotKeys = () => {
@@ -64,7 +67,6 @@ export default (
     () => innerVisible.value,
     (v) => {
       closeType.value = '';
-      controlVisible.value = v;
       if (v) {
         outerVisible.value = true;
       }

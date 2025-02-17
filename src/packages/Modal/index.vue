@@ -9,7 +9,7 @@
       <transition :name="maskAnimationName || 'fade'" appear>
         <div
           v-if="mask"
-          v-show="innerVisible && controlVisible"
+          v-show="innerVisible"
           class="yc-modal-mask"
           :style="maskStyle"
         ></div>
@@ -26,7 +26,7 @@
         >
           <!-- modal -->
           <div
-            v-show="innerVisible && controlVisible"
+            v-show="innerVisible"
             :class="[
               'yc-modal',
               // 全屏
@@ -105,7 +105,7 @@ import YcButton from '@/packages/Button/index.vue';
 import YcIconButton from '@/components/IconButton/index.vue';
 const props = withDefaults(defineProps<ModalProps>(), {
   visible: undefined,
-  defaultVisible: undefined,
+  defaultVisible: false,
   width: 520,
   top: 100,
   mask: true,
@@ -164,19 +164,13 @@ const {
   draggable,
 } = toRefs(props);
 // 处理组件关闭开启
-const {
-  outerVisible,
-  innerVisible,
-  controlVisible,
-  closeType,
-  handleClose,
-  handleAfterLeave,
-} = useCloseCompt(emits, {
-  visible,
-  defaultVisible,
-  escToClose,
-  maskClosable,
-});
+const { outerVisible, innerVisible, closeType, handleClose, handleAfterLeave } =
+  useCloseCompt(emits, {
+    visible,
+    defaultVisible,
+    escToClose,
+    maskClosable,
+  });
 // headerRef,用于拖拽
 const headerRef = ref<HTMLDivElement>();
 // modalRef,用于获取宽高处理越界问题
