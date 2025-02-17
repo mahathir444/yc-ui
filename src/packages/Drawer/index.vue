@@ -38,10 +38,11 @@
                 </slot>
               </div>
               <!-- close-btn -->
-              <close-button
+              <yc-icon-button
                 v-if="closable"
+                name="close"
+                class="yc-modal-close-button"
                 @click="handleClose('closeBtn')"
-                class="yc-drawer-close-button"
               />
             </div>
           </slot>
@@ -82,7 +83,7 @@ import { DrawerProps } from './type';
 import { ComptCloseType } from '@/type';
 import useCloseCompt from '@/hooks/useCloseCompt';
 import YcButton from '@/packages/Button/index.vue';
-import CloseButton from '@/components/CloseButton/index.vue';
+import YcIconButton from '@/components/IconButton/index.vue';
 const props = withDefaults(defineProps<DrawerProps>(), {
   visible: undefined,
   defaultVisible: undefined,

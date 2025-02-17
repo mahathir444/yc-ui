@@ -1,11 +1,11 @@
 <template>
   <div class="test">
-    <yc-drawer
+    <!-- <yc-drawer
       :default-visible="true"
       title="这是一个测试这是一个测试这是一个测试"
     >
       这是一个测试drawer
-    </yc-drawer>
+    </yc-drawer> -->
     <!-- 
     <yc-modal
       v-model:visible="visible"
@@ -25,7 +25,7 @@
       <div>sdadsa</div>
     </a-modal> -->
 
-    <yc-button type="primary" @click="visible = true">
+    <yc-button type="primary" @click="handleClick">
       <template #icon>
         <svg-icon name="close" />
       </template>
@@ -33,10 +33,31 @@
     </yc-button>
 
     <div>
+      <span>arco</span>
+      <a-input-password allow-clear> </a-input-password>
+    </div>
+
+    <div>
+      <span>yc</span>
+      <yc-input-password v-model="text2"> </yc-input-password>
+    </div>
+
+    <div>
+      <span>arco</span>
+      <a-input-search> </a-input-search>
+    </div>
+
+    <div>
+      <span>yc</span>
+      <yc-input-search> </yc-input-search>
+    </div>
+    <!--  -->
+    <div>
+      <span>arco</span>
       <a-input
+        allow-clear
         v-model="text"
         default-value="123123"
-        allow-clear
         :max-length="10"
         :word-length="calcLength"
         show-word-limit
@@ -53,6 +74,7 @@
     </div>
 
     <div>
+      <span>yc</span>
       <yc-input
         v-model="text1"
         :max-length="10"
@@ -66,10 +88,7 @@
         <template #suffix>
           <icon-pen-fill />
         </template>
-        <template #append>
-          <yc-button type="outline">测试</yc-button>
-          <yc-button type="outline" status="warning">测试</yc-button>
-        </template>
+        <template #append> RMB </template>
       </yc-input>
     </div>
   </div>
@@ -81,15 +100,23 @@ import YcDrawer from '@/packages/Drawer';
 import YcButton from '@/packages/Button';
 import YcLink from '@/packages/Link';
 import YcModal, { ModalService } from '@/packages/Modal';
-import YcInput from '@/packages/Input/index.vue';
-import { Modal as ArcoModal } from '@arco-design/web-vue';
+import YcInput from '@/packages/Input/InputBase.vue';
+import YcInputPassword from '@/packages/Input/InputPassword.vue';
+import YcInputSearch from '@/packages/Input/InputSearch.vue';
 
 const visible = ref<boolean>(false);
 const text = ref<string>('');
 const text1 = ref<string>('');
+const text2 = ref<string>('');
 
 const calcLength = (value: string) => {
   return value.length - 2;
+};
+
+const handleClick = () => {
+  console.log('12312');
+
+  visible.value = true;
 };
 </script>
 
@@ -98,9 +125,9 @@ const calcLength = (value: string) => {
   height: 100%;
   width: 100%;
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
-  gap: 5px;
-  font-size: 20px;
+  gap: 10px;
 }
 </style>

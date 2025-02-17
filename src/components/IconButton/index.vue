@@ -1,11 +1,17 @@
 <template>
-  <div class="yc-close-button">
-    <svg-icon name="close" />
+  <div class="yc-icon-button">
+    <svg-icon :name="name" />
   </div>
 </template>
 
+<script lang="ts" setup>
+defineProps<{
+  name: string;
+}>();
+</script>
+
 <style lang="less" scoped>
-.yc-close-button {
+.yc-icon-button {
   cursor: pointer;
   position: relative;
   font-size: 12px;

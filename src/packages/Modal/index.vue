@@ -57,8 +57,9 @@
                 </slot>
               </div>
               <!-- close-btn -->
-              <close-button
+              <yc-icon-button
                 v-if="closable"
+                name="close"
                 class="yc-modal-close-button"
                 @click="handleClose('closeBtn')"
               />
@@ -101,7 +102,7 @@ import { ModalProps } from './type';
 import useModalDraggable from '@/hooks/useModalDraggable';
 import useCloseCompt from '@/hooks/useCloseCompt';
 import YcButton from '@/packages/Button/index.vue';
-import CloseButton from '@/components/CloseButton/index.vue';
+import YcIconButton from '@/components/IconButton/index.vue';
 const props = withDefaults(defineProps<ModalProps>(), {
   visible: undefined,
   defaultVisible: undefined,

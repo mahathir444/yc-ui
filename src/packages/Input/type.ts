@@ -1,4 +1,5 @@
 import { ComptSize } from '@/type';
+import { ButtonProps } from '../Button/type';
 // wordSlice
 export interface InputProps {
   modelValue?: string;
@@ -13,4 +14,18 @@ export interface InputProps {
   wordLength?: (value: string) => number;
   showWordLimit?: boolean;
   inputAttrs?: Record<string, any>;
+  type?: 'password' | 'text';
+}
+
+export interface InputPassword extends InputProps {
+  visibility?: boolean;
+  defaultVisibility?: boolean;
+  invisibleButton?: boolean;
+}
+
+export interface InputSearch extends InputProps {
+  searchButton?: boolean;
+  loading?: boolean;
+  buttonText?: string;
+  buttonProps?: ButtonProps;
 }
