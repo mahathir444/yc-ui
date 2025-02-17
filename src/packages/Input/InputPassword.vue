@@ -2,8 +2,8 @@
   <yc-input
     v-bind="props"
     :type="computedVisibility || controlVisibility ? 'text' : 'password'"
-    ref="baseInputRef"
     class="yc-input-password"
+    ref="inputBaseRef"
     @input="handleInput"
     @change="handleChange"
     @clear="handleClear"
@@ -11,20 +11,23 @@
     @blur="(e) => emits('blur', e)"
     @press-enter="(e) => emits('press-enter', e)"
   >
-    <!-- 基础插槽 -->
+    <!-- prefix -->
     <template v-if="$slots.prefix" #prefix>
       <slot name="prefix"></slot>
     </template>
-    <template v-if="$slots.suffix" #suffix>
+    <!-- suffix -->
+    <template #suffix>
       <slot name="suffix"></slot>
     </template>
-    <template v-if="$slots.prepend">
+    <!-- prepend -->
+    <template v-if="$slots.prepend" #prepend>
       <slot name="prepend" />
     </template>
-    <template v-if="$slots.append">
+    <!-- append -->
+    <template v-if="$slots.append" #append>
       <slot name="append" />
     </template>
-    <!-- 补充插槽 -->
+    <!-- extra -->
     <template v-if="invisibleButton" #extra>
       <yc-icon-button
         :name="
@@ -70,7 +73,7 @@ const emits = defineEmits<{
 }>();
 const { defaultVisibility, visibility } = toRefs(props);
 // 组件实例
-const baseInputRef = ref<InstanceType<typeof YcInput>>();
+const inputBaseRef = ref<InstanceType<typeof YcInput>>();
 // 处理visib
 const computedVisibility = computed(() => {
   if (!isUndefined(visibility.value)) return visibility.value;
@@ -107,12 +110,10 @@ const handleClear = (e: MouseEvent) => {
 
 defineExpose({
   focus() {
-    baseInputRef.value?.focus();
+    inputBaseRef.value?.focus();
   },
   blur() {
-    baseInputRef.value?.blur();
+    inputBaseRef.value?.blur();
   },
 });
 </script>
-
-<style lang="less" scoped></style>

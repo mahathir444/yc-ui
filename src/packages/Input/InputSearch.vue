@@ -1,8 +1,11 @@
 <template>
   <yc-input
     v-bind="props"
-    ref="baseInputRef"
-    class="yc-input-password"
+    ref="inputBaseRef"
+    :class="{
+      'yc-input-search': true,
+      'yc-input-search-append': searchButton,
+    }"
     @input="handleInput"
     @change="handleChange"
     @clear="handleClear"
@@ -10,13 +13,38 @@
     @blur="(e) => emits('blur', e)"
     @press-enter="(e) => emits('press-enter', e)"
   >
-    <template v-if="searchButton" #append>
-      <yc-button type="primary">
-        <svg-icon name="search" size="14" />
-      </yc-button>
+    <!-- prefix -->
+    <template v-if="$slots.prefix" #prefix>
+      <slot name="prefix"></slot>
     </template>
-    <template v-else #extra>
-      <yc-icon-button name="search" size="14" @click="emits('search', '')" />
+    <!-- suffix -->
+    <template #suffix>
+      <slot name="suffix"></slot>
+    </template>
+    <!-- prepend -->
+    <template v-if="$slots.prepend" #prepend>
+      <slot name="prepend" />
+    </template>
+    <!-- append -->
+    <template v-if="searchButton || $slots.append" #append>
+      <yc-button
+        v-if="searchButton"
+        type="primary"
+        @click="emits('search', inputBaseRef?.getValue() || '')"
+      >
+        <template #icon>
+          <svg-icon name="search" size="14" />
+        </template>
+      </yc-button>
+      <slot v-else name="append" />
+    </template>
+    <!-- extra -->
+    <template v-if="!searchButton" #extra>
+      <yc-icon-button
+        name="search"
+        font-size="14px"
+        @click="emits('search', inputBaseRef?.getValue() || '')"
+      />
     </template>
   </yc-input>
 </template>
@@ -36,9 +64,8 @@ const props = withDefaults(defineProps<InputSearch>(), {
   readonly: false,
   error: false,
   showWordLimit: false,
-  maxLength: 10,
   placeholder: '',
-  searchButton: true,
+  searchButton: false,
   loading: false,
   buttonText: '',
 });
@@ -53,7 +80,7 @@ const emits = defineEmits<{
   (e: 'search', value: string): void;
 }>();
 // 组件实例
-const baseInputRef = ref<InstanceType<typeof YcInput>>();
+const inputBaseRef = ref<InstanceType<typeof YcInput>>();
 // 处理输入
 const handleInput = (value: string, ev: Event) => {
   emits('input', value, ev);
@@ -72,12 +99,22 @@ const handleClear = (e: MouseEvent) => {
 
 defineExpose({
   focus() {
-    baseInputRef.value?.focus();
+    inputBaseRef.value?.focus();
   },
   blur() {
-    baseInputRef.value?.blur();
+    inputBaseRef.value?.blur();
   },
 });
 </script>
 
-<style lang="less" scoped></style>
+<style lang="less" scoped>
+.yc-input-search-append {
+  &:deep(.yc-input-append) {
+    padding: 0;
+    .yc-button {
+      border-top-left-radius: 0;
+      border-bottom-left-radius: 0;
+    }
+  }
+}
+</style>

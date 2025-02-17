@@ -1,20 +1,31 @@
 <template>
-  <div class="yc-icon-button">
+  <div
+    class="yc-icon-button"
+    :style="{
+      fontSize,
+    }"
+  >
     <svg-icon :name="name" />
   </div>
 </template>
 
 <script lang="ts" setup>
-defineProps<{
-  name: string;
-}>();
+withDefaults(
+  defineProps<{
+    name: string;
+    fontSize?: string;
+  }>(),
+  {
+    fontSize: '12px',
+  }
+);
 </script>
 
 <style lang="less" scoped>
 .yc-icon-button {
+  user-select: none;
   cursor: pointer;
   position: relative;
-  font-size: 12px;
   color: rgb(29, 33, 41);
   display: flex;
   justify-content: center;

@@ -34,31 +34,69 @@
 
     <div>
       <span>arco</span>
-      <a-input-password allow-clear> </a-input-password>
+      <a-input-password allow-clear>
+        <template #prefix>
+          <icon-desktop />
+        </template>
+        <template #prepend> +86 </template>
+        <template #suffix>
+          <icon-pen-fill />
+        </template>
+        <template #append> RMB </template>
+      </a-input-password>
     </div>
 
     <div>
       <span>yc</span>
-      <yc-input-password v-model="text2"> </yc-input-password>
+      <yc-input-password model-value="123">
+        <yc-input-search>
+          <template #prefix>
+            <icon-desktop />
+          </template>
+          <template #prepend> +86 </template>
+          <template #suffix>
+            <icon-pen-fill />
+          </template>
+          <template #append> RMB </template>
+        </yc-input-search>
+      </yc-input-password>
     </div>
 
     <div>
       <span>arco</span>
-      <a-input-search> </a-input-search>
+      <a-input-search @search="(v) => console.log(v)">
+        <template #prefix>
+          <svg-icon name="loading" />
+        </template>
+        <template #prepend> +86 </template>
+        <template #suffix>
+          <icon-pen-fill />
+        </template>
+        <template #append> RMB </template>
+      </a-input-search>
     </div>
 
     <div>
       <span>yc</span>
-      <yc-input-search> </yc-input-search>
+      <yc-input-search default-value="123123" @search="(v) => console.log(v)">
+        <template #prefix>
+          <icon-desktop />
+        </template>
+        <template #prepend> +86 </template>
+        <template #suffix>
+          <icon-pen-fill />
+        </template>
+        <template #append> RMB </template>
+      </yc-input-search>
     </div>
     <!--  -->
     <div>
       <span>arco</span>
       <a-input
         allow-clear
+        error
         v-model="text"
         default-value="123123"
-        :max-length="10"
         :word-length="calcLength"
         show-word-limit
       >
@@ -100,9 +138,11 @@ import YcDrawer from '@/packages/Drawer';
 import YcButton from '@/packages/Button';
 import YcLink from '@/packages/Link';
 import YcModal, { ModalService } from '@/packages/Modal';
-import YcInput from '@/packages/Input/InputBase.vue';
-import YcInputPassword from '@/packages/Input/InputPassword.vue';
-import YcInputSearch from '@/packages/Input/InputSearch.vue';
+import {
+  Input as YcInput,
+  InputSearch as YcInputSearch,
+  InputPassword as YcInputPassword,
+} from '@/packages/Input';
 
 const visible = ref<boolean>(false);
 const text = ref<string>('');
