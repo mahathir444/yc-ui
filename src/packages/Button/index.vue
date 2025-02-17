@@ -40,6 +40,9 @@ import { computed, toRefs } from 'vue';
 import { SIZE_MAP } from '@/constants';
 import { SIZE_CLASS, TYPE_CLASS, STATUS_CLASS, SHAPE_CLASS } from './constants';
 import { ButtonProps } from './type';
+defineOptions({
+  name: 'Button',
+});
 const props = withDefaults(defineProps<ButtonProps>(), {
   type: 'secondary',
   status: 'normal',

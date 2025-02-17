@@ -103,6 +103,9 @@ import useModalDraggable from '@/hooks/useModalDraggable';
 import useCloseCompt from '@/hooks/useCloseCompt';
 import YcButton from '@/packages/Button/index.vue';
 import YcIconButton from '@/components/IconButton/index.vue';
+defineOptions({
+  name: 'Modal',
+});
 const props = withDefaults(defineProps<ModalProps>(), {
   visible: undefined,
   defaultVisible: false,

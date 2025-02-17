@@ -44,6 +44,9 @@ import { isUndefined } from '@/utils/is';
 import { InputPassword } from './type';
 import YcInput from './InputBase.vue';
 import YcIconButton from '@/components/IconButton/index.vue';
+defineOptions({
+  name: 'InputPassword',
+});
 const props = withDefaults(defineProps<InputPassword>(), {
   modelValue: undefined,
   defaultValue: '',

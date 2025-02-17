@@ -1,5 +1,23 @@
-export { default as Input } from './InputBase.vue';
+import { App } from 'vue';
+import _Input from './InputBase.vue';
+import _InputPassword from './InputPassword.vue';
+import _InputSearch from './InputSearch.vue';
+import { getComponentPrefix } from '@/utils/global-config';
 
-export { default as InputPassword } from './InputPassword.vue';
+export type InputInstance = InstanceType<typeof _Input>;
+export type InputSearchInstance = InstanceType<typeof _InputSearch>;
+export type InputPasswordInstance = InstanceType<typeof _InputPassword>;
 
-export { default as InputSearch } from './InputSearch.vue';
+const Input = Object.assign(_Input, {
+  Search: _InputSearch,
+  Password: _InputPassword,
+  install: (app: App) => {
+    app.component(getComponentPrefix() + _Input.name, _Input);
+    app.component(getComponentPrefix() + _InputSearch.name, _InputSearch);
+    app.component(getComponentPrefix() + _InputPassword.name, _InputPassword);
+  },
+});
+
+export { _InputSearch as InputSearch, _InputPassword as InputPassword };
+
+export default Input;

@@ -84,6 +84,9 @@ import { ComptCloseType } from '@/type';
 import useCloseCompt from '@/hooks/useCloseCompt';
 import YcButton from '@/packages/Button/index.vue';
 import YcIconButton from '@/components/IconButton/index.vue';
+defineOptions({
+  name: 'Drawer',
+});
 const props = withDefaults(defineProps<DrawerProps>(), {
   visible: undefined,
   defaultVisible: false,

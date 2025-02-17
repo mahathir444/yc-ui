@@ -5,6 +5,8 @@
       disabled ? 'yc-input-disabled' : 'yc-input-hoverable',
       error ? 'yc-input-error' : '',
       SIZE_CLASS[size],
+      $slots.prepend ? 'yc-input-has-prepend' : '',
+      $slots.append ? 'yc-input-has-append' : '',
     ]"
   >
     <!-- prepend -->
@@ -77,6 +79,9 @@ import { SIZE_MAP } from '@/constants';
 import { isUndefined, isNumber } from '@/utils/is';
 import { InputProps } from './type';
 import YcIconButton from '@/components/IconButton/index.vue';
+defineOptions({
+  name: 'Input',
+});
 const props = withDefaults(defineProps<InputProps>(), {
   modelValue: undefined,
   defaultValue: '',

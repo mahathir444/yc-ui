@@ -55,6 +55,9 @@ import { InputSearch } from './type';
 import YcInput from './InputBase.vue';
 import YcButton from '@/packages/Button/index.vue';
 import YcIconButton from '@/components/IconButton/index.vue';
+defineOptions({
+  name: 'InputSearch',
+});
 const props = withDefaults(defineProps<InputSearch>(), {
   modelValue: undefined,
   defaultValue: '',

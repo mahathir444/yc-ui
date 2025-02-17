@@ -77,9 +77,9 @@
         <template #append> RMB </template>
       </a-input>
     </div>
-
     <div>
       <span>yc</span>
+
       <yc-input :max-length="10" show-word-limit>
         <template #prefix>
           <svg-icon name="loading" />
@@ -96,12 +96,12 @@
 
 <script lang="ts" setup>
 import { ref, watch } from 'vue';
+import { Input } from '@arco-design/web-vue';
 import YcDrawer from '@/packages/Drawer';
 import YcButton from '@/packages/Button';
 import YcLink from '@/packages/Link';
-import YcModal, { ModalService } from '@/packages/Modal';
-import {
-  Input as YcInput,
+import YcModal from '@/packages/Modal';
+import YcInput, {
   InputSearch as YcInputSearch,
   InputPassword as YcInputPassword,
 } from '@/packages/Input';

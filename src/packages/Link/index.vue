@@ -25,9 +25,12 @@
 </template>
 
 <script lang="ts" setup>
-import { toRefs, computed } from 'vue';
+import { toRefs, computed, inject } from 'vue';
 import { LinkProps } from './type';
 import { STATUS_CLASS } from './constants';
+defineOptions({
+  name: 'Link',
+});
 const props = withDefaults(defineProps<LinkProps>(), {
   href: '',
   status: 'normal',
