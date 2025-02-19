@@ -25,77 +25,43 @@
       <div>sdadsa</div>
     </a-modal> -->
 
-    <yc-button type="primary" @click="handleClick">
-      <template #icon>
-        <svg-icon name="close" />
-      </template>
-      测试按钮
-    </yc-button>
-
     <div>
-      <span>arco</span>
-      <a-input-search @search="(v) => console.log(v)">
-        <template #prefix>
-          <svg-icon name="loading" />
+      <a-trigger trigger="click">
+        <a-button>Click Me</a-button>
+        <template #content>
+          <div
+            class="trigger-demo-nest"
+            style="background-color: aquamarine; padding: 20px"
+          >
+            <a-empty />
+          </div>
         </template>
-        <template #prepend> +86 </template>
-        <template #suffix>
-          <icon-pen-fill />
-        </template>
-        <template #append> RMB </template>
-      </a-input-search>
+      </a-trigger>
     </div>
 
-    <div>
-      <span>yc</span>
-      <yc-input-search
-        default-value="123123"
-        search-button
-        @search="(v: string) => console.log(v)"
-      >
-        <template #prefix>
-          <icon-desktop />
+    <div ref="btnRef">
+      <yc-trigger>
+        <a-button class="test-btn">Click Me</a-button>
+        <template #header>
+          <div>
+            <a-empty />
+          </div>
         </template>
-        <template #prepend> +86 </template>
-        <template #suffix>
-          <icon-pen-fill />
+        <template #content>
+          <div
+            class="trigger-demo-nest"
+            style="background-color: aquamarine; padding: 20px"
+          >
+            <a-empty />
+          </div>
         </template>
-        <template #append> RMB </template>
-      </yc-input-search>
-    </div>
-    <!--  -->
-    <div>
-      <span>arco</span>
-      <a-input :default-value="text" show-word-limit>
-        <template #prefix>
-          <svg-icon name="loading" />
-        </template>
-        <template #prepend> +86 </template>
-        <template #suffix>
-          <icon-pen-fill />
-        </template>
-        <template #append> RMB </template>
-      </a-input>
-    </div>
-    <div>
-      <span>yc</span>
-
-      <yc-input :max-length="10" show-word-limit>
-        <template #prefix>
-          <svg-icon name="loading" />
-        </template>
-        <template #prepend> +86 </template>
-        <template #suffix>
-          <icon-pen-fill />
-        </template>
-        <template #append> RMB </template>
-      </yc-input>
+      </yc-trigger>
     </div>
   </div>
 </template>
 
 <script lang="ts" setup>
-import { ref, watch } from 'vue';
+import { ref, watch, onMounted } from 'vue';
 import { Input } from '@arco-design/web-vue';
 import YcDrawer from '@/packages/Drawer';
 import YcButton from '@/packages/Button';
@@ -105,21 +71,15 @@ import YcInput, {
   InputSearch as YcInputSearch,
   InputPassword as YcInputPassword,
 } from '@/packages/Input';
+import YcTrigger from '@/packages/Trigger/index.vue';
+import { useElementBounding } from '@vueuse/core';
+
+const btnRef = ref(null);
 
 const visible = ref<boolean>(false);
 const text = ref<string>('');
 const text1 = ref<string>('');
 const text2 = ref<string>('');
-
-watch(
-  () => text1.value,
-  () => {
-    console.log(text1.value, 'text1');
-  }
-);
-const handleClick = () => {
-  visible.value = true;
-};
 </script>
 
 <style lang="less" scoped>
