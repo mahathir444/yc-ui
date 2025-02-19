@@ -37,7 +37,13 @@
     </div>
 
     <div>
-      <yc-trigger trigger="click" :align-point="true" :click-to-close="true">
+      <yc-trigger
+        trigger="click"
+        position="bottom"
+        show-arrow
+        :align-point="true"
+        :click-to-close="true"
+      >
         <a-button>Click Me</a-button>
         <template #content>
           <div class="trigger-content">

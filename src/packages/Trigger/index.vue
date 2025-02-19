@@ -54,8 +54,8 @@ const props = withDefaults(defineProps<TriggerProps>(), {
   renderToBody: false,
   position: 'bottom',
   disabled: false,
-  popupTranslate: () => [0, 0],
-  showArrow: true,
+  popupTranslate: undefined,
+  showArrow: false,
   alignPoint: false,
   blurToClose: true,
   clickOutsidetoClose: true,
@@ -166,6 +166,12 @@ const contentCss = computed(() => {
 // arrowcss
 const arrowCss = computed(() => {
   return {
+    borderTopLeftRadius: position.value.startsWith('b') ? '2px' : '',
+    borderBottomLeftRadius:
+      position.value.startsWith('t') || position.value.startsWith('r')
+        ? '2px'
+        : '',
+    borderTopRightRadius: position.value.startsWith('l') ? '2px' : '',
     ...arrowPostion.value,
     ...arrowStyle.value,
   } as CSSProperties;
@@ -177,12 +183,11 @@ const arrowCss = computed(() => {
   position: absolute;
   z-index: 1002;
   .yc-trigger-arrow {
-    position: absolute;
     z-index: -1;
+    position: absolute;
     transform: rotate(45deg);
     width: 8px;
     height: 8px;
-    box-shadow: 0 2px 8px #00000026;
     background-color: #fff;
   }
 }

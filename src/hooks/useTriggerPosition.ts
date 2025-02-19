@@ -14,7 +14,7 @@ export default (params: {
   contentHeight: Ref<number>;
   arrowWidth: Ref<number>;
   arrowHeight: Ref<number>;
-  popupTranslate: Ref<number[]>;
+  popupTranslate: Ref<number[] | undefined>;
 }) => {
   const {
     position,
@@ -43,7 +43,7 @@ export default (params: {
     let offetTop = 'unset';
     let offetLeft = 'unset';
     let offetRight = 'unset';
-    const [offsetX, offsetY] = popupTranslate.value;
+    const [offsetX, offsetY] = popupTranslate.value || [0, 0];
     if (['top', 'bottom'].includes(position.value)) {
       offetLeft = `${
         left.value + (triggerWidth.value - contentWidth.value) / 2
