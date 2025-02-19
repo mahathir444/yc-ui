@@ -46,26 +46,19 @@ export default (params: {
       }
     },
   });
-  // 计时器用于
+  // 计时器用于异步处理
   let timer: any;
   // 点击
   const handleClick = () => {
     if (timer) clearTimeout(timer);
     if (trigger.value != 'click') return;
-    if (clickToClose.value) {
-      computedVisible.value = !computedVisible.value;
-    } else {
-      computedVisible.value = true;
-    }
+    computedVisible.value = clickToClose.value ? !computedVisible.value : true;
   };
   // 鼠标右击
   const handleContextmenu = () => {
+    if (timer) clearTimeout(timer);
     if (trigger.value != 'contextMenu') return;
-    if (clickToClose.value) {
-      computedVisible.value = !computedVisible.value;
-    } else {
-      computedVisible.value = true;
-    }
+    computedVisible.value = clickToClose.value ? !computedVisible.value : true;
   };
   // 鼠标进入
   const handleMouseenter = async () => {

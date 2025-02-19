@@ -1,7 +1,9 @@
 import { Postion } from '@/packages/Trigger/type';
 import { computed, Ref } from 'vue';
+import { useMouse } from '@vueuse/core';
 export default (params: {
   position: Ref<Postion>;
+  alignPoint: Ref<boolean>;
   left: Ref<number>;
   top: Ref<number>;
   bottom: Ref<number>;
@@ -16,6 +18,7 @@ export default (params: {
 }) => {
   const {
     position,
+    alignPoint,
     left,
     top,
     bottom,
@@ -28,13 +31,20 @@ export default (params: {
     arrowHeight,
     popupTranslate,
   } = params;
+  // const { x, y } = useMouse();
   // 计算content的位置
   const contentPosition = computed(() => {
+    // if (alignPoint.value) {
+    //   return {
+    //     left: `${x.value}px`,
+    //     top: `${y.value}px`,
+    //   };
+    // }
     let offetTop = 'unset';
     let offetLeft = 'unset';
     let offetRight = 'unset';
     const [offsetX, offsetY] = popupTranslate.value;
-    if (position.value == 'top' || position.value == 'bottom') {
+    if (['top', 'bottom'].includes(position.value)) {
       offetLeft = `${
         left.value + (triggerWidth.value - contentWidth.value) / 2
       }`;
@@ -42,19 +52,19 @@ export default (params: {
         position.value == 'top'
           ? `${top.value - contentHeight.value}`
           : `${top.value + triggerHeight.value}`;
-    } else if (position.value == 'tl' || position.value == 'bl') {
+    } else if (['tl', 'bl'].includes(position.value)) {
       offetLeft = `${left.value}`;
       offetTop =
         position.value == 'tl'
           ? `${top.value - contentHeight.value}`
           : `${top.value + triggerHeight.value}`;
-    } else if (position.value == 'tr' || position.value == 'br') {
+    } else if (['tr', 'br'].includes(position.value)) {
       offetTop =
         position.value == 'tr'
           ? `${top.value - contentHeight.value}`
           : `${top.value + triggerHeight.value}`;
       offetRight = `${right.value - triggerWidth.value}`;
-    } else if (position.value == 'left' || position.value == 'right') {
+    } else if (['left', 'right'].includes(position.value)) {
       offetLeft =
         position.value == 'left'
           ? `${left.value - contentWidth.value}`
@@ -64,7 +74,7 @@ export default (params: {
         position.value == 'left'
           ? 'unset'
           : `${right.value - triggerWidth.value - contentWidth.value}`;
-    } else if (position.value == 'lt' || position.value == 'rt') {
+    } else if (['lt', 'rt'].includes(position.value)) {
       offetLeft =
         position.value == 'lt' ? `${left.value - contentWidth.value}` : 'unset';
       offetTop = `${top.value}`;
@@ -72,7 +82,7 @@ export default (params: {
         position.value == 'lt'
           ? 'unset'
           : `${right.value - triggerWidth.value - contentWidth.value}`;
-    } else if (position.value == 'lb' || position.value == 'rb') {
+    } else if (['lb', 'rb'].includes(position.value)) {
       offetLeft =
         position.value == 'lb' ? `${left.value - contentWidth.value}` : 'unset';
       offetTop = `${top.value + triggerHeight.value - contentHeight.value}`;

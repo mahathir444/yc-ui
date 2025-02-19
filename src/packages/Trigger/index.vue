@@ -115,6 +115,7 @@ const {
   trigger,
   position,
   popupTranslate,
+  alignPoint,
   contentStyle,
   arrowStyle,
   clickToClose,
@@ -172,6 +173,7 @@ const { width: arrowWidth, height: arrowHeight } = useElementSize(arrowRef);
 // 计算content与arrow的位置信息
 const { contentPosition, arrowPostion } = useTriggerPosition({
   position,
+  alignPoint,
   left,
   top,
   bottom,
