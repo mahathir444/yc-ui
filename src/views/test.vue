@@ -26,14 +26,8 @@
     </a-modal> -->
 
     <div>
-      <a-trigger
-        trigger="click"
-        position="bottom"
-        show-arrow
-        :popup-visible="false"
-        :popup-translate="[10, 0]"
-      >
-        <a-button>Click Me</a-button>
+      <a-trigger trigger="click" :click-to-close="false">
+        <a-button>click me</a-button>
         <template #content>
           <div class="trigger-content">
             <a-empty />
@@ -43,7 +37,7 @@
     </div>
 
     <div>
-      <yc-trigger :popup-visible="true">
+      <yc-trigger trigger="click" :click-to-close="true">
         <a-button>Click Me</a-button>
         <template #content>
           <div class="trigger-content">
@@ -66,7 +60,7 @@ import YcInput, {
   InputSearch as YcInputSearch,
   InputPassword as YcInputPassword,
 } from '@/packages/Input';
-import YcTrigger from '@/packages/Trigger/index.vue';
+import YcTrigger from '@/packages/Trigger';
 import { useElementBounding } from '@vueuse/core';
 
 const btnRef = ref(null);

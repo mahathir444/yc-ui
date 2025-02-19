@@ -1,5 +1,5 @@
 import { Postion } from '@/packages/Trigger/type';
-import { computed, Ref, ref, triggerRef } from 'vue';
+import { computed, Ref } from 'vue';
 export default (params: {
   position: Ref<Postion>;
   left: Ref<number>;

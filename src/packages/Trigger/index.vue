@@ -39,17 +39,14 @@
 
 <script lang="ts" setup>
 import { ref, computed, useSlots, CSSProperties, toRefs } from 'vue';
-import { sleep } from '@/utils/fn';
 import { Postion, Trigger } from './type';
-import vNodeRender from '@/utils/vnode-render';
-import {
-  useElementBounding,
-  onClickOutside,
-  useElementSize,
-} from '@vueuse/core';
+import { useElementBounding, useElementSize } from '@vueuse/core';
 import useTriggerVisible from '@/hooks/useTriggerVisible';
 import useTriggerPosition from '@/hooks/useTriggerPosition';
-// popup-offset
+// popup-offset,popuphoverStay,auto-fit-popup-width,auto-fit-popup-min-width,auto-fix-position,update-at-scroll,auto-fit-position,prevent-focus,scroll-to-close,scroll-to-close-distance
+defineOptions({
+  name: 'Trigger',
+});
 const props = withDefaults(
   defineProps<{
     popupVisible?: boolean;
@@ -63,10 +60,9 @@ const props = withDefaults(
     showArrow?: boolean;
     // 未实现
     alignPoint?: boolean;
-    popuphoverStay?: boolean;
+    //
     blurToClose?: boolean;
     clickToClose?: boolean;
-    //
     clickOutsidetoClose?: boolean;
     unmountOnClose?: boolean;
     contentClass?: string;
@@ -75,11 +71,14 @@ const props = withDefaults(
     arrowStyle?: CSSProperties;
     animationName?: string;
     duration?: number;
+    mouseEnterDelay?: number;
+    mouseLeaveDelay?: number;
+    focusDelay?: number;
   }>(),
   {
     popupVisible: undefined,
     defaultPopupVisible: false,
-    trigger: 'click',
+    trigger: 'hover',
     popupContainer: 'body',
     renderToBody: false,
     position: 'bottom',
@@ -87,8 +86,8 @@ const props = withDefaults(
     popupTranslate: () => [0, 0],
     showArrow: true,
     alignPoint: false,
-    popuphoverStay: true,
     blurToClose: true,
+    clickOutsidetoClose: true,
     clickToClose: true,
     unmountOnClose: true,
     contentStyle: () => {
@@ -99,6 +98,9 @@ const props = withDefaults(
     },
     animationName: 'fade-in',
     duration: 300,
+    mouseEnterDelay: 1000,
+    mouseLeaveDelay: 100,
+    focusDelay: 100,
   }
 );
 const emits = defineEmits<{
@@ -115,7 +117,12 @@ const {
   popupTranslate,
   contentStyle,
   arrowStyle,
+  clickToClose,
+  blurToClose,
   clickOutsidetoClose,
+  mouseEnterDelay,
+  mouseLeaveDelay,
+  focusDelay,
 } = toRefs(props);
 // content的ref
 const contentRef = ref<HTMLDivElement>();
@@ -123,7 +130,10 @@ const contentRef = ref<HTMLDivElement>();
 const arrowRef = ref<HTMLDivElement>();
 // trigger的ref
 const triggerRef = ref<HTMLElement | null>(null);
-// 处理关闭
+// 获取默认插槽的vNode
+const slots = useSlots();
+const DefaultSlot = computed(() => slots.default && slots.default()[0]);
+// 处理trigger关闭与开启
 const {
   computedVisible,
   handleMouseenter,
@@ -136,13 +146,14 @@ const {
   popupVisible,
   defaultPopupVisible,
   trigger,
+  clickToClose,
+  blurToClose,
+  clickOutsidetoClose,
+  mouseEnterDelay,
+  mouseLeaveDelay,
+  focusDelay,
+  contentRef,
   emits,
-});
-// 点击到contentRef外层关闭
-onClickOutside(contentRef, async () => {
-  await sleep(0);
-  if (!computedVisible.value || !clickOutsidetoClose.value) return;
-  computedVisible.value = false;
 });
 // 获取trigger元素bounding
 const {
@@ -153,11 +164,12 @@ const {
   width: triggerWidth,
   height: triggerHeight,
 } = useElementBounding(triggerRef);
-// 获取content元素的狂高
+// content的宽高
 const { width: contentWidth, height: contentHeight } =
   useElementSize(contentRef);
+// arrow的宽高
 const { width: arrowWidth, height: arrowHeight } = useElementSize(arrowRef);
-// 计算trigger的位置信息
+// 计算content与arrow的位置信息
 const { contentPosition, arrowPostion } = useTriggerPosition({
   position,
   left,
@@ -186,9 +198,6 @@ const arrowCss = computed(() => {
     ...arrowStyle.value,
   } as CSSProperties;
 });
-// 获取默认插槽的vNode
-const slots = useSlots();
-const DefaultSlot = computed(() => slots.default && slots.default()[0]);
 </script>
 
 <style lang="less" scoped>
