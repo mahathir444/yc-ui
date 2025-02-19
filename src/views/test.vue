@@ -26,32 +26,27 @@
     </a-modal> -->
 
     <div>
-      <a-trigger trigger="click">
+      <a-trigger
+        trigger="click"
+        position="bottom"
+        show-arrow
+        :popup-visible="false"
+        :popup-translate="[10, 0]"
+      >
         <a-button>Click Me</a-button>
         <template #content>
-          <div
-            class="trigger-demo-nest"
-            style="background-color: aquamarine; padding: 20px"
-          >
+          <div class="trigger-content">
             <a-empty />
           </div>
         </template>
       </a-trigger>
     </div>
 
-    <div ref="btnRef">
-      <yc-trigger>
-        <a-button class="test-btn">Click Me</a-button>
-        <template #header>
-          <div>
-            <a-empty />
-          </div>
-        </template>
+    <div>
+      <yc-trigger :popup-visible="true">
+        <a-button>Click Me</a-button>
         <template #content>
-          <div
-            class="trigger-demo-nest"
-            style="background-color: aquamarine; padding: 20px"
-          >
+          <div class="trigger-content">
             <a-empty />
           </div>
         </template>
@@ -91,5 +86,13 @@ const text2 = ref<string>('');
   justify-content: center;
   align-items: center;
   gap: 10px;
+}
+
+.trigger-content {
+  box-shadow: 0 2px 8px #00000026;
+  padding: 10px;
+  width: 200px;
+  background-color: #fff;
+  border-radius: 4px;
 }
 </style>

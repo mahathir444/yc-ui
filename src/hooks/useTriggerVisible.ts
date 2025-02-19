@@ -1,4 +1,4 @@
-import { WritableComputedRef, Ref, computed, ref } from 'vue';
+import { watch, Ref, computed, ref } from 'vue';
 import { Trigger } from '@/packages/Trigger/type';
 import { isUndefined } from '@/utils/is';
 
@@ -29,7 +29,11 @@ export default (params: {
   let timer: any;
   const handleClick = () => {
     if (trigger.value != 'click') return;
-    computedVisible.value = true;
+    computedVisible.value = !computedVisible.value;
+  };
+  const handleContextmenu = () => {
+    if (trigger.value != 'contextMenu') return;
+    computedVisible.value = !computedVisible.value;
   };
   const handleMouseenter = () => {
     if (timer) clearTimeout(timer);
@@ -44,16 +48,16 @@ export default (params: {
   };
   const handleFocus = () => {
     if (trigger.value != 'focus') return;
-    computedVisible.value = true;
+    computedVisible.value = !computedVisible.value;
   };
   const handleBlur = () => {
     if (trigger.value != 'focus') return;
     computedVisible.value = false;
   };
-  const handleContextmenu = () => {
-    if (trigger.value != 'contextMenu') return;
-    computedVisible.value = true;
-  };
+
+  watch(computedVisible, () => {
+    emits('popup-visible-change');
+  });
 
   return {
     computedVisible,

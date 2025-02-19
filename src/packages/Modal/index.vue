@@ -6,7 +6,7 @@
       class="yc-modal-container"
     >
       <!-- mask -->
-      <transition :name="maskAnimationName || 'fade'" appear>
+      <transition :name="maskAnimationName" appear>
         <div
           v-if="mask"
           v-show="innerVisible"
@@ -17,7 +17,7 @@
       <!-- modal-wrapper -->
       <div class="yc-modal-wrapper" @click="handleClose('mask')">
         <transition
-          :name="modalAnimationName || 'zoom-modal'"
+          :name="modalAnimationName"
           appear
           @before-enter="$emit('beforeOpen')"
           @before-leave="$emit('beforeClose', closeType)"
@@ -140,6 +140,8 @@ const props = withDefaults(defineProps<ModalProps>(), {
   escToClose: true,
   draggable: false,
   fullscreen: false,
+  maskAnimationName: 'fade',
+  modalAnimationName: 'zoom-modal',
   bodyStyle: () => {
     return {};
   },
