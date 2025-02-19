@@ -39,70 +39,40 @@
 
 <script lang="ts" setup>
 import { ref, computed, useSlots, CSSProperties, toRefs } from 'vue';
-import { Postion, Trigger } from './type';
+import { TriggerProps } from './type';
 import { useElementBounding, useElementSize } from '@vueuse/core';
 import useTriggerVisible from '@/hooks/useTriggerVisible';
 import useTriggerPosition from '@/hooks/useTriggerPosition';
-// popup-offset,popuphoverStay,auto-fit-popup-width,auto-fit-popup-min-width,auto-fix-position,update-at-scroll,auto-fit-position,prevent-focus,scroll-to-close,scroll-to-close-distance
 defineOptions({
   name: 'Trigger',
 });
-const props = withDefaults(
-  defineProps<{
-    popupVisible?: boolean;
-    defaultPopupVisible?: boolean;
-    trigger?: Trigger;
-    popupContainer?: string | HTMLElement;
-    renderToBody?: boolean;
-    position?: Postion;
-    disabled?: boolean;
-    popupTranslate?: number[];
-    showArrow?: boolean;
-    // 未实现
-    alignPoint?: boolean;
-    //
-    blurToClose?: boolean;
-    clickToClose?: boolean;
-    clickOutsidetoClose?: boolean;
-    unmountOnClose?: boolean;
-    contentClass?: string;
-    contentStyle?: CSSProperties;
-    arrowClass?: string;
-    arrowStyle?: CSSProperties;
-    animationName?: string;
-    duration?: number;
-    mouseEnterDelay?: number;
-    mouseLeaveDelay?: number;
-    focusDelay?: number;
-  }>(),
-  {
-    popupVisible: undefined,
-    defaultPopupVisible: false,
-    trigger: 'hover',
-    popupContainer: 'body',
-    renderToBody: false,
-    position: 'bottom',
-    disabled: false,
-    popupTranslate: () => [0, 0],
-    showArrow: true,
-    alignPoint: false,
-    blurToClose: true,
-    clickOutsidetoClose: true,
-    clickToClose: true,
-    unmountOnClose: true,
-    contentStyle: () => {
-      return {};
-    },
-    arrowStyle: () => {
-      return {};
-    },
-    animationName: 'fade-in',
-    duration: 300,
-    mouseEnterDelay: 1000,
-    mouseLeaveDelay: 100,
-    focusDelay: 100,
-  }
-);
+const props = withDefaults(defineProps<TriggerProps>(), {
+  popupVisible: undefined,
+  defaultPopupVisible: false,
+  trigger: 'hover',
+  popupContainer: 'body',
+  renderToBody: false,
+  position: 'bottom',
+  disabled: false,
+  popupTranslate: () => [0, 0],
+  showArrow: true,
+  alignPoint: false,
+  blurToClose: true,
+  clickOutsidetoClose: true,
+  clickToClose: true,
+  unmountOnClose: true,
+  contentStyle: () => {
+    return {};
+  },
+  arrowStyle: () => {
+    return {};
+  },
+  animationName: 'fade-in',
+  duration: 300,
+  mouseEnterDelay: 1000,
+  mouseLeaveDelay: 100,
+  focusDelay: 100,
+});
 const emits = defineEmits<{
   (e: 'update:popupVisible', value: boolean): void;
   (e: 'popup-visible-change', value: boolean): void;

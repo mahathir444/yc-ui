@@ -1,10 +1,10 @@
 import { watch, Ref, computed, ref } from 'vue';
-import { Trigger } from '@/packages/Trigger/type';
+import { TriggerType } from '@/packages/Trigger/type';
 import { isUndefined } from '@/utils/is';
 import { onClickOutside } from '@vueuse/core';
 
 export default (params: {
-  trigger: Ref<Trigger>;
+  trigger: Ref<TriggerType>;
   popupVisible: Ref<boolean | undefined>;
   defaultPopupVisible: Ref<boolean>;
   clickToClose: Ref<boolean>;

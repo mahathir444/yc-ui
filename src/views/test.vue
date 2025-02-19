@@ -26,7 +26,7 @@
     </a-modal> -->
 
     <div>
-      <a-trigger trigger="click" :click-to-close="false">
+      <a-trigger trigger="click" :align-point="true" :click-to-close="false">
         <a-button>click me</a-button>
         <template #content>
           <div class="trigger-content">

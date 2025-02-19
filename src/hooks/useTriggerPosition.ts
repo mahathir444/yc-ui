@@ -1,8 +1,8 @@
-import { Postion } from '@/packages/Trigger/type';
+import { TriggerPostion } from '@/packages/Trigger/type';
 import { computed, Ref } from 'vue';
 import { useMouse } from '@vueuse/core';
 export default (params: {
-  position: Ref<Postion>;
+  position: Ref<TriggerPostion>;
   alignPoint: Ref<boolean>;
   left: Ref<number>;
   top: Ref<number>;
@@ -92,9 +92,9 @@ export default (params: {
           : `${right.value - triggerWidth.value - contentWidth.value}`;
     }
     return {
-      left: `${offetLeft == 'unset' ? offetLeft : +offetLeft + offsetX}px`,
-      top: `${offetTop == 'unset' ? offetTop : +offetTop + offsetY}px`,
-      right: `${offetRight == 'unset' ? offetRight : +offetRight - offsetX}px`,
+      left: `${offetLeft == 'unset' ? '' : +offetLeft + offsetX}px`,
+      top: `${offetTop == 'unset' ? '' : +offetTop + offsetY}px`,
+      right: `${offetRight == 'unset' ? '' : +offetRight - offsetX}px`,
     };
   });
   // 计算arrow的位置
@@ -141,7 +141,6 @@ export default (params: {
       };
     }
   });
-
   return {
     contentPosition,
     arrowPostion,
