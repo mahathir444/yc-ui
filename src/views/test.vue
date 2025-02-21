@@ -37,13 +37,7 @@
     </div>
 
     <div>
-      <yc-trigger
-        trigger="click"
-        position="bottom"
-        show-arrow
-        :align-point="true"
-        :click-to-close="true"
-      >
+      <yc-trigger trigger="click" position="bl">
         <a-button>Click Me</a-button>
         <template #content>
           <div class="trigger-content">
@@ -69,12 +63,7 @@ import YcInput, {
 import YcTrigger from '@/packages/Trigger';
 import { useElementBounding } from '@vueuse/core';
 
-const btnRef = ref(null);
-
 const visible = ref<boolean>(false);
-const text = ref<string>('');
-const text1 = ref<string>('');
-const text2 = ref<string>('');
 </script>
 
 <style lang="less" scoped>
@@ -83,8 +72,8 @@ const text2 = ref<string>('');
   width: 100%;
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  align-items: center;
+  // justify-content: center;
+  // align-items: center;
   gap: 10px;
 }
 

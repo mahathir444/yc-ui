@@ -16,7 +16,12 @@ export type TriggerPostion =
 
 export type TriggerType = 'hover' | 'click' | 'focus' | 'contextMenu';
 
-// popup-offset,popuphoverStay,auto-fit-popup-width,auto-fit-popup-min-width,auto-fix-position,update-at-scroll,auto-fit-position,prevent-focus,scroll-to-close,scroll-to-close-distance
+/**
+ *  popup-offset、popuphoverStay、auto-fit-popup-width
+ *  auto-fit-popup-min-width、auto-fix-position
+ *  update-at-scroll、auto-fit-position、prevent-focus
+ *  scroll-to-close、scroll-to-close-distance
+ */
 export type TriggerProps = {
   popupVisible?: boolean;
   defaultPopupVisible?: boolean;

@@ -1,6 +1,7 @@
 import { TriggerPostion } from '@/packages/Trigger/type';
 import { computed, Ref } from 'vue';
 import { useMouse } from '@vueuse/core';
+import { isString } from '@/utils/is';
 export default (params: {
   position: Ref<TriggerPostion>;
   alignPoint: Ref<boolean>;
@@ -31,70 +32,78 @@ export default (params: {
     arrowHeight,
     popupTranslate,
   } = params;
-  // const { x, y } = useMouse();
   // 计算content的位置
   const contentPosition = computed(() => {
-    // if (alignPoint.value) {
-    //   return {
-    //     left: `${x.value}px`,
-    //     top: `${y.value}px`,
-    //   };
-    // }
-    let offetTop = 'unset';
-    let offetLeft = 'unset';
-    let offetRight = 'unset';
+    let offsetTop = '';
+    let offsetLeft = '';
+    let offsetRight = '';
     const [offsetX, offsetY] = popupTranslate.value || [0, 0];
     if (['top', 'bottom'].includes(position.value)) {
-      offetLeft = `${
+      offsetLeft = `${
         left.value + (triggerWidth.value - contentWidth.value) / 2
       }`;
-      offetTop =
+      offsetTop =
         position.value == 'top'
           ? `${top.value - contentHeight.value}`
           : `${top.value + triggerHeight.value}`;
     } else if (['tl', 'bl'].includes(position.value)) {
-      offetLeft = `${left.value}`;
-      offetTop =
+      offsetLeft = `${left.value}`;
+      offsetTop =
         position.value == 'tl'
           ? `${top.value - contentHeight.value}`
           : `${top.value + triggerHeight.value}`;
     } else if (['tr', 'br'].includes(position.value)) {
-      offetTop =
+      offsetTop =
         position.value == 'tr'
           ? `${top.value - contentHeight.value}`
           : `${top.value + triggerHeight.value}`;
-      offetRight = `${right.value - triggerWidth.value}`;
+      offsetRight = `${right.value - triggerWidth.value}`;
     } else if (['left', 'right'].includes(position.value)) {
-      offetLeft =
+      offsetLeft =
+        position.value == 'left' ? `${left.value - contentWidth.value}` : '';
+      offsetTop = `${top.value + (triggerHeight.value - contentHeight.value) / 2}`;
+      offsetRight =
         position.value == 'left'
-          ? `${left.value - contentWidth.value}`
-          : 'unset';
-      offetTop = `${top.value + (triggerHeight.value - contentHeight.value) / 2}`;
-      offetRight =
-        position.value == 'left'
-          ? 'unset'
+          ? ''
           : `${right.value - triggerWidth.value - contentWidth.value}`;
     } else if (['lt', 'rt'].includes(position.value)) {
-      offetLeft =
-        position.value == 'lt' ? `${left.value - contentWidth.value}` : 'unset';
-      offetTop = `${top.value}`;
-      offetRight =
+      offsetLeft =
+        position.value == 'lt' ? `${left.value - contentWidth.value}` : '';
+      offsetTop = `${top.value}`;
+      offsetRight =
         position.value == 'lt'
-          ? 'unset'
+          ? ''
           : `${right.value - triggerWidth.value - contentWidth.value}`;
     } else if (['lb', 'rb'].includes(position.value)) {
-      offetLeft =
-        position.value == 'lb' ? `${left.value - contentWidth.value}` : 'unset';
-      offetTop = `${top.value + triggerHeight.value - contentHeight.value}`;
-      offetRight =
+      offsetLeft =
+        position.value == 'lb' ? `${left.value - contentWidth.value}` : '';
+      offsetTop = `${top.value + triggerHeight.value - contentHeight.value}`;
+      offsetRight =
         position.value == 'lb'
-          ? 'unset'
+          ? ''
           : `${right.value - triggerWidth.value - contentWidth.value}`;
     }
+    // 边界检测
+    // if (offsetLeft.toString() && +offsetLeft < 0) {
+    //   offsetRight = `${right.value - triggerWidth.value - contentWidth.value}`;
+    // } else if (
+    //   offsetRight.toString() &&
+    //   +offsetRight > window.innerWidth - triggerWidth.value - contentWidth.value
+    // ) {
+    //   offsetLeft = `${left.value}`;
+    // }
+    // if (+offsetTop < 0) {
+    //   offsetTop = `${top.value + triggerHeight.value}`;
+    // } else if (
+    //   +offsetTop >
+    //   window.innerHeight - triggerHeight.value - contentHeight.value
+    // ) {
+    //   offsetTop = `${top.value - contentHeight.value}`;
+    // }
     return {
-      left: `${offetLeft == 'unset' ? '' : +offetLeft + offsetX}px`,
-      top: `${offetTop == 'unset' ? '' : +offetTop + offsetY}px`,
-      right: `${offetRight == 'unset' ? '' : +offetRight - offsetX}px`,
+      left: `${!offsetLeft.toString() ? offsetLeft : +offsetLeft + offsetX}px`,
+      top: `${!offsetTop.toString() ? offsetTop : +offsetTop + offsetY}px`,
+      right: `${!offsetRight.toString() ? offsetRight : +offsetRight - offsetX}px`,
     };
   });
   // 计算arrow的位置
