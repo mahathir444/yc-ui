@@ -37,7 +37,7 @@
     </div>
 
     <div>
-      <yc-trigger trigger="click" position="bl">
+      <yc-trigger trigger="click" position="top">
         <a-button>Click Me</a-button>
         <template #content>
           <div class="trigger-content">
@@ -68,12 +68,12 @@ const visible = ref<boolean>(false);
 
 <style lang="less" scoped>
 .test {
-  height: 100%;
-  width: 100%;
+  height: 300vh;
+  width: 300vw;
   display: flex;
   flex-direction: column;
-  // justify-content: center;
-  // align-items: center;
+  justify-content: center;
+  align-items: center;
   gap: 10px;
 }
 
