@@ -68,7 +68,7 @@ const props = withDefaults(defineProps<TriggerProps>(), {
     return {};
   },
   animationName: 'fade-in',
-  duration: 300,
+  duration: 400,
   mouseEnterDelay: 1000,
   mouseLeaveDelay: 100,
   focusDelay: 100,
@@ -94,6 +94,7 @@ const {
   mouseEnterDelay,
   mouseLeaveDelay,
   focusDelay,
+  duration,
 } = toRefs(props);
 // content的ref
 const contentRef = ref<HTMLDivElement>();

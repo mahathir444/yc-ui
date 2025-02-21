@@ -1,6 +1,5 @@
 import { TriggerPostion } from '@/packages/Trigger/type';
-import { isString } from '@/utils/is';
-import { computed, Ref } from 'vue';
+import { computed, Ref, ref } from 'vue';
 export default (params: {
   position: Ref<TriggerPostion>;
   left: Ref<number>;
@@ -29,11 +28,14 @@ export default (params: {
     arrowHeight,
     popupTranslate,
   } = params;
+  // 动态计算当前的位置
+  const curPostion = ref<TriggerPostion>(position.value);
   // 计算content的位置
   const contentPosition = computed(() => {
-    let offsetTop: string | number = '';
-    let offsetLeft: string | number = '';
+    let offsetTop = 0;
+    let offsetLeft = 0;
     const [offsetX, offsetY] = popupTranslate.value || [0, 0];
+    // 初始位置计算
     if (['top', 'tl', 'tr', 'bottom', 'bl', 'br'].includes(position.value)) {
       offsetTop = position.value.startsWith('t')
         ? top.value - contentHeight.value
@@ -48,7 +50,7 @@ export default (params: {
     } else {
       offsetLeft = position.value.startsWith('l')
         ? left.value - contentWidth.value
-        : left.value + triggerWidth.value;
+        : right.value;
       if (['left', 'right'].includes(position.value)) {
         offsetTop = top.value + (triggerHeight.value - contentHeight.value) / 2;
       } else if (['lt', 'rt'].includes(position.value)) {
@@ -58,91 +60,101 @@ export default (params: {
       }
     }
     // 边界检测
-    if (['top', 'tl', 'tr'].includes(position.value)) {
-      if (+offsetTop < 0) {
-        offsetTop = top.value + triggerHeight.value;
-        +contentHeight.value <= window.innerHeight
-          ? top.value + triggerHeight.value
-          : offsetTop;
+    if (['top', 'tl', 'tr', 'bottom', 'bl', 'br'].includes(position.value)) {
+      // 上下检测
+      if (offsetTop < 0 && ['top', 'tl', 'tr'].includes(position.value)) {
+        offsetTop = bottom.value;
+        curPostion.value =
+          position.value == 'top'
+            ? 'bottom'
+            : (position.value.replace('t', 'b') as TriggerPostion);
+      } else if (
+        offsetTop + contentHeight.value > window.innerHeight &&
+        ['bottom', 'bl', 'br'].includes(position.value)
+      ) {
+        offsetTop = top.value - contentHeight.value;
+        curPostion.value =
+          position.value == 'bottom'
+            ? 'top'
+            : (position.value.replace('b', 't') as TriggerPostion);
       }
-      if (+offsetLeft < 0) {
-        offsetLeft = left.value >= 0 ? left.value : offsetLeft;
-      }
-    } else if (['bottom', 'bl', 'br'].includes(position.value)) {
-      if (+offsetTop + contentHeight.value > window.innerHeight) {
-        offsetTop =
-          top.value - contentHeight.value >= 0
-            ? top.value - contentHeight.value
-            : offsetTop;
-      }
-      if (+offsetLeft < 0) {
-        offsetLeft = left.value >= 0 ? left.value : offsetLeft;
-      }
-    } else if (['left', 'lt', 'lb'].includes(position.value)) {
-      if (+offsetLeft < 0) {
-        const tempLeft = left.value + triggerWidth.value;
-        offsetLeft = tempLeft >= 0 ? tempLeft : offsetLeft;
-      }
-      if (+offsetTop < 0) {
-        offsetTop = top.value >= 0 ? top.value : offsetTop;
+      // 左右检测
+      if (offsetLeft < 0) {
+        offsetLeft = left.value;
+      } else if (offsetLeft + contentWidth.value > window.innerWidth) {
+        offsetLeft = right.value - contentWidth.value;
       }
     } else {
-      if (+offsetLeft < 0) {
-        offsetLeft =
-          left.value - contentWidth.value >= 0
-            ? left.value - contentWidth.value
-            : offsetLeft;
+      // 左右检测
+      if (offsetLeft < 0 && ['left', 'lt', 'lb'].includes(position.value)) {
+        offsetLeft = right.value - contentHeight.value;
+        curPostion.value =
+          position.value == 'left'
+            ? 'right'
+            : (position.value.replace('l', 'r') as TriggerPostion);
+      } else if (
+        offsetLeft + contentWidth.value > window.innerWidth &&
+        ['right', 'rt', 'rb'].includes(position.value)
+      ) {
+        offsetLeft = left.value;
+        curPostion.value =
+          position.value == 'right'
+            ? 'left'
+            : (position.value.replace('r', 'l') as TriggerPostion);
       }
-      if (+offsetTop < 0) {
-        offsetTop = top.value >= 0 ? top.value : offsetTop;
+      // 上下检测
+      if (offsetTop < 0) {
+        offsetTop = top.value;
+      } else if (offsetTop + contentHeight.value > window.innerHeight) {
+        offsetTop = top.value - contentHeight.value;
       }
     }
-    const res = {
-      top: `${isString(offsetTop) ? offsetTop : `${offsetTop + offsetY}px`}`,
-      left: `${isString(offsetLeft) ? offsetLeft : `${offsetLeft + offsetX}px`}`,
-    };
+    console.log(curPostion.value, 'cur');
 
-    return res;
+    return {
+      top: `${offsetTop + offsetY}px`,
+      left: `${offsetLeft + offsetX}px`,
+    };
   });
   // 计算arrow的位置
   const arrowPostion = computed(() => {
-    if (['top', 'tl', 'tr', 'bottom', 'bl', 'br'].includes(position.value)) {
-      let arrowLeft = '';
-      let arrowRight = '';
-      if (['top', 'bottom'].includes(position.value)) {
-        arrowLeft = `${(contentWidth.value - arrowWidth.value) / 2}px`;
-      } else if (['tl', 'bl'].includes(position.value)) {
-        arrowLeft = `${(triggerWidth.value - arrowWidth.value) / 2}px`;
+    if (['top', 'tl', 'tr', 'bottom', 'bl', 'br'].includes(curPostion.value)) {
+      let arrowLeft = 0;
+      let arrowRight = 0;
+      if (['top', 'bottom'].includes(curPostion.value)) {
+        arrowLeft = (contentWidth.value - arrowWidth.value) / 2;
+      } else if (['tl', 'bl'].includes(curPostion.value)) {
+        arrowLeft = (triggerWidth.value - arrowWidth.value) / 2;
       } else {
-        arrowRight = `${(triggerWidth.value - arrowWidth.value) / 2}px`;
+        arrowRight = (triggerWidth.value - arrowWidth.value) / 2;
       }
       return {
-        top: position.value.startsWith('b')
-          ? `${-arrowHeight.value / 2}px`
-          : '',
-        left: arrowLeft,
-        bottom: position.value.startsWith('t')
+        top: curPostion.value.startsWith('b')
           ? `${-arrowHeight.value / 2}px`
           : '',
         right: arrowRight,
+        bottom: curPostion.value.startsWith('t')
+          ? `${-arrowHeight.value / 2}px`
+          : '',
+        left: arrowLeft,
       };
     } else {
-      let arrowTop = '';
-      let arrowBottom = '';
-      if (['left', 'right'].includes(position.value)) {
-        arrowTop = `${(contentHeight.value - arrowHeight.value) / 2}px`;
-      } else if (['lt', 'rt'].includes(position.value)) {
-        arrowTop = `${(triggerHeight.value - arrowHeight.value) / 2}px`;
+      let arrowTop = 0;
+      let arrowBottom = 0;
+      if (['left', 'right'].includes(curPostion.value)) {
+        arrowTop = (contentHeight.value - arrowHeight.value) / 2;
+      } else if (['lt', 'rt'].includes(curPostion.value)) {
+        arrowTop = (triggerHeight.value - arrowHeight.value) / 2;
       } else {
-        arrowBottom = `${(triggerHeight.value - arrowHeight.value) / 2}px`;
+        arrowBottom = (triggerHeight.value - arrowHeight.value) / 2;
       }
       return {
         top: arrowTop,
-        left: position.value.startsWith('r')
+        right: curPostion.value.startsWith('l')
           ? `${-arrowWidth.value / 2}px`
           : '',
         bottom: arrowBottom,
-        right: position.value.startsWith('l')
+        left: curPostion.value.startsWith('r')
           ? `${-arrowWidth.value / 2}px`
           : '',
       };
