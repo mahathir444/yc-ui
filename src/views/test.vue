@@ -37,7 +37,7 @@
     </div>
 
     <div>
-      <yc-trigger trigger="click" position="top" show-arrow>
+      <yc-trigger trigger="click" position="left" show-arrow>
         <a-button>Click Me</a-button>
         <template #content>
           <div class="trigger-content">

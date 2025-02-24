@@ -79,12 +79,12 @@ export default (params: {
     } else {
       // 左右检测
       if (offsetLeft < 0 && ['left', 'lt', 'lb'].includes(position.value)) {
-        offsetLeft = right.value - contentHeight.value;
+        offsetLeft = right.value;
       } else if (
         offsetLeft + contentWidth.value > window.innerWidth &&
         ['right', 'rt', 'rb'].includes(position.value)
       ) {
-        offsetLeft = left.value;
+        offsetLeft = left.value - contentWidth.value;
       }
       // 上下检测
       if (offsetTop < 0) {
@@ -93,7 +93,10 @@ export default (params: {
         offsetTop = top.value - contentHeight.value;
       }
     }
-    curPostion.value = getCurrentPosition(offsetLeft, offsetTop) as any;
+    curPostion.value = getCurrentPosition(
+      offsetLeft,
+      offsetTop
+    ) as TriggerPostion;
     return {
       top: `${offsetTop + offsetY}px`,
       left: `${offsetLeft + offsetX}px`,
@@ -145,45 +148,50 @@ export default (params: {
   });
   // 根据offsettop与offsetleft反向计算当前的位置
   function getCurrentPosition(offsetLeft: number, offsetTop: number) {
-    const offsetArray = [
+    const dirArray = [
       //上
       [
-        `${top.value - contentHeight.value},${left.value + (triggerWidth.value - contentWidth.value) / 2}`,
+        top.value - contentHeight.value,
+        (triggerWidth.value - contentWidth.value) / 2,
         'top',
       ],
-      [`${top.value - contentHeight.value},${left.value}`, 'tl'],
-      [
-        `${top.value - contentHeight.value},${right.value - contentWidth.value}`,
-        'tr',
-      ],
+      [top.value - contentHeight.value, left.value, 'tl'],
+      [top.value - contentHeight.value, right.value - contentWidth.value, 'tr'],
       //下
-      [
-        `${bottom.value},${left.value + (triggerWidth.value - contentWidth.value) / 2}`,
-        'bottom',
-      ],
-      [`${bottom.value},${left.value}`, 'bl'],
-      [`${bottom.value},${right.value - contentWidth.value}`, 'br'],
+      [bottom.value, (triggerWidth.value - contentWidth.value) / 2, 'bottom'],
+      [bottom.value, left.value, 'bl'],
+      [bottom.value, right.value - contentWidth.value, 'br'],
       //左
       [
-        `${top.value + (triggerHeight.value - contentHeight.value) / 2},${left.value - contentWidth.value}`,
+        top.value + (triggerHeight.value - contentHeight.value) / 2,
+        left.value - contentWidth.value,
         'left',
       ],
-      [`${top.value},${left.value - contentWidth.value}`, 'lt'],
+      [top.value, left.value - contentWidth.value, 'lt'],
       [
-        `${bottom.value - contentHeight.value},${left.value - contentWidth.value}`,
+        bottom.value - contentHeight.value,
+        left.value - contentWidth.value,
         'lb',
       ],
       //右
       [
-        `${top.value + (triggerHeight.value - contentHeight.value) / 2},${right.value}`,
-        'left',
+        top.value + (triggerHeight.value - contentHeight.value) / 2,
+        right.value,
+        'right',
       ],
-      [`${top.value},${right.value}`, 'lt'],
-      [`${bottom.value - contentHeight.value},${right.value}`, 'lb'],
+      [top.value, right.value, 'rt'],
+      [bottom.value - contentHeight.value, right.value, 'rb'],
     ];
-    const dir = new Map(offsetArray as any).get(`${offsetTop},${offsetLeft}`);
-    console.log(dir);
-    return dir;
+    for (const [finalTop, finalLeft, dir] of dirArray) {
+      if (
+        (finalTop as number) == offsetTop &&
+        (finalLeft as number) == offsetLeft
+      ) {
+        console.log('dir', dir);
+        return dir;
+      }
+    }
+    return position.value;
   }
   return {
     contentPosition,

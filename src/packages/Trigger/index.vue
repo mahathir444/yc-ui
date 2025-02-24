@@ -189,7 +189,7 @@ const arrowCss = computed(() => {
     transform: rotate(45deg);
     width: 8px;
     height: 8px;
-    background-color: black;
+    background-color: #fff;
   }
 }
 
