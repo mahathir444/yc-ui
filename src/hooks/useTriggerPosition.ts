@@ -64,19 +64,11 @@ export default (params: {
       // 上下检测
       if (offsetTop < 0 && ['top', 'tl', 'tr'].includes(position.value)) {
         offsetTop = bottom.value;
-        curPostion.value =
-          position.value == 'top'
-            ? 'bottom'
-            : (position.value.replace('t', 'b') as TriggerPostion);
       } else if (
         offsetTop + contentHeight.value > window.innerHeight &&
         ['bottom', 'bl', 'br'].includes(position.value)
       ) {
         offsetTop = top.value - contentHeight.value;
-        curPostion.value =
-          position.value == 'bottom'
-            ? 'top'
-            : (position.value.replace('b', 't') as TriggerPostion);
       }
       // 左右检测
       if (offsetLeft < 0) {
@@ -88,19 +80,11 @@ export default (params: {
       // 左右检测
       if (offsetLeft < 0 && ['left', 'lt', 'lb'].includes(position.value)) {
         offsetLeft = right.value - contentHeight.value;
-        curPostion.value =
-          position.value == 'left'
-            ? 'right'
-            : (position.value.replace('l', 'r') as TriggerPostion);
       } else if (
         offsetLeft + contentWidth.value > window.innerWidth &&
         ['right', 'rt', 'rb'].includes(position.value)
       ) {
         offsetLeft = left.value;
-        curPostion.value =
-          position.value == 'right'
-            ? 'left'
-            : (position.value.replace('r', 'l') as TriggerPostion);
       }
       // 上下检测
       if (offsetTop < 0) {
@@ -109,8 +93,7 @@ export default (params: {
         offsetTop = top.value - contentHeight.value;
       }
     }
-    console.log(curPostion.value, 'cur');
-
+    curPostion.value = getCurrentPosition(offsetLeft, offsetTop) as any;
     return {
       top: `${offsetTop + offsetY}px`,
       left: `${offsetLeft + offsetX}px`,
@@ -119,8 +102,8 @@ export default (params: {
   // 计算arrow的位置
   const arrowPostion = computed(() => {
     if (['top', 'tl', 'tr', 'bottom', 'bl', 'br'].includes(curPostion.value)) {
-      let arrowLeft = 0;
-      let arrowRight = 0;
+      let arrowLeft: string | number = '';
+      let arrowRight: string | number = '';
       if (['top', 'bottom'].includes(curPostion.value)) {
         arrowLeft = (contentWidth.value - arrowWidth.value) / 2;
       } else if (['tl', 'bl'].includes(curPostion.value)) {
@@ -132,15 +115,15 @@ export default (params: {
         top: curPostion.value.startsWith('b')
           ? `${-arrowHeight.value / 2}px`
           : '',
-        right: arrowRight,
+        right: `${arrowRight}px`,
         bottom: curPostion.value.startsWith('t')
           ? `${-arrowHeight.value / 2}px`
           : '',
-        left: arrowLeft,
+        left: `${arrowLeft}px`,
       };
     } else {
-      let arrowTop = 0;
-      let arrowBottom = 0;
+      let arrowTop: string | number = '';
+      let arrowBottom: string | number = '';
       if (['left', 'right'].includes(curPostion.value)) {
         arrowTop = (contentHeight.value - arrowHeight.value) / 2;
       } else if (['lt', 'rt'].includes(curPostion.value)) {
@@ -149,19 +132,62 @@ export default (params: {
         arrowBottom = (triggerHeight.value - arrowHeight.value) / 2;
       }
       return {
-        top: arrowTop,
+        top: `${arrowTop}px`,
         right: curPostion.value.startsWith('l')
           ? `${-arrowWidth.value / 2}px`
           : '',
-        bottom: arrowBottom,
+        bottom: `${arrowBottom}px`,
         left: curPostion.value.startsWith('r')
           ? `${-arrowWidth.value / 2}px`
           : '',
       };
     }
   });
+  // 根据offsettop与offsetleft反向计算当前的位置
+  function getCurrentPosition(offsetLeft: number, offsetTop: number) {
+    const offsetArray = [
+      //上
+      [
+        `${top.value - contentHeight.value},${left.value + (triggerWidth.value - contentWidth.value) / 2}`,
+        'top',
+      ],
+      [`${top.value - contentHeight.value},${left.value}`, 'tl'],
+      [
+        `${top.value - contentHeight.value},${right.value - contentWidth.value}`,
+        'tr',
+      ],
+      //下
+      [
+        `${bottom.value},${left.value + (triggerWidth.value - contentWidth.value) / 2}`,
+        'bottom',
+      ],
+      [`${bottom.value},${left.value}`, 'bl'],
+      [`${bottom.value},${right.value - contentWidth.value}`, 'br'],
+      //左
+      [
+        `${top.value + (triggerHeight.value - contentHeight.value) / 2},${left.value - contentWidth.value}`,
+        'left',
+      ],
+      [`${top.value},${left.value - contentWidth.value}`, 'lt'],
+      [
+        `${bottom.value - contentHeight.value},${left.value - contentWidth.value}`,
+        'lb',
+      ],
+      //右
+      [
+        `${top.value + (triggerHeight.value - contentHeight.value) / 2},${right.value}`,
+        'left',
+      ],
+      [`${top.value},${right.value}`, 'lt'],
+      [`${bottom.value - contentHeight.value},${right.value}`, 'lb'],
+    ];
+    const dir = new Map(offsetArray as any).get(`${offsetTop},${offsetLeft}`);
+    console.log(dir);
+    return dir;
+  }
   return {
     contentPosition,
     arrowPostion,
+    curPostion,
   };
 };

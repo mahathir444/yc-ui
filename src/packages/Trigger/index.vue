@@ -11,6 +11,7 @@
   <Teleport :to="popupContainer" :disabled="renderToBody">
     <Transition
       :name="animationName"
+      :duration="duration"
       @after-leave="$emit('hide')"
       @after-enter="$emit('show')"
     >
@@ -142,7 +143,7 @@ const { width: contentWidth, height: contentHeight } =
 // arrow的宽高
 const { width: arrowWidth, height: arrowHeight } = useElementSize(arrowRef);
 // 计算content与arrow的位置信息
-const { contentPosition, arrowPostion } = useTriggerPosition({
+const { contentPosition, arrowPostion, curPostion } = useTriggerPosition({
   position,
   left,
   top,
@@ -166,12 +167,12 @@ const contentCss = computed(() => {
 // arrowcss
 const arrowCss = computed(() => {
   return {
-    borderTopLeftRadius: position.value.startsWith('b') ? '2px' : '',
+    borderTopLeftRadius: curPostion.value.startsWith('b') ? '2px' : '',
     borderBottomLeftRadius:
-      position.value.startsWith('t') || position.value.startsWith('r')
+      curPostion.value.startsWith('t') || curPostion.value.startsWith('r')
         ? '2px'
         : '',
-    borderTopRightRadius: position.value.startsWith('l') ? '2px' : '',
+    borderTopRightRadius: curPostion.value.startsWith('l') ? '2px' : '',
     ...arrowPostion.value,
     ...arrowStyle.value,
   } as CSSProperties;
@@ -188,7 +189,7 @@ const arrowCss = computed(() => {
     transform: rotate(45deg);
     width: 8px;
     height: 8px;
-    background-color: #fff;
+    background-color: black;
   }
 }
 
