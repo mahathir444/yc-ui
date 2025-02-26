@@ -13,6 +13,7 @@ declare module 'vue' {
     AInputPassword: typeof import('@arco-design/web-vue')['InputPassword']
     AInputSearch: typeof import('@arco-design/web-vue')['InputSearch']
     AModal: typeof import('@arco-design/web-vue')['Modal']
+    APopover: typeof import('@arco-design/web-vue')['Popover']
     ATag: typeof import('@arco-design/web-vue')['Tag']
     ATrigger: typeof import('@arco-design/web-vue')['Trigger']
     IconButton: typeof import('./src/components/IconButton/index.vue')['default']

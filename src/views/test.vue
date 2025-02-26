@@ -26,21 +26,21 @@
     </a-modal> -->
 
     <div>
-      <a-trigger trigger="click" position="br">
+      <a-popover trigger="click" position="br">
         <a-button>click me</a-button>
         <template #content>
-          <div class="trigger-content">
+          <div class="popover-content">
             <a-empty />
           </div>
         </template>
-      </a-trigger>
+      </a-popover>
     </div>
 
     <div>
-      <yc-popover trigger="click" position="lt">
+      <yc-popover trigger="click">
         <a-button>click me</a-button>
         <template #content>
-          <div class="trigger-content">
+          <div class="popover-content">
             <a-empty />
           </div>
         </template>
@@ -78,13 +78,6 @@ const visible = ref<boolean>(false);
   gap: 10px;
 }
 
-.trigger-content {
-  box-shadow: 0 2px 8px #00000026;
-  padding: 10px;
-  width: 200px;
-  background-color: #fff;
-  border-radius: 4px;
-}
 .popover-content {
   width: 200px;
   background-color: #fff;

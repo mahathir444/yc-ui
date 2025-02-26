@@ -1,5 +1,5 @@
 import { TriggerPostion } from '@/packages/Trigger/type';
-import { computed, Ref, ref } from 'vue';
+import { computed, CSSProperties, Ref, ref } from 'vue';
 export default (params: {
   position: Ref<TriggerPostion>;
   left: Ref<number>;
@@ -10,8 +10,6 @@ export default (params: {
   triggerHeight: Ref<number>;
   contentWidth: Ref<number>;
   contentHeight: Ref<number>;
-  arrowWidth: Ref<number>;
-  arrowHeight: Ref<number>;
   popupTranslate: Ref<number[] | undefined>;
 }) => {
   const {
@@ -24,8 +22,6 @@ export default (params: {
     triggerWidth,
     contentHeight,
     contentWidth,
-    arrowWidth,
-    arrowHeight,
     popupTranslate,
   } = params;
   // 动态计算当前的位置
@@ -104,53 +100,69 @@ export default (params: {
   });
   // 计算arrow的位置
   const arrowPostion = computed(() => {
+    let style;
     if (['top', 'tl', 'tr', 'bottom', 'bl', 'br'].includes(curPostion.value)) {
       let arrowLeft: string | number = '';
       let arrowRight: string | number = '';
       if (['top', 'bottom'].includes(curPostion.value)) {
-        arrowLeft = (contentWidth.value - arrowWidth.value) / 2;
-      } else if (['tl', 'bl'].includes(curPostion.value)) {
-        arrowLeft = (triggerWidth.value - arrowWidth.value) / 2;
+        arrowLeft = contentWidth.value / 2;
       } else {
-        arrowRight = (triggerWidth.value - arrowWidth.value) / 2;
+        arrowLeft = triggerWidth.value / 2;
       }
-      return {
-        top: curPostion.value.startsWith('b')
-          ? `${-arrowHeight.value / 2}px`
-          : '',
+      style = {
+        top: curPostion.value.startsWith('b') ? '0px' : '',
         right: `${arrowRight}px`,
-        bottom: curPostion.value.startsWith('t')
-          ? `${-arrowHeight.value / 2}px`
-          : '',
+        bottom: curPostion.value.startsWith('t') ? '0px' : '',
         left: `${arrowLeft}px`,
       };
     } else {
       let arrowTop: string | number = '';
       let arrowBottom: string | number = '';
       if (['left', 'right'].includes(curPostion.value)) {
-        arrowTop = (contentHeight.value - arrowHeight.value) / 2;
+        arrowTop = contentHeight.value / 2;
       } else if (['lt', 'rt'].includes(curPostion.value)) {
-        arrowTop = (triggerHeight.value - arrowHeight.value) / 2;
+        arrowTop = triggerHeight.value / 2;
       } else {
-        arrowBottom = (triggerHeight.value - arrowHeight.value) / 2;
+        arrowBottom = triggerHeight.value / 2;
       }
-      return {
+      style = {
         top: `${arrowTop}px`,
-        right: curPostion.value.startsWith('l')
-          ? `${-arrowWidth.value / 2}px`
-          : '',
+        right: curPostion.value.startsWith('l') ? '0px' : '',
         bottom: `${arrowBottom}px`,
-        left: curPostion.value.startsWith('r')
-          ? `${-arrowWidth.value / 2}px`
-          : '',
-        borderTopLeftRadius: curPostion.value.startsWith('b') ? '2px' : '',
-        borderBottomLeftRadius:
-          curPostion.value.startsWith('t') || curPostion.value.startsWith('r')
-            ? '2px'
-            : '',
-        borderTopRightRadius: curPostion.value.startsWith('l') ? '2px' : '',
+        left: curPostion.value.startsWith('r') ? '0px' : '',
       };
     }
+    // 设置 border-radius
+    const borderRadius = {
+      borderTopLeftRadius: curPostion.value.startsWith('b') ? '2px' : '0',
+      borderBottomRightRadius: curPostion.value.startsWith('t') ? '2px' : '0',
+      borderTopRightRadius: curPostion.value.startsWith('l') ? '2px' : '0',
+      borderBottomLeftRadius: curPostion.value.startsWith('r') ? '2px' : '0',
+    };
+    // 设置 border
+    const border = {
+      borderTop:
+        curPostion.value.startsWith('r') || curPostion.value.startsWith('t')
+          ? 'none'
+          : '',
+      borderRight:
+        curPostion.value.startsWith('r') || curPostion.value.startsWith('b')
+          ? 'none'
+          : '',
+      borderBottom:
+        curPostion.value.startsWith('l') || curPostion.value.startsWith('b')
+          ? 'none'
+          : '',
+      borderLeft:
+        curPostion.value.startsWith('l') || curPostion.value.startsWith('t')
+          ? 'none'
+          : '',
+    };
+    return {
+      ...style,
+      ...border,
+      ...borderRadius,
+    } as CSSProperties;
   });
   // 根据offsettop与offsetleft反向计算当前的位置
   function getCurrentPosition(offsetLeft: number, offsetTop: number) {

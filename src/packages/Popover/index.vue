@@ -1,21 +1,24 @@
 <template>
   <Trigger
+    v-bind="props"
     :arrow-class="popoverArrowClass"
     :content-class="popoverContentClass"
     :class="['yc-popover', $attrs.class]"
   >
     <div>
-      <slot></slot>
+      <slot />
     </div>
+
     <template #content>
-      <div class="yc-popover-title"></div>
+      <div v-if="$slots.title" class="yc-popover-title">
+        <slot v-if="$slots.title" name="title" />
+        <span v-else="!$slots.title && title">{{ title }}</span>
+      </div>
       <div class="yc-popover-content">
         <slot name="content" />
       </div>
     </template>
   </Trigger>
-  <!-- v-if="isMounted" -->
-  <!-- <slot v-else /> -->
 </template>
 
 <script lang="ts" setup>
@@ -46,7 +49,7 @@ const props = withDefaults(defineProps<PopoverProps>(), {
   arrowStyle: () => {
     return {};
   },
-  animationName: 'fade-in',
+  animationName: 'zoom-in-fade-out',
   duration: 400,
   mouseEnterDelay: 1000,
   mouseLeaveDelay: 100,
@@ -74,14 +77,14 @@ const popoverContentClass = computed(() =>
 onMounted(() => {
   setTimeout(() => {
     isMounted.value = true;
-  }, 100);
+  }, 1000);
 });
 onBeforeUnmount(() => {
   isMounted.value = false;
 });
 </script>
 
-<style lang="less" scoped>
+<style lang="less">
 .yc-popover {
   .yc-popover-popup-content {
     padding: 12px 16px;
@@ -92,9 +95,20 @@ onBeforeUnmount(() => {
     border: 1px solid rgb(229, 230, 235);
     border-radius: 4px;
     box-shadow: 0 4px 10px #0000001a;
+    .yc-popover-title {
+      color: rgb(29, 33, 41);
+      font-weight: 500;
+      font-size: 16px;
+      margin-bottom: 4px;
+    }
   }
-  .yc-popover-popup-arrow {
-    border: 1px solid rgb(229, 230, 235);
+  .yc-trigger-arrow {
+    &.yc-popover-popup-arrow {
+      z-index: 1;
+      border: 1px solid rgb(229, 230, 235);
+      width: 8px;
+      height: 8px;
+    }
   }
 }
 </style>

@@ -18,21 +18,20 @@
       <div
         v-if="!unmountOnClose || (computedVisible && !disabled)"
         v-show="computedVisible && !disabled"
-        :class="['yc-trigger-container', $attrs.class, contentClass]"
+        :class="['yc-trigger-container', $attrs.class]"
         :style="contentCss"
         v-bind="$attrs"
         ref="contentRef"
         @mouseenter="handleMouseenter"
         @mouseleave="handleMouseleave"
       >
-        <div class="yc-trigger-content">
+        <div :class="['yc-trigger-content', contentClass]">
           <slot name="content" />
         </div>
         <div
           v-if="showArrow"
           :class="['yc-trigger-arrow', arrowClass]"
           :style="arrowCss"
-          ref="arrowRef"
         ></div>
       </div>
     </Transition>
@@ -104,8 +103,6 @@ const {
 } = toRefs(props);
 // content的ref
 const contentRef = ref<HTMLDivElement>();
-// arrow的ref
-const arrowRef = ref<HTMLDivElement>();
 // trigger的ref
 const triggerRef = ref<HTMLElement | null>(null);
 // 获取默认插槽的vNode
@@ -145,8 +142,6 @@ const {
 // content的宽高
 const { width: contentWidth, height: contentHeight } =
   useElementSize(contentRef);
-// arrow的宽高
-const { width: arrowWidth, height: arrowHeight } = useElementSize(arrowRef);
 // 计算content与arrow的位置信息
 const { contentPosition, arrowPostion } = useTriggerPosition({
   position,
@@ -158,8 +153,6 @@ const { contentPosition, arrowPostion } = useTriggerPosition({
   triggerWidth,
   contentHeight,
   contentWidth,
-  arrowWidth,
-  arrowHeight,
   popupTranslate,
 });
 // contentCss
@@ -187,27 +180,10 @@ const arrowCss = computed(() => {
   .yc-trigger-arrow {
     z-index: -1;
     position: absolute;
-    transform: rotate(45deg);
+    transform: translate(-50%, -50%) rotate(45deg);
     width: 8px;
     height: 8px;
     background-color: #fff;
   }
-}
-
-// fade过渡
-.fade-in-enter-from,
-.fade-in-appear-from,
-.fade-in-leave-to {
-  opacity: 0;
-}
-.fade-in-enter-to,
-.fade-in-appear-to,
-.fade-in-leave-from {
-  opacity: 1;
-}
-.fade-in-enter-active,
-.fade-in-appear-active,
-.fade-in-leave-active {
-  transition: opacity 0.4s cubic-bezier(0.3, 1.3, 0.3, 1);
 }
 </style>
