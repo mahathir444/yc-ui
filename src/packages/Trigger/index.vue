@@ -1,5 +1,5 @@
 <template>
-  <default-slot
+  <!-- <default-slot
     @click="handleClick"
     @contextmenu="handleContextmenu"
     @mouseenter="handleMouseenter"
@@ -7,6 +7,15 @@
     @focus="handleFocus"
     @blur="handleBlur"
     ref="triggerRef"
+  /> -->
+  <dom-render
+    :vNodes="defaultSlot"
+    @click="handleClick"
+    @contextmenu="handleContextmenu"
+    @mouseenter="handleMouseenter"
+    @mouseleave="handleMouseleave"
+    @focus="handleFocus"
+    @blur="handleBlur"
   />
   <Teleport :to="popupContainer" :disabled="renderToBody">
     <Transition
@@ -39,11 +48,12 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, computed, useSlots, CSSProperties, toRefs } from 'vue';
-import { TriggerProps } from './type';
+import { ref, computed, useSlots, CSSProperties, toRefs, h } from 'vue';
+import { TriggerProps, TriggerPostion } from './type';
 import { useElementBounding, useElementSize } from '@vueuse/core';
 import useTriggerVisible from '@/hooks/useTriggerVisible';
 import useTriggerPosition from '@/hooks/useTriggerPosition';
+import slotRender from '@/utils/slot-render';
 defineOptions({
   name: 'Trigger',
 });
@@ -79,6 +89,7 @@ const props = withDefaults(defineProps<TriggerProps>(), {
 const emits = defineEmits<{
   (e: 'update:popupVisible', value: boolean): void;
   (e: 'popup-visible-change', value: boolean): void;
+  (e: 'position-change', value: TriggerPostion): void;
   (e: 'show'): void;
   (e: 'hide'): void;
 }>();
@@ -107,7 +118,17 @@ const contentRef = ref<HTMLDivElement>();
 const triggerRef = ref<HTMLElement | null>(null);
 // 获取默认插槽的vNode
 const slots = useSlots();
-const DefaultSlot = computed(() => slots.default && slots.default()[0]);
+const defaultSlot = computed(() => {
+  if (slots?.default?.()?.length) {
+    return props.triggerDom ? props.triggerDom : slots.default()[0];
+  } else {
+    return h('span', null, '');
+  }
+});
+// 插槽渲染器
+const DomRender = slotRender((el) => {
+  triggerRef.value = el;
+});
 // 处理trigger关闭与开启
 const {
   computedVisible,
@@ -154,6 +175,7 @@ const { contentPosition, arrowPostion } = useTriggerPosition({
   contentHeight,
   contentWidth,
   popupTranslate,
+  emits,
 });
 // contentCss
 const contentCss = computed(() => {
@@ -180,7 +202,6 @@ const arrowCss = computed(() => {
   .yc-trigger-arrow {
     z-index: -1;
     position: absolute;
-    transform: translate(-50%, -50%) rotate(45deg);
     width: 8px;
     height: 8px;
     background-color: #fff;

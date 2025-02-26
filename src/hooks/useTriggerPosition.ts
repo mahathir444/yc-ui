@@ -11,6 +11,7 @@ export default (params: {
   contentWidth: Ref<number>;
   contentHeight: Ref<number>;
   popupTranslate: Ref<number[] | undefined>;
+  emits: (...args: any) => any;
 }) => {
   const {
     position,
@@ -23,6 +24,7 @@ export default (params: {
     contentHeight,
     contentWidth,
     popupTranslate,
+    emits,
   } = params;
   // 动态计算当前的位置
   const curPostion = ref<TriggerPostion>(position.value);
@@ -93,6 +95,7 @@ export default (params: {
       offsetLeft,
       offsetTop
     ) as TriggerPostion;
+    emits('position-change', curPostion.value);
     return {
       top: `${offsetTop + offsetY}px`,
       left: `${offsetLeft + offsetX}px`,
@@ -100,19 +103,17 @@ export default (params: {
   });
   // 计算arrow的位置
   const arrowPostion = computed(() => {
-    let style;
+    let inset: CSSProperties;
     if (['top', 'tl', 'tr', 'bottom', 'bl', 'br'].includes(curPostion.value)) {
       let arrowLeft: string | number = '';
-      let arrowRight: string | number = '';
       if (['top', 'bottom'].includes(curPostion.value)) {
         arrowLeft = contentWidth.value / 2;
       } else {
         arrowLeft = triggerWidth.value / 2;
       }
-      style = {
-        top: curPostion.value.startsWith('b') ? '0px' : '',
-        right: `${arrowRight}px`,
-        bottom: curPostion.value.startsWith('t') ? '0px' : '',
+      inset = {
+        top: curPostion.value.startsWith('b') ? '0' : '',
+        bottom: curPostion.value.startsWith('t') ? '0' : '',
         left: `${arrowLeft}px`,
       };
     } else {
@@ -125,12 +126,20 @@ export default (params: {
       } else {
         arrowBottom = triggerHeight.value / 2;
       }
-      style = {
+      inset = {
         top: `${arrowTop}px`,
-        right: curPostion.value.startsWith('l') ? '0px' : '',
+        right: curPostion.value.startsWith('l') ? '0' : '',
         bottom: `${arrowBottom}px`,
-        left: curPostion.value.startsWith('r') ? '0px' : '',
+        left: curPostion.value.startsWith('r') ? '0' : '',
       };
+    }
+    let translate;
+    if (curPostion.value.startsWith('t')) {
+      translate = 'translate(-50%,50%)';
+    } else if (curPostion.value.startsWith('l')) {
+      translate = 'translate(50%,-50%)';
+    } else {
+      translate = 'translate(-50%,-50%)';
     }
     // 设置 border-radius
     const borderRadius = {
@@ -139,29 +148,10 @@ export default (params: {
       borderTopRightRadius: curPostion.value.startsWith('l') ? '2px' : '0',
       borderBottomLeftRadius: curPostion.value.startsWith('r') ? '2px' : '0',
     };
-    // 设置 border
-    const border = {
-      borderTop:
-        curPostion.value.startsWith('r') || curPostion.value.startsWith('t')
-          ? 'none'
-          : '',
-      borderRight:
-        curPostion.value.startsWith('r') || curPostion.value.startsWith('b')
-          ? 'none'
-          : '',
-      borderBottom:
-        curPostion.value.startsWith('l') || curPostion.value.startsWith('b')
-          ? 'none'
-          : '',
-      borderLeft:
-        curPostion.value.startsWith('l') || curPostion.value.startsWith('t')
-          ? 'none'
-          : '',
-    };
     return {
-      ...style,
-      ...border,
+      ...inset,
       ...borderRadius,
+      transform: `${translate} rotate(45deg)`,
     } as CSSProperties;
   });
   // 根据offsettop与offsetleft反向计算当前的位置

@@ -48,4 +48,6 @@ export type TriggerProps = {
   focusDelay?: number;
   autoFitPopupWidth?: boolean;
   autoFitPopupMinWidth?: boolean;
+  //
+  triggerDom?: any;
 };

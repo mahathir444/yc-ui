@@ -1,0 +1,13 @@
+import { App } from 'vue';
+import _Popover from './index.vue';
+import { getComponentPrefix } from '@/utils/global-config';
+
+export type PopoverInstance = InstanceType<typeof _Popover>;
+
+const Popover = Object.assign(_Popover, {
+  install: (app: App) => {
+    app.component(getComponentPrefix() + _Popover.name, _Popover);
+  },
+});
+
+export default Popover;

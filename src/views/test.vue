@@ -26,7 +26,7 @@
     </a-modal> -->
 
     <div>
-      <a-popover trigger="click" position="br">
+      <a-popover trigger="click" position="bottom">
         <a-button>click me</a-button>
         <template #content>
           <div class="popover-content">
@@ -37,7 +37,7 @@
     </div>
 
     <div>
-      <yc-popover trigger="click">
+      <yc-popover trigger="click" position="bottom">
         <a-button>click me</a-button>
         <template #content>
           <div class="popover-content">
