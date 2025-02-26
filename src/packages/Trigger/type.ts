@@ -1,4 +1,4 @@
-import { CSSProperties } from 'vue';
+import { CSSProperties, VNode } from 'vue';
 
 export type TriggerPostion =
   | 'top'
@@ -48,6 +48,5 @@ export type TriggerProps = {
   focusDelay?: number;
   autoFitPopupWidth?: boolean;
   autoFitPopupMinWidth?: boolean;
-  //
-  triggerDom?: any;
+  triggerDom: VNode;
 };

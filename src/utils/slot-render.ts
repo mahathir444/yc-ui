@@ -7,7 +7,6 @@ export default (mountedCb: (...args: any) => void) => {
       mountedCb(this.$el);
     },
     render(props: Record<string, any>) {
-      console.log(props.vNodes, 'vNODE');
       return props.vNodes;
     },
   });

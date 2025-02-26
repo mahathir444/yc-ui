@@ -1,5 +1,5 @@
 <template>
-  <!-- <default-slot
+  <default-slot
     @click="handleClick"
     @contextmenu="handleContextmenu"
     @mouseenter="handleMouseenter"
@@ -7,15 +7,6 @@
     @focus="handleFocus"
     @blur="handleBlur"
     ref="triggerRef"
-  /> -->
-  <dom-render
-    :vNodes="defaultSlot"
-    @click="handleClick"
-    @contextmenu="handleContextmenu"
-    @mouseenter="handleMouseenter"
-    @mouseleave="handleMouseleave"
-    @focus="handleFocus"
-    @blur="handleBlur"
   />
   <Teleport :to="popupContainer" :disabled="renderToBody">
     <Transition
@@ -53,7 +44,6 @@ import { TriggerProps, TriggerPostion } from './type';
 import { useElementBounding, useElementSize } from '@vueuse/core';
 import useTriggerVisible from '@/hooks/useTriggerVisible';
 import useTriggerPosition from '@/hooks/useTriggerPosition';
-import slotRender from '@/utils/slot-render';
 defineOptions({
   name: 'Trigger',
 });
@@ -118,16 +108,12 @@ const contentRef = ref<HTMLDivElement>();
 const triggerRef = ref<HTMLElement | null>(null);
 // 获取默认插槽的vNode
 const slots = useSlots();
-const defaultSlot = computed(() => {
+const DefaultSlot = computed(() => {
   if (slots?.default?.()?.length) {
     return props.triggerDom ? props.triggerDom : slots.default()[0];
   } else {
     return h('span', null, '');
   }
-});
-// 插槽渲染器
-const DomRender = slotRender((el) => {
-  triggerRef.value = el;
 });
 // 处理trigger关闭与开启
 const {

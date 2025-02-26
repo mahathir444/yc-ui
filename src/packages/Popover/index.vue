@@ -13,6 +13,7 @@
     @show="$emit('show')"
     @hide="$emit('hide')"
     @position-change="(v) => (popoverPosition = v)"
+    ref="triggerRef"
   >
     <slot />
     <template #content>
