@@ -143,11 +143,18 @@ export default (params: {
         left: curPostion.value.startsWith('r')
           ? `${-arrowWidth.value / 2}px`
           : '',
+        borderTopLeftRadius: curPostion.value.startsWith('b') ? '2px' : '',
+        borderBottomLeftRadius:
+          curPostion.value.startsWith('t') || curPostion.value.startsWith('r')
+            ? '2px'
+            : '',
+        borderTopRightRadius: curPostion.value.startsWith('l') ? '2px' : '',
       };
     }
   });
   // 根据offsettop与offsetleft反向计算当前的位置
   function getCurrentPosition(offsetLeft: number, offsetTop: number) {
+    const epsilon = 0.00001; // 定义一个小的容差值
     const dirArray = [
       //上
       [
@@ -184,10 +191,9 @@ export default (params: {
     ];
     for (const [finalTop, finalLeft, dir] of dirArray) {
       if (
-        (finalTop as number) == offsetTop &&
-        (finalLeft as number) == offsetLeft
+        Math.abs((finalTop as number) - offsetTop) < epsilon &&
+        Math.abs((finalLeft as number) - offsetLeft) < epsilon
       ) {
-        console.log('dir', dir);
         return dir;
       }
     }

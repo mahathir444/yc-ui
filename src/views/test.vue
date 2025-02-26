@@ -37,14 +37,14 @@
     </div>
 
     <div>
-      <yc-trigger trigger="click" position="left" show-arrow>
-        <a-button>Click Me</a-button>
+      <yc-popover trigger="click" position="lt">
+        <a-button>click me</a-button>
         <template #content>
           <div class="trigger-content">
             <a-empty />
           </div>
         </template>
-      </yc-trigger>
+      </yc-popover>
     </div>
   </div>
 </template>
@@ -62,14 +62,15 @@ import YcInput, {
 } from '@/packages/Input';
 import YcTrigger from '@/packages/Trigger';
 import { useElementBounding } from '@vueuse/core';
+import YcPopover from '@/packages/Popover/index.vue';
 
 const visible = ref<boolean>(false);
 </script>
 
 <style lang="less" scoped>
 .test {
-  height: 300vh;
-  width: 300vw;
+  height: 100%;
+  width: 100%;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -80,6 +81,11 @@ const visible = ref<boolean>(false);
 .trigger-content {
   box-shadow: 0 2px 8px #00000026;
   padding: 10px;
+  width: 200px;
+  background-color: #fff;
+  border-radius: 4px;
+}
+.popover-content {
   width: 200px;
   background-color: #fff;
   border-radius: 4px;

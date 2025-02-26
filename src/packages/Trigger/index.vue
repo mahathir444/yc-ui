@@ -20,6 +20,7 @@
         v-show="computedVisible && !disabled"
         :class="['yc-trigger-container', $attrs.class, contentClass]"
         :style="contentCss"
+        v-bind="$attrs"
         ref="contentRef"
         @mouseenter="handleMouseenter"
         @mouseleave="handleMouseleave"
@@ -73,6 +74,8 @@ const props = withDefaults(defineProps<TriggerProps>(), {
   mouseEnterDelay: 1000,
   mouseLeaveDelay: 100,
   focusDelay: 100,
+  autoFitPopupWidth: false,
+  autoFitPopupMinWidth: false,
 });
 const emits = defineEmits<{
   (e: 'update:popupVisible', value: boolean): void;
@@ -96,6 +99,8 @@ const {
   mouseLeaveDelay,
   focusDelay,
   duration,
+  autoFitPopupWidth,
+  autoFitPopupMinWidth,
 } = toRefs(props);
 // content的ref
 const contentRef = ref<HTMLDivElement>();
@@ -143,7 +148,7 @@ const { width: contentWidth, height: contentHeight } =
 // arrow的宽高
 const { width: arrowWidth, height: arrowHeight } = useElementSize(arrowRef);
 // 计算content与arrow的位置信息
-const { contentPosition, arrowPostion, curPostion } = useTriggerPosition({
+const { contentPosition, arrowPostion } = useTriggerPosition({
   position,
   left,
   top,
@@ -162,17 +167,13 @@ const contentCss = computed(() => {
   return {
     ...contentPosition.value,
     ...contentStyle.value,
+    width: autoFitPopupWidth.value ? `${triggerWidth.value}px` : '',
+    minWidth: autoFitPopupMinWidth.value ? `${triggerWidth.value}px` : '',
   } as CSSProperties;
 });
 // arrowcss
 const arrowCss = computed(() => {
   return {
-    borderTopLeftRadius: curPostion.value.startsWith('b') ? '2px' : '',
-    borderBottomLeftRadius:
-      curPostion.value.startsWith('t') || curPostion.value.startsWith('r')
-        ? '2px'
-        : '',
-    borderTopRightRadius: curPostion.value.startsWith('l') ? '2px' : '',
     ...arrowPostion.value,
     ...arrowStyle.value,
   } as CSSProperties;

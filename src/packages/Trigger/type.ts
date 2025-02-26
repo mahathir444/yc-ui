@@ -17,10 +17,8 @@ export type TriggerPostion =
 export type TriggerType = 'hover' | 'click' | 'focus' | 'contextMenu';
 
 /**
- *  popup-offset、popuphoverStay、auto-fit-popup-width
- *  auto-fit-popup-min-width、auto-fix-position
- *  update-at-scroll、auto-fit-position、prevent-focus
- *  scroll-to-close、scroll-to-close-distance
+ *  已经被内置：auto-fix-position、update-at-scroll、auto-fit-position
+ *  popup-offset、popuphoverStay、prevent-focus、scroll-to-close、scroll-to-close-distance
  */
 export type TriggerProps = {
   popupVisible?: boolean;
@@ -48,4 +46,6 @@ export type TriggerProps = {
   mouseEnterDelay?: number;
   mouseLeaveDelay?: number;
   focusDelay?: number;
+  autoFitPopupWidth?: boolean;
+  autoFitPopupMinWidth?: boolean;
 };
