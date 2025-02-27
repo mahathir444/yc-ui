@@ -1,29 +1,30 @@
 <template>
   <div class="test">
     <div>
-      <a-popover
-        trigger="hover"
-        position="right"
-        content="123"
+      <a-popconfirm
+        trigger="click"
         :popup-offset="100"
         :popup-hover-stay="false"
       >
         <a-button>click me</a-button>
+      </a-popconfirm>
+    </div>
+
+    <div>
+      <yc-popover trigger="click" position="bottom">
+        <a-button>popover</a-button>
         <template #content>
           <div class="popover-content">
             <a-empty />
           </div>
         </template>
-      </a-popover>
+      </yc-popover>
     </div>
 
     <div>
-      <yc-tooltip trigger="click" position="bottom">
-        <a-button>click me</a-button>
-        <template #content>
-          <a-empty />
-        </template>
-      </yc-tooltip>
+      <yc-popconfirm trigger="click" position="bottom">
+        <a-button>popconfirm</a-button>
+      </yc-popconfirm>
     </div>
   </div>
 </template>
@@ -33,6 +34,7 @@ import { ref, watch, onMounted } from 'vue';
 import YcTrigger from '@/packages/Trigger';
 import YcPopover from '@/packages/Popover/index.vue';
 import YcTooltip from '@/packages/Tooltip/index.vue';
+import YcPopconfirm from '@/packages/Popconfirm/index.vue';
 
 const visible = ref<boolean>(false);
 </script>

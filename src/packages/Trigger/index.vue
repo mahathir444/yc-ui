@@ -20,7 +20,7 @@
       <div
         v-if="!unmountOnClose || (computedVisible && !disabled)"
         v-show="computedVisible && !disabled"
-        :class="['yc-trigger-container', wrapperClass]"
+        :class="['yc-trigger', wrapperClass]"
         :style="wrapperPosition"
         ref="contentRef"
         @mouseenter="handleMouseenter"
@@ -187,15 +187,5 @@ const arrowCss = computed(() => {
 </script>
 
 <style lang="less" scoped>
-.yc-trigger-container {
-  position: absolute;
-  z-index: 1002;
-  .yc-trigger-arrow {
-    z-index: -1;
-    position: absolute;
-    width: 8px;
-    height: 8px;
-    background-color: #fff;
-  }
-}
+@import './index.less';
 </style>

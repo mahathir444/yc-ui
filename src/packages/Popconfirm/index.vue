@@ -20,10 +20,10 @@
     :focus-delay="focusDelay"
     :auto-fit-popup-width="autoFitPopupWidth"
     :auto-fit-popup-min-width="autoFitPopupMinWidth"
-    wrapper-class="yc-tooltip"
-    :arrow-class="`yc-tooltip-popup-arrow ${arrowClass ?? ''}`"
-    :arrow-style="computedArrowStyle"
-    :content-class="`yc-tooltip-popup-content ${contentClass ?? ''} ${mini ? 'yc-tooltip-mini' : ''}`"
+    wrapper-class="yc-popoconfirm"
+    :arrow-class="`${arrowClass ?? ''} yc-popoconfirm-popup-arrow `"
+    :arrow-style="arrowStyle"
+    :content-class="`${contentClass ?? ''} yc-popconfirm-popup-content`"
     :content-style="computedContentStyle"
     @popup-visible-change="(v) => $emit('popup-visible-change', v)"
     @update:popup-visible="(v) => $emit('update:popupVisible', v)"
@@ -33,8 +33,28 @@
   >
     <slot />
     <template #content>
-      <div>
-        <slot name="content" />
+      <div class="yc-popconfirm-body">
+        <div class="yc-popconfirm-icon">
+          <slot v-if="$slots.icon" name="icon" />
+          <svg-icon :name="type" v-else />
+        </div>
+        <div class="yc-popconfirm-content">
+          <slot v-if="$slots.content" name="content" />
+          <template v-else>{{ content }}</template>
+        </div>
+      </div>
+      <div class="yc-popconfirm-footer">
+        <yc-button size="mini" v-bind="cancelButtonProps">
+          {{ cancelText }}
+        </yc-button>
+        <yc-button
+          size="mini"
+          type="primary"
+          :loading="okLoading"
+          v-bind="okButtonProps"
+        >
+          {{ okText }}
+        </yc-button>
       </div>
     </template>
   </yc-trigger>
@@ -43,13 +63,14 @@
 <script lang="ts" setup>
 import { ref, toRefs, computed, CSSProperties, Reactive } from 'vue';
 import { TriggerPostion } from '@/packages/Trigger/type';
-import { TooltipProps } from './type';
 import { TRANSFORM_ORIGIN_MAP } from '@/packages/Trigger/constants';
+import { PopconfirmProps } from './type';
 import YcTrigger from '../Trigger/index.vue';
+import YcButton from '../Button/index.vue';
 defineOptions({
-  name: 'Tooltip',
+  name: 'Popconfirm',
 });
-const props = withDefaults(defineProps<TooltipProps>(), {
+const props = withDefaults(defineProps<PopconfirmProps>(), {
   popupVisible: undefined,
   defaultPopupVisible: false,
   trigger: 'hover',
@@ -70,45 +91,88 @@ const props = withDefaults(defineProps<TooltipProps>(), {
   },
   animationName: 'zoom-in-fade-out',
   duration: 400,
-  mouseEnterDelay: 100,
+  mouseEnterDelay: 1000,
   mouseLeaveDelay: 100,
   focusDelay: 100,
   autoFitPopupWidth: false,
   autoFitPopupMinWidth: false,
   popupContainer: 'body',
   renderToBody: true,
-  title: '',
   content: '',
-  backgroundColor: 'rgb(29, 33, 41)',
-  mini: false,
+  okText: '确定',
+  cancelText: '取消',
+  type: 'info',
+  okLoading: false,
+  okButtonProps: () => {
+    return {};
+  },
+  cancelButtonProps: () => {
+    return {};
+  },
 });
 const emits = defineEmits<{
   (e: 'update:popupVisible', value: boolean): void;
   (e: 'popup-visible-change', value: boolean): void;
   (e: 'show'): void;
   (e: 'hide'): void;
+  (e: 'ok'): void;
+  (e: 'cancel'): void;
 }>();
-const { popupTranslate, arrowStyle, contentStyle, backgroundColor } =
-  toRefs(props);
+const { popupTranslate, contentStyle } = toRefs(props);
 // 当前的位置
 const triggerPostion = ref<TriggerPostion>('bottom');
 // content-style
 const computedContentStyle = computed(() => {
   return {
     transformOrigin: TRANSFORM_ORIGIN_MAP[triggerPostion.value],
-    backgroundColor: backgroundColor.value,
-    ...contentStyle.value,
+    ...contentStyle?.value,
   } as CSSProperties;
-});
-// arrowStyle
-const computedArrowStyle = computed(() => {
-  return {
-    backgroundColor: backgroundColor.value,
-    ...arrowStyle.value,
-  };
 });
 </script>
 
 <style lang="less">
-@import './index.less';
+.yc-trigger {
+  &.yc-popoconfirm {
+    .yc-popconfirm-popup-content {
+      padding: 16px;
+      color: rgb(78, 89, 105);
+      font-size: 14px;
+      line-height: 1.5715;
+      background-color: #fff;
+      border: 1px solid rgb(229, 230, 235);
+      border-radius: 4px;
+      box-shadow: 0 4px 10px #0000001a;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      .yc-popconfirm-body {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        .yc-popconfirm-icon {
+          font-size: 18px;
+          height: 22px;
+          width: 18px;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+        }
+        .yc-popconfirm-content {
+          text-align: left;
+          word-wrap: break-word;
+        }
+      }
+      .yc-popconfirm-footer {
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
+        gap: 8px;
+      }
+    }
+    .yc-trigger-arrow {
+      z-index: 1;
+      border: 1px solid rgb(229, 230, 235);
+    }
+  }
+}
 </style>

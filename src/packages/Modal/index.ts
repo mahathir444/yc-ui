@@ -1,24 +1,32 @@
 import { App, h, render } from 'vue';
-import { ModalConfig } from './type';
+import { ModalConfig, ModalServiceData } from './type';
 import ServiceModal from './component/ServiceModal.vue';
 import _Modal from './index.vue';
 import { getComponentPrefix } from '@/utils/global-config';
 
 export type ModalInstance = InstanceType<typeof _Modal>;
 
+// 记录modal数据
+const modalConfig: ModalServiceData = {
+  id: 'ycServiceModalContainer',
+  container: null,
+};
+
 const Modal = Object.assign(_Modal, {
   install: (app: App) => {
     app.component(getComponentPrefix() + _Modal.name, _Modal);
   },
   open(props: ModalConfig) {
-    const id = 'ycServiceModalContainer';
-    if (!document.getElementById(id)) {
-      const modalContainer = document.createElement('div');
-      modalContainer.id = id;
-      document.body.append(modalContainer);
+    if (!modalConfig.container) {
+      const container = document.createElement('div');
+      container.id = modalConfig.id;
+      modalConfig.container = container;
+      document.body.append(container);
     }
-    //  大的容器
-    const modalContainer = document.getElementById(id) as HTMLDivElement;
+    // 关闭函数
+    const close = () => {
+      render(null, modalConfig.container as HTMLDivElement);
+    };
     const { onOk: handleOk, onCancel: handleCancel } = props;
     // 使用 h 函数创建 VNode
     const vnode = h(ServiceModal, {
@@ -26,16 +34,19 @@ const Modal = Object.assign(_Modal, {
       async onOk() {
         if (!handleOk) return;
         await handleOk();
-        render(null, modalContainer);
+        close();
       },
       async onCancel() {
         if (!handleCancel) return;
         await handleCancel();
-        render(null, modalContainer);
+        close();
       },
     });
     // 渲染 VNode 到容器
-    render(vnode, modalContainer);
+    render(vnode, modalConfig.container);
+    return {
+      close,
+    };
   },
 });
 
