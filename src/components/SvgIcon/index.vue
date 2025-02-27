@@ -16,6 +16,7 @@ const props = withDefaults(
   }>(),
   {
     prefix: 'icon',
+    color: 'inherit',
   }
 );
 const { size, color, name, prefix } = toRefs(props);

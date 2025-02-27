@@ -83,7 +83,7 @@ const props = withDefaults(defineProps<PopoverProps>(), {
   autoFitPopupWidth: false,
   autoFitPopupMinWidth: false,
   popupContainer: 'body',
-  renderToBody: false,
+  renderToBody: true,
   title: '',
   content: '',
 });
@@ -106,28 +106,5 @@ const computedContentStyle = computed(() => {
 </script>
 
 <style lang="less">
-.yc-popover {
-  .yc-popover-popup-content {
-    padding: 12px 16px;
-    color: rgb(78, 89, 105);
-    font-size: 14px;
-    line-height: 1.5715;
-    background-color: #fff;
-    border: 1px solid rgb(229, 230, 235);
-    border-radius: 4px;
-    box-shadow: 0 4px 10px #0000001a;
-    .yc-popover-title {
-      color: rgb(29, 33, 41);
-      font-weight: 500;
-      font-size: 16px;
-      margin-bottom: 4px;
-    }
-  }
-  .yc-trigger-arrow {
-    &.yc-popover-popup-arrow {
-      z-index: 1;
-      border: 1px solid rgb(229, 230, 235);
-    }
-  }
-}
+@import './index.less';
 </style>
