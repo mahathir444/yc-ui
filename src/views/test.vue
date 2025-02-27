@@ -1,11 +1,7 @@
 <template>
   <div class="test">
     <div>
-      <a-popconfirm
-        trigger="click"
-        :popup-offset="100"
-        :popup-hover-stay="false"
-      >
+      <a-popconfirm trigger="click" content="pop">
         <a-button>click me</a-button>
       </a-popconfirm>
     </div>
@@ -22,7 +18,12 @@
     </div>
 
     <div>
-      <yc-popconfirm trigger="click" position="bottom">
+      <yc-popconfirm
+        trigger="click"
+        position="bottom"
+        type="success"
+        content="这是一个测试"
+      >
         <a-button>popconfirm</a-button>
       </yc-popconfirm>
     </div>

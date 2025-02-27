@@ -30,11 +30,12 @@
     @show="$emit('show')"
     @hide="$emit('hide')"
     @position-change="(v) => (triggerPostion = v)"
+    ref="triggerRef"
   >
     <slot />
     <template #content>
       <div class="yc-popconfirm-body">
-        <div class="yc-popconfirm-icon">
+        <div :class="['yc-popconfirm-icon', TYPE_CLASS[type]]">
           <slot v-if="$slots.icon" name="icon" />
           <svg-icon :name="type" v-else />
         </div>
@@ -44,7 +45,7 @@
         </div>
       </div>
       <div class="yc-popconfirm-footer">
-        <yc-button size="mini" v-bind="cancelButtonProps">
+        <yc-button size="mini" v-bind="cancelButtonProps" @click="handleCancel">
           {{ cancelText }}
         </yc-button>
         <yc-button
@@ -52,6 +53,7 @@
           type="primary"
           :loading="okLoading"
           v-bind="okButtonProps"
+          @click="handleOk"
         >
           {{ okText }}
         </yc-button>
@@ -64,7 +66,9 @@
 import { ref, toRefs, computed, CSSProperties, Reactive } from 'vue';
 import { TriggerPostion } from '@/packages/Trigger/type';
 import { TRANSFORM_ORIGIN_MAP } from '@/packages/Trigger/constants';
+import { TYPE_CLASS } from './constants';
 import { PopconfirmProps } from './type';
+import { TriggerInstance } from '@/packages/Trigger';
 import YcTrigger from '../Trigger/index.vue';
 import YcButton from '../Button/index.vue';
 defineOptions({
@@ -128,6 +132,18 @@ const computedContentStyle = computed(() => {
     ...contentStyle?.value,
   } as CSSProperties;
 });
+// 触发器实例
+const triggerRef = ref<TriggerInstance>();
+// 处理确认
+const handleOk = () => {
+  emits('ok');
+  triggerRef.value?.hide();
+};
+// 处理取消
+const handleCancel = () => {
+  emits('cancel');
+  triggerRef.value?.hide();
+};
 </script>
 
 <style lang="less">
@@ -156,6 +172,19 @@ const computedContentStyle = computed(() => {
           display: flex;
           justify-content: center;
           align-items: center;
+          color: rgb(22, 93, 255);
+          &.yc-popconfirm-info {
+            color: rgb(22, 93, 255);
+          }
+          &.yc-popconfirm-success {
+            color: rgb(0, 180, 42);
+          }
+          &.yc-popconfirm-warning {
+            color: rgb(255, 125, 0);
+          }
+          &.yc-popconfirm-error {
+            color: rgb(245, 63, 63);
+          }
         }
         .yc-popconfirm-content {
           text-align: left;

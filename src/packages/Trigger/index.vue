@@ -184,6 +184,12 @@ const arrowCss = computed(() => {
     ...arrowStyle.value,
   } as CSSProperties;
 });
+
+defineExpose({
+  hide() {
+    computedVisible.value = false;
+  },
+});
 </script>
 
 <style lang="less" scoped>
