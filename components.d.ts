@@ -15,6 +15,7 @@ declare module 'vue' {
     AModal: typeof import('@arco-design/web-vue')['Modal']
     APopover: typeof import('@arco-design/web-vue')['Popover']
     ATag: typeof import('@arco-design/web-vue')['Tag']
+    ATooltip: typeof import('@arco-design/web-vue')['Tooltip']
     ATrigger: typeof import('@arco-design/web-vue')['Trigger']
     IconButton: typeof import('./src/components/IconButton/index.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']

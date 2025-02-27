@@ -1,12 +1,12 @@
 <template>
   <yc-trigger
-    v-bind="$attrs"
-    wrapper-class="yc-popover"
-    :arrow-class="`yc-popover-popup-arrow ${arrowClass}`"
-    :arrow-style="{ ...arrowStyle, ...BORDER_MAP[popoverPosition] }"
-    :content-class="`yc-popover-popup-content ${contentClass}`"
+    v-bind="props"
+    wrapper-class="yc-tooltip"
+    :arrow-class="`yc-tooltip-popup-arrow ${arrowClass}`"
+    :arrow-style="{ ...arrowStyle, ...BORDER_MAP[tooltipPosition] }"
+    :content-class="`yc-tooltip-popup-content ${contentClass}`"
     :content-style="{
-      transformOrigin: TRANSFORM_ORIGIN_MAP[popoverPosition],
+      transformOrigin: TRANSFORM_ORIGIN_MAP[tooltipPosition],
       ...contentStyle,
     }"
     :popup-translate="popoverTranslate"
@@ -14,19 +14,12 @@
     @update:popup-visible="(v) => $emit('update:popupVisible', v)"
     @show="$emit('show')"
     @hide="$emit('hide')"
-    @position-change="(v) => (popoverPosition = v)"
+    @position-change="(v) => (tooltipPosition = v)"
   >
     <slot />
     <template #content>
-      <div v-if="$slots.title" class="yc-popover-title">
-        <slot v-if="$slots.title" name="title" />
-        <template v-else-if="!$slots.title && title">{{ title }}</template>
-      </div>
-      <div class="'yc-popover-content'">
-        <slot v-if="$slots.content" name="content" />
-        <template v-else-if="!$slots.content && content">
-          {{ content }}
-        </template>
+      <div>
+        <slot name="content" />
       </div>
     </template>
   </yc-trigger>
@@ -34,14 +27,14 @@
 
 <script lang="ts" setup>
 import { computed, toRefs, ref } from 'vue';
-import { TRANSFORM_ORIGIN_MAP, BORDER_MAP } from './constants';
 import { TriggerPostion } from '../Trigger/type';
-import { PopoverProps } from './type';
+import { TooltipProps } from './type';
+import { TRANSFORM_ORIGIN_MAP, BORDER_MAP } from '@/packages/Popover/constants';
 import YcTrigger from '../Trigger/index.vue';
 defineOptions({
-  name: 'Popover',
+  name: 'Tooltip',
 });
-const props = withDefaults(defineProps<PopoverProps>(), {
+const props = withDefaults(defineProps<TooltipProps>(), {
   popupVisible: undefined,
   defaultPopupVisible: false,
   trigger: 'hover',
@@ -77,15 +70,15 @@ const emits = defineEmits<{
 }>();
 const { arrowClass, popupTranslate } = toRefs(props);
 // 当前的位置
-const popoverPosition = ref<TriggerPostion>('bottom');
+const tooltipPosition = ref<TriggerPostion>('bottom');
 // popover-translate
 const popoverTranslate = computed(() => {
   if (popupTranslate.value) return popupTranslate.value;
-  if (popoverPosition.value.startsWith('t')) {
+  if (tooltipPosition.value.startsWith('t')) {
     return [0, -10];
-  } else if (popoverPosition.value.startsWith('b')) {
+  } else if (tooltipPosition.value.startsWith('b')) {
     return [0, 10];
-  } else if (popoverPosition.value.startsWith('l')) {
+  } else if (tooltipPosition.value.startsWith('l')) {
     return [-10, 0];
   } else {
     return [10, 0];
@@ -94,8 +87,8 @@ const popoverTranslate = computed(() => {
 </script>
 
 <style lang="less">
-.yc-popover {
-  .yc-popover-popup-content {
+.yc-tooltip {
+  .yc-tooltip-popup-content {
     padding: 12px 16px;
     color: rgb(78, 89, 105);
     font-size: 14px;
@@ -104,14 +97,8 @@ const popoverTranslate = computed(() => {
     border: 1px solid rgb(229, 230, 235);
     border-radius: 4px;
     box-shadow: 0 4px 10px #0000001a;
-    .yc-popover-title {
-      color: rgb(29, 33, 41);
-      font-weight: 500;
-      font-size: 16px;
-      margin-bottom: 4px;
-    }
   }
-  .yc-trigger-arrow {
+  .yc-tooltip-arrow {
     &.yc-popover-popup-arrow {
       z-index: 1;
       border: 1px solid rgb(229, 230, 235);
