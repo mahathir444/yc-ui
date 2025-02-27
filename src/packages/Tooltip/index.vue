@@ -7,8 +7,8 @@
     :render-to-body="renderToBody"
     :position="position"
     :disabled="disabled"
-    :popup-translate="popupTranslate"
     :popup-offset="popupOffset"
+    :popup-translate="popupTranslate"
     :show-arrow="showArrow"
     :blur-to-close="blurToClose"
     :click-to-close="clickToClose"
@@ -55,8 +55,8 @@ const props = withDefaults(defineProps<TooltipProps>(), {
   trigger: 'hover',
   position: 'bottom',
   disabled: false,
-  popupTranslate: () => [0, 0],
   popupOffset: 10,
+  popupTranslate: () => [0, 0],
   showArrow: true,
   blurToClose: true,
   clickOutsideToClose: true,

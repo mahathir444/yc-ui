@@ -1,13 +1,7 @@
 <template>
   <div class="test">
     <div>
-      <a-tooltip
-        trigger="click"
-        position="tl"
-        content="123"
-        :popup-offset="40"
-        :popup-translate="[0, 40]"
-      >
+      <a-tooltip trigger="click" position="right" content="123">
         <a-button>click me</a-button>
         <!-- <template #content>
           <div class="popover-content">

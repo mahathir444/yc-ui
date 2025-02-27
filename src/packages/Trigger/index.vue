@@ -108,8 +108,9 @@ const {
 const contentRef = ref<HTMLDivElement>();
 // trigger的ref
 const triggerRef = ref<HTMLElement | null>(null);
-// 获取默认插槽的vNode
+// 获取插槽
 const slots = useSlots();
+// 获取触发插槽
 const TriggerSlot = computed(() => {
   const vNode = slots.default && slots.default()[0];
   return vNode?.key == '_default' ? (vNode.children as any)[0] : vNode;
