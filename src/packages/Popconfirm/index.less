@@ -1,0 +1,57 @@
+.yc-trigger {
+  &.yc-popoconfirm {
+    .yc-popconfirm-popup-content {
+      padding: 16px;
+      color: rgb(78, 89, 105);
+      font-size: 14px;
+      line-height: 1.5715;
+      background-color: #fff;
+      border: 1px solid rgb(229, 230, 235);
+      border-radius: 4px;
+      box-shadow: 0 4px 10px #0000001a;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      .yc-popconfirm-body {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        .yc-popconfirm-icon {
+          font-size: 18px;
+          height: 22px;
+          width: 18px;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          color: rgb(22, 93, 255);
+          &.yc-popconfirm-info {
+            color: rgb(22, 93, 255);
+          }
+          &.yc-popconfirm-success {
+            color: rgb(0, 180, 42);
+          }
+          &.yc-popconfirm-warning {
+            color: rgb(255, 125, 0);
+          }
+          &.yc-popconfirm-error {
+            color: rgb(245, 63, 63);
+          }
+        }
+        .yc-popconfirm-content {
+          text-align: left;
+          word-wrap: break-word;
+        }
+      }
+      .yc-popconfirm-footer {
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
+        gap: 8px;
+      }
+    }
+    .yc-trigger-arrow {
+      z-index: 1;
+      border: 1px solid rgb(229, 230, 235);
+    }
+  }
+}

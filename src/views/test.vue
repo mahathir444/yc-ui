@@ -17,8 +17,6 @@
       </yc-popover>
     </div>
 
-    <a-alert>This is an info alert.</a-alert>
-
     <div>
       <yc-popconfirm
         trigger="click"
