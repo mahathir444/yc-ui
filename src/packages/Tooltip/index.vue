@@ -20,6 +20,7 @@
     :focus-delay="focusDelay"
     :auto-fit-popup-width="autoFitPopupWidth"
     :auto-fit-popup-min-width="autoFitPopupMinWidth"
+    :prevent-focus="preventFocus"
     wrapper-class="yc-tooltip"
     :arrow-class="`yc-tooltip-popup-arrow ${arrowClass ?? ''}`"
     :arrow-style="computedArrowStyle"
@@ -77,6 +78,7 @@ const props = withDefaults(defineProps<TooltipProps>(), {
   autoFitPopupMinWidth: false,
   popupContainer: 'body',
   renderToBody: true,
+  preventFocus: false,
   title: '',
   content: '',
   backgroundColor: 'rgb(29, 33, 41)',

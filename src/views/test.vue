@@ -17,6 +17,8 @@
       </a-popover>
     </div>
 
+    <a-alert>This is an info alert.</a-alert>
+
     <div>
       <yc-tooltip trigger="click" position="bottom">
         <a-button>click me</a-button>
