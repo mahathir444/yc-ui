@@ -7,6 +7,8 @@
     :render-to-body="renderToBody"
     :position="position"
     :disabled="disabled"
+    :popup-translate="popupTranslate"
+    :popup-offset="popupOffset"
     :show-arrow="showArrow"
     :blur-to-close="blurToClose"
     :click-to-close="clickToClose"
@@ -23,7 +25,6 @@
     :arrow-style="computedArrowStyle"
     :content-class="`yc-tooltip-popup-content ${contentClass ?? ''} ${mini ? 'yc-tooltip-mini' : ''}`"
     :content-style="computedContentStyle"
-    :popup-translate="computedTranslate"
     @popup-visible-change="(v) => $emit('popup-visible-change', v)"
     @update:popup-visible="(v) => $emit('update:popupVisible', v)"
     @show="$emit('show')"
@@ -52,11 +53,10 @@ const props = withDefaults(defineProps<TooltipProps>(), {
   popupVisible: undefined,
   defaultPopupVisible: false,
   trigger: 'hover',
-  popupContainer: 'body',
-  renderToBody: false,
   position: 'bottom',
   disabled: false,
-  popupTranslate: undefined,
+  popupTranslate: () => [0, 0],
+  popupOffset: 10,
   showArrow: true,
   blurToClose: true,
   clickOutsideToClose: true,
@@ -75,6 +75,8 @@ const props = withDefaults(defineProps<TooltipProps>(), {
   focusDelay: 100,
   autoFitPopupWidth: false,
   autoFitPopupMinWidth: false,
+  popupContainer: 'body',
+  renderToBody: true,
   title: '',
   content: '',
   backgroundColor: 'rgb(29, 33, 41)',
@@ -90,19 +92,6 @@ const { popupTranslate, arrowStyle, contentStyle, backgroundColor } =
   toRefs(props);
 // 当前的位置
 const triggerPostion = ref<TriggerPostion>('bottom');
-// popover-translate
-const computedTranslate = computed(() => {
-  if (popupTranslate.value) return popupTranslate.value;
-  if (triggerPostion.value.startsWith('t')) {
-    return [0, -10];
-  } else if (triggerPostion.value.startsWith('b')) {
-    return [0, 10];
-  } else if (triggerPostion.value.startsWith('l')) {
-    return [-10, 0];
-  } else {
-    return [10, 0];
-  }
-});
 // content-style
 const computedContentStyle = computed(() => {
   return {

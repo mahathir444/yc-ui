@@ -15,7 +15,8 @@ export default (params: {
   triggerHeight: Ref<number>;
   contentWidth: Ref<number>;
   contentHeight: Ref<number>;
-  popupTranslate: Ref<number[] | undefined>;
+  popupTranslate: Ref<number[]>;
+  popupOffset: Ref<number>;
   emits: (...args: any) => any;
 }) => {
   const {
@@ -29,6 +30,7 @@ export default (params: {
     contentHeight,
     contentWidth,
     popupTranslate,
+    popupOffset,
     emits,
   } = params;
   // 动态计算当前的位置
@@ -37,7 +39,6 @@ export default (params: {
   const wrapperPosition = computed(() => {
     let offsetTop = 0;
     let offsetLeft = 0;
-    const [offsetX, offsetY] = popupTranslate.value || [0, 0];
     // 初始位置计算
     if (['top', 'tl', 'tr', 'bottom', 'bl', 'br'].includes(position.value)) {
       offsetTop = position.value.startsWith('t')
@@ -102,9 +103,22 @@ export default (params: {
       offsetTop
     ) as TriggerPostion;
     emits('position-change', triggerPosition.value);
+    // 计算便宜量
+    let offsetX = 0;
+    let offsetY = 0;
+    if (triggerPosition.value.startsWith('t')) {
+      offsetY = -popupOffset.value;
+    } else if (triggerPosition.value.startsWith('b')) {
+      offsetY = popupOffset.value;
+    } else if (triggerPosition.value.startsWith('l')) {
+      offsetX = -popupOffset.value;
+    } else if (triggerPosition.value.startsWith('r')) {
+      offsetX = popupOffset.value;
+    }
+    const [translateX, translateY] = popupTranslate.value;
     return {
-      top: `${offsetTop + offsetY}px`,
-      left: `${offsetLeft + offsetX}px`,
+      top: `${offsetTop + translateY + offsetX}px`,
+      left: `${offsetLeft + translateX + offsetY}px`,
     };
   });
   // 计算arrow的位置

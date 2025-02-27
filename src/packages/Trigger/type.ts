@@ -24,10 +24,9 @@ export type TriggerProps = {
   popupVisible?: boolean;
   defaultPopupVisible?: boolean;
   trigger?: TriggerType;
-  popupContainer?: string | HTMLElement;
-  renderToBody?: boolean;
   position?: TriggerPostion;
   disabled?: boolean;
+  popupOffset?: number;
   popupTranslate?: number[];
   showArrow?: boolean;
   blurToClose?: boolean;
@@ -46,4 +45,6 @@ export type TriggerProps = {
   focusDelay?: number;
   autoFitPopupWidth?: boolean;
   autoFitPopupMinWidth?: boolean;
+  popupContainer?: string | HTMLElement;
+  renderToBody?: boolean;
 };

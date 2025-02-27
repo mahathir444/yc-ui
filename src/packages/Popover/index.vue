@@ -7,6 +7,8 @@
     :render-to-body="renderToBody"
     :position="position"
     :disabled="disabled"
+    :popup-offset="popupOffset"
+    :popup-translate="popupTranslate"
     :show-arrow="showArrow"
     :blur-to-close="blurToClose"
     :click-to-close="clickToClose"
@@ -23,7 +25,6 @@
     :arrow-style="arrowStyle"
     :content-class="`yc-popover-popup-content ${contentClass ?? ''}`"
     :content-style="computedContentStyle"
-    :popup-translate="computedTranslate"
     @popup-visible-change="(v) => $emit('popup-visible-change', v)"
     @update:popup-visible="(v) => $emit('update:popupVisible', v)"
     @show="$emit('show')"
@@ -59,11 +60,10 @@ const props = withDefaults(defineProps<PopoverProps>(), {
   popupVisible: undefined,
   defaultPopupVisible: false,
   trigger: 'hover',
-  popupContainer: 'body',
-  renderToBody: false,
   position: 'bottom',
   disabled: false,
-  popupTranslate: undefined,
+  popupOffset: 10,
+  popupTranslate: () => [0, 0],
   showArrow: true,
   blurToClose: true,
   clickOutsideToClose: true,
@@ -82,6 +82,8 @@ const props = withDefaults(defineProps<PopoverProps>(), {
   focusDelay: 100,
   autoFitPopupWidth: false,
   autoFitPopupMinWidth: false,
+  popupContainer: 'body',
+  renderToBody: false,
   title: '',
   content: '',
 });
@@ -94,19 +96,6 @@ const emits = defineEmits<{
 const { popupTranslate, contentStyle } = toRefs(props);
 // 当前的位置
 const triggerPostion = ref<TriggerPostion>('bottom');
-// popover-translate
-const computedTranslate = computed(() => {
-  if (popupTranslate.value) return popupTranslate.value;
-  if (triggerPostion.value.startsWith('t')) {
-    return [0, -10];
-  } else if (triggerPostion.value.startsWith('b')) {
-    return [0, 10];
-  } else if (triggerPostion.value.startsWith('l')) {
-    return [-10, 0];
-  } else {
-    return [10, 0];
-  }
-});
 // content-style
 const computedContentStyle = computed(() => {
   return {

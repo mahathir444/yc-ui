@@ -8,7 +8,7 @@
     @blur="handleBlur"
     ref="triggerRef"
   />
-  <Teleport :to="popupContainer" :disabled="renderToBody">
+  <Teleport :to="popupContainer" :disabled="!renderToBody">
     <Transition
       :name="animationName"
       :duration="duration"
@@ -41,7 +41,7 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, computed, useSlots, CSSProperties, toRefs, h, VNode } from 'vue';
+import { ref, computed, useSlots, CSSProperties, toRefs } from 'vue';
 import { TriggerProps, TriggerPostion } from './type';
 import { useElementBounding, useElementSize } from '@vueuse/core';
 import useTriggerVisible from '@/hooks/useTriggerVisible';
@@ -53,11 +53,10 @@ const props = withDefaults(defineProps<TriggerProps>(), {
   popupVisible: undefined,
   defaultPopupVisible: false,
   trigger: 'hover',
-  popupContainer: 'body',
-  renderToBody: false,
   position: 'bottom',
   disabled: false,
-  popupTranslate: undefined,
+  popupOffset: 0,
+  popupTranslate: () => [0, 0],
   showArrow: false,
   blurToClose: true,
   clickOutsideToClose: true,
@@ -76,6 +75,8 @@ const props = withDefaults(defineProps<TriggerProps>(), {
   focusDelay: 100,
   autoFitPopupWidth: false,
   autoFitPopupMinWidth: false,
+  popupContainer: 'body',
+  renderToBody: true,
 });
 const emits = defineEmits<{
   (e: 'update:popupVisible', value: boolean): void;
@@ -90,6 +91,7 @@ const {
   trigger,
   position,
   popupTranslate,
+  popupOffset,
   contentStyle,
   arrowStyle,
   clickToClose,
@@ -158,6 +160,7 @@ const { wrapperPosition, arrowPostion } = useTriggerPosition({
   contentHeight,
   contentWidth,
   popupTranslate,
+  popupOffset,
   emits,
 });
 // contentCss
