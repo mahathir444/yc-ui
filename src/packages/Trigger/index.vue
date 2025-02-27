@@ -1,5 +1,5 @@
 <template>
-  <default-slot
+  <trigger-slot
     @click="handleClick"
     @contextmenu="handleContextmenu"
     @mouseenter="handleMouseenter"
@@ -39,7 +39,7 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, computed, useSlots, CSSProperties, toRefs, h } from 'vue';
+import { ref, computed, useSlots, CSSProperties, toRefs, h, VNode } from 'vue';
 import { TriggerProps, TriggerPostion } from './type';
 import { useElementBounding, useElementSize } from '@vueuse/core';
 import useTriggerVisible from '@/hooks/useTriggerVisible';
@@ -108,12 +108,9 @@ const contentRef = ref<HTMLDivElement>();
 const triggerRef = ref<HTMLElement | null>(null);
 // 获取默认插槽的vNode
 const slots = useSlots();
-const DefaultSlot = computed(() => {
-  if (slots?.default?.()?.length) {
-    return props.triggerDom ? props.triggerDom : slots.default()[0];
-  } else {
-    return h('span', null, '');
-  }
+const TriggerSlot = computed(() => {
+  const vNode = slots.default && slots.default()[0];
+  return vNode?.key == '_default' ? (vNode.children as any)[0] : vNode;
 });
 // 处理trigger关闭与开启
 const {

@@ -38,7 +38,7 @@
 
     <div>
       <yc-popover trigger="click" position="bottom">
-        <a-button>click me</a-button>
+        <!-- <a-button>click me</a-button> -->
         <template #content>
           <div class="popover-content">
             <a-empty />

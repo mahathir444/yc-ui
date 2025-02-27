@@ -7,7 +7,6 @@
     :content-class="popoverContentClass"
     :content-style="popoverContentStyle"
     :popup-translate="popoverTranslate"
-    :trigger-dom="defaultSlot"
     @popup-visible-change="(v) => $emit('popup-visible-change', v)"
     @update:popup-visible="(v) => $emit('update:popupVisible', v)"
     @show="$emit('show')"
@@ -76,15 +75,6 @@ const emits = defineEmits<{
 }>();
 const { arrowStyle, arrowClass, contentStyle, contentClass, popupTranslate } =
   toRefs(props);
-// 获取默认插槽的vNode
-const slots = useSlots();
-const defaultSlot = computed(() => {
-  if (slots?.default?.()?.length) {
-    return slots.default()[0];
-  } else {
-    return h('span', null, '');
-  }
-});
 // 当前的位置
 const popoverPosition = ref<TriggerPostion>('bottom');
 // popover-arrow-class
