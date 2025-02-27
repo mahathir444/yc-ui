@@ -9,7 +9,7 @@ export default (params: {
   defaultPopupVisible: Ref<boolean>;
   clickToClose: Ref<boolean>;
   blurToClose: Ref<boolean>;
-  clickOutsidetoClose: Ref<boolean>;
+  clickOutsideToClose: Ref<boolean>;
   mouseEnterDelay: Ref<number>;
   mouseLeaveDelay: Ref<number>;
   focusDelay: Ref<number>;
@@ -22,7 +22,7 @@ export default (params: {
     defaultPopupVisible,
     clickToClose,
     blurToClose,
-    clickOutsidetoClose,
+    clickOutsideToClose,
     mouseEnterDelay,
     mouseLeaveDelay,
     focusDelay,
@@ -97,7 +97,7 @@ export default (params: {
   };
   // 点击到contentRef外层关闭
   onClickOutside(contentRef, async () => {
-    if (!computedVisible.value || !clickOutsidetoClose.value) return;
+    if (!computedVisible.value || !clickOutsideToClose.value) return;
     timer = setTimeout(() => {
       computedVisible.value = false;
     }, 0);

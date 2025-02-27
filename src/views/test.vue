@@ -12,7 +12,7 @@
     </div>
 
     <div>
-      <yc-tooltip trigger="contextMenu" position="bottom">
+      <yc-tooltip trigger="click" position="bottom">
         <a-button>click me</a-button>
         <template #content>
           <div class="popover-content">

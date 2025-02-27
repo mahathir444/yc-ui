@@ -1,8 +1,26 @@
 <template>
   <yc-trigger
-    v-bind="props"
+    :popup-visible="popupVisible"
+    :default-popup-visible="defaultPopupVisible"
+    :trigger="trigger"
+    :popup-container="popupContainer"
+    :render-to-body="renderToBody"
+    :position="position"
+    :disabled="disabled"
+    :show-arrow="showArrow"
+    :blur-to-close="blurToClose"
+    :click-to-close="clickToClose"
+    :unmount-on-close="unmountOnClose"
+    :animation-name="animationName"
+    :duration="duration"
+    :mouse-enter-delay="mouseEnterDelay"
+    :mouse-leave-delay="mouseLeaveDelay"
+    :focus-delay="focusDelay"
+    :auto-fit-popup-width="autoFitPopupWidth"
+    :auto-fit-popup-min-width="autoFitPopupMinWidth"
     wrapper-class="yc-popover"
     :arrow-class="`yc-popover-popup-arrow ${arrowClass ?? ''}`"
+    :arrow-style="arrowStyle"
     :content-class="`yc-popover-popup-content ${contentClass ?? ''}`"
     :content-style="computedContentStyle"
     :popup-translate="computedTranslate"
@@ -48,7 +66,7 @@ const props = withDefaults(defineProps<PopoverProps>(), {
   popupTranslate: undefined,
   showArrow: true,
   blurToClose: true,
-  clickOutsidetoClose: true,
+  clickOutsideToClose: true,
   clickToClose: true,
   unmountOnClose: true,
   contentStyle: () => {
