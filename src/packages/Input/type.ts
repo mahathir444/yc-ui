@@ -16,13 +16,13 @@ export interface InputProps {
   type?: 'password' | 'text';
 }
 
-export interface InputPassword extends InputProps {
+export interface InputPasswordProps extends InputProps {
   visibility?: boolean;
   defaultVisibility?: boolean;
   invisibleButton?: boolean;
 }
 
-export interface InputSearch extends InputProps {
+export interface InputSearchProps extends InputProps {
   searchButton?: boolean;
   loading?: boolean;
   buttonText?: string;

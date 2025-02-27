@@ -4,6 +4,8 @@ import { getComponentPrefix } from '@/utils/global-config';
 
 export type DrawerInstance = InstanceType<typeof _Link>;
 
+export type { LinkProps, LinkStatus } from './type';
+
 const Link = Object.assign(_Link, {
   install: (app: App) => {
     app.component(getComponentPrefix() + _Link.name, _Link);

@@ -6,6 +6,8 @@ import { getComponentPrefix } from '@/utils/global-config';
 
 export type ModalInstance = InstanceType<typeof _Modal>;
 
+export type { ModalConfig, ModalProps } from './type';
+
 // 记录modal数据
 const modalConfig: ModalServiceData = {
   id: 'ycServiceModalContainer',

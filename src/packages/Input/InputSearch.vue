@@ -51,14 +51,14 @@
 
 <script lang="ts" setup>
 import { ref, computed, toRefs } from 'vue';
-import { InputSearch } from './type';
+import { InputSearchProps } from './type';
 import YcInput from './InputBase.vue';
 import YcButton from '@/packages/Button/index.vue';
 import YcIconButton from '@/components/IconButton/index.vue';
 defineOptions({
   name: 'InputSearch',
 });
-const props = withDefaults(defineProps<InputSearch>(), {
+const props = withDefaults(defineProps<InputSearchProps>(), {
   modelValue: undefined,
   defaultValue: '',
   size: 'medium',

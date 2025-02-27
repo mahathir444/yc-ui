@@ -7,6 +7,7 @@ import { getComponentPrefix } from '@/utils/global-config';
 export type InputInstance = InstanceType<typeof _Input>;
 export type InputSearchInstance = InstanceType<typeof _InputSearch>;
 export type InputPasswordInstance = InstanceType<typeof _InputPassword>;
+export type { InputPasswordProps, InputProps, InputSearchProps } from './type';
 
 const Input = Object.assign(_Input, {
   Search: _InputSearch,

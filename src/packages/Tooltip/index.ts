@@ -3,6 +3,7 @@ import _Tooltip from './index.vue';
 import { getComponentPrefix } from '@/utils/global-config';
 
 export type TooltipInstance = InstanceType<typeof _Tooltip>;
+export type { TooltipProps } from './type';
 
 const Tooltip = Object.assign(_Tooltip, {
   install: (app: App) => {
