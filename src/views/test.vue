@@ -1,32 +1,7 @@
 <template>
   <div class="test">
-    <yc-drawer
-      v-model:visible="visible"
-      title="这是一个测试这是一个测试这是一个测试"
-    >
-      这是一个测试drawer
-    </yc-drawer>
-    <!-- 
-    <yc-modal
-      v-model:visible="visible"
-      draggable
-      :mask-closable="false"
-      title="测试yc"
-    >
-    </yc-modal> -->
-
-    <!-- <a-modal
-      v-model:visible="visible"
-      title="测试arco"
-      draggable
-      :mask-closable="false"
-      @cancel="console.log('关闭了')"
-    >
-      <div>sdadsa</div>
-    </a-modal> -->
-
     <div>
-      <a-popover trigger="click" position="bottom">
+      <a-popover trigger="click" position="bottom" content-class="aa">
         <a-button>click me</a-button>
         <template #content>
           <div class="popover-content">
@@ -37,8 +12,12 @@
     </div>
 
     <div>
-      <yc-popover trigger="click" position="bottom">
-        <!-- <a-button>click me</a-button> -->
+      <yc-popover
+        v-model:popup-visible="visible"
+        trigger="click"
+        position="bottom"
+      >
+        <a-button>click me</a-button>
         <template #content>
           <div class="popover-content">
             <a-empty />

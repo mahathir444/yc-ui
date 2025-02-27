@@ -27,7 +27,7 @@ export default (params: {
     emits,
   } = params;
   // 动态计算当前的位置
-  const curPostion = ref<TriggerPostion>(position.value);
+  const triggerPosition = ref<TriggerPostion>(position.value);
   // 计算content的位置
   const contentPosition = computed(() => {
     let offsetTop = 0;
@@ -91,11 +91,12 @@ export default (params: {
         offsetTop = top.value - contentHeight.value;
       }
     }
-    curPostion.value = getCurrentPosition(
+    // 计算trigger当前的位置
+    triggerPosition.value = getCurrentPosition(
       offsetLeft,
       offsetTop
     ) as TriggerPostion;
-    emits('position-change', curPostion.value);
+    emits('position-change', triggerPosition.value);
     return {
       top: `${offsetTop + offsetY}px`,
       left: `${offsetLeft + offsetX}px`,
@@ -104,49 +105,56 @@ export default (params: {
   // 计算arrow的位置
   const arrowPostion = computed(() => {
     let inset: CSSProperties;
-    if (['top', 'tl', 'tr', 'bottom', 'bl', 'br'].includes(curPostion.value)) {
+    if (
+      ['top', 'tl', 'tr', 'bottom', 'bl', 'br'].includes(triggerPosition.value)
+    ) {
       let arrowLeft: string | number = '';
-      if (['top', 'bottom'].includes(curPostion.value)) {
+      if (['top', 'bottom'].includes(triggerPosition.value)) {
         arrowLeft = contentWidth.value / 2;
       } else {
         arrowLeft = triggerWidth.value / 2;
       }
       inset = {
-        top: curPostion.value.startsWith('b') ? '0' : '',
-        bottom: curPostion.value.startsWith('t') ? '0' : '',
+        top: triggerPosition.value.startsWith('b') ? '0' : '',
+        bottom: triggerPosition.value.startsWith('t') ? '0' : '',
         left: `${arrowLeft}px`,
       };
     } else {
       let arrowTop: string | number = '';
       let arrowBottom: string | number = '';
-      if (['left', 'right'].includes(curPostion.value)) {
+      if (['left', 'right'].includes(triggerPosition.value)) {
         arrowTop = contentHeight.value / 2;
-      } else if (['lt', 'rt'].includes(curPostion.value)) {
+      } else if (['lt', 'rt'].includes(triggerPosition.value)) {
         arrowTop = triggerHeight.value / 2;
       } else {
         arrowBottom = triggerHeight.value / 2;
       }
       inset = {
         top: `${arrowTop}px`,
-        right: curPostion.value.startsWith('l') ? '0' : '',
+        right: triggerPosition.value.startsWith('l') ? '0' : '',
         bottom: `${arrowBottom}px`,
-        left: curPostion.value.startsWith('r') ? '0' : '',
+        left: triggerPosition.value.startsWith('r') ? '0' : '',
       };
     }
+    // 计算arrow的偏移
     let translate;
-    if (curPostion.value.startsWith('t')) {
+    if (triggerPosition.value.startsWith('t')) {
       translate = 'translate(-50%,50%)';
-    } else if (curPostion.value.startsWith('l')) {
+    } else if (triggerPosition.value.startsWith('l')) {
       translate = 'translate(50%,-50%)';
     } else {
       translate = 'translate(-50%,-50%)';
     }
     // 设置 border-radius
     const borderRadius = {
-      borderTopLeftRadius: curPostion.value.startsWith('b') ? '2px' : '0',
-      borderBottomRightRadius: curPostion.value.startsWith('t') ? '2px' : '0',
-      borderTopRightRadius: curPostion.value.startsWith('l') ? '2px' : '0',
-      borderBottomLeftRadius: curPostion.value.startsWith('r') ? '2px' : '0',
+      borderTopLeftRadius: triggerPosition.value.startsWith('b') ? '2px' : '0',
+      borderBottomRightRadius: triggerPosition.value.startsWith('t')
+        ? '2px'
+        : '0',
+      borderTopRightRadius: triggerPosition.value.startsWith('l') ? '2px' : '0',
+      borderBottomLeftRadius: triggerPosition.value.startsWith('r')
+        ? '2px'
+        : '0',
     };
     return {
       ...inset,
@@ -204,6 +212,5 @@ export default (params: {
   return {
     contentPosition,
     arrowPostion,
-    curPostion,
   };
 };

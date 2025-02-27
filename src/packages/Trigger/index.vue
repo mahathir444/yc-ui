@@ -18,9 +18,8 @@
       <div
         v-if="!unmountOnClose || (computedVisible && !disabled)"
         v-show="computedVisible && !disabled"
-        :class="['yc-trigger-container', $attrs.class]"
+        :class="['yc-trigger-container', wrapperClass]"
         :style="contentCss"
-        v-bind="$attrs"
         ref="contentRef"
         @mouseenter="handleMouseenter"
         @mouseleave="handleMouseleave"
@@ -57,7 +56,6 @@ const props = withDefaults(defineProps<TriggerProps>(), {
   disabled: false,
   popupTranslate: undefined,
   showArrow: false,
-  alignPoint: false,
   blurToClose: true,
   clickOutsidetoClose: true,
   clickToClose: true,
@@ -89,7 +87,6 @@ const {
   trigger,
   position,
   popupTranslate,
-  alignPoint,
   contentStyle,
   arrowStyle,
   clickToClose,

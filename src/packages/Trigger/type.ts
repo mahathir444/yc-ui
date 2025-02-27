@@ -1,4 +1,4 @@
-import { CSSProperties, VNode } from 'vue';
+import { CSSProperties } from 'vue';
 
 export type TriggerPostion =
   | 'top'
@@ -18,7 +18,7 @@ export type TriggerType = 'hover' | 'click' | 'focus' | 'contextMenu';
 
 /**
  *  已经被内置：auto-fix-position、update-at-scroll、auto-fit-position
- *  popup-offset、popuphoverStay、prevent-focus、scroll-to-close、scroll-to-close-distance
+ *  popup-offset、popuphoverStay、prevent-focus、scroll-to-close、scroll-to-close-distance,  alignPoint?: boolean;
  */
 export type TriggerProps = {
   popupVisible?: boolean;
@@ -30,13 +30,11 @@ export type TriggerProps = {
   disabled?: boolean;
   popupTranslate?: number[];
   showArrow?: boolean;
-  // 未实现
-  alignPoint?: boolean;
-  //
   blurToClose?: boolean;
   clickToClose?: boolean;
   clickOutsidetoClose?: boolean;
   unmountOnClose?: boolean;
+  wrapperClass?: string;
   contentClass?: string;
   contentStyle?: CSSProperties;
   arrowClass?: string;
