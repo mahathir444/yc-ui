@@ -2,18 +2,22 @@
   <yc-trigger
     v-bind="props"
     wrapper-class="yc-tooltip"
-    :arrow-class="`yc-tooltip-popup-arrow ${arrowClass}`"
-    :content-class="`yc-tooltip-popup-content ${contentClass}`"
-    :content-style="{
-      transformOrigin: TRANSFORM_ORIGIN_MAP[tooltipPosition],
-      ...contentStyle,
+    :arrow-class="`yc-tooltip-popup-arrow ${arrowClass ?? ''}`"
+    :arrow-style="{
+      ...arrowStyle,
+      backgroundColor,
     }"
-    :popup-translate="popoverTranslate"
+    :content-class="`yc-tooltip-popup-content ${contentClass ?? ''} ${mini ? 'yc-tooltip-mini' : ''}`"
+    :content-style="{
+      ...computedContentStyle,
+      backgroundColor,
+    }"
+    :popup-translate="computedTranslate"
     @popup-visible-change="(v) => $emit('popup-visible-change', v)"
     @update:popup-visible="(v) => $emit('update:popupVisible', v)"
     @show="$emit('show')"
     @hide="$emit('hide')"
-    @position-change="(v) => (tooltipPosition = v)"
+    @position-change="handlePositionChange"
   >
     <slot />
     <template #content>
@@ -25,10 +29,8 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, toRefs, ref } from 'vue';
-import { TriggerPostion } from '../Trigger/type';
 import { TooltipProps } from './type';
-import { TRANSFORM_ORIGIN_MAP } from '@/packages/Popover/constants';
+import useTriggerConfig from '@/hooks/useTriggerConfig';
 import YcTrigger from '../Trigger/index.vue';
 defineOptions({
   name: 'Tooltip',
@@ -60,6 +62,10 @@ const props = withDefaults(defineProps<TooltipProps>(), {
   focusDelay: 100,
   autoFitPopupWidth: false,
   autoFitPopupMinWidth: false,
+  title: '',
+  content: '',
+  backgroundColor: 'rgb(29, 33, 41)',
+  mini: true,
 });
 const emits = defineEmits<{
   (e: 'update:popupVisible', value: boolean): void;
@@ -67,22 +73,8 @@ const emits = defineEmits<{
   (e: 'show'): void;
   (e: 'hide'): void;
 }>();
-const { arrowClass, popupTranslate } = toRefs(props);
-// 当前的位置
-const tooltipPosition = ref<TriggerPostion>('bottom');
-// popover-translate
-const popoverTranslate = computed(() => {
-  if (popupTranslate.value) return popupTranslate.value;
-  if (tooltipPosition.value.startsWith('t')) {
-    return [0, -10];
-  } else if (tooltipPosition.value.startsWith('b')) {
-    return [0, 10];
-  } else if (tooltipPosition.value.startsWith('l')) {
-    return [-10, 0];
-  } else {
-    return [10, 0];
-  }
-});
+const { computedTranslate, computedContentStyle, handlePositionChange } =
+  useTriggerConfig(props as any);
 </script>
 
 <style lang="less">
@@ -90,17 +82,15 @@ const popoverTranslate = computed(() => {
   .yc-tooltip-popup-content {
     max-width: 350px;
     padding: 8px 12px;
-    background-color: rgb(29, 33, 41);
     border-radius: 2px;
     color: #fff;
     font-size: 14px;
     line-height: 1.5715;
     text-align: left;
     word-wrap: break-word;
-  }
-  .yc-trigger-arrow {
-    &.yc-tooltip-popup-arrow {
-      background-color: rgb(29, 33, 41);
+    &.yc-tooltip-mini {
+      padding: 4px 12px;
+      font-size: 14px;
     }
   }
 }

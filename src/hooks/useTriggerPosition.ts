@@ -34,7 +34,7 @@ export default (params: {
   // 动态计算当前的位置
   const triggerPosition = ref<TriggerPostion>(position.value);
   // 计算content的位置
-  const contentPosition = computed(() => {
+  const wrapperPosition = computed(() => {
     let offsetTop = 0;
     let offsetLeft = 0;
     const [offsetX, offsetY] = popupTranslate.value || [0, 0];
@@ -196,7 +196,7 @@ export default (params: {
     return position.value;
   }
   return {
-    contentPosition,
+    wrapperPosition,
     arrowPostion,
   };
 };

@@ -15,18 +15,21 @@
       @after-leave="$emit('hide')"
       @after-enter="$emit('show')"
     >
+      <!-- wrapper -->
       <div
         v-if="!unmountOnClose || (computedVisible && !disabled)"
         v-show="computedVisible && !disabled"
         :class="['yc-trigger-container', wrapperClass]"
-        :style="contentCss"
+        :style="wrapperPosition"
         ref="contentRef"
         @mouseenter="handleMouseenter"
         @mouseleave="handleMouseleave"
       >
-        <div :class="['yc-trigger-content', contentClass]">
+        <!-- content -->
+        <div :class="['yc-trigger-content', contentClass]" :style="contentCss">
           <slot name="content" />
         </div>
+        <!-- arrow -->
         <div
           v-if="showArrow"
           :class="['yc-trigger-arrow', arrowClass]"
@@ -144,7 +147,7 @@ const {
 const { width: contentWidth, height: contentHeight } =
   useElementSize(contentRef);
 // 计算content与arrow的位置信息
-const { contentPosition, arrowPostion } = useTriggerPosition({
+const { wrapperPosition, arrowPostion } = useTriggerPosition({
   position,
   left,
   top,
@@ -160,7 +163,6 @@ const { contentPosition, arrowPostion } = useTriggerPosition({
 // contentCss
 const contentCss = computed(() => {
   return {
-    ...contentPosition.value,
     ...contentStyle.value,
     width: autoFitPopupWidth.value ? `${triggerWidth.value}px` : '',
     minWidth: autoFitPopupMinWidth.value ? `${triggerWidth.value}px` : '',

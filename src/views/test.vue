@@ -1,7 +1,7 @@
 <template>
   <div class="test">
     <div>
-      <a-tooltip trigger="click" position="bottom" content="123">
+      <a-tooltip trigger="click" position="bottom" content="123" mini>
         <a-button>click me</a-button>
         <!-- <template #content>
           <div class="popover-content">
@@ -46,7 +46,7 @@ const visible = ref<boolean>(false);
 
 .popover-content {
   width: 200px;
-  background-color: #fff;
-  border-radius: 4px;
+  // background-color: #fff;
+  // border-radius: 4px;
 }
 </style>

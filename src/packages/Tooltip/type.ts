@@ -1,6 +1,6 @@
-import { TriggerProps } from '../Trigger/type';
+import { PopoverProps } from '../Popover/type';
 
-export interface TooltipProps extends TriggerProps {
-  title?: string;
-  content?: string;
+export interface TooltipProps extends PopoverProps {
+  backgroundColor?: string;
+  mini?: boolean;
 }

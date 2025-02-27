@@ -1,11 +1,3 @@
-// if (triggerPosition.value.startsWith('t')) {
-//     translate = 'translate(-50%,50%)';
-//   } else if (triggerPosition.value.startsWith('l')) {
-//     translate = 'translate(50%,-50%)';
-//   } else {
-//     translate = 'translate(-50%,-50%)';
-//   }
-
 export const BORDER_RADIUS_MAP = {
   top: {
     borderBottomRightRadius: '2px',
@@ -109,4 +101,20 @@ export const TRANSLATE_MAP = {
   bottom: 'translate(-50%,-50%)',
   bl: 'translate(-50%,-50%)',
   br: 'translate(-50%,-50%)',
+};
+
+// 用于tooltip和popover
+export const TRANSFORM_ORIGIN_MAP = {
+  rt: '0 0',
+  right: '0 50%',
+  rb: '0 100%',
+  lt: '100% 0',
+  left: '100% 50%',
+  lb: '100% 100%',
+  tl: '0 100%',
+  top: '50% 100%',
+  tr: '100% 100%',
+  bl: '0 0',
+  bottom: '50% 0',
+  br: '100% 0',
 };

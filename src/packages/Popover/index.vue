@@ -2,18 +2,15 @@
   <yc-trigger
     v-bind="props"
     wrapper-class="yc-popover"
-    :arrow-class="`yc-popover-popup-arrow ${arrowClass}`"
-    :content-class="`yc-popover-popup-content ${contentClass}`"
-    :content-style="{
-      transformOrigin: TRANSFORM_ORIGIN_MAP[popoverPosition],
-      ...contentStyle,
-    }"
-    :popup-translate="popoverTranslate"
+    :arrow-class="`yc-popover-popup-arrow ${arrowClass ?? ''}`"
+    :content-class="`yc-popover-popup-content ${contentClass ?? ''}`"
+    :content-style="computedContentStyle"
+    :popup-translate="computedTranslate"
     @popup-visible-change="(v) => $emit('popup-visible-change', v)"
     @update:popup-visible="(v) => $emit('update:popupVisible', v)"
     @show="$emit('show')"
     @hide="$emit('hide')"
-    @position-change="(v) => (popoverPosition = v)"
+    @position-change="handlePositionChange"
   >
     <slot />
     <template #content>
@@ -32,11 +29,9 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, toRefs, ref } from 'vue';
-import { TRANSFORM_ORIGIN_MAP } from './constants';
-import { TriggerPostion } from '../Trigger/type';
 import { PopoverProps } from './type';
 import YcTrigger from '../Trigger/index.vue';
+import useTriggerConfig from '@/hooks/useTriggerConfig';
 defineOptions({
   name: 'Popover',
 });
@@ -67,6 +62,8 @@ const props = withDefaults(defineProps<PopoverProps>(), {
   focusDelay: 100,
   autoFitPopupWidth: false,
   autoFitPopupMinWidth: false,
+  title: '',
+  content: '',
 });
 const emits = defineEmits<{
   (e: 'update:popupVisible', value: boolean): void;
@@ -74,22 +71,8 @@ const emits = defineEmits<{
   (e: 'show'): void;
   (e: 'hide'): void;
 }>();
-const { arrowClass, popupTranslate } = toRefs(props);
-// 当前的位置
-const popoverPosition = ref<TriggerPostion>('bottom');
-// popover-translate
-const popoverTranslate = computed(() => {
-  if (popupTranslate.value) return popupTranslate.value;
-  if (popoverPosition.value.startsWith('t')) {
-    return [0, -10];
-  } else if (popoverPosition.value.startsWith('b')) {
-    return [0, 10];
-  } else if (popoverPosition.value.startsWith('l')) {
-    return [-10, 0];
-  } else {
-    return [10, 0];
-  }
-});
+const { computedTranslate, computedContentStyle, handlePositionChange } =
+  useTriggerConfig(props as any);
 </script>
 
 <style lang="less">
