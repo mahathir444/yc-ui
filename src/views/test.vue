@@ -12,7 +12,7 @@
     </div>
 
     <div>
-      <yc-tooltip position="bottom">
+      <yc-tooltip trigger="contextMenu" position="bottom">
         <a-button>click me</a-button>
         <template #content>
           <div class="popover-content">
@@ -28,7 +28,7 @@
 import { ref, watch, onMounted } from 'vue';
 import YcTrigger from '@/packages/Trigger';
 import YcPopover from '@/packages/Popover/index.vue';
-import YcTooltip from '@/packages/Tooltip';
+import YcTooltip from '@/packages/Tooltip/index.vue';
 
 const visible = ref<boolean>(false);
 </script>

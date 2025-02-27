@@ -1,7 +1,7 @@
 <template>
   <trigger-slot
     @click="handleClick"
-    @contextmenu="handleContextmenu"
+    @contextmenu.prevent="handleContextmenu"
     @mouseenter="handleMouseenter"
     @mouseleave="handleMouseleave"
     @focus="handleFocus"

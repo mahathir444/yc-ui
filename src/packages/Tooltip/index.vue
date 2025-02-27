@@ -11,7 +11,7 @@
     @update:popup-visible="(v) => $emit('update:popupVisible', v)"
     @show="$emit('show')"
     @hide="$emit('hide')"
-    @position-change="handlePositionChange"
+    @position-change="(v) => (triggerPostion = v)"
   >
     <slot />
     <template #content>
@@ -53,7 +53,7 @@ const props = withDefaults(defineProps<TooltipProps>(), {
   },
   animationName: 'zoom-in-fade-out',
   duration: 400,
-  mouseEnterDelay: 1000,
+  mouseEnterDelay: 100,
   mouseLeaveDelay: 100,
   focusDelay: 100,
   autoFitPopupWidth: false,
@@ -75,7 +75,7 @@ const { popupTranslate, arrowStyle, contentStyle, backgroundColor } =
 const triggerPostion = ref<TriggerPostion>('bottom');
 // popover-translate
 const computedTranslate = computed(() => {
-  if (popupTranslate?.value) return popupTranslate.value;
+  if (popupTranslate.value) return popupTranslate.value;
   if (triggerPostion.value.startsWith('t')) {
     return [0, -10];
   } else if (triggerPostion.value.startsWith('b')) {
@@ -101,10 +101,6 @@ const computedArrowStyle = computed(() => {
     ...arrowStyle.value,
   };
 });
-// 处理位置发生变化
-const handlePositionChange = (v: TriggerPostion) => {
-  triggerPostion.value = v;
-};
 </script>
 
 <style lang="less">

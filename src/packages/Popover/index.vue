@@ -10,7 +10,7 @@
     @update:popup-visible="(v) => $emit('update:popupVisible', v)"
     @show="$emit('show')"
     @hide="$emit('hide')"
-    @position-change="handlePositionChange"
+    @position-change="(v) => (triggerPostion = v)"
   >
     <slot />
     <template #content>
@@ -78,7 +78,7 @@ const { popupTranslate, contentStyle } = toRefs(props);
 const triggerPostion = ref<TriggerPostion>('bottom');
 // popover-translate
 const computedTranslate = computed(() => {
-  if (popupTranslate?.value) return popupTranslate.value;
+  if (popupTranslate.value) return popupTranslate.value;
   if (triggerPostion.value.startsWith('t')) {
     return [0, -10];
   } else if (triggerPostion.value.startsWith('b')) {
@@ -96,10 +96,6 @@ const computedContentStyle = computed(() => {
     ...contentStyle?.value,
   } as CSSProperties;
 });
-// 处理位置发生变化
-const handlePositionChange = (v: TriggerPostion) => {
-  triggerPostion.value = v;
-};
 </script>
 
 <style lang="less">
