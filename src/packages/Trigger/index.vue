@@ -4,6 +4,7 @@
     @contextmenu.prevent="handleContextmenu"
     @mouseenter="handleMouseenter"
     @mouseleave="handleMouseleave"
+    @mousedown="handleMousedown"
     @focus="handleFocus"
     @blur="handleBlur"
     ref="triggerRef"
@@ -77,6 +78,7 @@ const props = withDefaults(defineProps<TriggerProps>(), {
   autoFitPopupMinWidth: false,
   popupContainer: 'body',
   renderToBody: true,
+  preventFocus: false,
 });
 const emits = defineEmits<{
   (e: 'update:popupVisible', value: boolean): void;
@@ -99,6 +101,7 @@ const {
   clickOutsideToClose,
   mouseEnterDelay,
   mouseLeaveDelay,
+  preventFocus,
   focusDelay,
   duration,
   autoFitPopupWidth,
@@ -123,10 +126,12 @@ const {
   handleFocus,
   handleBlur,
   handleContextmenu,
+  handleMousedown,
   handleClick,
 } = useTriggerVisible({
   popupVisible,
   defaultPopupVisible,
+  preventFocus,
   trigger,
   clickToClose,
   blurToClose,

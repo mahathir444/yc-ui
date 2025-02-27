@@ -37,21 +37,88 @@ export default (params: {
   const triggerPosition = ref<TriggerPostion>(position.value);
   // 计算content的位置
   const wrapperPosition = computed(() => {
-    //初始位置计算
-    const { x: offsetLeft, y: offsetTop } = calcDefaultBounding();
+    let offsetTop = 0;
+    let offsetLeft = 0;
+    // 初始位置计算
+    if (['top', 'tl', 'tr', 'bottom', 'bl', 'br'].includes(position.value)) {
+      offsetTop = position.value.startsWith('t')
+        ? top.value - contentHeight.value
+        : bottom.value;
+      if (['top', 'bottom'].includes(position.value)) {
+        offsetLeft = left.value + (triggerWidth.value - contentWidth.value) / 2;
+      } else if (['tl', 'bl'].includes(position.value)) {
+        offsetLeft = left.value;
+      } else {
+        offsetLeft = right.value - contentWidth.value;
+      }
+    } else {
+      offsetLeft = position.value.startsWith('l')
+        ? left.value - contentWidth.value
+        : right.value;
+      if (['left', 'right'].includes(position.value)) {
+        offsetTop = top.value + (triggerHeight.value - contentHeight.value) / 2;
+      } else if (['lt', 'rt'].includes(position.value)) {
+        offsetTop = top.value;
+      } else {
+        offsetTop = bottom.value - contentHeight.value;
+      }
+    }
     // 边界检测
-    const { x, y } = calcCurrentBounding(offsetLeft, offsetTop);
+    if (['top', 'tl', 'tr', 'bottom', 'bl', 'br'].includes(position.value)) {
+      // 上下检测
+      if (offsetTop < 0 && ['top', 'tl', 'tr'].includes(position.value)) {
+        offsetTop = bottom.value;
+      } else if (
+        offsetTop + contentHeight.value > window.innerHeight &&
+        ['bottom', 'bl', 'br'].includes(position.value)
+      ) {
+        offsetTop = top.value - contentHeight.value;
+      }
+      // 左右检测
+      if (offsetLeft < 0) {
+        offsetLeft = left.value;
+      } else if (offsetLeft + contentWidth.value > window.innerWidth) {
+        offsetLeft = right.value - contentWidth.value;
+      }
+    } else {
+      // 左右检测
+      if (offsetLeft < 0 && ['left', 'lt', 'lb'].includes(position.value)) {
+        offsetLeft = right.value;
+      } else if (
+        offsetLeft + contentWidth.value > window.innerWidth &&
+        ['right', 'rt', 'rb'].includes(position.value)
+      ) {
+        offsetLeft = left.value - contentWidth.value;
+      }
+      // 上下检测
+      if (offsetTop < 0) {
+        offsetTop = top.value;
+      } else if (offsetTop + contentHeight.value > window.innerHeight) {
+        offsetTop = top.value - contentHeight.value;
+      }
+    }
     // 计算trigger当前的位置
     triggerPosition.value = getCurrentPosition(
       offsetLeft,
       offsetTop
     ) as TriggerPostion;
     emits('position-change', triggerPosition.value);
-    // 计算偏移量
-    const { offsetX, offsetY } = calcOffset();
+    // 计算便宜量
+    let offsetX = 0;
+    let offsetY = 0;
+    if (triggerPosition.value.startsWith('t')) {
+      offsetY = -popupOffset.value;
+    } else if (triggerPosition.value.startsWith('b')) {
+      offsetY = popupOffset.value;
+    } else if (triggerPosition.value.startsWith('l')) {
+      offsetX = -popupOffset.value;
+    } else if (triggerPosition.value.startsWith('r')) {
+      offsetX = popupOffset.value;
+    }
+    const [translateX, translateY] = popupTranslate.value;
     return {
-      top: `${x + offsetX}px`,
-      left: `${y + offsetY}px`,
+      top: `${offsetTop + translateY + offsetY}px`,
+      left: `${offsetLeft + translateX + offsetX}px`,
     };
   });
   // 计算arrow的位置
@@ -95,100 +162,6 @@ export default (params: {
       transform: `${TRANSLATE_MAP[triggerPosition.value]} rotate(45deg)`,
     } as CSSProperties;
   });
-  // 计算偏移量
-  function calcOffset() {
-    // 计算偏移量
-    let offsetX = 0;
-    let offsetY = 0;
-    if (triggerPosition.value.startsWith('t')) {
-      offsetY = -popupOffset.value;
-    } else if (triggerPosition.value.startsWith('b')) {
-      offsetY = popupOffset.value;
-    } else if (triggerPosition.value.startsWith('l')) {
-      offsetX = -popupOffset.value;
-    } else if (triggerPosition.value.startsWith('r')) {
-      offsetX = popupOffset.value;
-    }
-    const [translateX, translateY] = popupTranslate.value;
-    return {
-      offsetX: offsetX + translateX,
-      offsetY: offsetY + translateY,
-    };
-  }
-  // 初始位置计算
-  function calcDefaultBounding() {
-    let x = 0;
-    let y = 0;
-    if (['top', 'tl', 'tr', 'bottom', 'bl', 'br'].includes(position.value)) {
-      y = position.value.startsWith('t')
-        ? top.value - contentHeight.value
-        : bottom.value;
-      if (['top', 'bottom'].includes(position.value)) {
-        x = left.value + (triggerWidth.value - contentWidth.value) / 2;
-      } else if (['tl', 'bl'].includes(position.value)) {
-        x = left.value;
-      } else {
-        x = right.value - contentWidth.value;
-      }
-    } else {
-      x = position.value.startsWith('l')
-        ? left.value - contentWidth.value
-        : right.value;
-      if (['left', 'right'].includes(position.value)) {
-        y = top.value + (triggerHeight.value - contentHeight.value) / 2;
-      } else if (['lt', 'rt'].includes(position.value)) {
-        y = top.value;
-      } else {
-        y = bottom.value - contentHeight.value;
-      }
-    }
-    return {
-      x,
-      y,
-    };
-  }
-  // 计算当前的边界
-  function calcCurrentBounding(offsetLeft: number, offsetTop: number) {
-    let x = offsetLeft;
-    let y = offsetTop;
-    if (['top', 'tl', 'tr', 'bottom', 'bl', 'br'].includes(position.value)) {
-      // 上下检测
-      if (offsetTop < 0 && ['top', 'tl', 'tr'].includes(position.value)) {
-        y = bottom.value;
-      } else if (
-        offsetTop + contentHeight.value > window.innerHeight &&
-        ['bottom', 'bl', 'br'].includes(position.value)
-      ) {
-        y = top.value - contentHeight.value;
-      }
-      // 左右检测
-      if (offsetLeft < 0) {
-        x = left.value;
-      } else if (offsetLeft + contentWidth.value > window.innerWidth) {
-        x = right.value - contentWidth.value;
-      }
-    } else {
-      // 左右检测
-      if (offsetLeft < 0 && ['left', 'lt', 'lb'].includes(position.value)) {
-        x = right.value;
-      } else if (
-        offsetLeft + contentWidth.value > window.innerWidth &&
-        ['right', 'rt', 'rb'].includes(position.value)
-      ) {
-        x = left.value - contentWidth.value;
-      }
-      // 上下检测
-      if (offsetTop < 0) {
-        y = top.value;
-      } else if (offsetTop + contentHeight.value > window.innerHeight) {
-        y = top.value - contentHeight.value;
-      }
-    }
-    return {
-      x,
-      y,
-    };
-  }
   // 根据offsettop与offsetleft反向计算当前的位置
   function getCurrentPosition(offsetLeft: number, offsetTop: number) {
     const epsilon = 0.00001; // 定义一个小的容差值

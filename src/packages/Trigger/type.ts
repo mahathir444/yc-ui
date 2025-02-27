@@ -18,7 +18,7 @@ export type TriggerType = 'hover' | 'click' | 'focus' | 'contextMenu';
 
 /**
  *  已经被内置：auto-fix-position、update-at-scroll、auto-fit-position
- *  popuphoverStay、alignPoint、prevent-focus、scroll-to-close、scroll-to-close-distance;
+ *  popuphoverStay、alignPoint、scroll-to-close、scroll-to-close-distance;
  */
 export type TriggerProps = {
   popupVisible?: boolean;
@@ -47,4 +47,5 @@ export type TriggerProps = {
   autoFitPopupMinWidth?: boolean;
   popupContainer?: string | HTMLElement;
   renderToBody?: boolean;
+  preventFocus?: boolean;
 };

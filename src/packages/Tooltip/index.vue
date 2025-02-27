@@ -61,7 +61,7 @@ const props = withDefaults(defineProps<TooltipProps>(), {
   blurToClose: true,
   clickOutsideToClose: true,
   clickToClose: true,
-  unmountOnClose: false,
+  unmountOnClose: true,
   contentStyle: () => {
     return {};
   },

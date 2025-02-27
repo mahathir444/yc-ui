@@ -13,6 +13,7 @@ export default (params: {
   mouseEnterDelay: Ref<number>;
   mouseLeaveDelay: Ref<number>;
   focusDelay: Ref<number>;
+  preventFocus: Ref<boolean>;
   contentRef: Ref<HTMLDivElement | undefined>;
   emits: (...args: any) => any;
 }) => {
@@ -26,6 +27,7 @@ export default (params: {
     mouseEnterDelay,
     mouseLeaveDelay,
     focusDelay,
+    preventFocus,
     contentRef,
     emits,
   } = params;
@@ -47,7 +49,7 @@ export default (params: {
     },
   });
   // 计时器用于异步处理
-  let timer: any;
+  let timer: NodeJS.Timeout;
   // 点击
   const handleClick = () => {
     if (timer) clearTimeout(timer);
@@ -59,6 +61,12 @@ export default (params: {
     if (timer) clearTimeout(timer);
     if (trigger.value != 'contextMenu') return;
     computedVisible.value = clickToClose.value ? !computedVisible.value : true;
+  };
+  //处理鼠标按下事件，用于阻止content内的元素获取焦点
+  const handleMousedown = (e: MouseEvent) => {
+    if (preventFocus.value) {
+      e.preventDefault();
+    }
   };
   // 鼠标进入
   const handleMouseenter = async () => {
@@ -109,6 +117,7 @@ export default (params: {
 
   return {
     computedVisible,
+    handleMousedown,
     handleClick,
     handleMouseenter,
     handleMouseleave,

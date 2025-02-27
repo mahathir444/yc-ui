@@ -1,23 +1,27 @@
 <template>
   <div class="test">
     <div>
-      <a-tooltip trigger="click" position="right" content="123">
+      <a-popover
+        trigger="hover"
+        position="right"
+        content="123"
+        :popup-offset="100"
+        :popup-hover-stay="false"
+      >
         <a-button>click me</a-button>
-        <!-- <template #content>
+        <template #content>
           <div class="popover-content">
             <a-empty />
           </div>
-        </template> -->
-      </a-tooltip>
+        </template>
+      </a-popover>
     </div>
 
     <div>
       <yc-tooltip trigger="click" position="bottom">
         <a-button>click me</a-button>
         <template #content>
-          <div class="popover-content">
-            <a-empty />
-          </div>
+          <a-empty />
         </template>
       </yc-tooltip>
     </div>
@@ -46,7 +50,7 @@ const visible = ref<boolean>(false);
 
 .popover-content {
   width: 200px;
-  // background-color: #fff;
-  // border-radius: 4px;
+  background-color: #fff;
+  border-radius: 4px;
 }
 </style>
