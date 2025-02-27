@@ -1,4 +1,9 @@
 import { TriggerPostion } from '@/packages/Trigger/type';
+import {
+  BORDER_MAP,
+  BORDER_RADIUS_MAP,
+  TRANSLATE_MAP,
+} from '@/packages/Trigger/constants';
 import { computed, CSSProperties, Ref, ref } from 'vue';
 export default (params: {
   position: Ref<TriggerPostion>;
@@ -136,30 +141,11 @@ export default (params: {
         left: triggerPosition.value.startsWith('r') ? '0' : '',
       };
     }
-    // 计算arrow的偏移
-    let translate;
-    if (triggerPosition.value.startsWith('t')) {
-      translate = 'translate(-50%,50%)';
-    } else if (triggerPosition.value.startsWith('l')) {
-      translate = 'translate(50%,-50%)';
-    } else {
-      translate = 'translate(-50%,-50%)';
-    }
-    // 设置 border-radius
-    const borderRadius = {
-      borderTopLeftRadius: triggerPosition.value.startsWith('b') ? '2px' : '0',
-      borderBottomRightRadius: triggerPosition.value.startsWith('t')
-        ? '2px'
-        : '0',
-      borderTopRightRadius: triggerPosition.value.startsWith('l') ? '2px' : '0',
-      borderBottomLeftRadius: triggerPosition.value.startsWith('r')
-        ? '2px'
-        : '0',
-    };
     return {
       ...inset,
-      ...borderRadius,
-      transform: `${translate} rotate(45deg)`,
+      ...BORDER_MAP[triggerPosition.value],
+      ...BORDER_RADIUS_MAP[triggerPosition.value],
+      transform: `${TRANSLATE_MAP[triggerPosition.value]} rotate(45deg)`,
     } as CSSProperties;
   });
   // 根据offsettop与offsetleft反向计算当前的位置

@@ -3,7 +3,6 @@
     v-bind="props"
     wrapper-class="yc-tooltip"
     :arrow-class="`yc-tooltip-popup-arrow ${arrowClass}`"
-    :arrow-style="{ ...arrowStyle, ...BORDER_MAP[tooltipPosition] }"
     :content-class="`yc-tooltip-popup-content ${contentClass}`"
     :content-style="{
       transformOrigin: TRANSFORM_ORIGIN_MAP[tooltipPosition],
@@ -29,7 +28,7 @@
 import { computed, toRefs, ref } from 'vue';
 import { TriggerPostion } from '../Trigger/type';
 import { TooltipProps } from './type';
-import { TRANSFORM_ORIGIN_MAP, BORDER_MAP } from '@/packages/Popover/constants';
+import { TRANSFORM_ORIGIN_MAP } from '@/packages/Popover/constants';
 import YcTrigger from '../Trigger/index.vue';
 defineOptions({
   name: 'Tooltip',
@@ -89,21 +88,19 @@ const popoverTranslate = computed(() => {
 <style lang="less">
 .yc-tooltip {
   .yc-tooltip-popup-content {
-    padding: 12px 16px;
-    color: rgb(78, 89, 105);
+    max-width: 350px;
+    padding: 8px 12px;
+    background-color: rgb(29, 33, 41);
+    border-radius: 2px;
+    color: #fff;
     font-size: 14px;
     line-height: 1.5715;
-    background-color: #fff;
-    border: 1px solid rgb(229, 230, 235);
-    border-radius: 4px;
-    box-shadow: 0 4px 10px #0000001a;
+    text-align: left;
+    word-wrap: break-word;
   }
-  .yc-tooltip-arrow {
-    &.yc-popover-popup-arrow {
-      z-index: 1;
-      border: 1px solid rgb(229, 230, 235);
-      width: 8px;
-      height: 8px;
+  .yc-trigger-arrow {
+    &.yc-tooltip-popup-arrow {
+      background-color: rgb(29, 33, 41);
     }
   }
 }

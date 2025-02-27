@@ -12,14 +12,14 @@
     </div>
 
     <div>
-      <yc-popover trigger="click" position="bottom">
+      <yc-tooltip trigger="click" position="bottom">
         <a-button>click me</a-button>
         <template #content>
           <div class="popover-content">
             <a-empty />
           </div>
         </template>
-      </yc-popover>
+      </yc-tooltip>
     </div>
   </div>
 </template>

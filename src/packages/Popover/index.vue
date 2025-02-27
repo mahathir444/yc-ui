@@ -1,9 +1,8 @@
 <template>
   <yc-trigger
-    v-bind="$attrs"
+    v-bind="props"
     wrapper-class="yc-popover"
     :arrow-class="`yc-popover-popup-arrow ${arrowClass}`"
-    :arrow-style="{ ...arrowStyle, ...BORDER_MAP[popoverPosition] }"
     :content-class="`yc-popover-popup-content ${contentClass}`"
     :content-style="{
       transformOrigin: TRANSFORM_ORIGIN_MAP[popoverPosition],
@@ -34,7 +33,7 @@
 
 <script lang="ts" setup>
 import { computed, toRefs, ref } from 'vue';
-import { TRANSFORM_ORIGIN_MAP, BORDER_MAP } from './constants';
+import { TRANSFORM_ORIGIN_MAP } from './constants';
 import { TriggerPostion } from '../Trigger/type';
 import { PopoverProps } from './type';
 import YcTrigger from '../Trigger/index.vue';
@@ -115,8 +114,6 @@ const popoverTranslate = computed(() => {
     &.yc-popover-popup-arrow {
       z-index: 1;
       border: 1px solid rgb(229, 230, 235);
-      width: 8px;
-      height: 8px;
     }
   }
 }
