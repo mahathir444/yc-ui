@@ -3,15 +3,9 @@
     v-bind="props"
     wrapper-class="yc-tooltip"
     :arrow-class="`yc-tooltip-popup-arrow ${arrowClass ?? ''}`"
-    :arrow-style="{
-      ...arrowStyle,
-      backgroundColor,
-    }"
+    :arrow-style="computedArrowStyle"
     :content-class="`yc-tooltip-popup-content ${contentClass ?? ''} ${mini ? 'yc-tooltip-mini' : ''}`"
-    :content-style="{
-      ...computedContentStyle,
-      backgroundColor,
-    }"
+    :content-style="computedContentStyle"
     :popup-translate="computedTranslate"
     @popup-visible-change="(v) => $emit('popup-visible-change', v)"
     @update:popup-visible="(v) => $emit('update:popupVisible', v)"
@@ -29,8 +23,10 @@
 </template>
 
 <script lang="ts" setup>
+import { ref, toRefs, computed, CSSProperties, Reactive } from 'vue';
+import { TriggerPostion } from '@/packages/Trigger/type';
 import { TooltipProps } from './type';
-import useTriggerConfig from '@/hooks/useTriggerConfig';
+import { TRANSFORM_ORIGIN_MAP } from '@/packages/Trigger/constants';
 import YcTrigger from '../Trigger/index.vue';
 defineOptions({
   name: 'Tooltip',
@@ -65,7 +61,7 @@ const props = withDefaults(defineProps<TooltipProps>(), {
   title: '',
   content: '',
   backgroundColor: 'rgb(29, 33, 41)',
-  mini: true,
+  mini: false,
 });
 const emits = defineEmits<{
   (e: 'update:popupVisible', value: boolean): void;
@@ -73,8 +69,42 @@ const emits = defineEmits<{
   (e: 'show'): void;
   (e: 'hide'): void;
 }>();
-const { computedTranslate, computedContentStyle, handlePositionChange } =
-  useTriggerConfig(props as any);
+const { popupTranslate, arrowStyle, contentStyle, backgroundColor } =
+  toRefs(props);
+// 当前的位置
+const triggerPostion = ref<TriggerPostion>('bottom');
+// popover-translate
+const computedTranslate = computed(() => {
+  if (popupTranslate?.value) return popupTranslate.value;
+  if (triggerPostion.value.startsWith('t')) {
+    return [0, -10];
+  } else if (triggerPostion.value.startsWith('b')) {
+    return [0, 10];
+  } else if (triggerPostion.value.startsWith('l')) {
+    return [-10, 0];
+  } else {
+    return [10, 0];
+  }
+});
+// content-style
+const computedContentStyle = computed(() => {
+  return {
+    transformOrigin: TRANSFORM_ORIGIN_MAP[triggerPostion.value],
+    backgroundColor: backgroundColor.value,
+    ...contentStyle.value,
+  } as CSSProperties;
+});
+// arrowStyle
+const computedArrowStyle = computed(() => {
+  return {
+    backgroundColor: backgroundColor.value,
+    ...arrowStyle.value,
+  };
+});
+// 处理位置发生变化
+const handlePositionChange = (v: TriggerPostion) => {
+  triggerPostion.value = v;
+};
 </script>
 
 <style lang="less">

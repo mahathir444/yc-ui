@@ -29,9 +29,11 @@
 </template>
 
 <script lang="ts" setup>
+import { ref, toRefs, computed, CSSProperties, Reactive } from 'vue';
+import { TriggerPostion } from '@/packages/Trigger/type';
+import { TRANSFORM_ORIGIN_MAP } from '@/packages/Trigger/constants';
 import { PopoverProps } from './type';
 import YcTrigger from '../Trigger/index.vue';
-import useTriggerConfig from '@/hooks/useTriggerConfig';
 defineOptions({
   name: 'Popover',
 });
@@ -48,7 +50,7 @@ const props = withDefaults(defineProps<PopoverProps>(), {
   blurToClose: true,
   clickOutsidetoClose: true,
   clickToClose: true,
-  unmountOnClose: false,
+  unmountOnClose: true,
   contentStyle: () => {
     return {};
   },
@@ -71,8 +73,33 @@ const emits = defineEmits<{
   (e: 'show'): void;
   (e: 'hide'): void;
 }>();
-const { computedTranslate, computedContentStyle, handlePositionChange } =
-  useTriggerConfig(props as any);
+const { popupTranslate, contentStyle } = toRefs(props);
+// 当前的位置
+const triggerPostion = ref<TriggerPostion>('bottom');
+// popover-translate
+const computedTranslate = computed(() => {
+  if (popupTranslate?.value) return popupTranslate.value;
+  if (triggerPostion.value.startsWith('t')) {
+    return [0, -10];
+  } else if (triggerPostion.value.startsWith('b')) {
+    return [0, 10];
+  } else if (triggerPostion.value.startsWith('l')) {
+    return [-10, 0];
+  } else {
+    return [10, 0];
+  }
+});
+// content-style
+const computedContentStyle = computed(() => {
+  return {
+    transformOrigin: TRANSFORM_ORIGIN_MAP[triggerPostion.value],
+    ...contentStyle?.value,
+  } as CSSProperties;
+});
+// 处理位置发生变化
+const handlePositionChange = (v: TriggerPostion) => {
+  triggerPostion.value = v;
+};
 </script>
 
 <style lang="less">

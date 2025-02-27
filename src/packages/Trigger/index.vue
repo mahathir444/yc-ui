@@ -146,7 +146,7 @@ const {
 // content的宽高
 const { width: contentWidth, height: contentHeight } =
   useElementSize(contentRef);
-// 计算content与arrow的位置信息
+// 计算wrapper与arrow的位置信息
 const { wrapperPosition, arrowPostion } = useTriggerPosition({
   position,
   left,

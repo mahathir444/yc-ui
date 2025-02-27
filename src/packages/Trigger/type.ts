@@ -46,4 +46,9 @@ export type TriggerProps = {
   focusDelay?: number;
   autoFitPopupWidth?: boolean;
   autoFitPopupMinWidth?: boolean;
+  //
+  title?: string;
+  content?: string;
+  backgroundColor?: string;
+  mini?: boolean;
 };
