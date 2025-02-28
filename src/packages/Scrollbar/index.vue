@@ -41,10 +41,10 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, computed, CSSProperties, useAttrs } from 'vue';
+import { ref, computed, CSSProperties, toRefs } from 'vue';
 import { useElementBounding, useElementSize } from '@vueuse/core';
 import Thumb from './component/Thumb.vue';
-withDefaults(
+const props = withDefaults(
   defineProps<{
     type?: 'track' | 'embed';
     outerClass?: string;
@@ -57,6 +57,7 @@ withDefaults(
 const emits = defineEmits<{
   (e: 'scroll', left: number, top: number): void;
 }>();
+const { type } = toRefs(props);
 // contentRef
 const contentRef = ref<HTMLElement>();
 // scrollRef
@@ -98,18 +99,16 @@ const thumbTop = ref<number>(0);
 const thumbLeft = ref<number>(0);
 // 计算最大的top和Left
 const maxThumbTop = computed(() => {
-  return (
-    srcollHeight.value -
-    thumbHeight.value -
-    (contentWidth.value <= srcollWidth.value ? 0 : trackWidth.value)
-  );
+  if (thumbHeight.value) {
+    return srcollHeight.value - thumbHeight.value - trackWidth.value;
+  }
+  return srcollHeight.value - thumbHeight.value;
 });
 const maxThumbLeft = computed(() => {
-  return (
-    srcollWidth.value -
-    thumbWidth.value -
-    (contentHeight.value <= srcollWidth.value ? 0 : trackHeight.value)
-  );
+  if (thumbWidth.value) {
+    return srcollWidth.value - thumbWidth.value - trackHeight.value;
+  }
+  return srcollWidth.value - thumbWidth.value;
 });
 // 处理容器滚动
 const handleScroll = (e: any) => {

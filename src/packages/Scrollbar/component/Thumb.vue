@@ -7,6 +7,7 @@
       'yc-scrollbar-track-direction-horizontal': !isVertical,
     }"
     ref="trackRef"
+    @mousedown="handldeMousedown"
   >
     <div
       :class="{
@@ -34,13 +35,9 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, toRefs, watch, computed } from 'vue';
+import { ref, toRefs, computed } from 'vue';
 import { useDraggable } from '@vueuse/core';
-import {
-  useResizeObserver,
-  useElementSize,
-  useEventListener,
-} from '@vueuse/core';
+import { useEventListener, useMouse, useResizeObserver } from '@vueuse/core';
 const props = withDefaults(
   defineProps<{
     type?: 'track' | 'embed';
@@ -76,6 +73,8 @@ const { minLeft, maxLeft, minTop, maxTop, mode } = toRefs(props);
 const dragRef = ref<HTMLDivElement>();
 // 处理拖动
 const { x, y, isDragging } = useDraggable(dragRef);
+//
+const { x: mouseX, y: mouseY } = useMouse();
 // 是否是垂直
 const isVertical = computed(() => mode.value == 'vertical');
 // 计算越界情况
@@ -94,26 +93,18 @@ const handleOutOfBound = () => {
 useEventListener('mousemove', handleOutOfBound);
 //轨道实例
 const trackRef = ref<HTMLDivElement>();
-// 获取bar宽度往外传
-const { width: trackWidth, height: trackHeight } = useElementSize(trackRef);
-watch(
-  trackWidth,
-  (v) => {
-    emits('resize', v, trackHeight.value);
-  },
-  {
-    immediate: true,
+useResizeObserver(trackRef, () => {
+  const { offsetHeight, offsetWidth } = trackRef.value as HTMLDivElement;
+  emits('resize', offsetWidth, offsetHeight);
+});
+// 处理鼠标点击
+const handldeMousedown = () => {
+  if (isVertical.value) {
+    emits('drag', true, mouseY.value - minTop.value);
+  } else {
+    emits('drag', false, mouseX.value - minLeft.value);
   }
-);
-watch(
-  trackHeight,
-  (v) => {
-    emits('resize', trackWidth.value, v);
-  },
-  {
-    immediate: true,
-  }
-);
+};
 </script>
 
 <style lang="less" scoped>
