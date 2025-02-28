@@ -1,11 +1,22 @@
 <template>
-  <div :class="['yc-scrollbar', outerClass]" :style="outerStyle">
+  <div
+    :class="[
+      'yc-scrollbar',
+      type == 'track' ? 'yc-scrollbar-type-track' : 'yc-scrollbar-type-embed',
+      outerClass,
+    ]"
+    :style="outerStyle"
+  >
     <div
-      class="yc-scrollbar-container"
       :style="<CSSProperties>$attrs.style"
-      :class="$attrs.class"
-      @scroll="handleScroll"
+      :class="[
+        'yc-scrollbar-container',
+        srcollHeight < contentHeight ? 'yc-scrollbar-vertical-track' : '',
+        srcollWidth < contentWidth ? 'yc-scrollbar-horizontal-track' : '',
+        $attrs.class,
+      ]"
       ref="scrollRef"
+      @scroll="handleScroll"
     >
       <div class="yc-scrollbar-content" ref="contentRef">
         <slot />
@@ -45,7 +56,7 @@ withDefaults(
     outerStyle?: CSSProperties;
   }>(),
   {
-    type: 'embed',
+    type: 'track',
   }
 );
 const emits = defineEmits<{
@@ -65,10 +76,8 @@ const {
   width: srcollWidth,
   height: srcollHeight,
 } = useElementBounding(scrollRef);
-//
 // 计算滚动条高度
 const thumbHeight = computed(() => {
-  console.log(contentHeight.value, srcollHeight.value);
   if (contentHeight.value <= srcollHeight.value) return 0;
   const height = +(
     (srcollHeight.value * srcollHeight.value) /
@@ -104,24 +113,32 @@ const maxThumbLeft = computed(() => {
   return (
     srcollWidth.value -
     thumbWidth.value -
-    (contentHeight.value <= contentHeight.value ? 0 : trackHeight.value)
+    (contentHeight.value <= srcollWidth.value ? 0 : trackHeight.value)
   );
 });
+// 计算滚动
+const calcScroll = (scrollTop: number, scrollLeft: number) => {
+  //计算top
+  const top = +(
+    (scrollTop / (contentHeight.value - srcollHeight.value)) *
+    maxThumbTop.value
+  ).toFixed(1);
+  // 计算left
+  const left = +(
+    (scrollLeft / (contentWidth.value - srcollWidth.value)) *
+    maxThumbLeft.value
+  ).toFixed(1);
+  return {
+    top: top <= maxThumbTop.value ? top : maxThumbTop.value,
+    left: left <= maxThumbLeft.value ? left : maxThumbLeft.value,
+  };
+};
 // 处理容器滚动
 const handleScroll = (e: any) => {
   const { scrollTop, scrollLeft } = e.target as HTMLDivElement;
-  //计算top
-  const top = +(
-    ((scrollTop as number) / (contentHeight.value - srcollHeight.value)) *
-    maxThumbTop.value
-  ).toFixed(1);
-  thumbTop.value = top <= maxThumbTop.value ? top : maxThumbTop.value;
-  //计算left
-  const left = +(
-    ((scrollLeft as number) / (contentWidth.value - srcollWidth.value)) *
-    maxThumbLeft.value
-  ).toFixed(1);
-  thumbLeft.value = left <= maxThumbLeft.value ? left : maxThumbLeft.value;
+  const { top, left } = calcScroll(scrollTop, scrollLeft);
+  thumbTop.value = top;
+  thumbLeft.value = left;
 };
 // 处理滑块拖动
 const handleDrag = (isVertical: boolean, value: number) => {
@@ -147,14 +164,31 @@ const handleDrag = (isVertical: boolean, value: number) => {
       scrollLeft >= maxScrollbarMoveLeft ? maxScrollbarMoveLeft : scrollLeft;
   }
 };
+
+defineExpose({
+  scrollTo(options: ScrollOptions) {
+    scrollRef.value?.scrollTo(options);
+  },
+  scrollLeft(left: number) {
+    scrollRef.value?.scrollTo({
+      left,
+    });
+  },
+  scrollTop(top: number) {
+    scrollRef.value?.scrollTo({
+      top,
+    });
+  },
+});
 </script>
 
 <style lang="less" scoped>
 .yc-scrollbar {
   position: relative;
+  overflow: hidden;
   &:hover .yc-scrollbar-track {
     &:deep(.yc-scrollbar-thumb-bar) {
-      opacity: 1 !important;
+      opacity: 1;
     }
   }
   .yc-scrollbar-container {
@@ -167,5 +201,27 @@ const handleDrag = (isVertical: boolean, value: number) => {
       width: fit-content;
     }
   }
+}
+
+.yc-scrollbar-type-track {
+  .yc-scrollbar-content {
+    border-right: 1px solid rgb(229, 230, 235);
+    border-bottom: 1px solid rgb(229, 230, 235);
+  }
+  &:deep(.yc-scrollbar-track) {
+    background-color: rgb(247, 248, 250);
+    &.yc-scrollbar-track-direction-vertical {
+      border-right: 1px solid rgb(229, 230, 235);
+    }
+    &.yc-scrollbar-track-direction-horizontal {
+      border-bottom: 1px solid rgb(229, 230, 235);
+    }
+  }
+}
+.yc-scrollbar-vertical-track {
+  padding-right: 15px;
+}
+.yc-scrollbar-horizontal-track {
+  padding-bottom: 15px;
 }
 </style>

@@ -35,7 +35,11 @@
 <script lang="ts" setup>
 import { ref, toRefs, watch, computed } from 'vue';
 import { useDraggable } from '@vueuse/core';
-import { useElementSize, useEventListener } from '@vueuse/core';
+import {
+  useResizeObserver,
+  useElementSize,
+  useEventListener,
+} from '@vueuse/core';
 const props = withDefaults(
   defineProps<{
     mode?: 'vertical' | 'horizontal';
@@ -74,14 +78,14 @@ const isVertical = computed(() => mode.value == 'vertical');
 // 计算越界情况
 const handleOutOfBound = () => {
   if (!isDragging.value) return;
-  if (mode.value == 'horizontal') {
-    x.value = x.value >= maxLeft.value ? maxLeft.value : x.value;
-    x.value = x.value <= minLeft.value ? minLeft.value : x.value;
-    emits('drag', isVertical.value, x.value - minLeft.value);
-  } else {
+  if (isVertical.value) {
     y.value = y.value >= maxTop.value ? maxTop.value : y.value;
     y.value = y.value <= minTop.value ? minTop.value : y.value;
-    emits('drag', isVertical.value, y.value - minTop.value);
+    emits('drag', true, y.value - minTop.value);
+  } else {
+    x.value = x.value >= maxLeft.value ? maxLeft.value : x.value;
+    x.value = x.value <= minLeft.value ? minLeft.value : x.value;
+    emits('drag', false, x.value - minLeft.value);
   }
 };
 useEventListener('mousemove', handleOutOfBound);
@@ -92,7 +96,6 @@ const { width: trackWidth, height: trackHeight } = useElementSize(trackRef);
 watch(
   trackWidth,
   (v) => {
-    console.log(v, 'trackWidth');
     emits('resize', v, trackHeight.value);
   },
   {
@@ -102,7 +105,6 @@ watch(
 watch(
   trackHeight,
   (v) => {
-    console.log(v, 'trackHeight');
     emits('resize', trackWidth.value, v);
   },
   {
