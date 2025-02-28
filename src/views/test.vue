@@ -7,12 +7,15 @@
     </div>
 
     <a-scrollbar style="height: 200px; width: 200px; overflow: auto">
-      <div style="height: 4000px; background-color: aqua">
+      <div style="height: 100000px; background-color: aqua">
         <div v-for="i in 200" :key="i">{{ i }}</div>
       </div>
     </a-scrollbar>
 
-    <yc-scrollbar style="height: 200px; width: 200px; overflow: auto">
+    <yc-scrollbar
+      style="height: 200px; width: 200px; overflow: auto"
+      ref="scrollbarRef"
+    >
       <div style="height: 4000px; width: 4000px; background-color: aqua">
         <div v-for="i in 200" :key="i">{{ i }}</div>
       </div>
@@ -53,6 +56,12 @@ import YcPopconfirm from '@/packages/Popconfirm/index.vue';
 import YcScrollbar from '@/packages/Scrollbar/index.vue';
 
 const visible = ref<boolean>(false);
+
+const scrollbarRef = ref<InstanceType<typeof YcScrollbar>>();
+
+setTimeout(() => {
+  scrollbarRef.value?.scrollTop(1000);
+}, 1000);
 </script>
 
 <style lang="less" scoped>

@@ -2,6 +2,7 @@
   <div
     :class="{
       'yc-scrollbar-track': true,
+      'yc-scrollbar-track-show': type == 'track',
       'yc-scrollbar-track-direction-vertical': isVertical,
       'yc-scrollbar-track-direction-horizontal': !isVertical,
     }"
@@ -42,6 +43,7 @@ import {
 } from '@vueuse/core';
 const props = withDefaults(
   defineProps<{
+    type?: 'track' | 'embed';
     mode?: 'vertical' | 'horizontal';
     height?: number;
     width?: number;
@@ -54,6 +56,7 @@ const props = withDefaults(
   }>(),
   {
     mode: 'vertical',
+    type: 'embed',
     height: 0,
     width: 0,
     top: 0,
@@ -123,20 +126,6 @@ watch(
     justify-content: center;
     align-items: center;
 
-    &.yc-scrollbar-thumb-direction-vertical {
-      width: 100%;
-      .yc-scrollbar-thumb-bar {
-        height: 100%;
-        width: 9px;
-      }
-    }
-    &.yc-scrollbar-thumb-direction-horizontal {
-      height: 100%;
-      .yc-scrollbar-thumb-bar {
-        height: 9px;
-        width: 100%;
-      }
-    }
     .yc-scrollbar-thumb-bar {
       border-radius: 5px;
       background-color: rgb(201, 205, 212);
@@ -149,17 +138,56 @@ watch(
     }
   }
 }
+.yc-scrollbar-track-show {
+  background-color: rgb(247, 248, 250);
+  &.yc-scrollbar-track-direction-vertical {
+    border-left: 1px solid rgb(229, 230, 235);
+    border-right: 1px solid rgb(229, 230, 235);
+  }
+  &.yc-scrollbar-track-direction-horizontal {
+    border-top: 1px solid rgb(229, 230, 235);
+    border-bottom: 1px solid rgb(229, 230, 235);
 
+    &::after {
+      position: absolute;
+      right: 0;
+      bottom: 0;
+      content: '';
+      width: 14px;
+      height: 14px;
+      background-color: rgb(247, 248, 250);
+      border-right: 1px solid rgb(229, 230, 235);
+    }
+  }
+}
 .yc-scrollbar-track-direction-horizontal {
   left: 0;
   right: 0;
   bottom: 0;
   height: 15px;
+  display: flex;
+  align-items: center;
 }
 .yc-scrollbar-track-direction-vertical {
   top: 0;
   bottom: 0;
   right: 0;
   width: 15px;
+  display: flex;
+  justify-content: center;
+}
+.yc-scrollbar-thumb-direction-vertical {
+  width: 100%;
+  .yc-scrollbar-thumb-bar {
+    height: 100%;
+    width: 9px;
+  }
+}
+.yc-scrollbar-thumb-direction-horizontal {
+  height: 100%;
+  .yc-scrollbar-thumb-bar {
+    height: 9px;
+    width: 100%;
+  }
 }
 </style>

@@ -1,18 +1,11 @@
 <template>
-  <div
-    :class="[
-      'yc-scrollbar',
-      type == 'track' ? 'yc-scrollbar-type-track' : 'yc-scrollbar-type-embed',
-      outerClass,
-    ]"
-    :style="outerStyle"
-  >
+  <div :class="['yc-scrollbar', outerClass]" :style="outerStyle">
     <div
       :style="<CSSProperties>$attrs.style"
       :class="[
         'yc-scrollbar-container',
-        srcollHeight < contentHeight ? 'yc-scrollbar-vertical-track' : '',
-        srcollWidth < contentWidth ? 'yc-scrollbar-horizontal-track' : '',
+        thumbHeight ? 'yc-scrollbar-vertical-track' : '',
+        thumbWidth ? 'yc-scrollbar-horizontal-track' : '',
         $attrs.class,
       ]"
       ref="scrollRef"
@@ -25,6 +18,7 @@
     <Thumb
       v-if="srcollHeight < contentHeight"
       mode="vertical"
+      :type="type"
       :height="thumbHeight"
       :top="thumbTop"
       :minTop="offsetTop"
@@ -35,6 +29,7 @@
     <Thumb
       v-if="srcollWidth < contentWidth"
       mode="horizontal"
+      :type="type"
       :width="thumbWidth"
       :left="thumbLeft"
       :minLeft="offsetLeft"
@@ -116,29 +111,21 @@ const maxThumbLeft = computed(() => {
     (contentHeight.value <= srcollWidth.value ? 0 : trackHeight.value)
   );
 });
-// 计算滚动
-const calcScroll = (scrollTop: number, scrollLeft: number) => {
+// 处理容器滚动
+const handleScroll = (e: any) => {
+  const { scrollTop, scrollLeft } = e.target as HTMLDivElement;
   //计算top
   const top = +(
-    (scrollTop / (contentHeight.value - srcollHeight.value)) *
+    ((scrollTop as number) / (contentHeight.value - srcollHeight.value)) *
     maxThumbTop.value
   ).toFixed(1);
   // 计算left
   const left = +(
-    (scrollLeft / (contentWidth.value - srcollWidth.value)) *
+    ((scrollLeft as number) / (contentWidth.value - srcollWidth.value)) *
     maxThumbLeft.value
   ).toFixed(1);
-  return {
-    top: top <= maxThumbTop.value ? top : maxThumbTop.value,
-    left: left <= maxThumbLeft.value ? left : maxThumbLeft.value,
-  };
-};
-// 处理容器滚动
-const handleScroll = (e: any) => {
-  const { scrollTop, scrollLeft } = e.target as HTMLDivElement;
-  const { top, left } = calcScroll(scrollTop, scrollLeft);
-  thumbTop.value = top;
-  thumbLeft.value = left;
+  thumbTop.value = top <= maxThumbTop.value ? top : maxThumbTop.value;
+  thumbLeft.value = left <= maxThumbLeft.value ? left : maxThumbLeft.value;
 };
 // 处理滑块拖动
 const handleDrag = (isVertical: boolean, value: number) => {
@@ -203,21 +190,6 @@ defineExpose({
   }
 }
 
-.yc-scrollbar-type-track {
-  .yc-scrollbar-content {
-    border-right: 1px solid rgb(229, 230, 235);
-    border-bottom: 1px solid rgb(229, 230, 235);
-  }
-  &:deep(.yc-scrollbar-track) {
-    background-color: rgb(247, 248, 250);
-    &.yc-scrollbar-track-direction-vertical {
-      border-right: 1px solid rgb(229, 230, 235);
-    }
-    &.yc-scrollbar-track-direction-horizontal {
-      border-bottom: 1px solid rgb(229, 230, 235);
-    }
-  }
-}
 .yc-scrollbar-vertical-track {
   padding-right: 15px;
 }
