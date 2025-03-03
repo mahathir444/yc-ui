@@ -1,13 +1,17 @@
 <template>
-  <div :class="['yc-scrollbar', outerClass]" :style="outerStyle">
+  <div
+    :class="{
+      'yc-scrollbar': true,
+      'yc-scrollbar-both-track': type == 'track' && thumbHeight && thumbWidth,
+      'yc-scrollbar-vertical-track': type == 'track' && thumbHeight,
+      'yc-scrollbar-horizontal-track': type == 'track' && thumbWidth,
+      outerClass,
+    }"
+    :style="outerStyle"
+  >
     <div
-      :style="<CSSProperties>$attrs.style"
-      :class="[
-        'yc-scrollbar-container',
-        type == 'track' && thumbHeight ? 'yc-scrollbar-vertical-track' : '',
-        type == 'track' && thumbWidth ? 'yc-scrollbar-horizontal-track' : '',
-        $attrs.class,
-      ]"
+      class="yc-scrollbar-container"
+      :style="style"
       ref="scrollRef"
       @scroll="handleScroll"
     >
@@ -15,9 +19,10 @@
         <slot />
       </div>
     </div>
+    <!-- 横向滚动条 -->
     <Thumb
       v-if="srcollHeight < contentHeight"
-      mode="vertical"
+      direction="vertical"
       :type="type"
       :height="thumbHeight"
       :top="thumbTop"
@@ -26,9 +31,10 @@
       @drag="handleDrag"
       @resize="(width) => (trackWidth = width)"
     />
+    <!-- 纵向滚动条 -->
     <Thumb
       v-if="srcollWidth < contentWidth"
-      mode="horizontal"
+      direction="horizontal"
       :type="type"
       :width="thumbWidth"
       :left="thumbLeft"
@@ -49,7 +55,7 @@ defineOptions({
   name: 'Scrollbar',
 });
 const props = withDefaults(defineProps<ScrollbarProps>(), {
-  type: 'embed',
+  type: 'track',
 });
 const emits = defineEmits<{
   (e: 'scroll', left: number, top: number): void;
@@ -166,31 +172,5 @@ defineExpose({
 </script>
 
 <style lang="less" scoped>
-.yc-scrollbar {
-  position: relative;
-  overflow: hidden;
-  &:hover .yc-scrollbar-track {
-    &:deep(.yc-scrollbar-thumb-bar) {
-      opacity: 1;
-    }
-  }
-  .yc-scrollbar-container {
-    &::-webkit-scrollbar {
-      width: 0;
-      height: 0;
-      scroll-behavior: smooth;
-    }
-    .yc-scrollbar-content {
-      height: fit-content;
-      width: fit-content;
-    }
-  }
-}
-
-.yc-scrollbar-vertical-track {
-  padding-right: 15px;
-}
-.yc-scrollbar-horizontal-track {
-  padding-bottom: 15px;
-}
+@import './index.less';
 </style>

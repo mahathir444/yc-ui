@@ -44,11 +44,7 @@
 <script lang="ts" setup>
 import { ref, computed, useSlots, CSSProperties, toRefs } from 'vue';
 import { TriggerProps, TriggerPostion } from './type';
-import {
-  useElementBounding,
-  useElementSize,
-  useResizeObserver,
-} from '@vueuse/core';
+import { useElementBounding, useResizeObserver } from '@vueuse/core';
 import useTriggerVisible from '@/hooks/useTriggerVisible';
 import useTriggerPosition from '@/hooks/useTriggerPosition';
 defineOptions({

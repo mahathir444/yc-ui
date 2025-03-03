@@ -1,21 +1,11 @@
 <template>
   <div
-    :class="{
-      'yc-scrollbar-track': true,
-      'yc-scrollbar-track-show': type == 'track',
-      'yc-scrollbar-track-direction-vertical': isVertical,
-      'yc-scrollbar-track-direction-horizontal': !isVertical,
-    }"
+    :class="`yc-scrollbar-track yc-scrollbar-track-direction-${direction}`"
     ref="trackRef"
     @click.self="handleClick"
   >
     <div
-      :class="{
-        'yc-scrollbar-thumb': true,
-
-        'yc-scrollbar-thumb-direction-vertical': isVertical,
-        'yc-scrollbar-thumb-direction-horizontal': !isVertical,
-      }"
+      :class="`yc-scrollbar-thumb yc-scrollbar-thumb-direction-${direction}`"
       :style="{
         height: isVertical ? height + 'px' : '',
         top: isVertical ? top + 'px' : '',
@@ -42,7 +32,7 @@ import { TackType } from '../type';
 const props = withDefaults(
   defineProps<{
     type?: TackType;
-    mode?: 'vertical' | 'horizontal';
+    direction?: 'vertical' | 'horizontal';
     height?: number;
     width?: number;
     top?: number;
@@ -53,7 +43,7 @@ const props = withDefaults(
     maxLeft?: number;
   }>(),
   {
-    mode: 'vertical',
+    direction: 'vertical',
     type: 'embed',
     height: 0,
     width: 0,
@@ -70,13 +60,14 @@ const emits = defineEmits<{
   (e: 'click', isVertical: boolean, value: number): void;
   (e: 'resize', width: number, height: number): void;
 }>();
-const { minLeft, maxLeft, minTop, maxTop, top, left, mode } = toRefs(props);
+const { minLeft, maxLeft, minTop, maxTop, top, left, direction } =
+  toRefs(props);
 // dargRef
 const dragRef = ref<HTMLDivElement>();
 // 处理拖动
 const { x, y, isDragging } = useDraggable(dragRef);
 // 是否是垂直
-const isVertical = computed(() => mode.value == 'vertical');
+const isVertical = computed(() => direction.value == 'vertical');
 // 计算越界情况
 const handleOutOfBound = () => {
   if (!isDragging.value) return;
@@ -144,27 +135,13 @@ const handleClick = (e: MouseEvent) => {
     }
   }
 }
-.yc-scrollbar-track-show {
-  background-color: rgb(247, 248, 250);
-  &.yc-scrollbar-track-direction-vertical {
-    border-left: 1px solid rgb(229, 230, 235);
-    border-right: 1px solid rgb(229, 230, 235);
-  }
-  &.yc-scrollbar-track-direction-horizontal {
-    border-top: 1px solid rgb(229, 230, 235);
-    border-bottom: 1px solid rgb(229, 230, 235);
-
-    &::after {
-      position: absolute;
-      right: 0;
-      bottom: 0;
-      content: '';
-      width: 14px;
-      height: 14px;
-      background-color: rgb(247, 248, 250);
-      border-right: 1px solid rgb(229, 230, 235);
-    }
-  }
+.yc-scrollbar-track-direction-vertical {
+  top: 0;
+  bottom: 0;
+  right: 0;
+  width: 15px;
+  display: flex;
+  justify-content: center;
 }
 .yc-scrollbar-track-direction-horizontal {
   left: 0;
@@ -173,14 +150,6 @@ const handleClick = (e: MouseEvent) => {
   height: 15px;
   display: flex;
   align-items: center;
-}
-.yc-scrollbar-track-direction-vertical {
-  top: 0;
-  bottom: 0;
-  right: 0;
-  width: 15px;
-  display: flex;
-  justify-content: center;
 }
 .yc-scrollbar-thumb-direction-vertical {
   width: 100%;

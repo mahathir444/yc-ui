@@ -6,4 +6,5 @@ export interface ScrollbarProps {
   type?: TackType;
   outerClass?: string;
   outerStyle?: CSSProperties;
+  style?: CSSProperties;
 }

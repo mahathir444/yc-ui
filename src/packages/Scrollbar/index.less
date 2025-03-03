@@ -1,0 +1,56 @@
+.yc-scrollbar {
+  position: relative;
+  overflow: hidden;
+  &:hover .yc-scrollbar-track {
+    &:deep(.yc-scrollbar-thumb-bar) {
+      opacity: 1;
+    }
+  }
+  .yc-scrollbar-container {
+    &::-webkit-scrollbar {
+      width: 0;
+      height: 0;
+      scroll-behavior: smooth;
+    }
+    .yc-scrollbar-content {
+      height: fit-content;
+      width: fit-content;
+    }
+  }
+  &::before {
+    z-index: 10;
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    content: '';
+    width: 15px;
+    height: 15px;
+  }
+}
+.yc-scrollbar-both-track {
+  &::before {
+    background-color: rgb(247, 248, 250);
+    border-right: 1px solid rgb(229, 230, 235);
+    border-bottom: 1px solid rgb(229, 230, 235);
+  }
+}
+.yc-scrollbar-vertical-track {
+  .yc-scrollbar-container {
+    padding-right: 15px;
+  }
+  &:deep(.yc-scrollbar-track-direction-vertical) {
+    background-color: rgb(247, 248, 250);
+    border-left: 1px solid rgb(229, 230, 235);
+    border-right: 1px solid rgb(229, 230, 235);
+  }
+}
+.yc-scrollbar-horizontal-track {
+  .yc-scrollbar-container {
+    padding-bottom: 15px;
+  }
+  &:deep(.yc-scrollbar-track-direction-horizontal) {
+    background-color: rgb(247, 248, 250);
+    border-top: 1px solid rgb(229, 230, 235);
+    border-bottom: 1px solid rgb(229, 230, 235);
+  }
+}
