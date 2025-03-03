@@ -25,25 +25,14 @@
     </yc-scrollbar>
 
     <div>
-      <yc-popover trigger="click" position="bottom">
-        <a-button>popover</a-button>
-        <template #content>
-          <div class="popover-content">
-            <a-empty />
-          </div>
-        </template>
-      </yc-popover>
-    </div>
-
-    <div>
-      <yc-popover
+      <yc-popconfirm
         trigger="click"
         position="bottom"
         type="success"
         content="这是一个测试"
       >
         <a-button>popconfirm</a-button>
-      </yc-popover>
+      </yc-popconfirm>
     </div>
   </div>
 </template>
