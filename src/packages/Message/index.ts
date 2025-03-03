@@ -6,6 +6,7 @@ import { config, messageType } from './constants';
 import _MessageContainer from './container.vue';
 
 export type MessageInstance = InstanceType<typeof _Message>;
+export type { MessageProps, MessageConfig,MessageList,MessageContainerProps  } from './type';
 
 const messageList = ref<MessageList>([]);
 let id = 0;

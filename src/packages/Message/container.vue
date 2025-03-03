@@ -34,7 +34,7 @@ defineOptions({
   position: fixed;
   z-index: 1000;
   top: 40px;
-  left: 80%;
+  left: 50%;
   transform: translateX(-50%);
   display: flex;
   flex-direction: column;
