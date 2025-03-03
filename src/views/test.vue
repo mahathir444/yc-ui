@@ -43,8 +43,6 @@
         content="这是一个测试"
       >
         <a-button>popconfirm</a-button>
-        <a-button>popconfirm</a-button>
-        <a-button>popconfirm</a-button>
       </yc-popover>
     </div>
   </div>

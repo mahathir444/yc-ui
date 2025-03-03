@@ -47,7 +47,7 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, computed, CSSProperties, toRefs } from 'vue';
+import { ref, computed, toRefs } from 'vue';
 import { ScrollbarProps } from './type';
 import { useElementBounding, useElementSize } from '@vueuse/core';
 import Thumb from './component/Thumb.vue';
@@ -55,7 +55,7 @@ defineOptions({
   name: 'Scrollbar',
 });
 const props = withDefaults(defineProps<ScrollbarProps>(), {
-  type: 'track',
+  type: 'embed',
 });
 const emits = defineEmits<{
   (e: 'scroll', left: number, top: number): void;

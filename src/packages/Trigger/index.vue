@@ -1,5 +1,6 @@
 <template>
   <trigger-slot
+    v-if="TriggerSlot"
     @click="handleClick"
     @contextmenu.prevent="handleContextmenu"
     @mouseenter="handleMouseenter"
@@ -42,7 +43,7 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, computed, useSlots, CSSProperties, toRefs } from 'vue';
+import { ref, computed, useSlots, CSSProperties, toRefs, VNode } from 'vue';
 import { TriggerProps, TriggerPostion } from './type';
 import { useElementBounding, useResizeObserver } from '@vueuse/core';
 import useTriggerVisible from '@/hooks/useTriggerVisible';
@@ -115,8 +116,12 @@ const triggerRef = ref<HTMLElement | null>(null);
 const slots = useSlots();
 // 获取触发插槽
 const TriggerSlot = computed(() => {
-  const vNode = slots.default && slots.default()[0];
-  return vNode?.key == '_default' ? (vNode.children as any)[0] : vNode;
+  // 读取第一个不是插槽地vNode
+  const _readNode = (vNode?: VNode) => {
+    if (!vNode || vNode.shapeFlag != 16) return vNode;
+    return _readNode((vNode.children as any)[0]);
+  };
+  return _readNode(slots.default && slots.default()[0]);
 });
 // 处理trigger关闭与开启
 const {
@@ -142,22 +147,17 @@ const {
   contentRef,
   emits,
 });
-// 获取trigger元素bounding
+// 初始化trigger地计算参数
 const {
   left,
+  right,
   top,
   bottom,
-  right,
-  width: triggerWidth,
-  height: triggerHeight,
-} = useElementBounding(triggerRef);
-const contentWidth = ref<number>(0);
-const contentHeight = ref<number>(0);
-// content的宽高
-useResizeObserver(contentRef, () => {
-  contentWidth.value = contentRef.value!.offsetWidth;
-  contentHeight.value = contentRef.value!.offsetHeight;
-});
+  triggerHeight,
+  triggerWidth,
+  contentHeight,
+  contentWidth,
+} = initTrigger();
 // 计算wrapper与arrow的位置信息
 const { wrapperPosition, arrowPostion } = useTriggerPosition({
   position,
@@ -188,6 +188,47 @@ const arrowCss = computed(() => {
     ...arrowStyle.value,
   } as CSSProperties;
 });
+// 初始化trigger
+function initTrigger() {
+  if (!TriggerSlot.value) {
+    return {
+      left: ref(0),
+      top: ref(0),
+      bottom: ref(0),
+      right: ref(0),
+      triggerWidth: ref(0),
+      triggerHeight: ref(0),
+      contentWidth: ref(0),
+      contentHeight: ref(0),
+    };
+  }
+  // 获取trigger元素bounding
+  const {
+    left,
+    top,
+    bottom,
+    right,
+    width: triggerWidth,
+    height: triggerHeight,
+  } = useElementBounding(triggerRef);
+  const contentWidth = ref<number>(0);
+  const contentHeight = ref<number>(0);
+  // content的宽高
+  useResizeObserver(contentRef, () => {
+    contentWidth.value = contentRef.value!.offsetWidth;
+    contentHeight.value = contentRef.value!.offsetHeight;
+  });
+  return {
+    left,
+    top,
+    bottom,
+    right,
+    triggerWidth,
+    triggerHeight,
+    contentWidth,
+    contentHeight,
+  };
+}
 
 defineExpose({
   hide() {
