@@ -44,7 +44,11 @@
 <script lang="ts" setup>
 import { ref, computed, useSlots, CSSProperties, toRefs } from 'vue';
 import { TriggerProps, TriggerPostion } from './type';
-import { useElementBounding, useElementSize } from '@vueuse/core';
+import {
+  useElementBounding,
+  useElementSize,
+  useResizeObserver,
+} from '@vueuse/core';
 import useTriggerVisible from '@/hooks/useTriggerVisible';
 import useTriggerPosition from '@/hooks/useTriggerPosition';
 defineOptions({
@@ -151,9 +155,13 @@ const {
   width: triggerWidth,
   height: triggerHeight,
 } = useElementBounding(triggerRef);
+const contentWidth = ref<number>(0);
+const contentHeight = ref<number>(0);
 // content的宽高
-const { width: contentWidth, height: contentHeight } =
-  useElementSize(contentRef);
+useResizeObserver(contentRef, () => {
+  contentWidth.value = contentRef.value!.offsetWidth;
+  contentHeight.value = contentRef.value!.offsetHeight;
+});
 // 计算wrapper与arrow的位置信息
 const { wrapperPosition, arrowPostion } = useTriggerPosition({
   position,

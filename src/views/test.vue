@@ -16,7 +16,10 @@
       style="height: 200px; width: 200px; overflow: auto"
       ref="scrollbarRef"
     >
-      <div style="height: 4000px; width: 4000px; background-color: aqua">
+      <div
+        style="height: 4000px; width: 4000px; background-color: aqua"
+        ref="contentRef"
+      >
         <div v-for="i in 200" :key="i">{{ i }}</div>
       </div>
     </yc-scrollbar>
@@ -48,20 +51,16 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, watch, onMounted } from 'vue';
+import { ref, watch, watchEffect } from 'vue';
 import YcTrigger from '@/packages/Trigger';
-import YcPopover from '@/packages/Popover/index.vue';
-import YcTooltip from '@/packages/Tooltip/index.vue';
-import YcPopconfirm from '@/packages/Popconfirm/index.vue';
-import YcScrollbar from '@/packages/Scrollbar/index.vue';
+import YcPopover from '@/packages/Popover';
+import YcTooltip from '@/packages/Tooltip';
+import YcPopconfirm from '@/packages/Popconfirm';
+import YcScrollbar from '@/packages/Scrollbar';
 
 const visible = ref<boolean>(false);
 
 const scrollbarRef = ref<InstanceType<typeof YcScrollbar>>();
-
-setTimeout(() => {
-  scrollbarRef.value?.scrollTop(1000);
-}, 1000);
 </script>
 
 <style lang="less" scoped>

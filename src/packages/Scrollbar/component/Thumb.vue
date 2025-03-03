@@ -37,10 +37,11 @@
 <script lang="ts" setup>
 import { ref, toRefs, computed } from 'vue';
 import { useDraggable } from '@vueuse/core';
-import { useEventListener, useMouse, useResizeObserver } from '@vueuse/core';
+import { useEventListener, useResizeObserver } from '@vueuse/core';
+import { TackType } from '../type';
 const props = withDefaults(
   defineProps<{
-    type?: 'track' | 'embed';
+    type?: TackType;
     mode?: 'vertical' | 'horizontal';
     height?: number;
     width?: number;

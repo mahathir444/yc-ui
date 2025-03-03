@@ -42,18 +42,15 @@
 
 <script lang="ts" setup>
 import { ref, computed, CSSProperties, toRefs } from 'vue';
+import { ScrollbarProps } from './type';
 import { useElementBounding, useElementSize } from '@vueuse/core';
 import Thumb from './component/Thumb.vue';
-const props = withDefaults(
-  defineProps<{
-    type?: 'track' | 'embed';
-    outerClass?: string;
-    outerStyle?: CSSProperties;
-  }>(),
-  {
-    type: 'embed',
-  }
-);
+defineOptions({
+  name: 'Scrollbar',
+});
+const props = withDefaults(defineProps<ScrollbarProps>(), {
+  type: 'embed',
+});
 const emits = defineEmits<{
   (e: 'scroll', left: number, top: number): void;
 }>();
