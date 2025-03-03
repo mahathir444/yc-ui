@@ -7,7 +7,7 @@
     </div>
 
     <a-scrollbar style="height: 200px; width: 200px; overflow: auto">
-      <div style="height: 100000px; background-color: aqua">
+      <div style="height: 2000px; background-color: aqua">
         <div v-for="i in 200" :key="i">{{ i }}</div>
       </div>
     </a-scrollbar>

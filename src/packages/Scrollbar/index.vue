@@ -4,8 +4,8 @@
       :style="<CSSProperties>$attrs.style"
       :class="[
         'yc-scrollbar-container',
-        thumbHeight ? 'yc-scrollbar-vertical-track' : '',
-        thumbWidth ? 'yc-scrollbar-horizontal-track' : '',
+        type == 'track' && thumbHeight ? 'yc-scrollbar-vertical-track' : '',
+        type == 'track' && thumbWidth ? 'yc-scrollbar-horizontal-track' : '',
         $attrs.class,
       ]"
       ref="scrollRef"
@@ -51,7 +51,7 @@ const props = withDefaults(
     outerStyle?: CSSProperties;
   }>(),
   {
-    type: 'track',
+    type: 'embed',
   }
 );
 const emits = defineEmits<{
@@ -181,6 +181,7 @@ defineExpose({
     &::-webkit-scrollbar {
       width: 0;
       height: 0;
+      scroll-behavior: smooth;
     }
     .yc-scrollbar-content {
       height: fit-content;

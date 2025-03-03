@@ -7,7 +7,7 @@
       'yc-scrollbar-track-direction-horizontal': !isVertical,
     }"
     ref="trackRef"
-    @mousedown="handldeMousedown"
+    @click="handleClick"
   >
     <div
       :class="{
@@ -57,7 +57,7 @@ const props = withDefaults(
     height: 0,
     width: 0,
     top: 0,
-    right: 0,
+    left: 0,
     minTop: 0,
     maxTop: 0,
     minLeft: 0,
@@ -66,15 +66,14 @@ const props = withDefaults(
 );
 const emits = defineEmits<{
   (e: 'drag', isVertical: boolean, value: number): void;
+  (e: 'click', isVertical: boolean, value: number): void;
   (e: 'resize', width: number, height: number): void;
 }>();
-const { minLeft, maxLeft, minTop, maxTop, mode } = toRefs(props);
+const { minLeft, maxLeft, minTop, maxTop, top, left, mode } = toRefs(props);
 // dargRef
 const dragRef = ref<HTMLDivElement>();
 // 处理拖动
 const { x, y, isDragging } = useDraggable(dragRef);
-//
-const { x: mouseX, y: mouseY } = useMouse();
 // 是否是垂直
 const isVertical = computed(() => mode.value == 'vertical');
 // 计算越界情况
@@ -98,11 +97,18 @@ useResizeObserver(trackRef, () => {
   emits('resize', offsetWidth, offsetHeight);
 });
 // 处理鼠标点击
-const handldeMousedown = () => {
+const handleClick = (e: MouseEvent) => {
+  const { pageX, pageY, offsetX, offsetY } = e;
   if (isVertical.value) {
-    emits('drag', true, mouseY.value - minTop.value);
+    const maxMovable = maxTop.value - minTop.value;
+    let value = +(top.value + maxMovable / 9).toFixed(0);
+    value = value > maxMovable ? maxMovable : value;
+    emits('drag', true, value);
   } else {
-    emits('drag', false, mouseX.value - minLeft.value);
+    const maxMovable = maxTop.value - minTop.value;
+    let value = +(left.value + maxMovable / 9).toFixed(0);
+    value = value > maxMovable ? maxMovable : value;
+    emits('drag', false, minLeft.value);
   }
 };
 </script>
