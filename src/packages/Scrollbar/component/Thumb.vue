@@ -7,7 +7,7 @@
       'yc-scrollbar-track-direction-horizontal': !isVertical,
     }"
     ref="trackRef"
-    @click="handleClick"
+    @click.self="handleClick"
   >
     <div
       :class="{
@@ -98,17 +98,22 @@ useResizeObserver(trackRef, () => {
 });
 // 处理鼠标点击
 const handleClick = (e: MouseEvent) => {
-  const { pageX, pageY, offsetX, offsetY } = e;
+  const { offsetX, offsetY } = e;
   if (isVertical.value) {
     const maxMovable = maxTop.value - minTop.value;
-    let value = +(top.value + maxMovable / 9).toFixed(0);
+    const moveDistance = top.value < offsetY ? maxMovable / 9 : -maxMovable / 9;
+    let value = +(top.value + moveDistance).toFixed(0);
     value = value > maxMovable ? maxMovable : value;
+    value = value <= 0 ? 0 : value;
     emits('drag', true, value);
   } else {
-    const maxMovable = maxTop.value - minTop.value;
-    let value = +(left.value + maxMovable / 9).toFixed(0);
+    const maxMovable = maxLeft.value - minLeft.value;
+    const moveDistance =
+      left.value < offsetX ? maxMovable / 9 : -maxMovable / 9;
+    let value = +(left.value + moveDistance).toFixed(0);
     value = value > maxMovable ? maxMovable : value;
-    emits('drag', false, minLeft.value);
+    value = value <= 0 ? 0 : value;
+    emits('drag', false, value);
   }
 };
 </script>
@@ -131,6 +136,9 @@ const handleClick = (e: MouseEvent) => {
       user-select: none;
       &.is-dragging {
         opacity: 1 !important;
+      }
+      &:hover {
+        background-color: rgba(134, 144, 156, 0.5);
       }
     }
   }
