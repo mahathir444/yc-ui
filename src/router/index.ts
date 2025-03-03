@@ -12,13 +12,18 @@ const router = createRouter({
     {
       path: '/',
       redirect: {
-        name: 'main',
+        name: 'lsh',
       },
       children: [
         {
           path: 'main',
           name: 'main',
           component: () => import('@/views/test.vue'),
+        },
+        {
+          path: 'lsh',
+          name: 'lsh',
+          component: () => import('@/views/test-lsh.vue'),
         },
       ],
     },
