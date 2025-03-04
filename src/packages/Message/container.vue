@@ -1,17 +1,23 @@
 <!-- Message 组件容器 -->
 <template>
-  <TransitionGroup name="fade-message" moveClass="flip-list-move" tag="div" class="yc-message-container">
-    <Message 
-    v-for="item in messageList" 
-    :key="item.id"
-    :duration="item.duration"
-    :resetOnHover="item.resetOnHover"
-    :resetFlag="item.resetFlag"
-    :type="item.type"
-    :content="item.content"
-    :closable="item.closable"
-    :showIcon="item.showIcon"
-    @remove="$emit('close', item.id)">
+  <TransitionGroup
+    name="fade-message"
+    moveClass="flip-list-move"
+    tag="div"
+    class="yc-message-container"
+  >
+    <Message
+      v-for="item in messageList"
+      :key="item.id"
+      :duration="item.duration"
+      :resetOnHover="item.resetOnHover"
+      :resetFlag="item.resetFlag"
+      :type="item.type"
+      :content="item.content"
+      :closable="item.closable"
+      :showIcon="item.showIcon"
+      @close="$emit('close', item.id)"
+    >
       <template #icon v-if="item.icon">
         <component :is="item.icon" />
       </template>
@@ -19,16 +25,16 @@
   </TransitionGroup>
 </template>
 
-<script setup lang='ts'>
+<script setup lang="ts">
 import Message from './index.vue';
 import { MessageContainerProps } from './type';
 defineProps<MessageContainerProps>();
-const emits = defineEmits(['close'])
+const emits = defineEmits(['close']);
 defineOptions({
   name: 'MessageContainer',
 });
 </script>
-<style scoped lang='less' >
+<style scoped lang="less">
 .yc-message-container {
   width: 100%;
   position: fixed;
