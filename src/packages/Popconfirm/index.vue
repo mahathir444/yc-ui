@@ -4,7 +4,6 @@
     :popup-visible="popupVisible"
     :default-popup-visible="defaultPopupVisible"
     :popup-container="popupContainer"
-    wrapper-class="yc-popoconfirm"
     :arrow-class="`${arrowClass ?? ''} yc-popoconfirm-popup-arrow `"
     :arrow-style="arrowStyle"
     :content-class="`${contentClass ?? ''} yc-popconfirm-popup-content`"
@@ -12,8 +11,8 @@
     :popup-offset="10"
     trigger="click"
     show-arrow
-    unmount-on-close
     v-bind="$attrs"
+    :wrapper-class="`yc-popoconfirm ${$attrs.wrapperClass ?? ''}`"
     ref="triggerRef"
     @popup-visible-change="(v) => $emit('popup-visible-change', v)"
     @update:popup-visible="(v) => $emit('update:popupVisible', v)"

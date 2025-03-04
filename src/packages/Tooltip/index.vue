@@ -4,15 +4,14 @@
     :default-popup-visible="defaultPopupVisible"
     :popup-container="popupContainer"
     :position="position"
-    wrapper-class="yc-tooltip"
     :arrow-class="`yc-tooltip-popup-arrow ${arrowClass ?? ''}`"
     :arrow-style="computedArrowStyle"
     :content-class="`yc-tooltip-popup-content ${contentClass ?? ''} ${mini ? 'yc-tooltip-mini' : ''}`"
     :content-style="computedContentStyle"
     :popup-offset="10"
     show-arrow
-    unmount-on-close
     v-bind="$attrs"
+    :wrapper-class="`yc-tooltip ${$attrs.wrapperClass ?? ''}`"
     @popup-visible-change="(v) => $emit('popup-visible-change', v)"
     @update:popup-visible="(v) => $emit('update:popupVisible', v)"
     @show="$emit('show')"

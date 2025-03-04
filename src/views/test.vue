@@ -13,36 +13,66 @@
       </div>
     </yc-scrollbar>
 
-    <yc-trigger>
-      <a-button>trigger</a-button>
+    <yc-dropdown @select="handleSelect">
+      <a-button>dropdown</a-button>
       <template #content>
-        <div class="popover-content">
-          <a-empty />
-        </div>
+        <yc-dsubmenu>
+          <span>分组1</span>
+          <template #content>
+            <yc-dsubmenu>
+              <span>分组2</span>
+              <template #content>
+                <YcDoption v-for="i in 6" :key="i" :value="i">
+                  <template #icon>
+                    <IconApps />
+                  </template>
+                  数字{{ i }}
+                </YcDoption>
+              </template>
+            </yc-dsubmenu>
+            <YcDoption v-for="i in 6" :key="i" :value="i">
+              <template #icon>
+                <IconApps />
+              </template>
+              数字{{ i }}
+            </YcDoption>
+          </template>
+        </yc-dsubmenu>
       </template>
-    </yc-trigger>
+    </yc-dropdown>
 
-    <yc-popconfirm type="warning" content="你要删除嘛">
-      <a-button>popconfirm</a-button>
-    </yc-popconfirm>
-
-    <yc-popover>
-      <a-button>popover</a-button>
+    <a-dropdown>
+      <a-button>dropdown</a-button>
       <template #content>
-        <div class="popover-content">
-          <a-empty />
-        </div>
+        <a-dsubmenu>
+          分组1
+          <template #content>
+            <a-dsubmenu>
+              分组2
+              <template #content>
+                <a-doption v-for="i in 6" :key="i" :value="i">
+                  <template #icon>
+                    <IconApps />
+                  </template>
+                  数字{{ i }}
+                </a-doption>
+              </template>
+            </a-dsubmenu>
+            <a-doption v-for="i in 6" :key="i" :value="i">
+              <template #icon>
+                <IconApps />
+              </template>
+              数字{{ i }}
+            </a-doption>
+          </template>
+        </a-dsubmenu>
       </template>
-    </yc-popover>
+      <template #footer> sdadsa </template>
+    </a-dropdown>
 
-    <yc-tooltip>
-      <a-button>tooltip</a-button>
-      <template #content>
-        <div class="popover-content">
-          <a-empty />
-        </div>
-      </template>
-    </yc-tooltip>
+    <div class="loading">
+      <svg-icon name="loading" />
+    </div>
   </div>
 </template>
 
@@ -53,8 +83,16 @@ import YcPopconfirm from '@/packages/Popconfirm';
 import YcPopover from '@/packages/Popover';
 import YcTooltip from '@/packages/Tooltip';
 import YcTrigger from '@/packages/Trigger';
+import YcDropdown from '@/packages/Dropdown/index.vue';
+import YcDoption from '@/packages/Dropdown/Doption.vue';
+import YcDgroup from '@/packages/Dropdown/DGroup.vue';
+import YcDsubmenu from '@/packages/Dropdown/Dsubmenu.vue';
 const total = ref(1);
 const visible = ref(true);
+
+const handleSelect = (v) => {
+  console.log(v);
+};
 </script>
 
 <style lang="less" scoped>
@@ -72,5 +110,12 @@ const visible = ref(true);
   width: 200px;
   background-color: #fff;
   border-radius: 4px;
+}
+
+.loading {
+  font-size: 30px;
+  &:hover {
+    color: blue;
+  }
 }
 </style>

@@ -5,3 +5,7 @@ export const SIZE_MAP = {
   medium: 32,
   large: 36,
 };
+
+export const SHAPE_FLAGS = {
+  slot: 16,
+};

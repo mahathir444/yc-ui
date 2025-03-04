@@ -104,7 +104,8 @@ export default (params: {
     computedVisible.value = false;
   };
   // 点击到contentRef外层关闭
-  onClickOutside(contentRef, async () => {
+  onClickOutside(contentRef, async (e) => {
+    console.log(e);
     if (!computedVisible.value || !clickOutsideToClose.value) return;
     timer = setTimeout(() => {
       computedVisible.value = false;

@@ -235,15 +235,26 @@ defineExpose({
   hide() {
     computedVisible.value = false;
   },
+  show() {
+    computedVisible.value = true;
+  },
 });
 
-import { watchEffect } from 'vue';
-const { disabled, unmountOnClose } = toRefs(props);
-watchEffect(() => {
-  console.log(computedVisible.value, 'computedVisible');
-  console.log(unmountOnClose.value, 'unmountOnClose');
-  console.log(disabled.value, 'disabled');
-});
+// import { watchEffect } from 'vue';
+// const { disabled, unmountOnClose } = toRefs(props);
+// watchEffect(() => {
+//   console.log(computedVisible.value, 'computedVisible');
+//   console.log(unmountOnClose.value, 'unmountOnClose');
+//   console.log(disabled.value, 'disabled');
+// });
+// watchEffect(() => {
+//   console.log(triggerWidth.value, 'triggerWidth');
+//   console.log(triggerHeight.value, 'triggerWidth');
+//   console.log(right.value, 'right');
+//   console.log(top.value, 'top');
+//   console.log(contentWidth.value, 'contentWidth');
+//   console.log(contentHeight.value, 'contentHeight');
+// });
 </script>
 
 <style lang="less" scoped>

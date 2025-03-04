@@ -1,19 +1,18 @@
 <template>
   <yc-trigger
-    :popup-visible="popupVisible"
+    :popup-visible="popupVisible || undefined"
     :default-popup-visible="defaultPopupVisible"
     :trigger="trigger"
     :position="position"
     :popup-container="popupContainer"
-    wrapper-class="yc-popover"
     :arrow-class="`yc-popover-popup-arrow ${arrowClass ?? ''}`"
     :arrow-style="arrowStyle"
     :content-class="`yc-popover-popup-content ${contentClass ?? ''}`"
     :content-style="computedContentStyle"
     :popup-offset="10"
-    unmount-on-close
     show-arrow
     v-bind="$attrs"
+    :wrapper-class="`yc-popover ${$attrs.wrapperClass ?? ''}`"
     @popup-visible-change="(v) => $emit('popup-visible-change', v)"
     @update:popup-visible="(v) => $emit('update:popupVisible', v)"
     @show="$emit('show')"
