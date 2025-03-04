@@ -1,8 +1,7 @@
 import { ref, Ref, computed, watch } from 'vue';
 import { useMagicKeys, whenever } from '@vueuse/core';
 import { isUndefined } from '@/utils/is';
-import { ComptCloseType } from '@/type';
-import { sleep } from '@/utils/fn';
+import { CloseType } from '../_type';
 
 export default (
   emits: (...args: any) => any,
@@ -33,14 +32,14 @@ export default (
     },
   });
   // 关闭类型
-  const closeType = ref<ComptCloseType>('');
+  const closeType = ref<CloseType>('');
   // 处理动画离开
   const handleAfterLeave = () => {
     emits('close', closeType.value);
     outerVisible.value = false;
   };
   // 处理关闭
-  const handleClose = async (type: ComptCloseType) => {
+  const handleClose = async (type: CloseType) => {
     closeType.value = type;
     // 触发事件
     if (type == 'confirmBtn') {

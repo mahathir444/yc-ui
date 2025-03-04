@@ -75,7 +75,7 @@
 <script lang="ts" setup>
 import { ref, computed, toRefs } from 'vue';
 import { SIZE_CLASS } from './constants';
-import { SIZE_MAP } from '@/constants';
+import { SIZE_MAP } from '../_constants';
 import { isUndefined, isNumber } from '@/utils/is';
 import { InputProps } from './type';
 import YcIconButton from '@/components/IconButton/index.vue';

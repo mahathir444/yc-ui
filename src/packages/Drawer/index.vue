@@ -80,8 +80,8 @@
 import { toRefs, computed, CSSProperties } from 'vue';
 import { DRAWER_POSTION_STYLE } from './constants';
 import { DrawerProps } from './type';
-import { ComptCloseType } from '@/type';
-import useCloseCompt from '@/hooks/useCloseCompt';
+import { CloseType } from '../_type';
+import useCloseCompt from '../_hooks/useCloseCompt';
 import YcButton from '@/packages/Button/index.vue';
 import YcIconButton from '@/components/IconButton/index.vue';
 defineOptions({
@@ -120,11 +120,11 @@ const props = withDefaults(defineProps<DrawerProps>(), {
 const emits = defineEmits<{
   (e: 'update:visible', value: boolean): void;
   (e: 'ok'): void;
-  (e: 'cancel', type: ComptCloseType): void;
+  (e: 'cancel', type: CloseType): void;
   (e: 'beforeOpen'): void;
   (e: 'open'): void;
-  (e: 'beforeClose', type: ComptCloseType): void;
-  (e: 'close', type: ComptCloseType): void;
+  (e: 'beforeClose', type: CloseType): void;
+  (e: 'close', type: CloseType): void;
 }>();
 const {
   visible,

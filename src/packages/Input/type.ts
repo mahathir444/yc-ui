@@ -1,10 +1,10 @@
-import { ComptSize } from '@/type';
+import { Size } from '../_type';
 import { ButtonProps } from '../Button/type';
 // wordSlice,wordLength
 export interface InputProps {
   modelValue?: string;
   defaultValue?: string;
-  size?: ComptSize;
+  size?: Size;
   allowClear?: boolean;
   disabled?: boolean;
   readonly?: boolean;

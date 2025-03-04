@@ -1,4 +1,4 @@
-import { ComptSize } from '@/type';
+import { Size } from '../_type';
 // status
 export type ButtonStatus = 'normal' | 'warning' | 'success' | 'danger';
 // shape
@@ -17,7 +17,7 @@ export interface ButtonProps {
   type?: ButtonType;
   shape?: ButtonShape;
   status?: ButtonStatus;
-  size?: ComptSize;
+  size?: Size;
   long?: boolean;
   loading?: boolean;
   disabled?: boolean;

@@ -25,6 +25,17 @@
     </yc-scrollbar>
 
     <div>
+      <yc-popover trigger="click" position="bottom">
+        <a-button>popover</a-button>
+        <template #content>
+          <div class="popover-content">
+            <a-empty />
+          </div>
+        </template>
+      </yc-popover>
+    </div>
+
+    <div>
       <yc-popconfirm
         trigger="click"
         position="bottom"

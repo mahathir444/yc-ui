@@ -46,8 +46,8 @@
 import { ref, computed, useSlots, CSSProperties, toRefs, VNode } from 'vue';
 import { TriggerProps, TriggerPostion } from './type';
 import { useElementBounding, useResizeObserver } from '@vueuse/core';
-import useTriggerVisible from '@/hooks/useTriggerVisible';
-import useTriggerPosition from '@/hooks/useTriggerPosition';
+import useTriggerVisible from '../_hooks/useTriggerVisible';
+import useTriggerPosition from '../_hooks/useTriggerPosition';
 defineOptions({
   name: 'Trigger',
 });

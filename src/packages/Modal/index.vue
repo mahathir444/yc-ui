@@ -97,10 +97,10 @@
 
 <script lang="ts" setup>
 import { ref, toRefs, computed, CSSProperties } from 'vue';
-import { ComptCloseType } from '@/type';
+import { CloseType } from '../_type';
 import { ModalProps } from './type';
-import useModalDraggable from '@/hooks/useModalDraggable';
-import useCloseCompt from '@/hooks/useCloseCompt';
+import useModalDraggable from '../_hooks/useModalDraggable';
+import useCloseCompt from '../_hooks/useCloseCompt';
 import YcButton from '@/packages/Button/index.vue';
 import YcIconButton from '@/components/IconButton/index.vue';
 defineOptions({
@@ -150,11 +150,11 @@ const props = withDefaults(defineProps<ModalProps>(), {
 const emits = defineEmits<{
   (e: 'update:visible', value: boolean): void;
   (e: 'ok'): void;
-  (e: 'cancel', type: ComptCloseType): void;
+  (e: 'cancel', type: CloseType): void;
   (e: 'open'): void;
   (e: 'beforeOpen'): void;
-  (e: 'close', type: ComptCloseType): void;
-  (e: 'beforeClose', type: ComptCloseType): void;
+  (e: 'close', type: CloseType): void;
+  (e: 'beforeClose', type: CloseType): void;
 }>();
 const {
   visible,
