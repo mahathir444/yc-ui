@@ -20,9 +20,10 @@ declare module 'vue' {
     ATag: typeof import('@arco-design/web-vue')['Tag']
     ATooltip: typeof import('@arco-design/web-vue')['Tooltip']
     ATrigger: typeof import('@arco-design/web-vue')['Trigger']
-    IconButton: typeof import('./src/components/IconButton/index.vue')['default']
+    IconButton: typeof import('./src/packages/_components/IconButton/index.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
-    SvgIcon: typeof import('./src/components/SvgIcon/index.vue')['default']
+    SvgIcon: typeof import('./src/packages/_components/SvgIcon/index.vue')['default']
+    YcTrigger: typeof import('./src/packages/Trigger/index.vue')['default']
   }
 }

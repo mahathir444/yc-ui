@@ -12,7 +12,7 @@ const router = createRouter({
     {
       path: '/',
       redirect: {
-        name: 'lsh',
+        name: 'main',
       },
       children: [
         {

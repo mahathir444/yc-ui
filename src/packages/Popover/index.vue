@@ -52,7 +52,7 @@ import { ref, toRefs, computed, CSSProperties, Reactive } from 'vue';
 import { TriggerPostion } from '@/packages/Trigger/type';
 import { TRANSFORM_ORIGIN_MAP } from '@/packages/Trigger/constants';
 import { PopoverProps } from './type';
-import YcTrigger from '../Trigger/index.vue';
+import YcTrigger from '@/packages/Trigger/index.vue';
 defineOptions({
   name: 'Popover',
 });

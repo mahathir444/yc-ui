@@ -42,11 +42,11 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, toRefs, computed, CSSProperties, Reactive } from 'vue';
+import { ref, toRefs, computed, CSSProperties } from 'vue';
 import { TriggerPostion } from '@/packages/Trigger/type';
 import { TooltipProps } from './type';
 import { TRANSFORM_ORIGIN_MAP } from '@/packages/Trigger/constants';
-import YcTrigger from '../Trigger/index.vue';
+import YcTrigger from '@/packages/Trigger/index.vue';
 defineOptions({
   name: 'Tooltip',
 });

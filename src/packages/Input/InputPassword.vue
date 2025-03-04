@@ -43,7 +43,7 @@ import { ref, computed, toRefs } from 'vue';
 import { isUndefined } from '@/utils/is';
 import { InputPasswordProps } from './type';
 import YcInput from './InputBase.vue';
-import YcIconButton from '@/components/IconButton/index.vue';
+import YcIconButton from '../_components/IconButton/index.vue';
 defineOptions({
   name: 'InputPassword',
 });

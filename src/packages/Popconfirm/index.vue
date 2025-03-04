@@ -63,14 +63,14 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, toRefs, computed, CSSProperties, Reactive } from 'vue';
+import { ref, toRefs, computed, CSSProperties } from 'vue';
 import { TriggerPostion } from '@/packages/Trigger/type';
 import { TRANSFORM_ORIGIN_MAP } from '@/packages/Trigger/constants';
 import { TYPE_CLASS } from './constants';
 import { PopconfirmProps } from './type';
 import { TriggerInstance } from '@/packages/Trigger';
-import YcTrigger from '../Trigger/index.vue';
-import YcButton from '../Button/index.vue';
+import YcTrigger from '@/packages/Trigger/index.vue';
+import YcButton from '@/packages/Button/index.vue';
 defineOptions({
   name: 'Popconfirm',
 });
