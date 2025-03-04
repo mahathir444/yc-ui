@@ -6,7 +6,7 @@ import '@/assets/styles/global.less';
 import '@/assets/styles/translation.less';
 import 'virtual:svg-icons-register';
 //
-import SvgIcon from '@/packages/_components/SvgIcon/index.vue';
+import SvgIcon from './packages/_components/SvgIcon/index.vue';
 // arco测试
 import ArcoVue from '@arco-design/web-vue';
 import ArcoVueIcon from '@arco-design/web-vue/es/icon';
