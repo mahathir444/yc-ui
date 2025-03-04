@@ -1,17 +1,5 @@
 <template>
   <div class="test">
-    <div>
-      <a-popconfirm trigger="click" content="pop">
-        <a-button>click me</a-button>
-      </a-popconfirm>
-    </div>
-
-    <a-scrollbar style="height: 200px; width: 200px; overflow: auto">
-      <div style="height: 2000px; background-color: aqua">
-        <div v-for="i in 200" :key="i">{{ i }}</div>
-      </div>
-    </a-scrollbar>
-
     <a-button @click="total += 10">点击total+10</a-button>
     <a-button @click="total -= 10">点击total-10</a-button>
     <yc-scrollbar
