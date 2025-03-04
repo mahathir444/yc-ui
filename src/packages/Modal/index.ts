@@ -1,8 +1,8 @@
 import { App, h, render } from 'vue';
 import { ModalConfig, ModalServiceData } from './type';
+import { getComponentPrefix } from '@/packages/_utils/global-config';
 import ServiceModal from './component/ServiceModal.vue';
 import _Modal from './index.vue';
-import { getComponentPrefix } from '@/packages/_utils/global-config';
 
 export type ModalInstance = InstanceType<typeof _Modal>;
 

@@ -11,7 +11,7 @@
         <div v-for="i in 200" :key="i">{{ i }}</div>
       </div>
     </a-scrollbar>
-    <!-- 
+
     <yc-scrollbar
       style="height: 200px; width: 200px; overflow: auto"
       ref="scrollbarRef"
@@ -22,44 +22,24 @@
       >
         <div v-for="i in 200" :key="i">{{ i }}</div>
       </div>
-    </yc-scrollbar> -->
+    </yc-scrollbar>
 
     <div>
-      <yc-trigger trigger="click" position="bottom">
-        <a-button>popover</a-button>
+      <yc-tooltip trigger="click" position="bottom">
+        <a-button>测试</a-button>
         <template #content>
           <div class="popover-content">
             <a-empty />
           </div>
         </template>
-      </yc-trigger>
-    </div>
-
-    <div>
-      <!-- <yc-popconfirm
-        trigger="click"
-        position="bottom"
-        type="success"
-        content="这是一个测试"
-      >
-        <a-button>popconfirm</a-button>
-      </yc-popconfirm> -->
-
-      <yc-input default-value="" allow-clear />
-      <yc-modal :default-visible="true" />
+      </yc-tooltip>
     </div>
   </div>
 </template>
 
 <script lang="ts" setup>
 import { ref, watch, watchEffect } from 'vue';
-import YcPopover from '@/packages/Popover';
-import YcTooltip from '@/packages/Tooltip';
-// import YcPopconfirm from '@/packages/Popconfirm';
 import YcScrollbar from '@/packages/Scrollbar';
-import YcInput from '@/packages/Input';
-import YcModal from '@/packages/Modal';
-
 // const visible = ref<boolean>(false);
 
 // const scrollbarRef = ref<InstanceType<typeof YcScrollbar>>();
