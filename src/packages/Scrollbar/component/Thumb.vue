@@ -126,10 +126,11 @@ const handleClick = (e: MouseEvent) => {
       opacity: 0;
       transition: opacity 0.2s ease;
       user-select: none;
-      &.is-dragging {
-        opacity: 1 !important;
-      }
       &:hover {
+        background-color: rgba(134, 144, 156, 0.5);
+      }
+      &.is-dragging {
+        opacity: 1;
         background-color: rgba(134, 144, 156, 0.5);
       }
     }

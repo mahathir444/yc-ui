@@ -1,68 +1,60 @@
 <template>
   <div class="test">
-    <div>
-      <a-popconfirm trigger="click" content="pop">
-        <a-button>click me</a-button>
-      </a-popconfirm>
-    </div>
-
-    <a-scrollbar style="height: 200px; width: 200px; overflow: auto">
-      <div style="height: 2000px; background-color: aqua">
-        <div v-for="i in 200" :key="i">{{ i }}</div>
-      </div>
-    </a-scrollbar>
-    <!-- 
+    <a-button @click="total += 10">点击total+10</a-button>
+    <a-button @click="total -= 10">点击total-10</a-button>
     <yc-scrollbar
-      style="height: 200px; width: 200px; overflow: auto"
+      style="height: 200px; width: 100%; overflow: auto"
       ref="scrollbarRef"
     >
       <div
-        style="height: 4000px; width: 4000px; background-color: aqua"
-        ref="contentRef"
+        style="min-height: 200px; background-color: aquamarine; width: 200px"
       >
-        <div v-for="i in 200" :key="i">{{ i }}</div>
+        <div v-for="i in total" :key="i">{{ i }}</div>
       </div>
-    </yc-scrollbar> -->
+    </yc-scrollbar>
 
-    <div>
-      <yc-trigger trigger="click" position="bottom">
-        <a-button>popover</a-button>
-        <template #content>
-          <div class="popover-content">
-            <a-empty />
-          </div>
-        </template>
-      </yc-trigger>
-    </div>
+    <yc-trigger>
+      <a-button>trigger</a-button>
+      <template #content>
+        <div class="popover-content">
+          <a-empty />
+        </div>
+      </template>
+    </yc-trigger>
 
-    <div>
-      <!-- <yc-popconfirm
-        trigger="click"
-        position="bottom"
-        type="success"
-        content="这是一个测试"
-      >
-        <a-button>popconfirm</a-button>
-      </yc-popconfirm> -->
+    <yc-popconfirm type="warning" content="你要删除嘛">
+      <a-button>popconfirm</a-button>
+    </yc-popconfirm>
 
-      <yc-input default-value="" allow-clear />
-      <yc-modal :default-visible="true" />
-    </div>
+    <yc-popover>
+      <a-button>popover</a-button>
+      <template #content>
+        <div class="popover-content">
+          <a-empty />
+        </div>
+      </template>
+    </yc-popover>
+
+    <yc-tooltip>
+      <a-button>tooltip</a-button>
+      <template #content>
+        <div class="popover-content">
+          <a-empty />
+        </div>
+      </template>
+    </yc-tooltip>
   </div>
 </template>
 
 <script lang="ts" setup>
 import { ref, watch, watchEffect } from 'vue';
+import YcScrollbar from '@/packages/Scrollbar';
+import YcPopconfirm from '@/packages/Popconfirm';
 import YcPopover from '@/packages/Popover';
 import YcTooltip from '@/packages/Tooltip';
-// import YcPopconfirm from '@/packages/Popconfirm';
-import YcScrollbar from '@/packages/Scrollbar';
-import YcInput from '@/packages/Input';
-import YcModal from '@/packages/Modal';
-
-// const visible = ref<boolean>(false);
-
-// const scrollbarRef = ref<InstanceType<typeof YcScrollbar>>();
+import YcTrigger from '@/packages/Trigger';
+const total = ref(1);
+const visible = ref(true);
 </script>
 
 <style lang="less" scoped>

@@ -1,36 +1,25 @@
 <template>
   <yc-trigger
+    :position="position"
     :popup-visible="popupVisible"
     :default-popup-visible="defaultPopupVisible"
-    :trigger="trigger"
     :popup-container="popupContainer"
-    :render-to-body="renderToBody"
-    :position="position"
-    :disabled="disabled"
-    :popup-offset="popupOffset"
-    :popup-translate="popupTranslate"
-    :show-arrow="showArrow"
-    :blur-to-close="blurToClose"
-    :click-to-close="clickToClose"
-    :unmount-on-close="unmountOnClose"
-    :animation-name="animationName"
-    :duration="duration"
-    :mouse-enter-delay="mouseEnterDelay"
-    :mouse-leave-delay="mouseLeaveDelay"
-    :focus-delay="focusDelay"
-    :auto-fit-popup-width="autoFitPopupWidth"
-    :auto-fit-popup-min-width="autoFitPopupMinWidth"
     wrapper-class="yc-popoconfirm"
     :arrow-class="`${arrowClass ?? ''} yc-popoconfirm-popup-arrow `"
     :arrow-style="arrowStyle"
     :content-class="`${contentClass ?? ''} yc-popconfirm-popup-content`"
     :content-style="computedContentStyle"
+    :popup-offset="10"
+    trigger="click"
+    show-arrow
+    unmount-on-close
+    v-bind="$attrs"
+    ref="triggerRef"
     @popup-visible-change="(v) => $emit('popup-visible-change', v)"
     @update:popup-visible="(v) => $emit('update:popupVisible', v)"
     @show="$emit('show')"
     @hide="$emit('hide')"
     @position-change="(v) => (triggerPostion = v)"
-    ref="triggerRef"
   >
     <slot />
     <template #content>
@@ -76,43 +65,10 @@ defineOptions({
 });
 const props = withDefaults(defineProps<PopconfirmProps>(), {
   popupVisible: undefined,
-  defaultPopupVisible: false,
-  trigger: 'hover',
-  position: 'bottom',
-  disabled: false,
-  popupOffset: 10,
-  popupTranslate: () => [0, 0],
-  showArrow: true,
-  blurToClose: true,
-  clickOutsideToClose: true,
-  clickToClose: true,
-  unmountOnClose: true,
-  contentStyle: () => {
-    return {};
-  },
-  arrowStyle: () => {
-    return {};
-  },
-  animationName: 'zoom-in-fade-out',
-  duration: 400,
-  mouseEnterDelay: 1000,
-  mouseLeaveDelay: 100,
-  focusDelay: 100,
-  autoFitPopupWidth: false,
-  autoFitPopupMinWidth: false,
-  popupContainer: 'body',
-  renderToBody: true,
   content: '',
+  type: 'info',
   okText: '确定',
   cancelText: '取消',
-  type: 'info',
-  okLoading: false,
-  okButtonProps: () => {
-    return {};
-  },
-  cancelButtonProps: () => {
-    return {};
-  },
 });
 const emits = defineEmits<{
   (e: 'update:popupVisible', value: boolean): void;
@@ -122,7 +78,7 @@ const emits = defineEmits<{
   (e: 'ok'): void;
   (e: 'cancel'): void;
 }>();
-const { popupTranslate, contentStyle } = toRefs(props);
+const { contentStyle } = toRefs(props);
 // 当前的位置
 const triggerPostion = ref<TriggerPostion>('bottom');
 // content-style

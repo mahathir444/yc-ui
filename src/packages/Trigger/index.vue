@@ -72,7 +72,7 @@ const props = withDefaults(defineProps<TriggerProps>(), {
   },
   animationName: 'fade-in',
   duration: 400,
-  mouseEnterDelay: 1000,
+  mouseEnterDelay: 100,
   mouseLeaveDelay: 100,
   focusDelay: 100,
   autoFitPopupWidth: false,
@@ -121,7 +121,8 @@ const TriggerSlot = computed(() => {
     if (!vNode || vNode.shapeFlag != 16) return vNode;
     return _readNode((vNode.children as any)[0]);
   };
-  return _readNode(slots.default && slots.default()[0]);
+  const node = _readNode(slots.default && slots.default()[0]);
+  return node;
 });
 // 处理trigger关闭与开启
 const {
@@ -234,6 +235,14 @@ defineExpose({
   hide() {
     computedVisible.value = false;
   },
+});
+
+import { watchEffect } from 'vue';
+const { disabled, unmountOnClose } = toRefs(props);
+watchEffect(() => {
+  console.log(computedVisible.value, 'computedVisible');
+  console.log(unmountOnClose.value, 'unmountOnClose');
+  console.log(disabled.value, 'disabled');
 });
 </script>
 

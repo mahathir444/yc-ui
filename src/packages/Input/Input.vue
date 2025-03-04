@@ -75,11 +75,10 @@
 <script lang="ts" setup>
 import { ref, computed, toRefs } from 'vue';
 import { SIZE_CLASS } from './constants';
-
 import { InputProps } from './type';
 import { SIZE_MAP } from '@/packages/_constants';
 import { isUndefined, isNumber } from '@/packages/_utils/is';
-import YcIconButton from '../_components/IconButton/index.vue';
+import YcIconButton from '@/packages/_components/IconButton/index.vue';
 defineOptions({
   name: 'Input',
 });

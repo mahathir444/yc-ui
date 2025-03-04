@@ -15,8 +15,11 @@
     .yc-scrollbar-content {
       height: fit-content;
       width: fit-content;
+      min-width: 100%;
     }
   }
+}
+.yc-scrollbar-both-track {
   &::before {
     z-index: 10;
     position: absolute;
@@ -25,10 +28,6 @@
     content: '';
     width: 15px;
     height: 15px;
-  }
-}
-.yc-scrollbar-both-track {
-  &::before {
     background-color: rgb(247, 248, 250);
     border-right: 1px solid rgb(229, 230, 235);
     border-bottom: 1px solid rgb(229, 230, 235);

@@ -1,11 +1,12 @@
 <template>
   <yc-input
-    v-bind="props"
+    v-bind="$attrs"
+    :class="[
+      'yc-input-search',
+      searchButton ? 'yc-input-search-append' : '',
+      $attrs.class,
+    ]"
     ref="inputBaseRef"
-    :class="{
-      'yc-input-search': true,
-      'yc-input-search-append': searchButton,
-    }"
     @input="handleInput"
     @change="handleChange"
     @clear="handleClear"
@@ -50,25 +51,18 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, computed, toRefs } from 'vue';
+import { ref } from 'vue';
 import { InputSearchProps } from './type';
-import YcInput from './InputBase.vue';
+import YcInput from './Input.vue';
 import YcButton from '@/packages/Button/index.vue';
 import YcIconButton from '@/packages/_components/IconButton/index.vue';
 defineOptions({
   name: 'InputSearch',
 });
-const props = withDefaults(defineProps<InputSearchProps>(), {
-  modelValue: undefined,
-  defaultValue: '',
-  size: 'medium',
-  allowClear: false,
-  disabled: false,
-  readonly: false,
-  error: false,
-  showWordLimit: false,
-  placeholder: '',
+withDefaults(defineProps<InputSearchProps>(), {
   searchButton: false,
+  size: 'medium',
+  disabled: false,
   loading: false,
   buttonText: '',
 });

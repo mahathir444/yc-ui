@@ -1,6 +1,6 @@
 import { ref, Ref, computed, watch } from 'vue';
 import { useMagicKeys, whenever } from '@vueuse/core';
-import { isUndefined } from '@/packages/utils/is';
+import { isUndefined } from '@/packages/_utils/is';
 import { CloseType } from '@/packages/_type';
 
 export default (

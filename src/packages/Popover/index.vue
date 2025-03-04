@@ -3,28 +3,17 @@
     :popup-visible="popupVisible"
     :default-popup-visible="defaultPopupVisible"
     :trigger="trigger"
-    :popup-container="popupContainer"
-    :render-to-body="renderToBody"
     :position="position"
-    :disabled="disabled"
-    :popup-offset="popupOffset"
-    :popup-translate="popupTranslate"
-    :show-arrow="showArrow"
-    :blur-to-close="blurToClose"
-    :click-to-close="clickToClose"
-    :unmount-on-close="unmountOnClose"
-    :animation-name="animationName"
-    :duration="duration"
-    :mouse-enter-delay="mouseEnterDelay"
-    :mouse-leave-delay="mouseLeaveDelay"
-    :focus-delay="focusDelay"
-    :auto-fit-popup-width="autoFitPopupWidth"
-    :auto-fit-popup-min-width="autoFitPopupMinWidth"
+    :popup-container="popupContainer"
     wrapper-class="yc-popover"
     :arrow-class="`yc-popover-popup-arrow ${arrowClass ?? ''}`"
     :arrow-style="arrowStyle"
     :content-class="`yc-popover-popup-content ${contentClass ?? ''}`"
     :content-style="computedContentStyle"
+    :popup-offset="10"
+    unmount-on-close
+    show-arrow
+    v-bind="$attrs"
     @popup-visible-change="(v) => $emit('popup-visible-change', v)"
     @update:popup-visible="(v) => $emit('update:popupVisible', v)"
     @show="$emit('show')"
@@ -58,32 +47,6 @@ defineOptions({
 });
 const props = withDefaults(defineProps<PopoverProps>(), {
   popupVisible: undefined,
-  defaultPopupVisible: false,
-  trigger: 'hover',
-  position: 'bottom',
-  disabled: false,
-  popupOffset: 10,
-  popupTranslate: () => [0, 0],
-  showArrow: true,
-  blurToClose: true,
-  clickOutsideToClose: true,
-  clickToClose: true,
-  unmountOnClose: true,
-  contentStyle: () => {
-    return {};
-  },
-  arrowStyle: () => {
-    return {};
-  },
-  animationName: 'zoom-in-fade-out',
-  duration: 400,
-  mouseEnterDelay: 1000,
-  mouseLeaveDelay: 100,
-  focusDelay: 100,
-  autoFitPopupWidth: false,
-  autoFitPopupMinWidth: false,
-  popupContainer: 'body',
-  renderToBody: true,
   title: '',
   content: '',
 });
@@ -93,7 +56,7 @@ const emits = defineEmits<{
   (e: 'show'): void;
   (e: 'hide'): void;
 }>();
-const { popupTranslate, contentStyle } = toRefs(props);
+const { contentStyle } = toRefs(props);
 // 当前的位置
 const triggerPostion = ref<TriggerPostion>('bottom');
 // content-style

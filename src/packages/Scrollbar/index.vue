@@ -102,13 +102,13 @@ const thumbTop = ref<number>(0);
 const thumbLeft = ref<number>(0);
 // 计算最大的top和Left
 const maxThumbTop = computed(() => {
-  if (thumbHeight.value) {
+  if (thumbWidth.value) {
     return srcollHeight.value - thumbHeight.value - trackWidth.value;
   }
   return srcollHeight.value - thumbHeight.value;
 });
 const maxThumbLeft = computed(() => {
-  if (thumbWidth.value) {
+  if (thumbHeight.value) {
     return srcollWidth.value - thumbWidth.value - trackHeight.value;
   }
   return srcollWidth.value - thumbWidth.value;

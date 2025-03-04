@@ -5,10 +5,10 @@ import { getComponentPrefix } from '@/packages/_utils/global-config';
 export type PopconfirmInstance = InstanceType<typeof _Popconfirm>;
 export type { PopconfirmProps } from './type';
 
-const Popover = Object.assign(_Popconfirm, {
+const Popconfirm = Object.assign(_Popconfirm, {
   install: (app: App) => {
     app.component(getComponentPrefix() + _Popconfirm.name, _Popconfirm);
   },
 });
 
-export default Popover;
+export default Popconfirm;
