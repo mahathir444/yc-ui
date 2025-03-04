@@ -80,10 +80,10 @@
 import { toRefs, computed, CSSProperties } from 'vue';
 import { DRAWER_POSTION_STYLE } from './constants';
 import { DrawerProps } from './type';
-import { CloseType } from '../_type';
-import useCloseCompt from '../_hooks/useCloseCompt';
+import { CloseType } from '@/packages/_type';
+import useCloseCompt from '@/packages/_hooks/useCloseCompt';
 import YcButton from '@/packages/Button/index.vue';
-import YcIconButton from '../_components/IconButton/index.vue';
+import YcIconButton from '@/packages/_components/IconButton/index.vue';
 defineOptions({
   name: 'Drawer',
 });

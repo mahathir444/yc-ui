@@ -1,4 +1,4 @@
-import { Size } from '../_type';
+import { Size } from '@/packages/_type';
 // status
 export type ButtonStatus = 'normal' | 'warning' | 'success' | 'danger';
 // shape

@@ -25,7 +25,7 @@
     </yc-scrollbar> -->
 
     <div>
-      <yc-trigger trigger="click" position="bottom" >
+      <yc-trigger trigger="click" position="bottom">
         <a-button>popover</a-button>
         <template #content>
           <div class="popover-content">
@@ -44,6 +44,9 @@
       >
         <a-button>popconfirm</a-button>
       </yc-popconfirm> -->
+
+      <yc-input default-value="" allow-clear />
+      <yc-modal :default-visible="true" />
     </div>
   </div>
 </template>
@@ -54,6 +57,8 @@ import YcPopover from '@/packages/Popover';
 import YcTooltip from '@/packages/Tooltip';
 // import YcPopconfirm from '@/packages/Popconfirm';
 import YcScrollbar from '@/packages/Scrollbar';
+import YcInput from '@/packages/Input';
+import YcModal from '@/packages/Modal';
 
 // const visible = ref<boolean>(false);
 

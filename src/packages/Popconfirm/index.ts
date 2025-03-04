@@ -1,6 +1,6 @@
 import { App } from 'vue';
 import _Popconfirm from './index.vue';
-import { getComponentPrefix } from '@/utils/global-config';
+import { getComponentPrefix } from '@/packages/_utils/global-config';
 
 export type PopconfirmInstance = InstanceType<typeof _Popconfirm>;
 export type { PopconfirmProps } from './type';

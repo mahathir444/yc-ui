@@ -40,10 +40,10 @@
 
 <script lang="ts" setup>
 import { ref, computed, toRefs } from 'vue';
-import { isUndefined } from '@/utils/is';
+import { isUndefined } from '../_utils/is';
 import { InputPasswordProps } from './type';
 import YcInput from './InputBase.vue';
-import YcIconButton from '../_components/IconButton/index.vue';
+import YcIconButton from '@/packages/_components/IconButton/index.vue';
 defineOptions({
   name: 'InputPassword',
 });

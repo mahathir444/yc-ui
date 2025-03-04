@@ -1,7 +1,7 @@
 import { ref, Ref, computed, watch } from 'vue';
 import { useMagicKeys, whenever } from '@vueuse/core';
-import { isUndefined } from '@/utils/is';
-import { CloseType } from '../_type';
+import { isUndefined } from '@/packages/utils/is';
+import { CloseType } from '@/packages/_type';
 
 export default (
   emits: (...args: any) => any,

@@ -1,6 +1,6 @@
 import { watch, Ref, computed, ref } from 'vue';
 import { TriggerType } from '@/packages/Trigger/type';
-import { isUndefined } from '@/utils/is';
+import { isUndefined } from '@/packages/utils/is';
 import { onClickOutside } from '@vueuse/core';
 
 export default (params: {

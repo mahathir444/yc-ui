@@ -1,6 +1,6 @@
 import { App } from 'vue';
 import _Popover from './index.vue';
-import { getComponentPrefix } from '@/utils/global-config';
+import { getComponentPrefix } from '@/packages/_utils/global-config';
 
 export type PopoverInstance = InstanceType<typeof _Popover>;
 export type { PopoverProps } from './type';

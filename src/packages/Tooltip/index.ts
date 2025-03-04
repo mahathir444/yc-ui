@@ -1,6 +1,6 @@
 import { App } from 'vue';
 import _Tooltip from './index.vue';
-import { getComponentPrefix } from '@/utils/global-config';
+import { getComponentPrefix } from '@/packages/_utils/global-config';
 
 export type TooltipInstance = InstanceType<typeof _Tooltip>;
 export type { TooltipProps } from './type';

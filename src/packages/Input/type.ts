@@ -1,4 +1,4 @@
-import { Size } from '../_type';
+import { Size } from '@/packages/_type';
 import { ButtonProps } from '../Button/type';
 // wordSlice,wordLength
 export interface InputProps {

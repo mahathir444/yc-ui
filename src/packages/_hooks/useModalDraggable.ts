@@ -7,7 +7,7 @@ import {
   onBeforeUnmount,
   watch,
 } from 'vue';
-import { sleep } from '@/utils/fn';
+import { sleep } from '@/packages/_utils/fn';
 import { useDraggable } from '@vueuse/core';
 
 export default (config: {

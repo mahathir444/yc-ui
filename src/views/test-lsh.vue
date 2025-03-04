@@ -11,7 +11,7 @@ import { ref, onMounted, h } from 'vue';
 import { Message } from '@arco-design/web-vue';
 import YcMessage from '@/packages/Message/index.ts';
 import { messageType } from '@/packages/Message/constants';
-import SvgIcon from '../_components/SvgIcon/index.vue';
+import SvgIcon from '@/packages/_components/SvgIcon/index.vue';
 onMounted(() => {});
 const hanClick = () => {
   messageType.forEach((item, index) => {

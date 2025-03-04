@@ -37,7 +37,7 @@
 
 <script lang="ts" setup>
 import { computed, toRefs } from 'vue';
-import { SIZE_MAP } from '../_constants';
+import { SIZE_MAP } from '@/packages/_constants';
 import { SIZE_CLASS, TYPE_CLASS, STATUS_CLASS, SHAPE_CLASS } from './constants';
 import { ButtonProps } from './type';
 defineOptions({
