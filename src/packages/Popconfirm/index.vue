@@ -1,9 +1,5 @@
 <template>
   <yc-trigger
-    show-arrow
-    unmount-on-close
-    :popup-offset="10"
-    v-bind="$attrs"
     :position="position"
     :popup-visible="popupVisible"
     :default-popup-visible="defaultPopupVisible"
@@ -13,6 +9,11 @@
     :arrow-style="arrowStyle"
     :content-class="`${contentClass ?? ''} yc-popconfirm-popup-content`"
     :content-style="computedContentStyle"
+    :popup-offset="10"
+    trigger="click"
+    show-arrow
+    unmount-on-close
+    v-bind="$attrs"
     ref="triggerRef"
     @popup-visible-change="(v) => $emit('popup-visible-change', v)"
     @update:popup-visible="(v) => $emit('update:popupVisible', v)"
@@ -63,6 +64,7 @@ defineOptions({
   name: 'Popconfirm',
 });
 const props = withDefaults(defineProps<PopconfirmProps>(), {
+  popupVisible: undefined,
   content: '',
   type: 'info',
   okText: '确定',

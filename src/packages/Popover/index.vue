@@ -1,9 +1,5 @@
 <template>
   <yc-trigger
-    :popup-offset="10"
-    show-arrow
-    unmount-on-close
-    v-bind="$attrs"
     :popup-visible="popupVisible"
     :default-popup-visible="defaultPopupVisible"
     :trigger="trigger"
@@ -14,6 +10,10 @@
     :arrow-style="arrowStyle"
     :content-class="`yc-popover-popup-content ${contentClass ?? ''}`"
     :content-style="computedContentStyle"
+    :popup-offset="10"
+    unmount-on-close
+    show-arrow
+    v-bind="$attrs"
     @popup-visible-change="(v) => $emit('popup-visible-change', v)"
     @update:popup-visible="(v) => $emit('update:popupVisible', v)"
     @show="$emit('show')"
@@ -46,6 +46,7 @@ defineOptions({
   name: 'Popover',
 });
 const props = withDefaults(defineProps<PopoverProps>(), {
+  popupVisible: undefined,
   title: '',
   content: '',
 });

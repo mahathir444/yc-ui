@@ -1,8 +1,8 @@
 <template>
   <yc-input
-    v-bind="props"
     :type="computedVisibility ? 'text' : 'password'"
-    class="yc-input-password"
+    v-bind="$attrs"
+    :class="['yc-input-password', $attrs.class]"
     ref="inputBaseRef"
     @input="handleInput"
     @change="handleChange"
@@ -42,21 +42,12 @@
 import { ref, computed, toRefs } from 'vue';
 import { isUndefined } from '../_utils/is';
 import { InputPasswordProps } from './type';
-import YcInput from './InputBase.vue';
+import YcInput from './Input.vue';
 import YcIconButton from '@/packages/_components/IconButton/index.vue';
 defineOptions({
   name: 'InputPassword',
 });
 const props = withDefaults(defineProps<InputPasswordProps>(), {
-  modelValue: undefined,
-  defaultValue: '',
-  size: 'medium',
-  allowClear: false,
-  disabled: false,
-  readonly: false,
-  error: false,
-  showWordLimit: false,
-  placeholder: '',
   visibility: undefined,
   defaultVisibility: false,
   invisibleButton: true,

@@ -1,5 +1,5 @@
 import { App } from 'vue';
-import _Input from './InputBase.vue';
+import _Input from './Input.vue';
 import _InputPassword from './InputPassword.vue';
 import _InputSearch from './InputSearch.vue';
 import { getComponentPrefix } from '@/packages/_utils/global-config';
