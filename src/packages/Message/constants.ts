@@ -1,5 +1,12 @@
 export const config = {
-  containerId:'ycServiceMessageContainer',
-}
+  containerId: 'ycServiceMessageContainer',
+};
 
-export const messageType = ['info','warning','success','error','loading','normal'] as const;
+export const messageType = [
+  'info',
+  'warning',
+  'success',
+  'error',
+  'loading',
+  'normal',
+] as const;
