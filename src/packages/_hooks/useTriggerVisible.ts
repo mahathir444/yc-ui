@@ -104,13 +104,14 @@ export default (params: {
     computedVisible.value = false;
   };
   // 点击到contentRef外层关闭
-  onClickOutside(contentRef, async (e) => {
-    console.log(e);
-    if (!computedVisible.value || !clickOutsideToClose.value) return;
-    timer = setTimeout(() => {
-      computedVisible.value = false;
-    }, 0);
-  });
+  if (clickOutsideToClose.value) {
+    onClickOutside(contentRef, async () => {
+      if (!computedVisible.value) return;
+      timer = setTimeout(() => {
+        computedVisible.value = false;
+      }, 0);
+    });
+  }
   // 检测visible改变，触发事件
   watch(computedVisible, () => {
     emits('popup-visible-change');

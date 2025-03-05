@@ -1,16 +1,20 @@
 <template>
   <yc-trigger
+    :popup-offset="5"
+    v-bind="$attrs"
     :popup-visible="popupVisible"
     :default-popup-visible="defaultPopupVisible"
     :trigger="trigger"
     :position="position"
-    :popup-offset="5"
-    v-bind="$attrs"
-    auto-fit-popup-min-width
-    :show-arrow="false"
     :content-style="{
+      ...($attrs.contentStyle || {}),
       transformOrigin: TRANSFORM_ORIGIN_MAP[triggerPostion],
     }"
+    :show-arrow="false"
+    :click-outside-to-close="false"
+    :update-at-scroll="false"
+    auto-fit-popup-min-width
+    ref="triggerRef"
     @popup-visible-change="
       (v) => {
         $emit('popup-visible-change', v);
@@ -21,23 +25,15 @@
     @show="$emit('show')"
     @hide="$emit('hide')"
     @position-change="(v) => (triggerPostion = v)"
-    ref="triggerRef"
   >
-    <YcDoption
-      value=""
-      class="yc-dropdown-option-has-suffix"
-      :disabled="disabled"
-      stop-propagation
-      @suffix-click="handleOpenMenu"
-      @click="handleOpenMenu"
-    >
+    <YcDoption value="submenu" :disabled="disabled">
       <slot />
       <template #suffix>
         <svg-icon name="arrow-left" />
       </template>
     </YcDoption>
     <template #content>
-      <div class="yc-dropdown yc-dropdown-submenu">
+      <div class="yc-dropdown yc-dropdown-submenu" ref="contentRef">
         <yc-scrollbar style="max-height: 200px; overflow: auto">
           <div class="yc-dropdown-list" @click="handleClick">
             <slot name="content" />
@@ -55,9 +51,9 @@
 import { ref, inject } from 'vue';
 import { TriggerPostion } from '@/packages/Trigger/type';
 import { TRANSFORM_ORIGIN_MAP } from '@/packages/Trigger/constants';
-import { DsubmenuProps, DoptionValue } from './type';
+import { DsubmenuProps } from './type';
 import { TriggerInstance } from '@/packages/Trigger';
-import { sleep } from '@/packages/_utils/fn';
+import { onClickOutside } from '@vueuse/core';
 import YcTrigger from '@/packages/Trigger/index.vue';
 import YcScrollbar from '@/packages/Scrollbar/index.vue';
 import YcDoption from './Doption.vue';
@@ -78,6 +74,9 @@ const emits = defineEmits<{
   (e: 'hide'): void;
 }>();
 const findDoption = inject('findDoption') as (...args: any) => any;
+const isSubmenu = inject('isSubmenu') as (...args: any) => any;
+// 内容实例
+const contentRef = ref<HTMLDivElement>();
 // 可见性
 const visible = ref<boolean>(false);
 // 当前的位置
@@ -88,15 +87,21 @@ const triggerRef = ref<TriggerInstance>();
 const handleClick = (e: MouseEvent) => {
   findDoption(e.target as HTMLElement);
 };
-// 处理打开菜单
-const handleOpenMenu = async () => {
-  await sleep(0);
-  if (visible.value) {
-    triggerRef.value?.hide();
+onClickOutside(contentRef, (e) => {
+  const el = e.target as HTMLElement;
+  const o = isSubmenu(el) as HTMLDivElement;
+  if (o) {
+    const { right } = o.getBoundingClientRect();
+    console.log(right, 'client');
+    if (visible.value) {
+      triggerRef.value?.hide();
+    } else {
+      triggerRef.value?.show();
+    }
   } else {
-    triggerRef.value?.show();
+    triggerRef.value?.hide();
   }
-};
+});
 </script>
 
 <style lang="less">

@@ -1,28 +1,29 @@
 <template>
   <yc-trigger
+    :popup-offset="5"
+    v-bind="$attrs"
     :popup-visible="popupVisible"
     :default-popup-visible="defaultPopupVisible"
     :trigger="trigger"
     :popup-container="popupContainer"
     :position="position"
-    :popup-offset="5"
-    v-bind="$attrs"
-    :show-arrow="false"
     :content-style="{
       ...($attrs.contentStyle || {}),
       transformOrigin: TRANSFORM_ORIGIN_MAP[triggerPostion],
     }"
+    :show-arrow="false"
+    :click-outside-to-close="false"
     auto-fit-popup-min-width
+    ref="triggerRef"
     @popup-visible-change="(v) => $emit('popup-visible-change', v)"
     @update:popup-visible="(v) => $emit('update:popupVisible', v)"
     @show="$emit('show')"
     @hide="$emit('hide')"
     @position-change="(v) => (triggerPostion = v)"
-    ref="triggerRef"
   >
     <slot />
     <template #content>
-      <div class="yc-dropdown">
+      <div class="yc-dropdown" ref="contentRef">
         <yc-scrollbar style="max-height: 200px; overflow: auto">
           <div class="yc-dropdown-list" @click="handleClick">
             <slot name="content" />
@@ -42,6 +43,7 @@ import { TriggerPostion } from '@/packages/Trigger/type';
 import { TRANSFORM_ORIGIN_MAP } from '@/packages/Trigger/constants';
 import { DropdownProps, DoptionValue } from './type';
 import { TriggerInstance } from '@/packages/Trigger';
+import { onClickOutside } from '@vueuse/core';
 import YcTrigger from '@/packages/Trigger/index.vue';
 import YcScrollbar from '@/packages/Scrollbar/index.vue';
 defineOptions({
@@ -60,35 +62,59 @@ const emits = defineEmits<{
   (e: 'hide'): void;
   (e: 'select', value: DoptionValue): void;
 }>();
-
 const { hideOnSelect } = toRefs(props);
 // 当前的位置
 const triggerPostion = ref<TriggerPostion>('bottom');
 // 触发器实例
 const triggerRef = ref<TriggerInstance>();
+// 内容实例
+const contentRef = ref<HTMLDivElement>();
+// 是否是子菜单
+const isSubmenu = (el: HTMLElement) => {
+  console.log('el', el);
+  if (el.tagName == 'BODY' || el.classList.contains('yc-dropdown-list')) {
+    return false;
+  } else if (el.classList.contains('yc-dropdown-option-has-suffix')) {
+    return el;
+  } else {
+    return isSubmenu(el.parentElement as HTMLElement);
+  }
+};
+provide('isSubmenu', isSubmenu);
+onClickOutside(contentRef, (e) => {
+  const el = e.target as HTMLElement;
+  const o = isSubmenu(el) as HTMLDivElement;
+  if (o) {
+    const { right } = o.getBoundingClientRect();
+    console.log(right, 'client');
+    return;
+  } else {
+    triggerRef.value?.hide();
+  }
+});
 // 查找选项
 const findDoption = (el: HTMLElement): boolean => {
-  console.log(el, 'el');
-  const info = el.getAttribute('data-doption') as DoptionValue;
-  if (info) {
-    if (el.classList.contains('yc-dropdown-option-has-suffix')) return false;
-    const { value, disabled } = JSON.parse(info as string);
-    if (!disabled) {
-      emits('select', value);
-    }
-    return !disabled;
-  } else if (
-    el.classList.contains('yc-dropdown-group-title') ||
-    el.parentElement?.classList.contains('yc-dropdown-list')
+  const classList = el.classList;
+  if (
+    classList?.contains('yc-dropdown-option-has-suffix') ||
+    classList.contains('yc-dropdown-option-disabled') ||
+    classList?.contains('yc-dropdown-group-title') ||
+    classList?.contains('yc-dropdown-list')
   ) {
     return false;
+  } else if (classList?.contains('yc-dropdown-option')) {
+    const dataOption = el.getAttribute('data-doption') as string;
+    if (!dataOption) {
+      return false;
+    }
+    emits('select', JSON.parse(dataOption).value);
+    return true;
   } else {
     return findDoption(el.parentNode as HTMLElement);
   }
 };
 // 提供给submenu使用
 provide('findDoption', findDoption);
-
 // 处理选项点击
 const handleClick = (e: MouseEvent) => {
   const isClose = findDoption(e.target as HTMLElement);

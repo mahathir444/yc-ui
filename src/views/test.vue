@@ -22,6 +22,23 @@
             <yc-dsubmenu>
               <span>分组2</span>
               <template #content>
+                <yc-dsubmenu>
+                  <span>分组3</span>
+                  <template #content>
+                    <YcDoption v-for="i in 6" :key="i" :value="i">
+                      <template #icon>
+                        <IconApps />
+                      </template>
+                      数字{{ i }}
+                    </YcDoption>
+                  </template>
+                </yc-dsubmenu>
+                <YcDoption v-for="i in 6" :key="i" :value="i">
+                  <template #icon>
+                    <IconApps />
+                  </template>
+                  数字{{ i }}
+                </YcDoption>
                 <YcDoption v-for="i in 6" :key="i" :value="i">
                   <template #icon>
                     <IconApps />
@@ -88,9 +105,7 @@ import YcDoption from '@/packages/Dropdown/Doption.vue';
 import YcDgroup from '@/packages/Dropdown/DGroup.vue';
 import YcDsubmenu from '@/packages/Dropdown/Dsubmenu.vue';
 const total = ref(1);
-const visible = ref(true);
-
-const handleSelect = (v) => {
+const handleSelect = (v: any) => {
   console.log(v);
 };
 </script>

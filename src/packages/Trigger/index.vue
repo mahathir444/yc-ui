@@ -79,6 +79,7 @@ const props = withDefaults(defineProps<TriggerProps>(), {
   autoFitPopupMinWidth: false,
   popupContainer: 'body',
   renderToBody: true,
+  updateAtScroll: false,
   preventFocus: false,
 });
 const emits = defineEmits<{
@@ -107,6 +108,7 @@ const {
   duration,
   autoFitPopupWidth,
   autoFitPopupMinWidth,
+  updateAtScroll,
 } = toRefs(props);
 // content的ref
 const contentRef = ref<HTMLDivElement>();
@@ -211,7 +213,9 @@ function initTrigger() {
     right,
     width: triggerWidth,
     height: triggerHeight,
-  } = useElementBounding(triggerRef);
+  } = useElementBounding(triggerRef, {
+    windowScroll: updateAtScroll.value,
+  });
   const contentWidth = ref<number>(0);
   const contentHeight = ref<number>(0);
   // content的宽高
@@ -240,21 +244,16 @@ defineExpose({
   },
 });
 
-// import { watchEffect } from 'vue';
+import { watchEffect } from 'vue';
 // const { disabled, unmountOnClose } = toRefs(props);
 // watchEffect(() => {
 //   console.log(computedVisible.value, 'computedVisible');
 //   console.log(unmountOnClose.value, 'unmountOnClose');
 //   console.log(disabled.value, 'disabled');
 // });
-// watchEffect(() => {
-//   console.log(triggerWidth.value, 'triggerWidth');
-//   console.log(triggerHeight.value, 'triggerWidth');
-//   console.log(right.value, 'right');
-//   console.log(top.value, 'top');
-//   console.log(contentWidth.value, 'contentWidth');
-//   console.log(contentHeight.value, 'contentHeight');
-// });
+watchEffect(() => {
+  console.log(right.value, 'right');
+});
 </script>
 
 <style lang="less" scoped>

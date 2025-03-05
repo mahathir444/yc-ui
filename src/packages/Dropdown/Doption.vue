@@ -3,6 +3,7 @@
     :class="{
       'yc-dropdown-option': true,
       'yc-dropdown-option-disabled': disabled,
+      'yc-dropdown-option-has-suffix': $slots.suffix,
     }"
     :data-doption="doptionInfo"
     @click="handleClick"
@@ -13,11 +14,7 @@
     <div class="yc-dropdown-option-content text-ellipsis">
       <slot />
     </div>
-    <div
-      v-if="$slots.suffix"
-      class="yc-dropdown-option-suffix"
-      @click.stop="handleSuffixClick"
-    >
+    <div v-if="$slots.suffix" class="yc-dropdown-option-suffix">
       <slot name="suffix" />
     </div>
   </div>
@@ -31,13 +28,11 @@ defineOptions({
 });
 const props = withDefaults(defineProps<DoptionProps>(), {
   disabled: false,
-  stopPropagation: false,
 });
 const emits = defineEmits<{
   (e: 'click', ev: MouseEvent): void;
-  (e: 'suffixClick', ev: MouseEvent): void;
 }>();
-const { value, disabled, stopPropagation } = toRefs(props);
+const { value, disabled } = toRefs(props);
 // 计算optionInfo
 const doptionInfo = computed(() => {
   return JSON.stringify({
@@ -48,15 +43,7 @@ const doptionInfo = computed(() => {
 // 处理后缀点击
 const handleClick = (ev: MouseEvent) => {
   if (disabled.value) return;
-  if (stopPropagation.value) {
-    ev?.stopPropagation();
-  }
   emits('click', ev);
-};
-// 处理点击
-const handleSuffixClick = (ev: MouseEvent) => {
-  if (disabled.value) return;
-  emits('suffixClick', ev);
 };
 </script>
 

@@ -50,5 +50,6 @@ export type TriggerProps = {
   autoFitPopupMinWidth?: boolean;
   popupContainer?: PopupContainer;
   renderToBody?: boolean;
+  updateAtScroll?: boolean;
   preventFocus?: boolean;
 };
