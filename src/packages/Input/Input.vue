@@ -90,8 +90,12 @@ const props = withDefaults(defineProps<InputProps>(), {
   disabled: false,
   readonly: false,
   error: false,
+  maxLength: undefined,
   showWordLimit: false,
   placeholder: '',
+  inputAttrs: () => {
+    return {};
+  },
   type: 'text',
 });
 const emits = defineEmits<{

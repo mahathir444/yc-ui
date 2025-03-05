@@ -117,9 +117,10 @@ export default (params: {
       }
       timer = setTimeout(() => {
         if (clickOutsideCallback) {
-          clickOutsideCallback(e);
+          clickOutsideCallback(computedVisible, e);
+        } else {
+          computedVisible.value = false;
         }
-        computedVisible.value = false;
       }, 0);
     });
   }

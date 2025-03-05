@@ -4,11 +4,12 @@
     :popup-visible="popupVisible"
     :default-popup-visible="defaultPopupVisible"
     :popup-container="popupContainer"
-    :arrow-class="`${arrowClass ?? ''} yc-popoconfirm-popup-arrow `"
+    :arrow-class="`${arrowClass} yc-popoconfirm-popup-arrow `"
     :arrow-style="arrowStyle"
-    :content-class="`${contentClass ?? ''} yc-popconfirm-popup-content`"
+    :content-class="`${contentClass} yc-popconfirm-popup-content`"
     :content-style="computedContentStyle"
     :popup-offset="10"
+    animation-name="zoom-in-fade-out"
     trigger="click"
     show-arrow
     v-bind="$attrs"
@@ -63,11 +64,29 @@ defineOptions({
   name: 'Popconfirm',
 });
 const props = withDefaults(defineProps<PopconfirmProps>(), {
-  popupVisible: undefined,
   content: '',
+  position: 'bottom',
+  popupVisible: undefined,
+  defaultPopupVisible: true,
   type: 'info',
   okText: '确定',
   cancelText: '取消',
+  okLoading: false,
+  okButtonProps: () => {
+    return {};
+  },
+  cancelButtonProps: () => {
+    return {};
+  },
+  contentClass: '',
+  contentStyle: () => {
+    return {};
+  },
+  arrowClass: '',
+  arrowStyle: () => {
+    return {};
+  },
+  popupContainer: 'body',
 });
 const emits = defineEmits<{
   (e: 'update:popupVisible', value: boolean): void;

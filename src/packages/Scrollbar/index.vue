@@ -56,6 +56,13 @@ defineOptions({
 });
 const props = withDefaults(defineProps<ScrollbarProps>(), {
   type: 'embed',
+  outerClass: '',
+  outerStyle: () => {
+    return {};
+  },
+  style: () => {
+    return {};
+  },
 });
 const emits = defineEmits<{
   (e: 'scroll', left: number, top: number): void;

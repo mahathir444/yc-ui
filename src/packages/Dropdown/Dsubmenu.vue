@@ -48,7 +48,7 @@ const props = withDefaults(defineProps<DsubmenuProps>(), {
   popupVisible: undefined,
   defaultPopupVisible: false,
   trigger: 'click',
-  position: 'lt',
+  position: 'rt',
   disabled: false,
 });
 const emits = defineEmits<{

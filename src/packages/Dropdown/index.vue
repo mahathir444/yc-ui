@@ -12,6 +12,8 @@
     }"
     :show-arrow="false"
     :click-out-side-ingore-fn="isSubmenu"
+    :click-outside-callback="clickOutsideCb"
+    animation-name="slide-dynamic-origin"
     auto-fit-popup-min-width
     ref="triggerRef"
     @popup-visible-change="(v) => $emit('popup-visible-change', v)"
@@ -37,7 +39,7 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, provide, toRefs, computed } from 'vue';
+import { ref, provide, toRefs, computed, WritableComputedRef } from 'vue';
 import { TriggerPostion } from '@/packages/Trigger/type';
 import { TRANSFORM_ORIGIN_MAP } from '@/packages/Trigger/constants';
 import { DropdownProps, DoptionValue } from './type';
@@ -53,7 +55,7 @@ const props = withDefaults(defineProps<DropdownProps>(), {
   trigger: 'click',
   position: 'bottom',
   popupContainer: 'body',
-  hideOnSelect: true,
+  hideOnSelect: false,
 });
 const emits = defineEmits<{
   (e: 'update:popupVisible', value: boolean): void;
@@ -85,7 +87,17 @@ const isSubmenu = (e: any) => {
     return isSubmenu(el.parentElement as HTMLElement);
   }
 };
-// 查找选项
+// 是否是option
+const isOption = (el: HTMLElement) => {
+  if (el.tagName == 'BODY') {
+    return false;
+  } else if (el.classList.contains('yc-dropdown-list')) {
+    return true;
+  } else {
+    return isOption(el.parentElement as HTMLDivElement);
+  }
+};
+//查找选项
 const findDoption = (el: HTMLElement): boolean => {
   const classList = el.classList;
   if (
@@ -114,6 +126,12 @@ const handleSelect = (e: MouseEvent) => {
   if (hideOnSelect.value && isClose) {
     triggerRef.value?.hide();
   }
+};
+// 处理点击到外面
+const clickOutsideCb = (visible: WritableComputedRef<boolean>, e: any) => {
+  const el = e.target ?? e;
+  if (isOption(el) && !hideOnSelect.value) return;
+  visible.value = false;
 };
 </script>
 

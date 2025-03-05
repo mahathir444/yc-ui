@@ -13,6 +13,25 @@
       </div>
     </yc-scrollbar>
 
+    <!--  -->
+    <yc-popover>
+      <a-button>popover</a-button>
+      <template #content>
+        <div style="width: 200px">
+          <a-empty />
+        </div>
+      </template>
+    </yc-popover>
+    <!--  -->
+    <yc-tooltip>
+      <a-button>tooltip</a-button>
+      <template #content>
+        <div style="width: 200px">
+          <a-empty />
+        </div>
+      </template>
+    </yc-tooltip>
+
     <yc-dropdown @select="handleSelect">
       <a-button>dropdown</a-button>
       <template #content>
@@ -91,6 +110,8 @@
 
 <script lang="ts" setup>
 import { ref, watch, watchEffect } from 'vue';
+import YcPopover from '@/packages/Popover';
+import YcTooltip from '@/packages/Tooltip';
 import YcScrollbar from '@/packages/Scrollbar';
 import YcDropdown from '@/packages/Dropdown/index.vue';
 import YcDoption from '@/packages/Dropdown/Doption.vue';

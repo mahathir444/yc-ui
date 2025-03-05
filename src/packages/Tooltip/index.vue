@@ -4,11 +4,12 @@
     :default-popup-visible="defaultPopupVisible"
     :popup-container="popupContainer"
     :position="position"
-    :arrow-class="`yc-tooltip-popup-arrow ${arrowClass ?? ''}`"
+    :arrow-class="`yc-tooltip-popup-arrow ${arrowClass}`"
     :arrow-style="computedArrowStyle"
-    :content-class="`yc-tooltip-popup-content ${contentClass ?? ''} ${mini ? 'yc-tooltip-mini' : ''}`"
+    :content-class="`yc-tooltip-popup-content ${contentClass} ${mini ? 'yc-tooltip-mini' : ''}`"
     :content-style="computedContentStyle"
     :popup-offset="10"
+    animation-name="zoom-in-fade-out"
     show-arrow
     v-bind="$attrs"
     :wrapper-class="`yc-tooltip ${$attrs.wrapperClass ?? ''}`"
@@ -38,9 +39,20 @@ defineOptions({
 });
 const props = withDefaults(defineProps<TooltipProps>(), {
   popupVisible: undefined,
+  defaultPopupVisible: false,
   content: '',
-  backgroundColor: 'rgb(29, 33, 41)',
+  position: 'bottom',
   mini: false,
+  backgroundColor: 'rgb(29,33,41)',
+  contentClass: '',
+  contentStyle: () => {
+    return {};
+  },
+  arrowClass: '',
+  arrowStyle: () => {
+    return {};
+  },
+  popupContainer: 'body',
 });
 const emits = defineEmits<{
   (e: 'update:popupVisible', value: boolean): void;

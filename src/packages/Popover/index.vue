@@ -5,11 +5,12 @@
     :trigger="trigger"
     :position="position"
     :popup-container="popupContainer"
-    :arrow-class="`yc-popover-popup-arrow ${arrowClass ?? ''}`"
+    :arrow-class="`yc-popover-popup-arrow ${arrowClass}`"
     :arrow-style="arrowStyle"
-    :content-class="`yc-popover-popup-content ${contentClass ?? ''}`"
+    :content-class="`yc-popover-popup-content ${contentClass}`"
     :content-style="computedContentStyle"
     :popup-offset="10"
+    animation-name="zoom-in-fade-out"
     show-arrow
     v-bind="$attrs"
     :wrapper-class="`yc-popover ${$attrs.wrapperClass ?? ''}`"
@@ -46,8 +47,20 @@ defineOptions({
 });
 const props = withDefaults(defineProps<PopoverProps>(), {
   popupVisible: undefined,
+  defaultPopupVisible: true,
   title: '',
   content: '',
+  trigger: 'hover',
+  position: 'bottom',
+  contentClass: '',
+  contentStyle: () => {
+    return {};
+  },
+  arrowClass: '',
+  arrowStyle: () => {
+    return {};
+  },
+  popupContainer: 'body',
 });
 const emits = defineEmits<{
   (e: 'update:popupVisible', value: boolean): void;

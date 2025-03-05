@@ -56,3 +56,28 @@
     opacity 0.3s cubic-bezier(0.3, 1.3, 0.3, 1),
     transform 0.3s cubic-bezier(0.3, 1.3, 0.3, 1);
 }
+
+// 选择器的
+.slide-dynamic-origin-enter-from,
+.slide-dynamic-origin-appear-from,
+.slide-dynamic-origin-leave-to {
+  transform: scaleY(0.9);
+  transform-origin: 0 0;
+  opacity: 0;
+}
+
+.slide-dynamic-origin-enter-to,
+.slide-dynamic-origin-appear-to,
+.slide-dynamic-origin-leave-from {
+  transform: scaleY(1);
+  transform-origin: 0 0;
+  opacity: 1;
+}
+
+.slide-dynamic-origin-enter-active,
+.slide-dynamic-origin-appear-active,
+.slide-dynamic-origin-leave-active {
+  transition:
+    transform 0.2s cubic-bezier(0.34, 0.69, 0.1, 1),
+    opacity 0.2s cubic-bezier(0.34, 0.69, 0.1, 1);
+}

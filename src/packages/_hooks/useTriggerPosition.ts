@@ -169,13 +169,17 @@ export default (params: {
       //上
       [
         top.value - contentHeight.value,
-        (triggerWidth.value - contentWidth.value) / 2,
+        left.value + (triggerWidth.value - contentWidth.value) / 2,
         'top',
       ],
       [top.value - contentHeight.value, left.value, 'tl'],
       [top.value - contentHeight.value, right.value - contentWidth.value, 'tr'],
       //下
-      [bottom.value, (triggerWidth.value - contentWidth.value) / 2, 'bottom'],
+      [
+        bottom.value,
+        left.value + (triggerWidth.value - contentWidth.value) / 2,
+        'bottom',
+      ],
       [bottom.value, left.value, 'bl'],
       [bottom.value, right.value - contentWidth.value, 'br'],
       //左

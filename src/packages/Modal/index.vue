@@ -134,6 +134,7 @@ const props = withDefaults(defineProps<ModalProps>(), {
   maskStyle: () => {
     return {};
   },
+  modalClass: '',
   modalStyle: () => {
     return {};
   },
@@ -142,6 +143,7 @@ const props = withDefaults(defineProps<ModalProps>(), {
   fullscreen: false,
   maskAnimationName: 'fade',
   modalAnimationName: 'zoom-modal',
+  bodyClass: '',
   bodyStyle: () => {
     return {};
   },
