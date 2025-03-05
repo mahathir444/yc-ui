@@ -19,6 +19,8 @@
         class="yc-dropdown-submenu"
         :style="contentStyle"
         ref="contentRef"
+        @mouseenter="handleMouseenter"
+        @mouseleave="handleMouseleave"
       >
         <yc-scrollbar style="max-height: 200px; overflow: auto">
           <div class="yc-dropdown-list" @click="handleSelect">
@@ -34,10 +36,21 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, inject, computed, toRefs, CSSProperties, nextTick } from 'vue';
+import {
+  ref,
+  inject,
+  computed,
+  toRefs,
+  CSSProperties,
+  nextTick,
+  Ref,
+  onMounted,
+  provide,
+} from 'vue';
 import { Fn } from '@/packages/_type';
 import { isUndefined } from '@/packages/_utils/is';
 import { DsubmenuProps } from './type';
+import { TriggerInstance } from '@/packages/Trigger';
 import YcScrollbar from '@/packages/Scrollbar/index.vue';
 
 import YcDoption from './Doption.vue';
@@ -47,7 +60,7 @@ defineOptions({
 const props = withDefaults(defineProps<DsubmenuProps>(), {
   popupVisible: undefined,
   defaultPopupVisible: false,
-  trigger: 'click',
+  trigger: 'hover',
   position: 'rt',
   disabled: false,
 });
@@ -115,35 +128,45 @@ const handleCalcStyle = () => {
   } = doptionRef.value!.getRef().getBoundingClientRect();
   if (menuPotision.value == 'rt') {
     contentStyle.value = {
-      left: `${offsetRight + 5}px`,
+      left: `${offsetRight + 4}px`,
       top: `${offsetTop - 5}px`,
       minWidth: `${width}px`,
     };
   } else {
     contentStyle.value = {
-      left: `${offsetLeft - width - 5}px`,
+      left: `${offsetLeft - width - 4}px`,
       top: `${offsetTop - 5}px`,
       minWidth: `${width}px`,
     };
   }
 };
-// 计时器用于异步处理
-let timer: NodeJS.Timeout;
+const isOption = inject('isOption') as Fn;
+const dropdownRef = inject('dropdownRef') as Ref<TriggerInstance>;
+let timer = ref<NodeJS.Timeout>();
 // 鼠标进入
 const handleMouseenter = async () => {
-  if (timer) clearTimeout(timer);
+  if (timer.value) clearTimeout(timer.value);
   if (menuTrigger.value != 'hover' || computedVisible.value) return;
-  timer = setTimeout(() => {
+  timer.value = setTimeout(async () => {
     computedVisible.value = true;
+    await nextTick();
     handleCalcStyle();
   }, 100);
 };
 // 鼠标离开
-const handleMouseleave = () => {
-  if (timer) clearTimeout(timer);
+const handleMouseleave = (e: MouseEvent) => {
+  const target = e.target as HTMLDivElement;
+  const relatedTarget = e.relatedTarget as HTMLDivElement;
+  if (timer.value) {
+    clearTimeout(timer.value);
+  }
   if (menuTrigger.value != 'hover' || !computedVisible.value) return;
-  timer = setTimeout(() => {
-    computedVisible.value = false;
+  timer.value = setTimeout(() => {
+    if (isOption(relatedTarget)) {
+      computedVisible.value = false;
+    } else {
+      dropdownRef.value?.hide();
+    }
   }, 100);
 };
 //  点击
@@ -153,6 +176,10 @@ const handleClick = async () => {
   await nextTick();
   handleCalcStyle();
 };
+
+onMounted(() => {
+  timer = inject('timer') as Ref<NodeJS.Timeout>;
+});
 </script>
 
 <style lang="less">

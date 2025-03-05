@@ -7,7 +7,7 @@
     }"
     :data-doption="doptionInfo"
     @click="handleClick"
-    ref="optionRef"
+    ref="doptionRef"
   >
     <div v-if="$slots.icon" class="yc-dropdown-option-icon">
       <slot name="icon" />
@@ -34,7 +34,8 @@ const emits = defineEmits<{
   (e: 'click', ev: MouseEvent): void;
 }>();
 const { value, disabled } = toRefs(props);
-const optionRef = ref<HTMLDivElement>();
+// 自身实例
+const doptionRef = ref<HTMLDivElement>();
 // 计算optionInfo
 const doptionInfo = computed(() => {
   return JSON.stringify({
@@ -50,7 +51,7 @@ const handleClick = (ev: MouseEvent) => {
 
 defineExpose({
   getRef() {
-    return optionRef.value as HTMLDivElement;
+    return doptionRef.value as HTMLDivElement;
   },
 });
 </script>

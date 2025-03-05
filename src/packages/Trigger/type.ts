@@ -55,4 +55,6 @@ export type TriggerProps = {
   preventFocus?: boolean;
   clickOutSideIngoreFn?: Fn;
   clickOutsideCallback?: Fn;
+  mouseenterCallback?: Fn;
+  mouseleaveCallback?: Fn;
 };

@@ -1,6 +1,6 @@
 <template>
   <yc-trigger
-    :popup-offset="5"
+    :popup-offset="4"
     v-bind="$attrs"
     :popup-visible="popupVisible"
     :default-popup-visible="defaultPopupVisible"
@@ -39,7 +39,15 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, provide, toRefs, computed, WritableComputedRef } from 'vue';
+import {
+  ref,
+  provide,
+  toRefs,
+  computed,
+  WritableComputedRef,
+  onMounted,
+  watch,
+} from 'vue';
 import { TriggerPostion } from '@/packages/Trigger/type';
 import { TRANSFORM_ORIGIN_MAP } from '@/packages/Trigger/constants';
 import { DropdownProps, DoptionValue } from './type';
@@ -52,7 +60,7 @@ defineOptions({
 const props = withDefaults(defineProps<DropdownProps>(), {
   popupVisible: undefined,
   defaultPopupVisible: false,
-  trigger: 'click',
+  trigger: 'hover',
   position: 'bottom',
   popupContainer: 'body',
   hideOnSelect: false,
@@ -76,6 +84,7 @@ const submenuPosition = computed(() => {
 const triggerPostion = ref<TriggerPostion>('bottom');
 // 触发器实例
 const triggerRef = ref<TriggerInstance>();
+provide('dropdownRef', triggerRef);
 // 是否是子菜单
 const isSubmenu = (e: any) => {
   const el = (e.target ? e.target : e) as HTMLElement;
@@ -91,12 +100,16 @@ const isSubmenu = (e: any) => {
 const isOption = (el: HTMLElement) => {
   if (el.tagName == 'BODY') {
     return false;
-  } else if (el.classList.contains('yc-dropdown-list')) {
+  } else if (
+    el.classList.contains('yc-dropdown') ||
+    el.classList.contains('yc-dropdown-submenu')
+  ) {
     return true;
   } else {
     return isOption(el.parentElement as HTMLDivElement);
   }
 };
+provide('isOption', isOption);
 //查找选项
 const findDoption = (el: HTMLElement): boolean => {
   const classList = el.classList;
@@ -133,6 +146,10 @@ const clickOutsideCb = (visible: WritableComputedRef<boolean>, e: any) => {
   if (isOption(el) && !hideOnSelect.value) return;
   visible.value = false;
 };
+
+onMounted(() => {
+  provide('timer', triggerRef.value!.getTimer());
+});
 </script>
 
 <style lang="less">

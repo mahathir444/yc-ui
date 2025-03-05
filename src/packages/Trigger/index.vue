@@ -61,16 +61,18 @@ const props = withDefaults(defineProps<TriggerProps>(), {
   popupTranslate: () => [0, 0],
   showArrow: false,
   blurToClose: true,
-  clickOutsideToClose: true,
   clickToClose: true,
+  clickOutsideToClose: true,
   unmountOnClose: true,
+  contentClass: '',
   contentStyle: () => {
     return {};
   },
+  arrowClass: '',
   arrowStyle: () => {
     return {};
   },
-  animationName: 'fade-in',
+  animationName: 'fade',
   duration: 400,
   mouseEnterDelay: 100,
   mouseLeaveDelay: 100,
@@ -110,7 +112,12 @@ const {
   autoFitPopupMinWidth,
   updateAtScroll,
 } = toRefs(props);
-const { clickOutSideIngoreFn, clickOutsideCallback } = props;
+const {
+  clickOutSideIngoreFn,
+  clickOutsideCallback,
+  mouseenterCallback,
+  mouseleaveCallback,
+} = props;
 // content的ref
 const contentRef = ref<HTMLDivElement>();
 // trigger的ref
@@ -129,6 +136,7 @@ const TriggerSlot = computed(() => {
 });
 // 处理trigger关闭与开启
 const {
+  timer,
   computedVisible,
   handleMouseenter,
   handleMouseleave,
@@ -151,6 +159,8 @@ const {
   contentRef,
   clickOutSideIngoreFn,
   clickOutsideCallback,
+  mouseenterCallback,
+  mouseleaveCallback,
   emits,
 });
 // 初始化trigger地计算参数
@@ -244,6 +254,9 @@ defineExpose({
   },
   show() {
     computedVisible.value = true;
+  },
+  getTimer() {
+    return timer;
   },
 });
 </script>

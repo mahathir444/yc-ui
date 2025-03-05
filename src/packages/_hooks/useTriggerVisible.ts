@@ -18,6 +18,8 @@ export default (params: {
   contentRef: Ref<HTMLDivElement | undefined>;
   clickOutSideIngoreFn: Fn | undefined;
   clickOutsideCallback: Fn | undefined;
+  mouseenterCallback: Fn | undefined;
+  mouseleaveCallback: Fn | undefined;
   emits: Fn;
 }) => {
   const {
@@ -34,6 +36,8 @@ export default (params: {
     contentRef,
     clickOutSideIngoreFn,
     clickOutsideCallback,
+    mouseenterCallback,
+    mouseleaveCallback,
     emits,
   } = params;
   // 受控的visible
@@ -54,16 +58,16 @@ export default (params: {
     },
   });
   // 计时器用于异步处理
-  let timer: NodeJS.Timeout;
+  const timer = ref<NodeJS.Timeout>();
   // 点击
   const handleClick = () => {
-    if (timer) clearTimeout(timer);
+    if (timer.value) clearTimeout(timer.value);
     if (trigger.value != 'click') return;
     computedVisible.value = clickToClose.value ? !computedVisible.value : true;
   };
   // 鼠标右击
   const handleContextmenu = () => {
-    if (timer) clearTimeout(timer);
+    if (timer.value) clearTimeout(timer.value);
     if (trigger.value != 'contextMenu') return;
     computedVisible.value = clickToClose.value ? !computedVisible.value : true;
   };
@@ -74,32 +78,40 @@ export default (params: {
     }
   };
   // 鼠标进入
-  const handleMouseenter = async () => {
-    if (timer) clearTimeout(timer);
+  const handleMouseenter = (e: MouseEvent) => {
+    if (timer.value) clearTimeout(timer.value);
     if (trigger.value != 'hover' || computedVisible.value) return;
-    timer = setTimeout(() => {
-      computedVisible.value = true;
+    timer.value = setTimeout(() => {
+      if (mouseenterCallback) {
+        mouseenterCallback(computedVisible, e);
+      } else {
+        computedVisible.value = true;
+      }
     }, mouseEnterDelay.value);
   };
   // 鼠标离开
-  const handleMouseleave = () => {
-    if (timer) clearTimeout(timer);
+  const handleMouseleave = (e: MouseEvent) => {
+    if (timer.value) clearTimeout(timer.value);
     if (trigger.value != 'hover' || !computedVisible.value) return;
-    timer = setTimeout(() => {
-      computedVisible.value = false;
+    timer.value = setTimeout(() => {
+      if (mouseleaveCallback) {
+        mouseleaveCallback(computedVisible, e);
+      } else {
+        computedVisible.value = false;
+      }
     }, mouseLeaveDelay.value);
   };
   // 聚焦
   const handleFocus = () => {
-    if (timer) clearTimeout(timer);
+    if (timer.value) clearTimeout(timer.value);
     if (trigger.value != 'focus' || computedVisible.value) return;
-    timer = setTimeout(() => {
+    timer.value = setTimeout(() => {
       computedVisible.value = true;
     }, focusDelay.value);
   };
   // 失焦
   const handleBlur = () => {
-    if (timer) clearTimeout(timer);
+    if (timer.value) clearTimeout(timer.value);
     if (
       trigger.value != 'focus' ||
       !blurToClose.value ||
@@ -115,7 +127,7 @@ export default (params: {
       if (!computedVisible.value || isIngore) {
         return;
       }
-      timer = setTimeout(() => {
+      timer.value = setTimeout(() => {
         if (clickOutsideCallback) {
           clickOutsideCallback(computedVisible, e);
         } else {
@@ -130,6 +142,7 @@ export default (params: {
   });
 
   return {
+    timer,
     computedVisible,
     handleMousedown,
     handleClick,

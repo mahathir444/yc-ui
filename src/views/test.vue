@@ -14,7 +14,7 @@
     </yc-scrollbar>
 
     <!--  -->
-    <yc-popover>
+    <!-- <yc-popover>
       <a-button>popover</a-button>
       <template #content>
         <div style="width: 200px">
@@ -22,7 +22,6 @@
         </div>
       </template>
     </yc-popover>
-    <!--  -->
     <yc-tooltip>
       <a-button>tooltip</a-button>
       <template #content>
@@ -30,7 +29,7 @@
           <a-empty />
         </div>
       </template>
-    </yc-tooltip>
+    </yc-tooltip> -->
 
     <yc-dropdown @select="handleSelect">
       <a-button>dropdown</a-button>
@@ -77,13 +76,13 @@
       </template>
     </yc-dropdown>
 
-    <a-dropdown>
+    <a-dropdown trigger="hover">
       <a-button>dropdown</a-button>
       <template #content>
-        <a-dsubmenu>
+        <a-dsubmenu trigger="hover">
           分组1
           <template #content>
-            <a-dsubmenu>
+            <a-dsubmenu trigger="hover">
               分组2
               <template #content>
                 <a-doption v-for="i in 6" :key="i" :value="i">
@@ -113,7 +112,7 @@ import { ref, watch, watchEffect } from 'vue';
 import YcPopover from '@/packages/Popover';
 import YcTooltip from '@/packages/Tooltip';
 import YcScrollbar from '@/packages/Scrollbar';
-import YcDropdown from '@/packages/Dropdown/index.vue';
+import YcDropdown from '@/packages/Dropdown/Dropdown.vue';
 import YcDoption from '@/packages/Dropdown/Doption.vue';
 import YcDgroup from '@/packages/Dropdown/DGroup.vue';
 import YcDsubmenu from '@/packages/Dropdown/Dsubmenu.vue';
