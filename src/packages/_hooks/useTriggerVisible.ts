@@ -2,6 +2,7 @@ import { watch, Ref, computed, ref } from 'vue';
 import { TriggerType } from '@/packages/Trigger/type';
 import { isUndefined } from '@/packages/_utils/is';
 import { onClickOutside } from '@vueuse/core';
+import { Fn } from '../_type';
 
 export default (params: {
   trigger: Ref<TriggerType>;
@@ -15,7 +16,9 @@ export default (params: {
   focusDelay: Ref<number>;
   preventFocus: Ref<boolean>;
   contentRef: Ref<HTMLDivElement | undefined>;
-  emits: (...args: any) => any;
+  clickOutSideIngoreFn: Fn | undefined;
+  clickOutsideCallback: Fn | undefined;
+  emits: Fn;
 }) => {
   const {
     trigger,
@@ -29,6 +32,8 @@ export default (params: {
     focusDelay,
     preventFocus,
     contentRef,
+    clickOutSideIngoreFn,
+    clickOutsideCallback,
     emits,
   } = params;
   // 受控的visible
@@ -105,9 +110,15 @@ export default (params: {
   };
   // 点击到contentRef外层关闭
   if (clickOutsideToClose.value) {
-    onClickOutside(contentRef, async () => {
-      if (!computedVisible.value) return;
+    onClickOutside(contentRef, async (e) => {
+      const isIngore = clickOutSideIngoreFn && clickOutSideIngoreFn(e);
+      if (!computedVisible.value || isIngore) {
+        return;
+      }
       timer = setTimeout(() => {
+        if (clickOutsideCallback) {
+          clickOutsideCallback(e);
+        }
         computedVisible.value = false;
       }, 0);
     });

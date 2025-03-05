@@ -1,41 +1,27 @@
 <template>
-  <yc-trigger
-    :popup-offset="5"
-    v-bind="$attrs"
-    :popup-visible="popupVisible"
-    :default-popup-visible="defaultPopupVisible"
-    :trigger="trigger"
-    :position="dropdownPotision"
-    :content-style="{
-      ...($attrs.contentStyle || {}),
-      transformOrigin: TRANSFORM_ORIGIN_MAP[triggerPostion],
-    }"
-    :show-arrow="false"
-    :click-outside-to-close="false"
-    :update-at-scroll="false"
-    auto-fit-popup-min-width
-    ref="triggerRef"
-    @popup-visible-change="
-      (v) => {
-        $emit('popup-visible-change', v);
-        visible = v;
-      }
-    "
-    @update:popup-visible="(v) => $emit('update:popupVisible', v)"
-    @show="$emit('show')"
-    @hide="$emit('hide')"
-    @position-change="(v) => (triggerPostion = v)"
+  <YcDoption
+    :disabled="disabled"
+    value="submenu"
+    ref="doptionRef"
+    @click="handleClick"
+    @mouseenter="handleMouseenter"
+    @mouseleave="handleMouseleave"
   >
-    <YcDoption value="submenu" :disabled="disabled">
-      <slot />
-      <template #suffix>
-        <svg-icon name="arrow-left" />
-      </template>
-    </YcDoption>
-    <template #content>
-      <div class="yc-dropdown yc-dropdown-submenu" ref="contentRef">
+    <slot />
+    <template #suffix>
+      <svg-icon name="arrow-left" />
+    </template>
+  </YcDoption>
+  <Teleport to="body">
+    <Transition name="fade">
+      <div
+        v-if="computedVisible && !disabled"
+        class="yc-dropdown-submenu"
+        :style="contentStyle"
+        ref="contentRef"
+      >
         <yc-scrollbar style="max-height: 200px; overflow: auto">
-          <div class="yc-dropdown-list" @click="handleClick">
+          <div class="yc-dropdown-list" @click="handleSelect">
             <slot name="content" />
           </div>
         </yc-scrollbar>
@@ -43,20 +29,17 @@
           <slot name="footer" />
         </div>
       </div>
-    </template>
-  </yc-trigger>
+    </Transition>
+  </Teleport>
 </template>
 
 <script lang="ts" setup>
-import { ref, inject, computed, toRefs } from 'vue';
-import { TriggerPostion } from '@/packages/Trigger/type';
-import { TRANSFORM_ORIGIN_MAP } from '@/packages/Trigger/constants';
+import { ref, inject, computed, toRefs, CSSProperties, nextTick } from 'vue';
 import { Fn } from '@/packages/_type';
+import { isUndefined } from '@/packages/_utils/is';
 import { DsubmenuProps } from './type';
-import { TriggerInstance } from '@/packages/Trigger';
-import { onClickOutside } from '@vueuse/core';
-import YcTrigger from '@/packages/Trigger/index.vue';
 import YcScrollbar from '@/packages/Scrollbar/index.vue';
+
 import YcDoption from './Doption.vue';
 defineOptions({
   name: 'Dsubmenu',
@@ -65,7 +48,7 @@ const props = withDefaults(defineProps<DsubmenuProps>(), {
   popupVisible: undefined,
   defaultPopupVisible: false,
   trigger: 'click',
-  position: 'rt',
+  position: 'lt',
   disabled: false,
 });
 const emits = defineEmits<{
@@ -74,40 +57,108 @@ const emits = defineEmits<{
   (e: 'show'): void;
   (e: 'hide'): void;
 }>();
-const { position } = toRefs(props);
-
+const { position, defaultPopupVisible, popupVisible, trigger } = toRefs(props);
+// 受控的visible
+const controlVisible = ref<boolean>(defaultPopupVisible.value);
+// visible
+const computedVisible = computed({
+  get() {
+    return !isUndefined(popupVisible.value)
+      ? popupVisible.value
+      : controlVisible.value;
+  },
+  set(val) {
+    if (!isUndefined(popupVisible.value)) {
+      emits('update:popupVisible', val);
+    } else {
+      controlVisible.value = val;
+    }
+  },
+});
+// contentStyle
+const contentStyle = ref<CSSProperties>({
+  left: 0,
+  top: 0,
+  width: 0,
+});
 // 位置
-const dropdownPotision = computed(() => {
+const menuPotision = computed(() => {
   if (!['rt', 'lt'].includes(position.value)) {
     return 'rt';
   }
   return position.value;
 });
-// 当前的位置
-const triggerPostion = ref<TriggerPostion>('rt');
-// 可见性
-const visible = ref<boolean>(false);
-// 触发器实例
-const triggerRef = ref<TriggerInstance>();
-// 内容实例
+// 触发方式
+const menuTrigger = computed(() => {
+  if (!['click', 'hover'].includes(trigger.value)) {
+    return 'hover';
+  }
+  return trigger.value;
+});
+// option的实例
+const doptionRef = ref<InstanceType<typeof YcDoption>>();
+// content的实例
 const contentRef = ref<HTMLDivElement>();
+// 查找option的函数
 const findDoption = inject('findDoption') as Fn;
-const isSubmenu = inject('isSubmenu') as Fn;
-// 处理点击option
-const handleClick = (e: MouseEvent) => {
+// 处理选择option
+const handleSelect = (e: MouseEvent) => {
   findDoption(e.target as HTMLElement);
 };
-onClickOutside(contentRef, (e) => {
-  if (isSubmenu(e.target as HTMLElement) && !visible.value) {
-    triggerRef.value?.show();
+// 处理计算style
+const handleCalcStyle = () => {
+  const {
+    left: offsetLeft,
+    top: offsetTop,
+    right: offsetRight,
+    width,
+  } = doptionRef.value!.getRef().getBoundingClientRect();
+  if (menuPotision.value == 'rt') {
+    contentStyle.value = {
+      left: `${offsetRight + 5}px`,
+      top: `${offsetTop - 5}px`,
+      minWidth: `${width}px`,
+    };
   } else {
-    triggerRef.value?.hide();
+    contentStyle.value = {
+      left: `${offsetLeft - width - 5}px`,
+      top: `${offsetTop - 5}px`,
+      minWidth: `${width}px`,
+    };
   }
-});
+};
+// 计时器用于异步处理
+let timer: NodeJS.Timeout;
+// 鼠标进入
+const handleMouseenter = async () => {
+  if (timer) clearTimeout(timer);
+  if (menuTrigger.value != 'hover' || computedVisible.value) return;
+  timer = setTimeout(() => {
+    computedVisible.value = true;
+    handleCalcStyle();
+  }, 100);
+};
+// 鼠标离开
+const handleMouseleave = () => {
+  if (timer) clearTimeout(timer);
+  if (menuTrigger.value != 'hover' || !computedVisible.value) return;
+  timer = setTimeout(() => {
+    computedVisible.value = false;
+  }, 100);
+};
+//  点击
+const handleClick = async () => {
+  if (menuTrigger.value != 'click') return;
+  computedVisible.value = !computedVisible.value;
+  await nextTick();
+  handleCalcStyle();
+};
 </script>
 
 <style lang="less">
-.yc-dropdown {
+.yc-dropdown-submenu {
+  position: absolute;
+  z-index: 1002;
   padding: 4px 0;
   background-color: #fff;
   border: 1px solid rgb(229, 230, 235);

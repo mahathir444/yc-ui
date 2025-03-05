@@ -39,12 +39,6 @@
                   </template>
                   数字{{ i }}
                 </YcDoption>
-                <YcDoption v-for="i in 6" :key="i" :value="i">
-                  <template #icon>
-                    <IconApps />
-                  </template>
-                  数字{{ i }}
-                </YcDoption>
               </template>
             </yc-dsubmenu>
             <YcDoption v-for="i in 6" :key="i" :value="i">
@@ -55,6 +49,12 @@
             </YcDoption>
           </template>
         </yc-dsubmenu>
+        <YcDoption v-for="i in 6" :key="i" :value="i">
+          <template #icon>
+            <IconApps />
+          </template>
+          数字{{ i }}
+        </YcDoption>
       </template>
     </yc-dropdown>
 
@@ -86,20 +86,12 @@
       </template>
       <template #footer> sdadsa </template>
     </a-dropdown>
-
-    <div class="loading">
-      <svg-icon name="loading" />
-    </div>
   </div>
 </template>
 
 <script lang="ts" setup>
 import { ref, watch, watchEffect } from 'vue';
 import YcScrollbar from '@/packages/Scrollbar';
-import YcPopconfirm from '@/packages/Popconfirm';
-import YcPopover from '@/packages/Popover';
-import YcTooltip from '@/packages/Tooltip';
-import YcTrigger from '@/packages/Trigger';
 import YcDropdown from '@/packages/Dropdown/index.vue';
 import YcDoption from '@/packages/Dropdown/Doption.vue';
 import YcDgroup from '@/packages/Dropdown/DGroup.vue';

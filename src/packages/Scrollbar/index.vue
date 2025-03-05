@@ -66,15 +66,20 @@ const contentRef = ref<HTMLElement>();
 // scrollRef
 const scrollRef = ref<HTMLDivElement>();
 // 获取内容高度
-const { width: contentWidth, height: contentHeight } =
-  useElementSize(contentRef);
+const { width: contentWidth, height: contentHeight } = useElementSize(
+  contentRef,
+  undefined,
+  {
+    box: 'border-box',
+  }
+);
 // 获取滚动容器高度
 const {
   top: offsetTop,
   left: offsetLeft,
   width: srcollWidth,
   height: srcollHeight,
-} = useElementBounding(scrollRef);
+} = useElementBounding(scrollRef, {});
 // 计算滚动条高度
 const thumbHeight = computed(() => {
   if (contentHeight.value <= srcollHeight.value) return 0;

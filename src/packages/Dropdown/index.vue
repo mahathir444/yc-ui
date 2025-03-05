@@ -11,7 +11,7 @@
       transformOrigin: TRANSFORM_ORIGIN_MAP[triggerPostion],
     }"
     :show-arrow="false"
-    :click-outside-to-close="false"
+    :click-out-side-ingore-fn="isSubmenu"
     auto-fit-popup-min-width
     ref="triggerRef"
     @popup-visible-change="(v) => $emit('popup-visible-change', v)"
@@ -22,9 +22,9 @@
   >
     <slot />
     <template #content>
-      <div class="yc-dropdown" ref="contentRef">
+      <div class="yc-dropdown">
         <yc-scrollbar style="max-height: 200px; overflow: auto">
-          <div class="yc-dropdown-list" @click="handleClick">
+          <div class="yc-dropdown-list" @click="handleSelect">
             <slot name="content" />
           </div>
         </yc-scrollbar>
@@ -42,7 +42,6 @@ import { TriggerPostion } from '@/packages/Trigger/type';
 import { TRANSFORM_ORIGIN_MAP } from '@/packages/Trigger/constants';
 import { DropdownProps, DoptionValue } from './type';
 import { TriggerInstance } from '@/packages/Trigger';
-import { onClickOutside } from '@vueuse/core';
 import YcTrigger from '@/packages/Trigger/index.vue';
 import YcScrollbar from '@/packages/Scrollbar/index.vue';
 defineOptions({
@@ -53,6 +52,7 @@ const props = withDefaults(defineProps<DropdownProps>(), {
   defaultPopupVisible: false,
   trigger: 'click',
   position: 'bottom',
+  popupContainer: 'body',
   hideOnSelect: true,
 });
 const emits = defineEmits<{
@@ -74,10 +74,9 @@ const submenuPosition = computed(() => {
 const triggerPostion = ref<TriggerPostion>('bottom');
 // 触发器实例
 const triggerRef = ref<TriggerInstance>();
-// 内容实例
-const contentRef = ref<HTMLDivElement>();
 // 是否是子菜单
-const isSubmenu = (el: HTMLElement) => {
+const isSubmenu = (e: any) => {
+  const el = (e.target ? e.target : e) as HTMLElement;
   if (el.tagName == 'BODY' || el.classList.contains('yc-dropdown-list')) {
     return false;
   } else if (el.classList.contains('yc-dropdown-option-has-suffix')) {
@@ -86,11 +85,6 @@ const isSubmenu = (el: HTMLElement) => {
     return isSubmenu(el.parentElement as HTMLElement);
   }
 };
-provide('isSubmenu', isSubmenu);
-onClickOutside(contentRef, (e) => {
-  if (isSubmenu(e.target as HTMLElement)) return;
-  triggerRef.value?.hide();
-});
 // 查找选项
 const findDoption = (el: HTMLElement): boolean => {
   const classList = el.classList;
@@ -115,7 +109,7 @@ const findDoption = (el: HTMLElement): boolean => {
 // 提供给submenu使用
 provide('findDoption', findDoption);
 // 处理选项点击
-const handleClick = (e: MouseEvent) => {
+const handleSelect = (e: MouseEvent) => {
   const isClose = findDoption(e.target as HTMLElement);
   if (hideOnSelect.value && isClose) {
     triggerRef.value?.hide();

@@ -1,4 +1,5 @@
 import { CSSProperties } from 'vue';
+import { Fn } from '../_type';
 
 export type TriggerPostion =
   | 'top'
@@ -52,4 +53,6 @@ export type TriggerProps = {
   renderToBody?: boolean;
   updateAtScroll?: boolean;
   preventFocus?: boolean;
+  clickOutSideIngoreFn?: Fn;
+  clickOutsideCallback?: Fn;
 };

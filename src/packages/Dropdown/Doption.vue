@@ -7,6 +7,7 @@
     }"
     :data-doption="doptionInfo"
     @click="handleClick"
+    ref="optionRef"
   >
     <div v-if="$slots.icon" class="yc-dropdown-option-icon">
       <slot name="icon" />
@@ -21,7 +22,7 @@
 </template>
 
 <script lang="ts" setup>
-import { toRefs, computed } from 'vue';
+import { ref, toRefs, computed } from 'vue';
 import { DoptionProps } from './type';
 defineOptions({
   name: 'Doption',
@@ -33,6 +34,7 @@ const emits = defineEmits<{
   (e: 'click', ev: MouseEvent): void;
 }>();
 const { value, disabled } = toRefs(props);
+const optionRef = ref<HTMLDivElement>();
 // 计算optionInfo
 const doptionInfo = computed(() => {
   return JSON.stringify({
@@ -45,6 +47,12 @@ const handleClick = (ev: MouseEvent) => {
   if (disabled.value) return;
   emits('click', ev);
 };
+
+defineExpose({
+  getRef() {
+    return optionRef.value as HTMLDivElement;
+  },
+});
 </script>
 
 <style lang="less" scoped>

@@ -44,7 +44,7 @@
 
 <script lang="ts" setup>
 import { ref, computed, useSlots, CSSProperties, toRefs, VNode } from 'vue';
-import { useElementBounding, useResizeObserver } from '@vueuse/core';
+import { useElementBounding, useElementSize } from '@vueuse/core';
 import useTriggerVisible from '@/packages/_hooks/useTriggerVisible';
 import useTriggerPosition from '@/packages/_hooks/useTriggerPosition';
 import { TriggerProps, TriggerPostion } from './type';
@@ -110,6 +110,7 @@ const {
   autoFitPopupMinWidth,
   updateAtScroll,
 } = toRefs(props);
+const { clickOutSideIngoreFn, clickOutsideCallback } = props;
 // content的ref
 const contentRef = ref<HTMLDivElement>();
 // trigger的ref
@@ -148,6 +149,8 @@ const {
   mouseLeaveDelay,
   focusDelay,
   contentRef,
+  clickOutSideIngoreFn,
+  clickOutsideCallback,
   emits,
 });
 // 初始化trigger地计算参数
@@ -216,13 +219,13 @@ function initTrigger() {
   } = useElementBounding(triggerRef, {
     windowScroll: updateAtScroll.value,
   });
-  const contentWidth = ref<number>(0);
-  const contentHeight = ref<number>(0);
-  // content的宽高
-  useResizeObserver(contentRef, () => {
-    contentWidth.value = contentRef.value!.offsetWidth;
-    contentHeight.value = contentRef.value!.offsetHeight;
-  });
+  const { width: contentWidth, height: contentHeight } = useElementSize(
+    contentRef,
+    undefined,
+    {
+      box: 'border-box',
+    }
+  );
   return {
     left,
     top,
@@ -243,17 +246,6 @@ defineExpose({
     computedVisible.value = true;
   },
 });
-
-// import { watchEffect } from 'vue';
-// const { disabled, unmountOnClose } = toRefs(props);
-// watchEffect(() => {
-//   console.log(computedVisible.value, 'computedVisible');
-//   console.log(unmountOnClose.value, 'unmountOnClose');
-//   console.log(disabled.value, 'disabled');
-// });
-// watchEffect(() => {
-//   console.log(right.value, 'right');
-// });
 </script>
 
 <style lang="less" scoped>
