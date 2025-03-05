@@ -244,16 +244,16 @@ defineExpose({
   },
 });
 
-import { watchEffect } from 'vue';
+// import { watchEffect } from 'vue';
 // const { disabled, unmountOnClose } = toRefs(props);
 // watchEffect(() => {
 //   console.log(computedVisible.value, 'computedVisible');
 //   console.log(unmountOnClose.value, 'unmountOnClose');
 //   console.log(disabled.value, 'disabled');
 // });
-watchEffect(() => {
-  console.log(right.value, 'right');
-});
+// watchEffect(() => {
+//   console.log(right.value, 'right');
+// });
 </script>
 
 <style lang="less" scoped>

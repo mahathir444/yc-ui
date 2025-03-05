@@ -7,3 +7,5 @@ export type CloseType =
   | 'confirmBtn'
   | 'esc'
   | '';
+
+export type Fn = (...args: any) => any;

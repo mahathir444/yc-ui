@@ -5,8 +5,7 @@
     :popup-visible="popupVisible"
     :default-popup-visible="defaultPopupVisible"
     :trigger="trigger"
-    :popup-container="popupContainer"
-    :position="position"
+    :position="submenuPosition"
     :content-style="{
       ...($attrs.contentStyle || {}),
       transformOrigin: TRANSFORM_ORIGIN_MAP[triggerPostion],
@@ -38,7 +37,7 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, provide, toRefs } from 'vue';
+import { ref, provide, toRefs, computed } from 'vue';
 import { TriggerPostion } from '@/packages/Trigger/type';
 import { TRANSFORM_ORIGIN_MAP } from '@/packages/Trigger/constants';
 import { DropdownProps, DoptionValue } from './type';
@@ -53,6 +52,7 @@ const props = withDefaults(defineProps<DropdownProps>(), {
   popupVisible: undefined,
   defaultPopupVisible: false,
   trigger: 'click',
+  position: 'bottom',
   hideOnSelect: true,
 });
 const emits = defineEmits<{
@@ -62,7 +62,14 @@ const emits = defineEmits<{
   (e: 'hide'): void;
   (e: 'select', value: DoptionValue): void;
 }>();
-const { hideOnSelect } = toRefs(props);
+const { hideOnSelect, position } = toRefs(props);
+// 位置
+const submenuPosition = computed(() => {
+  if (!['top', 'tl', 'tr', 'bottom', 'bl', 'br'].includes(position.value)) {
+    return 'bottom';
+  }
+  return position.value;
+});
 // 当前的位置
 const triggerPostion = ref<TriggerPostion>('bottom');
 // 触发器实例
@@ -71,26 +78,18 @@ const triggerRef = ref<TriggerInstance>();
 const contentRef = ref<HTMLDivElement>();
 // 是否是子菜单
 const isSubmenu = (el: HTMLElement) => {
-  console.log('el', el);
   if (el.tagName == 'BODY' || el.classList.contains('yc-dropdown-list')) {
     return false;
   } else if (el.classList.contains('yc-dropdown-option-has-suffix')) {
-    return el;
+    return true;
   } else {
     return isSubmenu(el.parentElement as HTMLElement);
   }
 };
 provide('isSubmenu', isSubmenu);
 onClickOutside(contentRef, (e) => {
-  const el = e.target as HTMLElement;
-  const o = isSubmenu(el) as HTMLDivElement;
-  if (o) {
-    const { right } = o.getBoundingClientRect();
-    console.log(right, 'client');
-    return;
-  } else {
-    triggerRef.value?.hide();
-  }
+  if (isSubmenu(e.target as HTMLElement)) return;
+  triggerRef.value?.hide();
 });
 // 查找选项
 const findDoption = (el: HTMLElement): boolean => {

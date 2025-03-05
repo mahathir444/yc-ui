@@ -5,7 +5,7 @@
     :popup-visible="popupVisible"
     :default-popup-visible="defaultPopupVisible"
     :trigger="trigger"
-    :position="position"
+    :position="dropdownPotision"
     :content-style="{
       ...($attrs.contentStyle || {}),
       transformOrigin: TRANSFORM_ORIGIN_MAP[triggerPostion],
@@ -48,9 +48,10 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, inject } from 'vue';
+import { ref, inject, computed, toRefs } from 'vue';
 import { TriggerPostion } from '@/packages/Trigger/type';
 import { TRANSFORM_ORIGIN_MAP } from '@/packages/Trigger/constants';
+import { Fn } from '@/packages/_type';
 import { DsubmenuProps } from './type';
 import { TriggerInstance } from '@/packages/Trigger';
 import { onClickOutside } from '@vueuse/core';
@@ -60,7 +61,7 @@ import YcDoption from './Doption.vue';
 defineOptions({
   name: 'Dsubmenu',
 });
-withDefaults(defineProps<DsubmenuProps>(), {
+const props = withDefaults(defineProps<DsubmenuProps>(), {
   popupVisible: undefined,
   defaultPopupVisible: false,
   trigger: 'click',
@@ -73,31 +74,32 @@ const emits = defineEmits<{
   (e: 'show'): void;
   (e: 'hide'): void;
 }>();
-const findDoption = inject('findDoption') as (...args: any) => any;
-const isSubmenu = inject('isSubmenu') as (...args: any) => any;
-// 内容实例
-const contentRef = ref<HTMLDivElement>();
-// 可见性
-const visible = ref<boolean>(false);
+const { position } = toRefs(props);
+
+// 位置
+const dropdownPotision = computed(() => {
+  if (!['rt', 'lt'].includes(position.value)) {
+    return 'rt';
+  }
+  return position.value;
+});
 // 当前的位置
 const triggerPostion = ref<TriggerPostion>('rt');
+// 可见性
+const visible = ref<boolean>(false);
 // 触发器实例
 const triggerRef = ref<TriggerInstance>();
+// 内容实例
+const contentRef = ref<HTMLDivElement>();
+const findDoption = inject('findDoption') as Fn;
+const isSubmenu = inject('isSubmenu') as Fn;
 // 处理点击option
 const handleClick = (e: MouseEvent) => {
   findDoption(e.target as HTMLElement);
 };
 onClickOutside(contentRef, (e) => {
-  const el = e.target as HTMLElement;
-  const o = isSubmenu(el) as HTMLDivElement;
-  if (o) {
-    const { right } = o.getBoundingClientRect();
-    console.log(right, 'client');
-    if (visible.value) {
-      triggerRef.value?.hide();
-    } else {
-      triggerRef.value?.show();
-    }
+  if (isSubmenu(e.target as HTMLElement) && !visible.value) {
+    triggerRef.value?.show();
   } else {
     triggerRef.value?.hide();
   }
