@@ -1,12 +1,6 @@
 <template>
-  <div class="yc-dropdown-button">
-    <yc-button
-      :disabled="disabled"
-      :type="type"
-      :size="size"
-      v-bind="buttonProps"
-      @click="(ev) => $emit('click', ev)"
-    >
+  <yc-button-group :disabled="disabled" :type="type" :size="size">
+    <yc-button v-bind="buttonProps" @click="(ev) => $emit('click', ev)">
       <slot />
     </yc-button>
     <yc-dropdown
@@ -21,12 +15,7 @@
       @select="(v) => $emit('select', v)"
       @popup-visible-change="(v) => $emit('popup-visible-change', v)"
     >
-      <yc-button
-        :disabled="disabled"
-        :type="type"
-        :size="size"
-        v-bind="buttonProps"
-      >
+      <yc-button v-bind="buttonProps">
         <template #icon>
           <slot name="icon">
             <svg-icon name="more" />
@@ -37,13 +26,14 @@
         <slot name="content"></slot>
       </template>
     </yc-dropdown>
-  </div>
+  </yc-button-group>
 </template>
 
 <script lang="ts" setup>
 import { DropdownButtonProps, DoptionValue } from './type';
-import YcButton from '@/packages/Button/Button.vue';
 import YcDropdown from './Dropdown.vue';
+import YcButton from '@/packages/Button/Button.vue';
+import YcButtonGroup from '@/packages/Button/ButtonGroup.vue';
 defineOptions({
   name: 'DropdownButton',
 });
@@ -67,24 +57,3 @@ defineEmits<{
   (e: 'select', value: DoptionValue): void;
 }>();
 </script>
-
-<style lang="less" scoped>
-.yc-dropdown-button {
-  display: flex;
-  align-items: center;
-
-  .yc-button {
-    flex-shrink: 0;
-    border-radius: 0;
-    &:first-child {
-      border-top-left-radius: 2px;
-      border-bottom-left-radius: 2px;
-      border-right: 1px solid rgb(229, 230, 235);
-    }
-    &:last-child {
-      border-top-right-radius: 2px;
-      border-bottom-right-radius: 2px;
-    }
-  }
-}
-</style>
