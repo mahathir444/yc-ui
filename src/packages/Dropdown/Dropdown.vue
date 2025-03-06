@@ -40,7 +40,14 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, provide, toRefs, computed, WritableComputedRef } from 'vue';
+import {
+  ref,
+  provide,
+  toRefs,
+  computed,
+  WritableComputedRef,
+  watch,
+} from 'vue';
 import { TriggerPostion } from '@/packages/Trigger/type';
 import { TRANSFORM_ORIGIN_MAP } from '@/packages/Trigger/constants';
 import { DropdownProps, DoptionValue } from './type';
@@ -66,18 +73,9 @@ const emits = defineEmits<{
   (e: 'select', value: DoptionValue, ev: MouseEvent): void;
 }>();
 const { hideOnSelect, position } = toRefs(props);
-provide('emits', emits);
-provide('hideOnSelect', hideOnSelect);
-// 记录组件内部嵌套的层级
-const level = 0;
-const curLevel = ref<number>(0);
-provide('level', level);
-provide('curLevel', curLevel);
+
 // 触发器实例
 const triggerRef = ref<TriggerInstance>();
-provide('hide', () => {
-  triggerRef.value?.hide();
-});
 // 位置
 const submenuPosition = computed(() => {
   if (!['top', 'tl', 'tr', 'bottom', 'bl', 'br'].includes(position.value)) {
@@ -87,6 +85,13 @@ const submenuPosition = computed(() => {
 });
 // 当前的位置
 const triggerPostion = ref<TriggerPostion>('bottom');
+// 记录组件内部嵌套的层级,当curLevel小于level关闭
+const level = 0;
+const curLevel = ref<number>(0);
+provide('emits', emits);
+provide('hideOnSelect', hideOnSelect);
+provide('level', level);
+provide('curLevel', curLevel);
 // 是否是option
 const isOption = (e: any) => {
   const el = e.target ?? e;
@@ -111,6 +116,11 @@ const clickOutsideCb = (visible: WritableComputedRef<boolean>, e: any) => {
 const mouseenterCallback = () => {
   curLevel.value = 0;
 };
+// 检测层级的改变自动关闭
+watch(curLevel, (v) => {
+  if (v >= level) return;
+  triggerRef.value?.hide();
+});
 </script>
 
 <style lang="less">

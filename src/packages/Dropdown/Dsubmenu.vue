@@ -135,15 +135,14 @@ const handleCalcStyle = () => {
     };
   }
 };
+// 判断target是否是option
 const isOption = inject('isOption') as Fn;
-const hide = inject('hide') as Fn;
 const curLevel = inject('curLevel') as Ref<number>;
 const level = (inject('level') as number) + 1;
 provide('level', level);
 const timeout = inject('timeout') as Ref<NodeJS.Timeout | null>;
 // 鼠标进入
 const handleMouseenter = async () => {
-  curLevel.value = level;
   if (timeout.value) {
     clearTimeout(timeout.value);
   }
@@ -168,7 +167,7 @@ const handleMouseleave = (e: MouseEvent) => {
     if (isOption(e.relatedTarget)) {
       computedVisible.value = false;
     } else {
-      hide();
+      curLevel.value = -1;
     }
   }, 100);
 };
@@ -179,11 +178,10 @@ const handleClick = async () => {
   await nextTick();
   handleCalcStyle();
 };
-// 检测层级的改变自动
+// 检测层级的改变自动关闭
 watch(curLevel, (v) => {
-  if (level > v) {
-    computedVisible.value = false;
-  }
+  if (v >= level) return;
+  computedVisible.value = false;
 });
 </script>
 

@@ -7,6 +7,7 @@
     }"
     @click="handleClick"
     ref="doptionRef"
+    @mouseenter="handleMouseenter"
   >
     <div v-if="$slots.icon" class="yc-dropdown-option-icon">
       <slot name="icon" />
@@ -39,8 +40,10 @@ const { value, disabled, isSubmenu } = toRefs(props);
 const hideOnSelect = inject('hideOnSelect') as Ref<boolean>;
 // dropdown的emits
 const dEmits = inject('emits') as Fn;
-// 隐藏函数
-const hide = inject('hide') as Fn;
+// 当前的层级
+const level = inject('level') as number;
+// 当前组件的层级
+const curLevel = inject('curLevel') as Ref<number>;
 // 自身实例
 const doptionRef = ref<HTMLDivElement>();
 // 处理后缀点击
@@ -50,7 +53,11 @@ const handleClick = (ev: MouseEvent) => {
   if (isSubmenu.value) return;
   dEmits('select', value.value);
   if (!hideOnSelect.value) return;
-  hide();
+  curLevel.value = -1;
+};
+// 鼠标进入的时候处理层级
+const handleMouseenter = () => {
+  curLevel.value = level;
 };
 
 defineExpose({
