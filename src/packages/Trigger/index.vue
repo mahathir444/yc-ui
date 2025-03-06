@@ -129,7 +129,8 @@ const {
   autoFitPosition,
   alignPoint,
 } = toRefs(props);
-const { clickOutSideIngoreFn, clickOutsideCallback } = props;
+const { clickOutSideIngoreFn, clickOutsideCallback, mouseenterCallback } =
+  props;
 // content的ref
 const contentRef = ref<HTMLDivElement>();
 // trigger的ref
@@ -171,6 +172,7 @@ const {
   contentRef,
   clickOutSideIngoreFn,
   clickOutsideCallback,
+  mouseenterCallback,
   emits,
 });
 // 初始化trigger地计算参数

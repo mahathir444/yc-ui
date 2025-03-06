@@ -1,6 +1,4 @@
-import { CSSProperties } from 'vue';
-import { Fn } from '../_type';
-
+import { CSSProperties, WritableComputedRef } from 'vue';
 export type TriggerPostion =
   | 'top'
   | 'tl'
@@ -56,8 +54,10 @@ export type TriggerProps = {
   alignPoint?: boolean;
   scrollToClose?: boolean;
   scrollToCloseDistance?: number;
-  clickOutSideIngoreFn?: Fn;
-  clickOutsideCallback?: Fn;
-  mouseenterCallback?: Fn;
-  mouseleaveCallback?: Fn;
+  clickOutSideIngoreFn?: (e: any) => void;
+  clickOutsideCallback?: (
+    visible: WritableComputedRef<boolean>,
+    e: any
+  ) => void;
+  mouseenterCallback?: (e: MouseEvent) => void;
 };

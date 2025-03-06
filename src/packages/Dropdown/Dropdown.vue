@@ -11,8 +11,9 @@
       transformOrigin: TRANSFORM_ORIGIN_MAP[triggerPostion],
     }"
     :show-arrow="false"
-    :click-out-side-ingore-fn="isSubmenu"
+    :click-out-side-ingore-fn="isOption"
     :click-outside-callback="clickOutsideCb"
+    :mouseenter-callback="mouseenterCallback"
     animation-name="slide-dynamic-origin"
     auto-fit-popup-min-width
     ref="triggerRef"
@@ -67,6 +68,11 @@ const emits = defineEmits<{
 const { hideOnSelect, position } = toRefs(props);
 provide('emits', emits);
 provide('hideOnSelect', hideOnSelect);
+// 记录组件内部嵌套的层级
+const level = 0;
+const curLevel = ref<number>(0);
+provide('level', level);
+provide('curLevel', curLevel);
 // 触发器实例
 const triggerRef = ref<TriggerInstance>();
 provide('hide', () => {
@@ -81,19 +87,9 @@ const submenuPosition = computed(() => {
 });
 // 当前的位置
 const triggerPostion = ref<TriggerPostion>('bottom');
-// 是否是子菜单
-const isSubmenu = (e: any) => {
-  const el = (e.target ? e.target : e) as HTMLElement;
-  if (el.tagName == 'BODY' || el.classList.contains('yc-dropdown-list')) {
-    return false;
-  } else if (el.classList.contains('yc-dropdown-option-has-suffix')) {
-    return true;
-  } else {
-    return isSubmenu(el.parentElement as HTMLElement);
-  }
-};
 // 是否是option
-const isOption = (el: HTMLElement) => {
+const isOption = (e: any) => {
+  const el = e.target ?? e;
   if (el.tagName == 'BODY') {
     return false;
   } else if (
@@ -108,9 +104,12 @@ const isOption = (el: HTMLElement) => {
 provide('isOption', isOption);
 // 处理点击到外面
 const clickOutsideCb = (visible: WritableComputedRef<boolean>, e: any) => {
-  const el = e.target ?? e;
-  if (isOption(el) && !hideOnSelect.value) return;
+  if (isOption(e)) return;
   visible.value = false;
+};
+// 鼠标enter进入的回调
+const mouseenterCallback = () => {
+  curLevel.value = 0;
 };
 </script>
 

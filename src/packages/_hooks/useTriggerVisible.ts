@@ -16,8 +16,9 @@ export default (params: {
   focusDelay: Ref<number>;
   preventFocus: Ref<boolean>;
   contentRef: Ref<HTMLDivElement | undefined>;
-  clickOutSideIngoreFn: Fn | undefined;
-  clickOutsideCallback: Fn | undefined;
+  clickOutSideIngoreFn?: Fn;
+  mouseenterCallback?: Fn;
+  clickOutsideCallback?: Fn;
   emits: Fn;
 }) => {
   const {
@@ -34,6 +35,7 @@ export default (params: {
     contentRef,
     clickOutSideIngoreFn,
     clickOutsideCallback,
+    mouseenterCallback,
     emits,
   } = params;
   // 受控的visible
@@ -85,7 +87,10 @@ export default (params: {
     }
   };
   // 鼠标进入
-  const handleMouseenter = () => {
+  const handleMouseenter = (e: MouseEvent) => {
+    if (mouseenterCallback) {
+      mouseenterCallback(e);
+    }
     if (timeout.value) clearTimeout(timeout.value);
     if (trigger.value != 'hover' || computedVisible.value) return;
     timeout.value = setTimeout(() => {

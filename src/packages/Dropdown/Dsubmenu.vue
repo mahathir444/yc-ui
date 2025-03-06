@@ -5,8 +5,8 @@
     value=""
     ref="doptionRef"
     @click="handleClick"
-    @mouseenter="handleMouseenter(true)"
-    @mouseleave="handleMouseleave"
+    @mouseenter="handleMouseenter"
+    @mouseleave="handleMouseleave($event)"
   >
     <slot />
     <template #suffix>
@@ -20,8 +20,8 @@
         class="yc-dropdown-submenu"
         :style="contentStyle"
         ref="contentRef"
-        @mouseenter="handleMouseenter(false)"
-        @mouseleave="handleMouseleave"
+        @mouseenter="handleMouseenter"
+        @mouseleave="handleMouseleave($event)"
       >
         <yc-scrollbar style="max-height: 200px; overflow: auto">
           <div class="yc-dropdown-list">
@@ -46,6 +46,7 @@ import {
   nextTick,
   Ref,
   provide,
+  watch,
 } from 'vue';
 import { Fn } from '@/packages/_type';
 import { isUndefined } from '@/packages/_utils/is';
@@ -58,7 +59,7 @@ defineOptions({
 const props = withDefaults(defineProps<DsubmenuProps>(), {
   popupVisible: undefined,
   defaultPopupVisible: false,
-  trigger: 'click',
+  trigger: 'hover',
   position: 'rt',
   disabled: false,
 });
@@ -136,14 +137,13 @@ const handleCalcStyle = () => {
 };
 const isOption = inject('isOption') as Fn;
 const hide = inject('hide') as Fn;
-const timeout = inject('timeout') as Ref<NodeJS.Timeout>;
-const level = inject('level', 1);
-provide('level', level + 1);
+const curLevel = inject('curLevel') as Ref<number>;
+const level = (inject('level') as number) + 1;
+provide('level', level);
+const timeout = inject('timeout') as Ref<NodeJS.Timeout | null>;
 // 鼠标进入
-const handleMouseenter = async (isTrigger: boolean) => {
-  if (isTrigger) {
-    console.log('level', level);
-  }
+const handleMouseenter = async () => {
+  curLevel.value = level;
   if (timeout.value) {
     clearTimeout(timeout.value);
   }
@@ -158,7 +158,6 @@ const handleMouseenter = async (isTrigger: boolean) => {
 };
 // 鼠标离开
 const handleMouseleave = (e: MouseEvent) => {
-  const { relatedTarget } = e;
   if (timeout.value) {
     clearTimeout(timeout.value);
   }
@@ -166,7 +165,7 @@ const handleMouseleave = (e: MouseEvent) => {
     return;
   }
   timeout.value = setTimeout(() => {
-    if (isOption(relatedTarget)) {
+    if (isOption(e.relatedTarget)) {
       computedVisible.value = false;
     } else {
       hide();
@@ -180,6 +179,12 @@ const handleClick = async () => {
   await nextTick();
   handleCalcStyle();
 };
+// 检测层级的改变自动
+watch(curLevel, (v) => {
+  if (level > v) {
+    computedVisible.value = false;
+  }
+});
 </script>
 
 <style lang="less">
