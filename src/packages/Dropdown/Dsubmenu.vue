@@ -45,14 +45,12 @@ import {
   nextTick,
   Ref,
   onMounted,
-  provide,
 } from 'vue';
 import { Fn } from '@/packages/_type';
 import { isUndefined } from '@/packages/_utils/is';
 import { DsubmenuProps } from './type';
 import { TriggerInstance } from '@/packages/Trigger';
 import YcScrollbar from '@/packages/Scrollbar/index.vue';
-
 import YcDoption from './Doption.vue';
 defineOptions({
   name: 'Dsubmenu',
@@ -143,9 +141,18 @@ const handleCalcStyle = () => {
 const isOption = inject('isOption') as Fn;
 const dropdownRef = inject('dropdownRef') as Ref<TriggerInstance>;
 let timer = ref<NodeJS.Timeout>();
+let x = -1;
 // 鼠标进入
-const handleMouseenter = async () => {
-  if (timer.value) clearTimeout(timer.value);
+const handleMouseenter = async (e: MouseEvent) => {
+  const { offsetX } = e;
+  if (x >= 0) {
+    const dir = x < offsetX ? 'left' : 'right';
+    console.log(dir, 'dir');
+  }
+  x = offsetX;
+  if (timer.value) {
+    clearTimeout(timer.value);
+  }
   if (menuTrigger.value != 'hover' || computedVisible.value) return;
   timer.value = setTimeout(async () => {
     computedVisible.value = true;
@@ -155,8 +162,8 @@ const handleMouseenter = async () => {
 };
 // 鼠标离开
 const handleMouseleave = (e: MouseEvent) => {
-  const target = e.target as HTMLDivElement;
-  const relatedTarget = e.relatedTarget as HTMLDivElement;
+  const { offsetX, relatedTarget } = e;
+  x = offsetX;
   if (timer.value) {
     clearTimeout(timer.value);
   }

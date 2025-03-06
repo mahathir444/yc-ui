@@ -1,4 +1,6 @@
 import { TriggerType, PopupContainer } from '@/packages/Trigger/type';
+import { ButtonProps, ButtonType } from '@/packages/Button/type';
+import { Size } from '../_type';
 export interface DropdownProps {
   popupVisible?: boolean;
   defaultPopupVisible?: boolean;
@@ -21,4 +23,17 @@ export interface DsubmenuProps {
   position?: 'rt' | 'lt';
   popupVisible?: boolean;
   defaultPopupVisible?: boolean;
+}
+
+export interface DropdownButtonProps {
+  popupVisible?: boolean;
+  defaultPopupVisible?: boolean;
+  trigger?: TriggerType;
+  position?: 'top' | 'tr' | 'tl' | 'bottom' | 'br' | 'bl';
+  popupContainer?: PopupContainer;
+  disabled?: boolean;
+  type: ButtonType;
+  size: Size;
+  buttonProps: ButtonProps;
+  hideOnSelect?: boolean;
 }

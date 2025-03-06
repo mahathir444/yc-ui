@@ -104,6 +104,18 @@
       </template>
       <template #footer> sdadsa </template>
     </a-dropdown>
+
+    <yc-dropdown-button>
+      测试
+      <template #content>
+        <YcDoption v-for="i in 6" :key="i" :value="i">
+          <template #icon>
+            <IconApps />
+          </template>
+          数字{{ i }}
+        </YcDoption>
+      </template>
+    </yc-dropdown-button>
   </div>
 </template>
 
@@ -116,6 +128,7 @@ import YcDropdown from '@/packages/Dropdown/Dropdown.vue';
 import YcDoption from '@/packages/Dropdown/Doption.vue';
 import YcDgroup from '@/packages/Dropdown/DGroup.vue';
 import YcDsubmenu from '@/packages/Dropdown/Dsubmenu.vue';
+import YcDropdownButton from '@/packages/Dropdown/DropdownButton.vue';
 const total = ref(1);
 const handleSelect = (v: any) => {
   console.log(v);
