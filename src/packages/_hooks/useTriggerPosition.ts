@@ -17,6 +17,7 @@ export default (params: {
   contentHeight: Ref<number>;
   popupTranslate: Ref<number[]>;
   popupOffset: Ref<number>;
+  autoFitPosition: Ref<boolean>;
   emits: (...args: any) => any;
 }) => {
   const {
@@ -31,6 +32,7 @@ export default (params: {
     contentWidth,
     popupTranslate,
     popupOffset,
+    autoFitPosition,
     emits,
   } = params;
   // 动态计算当前的位置
@@ -39,6 +41,8 @@ export default (params: {
   const wrapperPosition = computed(() => {
     let offsetTop = 0;
     let offsetLeft = 0;
+    // 计算偏移量
+    const { offsetX, offsetY } = calcOffset();
     // 初始位置计算
     if (['top', 'tl', 'tr', 'bottom', 'bl', 'br'].includes(position.value)) {
       offsetTop = position.value.startsWith('t')
@@ -62,6 +66,13 @@ export default (params: {
       } else {
         offsetTop = bottom.value - contentHeight.value;
       }
+    }
+    // 如果不进行边界检测
+    if (!autoFitPosition.value) {
+      return {
+        top: `${offsetTop + offsetY}px`,
+        left: `${offsetLeft + offsetX}px`,
+      };
     }
     // 边界检测
     if (['top', 'tl', 'tr', 'bottom', 'bl', 'br'].includes(position.value)) {
@@ -98,27 +109,14 @@ export default (params: {
       }
     }
     // 计算trigger当前的位置
-    triggerPosition.value = getCurrentPosition(
+    triggerPosition.value = calcCurrentPosition(
       offsetLeft,
       offsetTop
     ) as TriggerPostion;
     emits('position-change', triggerPosition.value);
-    // 计算便宜量
-    let offsetX = 0;
-    let offsetY = 0;
-    if (triggerPosition.value.startsWith('t')) {
-      offsetY = -popupOffset.value;
-    } else if (triggerPosition.value.startsWith('b')) {
-      offsetY = popupOffset.value;
-    } else if (triggerPosition.value.startsWith('l')) {
-      offsetX = -popupOffset.value;
-    } else if (triggerPosition.value.startsWith('r')) {
-      offsetX = popupOffset.value;
-    }
-    const [translateX, translateY] = popupTranslate.value;
     return {
-      top: `${offsetTop + translateY + offsetY}px`,
-      left: `${offsetLeft + translateX + offsetX}px`,
+      top: `${offsetTop + offsetY}px`,
+      left: `${offsetLeft + offsetX}px`,
     };
   });
   // 计算arrow的位置
@@ -162,8 +160,29 @@ export default (params: {
       transform: `${TRANSLATE_MAP[triggerPosition.value]} rotate(45deg)`,
     } as CSSProperties;
   });
+  // 计算偏移量
+  function calcOffset() {
+    const [translateX, translateY] = popupTranslate.value;
+    // 计算偏移量
+    let offsetX = translateX;
+    let offsetY = translateY;
+    if (triggerPosition.value.startsWith('t')) {
+      offsetY = -popupOffset.value;
+    } else if (triggerPosition.value.startsWith('b')) {
+      offsetY = popupOffset.value;
+    } else if (triggerPosition.value.startsWith('l')) {
+      offsetX = -popupOffset.value;
+    } else if (triggerPosition.value.startsWith('r')) {
+      offsetX = popupOffset.value;
+    }
+
+    return {
+      offsetX,
+      offsetY,
+    };
+  }
   // 根据offsettop与offsetleft反向计算当前的位置
-  function getCurrentPosition(offsetLeft: number, offsetTop: number) {
+  function calcCurrentPosition(offsetLeft: number, offsetTop: number) {
     const epsilon = 0.00001; // 定义一个小的容差值
     const dirArray = [
       //上

@@ -20,8 +20,8 @@ export type TriggerType = 'hover' | 'click' | 'focus' | 'contextMenu';
 export type PopupContainer = string | HTMLElement;
 
 /**
- *  已经被内置：auto-fix-position、update-at-scroll、auto-fit-position
- *  尚未实现：alignPoint、scroll-to-close、scroll-to-close-distance;
+ *  已经被内置：auto-fix-position
+ *  尚未实现：alignPoint;
  */
 export type TriggerProps = {
   popupVisible?: boolean;
@@ -51,8 +51,11 @@ export type TriggerProps = {
   autoFitPopupMinWidth?: boolean;
   popupContainer?: PopupContainer;
   renderToBody?: boolean;
+  autoFitPosition?: boolean;
   updateAtScroll?: boolean;
   preventFocus?: boolean;
+  scrollToClose?: boolean;
+  scrollToCloseDistance?: number;
   clickOutSideIngoreFn?: Fn;
   clickOutsideCallback?: Fn;
   mouseenterCallback?: Fn;

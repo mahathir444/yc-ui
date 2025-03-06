@@ -43,11 +43,20 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, computed, useSlots, CSSProperties, toRefs, VNode } from 'vue';
+import {
+  ref,
+  computed,
+  useSlots,
+  CSSProperties,
+  toRefs,
+  VNode,
+  watchEffect,
+} from 'vue';
 import { useElementBounding, useElementSize } from '@vueuse/core';
 import useTriggerVisible from '@/packages/_hooks/useTriggerVisible';
 import useTriggerPosition from '@/packages/_hooks/useTriggerPosition';
 import { TriggerProps, TriggerPostion } from './type';
+import { debounce } from 'lodash-es';
 defineOptions({
   name: 'Trigger',
 });
@@ -81,7 +90,10 @@ const props = withDefaults(defineProps<TriggerProps>(), {
   autoFitPopupMinWidth: false,
   popupContainer: 'body',
   renderToBody: true,
-  updateAtScroll: false,
+  autoFitPosition: true,
+  updateAtScroll: true,
+  scrollToClose: false,
+  scrollToCloseDistance: 0.1,
   preventFocus: false,
 });
 const emits = defineEmits<{
@@ -111,6 +123,9 @@ const {
   autoFitPopupWidth,
   autoFitPopupMinWidth,
   updateAtScroll,
+  scrollToClose,
+  scrollToCloseDistance,
+  autoFitPosition,
 } = toRefs(props);
 const {
   clickOutSideIngoreFn,
@@ -187,6 +202,7 @@ const { wrapperPosition, arrowPostion } = useTriggerPosition({
   contentWidth,
   popupTranslate,
   popupOffset,
+  autoFitPosition,
   emits,
 });
 // contentCss
@@ -236,6 +252,22 @@ function initTrigger() {
       box: 'border-box',
     }
   );
+  if (scrollToClose.value) {
+    let oldLeft = left.value;
+    let oldTop = top.value;
+    watchEffect(() => {
+      const distanceX = Math.abs(oldLeft - left.value);
+      const distanceY = Math.abs(oldTop - top.value);
+      if (
+        distanceX >= scrollToCloseDistance.value ||
+        distanceY >= scrollToCloseDistance.value
+      ) {
+        computedVisible.value = false;
+      }
+      oldLeft = left.value;
+      oldTop = top.value;
+    });
+  }
   return {
     left,
     top,

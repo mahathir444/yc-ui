@@ -14,7 +14,7 @@
     </yc-scrollbar>
 
     <!--  -->
-    <!-- <yc-popover>
+    <yc-popover trigger="click">
       <a-button>popover</a-button>
       <template #content>
         <div style="width: 200px">
@@ -22,14 +22,6 @@
         </div>
       </template>
     </yc-popover>
-    <yc-tooltip>
-      <a-button>tooltip</a-button>
-      <template #content>
-        <div style="width: 200px">
-          <a-empty />
-        </div>
-      </template>
-    </yc-tooltip> -->
 
     <yc-dropdown @select="handleSelect">
       <a-button>dropdown</a-button>
@@ -147,6 +139,7 @@ const handleSelect = (v: any) => {
 .test {
   height: 100%;
   width: 100%;
+  height: 300vh;
   display: flex;
   flex-direction: column;
   justify-content: center;
