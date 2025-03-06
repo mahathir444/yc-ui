@@ -67,7 +67,7 @@ const props = withDefaults(defineProps<PopconfirmProps>(), {
   content: '',
   position: 'bottom',
   popupVisible: undefined,
-  defaultPopupVisible: true,
+  defaultPopupVisible: false,
   type: 'info',
   okText: '确定',
   cancelText: '取消',

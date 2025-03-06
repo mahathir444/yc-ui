@@ -15,6 +15,7 @@ export type DoptionValue = string | number | boolean;
 export interface DoptionProps {
   value: DoptionValue;
   disabled?: boolean;
+  isSubmenu?: boolean;
 }
 
 export interface DsubmenuProps {

@@ -1,10 +1,11 @@
 <template>
   <YcDoption
     :disabled="disabled"
-    value="submenu"
+    is-submenu
+    value=""
     ref="doptionRef"
     @click="handleClick"
-    @mouseenter="handleMouseenter"
+    @mouseenter="handleMouseenter(true)"
     @mouseleave="handleMouseleave"
   >
     <slot />
@@ -19,11 +20,11 @@
         class="yc-dropdown-submenu"
         :style="contentStyle"
         ref="contentRef"
-        @mouseenter="handleMouseenter"
+        @mouseenter="handleMouseenter(false)"
         @mouseleave="handleMouseleave"
       >
         <yc-scrollbar style="max-height: 200px; overflow: auto">
-          <div class="yc-dropdown-list" @click="handleSelect">
+          <div class="yc-dropdown-list">
             <slot name="content" />
           </div>
         </yc-scrollbar>
@@ -44,12 +45,11 @@ import {
   CSSProperties,
   nextTick,
   Ref,
-  onMounted,
+  provide,
 } from 'vue';
 import { Fn } from '@/packages/_type';
 import { isUndefined } from '@/packages/_utils/is';
 import { DsubmenuProps } from './type';
-import { TriggerInstance } from '@/packages/Trigger';
 import YcScrollbar from '@/packages/Scrollbar/index.vue';
 import YcDoption from './Doption.vue';
 defineOptions({
@@ -58,7 +58,7 @@ defineOptions({
 const props = withDefaults(defineProps<DsubmenuProps>(), {
   popupVisible: undefined,
   defaultPopupVisible: false,
-  trigger: 'hover',
+  trigger: 'click',
   position: 'rt',
   disabled: false,
 });
@@ -110,20 +110,16 @@ const menuTrigger = computed(() => {
 const doptionRef = ref<InstanceType<typeof YcDoption>>();
 // content的实例
 const contentRef = ref<HTMLDivElement>();
-// 查找option的函数
-const findDoption = inject('findDoption') as Fn;
-// 处理选择option
-const handleSelect = (e: MouseEvent) => {
-  findDoption(e.target as HTMLElement);
-};
 // 处理计算style
 const handleCalcStyle = () => {
+  const dom = doptionRef.value?.getRef();
+  if (!dom) return;
   const {
     left: offsetLeft,
     top: offsetTop,
     right: offsetRight,
     width,
-  } = doptionRef.value!.getRef().getBoundingClientRect();
+  } = dom.getBoundingClientRect();
   if (menuPotision.value == 'rt') {
     contentStyle.value = {
       left: `${offsetRight + 4}px`,
@@ -139,21 +135,21 @@ const handleCalcStyle = () => {
   }
 };
 const isOption = inject('isOption') as Fn;
-const dropdownRef = inject('dropdownRef') as Ref<TriggerInstance>;
+const hide = inject('hide') as Fn;
 const timeout = inject('timeout') as Ref<NodeJS.Timeout>;
-let x = -1;
+const level = inject('level', 1);
+provide('level', level + 1);
 // 鼠标进入
-const handleMouseenter = async (e: MouseEvent) => {
-  const { pageX } = e;
-  if (x >= 0) {
-    const dir = x < pageX ? 'left' : 'right';
-    console.log(dir, 'dir');
+const handleMouseenter = async (isTrigger: boolean) => {
+  if (isTrigger) {
+    console.log('level', level);
   }
-  x = pageX;
   if (timeout.value) {
     clearTimeout(timeout.value);
   }
-  if (menuTrigger.value != 'hover' || computedVisible.value) return;
+  if (menuTrigger.value != 'hover' || computedVisible.value) {
+    return;
+  }
   timeout.value = setTimeout(async () => {
     computedVisible.value = true;
     await nextTick();
@@ -162,17 +158,18 @@ const handleMouseenter = async (e: MouseEvent) => {
 };
 // 鼠标离开
 const handleMouseleave = (e: MouseEvent) => {
-  const { pageX, relatedTarget } = e;
-  x = pageX;
+  const { relatedTarget } = e;
   if (timeout.value) {
     clearTimeout(timeout.value);
   }
-  if (menuTrigger.value != 'hover' || !computedVisible.value) return;
+  if (menuTrigger.value != 'hover' || !computedVisible.value) {
+    return;
+  }
   timeout.value = setTimeout(() => {
     if (isOption(relatedTarget)) {
       computedVisible.value = false;
     } else {
-      dropdownRef.value?.hide();
+      hide();
     }
   }, 100);
 };

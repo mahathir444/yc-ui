@@ -14,7 +14,7 @@
     </yc-scrollbar>
 
     <!--  -->
-    <yc-popover trigger="click" alignPoint>
+    <yc-popover trigger="click">
       <div style="background-color: aqua; width: 300px; height: 300px"></div>
       <template #content>
         <div style="width: 200px">
@@ -139,7 +139,6 @@ const handleSelect = (v: any) => {
 .test {
   height: 100%;
   width: 100%;
-  height: 300vh;
   display: flex;
   flex-direction: column;
   justify-content: center;
