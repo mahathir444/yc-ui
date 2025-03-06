@@ -25,3 +25,24 @@ export const STATUS_CLASS = {
   danger: 'yc-button-status-danger',
   normal: '',
 };
+
+export const GROUP_SHAPE_CLASS = {
+  round: 'yc-button-group-shape-round',
+  circle: 'yc-button-group-shape-circle',
+  square: 'yc-button-group-shape-square',
+};
+
+export const GROUP_TYPE_CLASS = {
+  primary: 'yc-button-group-primary',
+  secondary: 'yc-button-group-secondary',
+  dashed: 'yc-button-group-dashed',
+  outline: 'yc-button-group-outline',
+  text: 'yc-button-group-text',
+};
+
+export const GROUP_STAUTS_CLASS = {
+  warning: 'yc-button-group-status-warning',
+  success: 'yc-button-group-status-success',
+  danger: 'yc-button-group-status-danger',
+  normal: '',
+};

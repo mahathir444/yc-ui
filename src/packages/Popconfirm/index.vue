@@ -59,7 +59,7 @@ import { TYPE_CLASS } from './constants';
 import { PopconfirmProps } from './type';
 import { TriggerInstance } from '@/packages/Trigger';
 import YcTrigger from '@/packages/Trigger/index.vue';
-import YcButton from '@/packages/Button/index.vue';
+import YcButton from '@/packages/Button/Button.vue';
 defineOptions({
   name: 'Popconfirm',
 });

@@ -116,6 +116,13 @@
         </YcDoption>
       </template>
     </yc-dropdown-button>
+
+    <a-button-group type="dashed" status="success" size="large" shape="circle">
+      <a-button> 测试 </a-button>
+      <a-button> 测试 </a-button>
+      <a-button> 测试 </a-button>
+      <a-button> 测试 </a-button>
+    </a-button-group>
   </div>
 </template>
 
@@ -129,6 +136,7 @@ import YcDoption from '@/packages/Dropdown/Doption.vue';
 import YcDgroup from '@/packages/Dropdown/DGroup.vue';
 import YcDsubmenu from '@/packages/Dropdown/Dsubmenu.vue';
 import YcDropdownButton from '@/packages/Dropdown/DropdownButton.vue';
+import YcButton, { ButtonGroup as YcButtonGroup } from '@/packages/Button';
 const total = ref(1);
 const handleSelect = (v: any) => {
   console.log(v);

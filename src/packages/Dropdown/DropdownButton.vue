@@ -42,7 +42,7 @@
 
 <script lang="ts" setup>
 import { DropdownButtonProps, DoptionValue } from './type';
-import YcButton from '@/packages/Button/index.vue';
+import YcButton from '@/packages/Button/Button.vue';
 import YcDropdown from './Dropdown.vue';
 defineOptions({
   name: 'DropdownButton',

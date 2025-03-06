@@ -54,7 +54,7 @@
 import { ref } from 'vue';
 import { InputSearchProps } from './type';
 import YcInput from './Input.vue';
-import YcButton from '@/packages/Button/index.vue';
+import YcButton from '@/packages/Button/Button.vue';
 import YcIconButton from '@/packages/_components/IconButton/index.vue';
 defineOptions({
   name: 'InputSearch',

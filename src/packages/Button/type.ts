@@ -23,3 +23,11 @@ export interface ButtonProps {
   disabled?: boolean;
   htmlType?: ButtonHtmlType;
 }
+
+export interface ButtonGroupProps {
+  type?: ButtonType;
+  status?: ButtonStatus;
+  shape?: ButtonShape;
+  size?: Size;
+  disabled?: boolean;
+}

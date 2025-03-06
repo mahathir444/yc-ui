@@ -36,10 +36,11 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, toRefs } from 'vue';
+import { computed, toRefs, inject, Ref } from 'vue';
 import { SIZE_MAP } from '@/packages/_constants';
 import { SIZE_CLASS, TYPE_CLASS, STATUS_CLASS, SHAPE_CLASS } from './constants';
-import { ButtonProps } from './type';
+import { ButtonProps, ButtonType, ButtonShape, ButtonStatus } from './type';
+import { Size } from '@/packages/_type';
 defineOptions({
   name: 'Button',
 });
@@ -58,7 +59,20 @@ const emits = defineEmits<{
   (e: 'dblclick', event: MouseEvent): void;
   (e: 'contextmenu', event: MouseEvent): void;
 }>();
-const { size, disabled, loading } = toRefs(props);
+const {
+  loading,
+  size: tempSize,
+  disabled: tempDisabled,
+  type: tempType,
+  status: tempStatus,
+  shape: tempShape,
+} = toRefs(props);
+// buttonGroup接收的属性
+const type = inject('type', tempType) as Ref<ButtonType>;
+const status = inject('status', tempStatus) as Ref<ButtonStatus>;
+const size = inject('size', tempSize) as Ref<Size>;
+const shape = inject('shape', tempShape) as Ref<ButtonShape>;
+const disabled = inject('disabled', tempDisabled) as Ref<boolean>;
 // 当前的size
 const sizeToPx = computed(() => SIZE_MAP[size.value] + 'px');
 // shape为round的borderRadius

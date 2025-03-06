@@ -32,8 +32,8 @@ export interface DropdownButtonProps {
   position?: 'top' | 'tr' | 'tl' | 'bottom' | 'br' | 'bl';
   popupContainer?: PopupContainer;
   disabled?: boolean;
-  type: ButtonType;
-  size: Size;
-  buttonProps: ButtonProps;
+  type?: ButtonType;
+  size?: Size;
+  buttonProps?: ButtonProps;
   hideOnSelect?: boolean;
 }
