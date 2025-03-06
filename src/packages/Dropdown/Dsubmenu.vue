@@ -140,21 +140,21 @@ const handleCalcStyle = () => {
 };
 const isOption = inject('isOption') as Fn;
 const dropdownRef = inject('dropdownRef') as Ref<TriggerInstance>;
-let timer = ref<NodeJS.Timeout>();
+const timeout = inject('timeout') as Ref<NodeJS.Timeout>;
 let x = -1;
 // 鼠标进入
 const handleMouseenter = async (e: MouseEvent) => {
-  const { offsetX } = e;
+  const { pageX } = e;
   if (x >= 0) {
-    const dir = x < offsetX ? 'left' : 'right';
+    const dir = x < pageX ? 'left' : 'right';
     console.log(dir, 'dir');
   }
-  x = offsetX;
-  if (timer.value) {
-    clearTimeout(timer.value);
+  x = pageX;
+  if (timeout.value) {
+    clearTimeout(timeout.value);
   }
   if (menuTrigger.value != 'hover' || computedVisible.value) return;
-  timer.value = setTimeout(async () => {
+  timeout.value = setTimeout(async () => {
     computedVisible.value = true;
     await nextTick();
     handleCalcStyle();
@@ -162,13 +162,13 @@ const handleMouseenter = async (e: MouseEvent) => {
 };
 // 鼠标离开
 const handleMouseleave = (e: MouseEvent) => {
-  const { offsetX, relatedTarget } = e;
-  x = offsetX;
-  if (timer.value) {
-    clearTimeout(timer.value);
+  const { pageX, relatedTarget } = e;
+  x = pageX;
+  if (timeout.value) {
+    clearTimeout(timeout.value);
   }
   if (menuTrigger.value != 'hover' || !computedVisible.value) return;
-  timer.value = setTimeout(() => {
+  timeout.value = setTimeout(() => {
     if (isOption(relatedTarget)) {
       computedVisible.value = false;
     } else {
@@ -183,10 +183,6 @@ const handleClick = async () => {
   await nextTick();
   handleCalcStyle();
 };
-
-onMounted(() => {
-  timer = inject('timer') as Ref<NodeJS.Timeout>;
-});
 </script>
 
 <style lang="less">

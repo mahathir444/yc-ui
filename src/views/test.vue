@@ -14,8 +14,8 @@
     </yc-scrollbar>
 
     <!--  -->
-    <yc-popover trigger="click">
-      <a-button>popover</a-button>
+    <yc-popover trigger="click" alignPoint>
+      <div style="background-color: aqua; width: 300px; height: 300px"></div>
       <template #content>
         <div style="width: 200px">
           <a-empty />

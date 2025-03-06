@@ -146,10 +146,6 @@ const clickOutsideCb = (visible: WritableComputedRef<boolean>, e: any) => {
   if (isOption(el) && !hideOnSelect.value) return;
   visible.value = false;
 };
-
-onMounted(() => {
-  provide('timer', triggerRef.value!.getTimer());
-});
 </script>
 
 <style lang="less">

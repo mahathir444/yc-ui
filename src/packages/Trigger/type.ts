@@ -21,7 +21,6 @@ export type PopupContainer = string | HTMLElement;
 
 /**
  *  已经被内置：auto-fix-position
- *  尚未实现：alignPoint;
  */
 export type TriggerProps = {
   popupVisible?: boolean;
@@ -54,6 +53,7 @@ export type TriggerProps = {
   autoFitPosition?: boolean;
   updateAtScroll?: boolean;
   preventFocus?: boolean;
+  alignPoint?: boolean;
   scrollToClose?: boolean;
   scrollToCloseDistance?: number;
   clickOutSideIngoreFn?: Fn;

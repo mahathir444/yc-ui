@@ -1,4 +1,4 @@
-import { TriggerPostion } from '@/packages/Trigger/type';
+import { TriggerPostion, TriggerType } from '@/packages/Trigger/type';
 import {
   BORDER_MAP,
   BORDER_RADIUS_MAP,
@@ -11,6 +11,10 @@ export default (params: {
   top: Ref<number>;
   bottom: Ref<number>;
   right: Ref<number>;
+  trigger: Ref<TriggerType>;
+  mouseX: Ref<number>;
+  mouseY: Ref<number>;
+  alignPoint: Ref<boolean>;
   triggerWidth: Ref<number>;
   triggerHeight: Ref<number>;
   contentWidth: Ref<number>;
@@ -26,6 +30,10 @@ export default (params: {
     top,
     bottom,
     right,
+    trigger,
+    mouseX,
+    mouseY,
+    alignPoint,
     triggerHeight,
     triggerWidth,
     contentHeight,
@@ -39,10 +47,17 @@ export default (params: {
   const triggerPosition = ref<TriggerPostion>(position.value);
   // 计算content的位置
   const wrapperPosition = computed(() => {
-    let offsetTop = 0;
-    let offsetLeft = 0;
     // 计算偏移量
     const { offsetX, offsetY } = calcOffset();
+    // 如果跟随鼠标点击位置
+    if (alignPoint.value && ['click', 'contextMenu'].includes(trigger.value)) {
+      return {
+        top: `${mouseY.value + offsetX + offsetY}px`,
+        left: `${mouseX.value - contentWidth.value / 2 + offsetY + offsetX}px`,
+      };
+    }
+    let offsetTop = 0;
+    let offsetLeft = 0;
     // 初始位置计算
     if (['top', 'tl', 'tr', 'bottom', 'bl', 'br'].includes(position.value)) {
       offsetTop = position.value.startsWith('t')
