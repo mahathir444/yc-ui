@@ -24,7 +24,14 @@
     >
       <slot name="resize-trigger" :direction="item">
         <div class="yc-resizebox-trigger-icon-wrapper">
-          <slot name="resize-trigger-icon" :direction="item">X</slot>
+          <slot name="resize-trigger-icon" :direction="item">
+            <svg-icon
+              :name="
+                getDir(item) === 'vertical' ? 'drag-dot-vertical' : 'drag-dot'
+              "
+              :size="12"
+            />
+          </slot>
         </div>
       </slot>
     </div>
@@ -35,7 +42,7 @@
 import { ref, onMounted, computed, watch } from 'vue';
 import { ResizeBoxProps, DirectionType } from './type';
 import { useResizeObserver, useEventListener } from '@vueuse/core';
-
+import SvgIcon from '@/packages/_components/SvgIcon/index.vue';
 defineOptions({
   name: 'ResizeBox',
 });
@@ -97,6 +104,7 @@ const observerTriggerSize = () => {
   );
 };
 const getSize = (v: string): number => {
+  if (v.includes('%')) return 0;
   const sizeStr = v.split('px')[0];
   const size = parseFloat(sizeStr);
   return isNaN(size) ? 0 : size;
@@ -105,15 +113,20 @@ const computedStyle = computed(() => {
   if (boxRef.value) {
     const style = window.getComputedStyle(boxRef.value);
     return {
-      width: getSize(style.width),
-      height: getSize(style.height),
+      width: boxRef.value.offsetWidth,
+      height: boxRef.value.offsetHeight,
       minWidth: getSize(style.minWidth),
       maxWidth: getSize(style.maxWidth),
       minHeight: getSize(style.minHeight),
       maxHeight: getSize(style.maxHeight),
     };
   }
-  return {};
+  return {
+    minWidth: 0,
+    maxWidth: 0,
+    minHeight: 0,
+    maxHeight: 0,
+  };
 });
 
 const boxStyle = computed(() => {
@@ -139,8 +152,6 @@ const hanClickTrigger = (direction: DirectionType, e: MouseEvent) => {
 useEventListener('mousemove', (e) => {
   if (!resizingDrigger.value) return;
   if (!oldPos) return;
-  if (!computedStyle.value.width) return;
-  if (!computedStyle.value.height) return;
   if (['right', 'left'].includes(resizingDrigger.value)) {
     const oldWidth = width.value ?? computedStyle.value.width;
     const movementX = e.x - oldPos.x;
