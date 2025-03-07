@@ -39,8 +39,7 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, computed, toRefs } from 'vue';
-import { isUndefined } from '../_utils/is';
+import { ref, toRefs } from 'vue';
 import { InputPasswordProps } from './type';
 import YcInput from './Input.vue';
 import useControlValue from '@/packages/_hooks/useControlValue';
@@ -71,8 +70,6 @@ const computedVisibility = useControlValue<boolean>(
   defaultVisibility,
   (val) => {
     emits('update:visibility', val);
-  },
-  (val) => {
     emits('visibilityChange', val);
   }
 );

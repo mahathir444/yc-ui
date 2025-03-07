@@ -17,9 +17,11 @@ export default (
   // 外层visible，用于播放动画
   const outerVisible = ref<boolean>(false);
   // 内存visible，用于显示组件
-  const innerVisible = useControlValue(visible, defaultVisible, (val) => {
-    emits('update:visible', val);
-  });
+  const innerVisible = useControlValue<boolean>(
+    visible,
+    defaultVisible,
+    (val) => emits('update:visible', val)
+  );
   // 关闭类型
   const closeType = ref<CloseType>('');
   // 处理动画离开

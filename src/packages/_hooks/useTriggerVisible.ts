@@ -1,6 +1,5 @@
-import { Ref, computed, ref, provide, inject } from 'vue';
+import { Ref, ref, provide, inject } from 'vue';
 import { TriggerType } from '@/packages/Trigger/type';
-import { isUndefined } from '@/packages/_utils/is';
 import { onClickOutside } from '@vueuse/core';
 import { Fn } from '../_type';
 import useControlValue from './useControlValue';
@@ -45,8 +44,6 @@ export default (params: {
     defaultPopupVisible,
     (val) => {
       emits('update:popupVisible', val);
-    },
-    (val) => {
       emits('popup-visible-change', val);
     }
   );

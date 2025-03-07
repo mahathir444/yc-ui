@@ -54,6 +54,7 @@ import { DsubmenuProps } from './type';
 import YcScrollbar from '@/packages/Scrollbar/index.vue';
 import YcDoption from './Doption.vue';
 import useTriggerLevel from '@/packages/_hooks/useTriggerLevel';
+import useControlValue from '../_hooks/useControlValue';
 defineOptions({
   name: 'Dsubmenu',
 });
@@ -81,22 +82,11 @@ const {
   mouseLeaveDelay,
 } = toRefs(props);
 // 受控的visible
-const controlVisible = ref<boolean>(defaultPopupVisible.value);
-// visible
-const computedVisible = computed({
-  get() {
-    return !isUndefined(popupVisible.value)
-      ? popupVisible.value
-      : controlVisible.value;
-  },
-  set(val) {
-    if (!isUndefined(popupVisible.value)) {
-      emits('update:popupVisible', val);
-    } else {
-      controlVisible.value = val;
-    }
-  },
-});
+const computedVisible = useControlValue<boolean>(
+  popupVisible,
+  defaultPopupVisible,
+  (val) => emits('update:popupVisible', val)
+);
 // contentStyle
 const contentStyle = ref<CSSProperties>({
   left: 0,
