@@ -5,9 +5,9 @@
       'yc-dropdown-option-disabled': disabled,
       'yc-dropdown-option-has-suffix': $slots.suffix,
     }"
-    :data-doption="doptionInfo"
-    @click="handleClick"
     ref="doptionRef"
+    @click="handleClick"
+    @mouseenter="handleMouseenter"
   >
     <div v-if="$slots.icon" class="yc-dropdown-option-icon">
       <slot name="icon" />
@@ -22,31 +22,43 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, toRefs, computed } from 'vue';
+import { ref, toRefs, inject } from 'vue';
 import { DoptionProps } from './type';
+import { Fn } from '@/packages/_type';
 defineOptions({
   name: 'Doption',
 });
 const props = withDefaults(defineProps<DoptionProps>(), {
   disabled: false,
+  isSubmenu: false,
 });
 const emits = defineEmits<{
   (e: 'click', ev: MouseEvent): void;
 }>();
-const { value, disabled } = toRefs(props);
+const { value, disabled, isSubmenu } = toRefs(props);
+// 是否选择过后隐藏
+const hideOnSelect = inject('hideOnSelect', ref(false));
+// dropdown的emits
+const dEmits = inject('emits') as Fn;
+// 关闭函数
+const hide = inject('hide') as Fn;
+// 拿到当前的层级
+const level = inject('level', -1);
+const curLevel = inject('curLevel', ref(0));
 // 自身实例
 const doptionRef = ref<HTMLDivElement>();
-// 计算optionInfo
-const doptionInfo = computed(() => {
-  return JSON.stringify({
-    value: value.value,
-    disabled: disabled.value,
-  });
-});
 // 处理后缀点击
 const handleClick = (ev: MouseEvent) => {
   if (disabled.value) return;
   emits('click', ev);
+  if (isSubmenu.value) return;
+  dEmits('select', value.value);
+  if (!hideOnSelect.value) return;
+  hide();
+};
+// 鼠标进入的时候处理层级
+const handleMouseenter = () => {
+  curLevel.value = isSubmenu.value ? level - 1 : level;
 };
 
 defineExpose({

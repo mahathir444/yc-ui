@@ -1,11 +1,12 @@
 <template>
   <YcDoption
     :disabled="disabled"
-    value="submenu"
+    is-submenu
+    value=""
     ref="doptionRef"
     @click="handleClick"
     @mouseenter="handleMouseenter"
-    @mouseleave="handleMouseleave"
+    @mouseleave="handleMouseleave($event)"
   >
     <slot />
     <template #suffix>
@@ -17,13 +18,14 @@
       <div
         v-if="computedVisible && !disabled"
         class="yc-dropdown-submenu"
+        :data-group-id="groupId"
         :style="contentStyle"
         ref="contentRef"
         @mouseenter="handleMouseenter"
-        @mouseleave="handleMouseleave"
+        @mouseleave="handleMouseleave($event)"
       >
         <yc-scrollbar style="max-height: 200px; overflow: auto">
-          <div class="yc-dropdown-list" @click="handleSelect">
+          <div class="yc-dropdown-list">
             <slot name="content" />
           </div>
         </yc-scrollbar>
@@ -43,15 +45,15 @@ import {
   toRefs,
   CSSProperties,
   nextTick,
-  Ref,
-  onMounted,
+  watch,
+  provide,
 } from 'vue';
 import { Fn } from '@/packages/_type';
 import { isUndefined } from '@/packages/_utils/is';
 import { DsubmenuProps } from './type';
-import { TriggerInstance } from '@/packages/Trigger';
 import YcScrollbar from '@/packages/Scrollbar/index.vue';
 import YcDoption from './Doption.vue';
+import useTriggerLevel from '@/packages/_hooks/useTriggerLevel';
 defineOptions({
   name: 'Dsubmenu',
 });
@@ -61,6 +63,8 @@ const props = withDefaults(defineProps<DsubmenuProps>(), {
   trigger: 'hover',
   position: 'rt',
   disabled: false,
+  mouseEnterDelay: 150,
+  mouseLeaveDelay: 150,
 });
 const emits = defineEmits<{
   (e: 'update:popupVisible', value: boolean): void;
@@ -68,7 +72,14 @@ const emits = defineEmits<{
   (e: 'show'): void;
   (e: 'hide'): void;
 }>();
-const { position, defaultPopupVisible, popupVisible, trigger } = toRefs(props);
+const {
+  position,
+  defaultPopupVisible,
+  popupVisible,
+  trigger,
+  mouseEnterDelay,
+  mouseLeaveDelay,
+} = toRefs(props);
 // 受控的visible
 const controlVisible = ref<boolean>(defaultPopupVisible.value);
 // visible
@@ -110,20 +121,16 @@ const menuTrigger = computed(() => {
 const doptionRef = ref<InstanceType<typeof YcDoption>>();
 // content的实例
 const contentRef = ref<HTMLDivElement>();
-// 查找option的函数
-const findDoption = inject('findDoption') as Fn;
-// 处理选择option
-const handleSelect = (e: MouseEvent) => {
-  findDoption(e.target as HTMLElement);
-};
 // 处理计算style
 const handleCalcStyle = () => {
+  const dom = doptionRef.value?.getRef();
+  if (!dom) return;
   const {
     left: offsetLeft,
     top: offsetTop,
     right: offsetRight,
     width,
-  } = doptionRef.value!.getRef().getBoundingClientRect();
+  } = dom.getBoundingClientRect();
   if (menuPotision.value == 'rt') {
     contentStyle.value = {
       left: `${offsetRight + 4}px`,
@@ -138,43 +145,37 @@ const handleCalcStyle = () => {
     };
   }
 };
-const isOption = inject('isOption') as Fn;
-const dropdownRef = inject('dropdownRef') as Ref<TriggerInstance>;
-let timer = ref<NodeJS.Timeout>();
-let x = -1;
+// 处理嵌套关闭
+const { isSameGroup, groupId } = useTriggerLevel(() => {
+  if (menuTrigger.value != 'hover') return;
+  computedVisible.value = false;
+});
+// 关闭函数
+const hide = inject('hide') as Fn;
+// 标识用于取消
+const timeout = inject('timeout', ref<NodeJS.Timeout>());
 // 鼠标进入
-const handleMouseenter = async (e: MouseEvent) => {
-  const { offsetX } = e;
-  if (x >= 0) {
-    const dir = x < offsetX ? 'left' : 'right';
-    console.log(dir, 'dir');
-  }
-  x = offsetX;
-  if (timer.value) {
-    clearTimeout(timer.value);
-  }
+const handleMouseenter = async () => {
+  if (timeout.value) clearTimeout(timeout.value);
   if (menuTrigger.value != 'hover' || computedVisible.value) return;
-  timer.value = setTimeout(async () => {
+  timeout.value = setTimeout(async () => {
     computedVisible.value = true;
     await nextTick();
     handleCalcStyle();
-  }, 100);
+  }, mouseEnterDelay.value);
 };
 // 鼠标离开
 const handleMouseleave = (e: MouseEvent) => {
-  const { offsetX, relatedTarget } = e;
-  x = offsetX;
-  if (timer.value) {
-    clearTimeout(timer.value);
-  }
+  if (timeout.value) clearTimeout(timeout.value);
   if (menuTrigger.value != 'hover' || !computedVisible.value) return;
-  timer.value = setTimeout(() => {
-    if (isOption(relatedTarget)) {
+  timeout.value = setTimeout(() => {
+    console.log(isSameGroup(e.relatedTarget as HTMLDivElement), 'isSame');
+    if (isSameGroup(e.relatedTarget as HTMLDivElement)) {
       computedVisible.value = false;
     } else {
-      dropdownRef.value?.hide();
+      hide();
     }
-  }, 100);
+  }, mouseLeaveDelay.value);
 };
 //  点击
 const handleClick = async () => {
@@ -183,10 +184,6 @@ const handleClick = async () => {
   await nextTick();
   handleCalcStyle();
 };
-
-onMounted(() => {
-  timer = inject('timer') as Ref<NodeJS.Timeout>;
-});
 </script>
 
 <style lang="less">

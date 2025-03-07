@@ -15,6 +15,7 @@ export type DoptionValue = string | number | boolean;
 export interface DoptionProps {
   value: DoptionValue;
   disabled?: boolean;
+  isSubmenu?: boolean;
 }
 
 export interface DsubmenuProps {
@@ -23,6 +24,8 @@ export interface DsubmenuProps {
   position?: 'rt' | 'lt';
   popupVisible?: boolean;
   defaultPopupVisible?: boolean;
+  mouseEnterDelay?: number;
+  mouseLeaveDelay?: number;
 }
 
 export interface DropdownButtonProps {

@@ -1,6 +1,8 @@
 <template>
   <yc-trigger
     :popup-offset="4"
+    :mouse-enter-delay="150"
+    :mouse-leave-delay="150"
     v-bind="$attrs"
     :popup-visible="popupVisible"
     :default-popup-visible="defaultPopupVisible"
@@ -11,8 +13,14 @@
       transformOrigin: TRANSFORM_ORIGIN_MAP[triggerPostion],
     }"
     :show-arrow="false"
-    :click-out-side-ingore-fn="isSubmenu"
-    :click-outside-callback="clickOutsideCb"
+    :click-out-side-ingore-fn="isSameGroup"
+    :mouseenter-callback="
+      (isTrigger) => {
+        if (isTrigger) {
+          curLevel = level;
+        }
+      }
+    "
     animation-name="slide-dynamic-origin"
     auto-fit-popup-min-width
     ref="triggerRef"
@@ -24,9 +32,9 @@
   >
     <slot />
     <template #content>
-      <div class="yc-dropdown">
+      <div class="yc-dropdown" :data-group-id="groupId">
         <yc-scrollbar style="max-height: 200px; overflow: auto">
-          <div class="yc-dropdown-list" @click="handleSelect">
+          <div class="yc-dropdown-list">
             <slot name="content" />
           </div>
         </yc-scrollbar>
@@ -39,28 +47,21 @@
 </template>
 
 <script lang="ts" setup>
-import {
-  ref,
-  provide,
-  toRefs,
-  computed,
-  WritableComputedRef,
-  onMounted,
-  watch,
-} from 'vue';
+import { ref, provide, toRefs, computed, watch } from 'vue';
 import { TriggerPostion } from '@/packages/Trigger/type';
 import { TRANSFORM_ORIGIN_MAP } from '@/packages/Trigger/constants';
 import { DropdownProps, DoptionValue } from './type';
 import { TriggerInstance } from '@/packages/Trigger';
 import YcTrigger from '@/packages/Trigger/index.vue';
 import YcScrollbar from '@/packages/Scrollbar/index.vue';
+import useTriggerLevel from '@/packages/_hooks/useTriggerLevel';
 defineOptions({
   name: 'Dropdown',
 });
 const props = withDefaults(defineProps<DropdownProps>(), {
   popupVisible: undefined,
   defaultPopupVisible: false,
-  trigger: 'hover',
+  trigger: 'click',
   position: 'bottom',
   popupContainer: 'body',
   hideOnSelect: false,
@@ -70,9 +71,11 @@ const emits = defineEmits<{
   (e: 'popup-visible-change', value: boolean): void;
   (e: 'show'): void;
   (e: 'hide'): void;
-  (e: 'select', value: DoptionValue): void;
+  (e: 'select', value: DoptionValue, ev: MouseEvent): void;
 }>();
-const { hideOnSelect, position } = toRefs(props);
+const { hideOnSelect, position, trigger } = toRefs(props);
+// 触发器实例
+const triggerRef = ref<TriggerInstance>();
 // 位置
 const submenuPosition = computed(() => {
   if (!['top', 'tl', 'tr', 'bottom', 'bl', 'br'].includes(position.value)) {
@@ -82,73 +85,16 @@ const submenuPosition = computed(() => {
 });
 // 当前的位置
 const triggerPostion = ref<TriggerPostion>('bottom');
-// 触发器实例
-const triggerRef = ref<TriggerInstance>();
-provide('dropdownRef', triggerRef);
-// 是否是子菜单
-const isSubmenu = (e: any) => {
-  const el = (e.target ? e.target : e) as HTMLElement;
-  if (el.tagName == 'BODY' || el.classList.contains('yc-dropdown-list')) {
-    return false;
-  } else if (el.classList.contains('yc-dropdown-option-has-suffix')) {
-    return true;
-  } else {
-    return isSubmenu(el.parentElement as HTMLElement);
-  }
-};
-// 是否是option
-const isOption = (el: HTMLElement) => {
-  if (el.tagName == 'BODY') {
-    return false;
-  } else if (
-    el.classList.contains('yc-dropdown') ||
-    el.classList.contains('yc-dropdown-submenu')
-  ) {
-    return true;
-  } else {
-    return isOption(el.parentElement as HTMLDivElement);
-  }
-};
-provide('isOption', isOption);
-//查找选项
-const findDoption = (el: HTMLElement): boolean => {
-  const classList = el.classList;
-  if (
-    classList?.contains('yc-dropdown-option-has-suffix') ||
-    classList.contains('yc-dropdown-option-disabled') ||
-    classList?.contains('yc-dropdown-group-title') ||
-    classList?.contains('yc-dropdown-list')
-  ) {
-    return false;
-  } else if (classList?.contains('yc-dropdown-option')) {
-    const dataOption = el.getAttribute('data-doption') as string;
-    if (!dataOption) {
-      return false;
-    }
-    emits('select', JSON.parse(dataOption).value);
-    return true;
-  } else {
-    return findDoption(el.parentNode as HTMLElement);
-  }
-};
-// 提供给submenu使用
-provide('findDoption', findDoption);
-// 处理选项点击
-const handleSelect = (e: MouseEvent) => {
-  const isClose = findDoption(e.target as HTMLElement);
-  if (hideOnSelect.value && isClose) {
-    triggerRef.value?.hide();
-  }
-};
-// 处理点击到外面
-const clickOutsideCb = (visible: WritableComputedRef<boolean>, e: any) => {
-  const el = e.target ?? e;
-  if (isOption(el) && !hideOnSelect.value) return;
-  visible.value = false;
-};
-
-onMounted(() => {
-  provide('timer', triggerRef.value!.getTimer());
+// dropdown属性
+provide('emits', emits);
+provide('hideOnSelect', hideOnSelect);
+provide('hide', () => {
+  triggerRef.value?.hide();
+});
+// 处理嵌套关闭
+const { isSameGroup, level, curLevel, groupId } = useTriggerLevel(() => {
+  if (trigger.value != 'hover') return;
+  triggerRef.value?.hide();
 });
 </script>
 

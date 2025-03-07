@@ -3,7 +3,7 @@
     v-if="TriggerSlot"
     @click="handleClick"
     @contextmenu.prevent="handleContextmenu"
-    @mouseenter="handleMouseenter"
+    @mouseenter="handleMouseenter(true, $event)"
     @mouseleave="handleMouseleave"
     @mousedown="handleMousedown"
     @focus="handleFocus"
@@ -24,7 +24,7 @@
         :class="['yc-trigger', wrapperClass]"
         :style="wrapperPosition"
         ref="contentRef"
-        @mouseenter="handleMouseenter"
+        @mouseenter="handleMouseenter(false, $event)"
         @mouseleave="handleMouseleave"
       >
         <!-- content -->
@@ -43,11 +43,20 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, computed, useSlots, CSSProperties, toRefs, VNode } from 'vue';
+import {
+  ref,
+  computed,
+  useSlots,
+  CSSProperties,
+  toRefs,
+  VNode,
+  watchEffect,
+} from 'vue';
 import { useElementBounding, useElementSize } from '@vueuse/core';
 import useTriggerVisible from '@/packages/_hooks/useTriggerVisible';
 import useTriggerPosition from '@/packages/_hooks/useTriggerPosition';
 import { TriggerProps, TriggerPostion } from './type';
+import { SHAPE_FLAGS } from '@/packages/_constants';
 defineOptions({
   name: 'Trigger',
 });
@@ -81,8 +90,12 @@ const props = withDefaults(defineProps<TriggerProps>(), {
   autoFitPopupMinWidth: false,
   popupContainer: 'body',
   renderToBody: true,
-  updateAtScroll: false,
+  autoFitPosition: true,
+  updateAtScroll: true,
+  scrollToClose: false,
+  scrollToCloseDistance: 0.1,
   preventFocus: false,
+  alignPoint: false,
 });
 const emits = defineEmits<{
   (e: 'update:popupVisible', value: boolean): void;
@@ -111,13 +124,13 @@ const {
   autoFitPopupWidth,
   autoFitPopupMinWidth,
   updateAtScroll,
+  scrollToClose,
+  scrollToCloseDistance,
+  autoFitPosition,
+  alignPoint,
 } = toRefs(props);
-const {
-  clickOutSideIngoreFn,
-  clickOutsideCallback,
-  mouseenterCallback,
-  mouseleaveCallback,
-} = props;
+const { clickOutSideIngoreFn, clickOutsideCallback, mouseenterCallback } =
+  props;
 // content的ref
 const contentRef = ref<HTMLDivElement>();
 // trigger的ref
@@ -128,16 +141,16 @@ const slots = useSlots();
 const TriggerSlot = computed(() => {
   // 读取第一个不是插槽地vNode
   const _readNode = (vNode?: VNode) => {
-    if (!vNode || vNode.shapeFlag != 16) return vNode;
+    if (vNode?.shapeFlag != SHAPE_FLAGS.slot) return vNode;
     return _readNode((vNode.children as any)[0]);
   };
-  const node = _readNode(slots.default && slots.default()[0]);
-  return node;
+  return _readNode(slots.default && slots.default()[0]);
 });
 // 处理trigger关闭与开启
 const {
-  timer,
   computedVisible,
+  mouseX,
+  mouseY,
   handleMouseenter,
   handleMouseleave,
   handleFocus,
@@ -160,62 +173,17 @@ const {
   clickOutSideIngoreFn,
   clickOutsideCallback,
   mouseenterCallback,
-  mouseleaveCallback,
   emits,
 });
 // 初始化trigger地计算参数
-const {
-  left,
-  right,
-  top,
-  bottom,
-  triggerHeight,
-  triggerWidth,
-  contentHeight,
-  contentWidth,
-} = initTrigger();
-// 计算wrapper与arrow的位置信息
-const { wrapperPosition, arrowPostion } = useTriggerPosition({
-  position,
-  left,
-  top,
-  bottom,
-  right,
-  triggerHeight,
-  triggerWidth,
-  contentHeight,
-  contentWidth,
-  popupTranslate,
-  popupOffset,
-  emits,
-});
-// contentCss
-const contentCss = computed(() => {
-  return {
-    ...contentStyle.value,
-    width: autoFitPopupWidth.value ? `${triggerWidth.value}px` : '',
-    minWidth: autoFitPopupMinWidth.value ? `${triggerWidth.value}px` : '',
-  } as CSSProperties;
-});
-// arrowcss
-const arrowCss = computed(() => {
-  return {
-    ...arrowPostion.value,
-    ...arrowStyle.value,
-  } as CSSProperties;
-});
+const { wrapperPosition, contentCss, arrowCss } = initTrigger();
 // 初始化trigger
 function initTrigger() {
   if (!TriggerSlot.value) {
     return {
-      left: ref(0),
-      top: ref(0),
-      bottom: ref(0),
-      right: ref(0),
-      triggerWidth: ref(0),
-      triggerHeight: ref(0),
-      contentWidth: ref(0),
-      contentHeight: ref(0),
+      wrapperPosition: {},
+      contentCss: {},
+      arrowCss: {},
     };
   }
   // 获取trigger元素bounding
@@ -236,15 +204,63 @@ function initTrigger() {
       box: 'border-box',
     }
   );
-  return {
+  // 计算wrapper与arrow的位置信息
+  const { wrapperPosition, arrowPostion } = useTriggerPosition({
+    position,
     left,
     top,
     bottom,
     right,
-    triggerWidth,
+    mouseX,
+    mouseY,
+    alignPoint,
+    trigger,
     triggerHeight,
-    contentWidth,
+    triggerWidth,
     contentHeight,
+    contentWidth,
+    popupTranslate,
+    popupOffset,
+    autoFitPosition,
+    emits,
+  });
+  // contentCss
+  const contentCss = computed(() => {
+    return {
+      ...contentStyle.value,
+      width: autoFitPopupWidth.value ? `${triggerWidth.value}px` : '',
+      minWidth: autoFitPopupMinWidth.value ? `${triggerWidth.value}px` : '',
+    } as CSSProperties;
+  });
+  // arrowcss
+  const arrowCss = computed(() => {
+    return {
+      ...arrowPostion.value,
+      ...arrowStyle.value,
+    } as CSSProperties;
+  });
+  // 检测滚动关闭
+  if (scrollToClose.value) {
+    let oldLeft = left.value;
+    let oldTop = top.value;
+    watchEffect(() => {
+      if (!computedVisible.value) return;
+      const distanceX = Math.abs(oldLeft - left.value);
+      const distanceY = Math.abs(oldTop - top.value);
+      if (
+        distanceX >= scrollToCloseDistance.value ||
+        distanceY >= scrollToCloseDistance.value
+      ) {
+        computedVisible.value = false;
+      }
+      oldLeft = left.value;
+      oldTop = top.value;
+    });
+  }
+  return {
+    wrapperPosition,
+    contentCss,
+    arrowCss,
   };
 }
 
@@ -254,9 +270,6 @@ defineExpose({
   },
   show() {
     computedVisible.value = true;
-  },
-  getTimer() {
-    return timer;
   },
 });
 </script>

@@ -25,7 +25,7 @@
 </template>
 
 <script lang="ts" setup>
-import { toRefs, computed, inject } from 'vue';
+import { toRefs, computed } from 'vue';
 import { LinkProps } from './type';
 import { STATUS_CLASS } from './constants';
 defineOptions({

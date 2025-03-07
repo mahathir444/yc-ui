@@ -1,4 +1,4 @@
-import { TriggerPostion } from '@/packages/Trigger/type';
+import { TriggerPostion, TriggerType } from '@/packages/Trigger/type';
 import {
   BORDER_MAP,
   BORDER_RADIUS_MAP,
@@ -11,12 +11,17 @@ export default (params: {
   top: Ref<number>;
   bottom: Ref<number>;
   right: Ref<number>;
+  trigger: Ref<TriggerType>;
+  mouseX: Ref<number>;
+  mouseY: Ref<number>;
+  alignPoint: Ref<boolean>;
   triggerWidth: Ref<number>;
   triggerHeight: Ref<number>;
   contentWidth: Ref<number>;
   contentHeight: Ref<number>;
   popupTranslate: Ref<number[]>;
   popupOffset: Ref<number>;
+  autoFitPosition: Ref<boolean>;
   emits: (...args: any) => any;
 }) => {
   const {
@@ -25,18 +30,32 @@ export default (params: {
     top,
     bottom,
     right,
+    trigger,
+    mouseX,
+    mouseY,
+    alignPoint,
     triggerHeight,
     triggerWidth,
     contentHeight,
     contentWidth,
     popupTranslate,
     popupOffset,
+    autoFitPosition,
     emits,
   } = params;
   // 动态计算当前的位置
   const triggerPosition = ref<TriggerPostion>(position.value);
   // 计算content的位置
   const wrapperPosition = computed(() => {
+    // 计算偏移量
+    const { offsetX, offsetY } = calcOffset();
+    // 如果跟随鼠标点击位置
+    if (alignPoint.value && ['click', 'contextMenu'].includes(trigger.value)) {
+      return {
+        top: `${mouseY.value + offsetX + offsetY}px`,
+        left: `${mouseX.value - contentWidth.value / 2 + offsetY + offsetX}px`,
+      };
+    }
     let offsetTop = 0;
     let offsetLeft = 0;
     // 初始位置计算
@@ -62,6 +81,13 @@ export default (params: {
       } else {
         offsetTop = bottom.value - contentHeight.value;
       }
+    }
+    // 如果不进行边界检测
+    if (!autoFitPosition.value) {
+      return {
+        top: `${offsetTop + offsetY}px`,
+        left: `${offsetLeft + offsetX}px`,
+      };
     }
     // 边界检测
     if (['top', 'tl', 'tr', 'bottom', 'bl', 'br'].includes(position.value)) {
@@ -98,27 +124,14 @@ export default (params: {
       }
     }
     // 计算trigger当前的位置
-    triggerPosition.value = getCurrentPosition(
+    triggerPosition.value = calcCurrentPosition(
       offsetLeft,
       offsetTop
     ) as TriggerPostion;
     emits('position-change', triggerPosition.value);
-    // 计算便宜量
-    let offsetX = 0;
-    let offsetY = 0;
-    if (triggerPosition.value.startsWith('t')) {
-      offsetY = -popupOffset.value;
-    } else if (triggerPosition.value.startsWith('b')) {
-      offsetY = popupOffset.value;
-    } else if (triggerPosition.value.startsWith('l')) {
-      offsetX = -popupOffset.value;
-    } else if (triggerPosition.value.startsWith('r')) {
-      offsetX = popupOffset.value;
-    }
-    const [translateX, translateY] = popupTranslate.value;
     return {
-      top: `${offsetTop + translateY + offsetY}px`,
-      left: `${offsetLeft + translateX + offsetX}px`,
+      top: `${offsetTop + offsetY}px`,
+      left: `${offsetLeft + offsetX}px`,
     };
   });
   // 计算arrow的位置
@@ -162,8 +175,29 @@ export default (params: {
       transform: `${TRANSLATE_MAP[triggerPosition.value]} rotate(45deg)`,
     } as CSSProperties;
   });
+  // 计算偏移量
+  function calcOffset() {
+    const [translateX, translateY] = popupTranslate.value;
+    // 计算偏移量
+    let offsetX = translateX;
+    let offsetY = translateY;
+    if (triggerPosition.value.startsWith('t')) {
+      offsetY = -popupOffset.value;
+    } else if (triggerPosition.value.startsWith('b')) {
+      offsetY = popupOffset.value;
+    } else if (triggerPosition.value.startsWith('l')) {
+      offsetX = -popupOffset.value;
+    } else if (triggerPosition.value.startsWith('r')) {
+      offsetX = popupOffset.value;
+    }
+
+    return {
+      offsetX,
+      offsetY,
+    };
+  }
   // 根据offsettop与offsetleft反向计算当前的位置
-  function getCurrentPosition(offsetLeft: number, offsetTop: number) {
+  function calcCurrentPosition(offsetLeft: number, offsetTop: number) {
     const epsilon = 0.00001; // 定义一个小的容差值
     const dirArray = [
       //上

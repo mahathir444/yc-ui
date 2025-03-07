@@ -1,6 +1,4 @@
-import { CSSProperties } from 'vue';
-import { Fn } from '../_type';
-
+import { CSSProperties, WritableComputedRef } from 'vue';
 export type TriggerPostion =
   | 'top'
   | 'tl'
@@ -20,8 +18,7 @@ export type TriggerType = 'hover' | 'click' | 'focus' | 'contextMenu';
 export type PopupContainer = string | HTMLElement;
 
 /**
- *  已经被内置：auto-fix-position、update-at-scroll、auto-fit-position
- *  尚未实现：alignPoint、scroll-to-close、scroll-to-close-distance;
+ *  已经被内置：auto-fix-position
  */
 export type TriggerProps = {
   popupVisible?: boolean;
@@ -51,10 +48,16 @@ export type TriggerProps = {
   autoFitPopupMinWidth?: boolean;
   popupContainer?: PopupContainer;
   renderToBody?: boolean;
+  autoFitPosition?: boolean;
   updateAtScroll?: boolean;
   preventFocus?: boolean;
-  clickOutSideIngoreFn?: Fn;
-  clickOutsideCallback?: Fn;
-  mouseenterCallback?: Fn;
-  mouseleaveCallback?: Fn;
+  alignPoint?: boolean;
+  scrollToClose?: boolean;
+  scrollToCloseDistance?: number;
+  clickOutSideIngoreFn?: (e: HTMLElement) => void;
+  clickOutsideCallback?: (
+    visible: WritableComputedRef<boolean>,
+    e: HTMLElement
+  ) => void;
+  mouseenterCallback?: (isTrigger: boolean, e: MouseEvent) => void;
 };

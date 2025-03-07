@@ -47,7 +47,7 @@ defineOptions({
 });
 const props = withDefaults(defineProps<PopoverProps>(), {
   popupVisible: undefined,
-  defaultPopupVisible: true,
+  defaultPopupVisible: false,
   title: '',
   content: '',
   trigger: 'hover',
