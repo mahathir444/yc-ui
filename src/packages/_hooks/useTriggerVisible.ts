@@ -1,4 +1,4 @@
-import { Ref, computed, ref, provide } from 'vue';
+import { Ref, computed, ref, provide, inject } from 'vue';
 import { TriggerType } from '@/packages/Trigger/type';
 import { isUndefined } from '@/packages/_utils/is';
 import { onClickOutside } from '@vueuse/core';
@@ -17,7 +17,6 @@ export default (params: {
   preventFocus: Ref<boolean>;
   contentRef: Ref<HTMLDivElement | undefined>;
   clickOutSideIngoreFn?: Fn;
-  mouseenterCallback?: Fn;
   clickOutsideCallback?: Fn;
   emits: Fn;
 }) => {
@@ -35,7 +34,6 @@ export default (params: {
     contentRef,
     clickOutSideIngoreFn,
     clickOutsideCallback,
-    mouseenterCallback,
     emits,
   } = params;
   // 受控的visible
@@ -62,6 +60,11 @@ export default (params: {
   // 鼠标操作的位置
   const mouseX = ref<number>(0);
   const mouseY = ref<number>(0);
+  // 记录trigger嵌套的层级
+  const level = inject('level', 0);
+  // 记录当前处于嵌套的第几层级
+  const curLevel = inject('curLevel');
+  provide('level', level);
   // 点击
   const handleClick = (e: MouseEvent) => {
     if (timeout.value) clearTimeout(timeout.value);
@@ -87,10 +90,7 @@ export default (params: {
     }
   };
   // 鼠标进入
-  const handleMouseenter = (e: MouseEvent) => {
-    if (mouseenterCallback) {
-      mouseenterCallback(e);
-    }
+  const handleMouseenter = () => {
     if (timeout.value) clearTimeout(timeout.value);
     if (trigger.value != 'hover' || computedVisible.value) return;
     timeout.value = setTimeout(() => {

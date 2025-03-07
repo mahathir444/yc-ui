@@ -18,6 +18,7 @@
       <div
         v-if="computedVisible && !disabled"
         class="yc-dropdown-submenu"
+        :flag="flag"
         :style="contentStyle"
         ref="contentRef"
         @mouseenter="handleMouseenter"
@@ -48,6 +49,7 @@ import {
   provide,
   watch,
 } from 'vue';
+import { nanoid } from 'nanoid';
 import { Fn } from '@/packages/_type';
 import { isUndefined } from '@/packages/_utils/is';
 import { DsubmenuProps } from './type';
@@ -140,6 +142,13 @@ const isOption = inject('isOption') as Fn;
 const curLevel = inject('curLevel') as Ref<number>;
 const level = (inject('level') as number) + 1;
 provide('level', level);
+// 组件标识，用于标识submenu是否处于一个嵌套中
+const flag = nanoid();
+const flags = inject('flags') as Ref<string[]>;
+flags.value[level] = flag;
+console.log(flags);
+provide('flags', flags);
+// 标识用于取消
 const timeout = inject('timeout') as Ref<NodeJS.Timeout | null>;
 // 鼠标进入
 const handleMouseenter = async () => {
@@ -164,7 +173,7 @@ const handleMouseleave = (e: MouseEvent) => {
     return;
   }
   timeout.value = setTimeout(() => {
-    if (isOption(e.relatedTarget)) {
+    if (isOption(e.relatedTarget, flags.value)) {
       computedVisible.value = false;
     } else {
       curLevel.value = -1;
@@ -180,7 +189,7 @@ const handleClick = async () => {
 };
 // 检测层级的改变自动关闭
 watch(curLevel, (v) => {
-  if (v >= level) return;
+  if (v >= level || menuTrigger.value != 'hover') return;
   computedVisible.value = false;
 });
 </script>

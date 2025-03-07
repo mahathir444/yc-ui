@@ -59,5 +59,4 @@ export type TriggerProps = {
     visible: WritableComputedRef<boolean>,
     e: any
   ) => void;
-  mouseenterCallback?: (e: MouseEvent) => void;
 };
