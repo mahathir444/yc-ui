@@ -2,6 +2,7 @@ import { ref, Ref, computed, watch } from 'vue';
 import { useMagicKeys, whenever } from '@vueuse/core';
 import { isUndefined } from '@/packages/_utils/is';
 import { CloseType } from '@/packages/_type';
+import useControlValue from './useControlValue';
 
 export default (
   emits: (...args: any) => any,
@@ -15,21 +16,9 @@ export default (
   const { maskClosable, escToClose, visible, defaultVisible } = config;
   // 外层visible，用于播放动画
   const outerVisible = ref<boolean>(false);
-  // 非受控状态下的visible
-  const controlVisible = ref<boolean>(defaultVisible.value);
   // 内存visible，用于显示组件
-  const innerVisible = computed({
-    get() {
-      return !isUndefined(visible.value) ? visible.value : controlVisible.value;
-    },
-    set(val) {
-      // 如果是非受控状态关闭
-      if (!isUndefined(visible.value)) {
-        emits('update:visible', val);
-      } else {
-        controlVisible.value = val;
-      }
-    },
+  const innerVisible = useControlValue(visible, defaultVisible, (val) => {
+    emits('update:visible', val);
   });
   // 关闭类型
   const closeType = ref<CloseType>('');
@@ -77,7 +66,6 @@ export default (
 
   return {
     closeType,
-    controlVisible,
     outerVisible,
     innerVisible,
     handleClose,

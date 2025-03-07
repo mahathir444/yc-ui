@@ -65,29 +65,15 @@ const emits = defineEmits<{
   (e: 'visibilityChange', value: boolean): void;
 }>();
 const { defaultVisibility, visibility } = toRefs(props);
-// // 非受控的vis
-// const controlVisibility = ref<boolean>(defaultVisibility.value);
-// // vis的value,包括受控与非受控
-// const computedVisibility = computed({
-//   get() {
-//     return !isUndefined(visibility.value)
-//       ? visibility.value
-//       : controlVisibility.value;
-//   },
-//   set(val) {
-//     if (!isUndefined(visibility.value)) {
-
-//     } else {
-//       controlVisibility.value = val;
-//     }
-//     emits('visibilityChange', val);
-//   },
-// });
+// 非受控的vis
 const computedVisibility = useControlValue<boolean>(
   visibility,
   defaultVisibility,
   (val) => {
     emits('update:visibility', val);
+  },
+  (val) => {
+    emits('visibilityChange', val);
   }
 );
 // 组件实例

@@ -5,7 +5,8 @@ import { Fn } from '../_type';
 export default <T>(
   value: Ref<T | undefined>,
   defaultValue: Ref<T>,
-  onSet: Fn
+  onSet?: Fn,
+  onChange?: Fn
 ) => {
   const controlValue = ref<T>(defaultValue.value);
   return computed({
@@ -16,8 +17,9 @@ export default <T>(
       if (isUndefined(value?.value)) {
         controlValue.value = val;
       } else {
-        onSet(val);
+        onSet && onSet(val);
       }
+      onChange && onChange(val);
     },
   });
 };
