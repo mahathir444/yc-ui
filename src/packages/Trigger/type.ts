@@ -54,9 +54,10 @@ export type TriggerProps = {
   alignPoint?: boolean;
   scrollToClose?: boolean;
   scrollToCloseDistance?: number;
-  clickOutSideIngoreFn?: (e: any) => void;
+  clickOutSideIngoreFn?: (e: HTMLElement) => void;
   clickOutsideCallback?: (
     visible: WritableComputedRef<boolean>,
-    e: any
+    e: HTMLElement
   ) => void;
+  mouseenterCallback?: (isTrigger: boolean, e: MouseEvent) => void;
 };

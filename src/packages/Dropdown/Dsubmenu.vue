@@ -18,7 +18,7 @@
       <div
         v-if="computedVisible && !disabled"
         class="yc-dropdown-submenu"
-        :flag="flag"
+        :data-group-id="groupId"
         :style="contentStyle"
         ref="contentRef"
         @mouseenter="handleMouseenter"
@@ -45,16 +45,15 @@ import {
   toRefs,
   CSSProperties,
   nextTick,
-  Ref,
-  provide,
   watch,
+  provide,
 } from 'vue';
-import { nanoid } from 'nanoid';
 import { Fn } from '@/packages/_type';
 import { isUndefined } from '@/packages/_utils/is';
 import { DsubmenuProps } from './type';
 import YcScrollbar from '@/packages/Scrollbar/index.vue';
 import YcDoption from './Doption.vue';
+import useTriggerLevel from '@/packages/_hooks/useTriggerLevel';
 defineOptions({
   name: 'Dsubmenu',
 });
@@ -137,27 +136,16 @@ const handleCalcStyle = () => {
     };
   }
 };
-// 判断target是否是option
-const isOption = inject('isOption') as Fn;
-const curLevel = inject('curLevel') as Ref<number>;
-const level = (inject('level') as number) + 1;
-provide('level', level);
-// 组件标识，用于标识submenu是否处于一个嵌套中
-const flag = nanoid();
-const flags = inject('flags') as Ref<string[]>;
-flags.value[level] = flag;
-console.log(flags);
-provide('flags', flags);
+// 关闭函数
+const hide = inject('hide') as Fn;
+// 嵌套hook
+const { isSameGroup, level, curLevel, groupId } = useTriggerLevel();
 // 标识用于取消
-const timeout = inject('timeout') as Ref<NodeJS.Timeout | null>;
+const timeout = inject('timeout', ref<NodeJS.Timeout>());
 // 鼠标进入
 const handleMouseenter = async () => {
-  if (timeout.value) {
-    clearTimeout(timeout.value);
-  }
-  if (menuTrigger.value != 'hover' || computedVisible.value) {
-    return;
-  }
+  if (timeout.value) clearTimeout(timeout.value);
+  if (menuTrigger.value != 'hover' || computedVisible.value) return;
   timeout.value = setTimeout(async () => {
     computedVisible.value = true;
     await nextTick();
@@ -166,17 +154,14 @@ const handleMouseenter = async () => {
 };
 // 鼠标离开
 const handleMouseleave = (e: MouseEvent) => {
-  if (timeout.value) {
-    clearTimeout(timeout.value);
-  }
-  if (menuTrigger.value != 'hover' || !computedVisible.value) {
-    return;
-  }
+  if (timeout.value) clearTimeout(timeout.value);
+  if (menuTrigger.value != 'hover' || !computedVisible.value) return;
   timeout.value = setTimeout(() => {
-    if (isOption(e.relatedTarget, flags.value)) {
+    console.log(isSameGroup(e.relatedTarget as HTMLDivElement), 'isSame');
+    if (isSameGroup(e.relatedTarget as HTMLDivElement)) {
       computedVisible.value = false;
     } else {
-      curLevel.value = -1;
+      hide();
     }
   }, 100);
 };

@@ -3,7 +3,7 @@
     v-if="TriggerSlot"
     @click="handleClick"
     @contextmenu.prevent="handleContextmenu"
-    @mouseenter="handleMouseenter"
+    @mouseenter="handleMouseenter(true, $event)"
     @mouseleave="handleMouseleave"
     @mousedown="handleMousedown"
     @focus="handleFocus"
@@ -24,7 +24,7 @@
         :class="['yc-trigger', wrapperClass]"
         :style="wrapperPosition"
         ref="contentRef"
-        @mouseenter="handleMouseenter"
+        @mouseenter="handleMouseenter(false, $event)"
         @mouseleave="handleMouseleave"
       >
         <!-- content -->
@@ -129,7 +129,8 @@ const {
   autoFitPosition,
   alignPoint,
 } = toRefs(props);
-const { clickOutSideIngoreFn, clickOutsideCallback } = props;
+const { clickOutSideIngoreFn, clickOutsideCallback, mouseenterCallback } =
+  props;
 // content的ref
 const contentRef = ref<HTMLDivElement>();
 // trigger的ref
@@ -171,6 +172,7 @@ const {
   contentRef,
   clickOutSideIngoreFn,
   clickOutsideCallback,
+  mouseenterCallback,
   emits,
 });
 // 初始化trigger地计算参数

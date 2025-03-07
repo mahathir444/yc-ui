@@ -11,8 +11,15 @@
       transformOrigin: TRANSFORM_ORIGIN_MAP[triggerPostion],
     }"
     :show-arrow="false"
-    :click-out-side-ingore-fn="(e) => isOption(e, flags)"
+    :click-out-side-ingore-fn="isSameGroup"
     :click-outside-callback="clickOutsideCb"
+    :mouseenter-callback="
+      (isTrigger) => {
+        if (isTrigger) {
+          curLevel = level;
+        }
+      }
+    "
     animation-name="slide-dynamic-origin"
     auto-fit-popup-min-width
     ref="triggerRef"
@@ -24,7 +31,7 @@
   >
     <slot />
     <template #content>
-      <div class="yc-dropdown" :flag="flag">
+      <div class="yc-dropdown" :data-group-id="groupId">
         <yc-scrollbar style="max-height: 200px; overflow: auto">
           <div class="yc-dropdown-list">
             <slot name="content" />
@@ -42,19 +49,20 @@
 import {
   ref,
   provide,
+  inject,
   toRefs,
   computed,
   WritableComputedRef,
   watch,
-  inject,
 } from 'vue';
 import { TriggerPostion } from '@/packages/Trigger/type';
 import { TRANSFORM_ORIGIN_MAP } from '@/packages/Trigger/constants';
 import { DropdownProps, DoptionValue } from './type';
-import { nanoid } from 'nanoid';
 import { TriggerInstance } from '@/packages/Trigger';
+import { nanoid } from 'nanoid';
 import YcTrigger from '@/packages/Trigger/index.vue';
 import YcScrollbar from '@/packages/Scrollbar/index.vue';
+import useTriggerLevel from '@/packages/_hooks/useTriggerLevel';
 defineOptions({
   name: 'Dropdown',
 });
@@ -91,30 +99,15 @@ provide('hideOnSelect', hideOnSelect);
 provide('hide', () => {
   triggerRef.value?.hide();
 });
-// 记录组件内部嵌套的层级,当curLevel小于level关闭
-const level = 0;
-const curLevel = ref<number>(0);
-provide('level', level);
-provide('curLevel', curLevel);
-// 组件标识，用于标识submenu是否处于一个嵌套中
-const flag = nanoid(32);
-const flags = ref<string[]>([flag]);
-provide('flags', flags);
-// 是否是option
-const isOption = (e: any, flags: string[]) => {
-  const el = (e.target ?? e) as HTMLDivElement;
-  if (el.tagName == 'BODY') {
-    return false;
-  } else if (flags.includes(el.getAttribute('flag') as string)) {
-    return true;
-  } else {
-    return isOption(el.parentElement as HTMLDivElement, flags);
-  }
-};
-provide('isOption', isOption);
+// 判断是否在同一个嵌套中
+const { isSameGroup, level, curLevel, groupId } = useTriggerLevel();
 // 处理点击到外面
-const clickOutsideCb = (visible: WritableComputedRef<boolean>, e: any) => {
-  if (isOption(e, flags.value)) return;
+const clickOutsideCb = (
+  visible: WritableComputedRef<boolean>,
+  e: HTMLElement
+) => {
+  console.log(e);
+  // if (isSameGroup(e)) return;
   visible.value = false;
 };
 // 检测层级的改变自动关闭

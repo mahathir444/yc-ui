@@ -22,7 +22,7 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, toRefs, inject, Ref } from 'vue';
+import { ref, toRefs, inject } from 'vue';
 import { DoptionProps } from './type';
 import { Fn } from '@/packages/_type';
 defineOptions({
@@ -37,15 +37,13 @@ const emits = defineEmits<{
 }>();
 const { value, disabled, isSubmenu } = toRefs(props);
 // 是否选择过后隐藏
-const hideOnSelect = inject('hideOnSelect') as Ref<boolean>;
+const hideOnSelect = inject('hideOnSelect', ref(false));
 // dropdown的emits
 const dEmits = inject('emits') as Fn;
 // 关闭函数
 const hide = inject('hide') as Fn;
-// 当前的层级
-const level = inject('level') as number;
-// 当前组件的层级
-const curLevel = inject('curLevel') as Ref<number>;
+const level = inject('level', -1);
+const curLevel = inject('curLevel', ref(0));
 // 自身实例
 const doptionRef = ref<HTMLDivElement>();
 // 处理后缀点击
@@ -59,7 +57,7 @@ const handleClick = (ev: MouseEvent) => {
 };
 // 鼠标进入的时候处理层级
 const handleMouseenter = () => {
-  curLevel.value = level;
+  curLevel.value = isSubmenu.value ? level - 1 : level;
 };
 
 defineExpose({

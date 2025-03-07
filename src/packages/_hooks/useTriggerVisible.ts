@@ -18,6 +18,7 @@ export default (params: {
   contentRef: Ref<HTMLDivElement | undefined>;
   clickOutSideIngoreFn?: Fn;
   clickOutsideCallback?: Fn;
+  mouseenterCallback?: Fn;
   emits: Fn;
 }) => {
   const {
@@ -34,6 +35,7 @@ export default (params: {
     contentRef,
     clickOutSideIngoreFn,
     clickOutsideCallback,
+    mouseenterCallback,
     emits,
   } = params;
   // 受控的visible
@@ -55,16 +57,11 @@ export default (params: {
     },
   });
   // 计时器用于异步处理
-  const timeout = ref<NodeJS.Timeout>();
+  const timeout = inject('timeout', ref<NodeJS.Timeout>());
   provide('timeout', timeout);
   // 鼠标操作的位置
   const mouseX = ref<number>(0);
   const mouseY = ref<number>(0);
-  // 记录trigger嵌套的层级
-  const level = inject('level', 0);
-  // 记录当前处于嵌套的第几层级
-  const curLevel = inject('curLevel');
-  provide('level', level);
   // 点击
   const handleClick = (e: MouseEvent) => {
     if (timeout.value) clearTimeout(timeout.value);
@@ -90,7 +87,8 @@ export default (params: {
     }
   };
   // 鼠标进入
-  const handleMouseenter = () => {
+  const handleMouseenter = (isTrigger: boolean, e: MouseEvent) => {
+    if (mouseenterCallback) mouseenterCallback(isTrigger, e);
     if (timeout.value) clearTimeout(timeout.value);
     if (trigger.value != 'hover' || computedVisible.value) return;
     timeout.value = setTimeout(() => {
@@ -128,13 +126,14 @@ export default (params: {
   // 点击到contentRef外层关闭
   if (clickOutsideToClose.value) {
     onClickOutside(contentRef, async (e) => {
-      const isIngore = clickOutSideIngoreFn && clickOutSideIngoreFn(e);
+      const isIngore =
+        clickOutSideIngoreFn && clickOutSideIngoreFn(e.target ?? e);
       if (!computedVisible.value || isIngore) {
         return;
       }
       timeout.value = setTimeout(() => {
         if (clickOutsideCallback) {
-          clickOutsideCallback(computedVisible, e);
+          clickOutsideCallback(computedVisible, e.target ?? e);
         } else {
           computedVisible.value = false;
         }
