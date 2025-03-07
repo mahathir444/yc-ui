@@ -63,6 +63,8 @@ const props = withDefaults(defineProps<DsubmenuProps>(), {
   trigger: 'hover',
   position: 'rt',
   disabled: false,
+  mouseEnterDelay: 150,
+  mouseLeaveDelay: 150,
 });
 const emits = defineEmits<{
   (e: 'update:popupVisible', value: boolean): void;
@@ -70,7 +72,14 @@ const emits = defineEmits<{
   (e: 'show'): void;
   (e: 'hide'): void;
 }>();
-const { position, defaultPopupVisible, popupVisible, trigger } = toRefs(props);
+const {
+  position,
+  defaultPopupVisible,
+  popupVisible,
+  trigger,
+  mouseEnterDelay,
+  mouseLeaveDelay,
+} = toRefs(props);
 // 受控的visible
 const controlVisible = ref<boolean>(defaultPopupVisible.value);
 // visible
@@ -136,13 +145,13 @@ const handleCalcStyle = () => {
     };
   }
 };
-// 关闭函数
-const hide = inject('hide') as Fn;
 // 处理嵌套关闭
 const { isSameGroup, groupId } = useTriggerLevel(() => {
   if (menuTrigger.value != 'hover') return;
   computedVisible.value = false;
 });
+// 关闭函数
+const hide = inject('hide') as Fn;
 // 标识用于取消
 const timeout = inject('timeout', ref<NodeJS.Timeout>());
 // 鼠标进入
@@ -153,7 +162,7 @@ const handleMouseenter = async () => {
     computedVisible.value = true;
     await nextTick();
     handleCalcStyle();
-  }, 150);
+  }, mouseEnterDelay.value);
 };
 // 鼠标离开
 const handleMouseleave = (e: MouseEvent) => {
@@ -166,7 +175,7 @@ const handleMouseleave = (e: MouseEvent) => {
     } else {
       hide();
     }
-  }, 150);
+  }, mouseLeaveDelay.value);
 };
 //  点击
 const handleClick = async () => {

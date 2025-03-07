@@ -96,25 +96,6 @@
       </template>
       <template #footer> sdadsa </template>
     </a-dropdown>
-
-    <yc-dropdown-button>
-      测试
-      <template #content>
-        <YcDoption v-for="i in 6" :key="i" :value="i">
-          <template #icon>
-            <IconApps />
-          </template>
-          数字{{ i }}
-        </YcDoption>
-      </template>
-    </yc-dropdown-button>
-
-    <a-button-group type="dashed" status="success" size="large" shape="circle">
-      <a-button> 测试 </a-button>
-      <a-button> 测试 </a-button>
-      <a-button> 测试 </a-button>
-      <a-button> 测试 </a-button>
-    </a-button-group>
   </div>
 </template>
 
