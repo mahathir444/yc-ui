@@ -15,7 +15,7 @@
 
     <!--  -->
     <yc-popover trigger="click">
-      <div style="background-color: aqua; width: 300px; height: 300px"></div>
+      <a-button>test</a-button>
       <template #content>
         <div style="width: 200px">
           <a-empty />

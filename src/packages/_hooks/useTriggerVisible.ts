@@ -3,6 +3,7 @@ import { TriggerType } from '@/packages/Trigger/type';
 import { isUndefined } from '@/packages/_utils/is';
 import { onClickOutside } from '@vueuse/core';
 import { Fn } from '../_type';
+import useControlValue from './useControlValue';
 
 export default (params: {
   trigger: Ref<TriggerType>;
@@ -38,24 +39,15 @@ export default (params: {
     mouseenterCallback,
     emits,
   } = params;
-  // 受控的visible
-  const controlVisible = ref<boolean>(defaultPopupVisible.value);
   // visible
-  const computedVisible = computed({
-    get() {
-      return !isUndefined(popupVisible.value)
-        ? popupVisible.value
-        : controlVisible.value;
-    },
-    set(val) {
-      if (!isUndefined(popupVisible.value)) {
-        emits('update:popupVisible', val);
-        emits('popup-visible-change', val);
-      } else {
-        controlVisible.value = val;
-      }
-    },
-  });
+  const computedVisible = useControlValue<boolean>(
+    popupVisible,
+    defaultPopupVisible,
+    (val: boolean) => {
+      emits('update:popupVisible', val);
+      emits('popup-visible-change', val);
+    }
+  );
   // 计时器用于异步处理
   const timeout = inject('timeout', ref<NodeJS.Timeout>());
   provide('timeout', timeout);

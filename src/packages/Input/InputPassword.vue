@@ -43,6 +43,7 @@ import { ref, computed, toRefs } from 'vue';
 import { isUndefined } from '../_utils/is';
 import { InputPasswordProps } from './type';
 import YcInput from './Input.vue';
+import useControlValue from '@/packages/_hooks/useControlValue';
 import YcIconButton from '@/packages/_components/IconButton/index.vue';
 defineOptions({
   name: 'InputPassword',
@@ -64,24 +65,31 @@ const emits = defineEmits<{
   (e: 'visibilityChange', value: boolean): void;
 }>();
 const { defaultVisibility, visibility } = toRefs(props);
-// 非受控的vis
-const controlVisibility = ref<boolean>(defaultVisibility.value);
-// vis的value,包括受控与非受控
-const computedVisibility = computed({
-  get() {
-    return !isUndefined(visibility.value)
-      ? visibility.value
-      : controlVisibility.value;
-  },
-  set(val) {
-    if (!isUndefined(visibility.value)) {
-      emits('update:visibility', val);
-    } else {
-      controlVisibility.value = val;
-    }
-    emits('visibilityChange', val);
-  },
-});
+// // 非受控的vis
+// const controlVisibility = ref<boolean>(defaultVisibility.value);
+// // vis的value,包括受控与非受控
+// const computedVisibility = computed({
+//   get() {
+//     return !isUndefined(visibility.value)
+//       ? visibility.value
+//       : controlVisibility.value;
+//   },
+//   set(val) {
+//     if (!isUndefined(visibility.value)) {
+
+//     } else {
+//       controlVisibility.value = val;
+//     }
+//     emits('visibilityChange', val);
+//   },
+// });
+const computedVisibility = useControlValue<boolean>(
+  visibility,
+  defaultVisibility,
+  (val) => {
+    emits('update:visibility', val);
+  }
+);
 // 组件实例
 const inputBaseRef = ref<InstanceType<typeof YcInput>>();
 // 处理输入

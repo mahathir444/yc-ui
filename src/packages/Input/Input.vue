@@ -78,6 +78,7 @@ import { SIZE_CLASS } from './constants';
 import { InputProps } from './type';
 import { SIZE_MAP } from '@/packages/_constants';
 import { isUndefined, isNumber } from '@/packages/_utils/is';
+import useControlValue from '../_hooks/useControlValue';
 import YcIconButton from '@/packages/_components/IconButton/index.vue';
 defineOptions({
   name: 'Input',
@@ -117,23 +118,13 @@ const {
   disabled,
   readonly,
 } = toRefs(props);
-// 受控制的值
-const controlValue = ref<string>(defaultValue.value);
-// 计算值
-const computedValue = computed({
-  get() {
-    return !isUndefined(modelValue.value)
-      ? modelValue.value
-      : controlValue.value;
-  },
-  set(val) {
-    if (!isUndefined(modelValue.value)) {
-      emits('update:modelValue', val);
-    } else {
-      controlValue.value = val;
-    }
-  },
-});
+const computedValue = useControlValue<string>(
+  modelValue,
+  defaultValue,
+  (val: string) => {
+    emits('update:modelValue', val);
+  }
+);
 // 是否展示字数限制
 const showLimit = computed(
   () => isNumber(maxLength.value) && showWordLimit.value
