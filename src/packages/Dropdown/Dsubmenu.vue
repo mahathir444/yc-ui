@@ -60,7 +60,7 @@ defineOptions({
 const props = withDefaults(defineProps<DsubmenuProps>(), {
   popupVisible: undefined,
   defaultPopupVisible: false,
-  trigger: 'click',
+  trigger: 'hover',
   position: 'rt',
   disabled: false,
 });
@@ -153,7 +153,7 @@ const handleMouseenter = async () => {
     computedVisible.value = true;
     await nextTick();
     handleCalcStyle();
-  }, 100);
+  }, 150);
 };
 // 鼠标离开
 const handleMouseleave = (e: MouseEvent) => {
@@ -166,7 +166,7 @@ const handleMouseleave = (e: MouseEvent) => {
     } else {
       hide();
     }
-  }, 100);
+  }, 150);
 };
 //  点击
 const handleClick = async () => {

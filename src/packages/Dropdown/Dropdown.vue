@@ -1,6 +1,8 @@
 <template>
   <yc-trigger
     :popup-offset="4"
+    :mouse-enter-delay="150"
+    :mouse-leave-delay="150"
     v-bind="$attrs"
     :popup-visible="popupVisible"
     :default-popup-visible="defaultPopupVisible"
