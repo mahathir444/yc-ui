@@ -42,6 +42,7 @@ const hideOnSelect = inject('hideOnSelect', ref(false));
 const dEmits = inject('emits') as Fn;
 // 关闭函数
 const hide = inject('hide') as Fn;
+// 拿到当前的层级
 const level = inject('level', -1);
 const curLevel = inject('curLevel', ref(0));
 // 自身实例

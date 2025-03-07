@@ -12,7 +12,6 @@
     }"
     :show-arrow="false"
     :click-out-side-ingore-fn="isSameGroup"
-    :click-outside-callback="clickOutsideCb"
     :mouseenter-callback="
       (isTrigger) => {
         if (isTrigger) {
@@ -46,20 +45,11 @@
 </template>
 
 <script lang="ts" setup>
-import {
-  ref,
-  provide,
-  inject,
-  toRefs,
-  computed,
-  WritableComputedRef,
-  watch,
-} from 'vue';
+import { ref, provide, toRefs, computed, watch } from 'vue';
 import { TriggerPostion } from '@/packages/Trigger/type';
 import { TRANSFORM_ORIGIN_MAP } from '@/packages/Trigger/constants';
 import { DropdownProps, DoptionValue } from './type';
 import { TriggerInstance } from '@/packages/Trigger';
-import { nanoid } from 'nanoid';
 import YcTrigger from '@/packages/Trigger/index.vue';
 import YcScrollbar from '@/packages/Scrollbar/index.vue';
 import useTriggerLevel from '@/packages/_hooks/useTriggerLevel';
@@ -69,10 +59,10 @@ defineOptions({
 const props = withDefaults(defineProps<DropdownProps>(), {
   popupVisible: undefined,
   defaultPopupVisible: false,
-  trigger: 'hover',
+  trigger: 'click',
   position: 'bottom',
   popupContainer: 'body',
-  hideOnSelect: true,
+  hideOnSelect: false,
 });
 const emits = defineEmits<{
   (e: 'update:popupVisible', value: boolean): void;
@@ -99,20 +89,9 @@ provide('hideOnSelect', hideOnSelect);
 provide('hide', () => {
   triggerRef.value?.hide();
 });
-// 判断是否在同一个嵌套中
-const { isSameGroup, level, curLevel, groupId } = useTriggerLevel();
-// 处理点击到外面
-const clickOutsideCb = (
-  visible: WritableComputedRef<boolean>,
-  e: HTMLElement
-) => {
-  console.log(e);
-  // if (isSameGroup(e)) return;
-  visible.value = false;
-};
-// 检测层级的改变自动关闭
-watch(curLevel, (v) => {
-  if (v >= level || trigger.value != 'hover') return;
+// 处理嵌套关闭
+const { isSameGroup, level, curLevel, groupId } = useTriggerLevel(() => {
+  if (trigger.value != 'hover') return;
   triggerRef.value?.hide();
 });
 </script>

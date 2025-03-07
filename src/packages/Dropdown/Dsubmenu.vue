@@ -60,7 +60,7 @@ defineOptions({
 const props = withDefaults(defineProps<DsubmenuProps>(), {
   popupVisible: undefined,
   defaultPopupVisible: false,
-  trigger: 'hover',
+  trigger: 'click',
   position: 'rt',
   disabled: false,
 });
@@ -138,8 +138,11 @@ const handleCalcStyle = () => {
 };
 // 关闭函数
 const hide = inject('hide') as Fn;
-// 嵌套hook
-const { isSameGroup, level, curLevel, groupId } = useTriggerLevel();
+// 处理嵌套关闭
+const { isSameGroup, groupId } = useTriggerLevel(() => {
+  if (menuTrigger.value != 'hover') return;
+  computedVisible.value = false;
+});
 // 标识用于取消
 const timeout = inject('timeout', ref<NodeJS.Timeout>());
 // 鼠标进入
@@ -172,11 +175,6 @@ const handleClick = async () => {
   await nextTick();
   handleCalcStyle();
 };
-// 检测层级的改变自动关闭
-watch(curLevel, (v) => {
-  if (v >= level || menuTrigger.value != 'hover') return;
-  computedVisible.value = false;
-});
 </script>
 
 <style lang="less">

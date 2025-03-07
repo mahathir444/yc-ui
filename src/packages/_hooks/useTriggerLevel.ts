@@ -1,6 +1,7 @@
-import { ref, provide, inject } from 'vue';
+import { ref, provide, inject, watch } from 'vue';
 import { nanoid } from 'nanoid';
-export default () => {
+import { Fn } from '../_type';
+export default (hideCallback?: Fn) => {
   // 记录组件内部嵌套的层级,当curLevel小于level关闭
   const level = inject('level', -1) + 1;
   provide('level', level);
@@ -12,6 +13,7 @@ export default () => {
   const groupIds = inject('groupIds', ref([] as string[]));
   groupIds.value[level] = groupId;
   provide('groupIds', groupIds);
+  //   判断是否在一个组内
   const isSameGroup = (el: HTMLElement) => {
     const groupId = el.getAttribute('data-group-id') as string;
     console.log(el, groupIds.value);
@@ -23,6 +25,11 @@ export default () => {
       return isSameGroup(el.parentElement as HTMLElement);
     }
   };
+  // 检测层级的改变自动关闭
+  watch(curLevel, (v) => {
+    if (v >= level) return;
+    hideCallback && hideCallback();
+  });
   return {
     level,
     curLevel,
