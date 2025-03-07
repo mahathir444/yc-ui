@@ -6,10 +6,10 @@ export type ResizeBoxInstance = InstanceType<typeof _ResizeBox>;
 
 export type { ResizeBoxProps, DirectionType } from './type';
 
-const Link = Object.assign(_ResizeBox, {
+const ResizeBox = Object.assign(_ResizeBox, {
   install: (app: App) => {
     app.component(getComponentPrefix() + _ResizeBox.name, _ResizeBox);
   },
 });
 
-export default Link;
+export default ResizeBox;
