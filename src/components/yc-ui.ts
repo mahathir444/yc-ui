@@ -20,6 +20,7 @@ import Scrollbar from './Scrollbar';
 import Textarea from './Textarea';
 import Tooltip from './Tooltip';
 import Trigger from './Trigger';
+import Spin from './Spin';
 
 export const components: Record<string, Plugin> = {
   Button,
@@ -37,6 +38,7 @@ export const components: Record<string, Plugin> = {
   Textarea,
   Tooltip,
   Trigger,
+  Spin,
 };
 
 const YcUi = {
