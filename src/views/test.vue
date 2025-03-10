@@ -97,12 +97,15 @@
       <template #footer> sdadsa </template>
     </a-dropdown>
 
-    <YcTextarea />
     <div style="width: 200px">
-      <a-textarea allowClear></a-textarea>
+      <YcTextarea :autoSize="{ minRows: 1, maxRows: 10 }" />
     </div>
-    <YcDrawer v-model:visible="visible"></YcDrawer>
-    <a-button @click="visible = true">测试</a-button>
+    <div style="width: 200px">
+      <a-textarea
+        allowClear
+        :autoSize="{ minRows: 1, maxRows: 10 }"
+      ></a-textarea>
+    </div>
   </div>
 </template>
 
@@ -120,7 +123,6 @@ import YcButton, { ButtonGroup as YcButtonGroup } from '@/components/Button';
 import YcTextarea from '@/components/Textarea/index.vue';
 import YcDrawer from '@/components/Drawer';
 const total = ref(1);
-const visible = ref(false);
 const handleSelect = (v: any) => {
   console.log(v);
 };

@@ -4,12 +4,19 @@ import { ButtonProps } from '../Button/type';
 export interface TextareaProps {
   modelValue?: string;
   defaultValue?: string;
-  size?: Size;
-  allowClear?: boolean;
-  disabled?: boolean;
-  readonly?: boolean;
-  error?: boolean;
   placeholder?: string;
+  disabled?: boolean;
+  error?: boolean;
   maxLength?: number;
   showWordLimit?: boolean;
+  allowClear?: boolean;
+  readonly?: boolean;
+  autoSize?: TextareaResize;
 }
+
+export interface ResizeRange {
+  minRows?: number;
+  maxRows?: number;
+}
+
+export type TextareaResize = boolean | ResizeRange;

@@ -138,10 +138,7 @@ const showClearBtn = computed(
 // 输入实例
 const inputRef = ref<HTMLInputElement>();
 // 处理输入，改变和清除
-const handleEvent = (
-  type: 'input' | 'change' | 'clear',
-  e: Event | MouseEvent
-) => {
+const handleEvent = (type: string, e: Event | MouseEvent) => {
   if (['input', 'change'].includes(type)) {
     const target = e.target as HTMLInputElement;
     const { value } = target;
