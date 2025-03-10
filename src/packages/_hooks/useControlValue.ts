@@ -3,20 +3,22 @@ import { isUndefined } from '../_utils/is';
 import { Fn } from '../_type';
 
 export default <T>(
-  value: Ref<T | undefined>,
+  modelValue: Ref<T | undefined>,
   defaultValue: Ref<T>,
   onSet?: Fn
 ) => {
   const controlValue = ref<T>(defaultValue.value);
   return computed({
     get() {
-      return isUndefined(value.value) ? controlValue.value : value.value;
+      return isUndefined(modelValue.value)
+        ? controlValue.value
+        : modelValue.value;
     },
-    set(val: T) {
-      if (isUndefined(value?.value)) {
-        controlValue.value = val;
+    set(value: T) {
+      if (isUndefined(modelValue.value)) {
+        controlValue.value = value;
       }
-      onSet && onSet(val);
+      onSet && onSet(value);
     },
   });
 };

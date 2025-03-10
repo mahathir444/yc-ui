@@ -96,6 +96,9 @@
       </template>
       <template #footer> sdadsa </template>
     </a-dropdown>
+
+    <YcTextarea />
+    <a-textarea allowClear></a-textarea>
   </div>
 </template>
 
@@ -110,6 +113,7 @@ import YcDgroup from '@/packages/Dropdown/DGroup.vue';
 import YcDsubmenu from '@/packages/Dropdown/Dsubmenu.vue';
 import YcDropdownButton from '@/packages/Dropdown/DropdownButton.vue';
 import YcButton, { ButtonGroup as YcButtonGroup } from '@/packages/Button';
+import YcTextarea from '@/packages/Textarea/index.vue';
 const total = ref(1);
 const handleSelect = (v: any) => {
   console.log(v);
