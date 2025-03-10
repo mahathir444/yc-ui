@@ -41,7 +41,7 @@ export default (params: {
   // visible
   const computedVisible = useControlValue<boolean>(
     popupVisible,
-    defaultPopupVisible,
+    defaultPopupVisible.value,
     (val) => {
       emits('update:popupVisible', val);
       emits('popup-visible-change', val);

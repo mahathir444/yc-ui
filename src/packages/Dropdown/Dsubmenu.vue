@@ -84,7 +84,7 @@ const {
 // 受控的visible
 const computedVisible = useControlValue<boolean>(
   popupVisible,
-  defaultPopupVisible,
+  defaultPopupVisible.value,
   (val) => emits('update:popupVisible', val)
 );
 // contentStyle

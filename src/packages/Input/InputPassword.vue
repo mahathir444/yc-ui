@@ -68,7 +68,7 @@ const { defaultVisibility, visibility } = toRefs(props);
 // 非受控的vis
 const computedVisibility = useControlValue<boolean>(
   visibility,
-  defaultVisibility,
+  defaultVisibility.value,
   (val) => {
     emits('update:visibility', val);
     emits('visibilityChange', val);

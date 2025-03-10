@@ -118,8 +118,10 @@ const {
   disabled,
   readonly,
 } = toRefs(props);
-const computedValue = useControlValue<string>(modelValue, defaultValue, (val) =>
-  emits('update:modelValue', val)
+const computedValue = useControlValue<string>(
+  modelValue,
+  defaultValue.value,
+  (val) => emits('update:modelValue', val)
 );
 // 是否展示字数限制
 const showLimit = computed(

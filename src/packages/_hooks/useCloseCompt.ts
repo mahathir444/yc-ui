@@ -19,7 +19,7 @@ export default (
   // 内存visible，用于显示组件
   const innerVisible = useControlValue<boolean>(
     visible,
-    defaultVisible,
+    defaultVisible.value,
     (val) => emits('update:visible', val)
   );
   // 关闭类型

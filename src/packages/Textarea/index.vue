@@ -67,7 +67,7 @@ const {
 } = toRefs(props);
 const computedValue = useControlValue<string>(
   modelValue,
-  defaultValue,
+  defaultValue.value,
   (val) => {
     emits('update:modelValue', val);
   }
