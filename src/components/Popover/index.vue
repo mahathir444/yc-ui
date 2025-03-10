@@ -37,7 +37,7 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, toRefs, computed, CSSProperties, Reactive } from 'vue';
+import { ref, toRefs, computed, CSSProperties } from 'vue';
 import { TriggerPostion } from '@/components/Trigger/type';
 import { TRANSFORM_ORIGIN_MAP } from '@/components/Trigger/constants';
 import { PopoverProps } from './type';

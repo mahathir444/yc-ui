@@ -43,6 +43,7 @@ import { ref, onMounted, computed, watch, toRefs } from 'vue';
 import { ResizeBoxProps, DirectionType } from './type';
 import { useResizeObserver, useEventListener } from '@vueuse/core';
 import SvgIcon from '@/components/_components/SvgIcon/index.vue';
+import useControlValue from '@/components/_hooks/useControlValue';
 defineOptions({
   name: 'ResizeBox',
 });
