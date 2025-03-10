@@ -135,11 +135,11 @@
 <script setup lang="ts">
 import { ref, onMounted, h, reactive } from 'vue';
 import { Message, Notification } from '@arco-design/web-vue';
-import YcMessage from '@/packages/Message/index.ts';
-import { messageType } from '@/packages/Message/constants';
-import YcNotifi from '@/packages/Notification/index.ts';
-import SvgIcon from '@/packages/_components/SvgIcon/index.vue';
-import YcResizeBox from '@/packages/ResizeBox/index.vue';
+import YcMessage from '@/components/Message/index.ts';
+import { messageType } from '@/components/Message/constants';
+import YcNotifi from '@/components/Notification/index.ts';
+import SvgIcon from '@/components/_components/SvgIcon/index.vue';
+import YcResizeBox from '@/components/ResizeBox/index.vue';
 onMounted(() => {});
 const resizeBox = reactive({
   width: 0,

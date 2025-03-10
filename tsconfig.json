@@ -31,7 +31,7 @@
     "src/**/*.d.ts",
     "src/**/*.tsx",
     "src/**/*.vue",
-    "src/packages/_utils/generate.tsenerate.ts"
+    "src/components/_utils/generate.tsenerate.ts"
   ],
   "exclude": ["node_modules", "dist", "dist.test"],
   "references": [{ "path": "./tsconfig.node.json" }]

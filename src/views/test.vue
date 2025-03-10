@@ -98,28 +98,27 @@
     </a-dropdown>
 
     <YcTextarea />
-    <a-textarea allowClear></a-textarea>
+    <div style="width: 200px">
+      <a-textarea allowClear></a-textarea>
+    </div>
     <YcDrawer v-model:visible="visible"></YcDrawer>
     <a-button @click="visible = true">测试</a-button>
-
-    <a-input defaultValue="aaaaa" />
-    <yc-trigger> </yc-trigger>
   </div>
 </template>
 
 <script lang="ts" setup>
 import { ref, watch, watchEffect } from 'vue';
-import YcPopover from '@/packages/Popover';
-import YcTooltip from '@/packages/Tooltip';
-import YcScrollbar from '@/packages/Scrollbar';
-import YcDropdown from '@/packages/Dropdown/Dropdown.vue';
-import YcDoption from '@/packages/Dropdown/Doption.vue';
-import YcDgroup from '@/packages/Dropdown/DGroup.vue';
-import YcDsubmenu from '@/packages/Dropdown/Dsubmenu.vue';
-import YcDropdownButton from '@/packages/Dropdown/DropdownButton.vue';
-import YcButton, { ButtonGroup as YcButtonGroup } from '@/packages/Button';
-import YcTextarea from '@/packages/Textarea/index.vue';
-import YcDrawer from '@/packages/Drawer';
+import YcPopover from '@/components/Popover';
+import YcTooltip from '@/components/Tooltip';
+import YcScrollbar from '@/components/Scrollbar';
+import YcDropdown from '@/components/Dropdown/Dropdown.vue';
+import YcDoption from '@/components/Dropdown/Doption.vue';
+import YcDgroup from '@/components/Dropdown/DGroup.vue';
+import YcDsubmenu from '@/components/Dropdown/Dsubmenu.vue';
+import YcDropdownButton from '@/components/Dropdown/DropdownButton.vue';
+import YcButton, { ButtonGroup as YcButtonGroup } from '@/components/Button';
+import YcTextarea from '@/components/Textarea/index.vue';
+import YcDrawer from '@/components/Drawer';
 const total = ref(1);
 const visible = ref(false);
 const handleSelect = (v: any) => {
