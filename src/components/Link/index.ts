@@ -2,7 +2,7 @@ import { App } from 'vue';
 import _Link from './index.vue';
 import { getComponentPrefix } from '@/components/_utils/global-config';
 
-export type DrawerInstance = InstanceType<typeof _Link>;
+export type LinkInstance = InstanceType<typeof _Link>;
 
 export type { LinkProps, LinkStatus } from './type';
 

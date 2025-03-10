@@ -18,6 +18,7 @@ const Button = Object.assign(_Button, {
   buttongroup: _ButtonGroup,
   install: (app: App) => {
     app.component(getComponentPrefix() + _Button.name, _Button);
+    app.component(getComponentPrefix() + _ButtonGroup.name, _ButtonGroup);
   },
 });
 

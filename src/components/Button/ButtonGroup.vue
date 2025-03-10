@@ -20,6 +20,9 @@ import {
   GROUP_TYPE_CLASS,
   GROUP_STAUTS_CLASS,
 } from './constants';
+defineOptions({
+  name: 'ButtonGroup',
+});
 const props = withDefaults(defineProps<ButtonGroupProps>(), {
   type: 'secondary',
   status: 'normal',

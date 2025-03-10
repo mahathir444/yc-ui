@@ -10,7 +10,7 @@ import {
 import { config, notificationPosition, notificationType } from './constants';
 import { isString } from '../_utils/is';
 
-export type MessageInstance = InstanceType<typeof _Notification>;
+export type NotificationInstance = InstanceType<typeof _Notification>;
 export type {
   NotificationConfig,
   NotificationPosition,
