@@ -113,17 +113,17 @@
 
 <script lang="ts" setup>
 import { ref, watch, watchEffect } from 'vue';
-// import YcPopover from '@/components/Popover';
-// import YcTooltip from '@/components/Tooltip';
-// import YcScrollbar from '@/components/Scrollbar';
-// import YcDropdown from '@/components/Dropdown/Dropdown.vue';
-// import YcDoption from '@/components/Dropdown/Doption.vue';
-// import YcDgroup from '@/components/Dropdown/DGroup.vue';
-// import YcDsubmenu from '@/components/Dropdown/Dsubmenu.vue';
-// import YcDropdownButton from '@/components/Dropdown/DropdownButton.vue';
-// import YcButton, { ButtonGroup as YcButtonGroup } from '@/components/Button';
-// import YcTextarea from '@/components/Textarea';
-// import YcDrawer from '@/components/Drawer';
+import YcPopover from '@/components/Popover';
+import YcTooltip from '@/components/Tooltip';
+import YcScrollbar from '@/components/Scrollbar';
+import YcDropdown from '@/components/Dropdown/Dropdown.vue';
+import YcDoption from '@/components/Dropdown/Doption.vue';
+import YcDgroup from '@/components/Dropdown/DGroup.vue';
+import YcDsubmenu from '@/components/Dropdown/Dsubmenu.vue';
+import YcDropdownButton from '@/components/Dropdown/DropdownButton.vue';
+import YcButton, { ButtonGroup as YcButtonGroup } from '@/components/Button';
+import YcTextarea from '@/components/Textarea';
+import YcDrawer from '@/components/Drawer';
 const total = ref(1);
 const handleSelect = (v: any) => {
   console.log(v);

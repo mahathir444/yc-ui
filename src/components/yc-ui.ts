@@ -1,4 +1,5 @@
 import { App, Plugin } from 'vue';
+import { YcUiOptions } from './_type';
 import Button, { ButtonGroup } from './Button';
 import Drawer from './Drawer';
 import Dropdown, {
@@ -38,12 +39,6 @@ export const components: Record<string, Plugin> = {
   Trigger,
 };
 
-const install = (app: App) => {
-  for (const key of Object.keys(components)) {
-    app.use(components[key]);
-  }
-};
-
 const YcUi = {
   ...components,
   ButtonGroup,
@@ -53,7 +48,11 @@ const YcUi = {
   Dsubmenu,
   InputSearch,
   InputPassword,
-  install,
+  install: (app: App, options: YcUiOptions) => {
+    for (const key of Object.keys(components)) {
+      app.use(components[key], options);
+    }
+  },
 };
 
 export default YcUi;
