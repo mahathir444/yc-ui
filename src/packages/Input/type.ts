@@ -30,3 +30,5 @@ export interface InputSearchProps {
   buttonText?: string;
   buttonProps?: ButtonProps;
 }
+
+export type EventType = 'input' | 'change' | 'clear';

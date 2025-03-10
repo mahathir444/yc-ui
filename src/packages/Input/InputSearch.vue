@@ -7,9 +7,10 @@
       $attrs.class,
     ]"
     ref="inputBaseRef"
-    @input="handleInput"
-    @change="handleChange"
-    @clear="handleClear"
+    @update:model-value="(v) => $emit('update:modelValue', v)"
+    @input="(v, e) => $emit('input', v, e)"
+    @change="(v, e) => $emit('change', v, e)"
+    @clear="(e) => $emit('clear', e)"
     @focus="(e) => emits('focus', e)"
     @blur="(e) => emits('blur', e)"
     @press-enter="(e) => emits('press-enter', e)"
@@ -78,22 +79,6 @@ const emits = defineEmits<{
 }>();
 // 组件实例
 const inputBaseRef = ref<InstanceType<typeof YcInput>>();
-// 处理输入
-const handleInput = (value: string, ev: Event) => {
-  emits('input', value, ev);
-  emits('update:modelValue', value);
-};
-// 处理改变
-const handleChange = (value: string, ev: Event) => {
-  emits('change', value, ev);
-  emits('update:modelValue', value);
-};
-// 处理清除
-const handleClear = (e: MouseEvent) => {
-  emits('clear', e);
-  emits('update:modelValue', '');
-};
-
 defineExpose({
   focus() {
     inputBaseRef.value?.focus();

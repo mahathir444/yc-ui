@@ -35,8 +35,8 @@
         class="yc-input"
         ref="inputRef"
         v-bind="inputAttrs"
-        @input="handleInput"
-        @change="handleChange"
+        @input="handleEvent('input', $event)"
+        @change="handleEvent('change', $event)"
         @focus="(e) => emits('focus', e)"
         @blur="(e) => emits('blur', e)"
         @keydown.enter="(e) => emits('press-enter', e)"
@@ -46,7 +46,7 @@
         v-if="showClearBtn"
         name="close"
         class="yc-input-clear-button"
-        @click="handleClear"
+        @click="handleEvent('clear', $event)"
       />
       <!-- suffix-icon -->
       <div
@@ -75,9 +75,9 @@
 <script lang="ts" setup>
 import { ref, computed, toRefs } from 'vue';
 import { SIZE_CLASS } from './constants';
-import { InputProps } from './type';
+import { InputProps, EventType } from './type';
 import { SIZE_MAP } from '@/packages/_constants';
-import { isUndefined, isNumber } from '@/packages/_utils/is';
+import { isNumber } from '@/packages/_utils/is';
 import useControlValue from '../_hooks/useControlValue';
 import YcIconButton from '@/packages/_components/IconButton/index.vue';
 defineOptions({
@@ -135,27 +135,21 @@ const showClearBtn = computed(
 );
 // 输入实例
 const inputRef = ref<HTMLInputElement>();
-// 处理输入
-const handleInput = async (e: Event) => {
-  const target = e.target as HTMLInputElement;
-  const { value } = target;
-  emits('input', value, e);
-  if (computedValue.value != value) {
+// 处理输入，改变和清除
+const handleEvent = (
+  type: 'input' | 'change' | 'clear',
+  e: Event | MouseEvent
+) => {
+  if (['input', 'change'].includes(type)) {
+    const target = e.target as HTMLInputElement;
+    const { value } = target;
+    emits(type as any, value, e);
+    if (computedValue.value == value) return;
     target.value = computedValue.value;
+  } else {
+    computedValue.value = '';
+    emits('clear', e as MouseEvent);
   }
-};
-// 处理改变
-const handleChange = (e: Event) => {
-  const target = e.target as HTMLInputElement;
-  const { value } = target;
-  emits('change', value, e);
-  if (computedValue.value != value) {
-    target.value = computedValue.value;
-  }
-};
-// 处理清除
-const handleClear = (e: MouseEvent) => {
-  emits('clear', e);
 };
 // 暴露方法
 defineExpose({
