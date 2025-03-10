@@ -16,7 +16,7 @@
       </transition>
       <!-- drawer -->
       <transition
-        name="slide-drawer"
+        :name="`slide-drawer-${placement}`"
         appear
         @before-enter="$emit('beforeOpen')"
         @before-leave="$emit('beforeClose', closeType)"
@@ -152,21 +152,6 @@ const drawerCss = computed(() => {
     ...drawerStyle.value,
   } as CSSProperties;
 });
-// drawer的动画
-const leaveFrom = computed(() => {
-  const TRANSFORM_MAP = {
-    left: `translateX(-100%)`,
-    right: `translateX(100%)`,
-    top: `translateY(-100%)`,
-    bottom: `translateY(100%)`,
-  };
-  return TRANSFORM_MAP[placement.value];
-});
-const enterTo = computed(() => {
-  return placement.value == 'left' || placement.value == 'right'
-    ? 'translateX(0)'
-    : 'translateY(0)';
-});
 // 处理组件关闭开启
 const { outerVisible, innerVisible, closeType, handleClose, handleAfterLeave } =
   useCloseCompt(emits, {
@@ -179,17 +164,4 @@ const { outerVisible, innerVisible, closeType, handleClose, handleAfterLeave } =
 
 <style lang="less" scoped>
 @import './index.less';
-// 内容过度
-.slide-drawer-enter-from,
-.slide-drawer-leave-to {
-  transform: v-bind(leaveFrom);
-}
-.slide-drawer-enter-to,
-.slide-drawer-leave-from {
-  transform: v-bind(enterTo);
-}
-.slide-drawer-enter-active,
-.slide-drawer-leave-active {
-  transition: transform 0.3s cubic-bezier(0.34, 0.69, 0.1, 1);
-}
 </style>

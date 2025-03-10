@@ -4,10 +4,10 @@ import { Fn } from '../_type';
 
 export default <T>(
   modelValue: Ref<T | undefined>,
-  defaultValue: Ref<T>,
+  defaultValue: T,
   onSet?: Fn
 ) => {
-  const controlValue = ref<T>(defaultValue.value);
+  const controlValue = ref<T>(defaultValue);
   return computed({
     get() {
       return isUndefined(modelValue.value)

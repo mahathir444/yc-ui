@@ -11,4 +11,10 @@ const Trigger = Object.assign(_Trigger, {
   },
 });
 
+declare module 'vue' {
+  export interface GlobalComponents {
+    Trigger: typeof _Trigger;
+  }
+}
+
 export default Trigger;

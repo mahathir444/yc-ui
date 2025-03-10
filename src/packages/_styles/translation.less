@@ -15,28 +15,7 @@
   transition: opacity 0.4s cubic-bezier(0.3, 1.3, 0.3, 1);
 }
 
-// modal过渡
-.zoom-modal-enter-from,
-.zoom-modal-appear-from,
-.zoom-modal-leave-to {
-  transform: scale(0.5, 0.5);
-  opacity: 0;
-}
-.zoom-modal-enter-to,
-.zoom-modal-appear-to,
-.zoom-modal-leave-from {
-  transform: scale(1, 1);
-  opacity: 1;
-}
-.zoom-modal-enter-active,
-.zoom-modal-appear-active,
-.zoom-modal-leave-active {
-  transition:
-    opacity 0.4s cubic-bezier(0.3, 1.3, 0.3, 1),
-    transform 0.4s cubic-bezier(0.3, 1.3, 0.3, 1);
-}
-
-//popover,tooltip过渡效果
+// used by popover,tooltip
 .zoom-in-fade-out-enter-from,
 .zoom-in-fade-out-appear-from,
 .zoom-in-fade-out-leave-to {
@@ -57,7 +36,7 @@
     transform 0.3s cubic-bezier(0.3, 1.3, 0.3, 1);
 }
 
-// 选择器的
+// used by select,picker,dropdown
 .slide-dynamic-origin-enter-from,
 .slide-dynamic-origin-appear-from,
 .slide-dynamic-origin-leave-to {
@@ -80,4 +59,87 @@
   transition:
     transform 0.2s cubic-bezier(0.34, 0.69, 0.1, 1),
     opacity 0.2s cubic-bezier(0.34, 0.69, 0.1, 1);
+}
+
+// used by modal
+.zoom-modal-enter-from,
+.zoom-modal-appear-from,
+.zoom-modal-leave-to {
+  transform: scale(0.5, 0.5);
+  opacity: 0;
+}
+.zoom-modal-enter-to,
+.zoom-modal-appear-to,
+.zoom-modal-leave-from {
+  transform: scale(1, 1);
+  opacity: 1;
+}
+.zoom-modal-enter-active,
+.zoom-modal-appear-active,
+.zoom-modal-leave-active {
+  transition:
+    opacity 0.4s cubic-bezier(0.3, 1.3, 0.3, 1),
+    transform 0.4s cubic-bezier(0.3, 1.3, 0.3, 1);
+}
+
+// used by drawer
+.slide-drawer-left-enter-from,
+.slide-drawer-left-leave-to,
+.slide-drawer-left-appear-from {
+  transform: translateX(-100%);
+}
+.slide-drawer-left-enter-to,
+.slide-drawer-left-leave-from,
+.slide-drawer-left-appear-to {
+  transform: translateX(0);
+}
+.slide-drawer-left-enter-active,
+.slide-drawer-left-leave-active,
+.slide-drawer-left-appear-active {
+  transition: transform 0.3s cubic-bezier(0.34, 0.69, 0.1, 1);
+}
+.slide-drawer-right-enter-from,
+.slide-drawer-right-leave-to,
+.slide-drawer-right-appear-from {
+  transform: translateX(100%);
+}
+.slide-drawer-right-enter-to,
+.slide-drawer-right-leave-from,
+.slide-drawer-right-appear-to {
+  transform: translateX(0);
+}
+.slide-drawer-right-enter-active,
+.slide-drawer-right-leave-active,
+.slide-drawer-right-appear-active {
+  transition: transform 0.3s cubic-bezier(0.34, 0.69, 0.1, 1);
+}
+.slide-drawer-top-enter-from,
+.slide-drawer-top-leave-to,
+.slide-drawer-top-appear-from {
+  transform: translateY(-100%);
+}
+.slide-drawer-top-enter-to,
+.slide-drawer-top-leave-from,
+.slide-drawer-top-appear-to {
+  transform: translateY(0);
+}
+.slide-drawer-top-enter-active,
+.slide-drawer-top-leave-active,
+.slide-drawer-top-appear-active {
+  transition: transform 0.3s cubic-bezier(0.34, 0.69, 0.1, 1);
+}
+.slide-drawer-bottom-enter-from,
+.slide-drawer-bottom-leave-to,
+.slide-drawer-bottom-appear-from {
+  transform: translateY(100%);
+}
+.slide-drawer-bottom-enter-to,
+.slide-drawer-bottom-leave-from,
+.slide-drawer-bottom-appear-to {
+  transform: translateY(0);
+}
+.slide-drawer-bottom-enter-active,
+.slide-drawer-bottom-leave-active,
+.slide-drawer-bottom-appear-active {
+  transition: transform 0.3s cubic-bezier(0.34, 0.69, 0.1, 1);
 }

@@ -99,6 +99,11 @@
 
     <YcTextarea />
     <a-textarea allowClear></a-textarea>
+    <YcDrawer v-model:visible="visible"></YcDrawer>
+    <a-button @click="visible = true">测试</a-button>
+
+    <a-input defaultValue="aaaaa" />
+    <yc-trigger> </yc-trigger>
   </div>
 </template>
 
@@ -114,7 +119,9 @@ import YcDsubmenu from '@/packages/Dropdown/Dsubmenu.vue';
 import YcDropdownButton from '@/packages/Dropdown/DropdownButton.vue';
 import YcButton, { ButtonGroup as YcButtonGroup } from '@/packages/Button';
 import YcTextarea from '@/packages/Textarea/index.vue';
+import YcDrawer from '@/packages/Drawer';
 const total = ref(1);
+const visible = ref(false);
 const handleSelect = (v: any) => {
   console.log(v);
 };
