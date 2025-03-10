@@ -39,7 +39,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, computed, watch } from 'vue';
+import { ref, onMounted, computed, watch, toRefs } from 'vue';
 import { ResizeBoxProps, DirectionType } from './type';
 import { useResizeObserver, useEventListener } from '@vueuse/core';
 import SvgIcon from '@/components/_components/SvgIcon/index.vue';
@@ -61,8 +61,13 @@ const emits = defineEmits<{
     size: { width?: number; height?: number }
   ): void;
 }>();
-const width = ref(props.width);
-const height = ref(props.height);
+const { width, height } = toRefs(props);
+const cWidth = useControlValue(width, width.value, (val) => {
+  emits('update:width', val);
+});
+const cHeight = useControlValue(height, height.value, (val) => {
+  emits('update:height', val);
+});
 const boxRef = ref();
 const triggerRefMap: Partial<Record<DirectionType, any>> = {};
 const boxPadding = ref<Record<DirectionType, number>>({
@@ -132,8 +137,8 @@ const computedStyle = computed(() => {
 const boxStyle = computed(() => {
   return {
     padding: `${boxPadding.value.top ?? 0}px ${boxPadding.value.right ?? 0}px ${boxPadding.value.bottom ?? 0}px ${boxPadding.value.left ?? 0}px`,
-    width: width.value + 'px',
-    height: height.value + 'px',
+    width: cWidth.value + 'px',
+    height: cHeight.value + 'px',
   };
 });
 const hanClickTrigger = (direction: DirectionType, e: MouseEvent) => {
@@ -153,7 +158,7 @@ useEventListener('mousemove', (e) => {
   if (!resizingDrigger.value) return;
   if (!oldPos) return;
   if (['right', 'left'].includes(resizingDrigger.value)) {
-    const oldWidth = width.value ?? computedStyle.value.width;
+    const oldWidth = cWidth.value ?? computedStyle.value.width;
     const movementX = e.x - oldPos.x;
     let calcWidth =
       oldWidth + (resizingDrigger.value === 'right' ? movementX : -movementX);
@@ -164,11 +169,10 @@ useEventListener('mousemove', (e) => {
       calcWidth > computedStyle.value.maxWidth
     )
       calcWidth = computedStyle.value.maxWidth;
-    width.value = calcWidth;
-    emits('update:width', calcWidth);
+    cWidth.value = calcWidth;
   } else {
     const movementY = e.y - oldPos.y;
-    const oldHeight = height.value ?? computedStyle.value.height;
+    const oldHeight = cHeight.value ?? computedStyle.value.height;
     let calcHeight =
       oldHeight + (resizingDrigger.value === 'bottom' ? movementY : -movementY);
     if (calcHeight < computedStyle.value.minHeight)
@@ -178,14 +182,13 @@ useEventListener('mousemove', (e) => {
       calcHeight > computedStyle.value.maxHeight
     )
       calcHeight = computedStyle.value.maxHeight;
-    height.value = calcHeight;
-    emits('update:height', calcHeight);
+    cHeight.value = calcHeight;
   }
   oldPos = {
     x: e.x,
     y: e.y,
   };
-  emits('moving', e, { width: width.value, height: height.value });
+  emits('moving', e, { width: cWidth.value, height: cHeight.value });
 });
 useEventListener('mouseup', (e) => {
   if (!resizingDrigger.value) return;
@@ -193,19 +196,6 @@ useEventListener('mouseup', (e) => {
   document.body.style.cursor = defaultCursor;
   emits('moving-end', e);
 });
-watch(
-  () => props.width,
-  (newWidth) => {
-    width.value = newWidth;
-  }
-);
-
-watch(
-  () => props.height,
-  (newHeight) => {
-    height.value = newHeight;
-  }
-);
 
 onMounted(() => {
   observerTriggerSize();
