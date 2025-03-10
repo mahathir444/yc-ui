@@ -38,18 +38,17 @@
 }
 // loading
 .yc-link-loading {
-  opacity: 0.4;
   cursor: default;
-  @keyframes loading {
-    0% {
-      transform: rotate(0deg);
-    }
-    100% {
-      transform: rotate(360deg);
-    }
-  }
-  .svg-icon {
-    animation: loading 1s infinite cubic-bezier(0, 0, 1, 1);
+  position: relative;
+
+  &::before {
+    content: '';
+    display: block;
+    z-index: 1;
+    position: absolute;
+    inset: 0 0 0 0;
+    background-color: #fff;
+    opacity: 0.4;
   }
 }
 

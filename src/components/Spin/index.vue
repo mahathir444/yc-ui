@@ -46,8 +46,8 @@ defineOptions({
 });
 withDefaults(defineProps<SpinProps>(), {
   size: 20,
-  loading: true,
-  dot: true,
+  loading: false,
+  dot: false,
   tip: '',
   hideIcon: false,
 });

@@ -5,7 +5,9 @@
       fontSize,
     }"
   >
-    <svg-icon :name="name" />
+    <slot name="icon">
+      <svg-icon :name="name" />
+    </slot>
   </div>
 </template>
 

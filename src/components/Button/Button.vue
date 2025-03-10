@@ -29,7 +29,7 @@
   >
     <span v-if="$slots.icon || loading" class="yc-button-icon">
       <slot v-if="!loading" name="icon"></slot>
-      <svg-icon v-else name="loading" />
+      <yc-spin v-else style="color: inherit; font-size: inherit" />
     </span>
     <slot></slot>
   </button>
@@ -41,6 +41,7 @@ import { SIZE_MAP } from '@/components/_constants';
 import { SIZE_CLASS, TYPE_CLASS, STATUS_CLASS, SHAPE_CLASS } from './constants';
 import { ButtonProps, ButtonType, ButtonShape, ButtonStatus } from './type';
 import { Size } from '@/components/_type';
+import YcSpin from '../Spin/index.vue';
 defineOptions({
   name: 'Button',
 });

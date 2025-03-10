@@ -17,10 +17,21 @@
       <a-spin :loading="true" dot tip="aa">
         <YcTextarea :autoSize="{ minRows: 1, maxRows: 10 }" />
       </a-spin>
-      <YcSpin>
-        <YcTextarea :autoSize="{ minRows: 1, maxRows: 10 }" />
-      </YcSpin>
     </div>
+    <!--  -->
+    <a-tag loading bordered>
+      <template #icon>
+        <IconAlignCenter />
+      </template>
+      测试</a-tag
+    >
+    <!--  -->
+    <YcTag bordered>
+      <template #icon>
+        <IconAlignCenter />
+      </template>
+      测试
+    </YcTag>
   </div>
 </template>
 
@@ -29,7 +40,7 @@ import { ref, watch, watchEffect } from 'vue';
 import YcScrollbar from '@/components/Scrollbar';
 import YcButton, { ButtonGroup as YcButtonGroup } from '@/components/Button';
 import YcTextarea from '@/components/Textarea';
-import YcSpin from '@/components/Spin/index.vue';
+import YcTag from '@/components/Tag/index.vue';
 const total = ref(1);
 const handleSelect = (v: any) => {
   console.log(v);

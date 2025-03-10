@@ -100,5 +100,4 @@ export type {
 export { default as Trigger } from './Trigger';
 
 export type { SpinProps, SpinInstance } from './Spin';
-
 export { default as Spin } from './Spin';

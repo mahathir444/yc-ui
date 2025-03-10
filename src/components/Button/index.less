@@ -360,22 +360,18 @@
 // loading
 .yc-button-loading {
   cursor: default;
-  opacity: 0.4;
+  position: relative;
 
-  @keyframes loading {
-    0% {
-      transform: rotate(0deg);
-    }
-    100% {
-      transform: rotate(360deg);
-    }
-  }
-
-  .svg-icon {
-    animation: loading 1s infinite cubic-bezier(0, 0, 1, 1);
+  &::before {
+    content: '';
+    display: block;
+    z-index: 1;
+    position: absolute;
+    inset: 0 0 0 0;
+    background-color: #fff;
+    opacity: 0.4;
   }
 }
-
 // disabled
 .yc-button-disabled {
   cursor: not-allowed;

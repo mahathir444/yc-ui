@@ -59,6 +59,7 @@ declare module 'vue' {
     Spin: typeof import('./src/components/Spin/index.vue')['default']
     SpinIcon: typeof import('./src/components/Spin/component/SpinIcon.vue')['default']
     SvgIcon: typeof import('./src/components/_components/SvgIcon/index.vue')['default']
+    Tag: typeof import('./src/components/Tag/index.vue')['default']
     Textarea: typeof import('./src/components/Textarea/index.vue')['default']
     Thumb: typeof import('./src/components/Scrollbar/component/Thumb.vue')['default']
     Tooltip: typeof import('./src/components/Tooltip/index.vue')['default']
