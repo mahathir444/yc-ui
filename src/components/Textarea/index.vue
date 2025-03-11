@@ -61,7 +61,7 @@ const props = withDefaults(defineProps<TextareaProps>(), {
   maxLength: undefined,
   showWordLimit: false,
   allowClear: false,
-  autoSize: true,
+  autoSize: false,
 });
 const emits = defineEmits<{
   (e: 'update:modelValue', value: string): void;

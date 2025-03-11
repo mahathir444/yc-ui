@@ -1,11 +1,11 @@
 <template>
-  <div
+  <span
     v-if="computedVisible"
     :class="[
       'yc-tag',
       'text-ellipsis',
       SIZE_CLASS[size],
-      COLOR_CLASS[color] ?? 'yc-tag-color',
+      COLOR_CLASS[color] ?? 'yc-tag-custom-color',
       loading ? 'yc-tag-loading' : '',
       bordered ? 'yc-tag-bordered' : '',
       computedChecked ? 'yc-tag-checked' : '',
@@ -13,15 +13,17 @@
     @click="handleCheck"
   >
     <!-- icon -->
-    <div v-if="$slots.icon" class="yc-tag-icon">
+    <span v-if="$slots.icon" class="yc-tag-icon">
       <slot name="icon" />
-    </div>
+    </span>
     <!-- content -->
     <slot />
     <!-- close -->
     <yc-icon-button
       v-if="closable"
       name="close"
+      hover-size="16px"
+      hover-color="rgba(255, 255, 255, 0.2)"
       class="yc-tag-close-button"
       style="color: inherit"
       @click="handleClose"
@@ -36,7 +38,7 @@
       style="color: inherit; font-size: inherit"
       class="yc-tag-loading-icon"
     />
-  </div>
+  </span>
 </template>
 
 <script lang="ts" setup>
@@ -95,36 +97,8 @@ const handleCheck = (ev: MouseEvent) => {
 
 <style lang="less" scoped>
 @import './index.less';
-.yc-tag {
-  padding: 0 8px;
-  background: transparent;
-  border: 1px solid transparent;
-  border-radius: 2px;
-  font-weight: 500;
-  color: rgb(29, 33, 41);
-  vertical-align: middle;
-  display: flex;
-  align-items: center;
-  .yc-tag-icon {
-    margin-right: 4px;
-  }
-  .yc-tag-loading-icon,
-  .yc-tag-close-button {
-    margin-left: 4px;
-    font-size: 12px;
-  }
-  .yc-tag-close-button {
-    &::before {
-      width: 16px;
-      height: 16px;
-    }
-    &:hover::before {
-      background-color: rgba(255, 255, 255, 0.2);
-    }
-  }
-}
 
-.yc-tag-color {
+.yc-tag-custom-color {
   &.yc-tag-checked {
     border-color: rgb(229, 230, 235);
   }

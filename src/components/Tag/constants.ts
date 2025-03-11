@@ -19,4 +19,5 @@ export const COLOR_CLASS: Record<string, string> = {
   pinkpurple: 'yc-tag-color-pinkpurple',
   magent: 'yc-tag-color-magent',
   gray: 'yc-tag-color-gray',
+  white: 'yc-tag-color-white ',
 };

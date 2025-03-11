@@ -19,14 +19,22 @@
       </a-spin>
     </div>
     <!--  -->
-    <a-tag loading bordered closable>
+    <a-tag
+      :nowrap="false"
+      loading
+      bordered
+      closable
+      color="white"
+      style="width: 200px"
+    >
       <template #icon>
         <icon-align-center />
       </template>
-      测试</a-tag
-    >
+      测试aaaaaaaa 测试aaaaaaaa 测试aaaaaaaa 测试aaaaaaaa 测试aaaaaaaa
+      测试aaaaaaaa 测试aaaaaaaa 测试aaaaaaaa 测试aaaaaaaa 测试aaaaaaaa
+    </a-tag>
     <!--  -->
-    <yc-tag loading bordered closable color="rgb(0, 180, 42)">
+    <yc-tag loading bordered closable color="white">
       <template #icon>
         <icon-align-center />
       </template>
@@ -41,6 +49,9 @@
         </div>
       </template>
     </yc-trigger>
+
+    <yc-textarea style="width: 200px" allow-clear></yc-textarea>
+    <yc-input style="width: 200px" allow-clear></yc-input>
   </div>
 </template>
 
@@ -50,6 +61,8 @@ import YcTrigger from '@/components/Trigger';
 import YcScrollbar from '@/components/Scrollbar';
 import YcTag from '@/components/Tag/index.vue';
 import Message from '@/components/Message';
+import YcInput from '@/components/Input';
+import YcTextarea from '@/components/Textarea';
 const total = ref(1);
 </script>
 

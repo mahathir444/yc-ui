@@ -1,5 +1,5 @@
 <template>
-  <div
+  <span
     class="yc-icon-button"
     :style="{
       fontSize,
@@ -8,7 +8,7 @@
     <slot name="icon">
       <svg-icon :name="name" />
     </slot>
-  </div>
+  </span>
 </template>
 
 <script lang="ts" setup>
@@ -18,9 +18,13 @@ withDefaults(
   defineProps<{
     name: string;
     fontSize?: string;
+    hoverColor?: string;
+    hoverSize?: string;
   }>(),
   {
     fontSize: '12px',
+    hoverColor: 'rgb(242, 243, 245)',
+    hoverSize: '20px',
   }
 );
 </script>
@@ -36,7 +40,7 @@ withDefaults(
   align-items: center;
 
   &:hover::before {
-    background-color: rgb(242, 243, 245);
+    background-color: v-bind(hoverColor);
   }
   &::before {
     content: '';
@@ -44,8 +48,8 @@ withDefaults(
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    width: 20px;
-    height: 20px;
+    width: v-bind(hoverSize);
+    height: v-bind(hoverSize);
     border-radius: 50%;
     background: transparent;
     transition: background-color 0.1s cubic-bezier(0, 0, 1, 1);
