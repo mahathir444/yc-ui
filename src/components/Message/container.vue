@@ -1,12 +1,12 @@
 <!-- Message 组件容器 -->
 <template>
-  <TransitionGroup
+  <transition-group
     name="fade-message"
     moveClass="flip-list-move"
     tag="div"
     class="yc-message-container"
   >
-    <Message
+    <message
       v-for="item in messageList"
       :key="item.id"
       :duration="item.duration"
@@ -21,8 +21,8 @@
       <template #icon v-if="item.icon">
         <component :is="item.icon" />
       </template>
-    </Message>
-  </TransitionGroup>
+    </message>
+  </transition-group>
 </template>
 
 <script setup lang="ts">

@@ -15,36 +15,41 @@
 
     <div style="width: 200px">
       <a-spin :loading="true" dot tip="aa">
-        <YcTextarea :autoSize="{ minRows: 1, maxRows: 10 }" />
+        <yc-textarea :autoSize="{ minRows: 1, maxRows: 10 }" />
       </a-spin>
     </div>
     <!--  -->
     <a-tag loading bordered closable color="rgb(0, 180, 42)">
       <template #icon>
-        <IconAlignCenter />
+        <icon-align-center />
       </template>
       测试</a-tag
     >
     <!--  -->
-    <YcTag loading bordered closable color="rgb(0, 180, 42)">
+    <yc-tag loading bordered closable color="rgb(0, 180, 42)">
       <template #icon>
-        <IconAlignCenter />
+        <icon-align-center />
       </template>
       测试
-    </YcTag>
+    </yc-tag>
+
+    <yc-trigger trigger="focus" preventFocus>
+      <a-input style="width: 200px"></a-input>
+      <template #content>
+        <div class="popover-content">
+          <a-empty></a-empty>
+        </div>
+      </template>
+    </yc-trigger>
   </div>
 </template>
 
 <script lang="ts" setup>
 import { ref, watch, watchEffect } from 'vue';
+import YcTrigger from '@/components/Trigger';
 import YcScrollbar from '@/components/Scrollbar';
-import YcButton, { ButtonGroup as YcButtonGroup } from '@/components/Button';
-import YcTextarea from '@/components/Textarea';
 import YcTag from '@/components/Tag/index.vue';
 const total = ref(1);
-const handleSelect = (v: any) => {
-  console.log(v);
-};
 </script>
 
 <style lang="less" scoped>
@@ -61,6 +66,8 @@ const handleSelect = (v: any) => {
 .popover-content {
   width: 200px;
   background-color: #fff;
+  border: 1px solid rgb(229, 230, 235);
   border-radius: 4px;
+  box-shadow: 0 4px 10px #0000001a;
 }
 </style>

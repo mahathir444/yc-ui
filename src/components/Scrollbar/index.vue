@@ -20,7 +20,7 @@
       </div>
     </div>
     <!-- 横向滚动条 -->
-    <Thumb
+    <thumb
       v-if="srcollHeight < contentHeight"
       direction="vertical"
       :type="type"
@@ -32,7 +32,7 @@
       @resize="(width) => (trackWidth = width)"
     />
     <!-- 纵向滚动条 -->
-    <Thumb
+    <thumb
       v-if="srcollWidth < contentWidth"
       direction="horizontal"
       :type="type"

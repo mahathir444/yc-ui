@@ -35,6 +35,7 @@ module.exports = {
     ],
     '@typescript-eslint/no-unused-vars': 'off',
     'no-debugger': 'off',
+    'vue/no-reserved-component-names': 'off',
     'vue/component-name-in-template-casing': [
       'error',
       'kebab-case',

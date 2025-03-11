@@ -22,7 +22,7 @@
         <slot name="tip" />
       </template>
     </spin-icon>
-    <Transition name="fade">
+    <transition name="fade">
       <div v-if="$slots.default && loading" class="yc-spin-mask">
         <spin-icon :hide-icon="hideIcon" :dot="dot" :tip="tip">
           <template v-if="$slots.icon" #icon>
@@ -33,7 +33,7 @@
           </template>
         </spin-icon>
       </div>
-    </Transition>
+    </transition>
     <slot />
   </div>
 </template>

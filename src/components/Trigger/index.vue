@@ -5,13 +5,12 @@
     @contextmenu.prevent="handleContextmenu"
     @mouseenter="handleMouseenter(true, $event)"
     @mouseleave="handleMouseleave"
-    @mousedown="handleMousedown"
     @focus="handleFocus"
     @blur="handleBlur"
     ref="triggerRef"
   />
-  <Teleport :to="popupContainer" :disabled="!renderToBody">
-    <Transition
+  <teleport :to="popupContainer" :disabled="!renderToBody">
+    <transition
       :name="animationName"
       :duration="duration"
       @after-leave="$emit('hide')"
@@ -26,6 +25,7 @@
         ref="contentRef"
         @mouseenter="handleMouseenter(false, $event)"
         @mouseleave="handleMouseleave"
+        @mousedown="handleMousedown"
       >
         <!-- content -->
         <div :class="['yc-trigger-content', contentClass]" :style="contentCss">
@@ -38,8 +38,8 @@
           :style="arrowCss"
         ></div>
       </div>
-    </Transition>
-  </Teleport>
+    </transition>
+  </teleport>
 </template>
 
 <script lang="ts" setup>
@@ -85,7 +85,7 @@ const props = withDefaults(defineProps<TriggerProps>(), {
   duration: 400,
   mouseEnterDelay: 100,
   mouseLeaveDelay: 100,
-  focusDelay: 100,
+  focusDelay: 0,
   autoFitPopupWidth: false,
   autoFitPopupMinWidth: false,
   popupContainer: 'body',

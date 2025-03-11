@@ -1,11 +1,11 @@
 <!-- Message 组件容器 -->
 <template>
-  <TransitionGroup
+  <transition-group
     :name="fadeName"
     tag="div"
     :class="['yc-notification-list', position]"
   >
-    <Notification
+    <notification
       v-for="item in notificationList"
       :key="item.id"
       :duration="item.duration"
@@ -32,8 +32,8 @@
       <template #closeIcon v-if="item.closeIcon">
         <component :is="getSlotFunction(item.closeIcon)" />
       </template>
-    </Notification>
-  </TransitionGroup>
+    </notification>
+  </transition-group>
 </template>
 
 <script setup lang="ts">

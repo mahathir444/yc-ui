@@ -8,7 +8,6 @@ import autoprefixer from 'autoprefixer';
 import { resolve } from 'path';
 import { createSvgIconsPlugin } from 'vite-plugin-svg-icons';
 import VueJsx from '@vitejs/plugin-vue-jsx';
-// import dts from 'vite-plugin-dts';
 
 // https://vitejs.dev/config/
 export default defineConfig(({ mode }) => {
@@ -38,14 +37,6 @@ export default defineConfig(({ mode }) => {
         // 指定symbolId格式
         symbolId: 'icon-[dir]-[name]',
       }),
-      // dts({
-      //   // 输出类型文件的目录
-      //   outDir: resolve(outDir, 'types'),
-      //   // 将声明文件打包到一起
-      //   insertTypesEntry: true,
-      //   // 包含的文件
-      //   include: ['src/components'],
-      // }),
     ],
     resolve: {
       alias: {
@@ -61,7 +52,7 @@ export default defineConfig(({ mode }) => {
       // minify: false,
       minify: 'terser',
       assetsDir: 'static',
-      assetsInlineLimit: 1024 * 5,
+      // assetsInlineLimit: 1024 * 5,
       sourcemap: false,
       // 去除log
       terserOptions: {
@@ -84,23 +75,23 @@ export default defineConfig(({ mode }) => {
         fileName: (format) => `yc-ui.${format}.js`,
         formats: ['es', 'cjs', 'umd'],
       },
-      //
-      rollupOptions: {
-        output: {
-          // 指定样式文件名
-          assetFileNames: (assetInfo) => {
-            const name = assetInfo.name;
-            if (
-              name?.endsWith('.css') ||
-              name.endsWith('.less') ||
-              name.endsWith('.scss')
-            ) {
-              return 'index.css'; // 将样式文件重命名为 index.less
-            }
-            return 'static/[name].[hash][extname]';
-          },
-        },
-      },
+      // rollup配置
+      // rollupOptions: {
+      //   output: {
+      //     // 指定样式文件名
+      //     assetFileNames: (assetInfo) => {
+      //       const name = assetInfo.name;
+      //       if (
+      //         name?.endsWith('.css') ||
+      //         name.endsWith('.less') ||
+      //         name.endsWith('.scss')
+      //       ) {
+      //         return 'index.css'; // 将样式文件重命名为 index.less
+      //       }
+      //       return 'static/[name].[hash][extname]';
+      //     },
+      //   },
+      // },
     },
     css: {
       postcss: {

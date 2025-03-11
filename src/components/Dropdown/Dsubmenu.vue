@@ -1,5 +1,5 @@
 <template>
-  <YcDoption
+  <yc-doption
     :disabled="disabled"
     is-submenu
     value=""
@@ -12,9 +12,9 @@
     <template #suffix>
       <svg-icon name="arrow-left" />
     </template>
-  </YcDoption>
-  <Teleport to="body">
-    <Transition name="fade">
+  </yc-doption>
+  <teleport to="body">
+    <transition name="fade">
       <div
         v-if="computedVisible && !disabled"
         class="yc-dropdown-submenu"
@@ -33,8 +33,8 @@
           <slot name="footer" />
         </div>
       </div>
-    </Transition>
-  </Teleport>
+    </transition>
+  </teleport>
 </template>
 
 <script lang="ts" setup>

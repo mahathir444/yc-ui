@@ -19,7 +19,7 @@
     <!-- content -->
     <slot />
     <!-- close -->
-    <YcIconButton
+    <yc-icon-button
       v-if="closable"
       name="close"
       class="yc-tag-close-button"
@@ -29,9 +29,9 @@
       <template v-if="$slots.closeIcon" #icon>
         <slot name="closeIcon" />
       </template>
-    </YcIconButton>
+    </yc-icon-button>
     <!-- loading -->
-    <YcSpin
+    <yc-spin
       v-if="loading"
       style="color: inherit; font-size: inherit"
       class="yc-tag-loading-icon"
