@@ -17,7 +17,6 @@ export default (params: {
   preventFocus: Ref<boolean>;
   contentRef: Ref<HTMLDivElement | undefined>;
   clickOutSideIngoreFn?: Fn;
-  clickOutsideCallback?: Fn;
   mouseenterCallback?: Fn;
   emits: Fn;
 }) => {
@@ -34,7 +33,6 @@ export default (params: {
     preventFocus,
     contentRef,
     clickOutSideIngoreFn,
-    clickOutsideCallback,
     mouseenterCallback,
     emits,
   } = params;
@@ -55,8 +53,12 @@ export default (params: {
   const mouseY = ref<number>(0);
   // 点击
   const handleClick = (e: MouseEvent) => {
-    if (timeout.value) clearTimeout(timeout.value);
-    if (trigger.value != 'click') return;
+    if (timeout.value) {
+      clearTimeout(timeout.value);
+    }
+    if (trigger.value != 'click') {
+      return;
+    }
     const { pageX, pageY } = e;
     mouseX.value = pageX;
     mouseY.value = pageY;
@@ -64,8 +66,12 @@ export default (params: {
   };
   // 鼠标右击
   const handleContextmenu = (e: MouseEvent) => {
-    if (timeout.value) clearTimeout(timeout.value);
-    if (trigger.value != 'contextMenu') return;
+    if (timeout.value) {
+      clearTimeout(timeout.value);
+    }
+    if (trigger.value != 'contextMenu') {
+      return;
+    }
     const { pageX, pageY } = e;
     mouseX.value = pageX;
     mouseY.value = pageY;
@@ -79,32 +85,48 @@ export default (params: {
   };
   // 鼠标进入
   const handleMouseenter = (isTrigger: boolean, e: MouseEvent) => {
-    if (mouseenterCallback) mouseenterCallback(isTrigger, e);
-    if (timeout.value) clearTimeout(timeout.value);
-    if (trigger.value != 'hover' || computedVisible.value) return;
+    if (mouseenterCallback) {
+      mouseenterCallback(isTrigger, e);
+    }
+    if (timeout.value) {
+      clearTimeout(timeout.value);
+    }
+    if (trigger.value != 'hover' || computedVisible.value) {
+      return;
+    }
     timeout.value = setTimeout(() => {
       computedVisible.value = true;
     }, mouseEnterDelay.value);
   };
   // 鼠标离开
   const handleMouseleave = () => {
-    if (timeout.value) clearTimeout(timeout.value);
-    if (trigger.value != 'hover' || !computedVisible.value) return;
+    if (timeout.value) {
+      clearTimeout(timeout.value);
+    }
+    if (trigger.value != 'hover' || !computedVisible.value) {
+      return;
+    }
     timeout.value = setTimeout(() => {
       computedVisible.value = false;
     }, mouseLeaveDelay.value);
   };
   // 聚焦
   const handleFocus = () => {
-    if (timeout.value) clearTimeout(timeout.value);
-    if (trigger.value != 'focus' || computedVisible.value) return;
+    if (timeout.value) {
+      clearTimeout(timeout.value);
+    }
+    if (trigger.value != 'focus' || computedVisible.value) {
+      return;
+    }
     timeout.value = setTimeout(() => {
       computedVisible.value = true;
     }, focusDelay.value);
   };
   // 失焦
   const handleBlur = () => {
-    if (timeout.value) clearTimeout(timeout.value);
+    if (timeout.value) {
+      clearTimeout(timeout.value);
+    }
     if (
       trigger.value != 'focus' ||
       !blurToClose.value ||
@@ -123,11 +145,7 @@ export default (params: {
         return;
       }
       timeout.value = setTimeout(() => {
-        if (clickOutsideCallback) {
-          clickOutsideCallback(computedVisible, e.target ?? e);
-        } else {
-          computedVisible.value = false;
-        }
+        computedVisible.value = false;
       }, 0);
     });
   }
