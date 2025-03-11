@@ -21,6 +21,10 @@ import Textarea from './Textarea';
 import Tooltip from './Tooltip';
 import Trigger from './Trigger';
 import Spin from './Spin';
+import Tag from './Tag';
+import Select, { Option } from './Select';
+import Empty from './Empty';
+import SvgIcon from '@/components/_components/SvgIcon/index.vue';
 
 export const components: Record<string, Plugin> = {
   Button,
@@ -39,6 +43,9 @@ export const components: Record<string, Plugin> = {
   Tooltip,
   Trigger,
   Spin,
+  Tag,
+  Select,
+  Empty,
 };
 
 const YcUi = {
@@ -50,7 +57,9 @@ const YcUi = {
   Dsubmenu,
   InputSearch,
   InputPassword,
+  Option,
   install: (app: App, options: YcUiOptions) => {
+    app.component('SvgIcon', SvgIcon);
     for (const key of Object.keys(components)) {
       app.use(components[key], options);
     }

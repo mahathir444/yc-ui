@@ -75,7 +75,8 @@
       <div class="yc-select-dropdown">
         <yc-scrollbar style="height: 200px; overflow: auto">
           <div class="yc-select-dropdown-list">
-            <slot />
+            <slot v-if="$slots.default" />
+            <yc-empty v-else description="暂无数据" />
           </div>
         </yc-scrollbar>
       </div>
@@ -95,6 +96,10 @@ import YcTrigger from '@/components/Trigger/index.vue';
 import YcScrollbar from '@/components/Scrollbar/index.vue';
 import YcSpin from '@/components/Spin/index.vue';
 import YcIconButton from '@/components/_components/IconButton/index.vue';
+import YcEmpty from '@/components/Empty/index.vue';
+defineOptions({
+  name: 'Select',
+});
 const props = withDefaults(defineProps<SelectProps>(), {
   modelValue: undefined,
   defaultValue: '',
@@ -105,7 +110,7 @@ const props = withDefaults(defineProps<SelectProps>(), {
   loading: false,
   disabled: false,
   error: false,
-  allowClear: true,
+  allowClear: false,
   allowSearch: true,
 });
 const emits = defineEmits<{

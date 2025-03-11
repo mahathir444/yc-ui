@@ -24,6 +24,7 @@ declare module 'vue' {
     Dropdown: typeof import('./src/components/Dropdown/Dropdown.vue')['default']
     DropdownButton: typeof import('./src/components/Dropdown/DropdownButton.vue')['default']
     Dsubmenu: typeof import('./src/components/Dropdown/Dsubmenu.vue')['default']
+    Empty: typeof import('./src/components/Empty/index.vue')['default']
     IconButton: typeof import('./src/components/_components/IconButton/index.vue')['default']
     Input: typeof import('./src/components/Input/Input.vue')['default']
     InputPassword: typeof import('./src/components/Input/InputPassword.vue')['default']

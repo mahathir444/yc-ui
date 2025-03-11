@@ -48,6 +48,9 @@ import { SIZE_CLASS, COLOR_CLASS } from './constants';
 import YcSpin from '../Spin/index.vue';
 import YcIconButton from '@/components/_components/IconButton/index.vue';
 import useControlValue from '@/components/_hooks/useControlValue';
+defineOptions({
+  name: 'Tag',
+});
 const props = withDefaults(defineProps<TagProps>(), {
   color: 'default',
   size: 'medium',

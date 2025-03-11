@@ -2,13 +2,6 @@ import { Size } from '../_type';
 
 export type SelectValue = string | number | boolean;
 
-export interface SelectOptionProps {
-  value?: SelectValue;
-  label?: string;
-  disabled?: boolean;
-  index?: number;
-}
-
 export interface SelectProps {
   multiple?: boolean;
   modelValue?: SelectValue | SelectValue[];
@@ -23,4 +16,11 @@ export interface SelectProps {
   allowClear?: boolean;
   allowSearch?: boolean;
   allowCreate?: boolean;
+}
+
+export interface OptionProps {
+  value?: SelectValue;
+  label?: string;
+  disabled?: boolean;
+  index?: number;
 }

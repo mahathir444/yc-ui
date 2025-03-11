@@ -102,3 +102,9 @@ export { default as Trigger } from './Trigger';
 
 export type { SpinProps, SpinInstance } from './Spin';
 export { default as Spin } from './Spin';
+
+export type { TagProps, TagInstance } from './Tag';
+export { default as Tag } from './Tag';
+
+export type { EmptyProps, EmptyInstance } from './Empty';
+export { default as Empty } from './Empty';

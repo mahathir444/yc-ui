@@ -1,5 +1,3 @@
-import { Size } from '../_type';
-
 export interface TagProps {
   color?: string;
   size?: 'small' | 'medium' | 'large';

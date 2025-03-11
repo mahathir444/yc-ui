@@ -21,11 +21,11 @@
 
 <script lang="ts" setup>
 import { computed, Ref, toRefs, inject, WritableComputedRef, watch } from 'vue';
-import { SelectOptionProps, SelectValue } from './type';
+import { OptionProps, SelectValue } from './type';
 defineOptions({
   name: 'Option',
 });
-const props = withDefaults(defineProps<SelectOptionProps>(), {
+const props = withDefaults(defineProps<OptionProps>(), {
   label: '',
   value: '',
   disabled: false,
