@@ -24,23 +24,25 @@
       <div v-if="$slots.prefix" class="yc-input-prefix">
         <slot name="prefix" />
       </div>
-      <!-- input -->
-      <input
-        v-model="computedValue"
-        :type="type"
-        :disabled="disabled"
-        :readonly="readonly"
-        :maxlength="maxLength"
-        :placeholder="placeholder"
-        class="yc-input"
-        ref="inputRef"
-        v-bind="inputAttrs"
-        @input="handleEvent('input', $event)"
-        @change="handleEvent('change', $event)"
-        @focus="(e) => emits('focus', e)"
-        @blur="(e) => emits('blur', e)"
-        @keydown.enter="(e) => emits('press-enter', e)"
-      />
+      <slot>
+        <!-- input -->
+        <input
+          v-model="computedValue"
+          :type="type"
+          :disabled="disabled"
+          :readonly="readonly"
+          :maxlength="maxLength"
+          :placeholder="placeholder"
+          class="yc-input"
+          ref="inputRef"
+          v-bind="inputAttrs"
+          @input="handleEvent('input', $event)"
+          @change="handleEvent('change', $event)"
+          @focus="(e) => emits('focus', e)"
+          @blur="(e) => emits('blur', e)"
+          @keydown.enter="(e) => emits('press-enter', e)"
+        />
+      </slot>
       <!-- clear-btn -->
       <yc-icon-button
         v-if="showClearBtn"

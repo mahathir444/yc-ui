@@ -1,15 +1,15 @@
 .yc-input-outer {
   display: flex;
+  width: 100%;
 
   .yc-input-wrapper,
   .yc-input-prepend,
-  .yc-input-append {
+  .yc-input-append,
+  .yc-input-prefix,
+  .yc-input-suffix,
+  .yc-input {
     flex-shrink: 0;
   }
-  .yc-input-wrapper {
-    flex: 1;
-  }
-
   .yc-input-prepend,
   .yc-input-append {
     padding: 0 12px;
@@ -32,6 +32,8 @@
     }
   }
   .yc-input-wrapper {
+    flex: 1;
+    overflow: hidden;
     cursor: text;
     padding: 0 12px;
     background-color: rgb(242, 243, 245);
@@ -42,17 +44,14 @@
       border-color 0.1s cubic-bezier(0, 0, 1, 1),
       background-color 0.1s cubic-bezier(0, 0, 1, 1);
     color: rgb(29, 33, 41);
+    font-weight: 400;
     display: flex;
     align-items: center;
+
     &:focus-within {
       background-color: #fff !important;
       border-color: rgb(22, 93, 255) !important;
       box-shadow: 0 0 0 0 rgb(190, 218, 255);
-    }
-    .yc-input-prefix,
-    .yc-input-suffix,
-    .yc-input {
-      flex-shrink: 0;
     }
     .yc-input-prefix,
     .yc-input-suffix {
@@ -80,14 +79,12 @@
     }
     .yc-input {
       flex: 1;
-      min-width: 183.81px;
       cursor: inherit;
       outline: none;
       border: none;
       border-radius: 0;
       background-color: transparent;
       color: inherit;
-      font-weight: 400;
       &::placeholder {
         color: rgb(134, 144, 156);
       }

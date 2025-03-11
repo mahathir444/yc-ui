@@ -20,7 +20,7 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, Ref, toRefs, inject, WritableComputedRef } from 'vue';
+import { computed, Ref, toRefs, inject, WritableComputedRef, watch } from 'vue';
 import { SelectOptionProps, SelectValue } from './type';
 defineOptions({
   name: 'Option',
@@ -36,6 +36,8 @@ const { label, value: optionValue, disabled } = toRefs(props);
 const computedValue = inject(
   'computedValue'
 ) as WritableComputedRef<SelectValue>;
+// select的label
+const computedLabel = inject('computedLabel') as Ref<string>;
 // 输入框的value
 const computedInputValue = inject(
   'computedInputValue'
@@ -46,13 +48,26 @@ const popupVisible = inject('popupVisible') as Ref<boolean>;
 const showOption = computed(() => {
   return label.value.includes(computedInputValue.value);
 });
-// 处理后缀点击
+// 处理选择
 const handleClick = () => {
   if (disabled.value) return;
   computedValue.value = optionValue.value;
-  computedInputValue.value = label.value;
+  computedLabel.value = label.value;
   popupVisible.value = false;
 };
+// 计算Label
+watch(
+  computedValue,
+  () => {
+    computedLabel.value =
+      computedValue.value == optionValue.value
+        ? label.value
+        : computedLabel.value;
+  },
+  {
+    immediate: true,
+  }
+);
 </script>
 
 <style lang="less" scoped>
