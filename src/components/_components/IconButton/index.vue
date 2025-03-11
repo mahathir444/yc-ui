@@ -1,5 +1,5 @@
 <template>
-  <span
+  <div
     class="yc-icon-button"
     :style="{
       fontSize,
@@ -8,7 +8,7 @@
     <slot name="icon">
       <svg-icon :name="name" />
     </slot>
-  </span>
+  </div>
 </template>
 
 <script lang="ts" setup>

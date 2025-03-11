@@ -12,4 +12,5 @@ export interface TagProps {
   checked?: boolean;
   defaultChecked?: boolean;
   nowrap?: boolean;
+  value?: string;
 }

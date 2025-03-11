@@ -1,5 +1,5 @@
 <template>
-  <span
+  <div
     v-if="computedVisible"
     :class="[
       'yc-tag',
@@ -13,9 +13,9 @@
     @click="handleCheck"
   >
     <!-- icon -->
-    <span v-if="$slots.icon" class="yc-tag-icon">
+    <div v-if="$slots.icon" class="yc-tag-icon">
       <slot name="icon" />
-    </span>
+    </div>
     <!-- content -->
     <slot />
     <!-- close -->
@@ -38,11 +38,11 @@
       style="color: inherit; font-size: inherit"
       class="yc-tag-loading-icon"
     />
-  </span>
+  </div>
 </template>
 
 <script lang="ts" setup>
-import { ref, reactive, toRefs } from 'vue';
+import { toRefs } from 'vue';
 import { TagProps } from './type';
 import { SIZE_CLASS, COLOR_CLASS } from './constants';
 import YcSpin from '../Spin/index.vue';
@@ -54,17 +54,18 @@ const props = withDefaults(defineProps<TagProps>(), {
   bordered: false,
   loading: false,
   closable: false,
-  checkable: true,
+  checkable: false,
   visible: undefined,
   defaultVisible: true,
   checked: undefined,
   defaultChecked: true,
   nowrap: false,
+  value: '',
 });
 const emits = defineEmits<{
   (e: 'update:visible', value: boolean): void;
   (e: 'update:checked', value: boolean): void;
-  (e: 'close', ev: MouseEvent): void;
+  (e: 'close', ev: MouseEvent, value?: string): void;
   (e: 'check', value: boolean, ev: MouseEvent): void;
 }>();
 const { visible, defaultVisible, checked, defaultChecked, checkable } =
@@ -84,7 +85,7 @@ const computedChecked = useControlValue<boolean>(
 // 处理关闭
 const handleClose = (ev: MouseEvent) => {
   computedVisible.value = false;
-  emits('close', ev);
+  emits('close', ev, props.value);
 };
 // 处理选中
 const handleCheck = (ev: MouseEvent) => {

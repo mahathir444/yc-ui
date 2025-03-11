@@ -13,56 +13,39 @@
       </div>
     </yc-scrollbar>
 
-    <div style="width: 200px">
-      <a-spin :loading="true" dot tip="aa">
-        <yc-textarea :autoSize="{ minRows: 1, maxRows: 10 }" />
-      </a-spin>
+    <!--  -->
+    <div>
+      <yc-tag bordered>
+        <template #icon>
+          <icon-align-center />
+        </template>
+        测试
+      </yc-tag>
     </div>
-    <!--  -->
-    <a-tag
-      :nowrap="false"
-      loading
-      bordered
-      closable
-      color="white"
-      style="width: 200px"
-    >
-      <template #icon>
-        <icon-align-center />
-      </template>
-      测试aaaaaaaa 测试aaaaaaaa 测试aaaaaaaa 测试aaaaaaaa 测试aaaaaaaa
-      测试aaaaaaaa 测试aaaaaaaa 测试aaaaaaaa 测试aaaaaaaa 测试aaaaaaaa
-    </a-tag>
-    <!--  -->
-    <yc-tag loading bordered closable color="white">
-      <template #icon>
-        <icon-align-center />
-      </template>
-      测试
-    </yc-tag>
 
-    <yc-trigger trigger="focus" preventFocus>
-      <a-input style="width: 200px"></a-input>
-      <template #content>
-        <div class="popover-content">
-          <a-empty></a-empty>
-        </div>
-      </template>
-    </yc-trigger>
-
-    <yc-textarea style="width: 200px" allow-clear></yc-textarea>
-    <yc-input style="width: 200px" allow-clear></yc-input>
+    <div style="width: 300px">
+      <yc-select placeholder="请选择">
+        <yc-option v-for="i in 6" :key="i" :value="i" :label="i.toString()" />
+      </yc-select>
+    </div>
+    <div style="width: 300px">
+      <yc-dropdown>
+        <a-button>测试</a-button>
+        <template #content>
+          <yc-doption v-for="i in 6" :key="i" :value="i">{{ i }}</yc-doption>
+        </template>
+      </yc-dropdown>
+    </div>
   </div>
 </template>
 
 <script lang="ts" setup>
 import { ref, watch, watchEffect } from 'vue';
-import YcTrigger from '@/components/Trigger';
 import YcScrollbar from '@/components/Scrollbar';
 import YcTag from '@/components/Tag/index.vue';
-import Message from '@/components/Message';
-import YcInput from '@/components/Input';
-import YcTextarea from '@/components/Textarea';
+import YcSelect from '@/components/Select/Select.vue';
+import YcOption from '@/components/Select/Option.vue';
+import YcDropdown, { DOption as YcDoption } from '@/components/Dropdown';
 const total = ref(1);
 </script>
 

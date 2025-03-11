@@ -52,8 +52,8 @@ export default (params: {
     // 如果跟随鼠标点击位置
     if (alignPoint.value && ['click', 'contextMenu'].includes(trigger.value)) {
       return {
-        top: `${mouseY.value + offsetX + offsetY}px`,
-        left: `${mouseX.value - contentWidth.value / 2 + offsetY + offsetX}px`,
+        top: `${mouseY.value + offsetY}px`,
+        left: `${mouseX.value - contentWidth.value / 2 + offsetX}px`,
       };
     }
     let offsetTop = 0;
@@ -190,7 +190,6 @@ export default (params: {
     } else if (triggerPosition.value.startsWith('r')) {
       offsetX = popupOffset.value;
     }
-
     return {
       offsetX,
       offsetY,
