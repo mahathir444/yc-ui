@@ -5,7 +5,7 @@
       'yc-tag',
       'text-ellipsis',
       SIZE_CLASS[size],
-      COLOR_CLASS[color],
+      COLOR_CLASS[color] ?? 'yc-tag-color',
       loading ? 'yc-tag-loading' : '',
       bordered ? 'yc-tag-bordered' : '',
       computedChecked ? 'yc-tag-checked' : '',
@@ -23,6 +23,7 @@
       v-if="closable"
       name="close"
       class="yc-tag-close-button"
+      style="color: inherit"
       @click="handleClose"
     >
       <template v-if="$slots.closeIcon" #icon>
@@ -111,6 +112,16 @@ const handleCheck = (ev: MouseEvent) => {
   .yc-tag-close-button {
     margin-left: 4px;
     font-size: 12px;
+  }
+}
+
+.yc-tag-color {
+  &.yc-tag-checked {
+    border-color: rgb(229, 230, 235);
+  }
+  &.yc-tag-checked {
+    color: #fff;
+    background-color: v-bind(color);
   }
 }
 </style>

@@ -19,14 +19,14 @@
       </a-spin>
     </div>
     <!--  -->
-    <a-tag loading bordered>
+    <a-tag loading bordered closable color="rgb(0, 180, 42)">
       <template #icon>
         <IconAlignCenter />
       </template>
       测试</a-tag
     >
     <!--  -->
-    <YcTag bordered>
+    <YcTag loading bordered closable color="rgb(0, 180, 42)">
       <template #icon>
         <IconAlignCenter />
       </template>

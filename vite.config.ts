@@ -8,6 +8,7 @@ import autoprefixer from 'autoprefixer';
 import { resolve } from 'path';
 import { createSvgIconsPlugin } from 'vite-plugin-svg-icons';
 import VueJsx from '@vitejs/plugin-vue-jsx';
+// import dts from 'vite-plugin-dts';
 
 // https://vitejs.dev/config/
 export default defineConfig(({ mode }) => {
@@ -37,13 +38,18 @@ export default defineConfig(({ mode }) => {
         // 指定symbolId格式
         symbolId: 'icon-[dir]-[name]',
       }),
+      // dts({
+      //   // 输出类型文件的目录
+      //   outDir: resolve(outDir, 'types'),
+      //   // 将声明文件打包到一起
+      //   insertTypesEntry: true,
+      //   // 包含的文件
+      //   include: ['src/components'],
+      // }),
     ],
-    base: './',
     resolve: {
       alias: {
         '@': resolve(__dirname, 'src'),
-        '@components': resolve(__dirname, 'src/components'),
-        '@assets': resolve(__dirname, 'src/assets'),
       },
     },
     server: {
@@ -52,35 +58,46 @@ export default defineConfig(({ mode }) => {
     },
     build: {
       outDir,
-      chunkSizeWarningLimit: 1000,
-      sourcemap: false,
+      // minify: false,
       minify: 'terser',
       assetsDir: 'static',
       assetsInlineLimit: 1024 * 5,
+      sourcemap: false,
+      // 去除log
       terserOptions: {
         compress: {
           drop_console: true,
           drop_debugger: true,
         },
       },
+      //忽略打包vue文件
+      external: ['vue'],
+      output: {
+        // 为 UMD 格式提供全局变量
+        globals: {
+          vue: 'Vue',
+        },
+      },
+      lib: {
+        entry: './src/components/index.ts',
+        name: 'yc-ui',
+        fileName: (format) => `yc-ui.${format}.js`,
+        formats: ['es', 'cjs', 'umd'],
+      },
+      //
       rollupOptions: {
         output: {
-          manualChunks(id) {
-            if (id.indexOf('node_modules') != -1) {
-              return id
-                .toString()
-                .split('node_modules/')[1]
-                .split('/')[0]
-                .toString();
+          // 指定样式文件名
+          assetFileNames: (assetInfo) => {
+            const name = assetInfo.name;
+            if (
+              name?.endsWith('.css') ||
+              name.endsWith('.less') ||
+              name.endsWith('.scss')
+            ) {
+              return 'index.css'; // 将样式文件重命名为 index.less
             }
-          },
-          chunkFileNames: (chunkInfo) => {
-            const facadeModuleId = chunkInfo.facadeModuleId
-              ? chunkInfo.facadeModuleId.split('/')
-              : [];
-            const fileName =
-              facadeModuleId[facadeModuleId.length - 2] || '[name]';
-            return `js/${fileName}/[name].[hash].js`;
+            return 'static/[name].[hash][extname]';
           },
         },
       },

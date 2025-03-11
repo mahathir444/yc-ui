@@ -140,7 +140,7 @@ const slots = useSlots();
 // 获取触发插槽
 const TriggerSlot = computed(() => {
   // 读取第一个不是插槽地vNode
-  const _readNode = (vNode?: VNode) => {
+  const _readNode = (vNode?: VNode): VNode | undefined => {
     if (vNode?.shapeFlag != SHAPE_FLAGS.slot) return vNode;
     return _readNode((vNode.children as any)[0]);
   };

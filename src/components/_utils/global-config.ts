@@ -1,5 +1,5 @@
 const COMPONENT_PREFIX = 'Yc';
 
-export const getComponentPrefix = (options?: Record<string, any>) => {
+export const getComponentPrefix = (_options?: Record<string, any>) => {
   return COMPONENT_PREFIX;
 };

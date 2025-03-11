@@ -14,7 +14,7 @@ export default (hideCallback?: Fn) => {
   groupIds.value[level] = groupId;
   provide('groupIds', groupIds);
   //   判断是否在一个组内
-  const isSameGroup = (el: HTMLElement) => {
+  const isSameGroup = (el: HTMLElement): boolean => {
     const groupId = el.getAttribute('data-group-id') as string;
     console.log(el, groupIds.value);
     if (groupIds.value.includes(groupId)) {
