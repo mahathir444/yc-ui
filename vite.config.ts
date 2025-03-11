@@ -1,13 +1,13 @@
 import { defineConfig, loadEnv } from 'vite';
 import vue from '@vitejs/plugin-vue';
+import path from 'path';
+import autoprefixer from 'autoprefixer';
+import { createSvgIconsPlugin } from 'vite-plugin-svg-icons';
+import VueJsx from '@vitejs/plugin-vue-jsx';
 import AutoImport from 'unplugin-auto-import/vite';
 import Components from 'unplugin-vue-components/vite';
 import { ArcoResolver } from 'unplugin-vue-components/resolvers';
 import { visualizer } from 'rollup-plugin-visualizer';
-import autoprefixer from 'autoprefixer';
-import { resolve } from 'path';
-import { createSvgIconsPlugin } from 'vite-plugin-svg-icons';
-import VueJsx from '@vitejs/plugin-vue-jsx';
 
 // https://vitejs.dev/config/
 export default defineConfig(({ mode }) => {
@@ -33,14 +33,14 @@ export default defineConfig(({ mode }) => {
       }),
       createSvgIconsPlugin({
         // 指定需要缓存的图标文件夹
-        iconDirs: [resolve(process.cwd(), 'src/assets/icons')],
+        iconDirs: [path.resolve(process.cwd(), 'src/assets/icons')],
         // 指定symbolId格式
         symbolId: 'icon-[dir]-[name]',
       }),
     ],
     resolve: {
       alias: {
-        '@': resolve(__dirname, 'src'),
+        '@': path.resolve(__dirname, 'src'),
       },
     },
     server: {
@@ -76,22 +76,22 @@ export default defineConfig(({ mode }) => {
         formats: ['es', 'cjs', 'umd'],
       },
       // rollup配置
-      // rollupOptions: {
-      //   output: {
-      //     // 指定样式文件名
-      //     assetFileNames: (assetInfo) => {
-      //       const name = assetInfo.name;
-      //       if (
-      //         name?.endsWith('.css') ||
-      //         name.endsWith('.less') ||
-      //         name.endsWith('.scss')
-      //       ) {
-      //         return 'index.css'; // 将样式文件重命名为 index.less
-      //       }
-      //       return 'static/[name].[hash][extname]';
-      //     },
-      //   },
-      // },
+      rollupOptions: {
+        output: {
+          // 指定样式文件名
+          assetFileNames: (assetInfo) => {
+            const name = assetInfo.name;
+            if (
+              name?.endsWith('.css') ||
+              name.endsWith('.less') ||
+              name.endsWith('.scss')
+            ) {
+              return 'index.css'; // 将样式文件重命名为 index.less
+            }
+            return 'static/[name].[hash][extname]';
+          },
+        },
+      },
     },
     css: {
       postcss: {

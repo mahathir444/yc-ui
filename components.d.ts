@@ -17,6 +17,7 @@ declare module 'vue' {
     ButtonGroup: typeof import('./src/components/Button/ButtonGroup.vue')['default']
     Container: typeof import('./src/components/Message/container.vue')['default']
     Dgroup: typeof import('./src/components/Dropdown/Dgroup.vue')['default']
+    DGroup: typeof import('./src/components/Dropdown/DGroup.vue')['default']
     Doption: typeof import('./src/components/Dropdown/Doption.vue')['default']
     DotIcon: typeof import('./src/components/Spin/component/DotIcon.vue')['default']
     Drawer: typeof import('./src/components/Drawer/index.vue')['default']

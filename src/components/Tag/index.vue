@@ -113,6 +113,15 @@ const handleCheck = (ev: MouseEvent) => {
     margin-left: 4px;
     font-size: 12px;
   }
+  .yc-tag-close-button {
+    &::before {
+      width: 16px;
+      height: 16px;
+    }
+    &:hover::before {
+      background-color: rgba(255, 255, 255, 0.2);
+    }
+  }
 }
 
 .yc-tag-color {

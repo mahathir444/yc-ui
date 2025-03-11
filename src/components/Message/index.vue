@@ -131,20 +131,5 @@ const hasIcon = computed(() => {
       }
     }
   }
-
-  .yc-message-close {
-    font-size: 12px;
-    border-radius: 50%;
-    cursor: pointer;
-    width: 20px;
-    height: 20px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    &:hover {
-      background-color: rgb(242, 243, 245);
-    }
-  }
 }
 </style>

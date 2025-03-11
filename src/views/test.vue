@@ -19,7 +19,7 @@
       </a-spin>
     </div>
     <!--  -->
-    <a-tag loading bordered closable color="rgb(0, 180, 42)">
+    <a-tag loading bordered closable>
       <template #icon>
         <icon-align-center />
       </template>
@@ -49,6 +49,7 @@ import { ref, watch, watchEffect } from 'vue';
 import YcTrigger from '@/components/Trigger';
 import YcScrollbar from '@/components/Scrollbar';
 import YcTag from '@/components/Tag/index.vue';
+import Message from '@/components/Message';
 const total = ref(1);
 </script>
 

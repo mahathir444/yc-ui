@@ -36,19 +36,19 @@ withDefaults(
   align-items: center;
 
   &:hover::before {
-    display: block;
+    background-color: rgb(242, 243, 245);
   }
   &::before {
     content: '';
+    position: absolute;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    position: absolute;
     width: 20px;
     height: 20px;
-    background-color: rgb(242, 243, 245);
     border-radius: 50%;
-    display: none;
+    background: transparent;
+    transition: background-color 0.1s cubic-bezier(0, 0, 1, 1);
   }
   .svg-icon {
     position: relative;
