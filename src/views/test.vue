@@ -1,46 +1,16 @@
 <template>
   <div class="test">
     <div style="width: 300px">
-      <yc-select
-        placeholder="请选择"
-        :options="[
-          {
-            label: '1',
-            value: 1,
-          },
-        ]"
-      >
-        <template #prefix>
-          <a-button>提交</a-button>
-        </template>
-        <!-- <template #header>
-          <a-input></a-input>
-        </template> -->
+      <yc-select v-model="value" multiple placeholder="请选择">
         <YcOptionGroup label="分组1">
-          <yc-option v-for="i in 6" :key="i" :value="i" :label="i.toString()">
-            <template #icon>
-              <icon-align-center />
-            </template>
-            <template #suffix>
-              <icon-align-center />
-            </template>
+          <yc-option v-for="i in 20" :key="i" :value="i" :label="`选项${i}`">
           </yc-option>
         </YcOptionGroup>
-
-        <template #footer>
-          <a-button>提交</a-button>
-        </template>
       </yc-select>
     </div>
 
     <div style="width: 300px">
       <a-select placeholder="请选择" allow-search allow-clear>
-        <template #prefix>
-          <a-button>提交</a-button>
-        </template>
-        <template #header>
-          <a-input></a-input>
-        </template>
         <a-option
           v-for="i in 6"
           :key="i"
@@ -56,9 +26,6 @@
             <icon-align-center />
           </template>
         </a-option>
-        <template #footer>
-          <a-button>提交</a-button>
-        </template>
       </a-select>
     </div>
   </div>
@@ -74,6 +41,7 @@ import YcOptionGroup from '@/components/Select/Optgroup.vue';
 import YcDropdown, { DOption as YcDoption } from '@/components/Dropdown';
 import YcButton, { ButtonGroup } from '@/components/Button';
 const total = ref(1);
+const value = ref([]);
 </script>
 
 <style lang="less" scoped>

@@ -93,7 +93,7 @@
         <div class="yc-select-dropdown">
           <!-- header -->
           <div
-            v-if="$slots.header && (showFooterOnEmpty || !isEmpty)"
+            v-if="$slots.header && (showHeaderOnEmpty || !isEmpty)"
             class="yc-select-dropdown-header"
           >
             <slot name="header" />
@@ -145,6 +145,7 @@ defineOptions({
   name: 'Select',
 });
 const props = withDefaults(defineProps<SelectProps>(), {
+  multiple: false,
   modelValue: undefined,
   defaultValue: '',
   inputValue: undefined,
@@ -165,14 +166,15 @@ const props = withDefaults(defineProps<SelectProps>(), {
     return option?.label?.includes(inputValue);
   },
   options: () => [],
-  formatLabel: (option: SelectOptionData) => {
-    return option.label;
+  formatLabel: (option: SelectOptionData[]) => {
+    return option.map((item) => item.value).join('、');
   },
   triggerProps: () => {
     return {
       contentStyle: {},
     };
   },
+  limit: 0,
   searchDelay: 500,
   showHeaderOnEmpty: false,
   showFooterOnEmpty: false,
@@ -186,6 +188,7 @@ const emits = defineEmits<{
   (e: 'update:inputValue', value: SelectValue): void;
   (e: 'update:popupVisible', value: boolean): void;
   (e: 'popupVisibleChange', value: boolean): void;
+  (e: 'exceed-limit', value: SelectValue, ev: MouseEvent): void;
 }>();
 const {
   modelValue,
@@ -201,8 +204,14 @@ const {
   options,
   showFooterOnEmpty,
   showHeaderOnEmpty,
+  limit,
+  multiple,
 } = toRefs(props);
 const { filterOption, formatLabel } = props;
+provide('filterOption', filterOption);
+provide('limit', limit);
+provide('multiple', multiple);
+provide('emits', emits);
 // 当前的位置
 const triggerPostion = ref<TriggerPostion>('bl');
 // 输入实例
@@ -222,7 +231,6 @@ const {
   defaultInputValue,
   inputValue,
   formatLabel,
-  filterOption,
   emits,
 });
 // 是否展示清除按钮

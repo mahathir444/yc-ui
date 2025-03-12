@@ -17,7 +17,7 @@ export interface OptgroupProps {
 export type SelectOptionData = OptionProps;
 
 export interface SelectProps {
-  // multiple?: boolean;
+  multiple?: boolean;
   modelValue?: SelectValue | SelectValue[];
   defaultValue?: SelectValue | SelectValue[];
   inputValue?: string;
@@ -41,12 +41,12 @@ export interface SelectProps {
   options?: SelectOptionData[];
   // virtual-list-props
   triggerProps?: TriggerProps;
-  formatLabel?: (data: SelectOptionData) => string;
+  formatLabel?: (data: SelectOptionData[]) => string;
   // fallback-option
   // show-extra-options
   // value-key
   searchDelay?: number;
-  // limit
+  limit?: number;
   // field-names
   // scrollbar
   showHeaderOnEmpty?: boolean;

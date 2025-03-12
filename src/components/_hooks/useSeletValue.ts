@@ -1,11 +1,8 @@
 import { computed, provide, ref, Ref } from 'vue';
 import useControlValue from './useControlValue';
-import {
-  OptionProps,
-  SelectOptionData,
-  SelectValue,
-} from '@/components/Select/type';
+import { OptionProps, SelectValue } from '@/components/Select/type';
 import { Fn } from '../_type';
+import { isArray } from '../_utils/is';
 
 export default (params: {
   popupVisible: Ref<boolean | undefined>;
@@ -15,7 +12,6 @@ export default (params: {
   inputValue: Ref<string | undefined>;
   defaultInputValue: Ref<string>;
   formatLabel: Fn;
-  filterOption: Fn;
   emits: Fn;
 }) => {
   const {
@@ -26,10 +22,8 @@ export default (params: {
     inputValue,
     defaultInputValue,
     formatLabel,
-    filterOption,
     emits,
   } = params;
-  provide('filterOption', filterOption);
   // popupVisible
   const computedVisible = useControlValue<boolean>(
     popupVisible,
@@ -50,10 +44,13 @@ export default (params: {
   );
   // 当前的选项显示ide值
   const computedLabel = computed(() => {
-    const option = optionList.value.find(
-      (item) => item.value == computedValue.value
-    );
-    if (!option) return '';
+    const option = optionList.value.filter((item) => {
+      return isArray(computedValue.value)
+        ? computedValue.value.includes(item.value)
+        : computedValue.value == item.value;
+    });
+    console.log(option);
+    if (!option.length) return '';
     return formatLabel(option);
   });
   provide('computedValue', computedValue);
