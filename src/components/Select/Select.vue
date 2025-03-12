@@ -91,8 +91,8 @@
         <yc-spin :loading="loading" class="yc-select-loading">
           <yc-scrollbar
             style="max-height: 200px"
-            :track-bar-width="10"
-            :thumb-bar-width="5"
+            :track-width="10"
+            :thumb-width="5"
           >
             <div class="yc-select-dropdown-list">
               <slot>

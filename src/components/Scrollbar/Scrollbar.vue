@@ -2,7 +2,7 @@
   <div
     :class="{
       'yc-scrollbar': true,
-      'yc-scrollbar-fill-container': autoFill,
+      'yc-scrollbar-auto-fill': autoFill,
       'yc-scrollbar-both-track': type == 'track' && thumbHeight && thumbWidth,
       'yc-scrollbar-vertical-track': type == 'track' && thumbHeight,
       'yc-scrollbar-horizontal-track': type == 'track' && thumbWidth,
@@ -29,10 +29,11 @@
       :top="thumbTop"
       :minTop="offsetTop"
       :maxTop="maxThumbTop + offsetTop"
-      :trackBarWidth="trackBarWidth"
-      :thumbBarWidth="thumbBarWidth"
+      :verticalTrackWidth="verticalTrackWidth"
+      :horizontalTrackHeight="horizontalTrackHeight"
+      :verticalThumbWidth="verticalThumbWidth"
+      :verticalThubmHeight="verticalThubmHeight"
       @drag="handleDrag"
-      @resize="(width) => (trackWidth = width)"
     />
     <!-- 纵向滚动条 -->
     <yc-track
@@ -43,10 +44,11 @@
       :left="thumbLeft"
       :minLeft="offsetLeft"
       :maxLeft="maxThumbLeft + offsetLeft"
-      :trackBarWidth="trackBarWidth"
-      :thumbBarWidth="thumbBarWidth"
+      :verticalTrackWidth="verticalTrackWidth"
+      :horizontalTrackHeight="horizontalTrackHeight"
+      :verticalThumbWidth="verticalThumbWidth"
+      :verticalThubmHeight="verticalThubmHeight"
       @drag="handleDrag"
-      @resize="(_, height) => (trackHeight = height)"
     />
   </div>
 </template>
@@ -69,13 +71,15 @@ const props = withDefaults(defineProps<ScrollbarProps>(), {
     return {};
   },
   autoFill: false,
-  trackBarWidth: 15,
-  thumbBarWidth: 9,
+  verticalTrackWidth: 15,
+  horizontalTrackHeight: 15,
+  verticalThumbWidth: 9,
+  verticalThubmHeight: 9,
 });
 const emits = defineEmits<{
   (e: 'scroll', left: number, top: number): void;
 }>();
-const { type } = toRefs(props);
+const { type, verticalTrackWidth, horizontalTrackHeight } = toRefs(props);
 // contentRef
 const contentRef = ref<HTMLElement>();
 // scrollRef
@@ -94,7 +98,7 @@ const {
   left: offsetLeft,
   width: srcollWidth,
   height: srcollHeight,
-} = useElementBounding(scrollRef, {});
+} = useElementBounding(scrollRef);
 // 计算滚动条高度
 const thumbHeight = computed(() => {
   if (contentHeight.value <= srcollHeight.value) return 0;
@@ -107,29 +111,28 @@ const thumbHeight = computed(() => {
 // 计算滚动条宽度
 const thumbWidth = computed(() => {
   if (contentWidth.value <= srcollWidth.value) return 0;
-  const width = Number.parseInt(
-    ((srcollWidth.value * srcollWidth.value) / contentWidth.value).toFixed(0)
-  );
+  const width = +(
+    (srcollWidth.value * srcollWidth.value) /
+    contentWidth.value
+  ).toFixed(0);
   return width <= 20 ? 20 : width;
 });
-// 轨道宽度
-const trackWidth = ref<number>(0);
-// 轨道宽度
-const trackHeight = ref<number>(0);
 // 计算top
 const thumbTop = ref<number>(0);
 //计算left
 const thumbLeft = ref<number>(0);
 // 计算最大的top和Left
 const maxThumbTop = computed(() => {
+  // 如果有横向滚动条
   if (thumbWidth.value) {
-    return srcollHeight.value - thumbHeight.value - trackWidth.value;
+    return srcollHeight.value - thumbHeight.value - horizontalTrackHeight.value;
   }
   return srcollHeight.value - thumbHeight.value;
 });
 const maxThumbLeft = computed(() => {
+  // 如果有纵向滚动条
   if (thumbHeight.value) {
-    return srcollWidth.value - thumbWidth.value - trackHeight.value;
+    return srcollWidth.value - thumbWidth.value - verticalTrackWidth.value;
   }
   return srcollWidth.value - thumbWidth.value;
 });

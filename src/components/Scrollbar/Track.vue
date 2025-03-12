@@ -2,8 +2,8 @@
   <div
     :class="`yc-scrollbar-track yc-scrollbar-track-direction-${direction}`"
     :style="{
-      width: isVertical ? `${trackBarWidth}px` : '',
-      height: isVertical ? '' : `${trackBarWidth}px`,
+      width: isVertical ? `${verticalThumbWidth}px` : '',
+      height: isVertical ? '' : `${horizontalTrackHeight}px`,
     }"
     ref="trackRef"
     @click.self="handleClick"
@@ -24,8 +24,8 @@
           'is-dragging': isDragging,
         }"
         :style="{
-          width: isVertical ? `${thumbBarWidth}px` : '',
-          height: isVertical ? '' : `${thumbBarWidth}px`,
+          width: isVertical ? `${verticalThumbWidth}px` : '',
+          height: isVertical ? '' : `${horizontalTrackHeight}px`,
         }"
       ></div>
     </div>
@@ -49,8 +49,10 @@ const props = withDefaults(
     maxTop?: number;
     minLeft?: number;
     maxLeft?: number;
-    trackBarWidth?: number;
-    thumbBarWidth?: number;
+    verticalTrackWidth?: number;
+    horizontalTrackHeight?: number;
+    verticalThumbWidth?: number;
+    verticalThubmHeight?: number;
   }>(),
   {
     direction: 'vertical',
@@ -67,7 +69,6 @@ const props = withDefaults(
 );
 const emits = defineEmits<{
   (e: 'drag', isVertical: boolean, value: number): void;
-  (e: 'click', isVertical: boolean, value: number): void;
   (e: 'resize', width: number, height: number): void;
 }>();
 const { minLeft, maxLeft, minTop, maxTop, top, left, direction } =
@@ -90,12 +91,6 @@ useEventListener('mousemove', () => {
     x.value = x.value <= minLeft.value ? minLeft.value : x.value;
     emits('drag', false, x.value - minLeft.value);
   }
-});
-//轨道实例
-const trackRef = ref<HTMLDivElement>();
-useResizeObserver(trackRef, () => {
-  const { offsetHeight, offsetWidth } = trackRef.value as HTMLDivElement;
-  emits('resize', offsetWidth, offsetHeight);
 });
 // 处理鼠标点击
 const handleClick = (e: MouseEvent) => {
