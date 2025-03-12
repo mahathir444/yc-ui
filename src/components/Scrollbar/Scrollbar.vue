@@ -29,8 +29,8 @@
       :top="thumbTop"
       :minTop="offsetTop"
       :maxTop="maxThumbTop + offsetTop"
-      :trackWidth="trackWidth"
-      :thumbbarWidth="thumbbarWidth"
+      :trackBarWidth="trackBarWidth"
+      :thumbBarWidth="thumbBarWidth"
       @drag="handleDrag"
       @resize="(width) => (trackWidth = width)"
     />
@@ -43,8 +43,8 @@
       :left="thumbLeft"
       :minLeft="offsetLeft"
       :maxLeft="maxThumbLeft + offsetLeft"
-      :trackWidth="trackWidth"
-      :thumbbarWidth="thumbbarWidth"
+      :trackBarWidth="trackBarWidth"
+      :thumbBarWidth="thumbBarWidth"
       @drag="handleDrag"
       @resize="(_, height) => (trackHeight = height)"
     />
@@ -69,8 +69,8 @@ const props = withDefaults(defineProps<ScrollbarProps>(), {
     return {};
   },
   autoFill: false,
-  trackWidth: 15,
-  thumbbarWidth: 9,
+  trackBarWidth: 15,
+  thumbBarWidth: 9,
 });
 const emits = defineEmits<{
   (e: 'scroll', left: number, top: number): void;

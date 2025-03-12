@@ -2,8 +2,8 @@
   <div
     :class="`yc-scrollbar-track yc-scrollbar-track-direction-${direction}`"
     :style="{
-      width: isVertical ? `${trackWidth}px` : '',
-      height: isVertical ? '' : `${trackWidth}px`,
+      width: isVertical ? `${trackBarWidth}px` : '',
+      height: isVertical ? '' : `${trackBarWidth}px`,
     }"
     ref="trackRef"
     @click.self="handleClick"
@@ -24,8 +24,8 @@
           'is-dragging': isDragging,
         }"
         :style="{
-          width: isVertical ? `${thumbbarWidth}px` : '',
-          height: isVertical ? '' : `${thumbbarWidth}px`,
+          width: isVertical ? `${thumbBarWidth}px` : '',
+          height: isVertical ? '' : `${thumbBarWidth}px`,
         }"
       ></div>
     </div>
@@ -49,8 +49,8 @@ const props = withDefaults(
     maxTop?: number;
     minLeft?: number;
     maxLeft?: number;
-    trackWidth?: number;
-    thumbbarWidth?: number;
+    trackBarWidth?: number;
+    thumbBarWidth?: number;
   }>(),
   {
     direction: 'vertical',

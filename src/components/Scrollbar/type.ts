@@ -8,6 +8,6 @@ export interface ScrollbarProps {
   outerStyle?: CSSProperties;
   style?: CSSProperties;
   autoFill?: boolean;
-  trackWidth?: number;
-  thumbbarWidth?: number;
+  trackBarWidth?: number;
+  thumbBarWidth?: number;
 }
