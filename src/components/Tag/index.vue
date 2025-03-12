@@ -10,6 +10,10 @@
       bordered ? 'yc-tag-bordered' : '',
       computedChecked ? 'yc-tag-checked' : '',
     ]"
+    :style="{
+      background: COLOR_CLASS[color] ? '' : (COLOR_MAP[color] ?? color),
+      color: ['default', 'white'].includes(color) ? 'rgb(29, 33, 41)' : '',
+    }"
     @click="handleCheck"
   >
     <!-- icon -->
@@ -44,7 +48,7 @@
 <script lang="ts" setup>
 import { toRefs } from 'vue';
 import { TagProps } from './type';
-import { SIZE_CLASS, COLOR_CLASS } from './constants';
+import { SIZE_CLASS, COLOR_CLASS, COLOR_MAP } from './constants';
 import YcSpin from '../Spin/index.vue';
 import YcIconButton from '@/components/_components/IconButton/index.vue';
 import useControlValue from '@/components/_hooks/useControlValue';
@@ -101,14 +105,4 @@ const handleCheck = (ev: MouseEvent) => {
 
 <style lang="less" scoped>
 @import './style/index.less';
-
-.yc-tag-custom-color {
-  &.yc-tag-checked {
-    border-color: rgb(229, 230, 235);
-  }
-  &.yc-tag-checked {
-    color: #fff;
-    background-color: v-bind(color);
-  }
-}
 </style>

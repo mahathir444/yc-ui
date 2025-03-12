@@ -5,7 +5,6 @@ export const SIZE_CLASS = {
 };
 
 export const COLOR_CLASS: Record<string, string> = {
-  default: 'yc-tag-color-default',
   red: 'yc-tag-color-red',
   orangered: 'yc-tag-color-orangered',
   orange: 'yc-tag-color-orange',
@@ -19,5 +18,9 @@ export const COLOR_CLASS: Record<string, string> = {
   pinkpurple: 'yc-tag-color-pinkpurple',
   magent: 'yc-tag-color-magent',
   gray: 'yc-tag-color-gray',
-  white: 'yc-tag-color-white ',
+};
+
+export const COLOR_MAP: Record<string, string> = {
+  default: 'rgb(242, 243, 245)',
+  white: '#fff',
 };

@@ -41,7 +41,7 @@
 import { ref, inject, computed, toRefs, CSSProperties, nextTick } from 'vue';
 import { Fn } from '@/components/_type';
 import { DsubmenuProps } from './type';
-import YcScrollbar from '@/components/Scrollbar/index.vue';
+import YcScrollbar from '@/components/Scrollbar/Scrollbar.vue';
 import YcDoption from './Doption.vue';
 import useTriggerLevel from '@/components/_hooks/useTriggerLevel';
 import useControlValue from '../_hooks/useControlValue';

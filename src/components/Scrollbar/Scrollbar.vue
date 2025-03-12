@@ -184,5 +184,5 @@ defineExpose({
 </script>
 
 <style lang="less" scoped>
-@import './style/index.less';
+@import './style/scrollbar.less';
 </style>

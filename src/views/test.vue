@@ -13,16 +13,6 @@
       </div>
     </yc-scrollbar>
 
-    <!--  -->
-    <div>
-      <yc-tag bordered>
-        <template #icon>
-          <icon-align-center />
-        </template>
-        测试
-      </yc-tag>
-    </div>
-
     <div style="width: 300px">
       <yc-select placeholder="请选择">
         <yc-option v-for="i in 6" :key="i" :value="i" :label="i.toString()" />
@@ -36,6 +26,13 @@
         </template>
       </yc-dropdown>
     </div>
+    <button-group type="primary" shape="round">
+      <yc-button>测试</yc-button>
+      <yc-button>测试</yc-button>
+      <yc-button>测试</yc-button>
+      <yc-button>测试</yc-button>
+      <yc-button>测试</yc-button>
+    </button-group>
   </div>
 </template>
 
@@ -46,6 +43,7 @@ import YcTag from '@/components/Tag/index.vue';
 import YcSelect from '@/components/Select/Select.vue';
 import YcOption from '@/components/Select/Option.vue';
 import YcDropdown, { DOption as YcDoption } from '@/components/Dropdown';
+import YcButton, { ButtonGroup } from '@/components/Button';
 const total = ref(1);
 </script>
 

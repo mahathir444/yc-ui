@@ -53,7 +53,7 @@ import { TRANSFORM_ORIGIN_MAP } from '@/components/Trigger/constants';
 import { DropdownProps, DoptionValue } from './type';
 import { TriggerInstance } from '@/components/Trigger';
 import YcTrigger from '@/components/Trigger/index.vue';
-import YcScrollbar from '@/components/Scrollbar/index.vue';
+import YcScrollbar from '@/components/Scrollbar/Scrollbar.vue';
 import useTriggerLevel from '@/components/_hooks/useTriggerLevel';
 defineOptions({
   name: 'Dropdown',

@@ -40,7 +40,7 @@ declare module 'vue' {
     ResizeBox: typeof import('./src/components/ResizeBox/index.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
-    Scrollbar: typeof import('./src/components/Scrollbar/index.vue')['default']
+    Scrollbar: typeof import('./src/components/Scrollbar/Scrollbar.vue')['default']
     Select: typeof import('./src/components/Select/Select.vue')['default']
     ServiceModal: typeof import('./src/components/Modal/component/ServiceModal.vue')['default']
     Spin: typeof import('./src/components/Spin/index.vue')['default']
@@ -50,6 +50,7 @@ declare module 'vue' {
     Textarea: typeof import('./src/components/Textarea/index.vue')['default']
     Thumb: typeof import('./src/components/Scrollbar/component/Thumb.vue')['default']
     Tooltip: typeof import('./src/components/Tooltip/index.vue')['default']
+    Track: typeof import('./src/components/Scrollbar/Track.vue')['default']
     Trigger: typeof import('./src/components/Trigger/index.vue')['default']
   }
 }

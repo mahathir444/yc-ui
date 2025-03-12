@@ -6,8 +6,6 @@
       'yc-button',
       // button是否hoverable
       !disabled && !loading ? 'yc-button-hoverable' : '',
-      // 是否只有图标
-      !$slots.default ? 'yc-button-only-icon' : '',
       // long
       long ? 'yc-button-long' : '',
       // loading
@@ -23,11 +21,26 @@
       // shape
       SHAPE_CLASS[shape],
     ]"
+    :style="{
+      padding: !$slots.default || shape == 'circle' ? 0 : '',
+      width:
+        !$slots.default || shape == 'circle'
+          ? `${SIZE_MAP[size]}px`
+          : 'fit-content',
+      borderRadius,
+    }"
     @click="handleEvent('click', $event)"
     @dblclick="handleEvent('dblclick', $event)"
     @contextmenu="handleEvent('contextmenu', $event)"
   >
-    <span v-if="$slots.icon || loading" class="yc-button-icon">
+    <!-- 只有icon的时候无margin -->
+    <span
+      v-if="$slots.icon || loading"
+      :style="{
+        margin: !$slots.default ? 0 : '',
+      }"
+      class="yc-button-icon"
+    >
       <slot v-if="!loading" name="icon"></slot>
       <yc-spin v-else style="color: inherit; font-size: inherit" />
     </span>
@@ -36,7 +49,7 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, toRefs, inject, Ref } from 'vue';
+import { computed, toRefs, inject, Ref, useSlots } from 'vue';
 import { SIZE_MAP } from '@/components/_constants';
 import { SIZE_CLASS, TYPE_CLASS, STATUS_CLASS, SHAPE_CLASS } from './constants';
 import { ButtonProps, ButtonType, ButtonShape, ButtonStatus } from './type';
@@ -74,10 +87,15 @@ const status = inject('status', tempStatus) as Ref<ButtonStatus>;
 const size = inject('size', tempSize) as Ref<Size>;
 const shape = inject('shape', tempShape) as Ref<ButtonShape>;
 const disabled = inject('disabled', tempDisabled) as Ref<boolean>;
-// 当前的size
-const sizeToPx = computed(() => SIZE_MAP[size.value] + 'px');
-// shape为round的borderRadius
-const roundBorderRadius = computed(() => SIZE_MAP[size.value] / 2 + 'px');
+// borderRadius
+const borderRadius = computed(() => {
+  const map = {
+    circle: '50%',
+    round: SIZE_MAP[size.value] / 2 + 'px',
+    square: '2px',
+  };
+  return map[shape.value];
+});
 // 拦截事件
 const handleEvent = (type: string, e: MouseEvent) => {
   if (disabled.value || loading.value) return;
@@ -87,25 +105,4 @@ const handleEvent = (type: string, e: MouseEvent) => {
 
 <style lang="less" scoped>
 @import './style/button.less';
-
-// 是否只有icon
-.yc-button-only-icon {
-  width: v-bind(sizeToPx);
-  padding: 0;
-  .yc-button-icon {
-    margin: 0 !important;
-  }
-}
-// shape
-.yc-button-shape-square {
-  border-radius: 2px;
-}
-.yc-button-shape-circle {
-  width: v-bind(sizeToPx);
-  padding: 0;
-  border-radius: 50%;
-}
-.yc-button-shape-round {
-  border-radius: v-bind(roundBorderRadius);
-}
 </style>

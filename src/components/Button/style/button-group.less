@@ -1,21 +1,25 @@
 .yc-button-group {
   display: flex;
   align-items: center;
-
   .yc-button {
     flex-shrink: 0;
-    border-radius: 0;
+  }
+  .yc-button {
+    &:not(:first-child):not(:last-child) {
+      border-radius: 0 !important;
+    }
     &:first-child {
-      border-top-left-radius: 2px;
-      border-bottom-left-radius: 2px;
+      border-top-right-radius: 0 !important;
+      border-bottom-right-radius: 0 !important;
     }
     &:last-child {
-      border-top-right-radius: 2px;
-      border-bottom-right-radius: 2px;
+      border-top-left-radius: 0 !important;
+      border-bottom-left-radius: 0 !important;
       border-right: none;
     }
   }
 }
+
 // type
 .yc-button-group-primary,
 .yc-button-group-secondary,
