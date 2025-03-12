@@ -7,5 +7,7 @@ export interface ScrollbarProps {
   outerClass?: string;
   outerStyle?: CSSProperties;
   style?: CSSProperties;
-  autoFillContainer?: boolean;
+  autoFill?: boolean;
+  trackWidth?: number;
+  thumbbarWidth?: number;
 }

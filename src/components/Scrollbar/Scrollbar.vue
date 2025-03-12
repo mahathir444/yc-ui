@@ -2,7 +2,7 @@
   <div
     :class="{
       'yc-scrollbar': true,
-      'yc-scrollbar-fill-container': autoFillContainer,
+      'yc-scrollbar-fill-container': autoFill,
       'yc-scrollbar-both-track': type == 'track' && thumbHeight && thumbWidth,
       'yc-scrollbar-vertical-track': type == 'track' && thumbHeight,
       'yc-scrollbar-horizontal-track': type == 'track' && thumbWidth,
@@ -29,6 +29,8 @@
       :top="thumbTop"
       :minTop="offsetTop"
       :maxTop="maxThumbTop + offsetTop"
+      :trackWidth="trackWidth"
+      :thumbbarWidth="thumbbarWidth"
       @drag="handleDrag"
       @resize="(width) => (trackWidth = width)"
     />
@@ -41,6 +43,8 @@
       :left="thumbLeft"
       :minLeft="offsetLeft"
       :maxLeft="maxThumbLeft + offsetLeft"
+      :trackWidth="trackWidth"
+      :thumbbarWidth="thumbbarWidth"
       @drag="handleDrag"
       @resize="(_, height) => (trackHeight = height)"
     />
@@ -64,7 +68,9 @@ const props = withDefaults(defineProps<ScrollbarProps>(), {
   style: () => {
     return {};
   },
-  autoFillContainer: false,
+  autoFill: false,
+  trackWidth: 15,
+  thumbbarWidth: 9,
 });
 const emits = defineEmits<{
   (e: 'scroll', left: number, top: number): void;

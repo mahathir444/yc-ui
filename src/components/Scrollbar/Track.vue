@@ -1,6 +1,10 @@
 <template>
   <div
     :class="`yc-scrollbar-track yc-scrollbar-track-direction-${direction}`"
+    :style="{
+      width: isVertical ? `${trackWidth}px` : '',
+      height: isVertical ? '' : `${trackWidth}px`,
+    }"
     ref="trackRef"
     @click.self="handleClick"
   >
@@ -18,6 +22,10 @@
         :class="{
           'yc-scrollbar-thumb-bar': true,
           'is-dragging': isDragging,
+        }"
+        :style="{
+          width: isVertical ? `${thumbbarWidth}px` : '',
+          height: isVertical ? '' : `${thumbbarWidth}px`,
         }"
       ></div>
     </div>
@@ -41,6 +49,8 @@ const props = withDefaults(
     maxTop?: number;
     minLeft?: number;
     maxLeft?: number;
+    trackWidth?: number;
+    thumbbarWidth?: number;
   }>(),
   {
     direction: 'vertical',
