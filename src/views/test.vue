@@ -16,14 +16,17 @@
         <!-- <template #header>
           <a-input></a-input>
         </template> -->
-        <yc-option v-for="i in 6" :key="i" :value="i" :label="i.toString()">
-          <template #icon>
-            <icon-align-center />
-          </template>
-          <template #suffix>
-            <icon-align-center />
-          </template>
-        </yc-option>
+        <YcOptionGroup label="分组1">
+          <yc-option v-for="i in 6" :key="i" :value="i" :label="i.toString()">
+            <template #icon>
+              <icon-align-center />
+            </template>
+            <template #suffix>
+              <icon-align-center />
+            </template>
+          </yc-option>
+        </YcOptionGroup>
+
         <template #footer>
           <a-button>提交</a-button>
         </template>
@@ -67,6 +70,7 @@ import YcScrollbar from '@/components/Scrollbar';
 import YcTag from '@/components/Tag/index.vue';
 import YcSelect from '@/components/Select/Select.vue';
 import YcOption from '@/components/Select/Option.vue';
+import YcOptionGroup from '@/components/Select/Optgroup.vue';
 import YcDropdown, { DOption as YcDoption } from '@/components/Dropdown';
 import YcButton, { ButtonGroup } from '@/components/Button';
 const total = ref(1);

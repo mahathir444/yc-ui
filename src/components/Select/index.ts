@@ -1,20 +1,30 @@
 import { App } from 'vue';
 import _Select from './Select.vue';
 import _Option from './Option.vue';
+import _Optgroup from './Optgroup.vue';
 import { getComponentPrefix } from '@/components/_utils/global-config';
 
 export type SelectInstance = InstanceType<typeof _Select>;
 export type OptionInstance = InstanceType<typeof _Option>;
-export type { OptionProps, SelectProps, SelectValue } from './type';
+export type OptgroupInstance = InstanceType<typeof _Optgroup>;
+export type {
+  OptionProps,
+  SelectProps,
+  SelectOptionData,
+  SelectValue,
+  OptgroupProps,
+} from './type';
 
 const Select = Object.assign(_Select, {
-  option: Option,
+  option: _Option,
+  optgroup: _Optgroup,
   install: (app: App) => {
     app.component(getComponentPrefix() + _Select.name, _Select);
     app.component(getComponentPrefix() + _Option.name, _Option);
+    app.component(getComponentPrefix() + _Optgroup.name, _Optgroup);
   },
 });
 
-export { _Option as Option };
+export { _Option as Option, _Optgroup as Optgroup };
 
 export default Select;

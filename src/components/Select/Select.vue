@@ -173,6 +173,7 @@ const props = withDefaults(defineProps<SelectProps>(), {
       contentStyle: {},
     };
   },
+  searchDelay: 500,
   showHeaderOnEmpty: false,
   showFooterOnEmpty: false,
 });

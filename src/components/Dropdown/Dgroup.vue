@@ -9,12 +9,11 @@
 </template>
 
 <script lang="ts" setup>
+import { DgroupProps } from './type';
 defineOptions({
   name: 'Dgroup',
 });
-defineProps<{
-  title?: string;
-}>();
+defineProps<DgroupProps>();
 </script>
 
 <style lang="less" scoped>

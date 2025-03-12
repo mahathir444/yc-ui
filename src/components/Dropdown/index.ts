@@ -1,7 +1,7 @@
 import { App } from 'vue';
 import _Dropdown from './Dropdown.vue';
 import _Doption from './Doption.vue';
-import _Dgroup from './Dgroup.vue';
+import _Dgroup from '../Select/Dgroup.vue';
 import _DropdownButton from './DropdownButton.vue';
 import _Dsubmenu from './Dsubmenu.vue';
 import { getComponentPrefix } from '@/components/_utils/global-config';
@@ -17,6 +17,7 @@ export type {
   DoptionValue,
   DoptionProps,
   DsubmenuProps,
+  DgroupProps,
 } from './type';
 
 export {

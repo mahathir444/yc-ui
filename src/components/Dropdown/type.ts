@@ -28,6 +28,10 @@ export interface DsubmenuProps {
   mouseLeaveDelay?: number;
 }
 
+export interface DgroupProps {
+  title?: string;
+}
+
 export interface DropdownButtonProps {
   popupVisible?: boolean;
   defaultPopupVisible?: boolean;

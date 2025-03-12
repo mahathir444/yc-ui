@@ -4,6 +4,18 @@ import { PopupContainer } from '../Trigger/type';
 
 export type SelectValue = string | number | boolean;
 
+export interface OptionProps {
+  label: string;
+  value: SelectValue;
+  disabled?: boolean;
+}
+
+export interface OptgroupProps {
+  label?: string;
+}
+
+export type SelectOptionData = OptionProps;
+
 export interface SelectProps {
   // multiple?: boolean;
   modelValue?: SelectValue | SelectValue[];
@@ -33,7 +45,7 @@ export interface SelectProps {
   // fallback-option
   // show-extra-options
   // value-key
-  searchDelay: number;
+  searchDelay?: number;
   // limit
   // field-names
   // scrollbar
@@ -41,11 +53,3 @@ export interface SelectProps {
   showFooterOnEmpty?: boolean;
   // tag-nowrap
 }
-
-export interface OptionProps {
-  label: string;
-  value: SelectValue;
-  disabled?: boolean;
-}
-
-export type SelectOptionData = OptionProps;
