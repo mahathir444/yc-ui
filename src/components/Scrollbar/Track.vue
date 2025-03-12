@@ -28,7 +28,7 @@
 import { ref, toRefs, computed } from 'vue';
 import { useDraggable } from '@vueuse/core';
 import { useEventListener, useResizeObserver } from '@vueuse/core';
-import { TackType } from '../type';
+import { TackType } from './type';
 const props = withDefaults(
   defineProps<{
     type?: TackType;
@@ -111,59 +111,5 @@ const handleClick = (e: MouseEvent) => {
 </script>
 
 <style lang="less" scoped>
-.yc-scrollbar-track {
-  position: absolute;
-
-  .yc-scrollbar-thumb {
-    position: absolute;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-
-    .yc-scrollbar-thumb-bar {
-      border-radius: 5px;
-      background-color: rgb(201, 205, 212);
-      opacity: 0;
-      transition: opacity 0.2s ease;
-      user-select: none;
-      &:hover {
-        background-color: rgba(134, 144, 156, 0.5);
-      }
-      &.is-dragging {
-        opacity: 1;
-        background-color: rgba(134, 144, 156, 0.5);
-      }
-    }
-  }
-}
-.yc-scrollbar-track-direction-vertical {
-  top: 0;
-  bottom: 0;
-  right: 0;
-  width: 15px;
-  display: flex;
-  justify-content: center;
-}
-.yc-scrollbar-track-direction-horizontal {
-  left: 0;
-  right: 0;
-  bottom: 0;
-  height: 15px;
-  display: flex;
-  align-items: center;
-}
-.yc-scrollbar-thumb-direction-vertical {
-  width: 100%;
-  .yc-scrollbar-thumb-bar {
-    height: 100%;
-    width: 9px;
-  }
-}
-.yc-scrollbar-thumb-direction-horizontal {
-  height: 100%;
-  .yc-scrollbar-thumb-bar {
-    height: 9px;
-    width: 100%;
-  }
-}
+@import './style/track.less';
 </style>

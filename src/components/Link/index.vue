@@ -58,5 +58,5 @@ const handleEvent = (type: string, e: MouseEvent) => {
 </script>
 
 <style lang="less" scoped>
-@import './index.less';
+@import './style/index.less';
 </style>

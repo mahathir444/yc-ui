@@ -121,5 +121,5 @@ const handleCancel = () => {
 </script>
 
 <style lang="less">
-@import './index.less';
+@import './style/index.less';
 </style>

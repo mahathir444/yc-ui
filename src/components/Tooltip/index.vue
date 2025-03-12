@@ -81,5 +81,5 @@ const computedArrowStyle = computed(() => {
 </script>
 
 <style lang="less">
-@import './index.less';
+@import './style/index.less';
 </style>

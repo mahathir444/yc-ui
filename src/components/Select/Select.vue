@@ -95,7 +95,7 @@ import useSeletValue from '../_hooks/useSeletValue';
 import { sleep } from '@/components/_utils/fn';
 import YcInput, { InputInstance } from '@/components/Input';
 import YcTrigger from '@/components/Trigger/index.vue';
-import YcScrollbar from '@/components/Scrollbar/index.vue';
+import YcScrollbar from '@/components/Scrollbar/Scrollbar.vue';
 import YcSpin from '@/components/Spin/index.vue';
 import YcIconButton from '@/components/_components/IconButton/index.vue';
 import YcEmpty from '@/components/Empty/index.vue';
@@ -185,7 +185,7 @@ const handleClear = () => {
 </script>
 
 <style lang="less" scoped>
-@import '../Input/index.less';
+@import '../Input/style/input.less';
 .yc-select {
   width: 100%;
   height: fit-content;

@@ -20,7 +20,7 @@
       </div>
     </div>
     <!-- 横向滚动条 -->
-    <thumb
+    <yc-track
       v-if="srcollHeight < contentHeight"
       direction="vertical"
       :type="type"
@@ -32,7 +32,7 @@
       @resize="(width) => (trackWidth = width)"
     />
     <!-- 纵向滚动条 -->
-    <thumb
+    <yc-track
       v-if="srcollWidth < contentWidth"
       direction="horizontal"
       :type="type"
@@ -50,7 +50,7 @@
 import { ref, computed, toRefs } from 'vue';
 import { ScrollbarProps } from './type';
 import { useElementBounding, useElementSize } from '@vueuse/core';
-import Thumb from './component/Thumb.vue';
+import YcTrack from './Track.vue';
 defineOptions({
   name: 'Scrollbar',
 });
@@ -184,5 +184,5 @@ defineExpose({
 </script>
 
 <style lang="less" scoped>
-@import './index.less';
+@import './style/index.less';
 </style>
