@@ -2,7 +2,7 @@
   <div
     :class="`yc-scrollbar-track yc-scrollbar-track-direction-${direction}`"
     :style="{
-      width: isVertical ? `${verticalThumbWidth}px` : '',
+      width: isVertical ? `${verticalTrackWidth}px` : '',
       height: isVertical ? '' : `${horizontalTrackHeight}px`,
     }"
     ref="trackRef"
@@ -25,7 +25,7 @@
         }"
         :style="{
           width: isVertical ? `${verticalThumbWidth}px` : '',
-          height: isVertical ? '' : `${horizontalTrackHeight}px`,
+          height: isVertical ? '' : `${horizontalThubmHeight}px`,
         }"
       ></div>
     </div>
@@ -35,7 +35,7 @@
 <script lang="ts" setup>
 import { ref, toRefs, computed } from 'vue';
 import { useDraggable } from '@vueuse/core';
-import { useEventListener, useResizeObserver } from '@vueuse/core';
+import { useEventListener } from '@vueuse/core';
 import { TackType } from './type';
 const props = withDefaults(
   defineProps<{
@@ -52,7 +52,7 @@ const props = withDefaults(
     verticalTrackWidth?: number;
     horizontalTrackHeight?: number;
     verticalThumbWidth?: number;
-    verticalThubmHeight?: number;
+    horizontalThubmHeight?: number;
   }>(),
   {
     direction: 'vertical',
