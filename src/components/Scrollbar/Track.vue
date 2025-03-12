@@ -69,7 +69,7 @@ const { x, y, isDragging } = useDraggable(dragRef);
 // 是否是垂直
 const isVertical = computed(() => direction.value == 'vertical');
 // 计算越界情况
-const handleOutOfBound = () => {
+useEventListener('mousemove', () => {
   if (!isDragging.value) return;
   if (isVertical.value) {
     y.value = y.value >= maxTop.value ? maxTop.value : y.value;
@@ -80,8 +80,7 @@ const handleOutOfBound = () => {
     x.value = x.value <= minLeft.value ? minLeft.value : x.value;
     emits('drag', false, x.value - minLeft.value);
   }
-};
-useEventListener('mousemove', handleOutOfBound);
+});
 //轨道实例
 const trackRef = ref<HTMLDivElement>();
 useResizeObserver(trackRef, () => {

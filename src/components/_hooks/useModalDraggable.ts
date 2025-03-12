@@ -8,7 +8,7 @@ import {
   watch,
 } from 'vue';
 import { sleep } from '@/components/_utils/fn';
-import { useDraggable } from '@vueuse/core';
+import { useDraggable, useEventListener } from '@vueuse/core';
 
 export default (config: {
   visible: Ref<boolean>;
@@ -48,8 +48,8 @@ export default (config: {
           top: `${originY.value}px`,
         };
   });
-  // 处理越界问题
-  const handleOutOfBound = () => {
+  // 处理拖拽越界
+  useEventListener('mousemove', () => {
     if (!isDragging.value || !isDraggable.value) return;
     const maxX = window.innerWidth - modalRef.value!.offsetWidth;
     const maxY = window.innerHeight - modalRef.value!.offsetHeight;
@@ -57,12 +57,6 @@ export default (config: {
     x.value = x.value <= 0 ? 0 : x.value;
     y.value = y.value >= maxY ? maxY : y.value;
     y.value = y.value <= 0 ? 0 : y.value;
-  };
-  onMounted(() => {
-    window.addEventListener('mousemove', handleOutOfBound);
-  });
-  onBeforeUnmount(() => {
-    window.removeEventListener('mousemove', handleOutOfBound);
   });
   // 计算初始位置
   watch(
