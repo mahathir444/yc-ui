@@ -1,9 +1,11 @@
 import { Size } from '../_type';
+import { TriggerProps } from '../Trigger';
+import { PopupContainer } from '../Trigger/type';
 
 export type SelectValue = string | number | boolean;
 
 export interface SelectProps {
-  multiple?: boolean;
+  // multiple?: boolean;
   modelValue?: SelectValue | SelectValue[];
   defaultValue?: SelectValue | SelectValue[];
   inputValue?: string;
@@ -16,11 +18,23 @@ export interface SelectProps {
   allowClear?: boolean;
   allowSearch?: boolean;
   allowCreate?: boolean;
+  // maxTagCount: number;
+  popupContainer?: PopupContainer;
+  // bordered?: boolean;
+  defaultActivefirstOption?: boolean;
+  popupVisible?: boolean;
+  defaultPopupVisible?: boolean;
+  unmountonClose?: boolean;
+  // filterOption?: boolean | (inputValue: string, option: SelectOptionData) => boolean;
+  options?: SelectOptionData[];
+  triggerProps: TriggerProps;
 }
 
 export interface OptionProps {
-  value?: SelectValue;
-  label?: string;
+  label: string;
+  value: SelectValue;
   disabled?: boolean;
   index?: number;
 }
+
+export type SelectOptionData = Omit<OptionProps, 'index'>;

@@ -1,3 +1,31 @@
+.yc-select {
+  width: 100%;
+  height: fit-content;
+
+  &:focus-within {
+    .yc-select-suffix-icon {
+      transform: rotate(270deg);
+    }
+  }
+
+  .yc-select-suffix-icon,
+  .yc-select-search-icon {
+    font-size: 12px;
+    color: inherit;
+    &.yc-select-suffix-icon {
+      transform: rotate(90deg);
+    }
+  }
+
+  .yc-select-clear-icon,
+  .yc-select-search-icon {
+    display: none;
+  }
+  .yc-input.select-value-placeholder {
+    color: rgb(134, 144, 156);
+  }
+}
+
 // allow-search
 .yc-select-allow-search {
   &:focus-within {

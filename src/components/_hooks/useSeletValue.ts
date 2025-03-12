@@ -1,20 +1,40 @@
 import { computed, provide, ref, Ref } from 'vue';
 import useControlValue from './useControlValue';
-import { OptionProps, SelectValue } from '@/components/Select/type';
+import {
+  OptionProps,
+  SelectOptionData,
+  SelectValue,
+} from '@/components/Select/type';
 import { Fn } from '../_type';
 
 export default (params: {
+  popupVisible: Ref<boolean | undefined>;
+  defaultPopupVisible: Ref<boolean>;
   modelValue: Ref<SelectValue | SelectValue[] | undefined>;
   defaultValue: Ref<SelectValue | SelectValue[]>;
   inputValue: Ref<string | undefined>;
   defaultInputValue: Ref<string>;
+  options: Ref<SelectOptionData[]>;
   emits: Fn;
 }) => {
-  const { modelValue, defaultValue, inputValue, defaultInputValue, emits } =
-    params;
-  //可见性
-  const popupVisible = ref<boolean>(false);
-  provide('popupVisible', popupVisible);
+  const {
+    popupVisible,
+    defaultPopupVisible,
+    modelValue,
+    defaultValue,
+    inputValue,
+    defaultInputValue,
+    emits,
+  } = params;
+  // popupVisible
+  const computedVisible = useControlValue<boolean>(
+    popupVisible,
+    defaultPopupVisible.value,
+    (val) => {
+      emits('update:popupVisible', val);
+    }
+  );
+  provide('computedVisible', computedVisible);
   // modelValue
   const computedValue = useControlValue<SelectValue | SelectValue[]>(
     modelValue,
@@ -47,7 +67,7 @@ export default (params: {
     );
   });
   return {
-    popupVisible,
+    computedVisible,
     computedValue,
     computedLabel,
     computedInputValue,

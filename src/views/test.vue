@@ -14,25 +14,49 @@
     </yc-scrollbar>
 
     <div style="width: 300px">
-      <yc-select placeholder="请选择">
-        <yc-option v-for="i in 6" :key="i" :value="i" :label="i.toString()" />
+      <yc-select
+        placeholder="请选择"
+        :options="[
+          {
+            label: '1',
+            value: 1,
+          },
+        ]"
+      >
+        <yc-option v-for="i in 6" :key="i" :value="i" :label="i.toString()">
+          <template #icon>
+            <icon-align-center />
+          </template>
+          <template #suffix>
+            <icon-align-center />
+          </template>
+        </yc-option>
       </yc-select>
     </div>
+
     <div style="width: 300px">
-      <yc-dropdown>
-        <a-button>测试</a-button>
-        <template #content>
-          <yc-doption v-for="i in 6" :key="i" :value="i">{{ i }}</yc-doption>
-        </template>
-      </yc-dropdown>
+      <a-select
+        placeholder="请选择"
+        :options="[
+          {
+            label: '1',
+            value: 1,
+          },
+        ]"
+        allow-search
+        allow-clear
+      >
+        <a-option v-for="i in 6" :key="i" :value="i" :label="i.toString()">
+          <template #icon>
+            <icon-align-center />
+          </template>
+          test
+          <template #suffix>
+            <icon-align-center />
+          </template>
+        </a-option>
+      </a-select>
     </div>
-    <button-group type="primary" shape="round">
-      <yc-button>测试</yc-button>
-      <yc-button>测试</yc-button>
-      <yc-button>测试</yc-button>
-      <yc-button>测试</yc-button>
-      <yc-button>测试</yc-button>
-    </button-group>
   </div>
 </template>
 

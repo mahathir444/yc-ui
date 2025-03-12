@@ -51,10 +51,11 @@ const computedInputValue = inject(
   'computedInputValue'
 ) as WritableComputedRef<string>;
 // visible
-const popupVisible = inject('popupVisible') as Ref<boolean>;
+const computedVisible = inject(
+  'computedVisible'
+) as WritableComputedRef<boolean>;
 // selectOptions
 const selectOptions = inject('selectOptions') as Ref<OptionProps[]>;
-
 // 是否展示Option
 const showOption = computed(() => {
   return label.value.includes(computedInputValue.value);
@@ -64,7 +65,7 @@ const handleClick = () => {
   if (disabled.value) return;
   computedValue.value = optionValue.value;
   computedLabel.value = label.value;
-  popupVisible.value = false;
+  computedVisible.value = false;
 };
 // 计算Label
 watch(
@@ -82,7 +83,6 @@ watch(
 
 onMounted(() => {
   selectOptions.value.push({ ...props });
-  console.log(selectOptions.value);
 });
 </script>
 
@@ -100,29 +100,27 @@ onMounted(() => {
     color: rgb(29, 33, 41);
     background-color: rgb(242, 243, 245);
   }
-  &.yc-select-option-disabled {
-    color: rgb(201, 205, 212);
-    background: transparent;
-    cursor: not-allowed;
-  }
   .yc-select-option-icon,
   .yc-select-option-content,
   .yc-select-option-suffix {
     flex-shrink: 0;
+    color: inherit;
   }
   .yc-select-option-icon {
     margin-right: 8px;
-    color: inherit;
   }
   .yc-select-option-suffix {
-    color: inherit;
     margin-left: 12px;
   }
   .yc-select-option-content {
     flex: 1;
-    overflow: hidden;
     display: flex;
     align-items: center;
   }
+}
+.yc-select-option-disabled {
+  color: rgb(201, 205, 212);
+  background: transparent;
+  cursor: not-allowed;
 }
 </style>

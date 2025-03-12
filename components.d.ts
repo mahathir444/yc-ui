@@ -10,6 +10,8 @@ declare module 'vue' {
     AButton: typeof import('@arco-design/web-vue')['Button']
     AEmpty: typeof import('@arco-design/web-vue')['Empty']
     AInput: typeof import('@arco-design/web-vue')['Input']
+    AOption: typeof import('@arco-design/web-vue')['Option']
+    ASelect: typeof import('@arco-design/web-vue')['Select']
     ASpin: typeof import('@arco-design/web-vue')['Spin']
     ATag: typeof import('@arco-design/web-vue')['Tag']
     ATrigger: typeof import('@arco-design/web-vue')['Trigger']

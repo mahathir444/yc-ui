@@ -1,5 +1,6 @@
 .yc-scrollbar {
   position: relative;
+  height: 100%;
   overflow: hidden;
   &:hover .yc-scrollbar-track {
     &:deep(.yc-scrollbar-thumb-bar) {
@@ -7,6 +8,8 @@
     }
   }
   .yc-scrollbar-container {
+    height: 100%;
+    overflow: auto;
     &::-webkit-scrollbar {
       width: 0;
       height: 0;

@@ -1,18 +1,22 @@
 <template>
   <yc-trigger
-    v-model:popup-visible="popupVisible"
+    v-model:popup-visible="computedVisible"
     trigger="click"
-    :popup-offset="4"
-    :content-style="{
-      transformOrigin: TRANSFORM_ORIGIN_MAP[triggerPostion],
-    }"
-    :unmount-on-close="false"
-    :disabled="disabled"
-    :click-out-side-ingore-fn="isCloseButton"
     position="bl"
     animation-name="slide-dynamic-origin"
+    :popup-offset="4"
+    :unmount-on-close="unmountonClose"
+    :popup-container="popupContainer"
+    :disabled="disabled"
     auto-fit-popup-min-width
+    :click-out-side-ingore-fn="isCloseButton"
+    v-bind="triggerProps"
+    :content-style="{
+      transformOrigin: TRANSFORM_ORIGIN_MAP[triggerPostion],
+      ...triggerProps.contentStyle,
+    }"
     @position-change="(v) => (triggerPostion = v)"
+    @popup-visible-change="(v) => $emit('popupVisibleChange', v)"
   >
     <slot name="trigger">
       <div
@@ -32,9 +36,10 @@
           :error="error"
           ref="inputRef"
           @blur="computedInputValue = ''"
+          @input="(v) => $emit('search', v)"
         >
           <div
-            v-if="!popupVisible"
+            v-if="!computedVisible"
             :class="{
               'text-ellipsis': true,
               'yc-input': true,
@@ -86,7 +91,15 @@
         <yc-spin :loading="loading" class="yc-select-loading">
           <yc-scrollbar style="max-height: 200px; overflow: auto">
             <div class="yc-select-dropdown-list">
-              <slot />
+              <slot>
+                <yc-option
+                  v-for="item in options"
+                  :key="<string>item.value"
+                  :value="item.value"
+                  :label="item.label"
+                  :disabled="item.disabled"
+                />
+              </slot>
               <slot v-if="!searchOptions.length" name="empty">
                 <yc-empty description="暂无数据" />
               </slot>
@@ -111,6 +124,7 @@ import YcScrollbar from '@/components/Scrollbar/Scrollbar.vue';
 import YcSpin from '@/components/Spin/index.vue';
 import YcIconButton from '@/components/_components/IconButton/index.vue';
 import YcEmpty from '@/components/Empty/index.vue';
+import YcOption from './Option.vue';
 defineOptions({
   name: 'Select',
 });
@@ -126,12 +140,27 @@ const props = withDefaults(defineProps<SelectProps>(), {
   error: false,
   allowClear: false,
   allowSearch: false,
+  popupContainer: 'body',
+  defaultActivefirstOption: false,
+  popupVisible: undefined,
+  defaultPopupVisible: false,
+  unmountOnClose: false,
+  triggerProps: () => {
+    return {
+      contentStyle: {},
+    };
+  },
+  options: () => [],
 });
 const emits = defineEmits<{
   (e: 'change', value: SelectValue): void;
+  (e: 'clear'): void;
+  (e: 'search', value: string): void;
   (e: 'input-value-change', value: string): void;
   (e: 'update:modelValue', value: SelectValue): void;
   (e: 'update:inputValue', value: SelectValue): void;
+  (e: 'update:popupVisible', value: boolean): void;
+  (e: 'popupVisibleChange', value: boolean): void;
 }>();
 const {
   modelValue,
@@ -141,6 +170,9 @@ const {
   allowClear,
   disabled,
   loading,
+  defaultPopupVisible,
+  popupVisible,
+  options,
 } = toRefs(props);
 // 当前的位置
 const triggerPostion = ref<TriggerPostion>('bl');
@@ -148,16 +180,19 @@ const triggerPostion = ref<TriggerPostion>('bl');
 const inputRef = ref<InputInstance>();
 // 处理值
 const {
+  computedVisible,
   computedInputValue,
   computedValue,
   computedLabel,
-  popupVisible,
   searchOptions,
 } = useSeletValue({
+  popupVisible,
+  defaultPopupVisible,
   modelValue,
   defaultValue,
   defaultInputValue,
   inputValue,
+  options,
   emits,
 });
 // 是否展示清除按钮
@@ -181,8 +216,8 @@ const isCloseButton = (el: HTMLElement): boolean => {
 };
 // 处理点击
 const handleClick = async () => {
-  popupVisible.value = !popupVisible.value;
-  if (popupVisible.value) {
+  computedVisible.value = !computedVisible.value;
+  if (computedVisible.value) {
     await sleep(0);
     inputRef.value?.focus();
   } else {
@@ -193,37 +228,11 @@ const handleClick = async () => {
 const handleClear = () => {
   computedValue.value = '';
   computedLabel.value = '';
+  emits('clear');
 };
 </script>
 
 <style lang="less" scoped>
 @import '../Input/style/input.less';
 @import './style/select.less';
-.yc-select {
-  width: 100%;
-  height: fit-content;
-
-  &:focus-within {
-    .yc-select-suffix-icon {
-      transform: rotate(270deg);
-    }
-  }
-
-  .yc-select-suffix-icon,
-  .yc-select-search-icon {
-    font-size: 12px;
-    color: inherit;
-    &.yc-select-suffix-icon {
-      transform: rotate(90deg);
-    }
-  }
-
-  .yc-select-clear-icon,
-  .yc-select-search-icon {
-    display: none;
-  }
-  .yc-input.select-value-placeholder {
-    color: rgb(134, 144, 156);
-  }
-}
 </style>
