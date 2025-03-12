@@ -24,7 +24,7 @@
         @mouseenter="handleMouseenter"
         @mouseleave="handleMouseleave($event)"
       >
-        <yc-scrollbar style="max-height: 200px; overflow: auto">
+        <yc-scrollbar style="max-height: 200px">
           <div class="yc-dropdown-list">
             <slot name="content" />
           </div>

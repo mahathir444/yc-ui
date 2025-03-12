@@ -33,7 +33,7 @@
     <slot />
     <template #content>
       <div class="yc-dropdown" :data-group-id="groupId">
-        <yc-scrollbar style="max-height: 200px; overflow: auto">
+        <yc-scrollbar style="max-height: 200px">
           <div class="yc-dropdown-list">
             <slot name="content" />
           </div>

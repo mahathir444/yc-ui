@@ -2,6 +2,7 @@
   <div
     :class="{
       'yc-scrollbar': true,
+      'yc-scrollbar-fill-container': autoFillContainer,
       'yc-scrollbar-both-track': type == 'track' && thumbHeight && thumbWidth,
       'yc-scrollbar-vertical-track': type == 'track' && thumbHeight,
       'yc-scrollbar-horizontal-track': type == 'track' && thumbWidth,
@@ -63,6 +64,7 @@ const props = withDefaults(defineProps<ScrollbarProps>(), {
   style: () => {
     return {};
   },
+  autoFillContainer: false,
 });
 const emits = defineEmits<{
   (e: 'scroll', left: number, top: number): void;

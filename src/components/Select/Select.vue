@@ -89,7 +89,7 @@
     <template #content>
       <div class="yc-select-dropdown">
         <yc-spin :loading="loading" class="yc-select-loading">
-          <yc-scrollbar style="max-height: 200px; overflow: auto">
+          <yc-scrollbar style="max-height: 200px">
             <div class="yc-select-dropdown-list">
               <slot>
                 <yc-option
