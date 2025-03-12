@@ -1,0 +1,44 @@
+// allow-search
+.yc-select-allow-search {
+  &:focus-within {
+    .yc-select-clear-icon,
+    .yc-select-suffix-icon {
+      display: none;
+    }
+    .yc-select-search-icon {
+      display: block;
+    }
+  }
+}
+// allow-clear
+.yc-select-allow-clear {
+  &:hover {
+    .yc-select-search-icon,
+    .yc-select-suffix-icon {
+      display: none;
+    }
+    .yc-select-clear-icon {
+      display: flex;
+    }
+  }
+}
+
+// select-dropdown样式
+.yc-select-dropdown {
+  padding: 4px 0;
+  background-color: #fff;
+  border: 1px solid rgb(229, 230, 235);
+  border-radius: 4px;
+  box-shadow: 0 4px 10px #0000001a;
+  .yc-select-loading {
+    height: fit-content;
+    width: 100%;
+  }
+  .yc-select-dropdown-list {
+    display: flex;
+    flex-direction: column;
+    .yc-select-option {
+      flex-shrink: 0;
+    }
+  }
+}

@@ -14,70 +14,82 @@
     auto-fit-popup-min-width
     @position-change="(v) => (triggerPostion = v)"
   >
-    <div
-      :class="[
-        'yc-select',
-        allowSearch ? 'yc-select-allow-search' : '',
-        allowClear && showClearBtn ? 'yc-select-allow-clear' : '',
-      ]"
-      @click="handleClick"
-    >
-      <yc-input
-        v-model="computedInputValue"
-        :placeholder="computedLabel"
-        :readonly="!allowSearch || loading"
-        :disabled="disabled"
-        :size="size"
-        :error="error"
-        ref="inputRef"
-        @blur="computedInputValue = ''"
+    <slot name="trigger">
+      <div
+        :class="[
+          'yc-select',
+          allowSearch ? 'yc-select-allow-search' : '',
+          showClearBtn ? 'yc-select-allow-clear' : '',
+        ]"
+        @click="handleClick"
       >
-        <div
-          v-if="!popupVisible"
-          :class="{
-            'text-ellipsis': true,
-            'yc-input': true,
-            'select-value-placeholder': !computedLabel,
-          }"
+        <yc-input
+          v-model="computedInputValue"
+          :placeholder="computedLabel"
+          :readonly="!allowSearch || loading"
+          :disabled="disabled"
+          :size="size"
+          :error="error"
+          ref="inputRef"
+          @blur="computedInputValue = ''"
         >
-          {{ computedLabel || placeholder }}
-        </div>
-        <template #suffix>
-          <!-- loading -->
-          <yc-spin
-            v-if="loading"
-            :size="12"
-            style="color: inherit"
-            class="yc-select-loading-icon"
-          />
-          <template v-else>
-            <!-- default -->
-            <div class="yc-select-suffix-icon">
-              <svg-icon name="arrow-left" />
-            </div>
-            <!-- search -->
-            <div class="yc-select-search-icon">
-              <svg-icon name="search" />
-            </div>
-            <!-- clear -->
-            <yc-icon-button
-              v-if="showClearBtn"
-              name="close"
+          <div
+            v-if="!popupVisible"
+            :class="{
+              'text-ellipsis': true,
+              'yc-input': true,
+              'select-value-placeholder': !computedLabel,
+            }"
+          >
+            {{ computedLabel || placeholder }}
+          </div>
+          <template #suffix>
+            <!-- loading -->
+            <yc-spin
+              v-if="loading"
+              :size="12"
               style="color: inherit"
-              class="yc-select-clear-icon"
-              @click.stop="handleClear"
-            />
+              class="yc-select-loading-icon"
+            >
+              <template v-if="$slots['loading-icon']" #icon>
+                <slot name="loading-icon" />
+              </template>
+            </yc-spin>
+            <template v-else>
+              <!-- default -->
+              <div class="yc-select-suffix-icon">
+                <slot name="arrow-icon">
+                  <svg-icon name="arrow-right" />
+                </slot>
+              </div>
+              <!-- search -->
+              <div v-if="allowSearch" class="yc-select-search-icon">
+                <slot name="search-icon">
+                  <svg-icon name="search" />
+                </slot>
+              </div>
+              <!-- clear -->
+              <yc-icon-button
+                v-if="showClearBtn"
+                name="close"
+                style="color: inherit"
+                class="yc-select-clear-icon"
+                @click.stop="handleClear"
+              />
+            </template>
           </template>
-        </template>
-      </yc-input>
-    </div>
+        </yc-input>
+      </div>
+    </slot>
     <template #content>
       <div class="yc-select-dropdown">
         <yc-spin :loading="loading" class="yc-select-loading">
           <yc-scrollbar style="max-height: 200px; overflow: auto">
             <div class="yc-select-dropdown-list">
-              <slot v-if="searchOptions.length" />
-              <yc-empty v-else description="暂无数据" />
+              <slot />
+              <slot v-if="!searchOptions.length" name="empty">
+                <yc-empty description="暂无数据" />
+              </slot>
             </div>
           </yc-scrollbar>
         </yc-spin>
@@ -186,6 +198,7 @@ const handleClear = () => {
 
 <style lang="less" scoped>
 @import '../Input/style/input.less';
+@import './style/select.less';
 .yc-select {
   width: 100%;
   height: fit-content;
@@ -209,52 +222,8 @@ const handleClear = () => {
   .yc-select-search-icon {
     display: none;
   }
-
   .yc-input.select-value-placeholder {
     color: rgb(134, 144, 156);
-  }
-}
-// search
-.yc-select-allow-search {
-  &:focus-within {
-    .yc-select-clear-icon,
-    .yc-select-suffix-icon {
-      display: none;
-    }
-    .yc-select-search-icon {
-      display: block;
-    }
-  }
-}
-// clear
-.yc-select-allow-clear {
-  &:hover {
-    .yc-select-search-icon,
-    .yc-select-suffix-icon {
-      display: none;
-    }
-    .yc-select-clear-icon {
-      display: flex;
-    }
-  }
-}
-// select-dropdown样式
-.yc-select-dropdown {
-  padding: 4px 0;
-  background-color: #fff;
-  border: 1px solid rgb(229, 230, 235);
-  border-radius: 4px;
-  box-shadow: 0 4px 10px #0000001a;
-  .yc-select-loading {
-    height: fit-content;
-    width: 100%;
-  }
-  .yc-select-dropdown-list {
-    display: flex;
-    flex-direction: column;
-    .yc-select-option {
-      flex-shrink: 0;
-    }
   }
 }
 </style>

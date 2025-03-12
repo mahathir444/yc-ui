@@ -20,7 +20,15 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, Ref, toRefs, inject, WritableComputedRef, watch } from 'vue';
+import {
+  computed,
+  Ref,
+  toRefs,
+  inject,
+  WritableComputedRef,
+  watch,
+  onMounted,
+} from 'vue';
 import { OptionProps, SelectValue } from './type';
 defineOptions({
   name: 'Option',
@@ -46,7 +54,7 @@ const computedInputValue = inject(
 const popupVisible = inject('popupVisible') as Ref<boolean>;
 // selectOptions
 const selectOptions = inject('selectOptions') as Ref<OptionProps[]>;
-selectOptions.value.push({ ...props });
+
 // 是否展示Option
 const showOption = computed(() => {
   return label.value.includes(computedInputValue.value);
@@ -71,6 +79,11 @@ watch(
     immediate: true,
   }
 );
+
+onMounted(() => {
+  selectOptions.value.push({ ...props });
+  console.log(selectOptions.value);
+});
 </script>
 
 <style lang="less" scoped>

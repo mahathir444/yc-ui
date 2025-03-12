@@ -20,7 +20,7 @@
       </div>
     </div>
     <div v-if="closable" class="yc-close-btn" @click="emits('close')">
-      <slot name="closeIcon">
+      <slot name="close-icon">
         <yc-icon-button name="close" class="yc-close-icon" />
       </slot>
     </div>
