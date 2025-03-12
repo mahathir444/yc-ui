@@ -86,7 +86,7 @@ const handleEvent = (type: string, e: MouseEvent) => {
 </script>
 
 <style lang="less" scoped>
-@import './index.less';
+@import './style/button.less';
 
 // 是否只有icon
 .yc-button-only-icon {

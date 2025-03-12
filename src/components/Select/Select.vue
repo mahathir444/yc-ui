@@ -73,23 +73,25 @@
     </div>
     <template #content>
       <div class="yc-select-dropdown">
-        <yc-scrollbar style="height: 200px; overflow: auto">
-          <div class="yc-select-dropdown-list">
-            <slot v-if="$slots.default" />
-            <yc-empty v-else description="暂无数据" />
-          </div>
-        </yc-scrollbar>
+        <yc-spin :loading="loading" class="yc-select-loading">
+          <yc-scrollbar style="max-height: 200px; overflow: auto">
+            <div class="yc-select-dropdown-list">
+              <slot v-if="searchOptions.length" />
+              <yc-empty v-else description="暂无数据" />
+            </div>
+          </yc-scrollbar>
+        </yc-spin>
       </div>
     </template>
   </yc-trigger>
 </template>
 
 <script lang="ts" setup>
-import { ref, reactive, computed, CSSProperties, provide, toRefs } from 'vue';
+import { ref, computed, toRefs } from 'vue';
 import { TRANSFORM_ORIGIN_MAP } from '@/components/Trigger/constants';
 import { TriggerPostion } from '@/components/Trigger';
 import { SelectProps, SelectValue } from './type';
-import useSelectControlValue from '../_hooks/useSeletControlValue';
+import useSeletValue from '../_hooks/useSeletValue';
 import { sleep } from '@/components/_utils/fn';
 import YcInput, { InputInstance } from '@/components/Input';
 import YcTrigger from '@/components/Trigger/index.vue';
@@ -111,7 +113,7 @@ const props = withDefaults(defineProps<SelectProps>(), {
   disabled: false,
   error: false,
   allowClear: false,
-  allowSearch: true,
+  allowSearch: false,
 });
 const emits = defineEmits<{
   (e: 'change', value: SelectValue): void;
@@ -133,14 +135,19 @@ const triggerPostion = ref<TriggerPostion>('bl');
 // 输入实例
 const inputRef = ref<InputInstance>();
 // 处理值
-const { computedInputValue, computedValue, computedLabel, popupVisible } =
-  useSelectControlValue({
-    modelValue,
-    defaultValue,
-    defaultInputValue,
-    inputValue,
-    emits,
-  });
+const {
+  computedInputValue,
+  computedValue,
+  computedLabel,
+  popupVisible,
+  searchOptions,
+} = useSeletValue({
+  modelValue,
+  defaultValue,
+  defaultInputValue,
+  inputValue,
+  emits,
+});
 // 是否展示清除按钮
 const showClearBtn = computed(
   () =>
@@ -238,6 +245,10 @@ const handleClear = () => {
   border: 1px solid rgb(229, 230, 235);
   border-radius: 4px;
   box-shadow: 0 4px 10px #0000001a;
+  .yc-select-loading {
+    height: fit-content;
+    width: 100%;
+  }
   .yc-select-dropdown-list {
     display: flex;
     flex-direction: column;

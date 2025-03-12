@@ -163,5 +163,5 @@ const { outerVisible, innerVisible, closeType, handleClose, handleAfterLeave } =
 </script>
 
 <style lang="less" scoped>
-@import './index.less';
+@import './style/index.less';
 </style>

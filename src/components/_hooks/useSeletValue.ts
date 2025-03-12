@@ -1,6 +1,6 @@
-import { provide, ref, Ref } from 'vue';
+import { computed, provide, ref, Ref } from 'vue';
 import useControlValue from './useControlValue';
-import { SelectValue } from '@/components/Select/type';
+import { OptionProps, SelectValue } from '@/components/Select/type';
 import { Fn } from '../_type';
 
 export default (params: {
@@ -37,10 +37,21 @@ export default (params: {
     }
   );
   provide('computedInputValue', computedInputValue);
+  // options数组
+  const selectOptions = ref<OptionProps[]>([]);
+  provide('selectOptions', selectOptions);
+  // 搜索项
+  const searchOptions = computed(() => {
+    return selectOptions.value.filter((item) =>
+      item.label?.includes(computedInputValue.value)
+    );
+  });
   return {
     popupVisible,
     computedValue,
     computedLabel,
     computedInputValue,
+    selectOptions,
+    searchOptions,
   };
 };

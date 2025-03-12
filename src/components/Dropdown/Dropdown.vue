@@ -98,19 +98,6 @@ const { isSameGroup, level, curLevel, groupId } = useTriggerLevel(() => {
 });
 </script>
 
-<style lang="less">
-.yc-dropdown {
-  padding: 4px 0;
-  background-color: #fff;
-  border: 1px solid rgb(229, 230, 235);
-  border-radius: 4px;
-  box-shadow: 0 4px 10px #0000001a;
-  .yc-dropdown-list {
-    display: flex;
-    flex-direction: column;
-  }
-  .yc-dropdown-footer {
-    border-top: 1px solid rgb(229, 230, 235);
-  }
-}
+<style lang="less" scoped>
+@import './style/dropdown.less';
 </style>

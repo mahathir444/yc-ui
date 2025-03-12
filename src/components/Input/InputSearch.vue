@@ -90,13 +90,5 @@ defineExpose({
 </script>
 
 <style lang="less" scoped>
-.yc-input-search-append {
-  &:deep(.yc-input-append) {
-    padding: 0;
-    .yc-button {
-      border-top-left-radius: 0;
-      border-bottom-left-radius: 0;
-    }
-  }
-}
+@import './style/input-search.less';
 </style>

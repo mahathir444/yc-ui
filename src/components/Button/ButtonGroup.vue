@@ -43,24 +43,8 @@ const roundBorderRadius = computed(() => SIZE_MAP[size.value] / 2 + 'px');
 </script>
 
 <style lang="less">
-.yc-button-group {
-  display: flex;
-  align-items: center;
-
-  .yc-button {
-    flex-shrink: 0;
-    border-radius: 0;
-    &:first-child {
-      border-top-left-radius: 2px;
-      border-bottom-left-radius: 2px;
-    }
-    &:last-child {
-      border-top-right-radius: 2px;
-      border-bottom-right-radius: 2px;
-      border-right: none;
-    }
-  }
-}
+@import './style/button-group.less';
+// shape
 .yc-button-group-shape-circle {
   .yc-button {
     width: v-bind(sizeToPx);
@@ -85,44 +69,6 @@ const roundBorderRadius = computed(() => SIZE_MAP[size.value] / 2 + 'px');
       border-top-right-radius: v-bind(roundBorderRadius);
       border-bottom-right-radius: v-bind(roundBorderRadius);
     }
-  }
-}
-.yc-button-group-primary,
-.yc-button-group-secondary,
-.yc-button-group-text {
-  &.yc-button-group-primary {
-    .yc-button:not(:last-child) {
-      border-right: 1px solid rgb(64, 128, 255);
-    }
-  }
-  &.yc-button-group-secondary {
-    .yc-button:not(:last-child) {
-      border-right: 1px solid rgb(229, 230, 235);
-    }
-  }
-  //   warning
-  &.yc-button-group-status-warning {
-    .yc-button:not(:last-child) {
-      border-right: 1px solid rgb(255, 154, 46);
-    }
-  }
-  //   success
-  &.yc-button-group-status-success {
-    .yc-button:not(:last-child) {
-      border-right: 1px solid rgb(35, 195, 67);
-    }
-  }
-  //   danger
-  &.yc-button-group-status-danger {
-    .yc-button:not(:last-child) {
-      border-right: 1px solid rgb(247, 101, 96);
-    }
-  }
-}
-.yc-button-group-dashed,
-.yc-button-group-outline {
-  .yc-button:not(:first-child) {
-    border-left: none;
   }
 }
 </style>

@@ -167,5 +167,5 @@ defineExpose({
 </script>
 
 <style lang="less" scoped>
-@import './index.less';
+@import './style/input.less';
 </style>

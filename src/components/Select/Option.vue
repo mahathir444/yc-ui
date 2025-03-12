@@ -44,6 +44,9 @@ const computedInputValue = inject(
 ) as WritableComputedRef<string>;
 // visible
 const popupVisible = inject('popupVisible') as Ref<boolean>;
+// selectOptions
+const selectOptions = inject('selectOptions') as Ref<OptionProps[]>;
+selectOptions.value.push({ ...props });
 // 是否展示Option
 const showOption = computed(() => {
   return label.value.includes(computedInputValue.value);
