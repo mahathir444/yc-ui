@@ -1,18 +1,5 @@
 <template>
   <div class="test">
-    <a-button @click="total += 10">点击total+10</a-button>
-    <a-button @click="total -= 10">点击total-10</a-button>
-    <yc-scrollbar
-      style="height: 200px; width: 100%; overflow: auto"
-      ref="scrollbarRef"
-    >
-      <div
-        style="min-height: 200px; background-color: aquamarine; width: 200px"
-      >
-        <div v-for="i in total" :key="i">{{ i }}</div>
-      </div>
-    </yc-scrollbar>
-
     <div style="width: 300px">
       <yc-select
         placeholder="请选择"
@@ -23,6 +10,12 @@
           },
         ]"
       >
+        <template #prefix>
+          <a-button>提交</a-button>
+        </template>
+        <!-- <template #header>
+          <a-input></a-input>
+        </template> -->
         <yc-option v-for="i in 6" :key="i" :value="i" :label="i.toString()">
           <template #icon>
             <icon-align-center />
@@ -31,30 +24,38 @@
             <icon-align-center />
           </template>
         </yc-option>
+        <template #footer>
+          <a-button>提交</a-button>
+        </template>
       </yc-select>
     </div>
 
     <div style="width: 300px">
-      <a-select
-        placeholder="请选择"
-        :options="[
-          {
-            label: '1',
-            value: 1,
-          },
-        ]"
-        allow-search
-        allow-clear
-      >
-        <a-option v-for="i in 6" :key="i" :value="i" :label="i.toString()">
+      <a-select placeholder="请选择" allow-search allow-clear>
+        <template #prefix>
+          <a-button>提交</a-button>
+        </template>
+        <template #header>
+          <a-input></a-input>
+        </template>
+        <a-option
+          v-for="i in 6"
+          :key="i"
+          :value="i"
+          :index="6 - i"
+          :label="i.toString()"
+        >
           <template #icon>
             <icon-align-center />
           </template>
-          test
+          test{{ i }}
           <template #suffix>
             <icon-align-center />
           </template>
         </a-option>
+        <template #footer>
+          <a-button>提交</a-button>
+        </template>
       </a-select>
     </div>
   </div>

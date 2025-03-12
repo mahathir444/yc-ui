@@ -51,6 +51,8 @@ import {
   toRefs,
   VNode,
   watchEffect,
+  getCurrentInstance,
+  onMounted,
 } from 'vue';
 import { useElementBounding, useElementSize } from '@vueuse/core';
 import useTriggerVisible from '@/components/_hooks/useTriggerVisible';
@@ -261,6 +263,11 @@ function initTrigger() {
     arrowCss,
   };
 }
+
+onMounted(() => {
+  const instance = getCurrentInstance();
+  console.log(instance?.vnode);
+});
 
 defineExpose({
   hide() {

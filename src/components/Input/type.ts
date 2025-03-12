@@ -14,6 +14,11 @@ export interface InputProps {
   showWordLimit?: boolean;
   inputAttrs?: Record<string, any>;
   type?: 'password' | 'text';
+  // 用于selectmode
+  mode?: 'input' | 'select';
+  showInput?: boolean;
+  inputPlaceholder?: string;
+  labelValue?: string;
 }
 
 export interface InputPasswordProps {

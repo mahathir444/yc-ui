@@ -25,16 +25,27 @@ export interface SelectProps {
   popupVisible?: boolean;
   defaultPopupVisible?: boolean;
   unmountonClose?: boolean;
-  // filterOption?: boolean | (inputValue: string, option: SelectOptionData) => boolean;
+  filterOption?: (inputValue: string, option: SelectOptionData) => boolean;
   options?: SelectOptionData[];
-  triggerProps: TriggerProps;
+  // virtual-list-props
+  triggerProps?: TriggerProps;
+  formatLabel?: (data: SelectOptionData) => string;
+  // fallback-option
+  // show-extra-options
+  // value-key
+  searchDelay: number;
+  // limit
+  // field-names
+  // scrollbar
+  showHeaderOnEmpty?: boolean;
+  showFooterOnEmpty?: boolean;
+  // tag-nowrap
 }
 
 export interface OptionProps {
   label: string;
   value: SelectValue;
   disabled?: boolean;
-  index?: number;
 }
 
-export type SelectOptionData = Omit<OptionProps, 'index'>;
+export type SelectOptionData = OptionProps;

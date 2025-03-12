@@ -32,7 +32,7 @@
       :verticalTrackWidth="verticalTrackWidth"
       :horizontalTrackHeight="horizontalTrackHeight"
       :verticalThumbWidth="verticalThumbWidth"
-      :verticalThubmHeight="verticalThubmHeight"
+      :horizontalThumbHeight="horizontalThubmHeight"
       @drag="handleDrag"
     />
     <!-- 纵向滚动条 -->
@@ -47,7 +47,7 @@
       :verticalTrackWidth="verticalTrackWidth"
       :horizontalTrackHeight="horizontalTrackHeight"
       :verticalThumbWidth="verticalThumbWidth"
-      :verticalThubmHeight="verticalThubmHeight"
+      :horizontalThumbHeight="horizontalThubmHeight"
       @drag="handleDrag"
     />
   </div>
@@ -74,7 +74,7 @@ const props = withDefaults(defineProps<ScrollbarProps>(), {
   verticalTrackWidth: 15,
   horizontalTrackHeight: 15,
   verticalThumbWidth: 9,
-  verticalThubmHeight: 9,
+  horizontalThubmHeight: 9,
 });
 const emits = defineEmits<{
   (e: 'scroll', left: number, top: number): void;
@@ -124,17 +124,12 @@ const thumbLeft = ref<number>(0);
 // 计算最大的top和Left
 const maxThumbTop = computed(() => {
   // 如果有横向滚动条
-  if (thumbWidth.value) {
-    return srcollHeight.value - thumbHeight.value - horizontalTrackHeight.value;
-  }
-  return srcollHeight.value - thumbHeight.value;
+  const track = thumbWidth.value ? horizontalTrackHeight.value : 0;
+  return srcollHeight.value - thumbHeight.value - track;
 });
 const maxThumbLeft = computed(() => {
-  // 如果有纵向滚动条
-  if (thumbHeight.value) {
-    return srcollWidth.value - thumbWidth.value - verticalTrackWidth.value;
-  }
-  return srcollWidth.value - thumbWidth.value;
+  const track = thumbHeight.value ? verticalTrackWidth.value : 0;
+  return srcollWidth.value - thumbWidth.value - track;
 });
 // 处理容器滚动
 const handleScroll = (e: any) => {

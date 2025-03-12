@@ -1,6 +1,6 @@
 <template>
   <div
-    v-show="showOption"
+    v-show="filterOption(computedInputValue, option)"
     :class="{
       'yc-select-option': true,
       'yc-select-option-disabled': disabled,
@@ -20,15 +20,8 @@
 </template>
 
 <script lang="ts" setup>
-import {
-  computed,
-  Ref,
-  toRefs,
-  inject,
-  WritableComputedRef,
-  watch,
-  onMounted,
-} from 'vue';
+import { Ref, toRefs, inject, WritableComputedRef, onMounted } from 'vue';
+import { Fn } from '@/components/_type';
 import { OptionProps, SelectValue } from './type';
 defineOptions({
   name: 'Option',
@@ -37,15 +30,16 @@ const props = withDefaults(defineProps<OptionProps>(), {
   label: '',
   value: '',
   disabled: false,
-  index: undefined,
 });
 const { label, value: optionValue, disabled } = toRefs(props);
+// 选项
+const option = { ...props };
+// 过滤选项的函数
+const filterOption = inject('filterOption') as Fn;
 // select的value
 const computedValue = inject(
   'computedValue'
 ) as WritableComputedRef<SelectValue>;
-// select的label
-const computedLabel = inject('computedLabel') as Ref<string>;
 // 输入框的value
 const computedInputValue = inject(
   'computedInputValue'
@@ -55,34 +49,15 @@ const computedVisible = inject(
   'computedVisible'
 ) as WritableComputedRef<boolean>;
 // selectOptions
-const selectOptions = inject('selectOptions') as Ref<OptionProps[]>;
-// 是否展示Option
-const showOption = computed(() => {
-  return label.value.includes(computedInputValue.value);
-});
+const optionList = inject('optionList') as Ref<OptionProps[]>;
 // 处理选择
 const handleClick = () => {
   if (disabled.value) return;
   computedValue.value = optionValue.value;
-  computedLabel.value = label.value;
   computedVisible.value = false;
 };
-// 计算Label
-watch(
-  computedValue,
-  () => {
-    computedLabel.value =
-      computedValue.value == optionValue.value
-        ? label.value
-        : computedLabel.value;
-  },
-  {
-    immediate: true,
-  }
-);
-
 onMounted(() => {
-  selectOptions.value.push({ ...props });
+  optionList.value.push(option);
 });
 </script>
 

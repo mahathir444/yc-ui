@@ -2,7 +2,7 @@
   <div
     :class="`yc-scrollbar-track yc-scrollbar-track-direction-${direction}`"
     :style="{
-      width: isVertical ? `${verticalThumbWidth}px` : '',
+      width: isVertical ? `${verticalTrackWidth}px` : '',
       height: isVertical ? '' : `${horizontalTrackHeight}px`,
     }"
     ref="trackRef"
@@ -25,7 +25,7 @@
         }"
         :style="{
           width: isVertical ? `${verticalThumbWidth}px` : '',
-          height: isVertical ? '' : `${horizontalTrackHeight}px`,
+          height: isVertical ? '' : `${horizontalThumbHeight}px`,
         }"
       ></div>
     </div>
@@ -52,7 +52,7 @@ const props = withDefaults(
     verticalTrackWidth?: number;
     horizontalTrackHeight?: number;
     verticalThumbWidth?: number;
-    verticalThubmHeight?: number;
+    horizontalThumbHeight?: number;
   }>(),
   {
     direction: 'vertical',

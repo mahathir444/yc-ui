@@ -11,5 +11,5 @@ export interface ScrollbarProps {
   verticalTrackWidth?: number;
   horizontalTrackHeight?: number;
   verticalThumbWidth?: number;
-  verticalThubmHeight?: number;
+  horizontalThubmHeight?: number;
 }
