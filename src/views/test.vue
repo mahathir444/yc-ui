@@ -9,6 +9,8 @@
       </yc-select>
     </div>
 
+    <YcCheckbox> 测试 </YcCheckbox>
+
     <div style="width: 300px">
       <a-select placeholder="请选择" allow-search allow-clear>
         <a-option
@@ -33,13 +35,10 @@
 
 <script lang="ts" setup>
 import { ref, watch, watchEffect } from 'vue';
-import YcScrollbar from '@/components/Scrollbar';
-import YcTag from '@/components/Tag/index.vue';
 import YcSelect from '@/components/Select/Select.vue';
 import YcOption from '@/components/Select/Option.vue';
 import YcOptionGroup from '@/components/Select/Optgroup.vue';
-import YcDropdown, { DOption as YcDoption } from '@/components/Dropdown';
-import YcButton, { ButtonGroup } from '@/components/Button';
+import YcCheckbox from '@/components/Checkbox/index.vue';
 const total = ref(1);
 const value = ref([]);
 </script>

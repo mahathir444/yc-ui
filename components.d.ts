@@ -20,6 +20,7 @@ declare module 'vue' {
     ATypographyParagraph: typeof import('@arco-design/web-vue')['TypographyParagraph']
     Button: typeof import('./src/components/Button/Button.vue')['default']
     ButtonGroup: typeof import('./src/components/Button/ButtonGroup.vue')['default']
+    Checkbox: typeof import('./src/components/Checkbox/index.vue')['default']
     Container: typeof import('./src/components/Message/container.vue')['default']
     Dgroup: typeof import('./src/components/Dropdown/Dgroup.vue')['default']
     DGroup: typeof import('./src/components/Dropdown/DGroup.vue')['default']
