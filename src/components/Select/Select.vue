@@ -8,7 +8,7 @@
     :unmount-on-close="unmountonClose"
     :popup-container="popupContainer"
     :disabled="disabled"
-    auto-fit-popup-min-width
+    auto-fit-popup-width
     :click-out-side-ingore-fn="isCloseButton"
     v-bind="triggerProps"
     :content-style="{
@@ -188,7 +188,7 @@ const emits = defineEmits<{
   (e: 'update:inputValue', value: SelectValue): void;
   (e: 'update:popupVisible', value: boolean): void;
   (e: 'popupVisibleChange', value: boolean): void;
-  (e: 'exceed-limit', value: SelectValue, ev: MouseEvent): void;
+  (e: 'exceed-limit', value: SelectValue, ev?: MouseEvent): void;
 }>();
 const {
   modelValue,

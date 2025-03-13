@@ -5,12 +5,25 @@
       'yc-select-option': true,
       'yc-select-option-disabled': disabled,
     }"
-    @click="handleClick"
   >
     <div v-if="$slots.icon" class="yc-select-option-icon">
       <slot name="icon" />
     </div>
-    <div class="yc-select-option-content text-ellipsis">
+    <!-- 多选 -->
+    <yc-checkbox
+      v-if="multiple"
+      class="yc-select-option-content"
+      :default-checked="curIndex != -1"
+      @change="handleChange"
+    >
+      {{ label }}
+    </yc-checkbox>
+    <!-- 单选 -->
+    <div
+      v-else
+      class="yc-select-option-content text-ellipsis"
+      @click="handleClick"
+    >
       {{ label }}
     </div>
     <div v-if="$slots.suffix" class="yc-select-option-suffix">
@@ -20,9 +33,17 @@
 </template>
 
 <script lang="ts" setup>
-import { Ref, toRefs, inject, WritableComputedRef, onMounted } from 'vue';
+import {
+  Ref,
+  toRefs,
+  inject,
+  WritableComputedRef,
+  onMounted,
+  computed,
+} from 'vue';
 import { Fn } from '@/components/_type';
 import { OptionProps, SelectValue } from './type';
+import YcCheckbox from '@/components/Checkbox/index.vue';
 defineOptions({
   name: 'Option',
 });
@@ -56,29 +77,40 @@ const computedVisible = inject(
 ) as WritableComputedRef<boolean>;
 // selectOptions
 const optionList = inject('optionList') as Ref<OptionProps[]>;
+// 当前value对应的index
+const curIndex = computed(() => {
+  return (computedValue.value as SelectValue[]).findIndex(
+    (item) => item == optionValue.value
+  );
+});
 // 处理选择
-const handleClick = (ev: MouseEvent) => {
+const handleClick = () => {
   if (disabled.value) return;
-  // 处理多选
-  if (multiple.value) {
-    const curValue = computedValue.value as SelectValue[];
-    const { value } = optionValue;
-    if (limit.value > 0 && curValue.length == limit.value) {
-      return dEmits('exceed-limit', value, ev);
-    }
-    const index = curValue.findIndex((item) => item == value);
-    if (index != -1) {
-      curValue.splice(index, 1);
-    } else {
-      curValue.push(value);
-    }
-  }
-  // 处理单选
-  else {
-    computedValue.value = optionValue.value;
-    computedVisible.value = false;
-  }
+  computedValue.value = optionValue.value;
+  computedVisible.value = false;
+  // // 处理多选
+  // if (multiple.value) {
+  //   handleChange(curIndex.value != -1);
+  // }
+  // // 处理单选
+  // else {
+  //   computedValue.value = optionValue.value;
+  //   computedVisible.value = false;
+  // }
 };
+// 处理单选多选发生改变
+const handleChange = (v: boolean) => {
+  const curValue = computedValue.value as SelectValue[];
+  const { value } = optionValue;
+  if (!v) {
+    return curValue.splice(curIndex.value, 1);
+  }
+  if (limit.value > 0 && curValue.length == limit.value) {
+    return dEmits('exceed-limit', value);
+  }
+  curValue.push(value);
+};
+
 onMounted(() => {
   optionList.value.push(option);
 });

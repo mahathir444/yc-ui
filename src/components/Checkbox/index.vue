@@ -2,6 +2,7 @@
   <label
     :class="[
       'yc-checkbox',
+      !computedChecked && !disabled ? 'yc-checkbox-hoverable' : '',
       computedChecked ? 'yc-checkbox-checked' : '',
       disabled ? 'yc-checkbox-disabled' : '',
     ]"
@@ -15,14 +16,19 @@
       @change="handleChange"
     />
     <slot name="checkbox" :checked="computedChecked" :disabled="disabled">
-      <yc-icon-button hover-size="22px">
+      <yc-icon-button
+        hover-size="24px"
+        :hover-color="
+          computedChecked || disabled ? 'transparent' : 'rgb(242, 243, 245)'
+        "
+      >
         <template #icon>
           <span class="yc-checkbox-icon">
             <svg-icon v-show="computedChecked" name="checked" :size="[8, 10]" />
           </span>
         </template>
       </yc-icon-button>
-      <span class="yc-checkbox-label">
+      <span @mousedown.prevent="" class="yc-checkbox-label text-ellipsis">
         <slot />
       </span>
     </slot>
@@ -43,7 +49,7 @@ const props = withDefaults(
   {
     modelValue: undefined,
     defaultChecked: false,
-    disabled: true,
+    disabled: false,
     value: '',
   }
 );
@@ -77,14 +83,7 @@ const handleChange = (e: Event) => {
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  &:hover .yc-icon-button {
-    &::before {
-      background-color: rgb(242, 243, 245);
-    }
-    .yc-checkbox-icon {
-      border-color: rgb(201, 205, 212);
-    }
-  }
+
   .yc-checkbox-target {
     position: absolute;
     left: 0;
@@ -93,7 +92,13 @@ const handleChange = (e: Event) => {
     height: 0;
     opacity: 0;
   }
+
+  .yc-checkbox-icon,
+  .yc-checkbox-label {
+    flex-shrink: 0;
+  }
   .yc-checkbox-icon {
+    z-index: 10;
     position: relative;
     width: 14px;
     height: 14px;
@@ -106,42 +111,33 @@ const handleChange = (e: Event) => {
     transition: border-color 0.1 scubic-bezier(0, 0, 1, 1);
   }
   .yc-checkbox-label {
+    user-select: none;
+    flex: 1;
     color: rgb(29, 33, 41);
   }
 }
-
-.yc-checkbox-checked {
+.yc-checkbox-hoverable {
   &:hover .yc-icon-button {
     &::before {
-      background-color: transparent;
+      background-color: rgb(242, 243, 245);
     }
-    .yc-checkbox-icon {
-      border-color: transparent;
-    }
+    // .yc-checkbox-icon {
+    //   border-color: rgb(201, 205, 212);
+    // }
   }
+}
+.yc-checkbox-checked {
   .yc-checkbox-icon {
     border-color: transparent;
     background-color: rgb(22, 93, 255);
-    &::after {
-      background-color: transparent;
-    }
   }
 }
-
 .yc-checkbox-disabled {
   cursor: not-allowed;
-
-  &:hover .yc-icon-button {
-    &::before {
-      background-color: transparent;
-    }
-  }
-
   .yc-checkbox-icon {
+    border-color: rgb(229, 230, 235);
     background-color: rgb(242, 243, 245);
-    border-color: rgb(229, 230, 235) !important;
   }
-
   .yc-checkbox-label {
     color: rgb(201, 205, 212);
   }

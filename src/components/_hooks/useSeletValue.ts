@@ -49,7 +49,6 @@ export default (params: {
         ? computedValue.value.includes(item.value)
         : computedValue.value == item.value;
     });
-    console.log(option);
     if (!option.length) return '';
     return formatLabel(option);
   });

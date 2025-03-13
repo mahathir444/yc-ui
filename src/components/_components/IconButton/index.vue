@@ -49,7 +49,6 @@ withDefaults(
     background-color: v-bind(hoverColor);
   }
   &::before {
-    z-index: -1;
     content: '';
     position: absolute;
     top: 50%;
@@ -60,6 +59,9 @@ withDefaults(
     border-radius: 50%;
     background: transparent;
     transition: background-color 0.1s cubic-bezier(0, 0, 1, 1);
+  }
+  .svg-icon {
+    z-index: 10;
   }
 }
 </style>
