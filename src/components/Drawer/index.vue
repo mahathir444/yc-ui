@@ -83,7 +83,7 @@ import { DrawerProps } from './type';
 import { CloseType } from '@/components/_type';
 import useCloseCompt from '@/components/_hooks/useCloseCompt';
 import YcButton from '@/components/Button/Button.vue';
-import YcIconButton from '@/components/_components/IconButton/index.vue';
+
 defineOptions({
   name: 'Drawer',
 });

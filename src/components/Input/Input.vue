@@ -93,7 +93,7 @@ import { InputProps } from './type';
 import { SIZE_MAP } from '@/components/_constants';
 import { isNumber } from '@/components/_utils/is';
 import useControlValue from '../_hooks/useControlValue';
-import YcIconButton from '@/components/_components/IconButton/index.vue';
+
 defineOptions({
   name: 'Input',
 });

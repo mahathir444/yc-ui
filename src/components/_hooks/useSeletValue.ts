@@ -33,7 +33,7 @@ export default (params: {
     }
   );
   provide('computedVisible', computedVisible);
-  // modelValue
+  // 当前选项
   const computedValue = useControlValue<SelectValue | SelectValue[]>(
     modelValue,
     defaultValue.value,
@@ -49,7 +49,6 @@ export default (params: {
         ? computedValue.value.includes(item.value)
         : computedValue.value == item.value;
     });
-    console.log(option);
     if (!option.length) return '';
     return formatLabel(option);
   });

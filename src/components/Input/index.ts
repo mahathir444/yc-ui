@@ -10,8 +10,8 @@ export type InputPasswordInstance = InstanceType<typeof _InputPassword>;
 export type { InputPasswordProps, InputProps, InputSearchProps } from './type';
 
 const Input = Object.assign(_Input, {
-  Search: _InputSearch,
-  Password: _InputPassword,
+  search: _InputSearch,
+  password: _InputPassword,
   install: (app: App) => {
     app.component(getComponentPrefix() + _Input.name, _Input);
     app.component(getComponentPrefix() + _InputSearch.name, _InputSearch);

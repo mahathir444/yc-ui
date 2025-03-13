@@ -8,7 +8,7 @@
     :unmount-on-close="unmountonClose"
     :popup-container="popupContainer"
     :disabled="disabled"
-    auto-fit-popup-min-width
+    auto-fit-popup-width
     :click-out-side-ingore-fn="isCloseButton"
     v-bind="triggerProps"
     :content-style="{
@@ -64,13 +64,13 @@
               <!-- default -->
               <div class="yc-select-suffix-icon">
                 <slot name="arrow-icon">
-                  <svg-icon name="arrow-right" />
+                  <yc-icon name="arrow-right" />
                 </slot>
               </div>
               <!-- search -->
               <div v-if="allowSearch" class="yc-select-search-icon">
                 <slot name="search-icon">
-                  <svg-icon name="search" />
+                  <yc-icon name="search" />
                 </slot>
               </div>
               <!-- clear -->
@@ -138,7 +138,7 @@ import YcInput, { InputInstance } from '@/components/Input';
 import YcTrigger from '@/components/Trigger/index.vue';
 import YcScrollbar from '@/components/Scrollbar/Scrollbar.vue';
 import YcSpin from '@/components/Spin/index.vue';
-import YcIconButton from '@/components/_components/IconButton/index.vue';
+
 import YcEmpty from '@/components/Empty/index.vue';
 import YcOption from './Option.vue';
 defineOptions({
@@ -188,7 +188,7 @@ const emits = defineEmits<{
   (e: 'update:inputValue', value: SelectValue): void;
   (e: 'update:popupVisible', value: boolean): void;
   (e: 'popupVisibleChange', value: boolean): void;
-  (e: 'exceed-limit', value: SelectValue, ev: MouseEvent): void;
+  (e: 'exceed-limit', value: SelectValue, ev?: MouseEvent): void;
 }>();
 const {
   modelValue,

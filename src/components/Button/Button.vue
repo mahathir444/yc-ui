@@ -75,18 +75,18 @@ const emits = defineEmits<{
 }>();
 const {
   loading,
-  size: tempSize,
-  disabled: tempDisabled,
-  type: tempType,
-  status: tempStatus,
-  shape: tempShape,
+  size: _size,
+  disabled: _disabled,
+  type: _type,
+  status: _status,
+  shape: _shape,
 } = toRefs(props);
 // buttonGroup接收的属性
-const type = inject('type', tempType) as Ref<ButtonType>;
-const status = inject('status', tempStatus) as Ref<ButtonStatus>;
-const size = inject('size', tempSize) as Ref<Size>;
-const shape = inject('shape', tempShape) as Ref<ButtonShape>;
-const disabled = inject('disabled', tempDisabled) as Ref<boolean>;
+const type = inject('type', _type) as Ref<ButtonType>;
+const status = inject('status', _status) as Ref<ButtonStatus>;
+const size = inject('size', _size) as Ref<Size>;
+const shape = inject('shape', _shape) as Ref<ButtonShape>;
+const disabled = inject('disabled', _disabled) as Ref<boolean>;
 // borderRadius
 const borderRadius = computed(() => {
   const map = {

@@ -65,6 +65,16 @@
     .yc-select-dropdown-footer {
       border-top: 1px solid rgb(229, 230, 235);
     }
+
+    .yc-scrollbar {
+      &:deep(.yc-scrollbar-container) {
+        .yc-scrollbar-content {
+          width: 100%;
+          overflow: hidden;
+        }
+      }
+    }
+
     .yc-select-dropdown-list {
       display: flex;
       flex-direction: column;

@@ -36,11 +36,12 @@
 import { ref, toRefs, computed } from 'vue';
 import { useDraggable } from '@vueuse/core';
 import { useEventListener } from '@vueuse/core';
+import { Direction } from '@/components/_type';
 import { TackType } from './type';
 const props = withDefaults(
   defineProps<{
     type?: TackType;
-    direction?: 'vertical' | 'horizontal';
+    direction?: Direction;
     height?: number;
     width?: number;
     top?: number;

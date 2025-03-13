@@ -17,7 +17,7 @@ export type {
 
 const Select = Object.assign(_Select, {
   option: _Option,
-  optgroup: _Optgroup,
+  group: _Optgroup,
   install: (app: App) => {
     app.component(getComponentPrefix() + _Select.name, _Select);
     app.component(getComponentPrefix() + _Option.name, _Option);

@@ -102,7 +102,7 @@ import { ModalProps } from './type';
 import useModalDraggable from '@/components/_hooks/useModalDraggable';
 import useCloseCompt from '@/components/_hooks/useCloseCompt';
 import YcButton from '@/components/Button/Button.vue';
-import YcIconButton from '@/components/_components/IconButton/index.vue';
+
 defineOptions({
   name: 'Modal',
 });

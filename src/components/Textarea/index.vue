@@ -46,7 +46,7 @@ import { ref, toRefs, computed } from 'vue';
 import useControlValue from '../_hooks/useControlValue';
 import { TextareaProps, ResizeRange } from './type';
 import { isNumber } from '@/components/_utils/is';
-import YcIconButton from '@/components/_components/IconButton/index.vue';
+
 import { useElementSize } from '@vueuse/core';
 defineOptions({
   name: 'Textarea',

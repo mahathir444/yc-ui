@@ -32,7 +32,7 @@ export type {
 } from './Dropdown';
 export {
   default as Dropdown,
-  DOption,
+  Doption,
   Dgroup,
   DropdownButton,
   Dsubmenu,
@@ -121,3 +121,12 @@ export type {
   OptionInstance,
 } from './Select';
 export { default as Select, Option, Optgroup } from './Select';
+
+export type {
+  CheckboxProps,
+  CheckboxInstance,
+  CheckboxGroupProps,
+  CheckboxValue,
+  CheckboxGroupInstance,
+} from './Checkbox';
+export { default as Checkbox, CheckboxGroup } from './Checkbox';

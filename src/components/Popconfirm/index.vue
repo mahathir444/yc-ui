@@ -26,7 +26,7 @@
       <div class="yc-popconfirm-body">
         <div :class="['yc-popconfirm-icon', TYPE_CLASS[type]]">
           <slot v-if="$slots.icon" name="icon" />
-          <svg-icon :name="type" v-else />
+          <yc-icon :name="type" v-else />
         </div>
         <div class="yc-popconfirm-content">
           <slot v-if="$slots.content" name="content" />

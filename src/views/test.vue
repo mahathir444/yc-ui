@@ -9,7 +9,23 @@
       </yc-select>
     </div>
 
-    <YcCheckbox> 测试 </YcCheckbox>
+    <div>
+      <yc-checkbox-group v-model="value1" :max="3">
+        <YcCheckbox v-for="i in 5" :key="i" :value="i">
+          测试{{ i }}
+        </YcCheckbox>
+      </yc-checkbox-group>
+    </div>
+
+    <div>
+      <a-checkbox :model-value="true" disabled>测试</a-checkbox>
+      <a-checkbox-group v-model="value1" :max="3">
+        <a-checkbox v-for="i in 5" :key="i" :value="i">
+          测试{{ i }}
+        </a-checkbox>
+      </a-checkbox-group>
+    </div>
+    <yc-icon name="icon1s/vite" color="blue" />
 
     <div style="width: 300px">
       <a-select placeholder="请选择" allow-search allow-clear>
@@ -35,12 +51,9 @@
 
 <script lang="ts" setup>
 import { ref, watch, watchEffect } from 'vue';
-import YcSelect from '@/components/Select/Select.vue';
-import YcOption from '@/components/Select/Option.vue';
-import YcOptionGroup from '@/components/Select/Optgroup.vue';
-import YcCheckbox from '@/components/Checkbox/index.vue';
 const total = ref(1);
 const value = ref([]);
+const value1 = ref([]);
 </script>
 
 <style lang="less" scoped>

@@ -4,7 +4,7 @@
     <div class="yc-notification-left">
       <div v-if="hasIcon" :class="['yc-notification-icon', type]">
         <slot name="icon">
-          <svg-icon :name="type" />
+          <yc-icon :name="type" />
         </slot>
       </div>
     </div>

@@ -35,7 +35,7 @@
         @click="emits('search', inputBaseRef?.getValue() || '')"
       >
         <template #icon>
-          <svg-icon name="search" size="14" />
+          <yc-icon name="search" size="14" />
         </template>
       </yc-button>
       <slot v-else name="append" />
@@ -56,7 +56,7 @@ import { ref } from 'vue';
 import { InputSearchProps } from './type';
 import YcInput from './Input.vue';
 import YcButton from '@/components/Button/Button.vue';
-import YcIconButton from '@/components/_components/IconButton/index.vue';
+
 defineOptions({
   name: 'InputSearch',
 });

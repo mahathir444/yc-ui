@@ -264,10 +264,10 @@ function initTrigger() {
   };
 }
 
-onMounted(() => {
-  const instance = getCurrentInstance();
-  console.log(instance?.vnode);
-});
+// onMounted(() => {
+//   const instance = getCurrentInstance();
+//   console.log(instance?.vnode);
+// });
 
 defineExpose({
   hide() {

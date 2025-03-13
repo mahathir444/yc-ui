@@ -4,7 +4,7 @@ import Button, { ButtonGroup } from './Button';
 import Drawer from './Drawer';
 import Dropdown, {
   DropdownButton,
-  DOption,
+  Doption,
   Dgroup,
   Dsubmenu,
 } from './Dropdown';
@@ -24,7 +24,9 @@ import Spin from './Spin';
 import Tag from './Tag';
 import Select, { Option, Optgroup } from './Select';
 import Empty from './Empty';
-import SvgIcon from '@/components/_components/SvgIcon/index.vue';
+import Checkbox, { CheckboxGroup } from './Checkbox';
+import YcIcon from '@/components/_components/Icon/index.vue';
+import YcIconButton from '@/components/_components/IconButton/index.vue';
 
 export const components: Record<string, Plugin> = {
   Button,
@@ -46,21 +48,24 @@ export const components: Record<string, Plugin> = {
   Tag,
   Select,
   Empty,
+  Checkbox,
 };
 
 const YcUi = {
   ...components,
   ButtonGroup,
   DropdownButton,
-  DOption,
+  Doption,
   Dgroup,
   Dsubmenu,
   InputSearch,
   InputPassword,
   Option,
   Optgroup,
-  install: (app: App, options: YcUiOptions) => {
-    app.component('SvgIcon', SvgIcon);
+  CheckboxGroup,
+  install: (app: App, options?: YcUiOptions) => {
+    app.component('YcIcon', YcIcon);
+    app.component('YcIconButton', YcIconButton);
     for (const key of Object.keys(components)) {
       app.use(components[key], options);
     }
@@ -68,3 +73,41 @@ const YcUi = {
 };
 
 export default YcUi;
+
+// 定义类型
+declare module 'vue' {
+  export interface GlobalComponents {
+    YcIcon: typeof YcIcon;
+    YcIconButton: typeof YcIconButton;
+    YcButtonGroup: typeof ButtonGroup;
+    YcButton: typeof Button;
+    YcDrawer: typeof Drawer;
+    YcDropdown: typeof Dropdown;
+    YcDropdownButton: typeof DropdownButton;
+    YcDoption: typeof Doption;
+    YcDgroup: typeof Dgroup;
+    YcDsubmenu: typeof Dsubmenu;
+    YcInput: typeof Input;
+    YcInputSearch: typeof InputSearch;
+    YcInputPassword: typeof InputPassword;
+    YcLink: typeof Link;
+    YcMessage: typeof Message;
+    YcModal: typeof Modal;
+    YcNotification: typeof Notification;
+    YcPopconfirm: typeof Popconfirm;
+    YcPopover: typeof Popover;
+    YcResizeBox: typeof ResizeBox;
+    YcScrollbar: typeof Scrollbar;
+    YcTextarea: typeof Textarea;
+    YcTooltip: typeof Tooltip;
+    YcTrigger: typeof Trigger;
+    YcSpin: typeof Spin;
+    YcTag: typeof Tag;
+    YcSelect: typeof Select;
+    YcOption: typeof Option;
+    YcOptgroup: typeof Optgroup;
+    YcEmpty: typeof Empty;
+    YcCheckbox: typeof Checkbox;
+    YcCheckboxGroup: typeof CheckboxGroup;
+  }
+}
