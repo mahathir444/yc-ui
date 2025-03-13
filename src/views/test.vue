@@ -9,17 +9,7 @@
       </yc-select>
     </div>
 
-    <a-popover>
-      <a-button>1</a-button>
-      <a-button>2</a-button>
-      <a-button>3</a-button>
-      <template #content>
-        <a-checkbox v-for="i in 5" :key="i" :value="i">
-          测试{{ i }}
-        </a-checkbox>
-      </template>
-    </a-popover>
-
+    <yc-icon-button> </yc-icon-button>
     <div>
       <yc-checkbox-group v-model="value1" :max="3">
         <YcCheckbox v-for="i in 5" :key="i" :value="i">
@@ -35,8 +25,19 @@
           测试{{ i }}
         </a-checkbox>
       </a-checkbox-group>
+
+      <a-popover>
+        111
+        <!-- aa -->
+        <template #content>
+          <a-checkbox-group v-model="value1" :max="3">
+            <a-checkbox v-for="i in 5" :key="i" :value="i">
+              测试{{ i }}
+            </a-checkbox>
+          </a-checkbox-group>
+        </template>
+      </a-popover>
     </div>
-    <yc-icon name="/vite" color="blue" />
 
     <div style="width: 300px">
       <a-select placeholder="请选择" allow-search allow-clear>

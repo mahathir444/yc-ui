@@ -54,6 +54,7 @@ declare module 'vue' {
     Textarea: typeof import('./src/components/Textarea/index.vue')['default']
     Tooltip: typeof import('./src/components/Tooltip/index.vue')['default']
     Track: typeof import('./src/components/Scrollbar/Track.vue')['default']
+    Trgger: typeof import('./src/components/Trigger/Trgger.vue')['default']
     Trigger: typeof import('./src/components/Trigger/index.vue')['default']
   }
 }

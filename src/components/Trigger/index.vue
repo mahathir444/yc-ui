@@ -1,6 +1,6 @@
 <template>
-  <trigger-slot
-    v-if="TriggerSlot"
+  <trigger-element
+    v-if="TriggerElement"
     @click="handleClick"
     @contextmenu.prevent="handleContextmenu"
     @mouseenter="handleMouseenter(true, $event)"
@@ -9,6 +9,7 @@
     @blur="handleBlur"
     ref="triggerRef"
   />
+
   <teleport :to="popupContainer" :disabled="!renderToBody">
     <transition
       :name="animationName"
@@ -49,18 +50,13 @@ import {
   useSlots,
   CSSProperties,
   toRefs,
-  VNode,
   watchEffect,
-  getCurrentInstance,
-  onMounted,
-  h,
-  render,
 } from 'vue';
 import { useElementBounding, useElementSize } from '@vueuse/core';
 import useTriggerVisible from '@/components/_hooks/useTriggerVisible';
 import useTriggerPosition from '@/components/_hooks/useTriggerPosition';
 import { TriggerProps, TriggerPostion } from './type';
-import { SHAPE_FLAGS } from '@/components/_constants';
+import { findFirstLegitChild } from '@/components/_utils/vue-utils';
 defineOptions({
   name: 'Trigger',
 });
@@ -141,13 +137,10 @@ const triggerRef = ref<HTMLElement | null>(null);
 // 获取插槽
 const slots = useSlots();
 // 获取触发插槽
-const TriggerSlot = computed(() => {
-  // 读取第一个不是插槽地vNode
-  const _readNode = (vNode?: VNode): VNode | undefined => {
-    if (vNode?.shapeFlag != SHAPE_FLAGS.slot) return vNode;
-    return _readNode((vNode.children as any)[0]);
-  };
-  return _readNode(slots.default && slots.default()[0]);
+const TriggerElement = computed(() => {
+  const result = findFirstLegitChild(slots.default?.() ?? []);
+  console.log(result, 'res');
+  return result;
 });
 // 处理trigger关闭与开启
 const {
@@ -181,7 +174,7 @@ const {
 const { wrapperPosition, contentCss, arrowCss } = initTrigger();
 // 初始化trigger
 function initTrigger() {
-  if (!TriggerSlot?.value) {
+  if (!TriggerElement?.value) {
     return {
       wrapperPosition: {},
       contentCss: {},
@@ -265,25 +258,6 @@ function initTrigger() {
     arrowCss,
   };
 }
-
-onMounted(() => {
-  const _readNode = (vNode?: VNode): VNode | undefined => {
-    if (vNode?.shapeFlag != SHAPE_FLAGS.slot) return vNode;
-    return _readNode((vNode.children as any)[0]);
-  };
-  const instance = getCurrentInstance();
-  const children = instance?.vnode?.children as any;
-  const defaultSlot = children?.default();
-  const vNode = _readNode(defaultSlot[0]) as VNode;
-  const container = document.createElement('div');
-  container.className = 'test';
-  container.style.display = 'none';
-  document.body.appendChild(container);
-  render(vNode, container);
-  console.log(container.children[0]);
-  render(null, container);
-  document.body.removeChild(container);
-});
 
 defineExpose({
   hide() {
