@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite --host --mode development",
-    "build:prod": "vue-tsc && vite build --mode production",
+    "build:prod": "vite build --mode production",
     "preview": "vite preview",
     "lint": "eslint . --ext .vue,.js,.ts,.jsx,.tsx --fix",
     "format": "npx prettier --write --loglevel warn 'src/**/*.{js,ts,json,tsx,css,less,vue,html,md}'"

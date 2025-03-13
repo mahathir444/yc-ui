@@ -1,6 +1,5 @@
 import 'virtual:svg-icons-register';
-import YcUi from './yc-ui';
-export default YcUi;
+export { default } from './yc-ui';
 
 export type {
   ButtonHtmlType,

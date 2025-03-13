@@ -21,7 +21,7 @@ const props = withDefaults(
 );
 const { size, color, name, prefix } = toRefs(props);
 // 计算图标id
-const symbolId = computed(() => `#${prefix.value}-yc-ui/${name.value}`);
+const symbolId = computed(() => `#${prefix.value}-_icons/${name.value}`);
 // 计算width
 const width = computed(() => {
   if (is.undefined(size.value)) {

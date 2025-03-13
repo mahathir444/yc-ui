@@ -53,6 +53,8 @@ import {
   watchEffect,
   getCurrentInstance,
   onMounted,
+  h,
+  render,
 } from 'vue';
 import { useElementBounding, useElementSize } from '@vueuse/core';
 import useTriggerVisible from '@/components/_hooks/useTriggerVisible';
@@ -179,7 +181,7 @@ const {
 const { wrapperPosition, contentCss, arrowCss } = initTrigger();
 // 初始化trigger
 function initTrigger() {
-  if (!TriggerSlot.value) {
+  if (!TriggerSlot?.value) {
     return {
       wrapperPosition: {},
       contentCss: {},
@@ -264,10 +266,24 @@ function initTrigger() {
   };
 }
 
-// onMounted(() => {
-//   const instance = getCurrentInstance();
-//   console.log(instance?.vnode);
-// });
+onMounted(() => {
+  const _readNode = (vNode?: VNode): VNode | undefined => {
+    if (vNode?.shapeFlag != SHAPE_FLAGS.slot) return vNode;
+    return _readNode((vNode.children as any)[0]);
+  };
+  const instance = getCurrentInstance();
+  const children = instance?.vnode?.children as any;
+  const defaultSlot = children?.default();
+  const vNode = _readNode(defaultSlot[0]) as VNode;
+  const container = document.createElement('div');
+  container.className = 'test';
+  container.style.display = 'none';
+  document.body.appendChild(container);
+  render(vNode, container);
+  console.log(container.children[0]);
+  render(null, container);
+  document.body.removeChild(container);
+});
 
 defineExpose({
   hide() {

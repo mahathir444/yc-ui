@@ -27,8 +27,10 @@
     "src/**/*.d.ts",
     "src/**/*.tsx",
     "src/**/*.vue",
-    "src/components/_utils/generate.tsenerate.ts"
+    "src/components/_utils/generate.tsenerate.ts",
+    "src/main.ts",
+    "src/main.ts"
   ],
-  "exclude": ["node_modules", "src/dist", "dist.test"],
+  "exclude": ["node_modules", "src/yc-ui", "dist.test"],
   "references": [{ "path": "./tsconfig.node.json" }]
 }
