@@ -34,6 +34,7 @@
 
 <script lang="ts" setup>
 import {
+  ref,
   Ref,
   toRefs,
   inject,
@@ -43,7 +44,7 @@ import {
 } from 'vue';
 import { Fn } from '@/components/_type';
 import { OptionProps, SelectValue } from './type';
-import YcCheckbox from '@/components/Checkbox/index.vue';
+import YcCheckbox from '@/components/Checkbox/Checkbox.vue';
 defineOptions({
   name: 'Option',
 });
@@ -60,9 +61,9 @@ const dEmits = inject('emits') as Fn;
 // 过滤选项的函数
 const filterOption = inject('filterOption') as Fn;
 // 是否多选
-const multiple = inject('multiple') as Ref<boolean>;
+const multiple = inject('multiple', ref(false));
 // 多选的限制
-const limit = inject('limit') as Ref<number>;
+const limit = inject('limit', ref(0));
 // select的value
 const computedValue = inject('computedValue') as WritableComputedRef<
   SelectValue | SelectValue[]

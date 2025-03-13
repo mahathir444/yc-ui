@@ -24,7 +24,7 @@ import Spin from './Spin';
 import Tag from './Tag';
 import Select, { Option, Optgroup } from './Select';
 import Empty from './Empty';
-import Checkbox from './Checkbox';
+import Checkbox, { CheckboxGroup } from './Checkbox';
 import SvgIcon from '@/components/_components/SvgIcon/index.vue';
 
 export const components: Record<string, Plugin> = {
@@ -61,6 +61,7 @@ const YcUi = {
   InputPassword,
   Option,
   Optgroup,
+  CheckboxGroup,
   install: (app: App, options: YcUiOptions) => {
     app.component('SvgIcon', SvgIcon);
     for (const key of Object.keys(components)) {

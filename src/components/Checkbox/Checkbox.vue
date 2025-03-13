@@ -37,7 +37,7 @@
 </template>
 
 <script lang="ts" setup>
-import { toRefs } from 'vue';
+import { toRefs, inject } from 'vue';
 import { CheckboxProps } from './type';
 import useControlValue from '@/components/_hooks/useControlValue';
 import YcIconButton from '@/components/_components/IconButton/index.vue';
@@ -64,6 +64,7 @@ const computedChecked = useControlValue<boolean>(
     emits('update:modelValue', val);
   }
 );
+const computedValue = inject('computedValue');
 // 处理check发生改变
 const handleChange = (e: Event) => {
   computedChecked.value = (e.target as HTMLInputElement)?.checked;

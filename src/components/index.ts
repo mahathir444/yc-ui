@@ -122,5 +122,11 @@ export type {
 } from './Select';
 export { default as Select, Option, Optgroup } from './Select';
 
-export type { CheckboxProps, CheckboxInstance } from './Checkbox';
-export { default as Checkbox } from './Checkbox';
+export type {
+  CheckboxProps,
+  CheckboxInstance,
+  CheckboxGroupProps,
+  CheckboxValue,
+  CheckboxGroupInstance,
+} from './Checkbox';
+export { default as Checkbox, CheckboxGroup } from './Checkbox';
