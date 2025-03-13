@@ -24,6 +24,7 @@ import Spin from './Spin';
 import Tag from './Tag';
 import Select, { Option, Optgroup } from './Select';
 import Empty from './Empty';
+import Checkbox from './Checkbox';
 import SvgIcon from '@/components/_components/SvgIcon/index.vue';
 
 export const components: Record<string, Plugin> = {
@@ -46,6 +47,7 @@ export const components: Record<string, Plugin> = {
   Tag,
   Select,
   Empty,
+  Checkbox,
 };
 
 const YcUi = {

@@ -13,8 +13,8 @@
     <yc-checkbox
       v-if="multiple"
       class="yc-select-option-content"
-      :default-checked="curIndex != -1"
-      @change="handleChange"
+      :model-value="curIndex != -1"
+      @update:model-value="handleMulti"
     >
       {{ label }}
     </yc-checkbox>
@@ -22,7 +22,7 @@
     <div
       v-else
       class="yc-select-option-content text-ellipsis"
-      @click="handleClick"
+      @click="handleSingle"
     >
       {{ label }}
     </div>
@@ -75,31 +75,20 @@ const computedInputValue = inject(
 const computedVisible = inject(
   'computedVisible'
 ) as WritableComputedRef<boolean>;
-// selectOptions
-const optionList = inject('optionList') as Ref<OptionProps[]>;
 // 当前value对应的index
 const curIndex = computed(() => {
   return (computedValue.value as SelectValue[]).findIndex(
     (item) => item == optionValue.value
   );
 });
-// 处理选择
-const handleClick = () => {
+// 处理单选
+const handleSingle = () => {
   if (disabled.value) return;
   computedValue.value = optionValue.value;
   computedVisible.value = false;
-  // // 处理多选
-  // if (multiple.value) {
-  //   handleChange(curIndex.value != -1);
-  // }
-  // // 处理单选
-  // else {
-  //   computedValue.value = optionValue.value;
-  //   computedVisible.value = false;
-  // }
 };
 // 处理单选多选发生改变
-const handleChange = (v: boolean) => {
+const handleMulti = (v: boolean) => {
   const curValue = computedValue.value as SelectValue[];
   const { value } = optionValue;
   if (!v) {
@@ -112,6 +101,7 @@ const handleChange = (v: boolean) => {
 };
 
 onMounted(() => {
+  const optionList = inject('optionList') as Ref<OptionProps[]>;
   optionList.value.push(option);
 });
 </script>
