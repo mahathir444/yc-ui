@@ -9,9 +9,14 @@
       </yc-select>
     </div>
 
+    <yc-checkbox> 测试 </yc-checkbox>
     <yc-checkbox-group v-model="value1">
       <YcCheckbox v-for="i in 5" :key="i" :value="i"> 测试{{ i }} </YcCheckbox>
     </yc-checkbox-group>
+
+    <a-checkbox-group v-model="value1" :max="3">
+      <a-checkbox v-for="i in 5" :key="i" :value="i"> 测试{{ i }} </a-checkbox>
+    </a-checkbox-group>
 
     <div style="width: 300px">
       <a-select placeholder="请选择" allow-search allow-clear>

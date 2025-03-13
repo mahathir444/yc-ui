@@ -93,12 +93,12 @@ const handleMulti = (v: boolean) => {
   const curValue = computedValue.value as SelectValue[];
   const { value } = optionValue;
   if (!v) {
-    return curValue.splice(curIndex.value, 1);
+    computedValue.value = curValue.filter((item) => item != value);
   }
   if (limit.value > 0 && curValue.length == limit.value) {
     return dEmits('exceed-limit', value);
   }
-  curValue.push(value);
+  computedValue.value = [...curValue, value];
 };
 
 onMounted(() => {

@@ -14,7 +14,7 @@
       :value="value"
       :disabled="disabled"
       :checked="computedChecked"
-      @change="handleChange"
+      @change="handleCollect"
     />
     <slot name="checkbox" :checked="computedChecked" :disabled="disabled">
       <yc-icon-button
@@ -37,8 +37,16 @@
 </template>
 
 <script lang="ts" setup>
-import { toRefs, inject } from 'vue';
-import { CheckboxProps } from './type';
+import {
+  toRefs,
+  Ref,
+  inject,
+  WritableComputedRef,
+  computed,
+  ref,
+  watch,
+} from 'vue';
+import { CheckboxProps, CheckboxValue } from './type';
 import useControlValue from '@/components/_hooks/useControlValue';
 import YcIconButton from '@/components/_components/IconButton/index.vue';
 defineOptions({
@@ -55,20 +63,53 @@ const emits = defineEmits<{
   (e: 'update:modelValue', value: boolean): void;
   (e: 'change', value: boolean, ev: Event): void;
 }>();
-const { modelValue, defaultChecked } = toRefs(props);
+const {
+  modelValue,
+  defaultChecked,
+  disabled: _disabled,
+  value: checkboxValue,
+} = toRefs(props);
+// checkgroup的值
+const computedValue = inject<
+  WritableComputedRef<CheckboxValue[]> | Ref<undefined>
+>('computedValue', ref(undefined));
+// checkgroup传入的最大勾选数
+const max = inject('max', ref(undefined));
+// group传入的disabled
+const tempDisabled = inject('disabled', _disabled);
 // 受控的值
-const computedChecked = useControlValue<boolean>(
+const _checked = useControlValue<boolean>(
   modelValue,
   defaultChecked.value,
   (val) => {
     emits('update:modelValue', val);
   }
 );
-const computedValue = inject('computedValue');
+// 计算的checked
+const computedChecked = computed(() => {
+  if (!computedValue.value) return _checked.value;
+  return computedValue.value.includes(checkboxValue.value);
+});
+// 禁用
+const disabled = computed(() => {
+  if (!max.value || !computedValue.value) return tempDisabled.value;
+  return computedValue.value.length >= max.value;
+});
 // 处理check发生改变
-const handleChange = (e: Event) => {
-  computedChecked.value = (e.target as HTMLInputElement)?.checked;
-  emits('change', computedChecked.value, e);
+const handleCollect = (e: Event) => {
+  // 如果外面没有嵌套checkbox-group则执行收集就可以了
+  if (!computedValue.value) {
+    _checked.value = (e.target as HTMLInputElement)?.checked;
+    emits('change', _checked.value, e);
+  } else {
+    const { value } = checkboxValue;
+    // false->true
+    if (!computedChecked.value) {
+      computedValue.value = [...computedValue.value, value];
+    } else {
+      computedValue.value = computedValue.value.filter((item) => item != value);
+    }
+  }
 };
 </script>
 

@@ -33,7 +33,7 @@ export default (params: {
     }
   );
   provide('computedVisible', computedVisible);
-  // modelValue
+  // 当前选项
   const computedValue = useControlValue<SelectValue | SelectValue[]>(
     modelValue,
     defaultValue.value,

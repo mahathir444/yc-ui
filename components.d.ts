@@ -8,6 +8,8 @@ export {}
 declare module 'vue' {
   export interface GlobalComponents {
     AButton: typeof import('@arco-design/web-vue')['Button']
+    ACheckbox: typeof import('@arco-design/web-vue')['Checkbox']
+    ACheckboxGroup: typeof import('@arco-design/web-vue')['CheckboxGroup']
     ADivider: typeof import('@arco-design/web-vue')['Divider']
     AEmpty: typeof import('@arco-design/web-vue')['Empty']
     AInput: typeof import('@arco-design/web-vue')['Input']
