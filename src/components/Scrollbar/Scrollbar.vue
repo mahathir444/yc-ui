@@ -33,6 +33,7 @@
       :horizontalTrackHeight="horizontalTrackHeight"
       :verticalThumbWidth="verticalThumbWidth"
       :verticalThubmHeight="horizontalThubmHeight"
+      :horizontalThumbHeight="horizontalThubmHeight"
       @drag="handleDrag"
     />
     <!-- 纵向滚动条 -->

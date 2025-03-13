@@ -1,11 +1,8 @@
 import { computed, provide, ref, Ref } from 'vue';
 import useControlValue from './useControlValue';
-import {
-  OptionProps,
-  SelectOptionData,
-  SelectValue,
-} from '@/components/Select/type';
+import { OptionProps, SelectValue } from '@/components/Select/type';
 import { Fn } from '../_type';
+import { isArray } from '../_utils/is';
 
 export default (params: {
   popupVisible: Ref<boolean | undefined>;
@@ -14,7 +11,7 @@ export default (params: {
   defaultValue: Ref<SelectValue | SelectValue[]>;
   inputValue: Ref<string | undefined>;
   defaultInputValue: Ref<string>;
-  options: Ref<SelectOptionData[]>;
+  formatLabel: Fn;
   emits: Fn;
 }) => {
   const {
@@ -24,6 +21,7 @@ export default (params: {
     defaultValue,
     inputValue,
     defaultInputValue,
+    formatLabel,
     emits,
   } = params;
   // popupVisible
@@ -44,10 +42,18 @@ export default (params: {
       emits('update:modelValue', val);
     }
   );
+  // 当前的选项显示ide值
+  const computedLabel = computed(() => {
+    const option = optionList.value.filter((item) => {
+      return isArray(computedValue.value)
+        ? computedValue.value.includes(item.value)
+        : computedValue.value == item.value;
+    });
+    console.log(option);
+    if (!option.length) return '';
+    return formatLabel(option);
+  });
   provide('computedValue', computedValue);
-  // 显示label
-  const computedLabel = ref<string>('');
-  provide('computedLabel', computedLabel);
   // 输入框的值
   const computedInputValue = useControlValue<string>(
     inputValue,
@@ -58,20 +64,20 @@ export default (params: {
   );
   provide('computedInputValue', computedInputValue);
   // options数组
-  const selectOptions = ref<OptionProps[]>([]);
-  provide('selectOptions', selectOptions);
+  const optionList = ref<OptionProps[]>([]);
+  provide('optionList', optionList);
   // 搜索项
-  const searchOptions = computed(() => {
-    return selectOptions.value.filter((item) =>
+  const isEmpty = computed(() => {
+    const filterResult = optionList.value.filter((item) =>
       item.label?.includes(computedInputValue.value)
     );
+    return !filterResult.length;
   });
   return {
     computedVisible,
     computedValue,
-    computedLabel,
     computedInputValue,
-    selectOptions,
-    searchOptions,
+    isEmpty,
+    computedLabel,
   };
 };

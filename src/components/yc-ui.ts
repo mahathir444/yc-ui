@@ -22,7 +22,7 @@ import Tooltip from './Tooltip';
 import Trigger from './Trigger';
 import Spin from './Spin';
 import Tag from './Tag';
-import Select, { Option } from './Select';
+import Select, { Option, Optgroup } from './Select';
 import Empty from './Empty';
 import SvgIcon from '@/components/_components/SvgIcon/index.vue';
 
@@ -58,6 +58,7 @@ const YcUi = {
   InputSearch,
   InputPassword,
   Option,
+  Optgroup,
   install: (app: App, options: YcUiOptions) => {
     app.component('SvgIcon', SvgIcon);
     for (const key of Object.keys(components)) {

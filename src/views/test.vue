@@ -1,56 +1,29 @@
 <template>
   <div class="test">
-    <a-button @click="total += 10">点击total+10</a-button>
-    <a-button @click="total -= 10">点击total-10</a-button>
-    <yc-scrollbar
-      style="height: 200px; width: 100%; overflow: auto"
-      ref="scrollbarRef"
-    >
-      <div
-        style="min-height: 200px; background-color: aquamarine; width: 200px"
-      >
-        <div v-for="i in total" :key="i">{{ i }}</div>
-      </div>
-    </yc-scrollbar>
-
     <div style="width: 300px">
-      <yc-select
-        placeholder="请选择"
-        :options="[
-          {
-            label: '1',
-            value: 1,
-          },
-        ]"
-      >
-        <yc-option v-for="i in 6" :key="i" :value="i" :label="i.toString()">
-          <template #icon>
-            <icon-align-center />
-          </template>
-          <template #suffix>
-            <icon-align-center />
-          </template>
-        </yc-option>
+      <yc-select v-model="value" multiple placeholder="请选择">
+        <YcOptionGroup label="分组1">
+          <yc-option v-for="i in 20" :key="i" :value="i" :label="`选项${i}`">
+          </yc-option>
+        </YcOptionGroup>
       </yc-select>
     </div>
 
+    <YcCheckbox> 测试 </YcCheckbox>
+
     <div style="width: 300px">
-      <a-select
-        placeholder="请选择"
-        :options="[
-          {
-            label: '1',
-            value: 1,
-          },
-        ]"
-        allow-search
-        allow-clear
-      >
-        <a-option v-for="i in 6" :key="i" :value="i" :label="i.toString()">
+      <a-select placeholder="请选择" allow-search allow-clear>
+        <a-option
+          v-for="i in 6"
+          :key="i"
+          :value="i"
+          :index="6 - i"
+          :label="i.toString()"
+        >
           <template #icon>
             <icon-align-center />
           </template>
-          test
+          test{{ i }}
           <template #suffix>
             <icon-align-center />
           </template>
@@ -62,13 +35,12 @@
 
 <script lang="ts" setup>
 import { ref, watch, watchEffect } from 'vue';
-import YcScrollbar from '@/components/Scrollbar';
-import YcTag from '@/components/Tag/index.vue';
 import YcSelect from '@/components/Select/Select.vue';
 import YcOption from '@/components/Select/Option.vue';
-import YcDropdown, { DOption as YcDoption } from '@/components/Dropdown';
-import YcButton, { ButtonGroup } from '@/components/Button';
+import YcOptionGroup from '@/components/Select/Optgroup.vue';
+import YcCheckbox from '@/components/Checkbox/index.vue';
 const total = ref(1);
+const value = ref([]);
 </script>
 
 <style lang="less" scoped>

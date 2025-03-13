@@ -21,7 +21,7 @@
     <slot name="trigger">
       <div
         :class="[
-          'yc-select',
+          'yc-select-wrapper',
           allowSearch ? 'yc-select-allow-search' : '',
           showClearBtn ? 'yc-select-allow-clear' : '',
         ]"
@@ -29,25 +29,25 @@
       >
         <yc-input
           v-model="computedInputValue"
-          :placeholder="computedLabel"
+          mode="select"
+          :show-input="computedVisible"
+          :label-value="computedLabel"
+          :placeholder="placeholder"
+          :input-placeholder="computedLabel"
           :readonly="!allowSearch || loading"
           :disabled="disabled"
           :size="size"
           :error="error"
           ref="inputRef"
+          class="yc-select"
           @blur="computedInputValue = ''"
-          @input="(v) => $emit('search', v)"
+          @input="handleSearch"
         >
-          <div
-            v-if="!computedVisible"
-            :class="{
-              'text-ellipsis': true,
-              'yc-input': true,
-              'select-value-placeholder': !computedLabel,
-            }"
-          >
-            {{ computedLabel || placeholder }}
-          </div>
+          <!-- prefix -->
+          <template v-if="$slots.prefix" #prefix>
+            <slot name="prefix" />
+          </template>
+          <!-- suffix -->
           <template #suffix>
             <!-- loading -->
             <yc-spin
@@ -87,39 +87,51 @@
       </div>
     </slot>
     <template #content>
-      <div class="yc-select-dropdown">
-        <yc-spin :loading="loading" class="yc-select-loading">
-          <yc-scrollbar
-            style="max-height: 200px"
-            :vertical-track-width="10"
-            :vertical-thumb-width="8"
+      <!-- loading -->
+      <yc-spin :loading="loading" class="yc-select-dropdown-loading">
+        <!--dropdown -->
+        <div class="yc-select-dropdown">
+          <!-- header -->
+          <div
+            v-if="$slots.header && (showHeaderOnEmpty || !isEmpty)"
+            class="yc-select-dropdown-header"
           >
+            <slot name="header" />
+          </div>
+          <!-- list -->
+          <yc-scrollbar style="max-height: 200px">
             <div class="yc-select-dropdown-list">
-              <slot>
-                <yc-option
-                  v-for="item in options"
-                  :key="<string>item.value"
-                  :value="item.value"
-                  :label="item.label"
-                  :disabled="item.disabled"
-                />
-              </slot>
-              <slot v-if="!searchOptions.length" name="empty">
+              <slot />
+              <yc-option
+                v-for="item in options"
+                :key="<string>item.value"
+                :value="item.value"
+                :label="item.label"
+                :disabled="item.disabled"
+              />
+              <slot v-if="isEmpty" name="empty">
                 <yc-empty description="暂无数据" />
               </slot>
             </div>
           </yc-scrollbar>
-        </yc-spin>
-      </div>
+          <!-- footer -->
+          <div
+            v-if="$slots.footer && (showFooterOnEmpty || !isEmpty)"
+            class="yc-select-dropdown-footer"
+          >
+            <slot name="footer" />
+          </div>
+        </div>
+      </yc-spin>
     </template>
   </yc-trigger>
 </template>
 
 <script lang="ts" setup>
-import { ref, computed, toRefs } from 'vue';
+import { ref, computed, toRefs, provide } from 'vue';
 import { TRANSFORM_ORIGIN_MAP } from '@/components/Trigger/constants';
 import { TriggerPostion } from '@/components/Trigger';
-import { SelectProps, SelectValue } from './type';
+import { SelectProps, SelectValue, SelectOptionData } from './type';
 import useSeletValue from '../_hooks/useSeletValue';
 import { sleep } from '@/components/_utils/fn';
 import YcInput, { InputInstance } from '@/components/Input';
@@ -133,6 +145,7 @@ defineOptions({
   name: 'Select',
 });
 const props = withDefaults(defineProps<SelectProps>(), {
+  multiple: false,
   modelValue: undefined,
   defaultValue: '',
   inputValue: undefined,
@@ -143,18 +156,28 @@ const props = withDefaults(defineProps<SelectProps>(), {
   disabled: false,
   error: false,
   allowClear: false,
-  allowSearch: false,
+  allowSearch: true,
   popupContainer: 'body',
   defaultActivefirstOption: false,
   popupVisible: undefined,
   defaultPopupVisible: false,
   unmountOnClose: false,
+  filterOption: (inputValue: string, option: SelectOptionData) => {
+    return option?.label?.includes(inputValue);
+  },
+  options: () => [],
+  formatLabel: (option: SelectOptionData[]) => {
+    return option.map((item) => item.value).join('、');
+  },
   triggerProps: () => {
     return {
       contentStyle: {},
     };
   },
-  options: () => [],
+  limit: 0,
+  searchDelay: 500,
+  showHeaderOnEmpty: false,
+  showFooterOnEmpty: false,
 });
 const emits = defineEmits<{
   (e: 'change', value: SelectValue): void;
@@ -165,6 +188,7 @@ const emits = defineEmits<{
   (e: 'update:inputValue', value: SelectValue): void;
   (e: 'update:popupVisible', value: boolean): void;
   (e: 'popupVisibleChange', value: boolean): void;
+  (e: 'exceed-limit', value: SelectValue, ev: MouseEvent): void;
 }>();
 const {
   modelValue,
@@ -176,19 +200,29 @@ const {
   loading,
   defaultPopupVisible,
   popupVisible,
+  searchDelay,
   options,
+  showFooterOnEmpty,
+  showHeaderOnEmpty,
+  limit,
+  multiple,
 } = toRefs(props);
+const { filterOption, formatLabel } = props;
+provide('filterOption', filterOption);
+provide('limit', limit);
+provide('multiple', multiple);
+provide('emits', emits);
 // 当前的位置
 const triggerPostion = ref<TriggerPostion>('bl');
 // 输入实例
 const inputRef = ref<InputInstance>();
 // 处理值
 const {
+  computedLabel,
   computedVisible,
   computedInputValue,
   computedValue,
-  computedLabel,
-  searchOptions,
+  isEmpty,
 } = useSeletValue({
   popupVisible,
   defaultPopupVisible,
@@ -196,7 +230,7 @@ const {
   defaultValue,
   defaultInputValue,
   inputValue,
-  options,
+  formatLabel,
   emits,
 });
 // 是否展示清除按钮
@@ -231,8 +265,12 @@ const handleClick = async () => {
 // 处理清除
 const handleClear = () => {
   computedValue.value = '';
-  computedLabel.value = '';
   emits('clear');
+};
+//处理搜索
+const handleSearch = async (v: string) => {
+  await sleep(searchDelay.value);
+  emits('search', v);
 };
 </script>
 

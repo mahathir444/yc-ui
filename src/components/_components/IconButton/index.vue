@@ -21,12 +21,13 @@ import SvgIcon from '@/components/_components/SvgIcon/index.vue';
 
 withDefaults(
   defineProps<{
-    name: string;
+    name?: string;
     fontSize?: string;
     hoverColor?: string;
     hoverSize?: string;
   }>(),
   {
+    name: 'close',
     fontSize: '12px',
     hoverColor: 'rgb(242, 243, 245)',
     hoverSize: '20px',
@@ -48,6 +49,7 @@ withDefaults(
     background-color: v-bind(hoverColor);
   }
   &::before {
+    z-index: -1;
     content: '';
     position: absolute;
     top: 50%;
@@ -58,10 +60,6 @@ withDefaults(
     border-radius: 50%;
     background: transparent;
     transition: background-color 0.1s cubic-bezier(0, 0, 1, 1);
-  }
-  .svg-icon {
-    position: relative;
-    z-index: 10;
   }
 }
 </style>

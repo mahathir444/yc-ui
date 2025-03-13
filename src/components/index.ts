@@ -28,6 +28,7 @@ export type {
   DoptionInstance,
   DropdownButtonInstance,
   DsubmenuInstance,
+  DgroupProps,
 } from './Dropdown';
 export {
   default as Dropdown,
@@ -108,3 +109,15 @@ export { default as Tag } from './Tag';
 
 export type { EmptyProps, EmptyInstance } from './Empty';
 export { default as Empty } from './Empty';
+
+export type {
+  SelectOptionData,
+  SelectProps,
+  OptionProps,
+  SelectValue,
+  OptgroupProps,
+  SelectInstance,
+  OptgroupInstance,
+  OptionInstance,
+} from './Select';
+export { default as Select, Option, Optgroup } from './Select';

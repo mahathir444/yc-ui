@@ -24,25 +24,37 @@
       <div v-if="$slots.prefix" class="yc-input-prefix">
         <slot name="prefix" />
       </div>
-      <slot>
-        <!-- input -->
-        <input
-          v-model="computedValue"
-          :type="type"
-          :disabled="disabled"
-          :readonly="readonly"
-          :maxlength="maxLength"
-          :placeholder="placeholder"
-          class="yc-input"
-          ref="inputRef"
-          v-bind="inputAttrs"
-          @input="handleEvent('input', $event)"
-          @change="handleEvent('change', $event)"
-          @focus="(e) => emits('focus', e)"
-          @blur="(e) => emits('blur', e)"
-          @keydown.enter="(e) => emits('press-enter', e)"
-        />
-      </slot>
+      <!-- input -->
+      <input
+        v-show="mode == 'input' || (mode == 'select' && showInput)"
+        v-model="computedValue"
+        :type="type"
+        :disabled="disabled"
+        :readonly="readonly"
+        :maxlength="maxLength"
+        :placeholder="mode == 'select' ? inputPlaceholder : placeholder"
+        v-bind="inputAttrs"
+        class="yc-input"
+        ref="inputRef"
+        @input="handleEvent('input', $event)"
+        @change="handleEvent('change', $event)"
+        @focus="(e) => emits('focus', e)"
+        @blur="(e) => emits('blur', e)"
+        @keydown.enter="(e) => emits('press-enter', e)"
+      />
+      <div
+        v-if="mode == 'select'"
+        v-show="!showInput"
+        :style="{
+          color: labelValue ? 'inherit' : 'rgb(134, 144, 156)',
+        }"
+        :class="{
+          'yc-input': true,
+          'text-ellipsis': true,
+        }"
+      >
+        {{ labelValue || placeholder }}
+      </div>
       <!-- clear-btn -->
       <yc-icon-button
         v-if="showClearBtn"
@@ -77,7 +89,7 @@
 <script lang="ts" setup>
 import { ref, computed, toRefs } from 'vue';
 import { SIZE_CLASS } from './constants';
-import { InputProps, EventType } from './type';
+import { InputProps } from './type';
 import { SIZE_MAP } from '@/components/_constants';
 import { isNumber } from '@/components/_utils/is';
 import useControlValue from '../_hooks/useControlValue';
@@ -100,6 +112,10 @@ const props = withDefaults(defineProps<InputProps>(), {
     return {};
   },
   type: 'text',
+  mode: 'input',
+  showInput: false,
+  inputPlaceholder: '',
+  labelValue: '',
 });
 const emits = defineEmits<{
   (e: 'update:modelValue', value: string): void;
@@ -120,6 +136,7 @@ const {
   disabled,
   readonly,
 } = toRefs(props);
+// 受控值
 const computedValue = useControlValue<string>(
   modelValue,
   defaultValue.value,

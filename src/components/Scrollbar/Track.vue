@@ -25,7 +25,7 @@
         }"
         :style="{
           width: isVertical ? `${verticalThumbWidth}px` : '',
-          height: isVertical ? '' : `${horizontalThubmHeight}px`,
+          height: isVertical ? '' : `${horizontalThumbHeight}px`,
         }"
       ></div>
     </div>
@@ -52,7 +52,7 @@ const props = withDefaults(
     verticalTrackWidth?: number;
     horizontalTrackHeight?: number;
     verticalThumbWidth?: number;
-    horizontalThubmHeight?: number;
+    horizontalThumbHeight?: number;
   }>(),
   {
     direction: 'vertical',
