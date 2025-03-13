@@ -3,7 +3,7 @@
     <div class="yc-empty-image">
       <slot name="image">
         <img v-if="imgSrc" :src="imgSrc" alt="图片加载失败" />
-        <svg-icon v-else name="empty" />
+        <yc-icon v-else name="empty" />
       </slot>
     </div>
     <div v-if="description" class="yc-empty-description">{{ description }}</div>

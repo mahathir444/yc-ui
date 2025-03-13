@@ -1,7 +1,7 @@
 import { App } from 'vue';
 import _Dropdown from './Dropdown.vue';
 import _Doption from './Doption.vue';
-import _Dgroup from '../Select/Dgroup.vue';
+import _Dgroup from './Dgroup.vue';
 import _DropdownButton from './DropdownButton.vue';
 import _Dsubmenu from './Dsubmenu.vue';
 import { getComponentPrefix } from '@/components/_utils/global-config';
@@ -21,7 +21,7 @@ export type {
 } from './type';
 
 export {
-  _Doption as DOption,
+  _Doption as Doption,
   _Dgroup as Dgroup,
   _DropdownButton as DropdownButton,
   _Dsubmenu as Dsubmenu,

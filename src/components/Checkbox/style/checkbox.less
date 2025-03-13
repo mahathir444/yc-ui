@@ -61,12 +61,18 @@
     }
   }
 }
-// c全选
+// 全选和半选
 .yc-checkbox-checked,
 .yc-checkbox-indeterminate {
   .yc-checkbox-icon {
     border-color: transparent;
     background-color: rgb(22, 93, 255);
+  }
+  &.yc-checkbox-disabled {
+    .yc-checkbox-icon {
+      background-color: rgb(148, 191, 255);
+      border-color: transparent;
+    }
   }
 }
 // 半选

@@ -3,9 +3,9 @@
     :class="{
       'yc-checkbox': true,
       'yc-checkbox-hoverable': !computedChecked && !disabled,
+      'yc-checkbox-disabled': disabled,
       'yc-checkbox-checked': computedChecked && !indeterminate,
       'yc-checkbox-indeterminate': indeterminate && !computedChecked,
-      'yc-checkbox-disabled': disabled,
     }"
   >
     <input
@@ -25,7 +25,7 @@
       >
         <template #icon>
           <span class="yc-checkbox-icon">
-            <svg-icon v-show="computedChecked" name="checked" :size="[8, 10]" />
+            <yc-icon v-show="computedChecked" name="checked" :size="[8, 10]" />
           </span>
         </template>
       </yc-icon-button>
@@ -37,18 +37,10 @@
 </template>
 
 <script lang="ts" setup>
-import {
-  toRefs,
-  Ref,
-  inject,
-  WritableComputedRef,
-  computed,
-  ref,
-  watch,
-} from 'vue';
+import { toRefs, Ref, inject, WritableComputedRef, computed, ref } from 'vue';
 import { CheckboxProps, CheckboxValue } from './type';
 import useControlValue from '@/components/_hooks/useControlValue';
-import YcIconButton from '@/components/_components/IconButton/index.vue';
+
 defineOptions({
   name: 'Checkbox',
 });
@@ -93,7 +85,7 @@ const computedChecked = computed(() => {
 // 禁用
 const disabled = computed(() => {
   if (!max.value || !computedValue.value) return tempDisabled.value;
-  return computedValue.value.length >= max.value;
+  return computedValue.value.length >= max.value && !computedChecked.value;
 });
 // 处理check发生改变
 const handleCollect = (e: Event) => {

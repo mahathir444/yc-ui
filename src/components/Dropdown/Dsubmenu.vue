@@ -10,7 +10,7 @@
   >
     <slot />
     <template #suffix>
-      <svg-icon name="arrow-right" />
+      <yc-icon name="arrow-right" />
     </template>
   </yc-doption>
   <teleport to="body">

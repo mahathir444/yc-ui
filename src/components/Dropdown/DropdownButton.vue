@@ -18,7 +18,7 @@
       <yc-button v-bind="buttonProps">
         <template #icon>
           <slot name="icon">
-            <svg-icon name="more" />
+            <yc-icon name="more" />
           </slot>
         </template>
       </yc-button>

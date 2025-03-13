@@ -44,7 +44,7 @@ import { ref, toRefs } from 'vue';
 import { InputPasswordProps } from './type';
 import YcInput from './Input.vue';
 import useControlValue from '@/components/_hooks/useControlValue';
-import YcIconButton from '@/components/_components/IconButton/index.vue';
+
 defineOptions({
   name: 'InputPassword',
 });

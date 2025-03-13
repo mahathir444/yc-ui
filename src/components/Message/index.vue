@@ -8,7 +8,7 @@
     >
       <span v-if="hasIcon" :class="['yc-message-icon', type]">
         <slot name="icon">
-          <svg-icon :name="type" class="svg-icon" />
+          <yc-icon :name="type" class="svg-icon" />
         </slot>
       </span>
       <span class="yc-message-content">{{ content }}</span>

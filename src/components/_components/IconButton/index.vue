@@ -11,7 +11,7 @@
     }"
   >
     <slot name="icon">
-      <svg-icon :name="name" />
+      <yc-icon :name="name" />
     </slot>
   </div>
 </template>

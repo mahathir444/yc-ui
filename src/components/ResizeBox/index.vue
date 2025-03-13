@@ -25,7 +25,7 @@
       <slot name="resize-trigger" :direction="item">
         <div class="yc-resizebox-trigger-icon-wrapper">
           <slot name="resize-trigger-icon" :direction="item">
-            <svg-icon
+            <yc-icon
               :name="
                 getDir(item) === 'vertical' ? 'drag-dot-vertical' : 'drag-dot'
               "

@@ -32,8 +32,3 @@ export const calFileSize = (size: number) => {
   }
   return size.toFixed(2) + ' ' + sizeMap[count];
 };
-
-//获取文件后缀
-export const getFileExt = (filename: string) => {
-  return filename.split('.').at(-1);
-};
