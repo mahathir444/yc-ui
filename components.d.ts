@@ -7,13 +7,6 @@ export {}
 /* prettier-ignore */
 declare module 'vue' {
   export interface GlobalComponents {
-    AButton: typeof import('@arco-design/web-vue')['Button']
-    ACheckbox: typeof import('@arco-design/web-vue')['Checkbox']
-    ACheckboxGroup: typeof import('@arco-design/web-vue')['CheckboxGroup']
-    AOption: typeof import('@arco-design/web-vue')['Option']
-    APopover: typeof import('@arco-design/web-vue')['Popover']
-    ASelect: typeof import('@arco-design/web-vue')['Select']
-    ATrigger: typeof import('@arco-design/web-vue')['Trigger']
     Button: typeof import('./src/components/Button/Button.vue')['default']
     ButtonGroup: typeof import('./src/components/Button/ButtonGroup.vue')['default']
     Checkbox: typeof import('./src/components/Checkbox/Checkbox.vue')['default']
@@ -54,7 +47,6 @@ declare module 'vue' {
     Textarea: typeof import('./src/components/Textarea/index.vue')['default']
     Tooltip: typeof import('./src/components/Tooltip/index.vue')['default']
     Track: typeof import('./src/components/Scrollbar/Track.vue')['default']
-    Trgger: typeof import('./src/components/Trigger/Trgger.vue')['default']
     Trigger: typeof import('./src/components/Trigger/index.vue')['default']
   }
 }

@@ -1,0 +1,1 @@
+"use strict";const e=require("./notificationList.vue2.js");require("./notificationList.vue3.js");const i=require("../../../_virtual/_plugin-vue_export-helper.js")(e,[["__scopeId","data-v-cb1fc5e5"]]);module.exports=i;

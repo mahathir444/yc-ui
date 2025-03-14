@@ -9,11 +9,6 @@
     @blur="handleBlur"
     ref="triggerRef"
   />
-  <!-- <component
-    v-for="(node, i) in getVnodeFromChildren(vNodes).slice(1)"
-    :key="i"
-    :is="node"
-  /> -->
   <teleport :to="popupContainer" :disabled="!renderToBody">
     <transition
       :name="animationName"
@@ -62,10 +57,7 @@ import { useElementBounding, useElementSize } from '@vueuse/core';
 import useTriggerVisible from '@/components/_hooks/useTriggerVisible';
 import useTriggerPosition from '@/components/_hooks/useTriggerPosition';
 import { TriggerProps, TriggerPostion } from './type';
-import {
-  findFirstLegitChild,
-  getVnodeFromChildren,
-} from '@/components/_utils/vue-utils';
+import { findFirstLegitChild } from '@/components/_utils/vue-utils';
 defineOptions({
   name: 'Trigger',
 });
@@ -145,7 +137,7 @@ const contentRef = ref<HTMLDivElement>();
 const triggerRef = ref<HTMLElement | null>(null);
 // 获取插槽
 const slots = useSlots();
-const vNodes = computed(() => slots.default?.() ?? []);
+const vNodes = computed(() => slots?.default?.() ?? []);
 // 处理trigger关闭与开启
 const {
   computedVisible,

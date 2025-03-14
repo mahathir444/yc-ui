@@ -9,8 +9,10 @@
       </yc-select> -->
     </div>
 
+    <!-- <yc-modal draggable :default-visible="true" :mask-closable="false" /> -->
+
     <div>
-      <yc-popover trigger="click">
+      <!-- <yc-popover trigger="click">
         <yc-button>测试</yc-button>
         <yc-button>测试1</yc-button>
         <yc-button>测试2</yc-button>
@@ -21,7 +23,7 @@
             </a-checkbox>
           </a-checkbox-group>
         </template>
-      </yc-popover>
+      </yc-popover> -->
     </div>
     <div>
       <yc-checkbox-group v-model="value1" :max="3">

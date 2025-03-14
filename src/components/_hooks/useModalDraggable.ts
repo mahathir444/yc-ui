@@ -1,12 +1,4 @@
-import {
-  ref,
-  Ref,
-  computed,
-  CSSProperties,
-  onMounted,
-  onBeforeUnmount,
-  watch,
-} from 'vue';
+import { ref, Ref, computed, CSSProperties, watch } from 'vue';
 import { sleep } from '@/components/_utils/fn';
 import { useDraggable, useEventListener } from '@vueuse/core';
 

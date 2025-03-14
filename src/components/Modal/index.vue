@@ -41,7 +41,7 @@
             @click.stop="() => {}"
           >
             <!-- header -->
-            <div class="yc-modal-header">
+            <div class="yc-modal-header" ref="headerRef">
               <!-- title -->
               <div
                 v-if="!hideTitle"
@@ -50,7 +50,6 @@
                   'text-ellipsis': true,
                   'title-align-center': titleAlign == 'center',
                 }"
-                ref="headerRef"
               >
                 <slot name="title">
                   <span>{{ title }}</span>
