@@ -32,7 +32,6 @@ export default (params: {
       emits('update:popupVisible', val);
     }
   );
-  provide('computedVisible', computedVisible);
   // 当前选项
   const computedValue = useControlValue<SelectValue | SelectValue[]>(
     modelValue,
@@ -52,7 +51,6 @@ export default (params: {
     if (!option.length) return '';
     return formatLabel(option);
   });
-  provide('computedValue', computedValue);
   // 输入框的值
   const computedInputValue = useControlValue<string>(
     inputValue,
@@ -61,10 +59,8 @@ export default (params: {
       emits('update:inputValue', val);
     }
   );
-  provide('computedInputValue', computedInputValue);
   // options数组
   const optionList = ref<OptionProps[]>([]);
-  provide('optionList', optionList);
   // 搜索项
   const isEmpty = computed(() => {
     const filterResult = optionList.value.filter((item) =>
@@ -73,10 +69,11 @@ export default (params: {
     return !filterResult.length;
   });
   return {
+    optionList,
     computedVisible,
     computedValue,
     computedInputValue,
-    isEmpty,
     computedLabel,
+    isEmpty,
   };
 };

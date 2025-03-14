@@ -1,21 +1,17 @@
 <template>
   <div class="test">
     <div style="width: 300px">
-      <!-- <yc-select v-model="value" multiple placeholder="请选择">
+      <yc-select v-model="value" placeholder="请选择">
         <yc-optgroup label="分组1">
           <yc-option v-for="i in 20" :key="i" :value="i" :label="`选项${i}`">
           </yc-option>
         </yc-optgroup>
-      </yc-select> -->
+      </yc-select>
     </div>
 
-    <!-- <yc-modal draggable :default-visible="true" :mask-closable="false" /> -->
-
     <div>
-      <!-- <yc-popover trigger="click">
+      <yc-popover trigger="click">
         <yc-button>测试</yc-button>
-        <yc-button>测试1</yc-button>
-        <yc-button>测试2</yc-button>
         <template #content>
           <a-checkbox-group v-model="value1" :max="3">
             <a-checkbox v-for="i in 5" :key="i" :value="i">
@@ -23,8 +19,35 @@
             </a-checkbox>
           </a-checkbox-group>
         </template>
-      </yc-popover> -->
+      </yc-popover>
     </div>
+    <div>
+      <yc-dropdown>
+        <yc-button>测试</yc-button>
+        <template #content>
+          <yc-dsubmenu>
+            选项0
+            <template #content>
+              <yc-dsubmenu>
+                选项0
+                <template #content>
+                  <yc-doption v-for="i in 5" :key="i" :value="i">
+                    选项{{ i }}
+                  </yc-doption>
+                </template>
+              </yc-dsubmenu>
+              <yc-doption v-for="i in 5" :key="i" :value="i">
+                选项{{ i }}
+              </yc-doption>
+            </template>
+          </yc-dsubmenu>
+          <yc-doption v-for="i in 5" :key="i" :value="i">
+            选项{{ i }}
+          </yc-doption>
+        </template>
+      </yc-dropdown>
+    </div>
+
     <div>
       <yc-checkbox-group v-model="value1" :max="3">
         <YcCheckbox v-for="i in 5" :key="i" :value="i">

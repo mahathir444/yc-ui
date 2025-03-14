@@ -130,8 +130,14 @@
 <script lang="ts" setup>
 import { ref, computed, toRefs, provide } from 'vue';
 import { TRANSFORM_ORIGIN_MAP } from '@/components/Trigger/constants';
+import { SELECT_PROVIDE_KEY } from './constants';
 import { TriggerPostion } from '@/components/Trigger';
-import { SelectProps, SelectValue, SelectOptionData } from './type';
+import {
+  SelectProps,
+  SelectValue,
+  SelectOptionData,
+  ProvideType,
+} from './type';
 import useSeletValue from '../_hooks/useSeletValue';
 import { sleep } from '@/components/_utils/fn';
 import YcInput, { InputInstance } from '@/components/Input';
@@ -208,10 +214,6 @@ const {
   multiple,
 } = toRefs(props);
 const { filterOption, formatLabel } = props;
-provide('filterOption', filterOption);
-provide('limit', limit);
-provide('multiple', multiple);
-provide('emits', emits);
 // 当前的位置
 const triggerPostion = ref<TriggerPostion>('bl');
 // 输入实例
@@ -222,6 +224,7 @@ const {
   computedVisible,
   computedInputValue,
   computedValue,
+  optionList,
   isEmpty,
 } = useSeletValue({
   popupVisible,
@@ -241,6 +244,17 @@ const showClearBtn = computed(
     !loading.value &&
     String(computedValue.value).length
 );
+// 提供值
+provide<ProvideType>(SELECT_PROVIDE_KEY, {
+  computedVisible,
+  computedValue,
+  computedInputValue,
+  optionList,
+  limit,
+  multiple,
+  filterOption,
+  emits,
+});
 // 判断是否是关闭按钮,从而不关闭选项
 const isCloseButton = (el: HTMLElement): boolean => {
   const classList = el.classList;

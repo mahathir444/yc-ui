@@ -11,13 +11,12 @@
 </template>
 
 <script lang="ts" setup>
-import { toRefs, provide, computed } from 'vue';
-import { ButtonGroupProps } from './type';
-import { SIZE_MAP } from '@/components/_constants';
+import { toRefs, provide } from 'vue';
+import { ButtonGroupProps, ProvideType } from './type';
 import {
-  GROUP_SHAPE_CLASS,
   GROUP_TYPE_CLASS,
   GROUP_STAUTS_CLASS,
+  BUTTON_GROUP_PROVIDE_KEY,
 } from './constants';
 defineOptions({
   name: 'ButtonGroup',
@@ -30,11 +29,13 @@ const props = withDefaults(defineProps<ButtonGroupProps>(), {
   disabled: false,
 });
 const { type, status, size, shape, disabled } = toRefs(props);
-provide('type', type);
-provide('status', status);
-provide('size', size);
-provide('shape', shape);
-provide('disabled', disabled);
+provide<ProvideType>(BUTTON_GROUP_PROVIDE_KEY, {
+  type,
+  status,
+  size,
+  shape,
+  disabled,
+});
 </script>
 
 <style lang="less">

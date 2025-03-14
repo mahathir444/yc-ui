@@ -46,3 +46,5 @@ export const GROUP_STAUTS_CLASS = {
   danger: 'yc-button-group-status-danger',
   normal: '',
 };
+
+export const BUTTON_GROUP_PROVIDE_KEY = 'button-group-props';

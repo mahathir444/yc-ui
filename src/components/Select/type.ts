@@ -1,4 +1,5 @@
-import { Size } from '../_type';
+import { WritableComputedRef, Ref } from 'vue';
+import { Fn, Size } from '../_type';
 import { TriggerProps } from '../Trigger';
 import { PopupContainer } from '../Trigger/type';
 
@@ -52,4 +53,17 @@ export interface SelectProps {
   showHeaderOnEmpty?: boolean;
   showFooterOnEmpty?: boolean;
   // tag-nowrap
+}
+
+export interface ProvideType {
+  computedValue:
+    | WritableComputedRef<SelectValue | SelectValue[]>
+    | Ref<undefined>;
+  computedInputValue: WritableComputedRef<string> | Ref<string>;
+  computedVisible: WritableComputedRef<boolean> | Ref<boolean>;
+  optionList: Ref<OptionProps[]>;
+  limit: Ref<number>;
+  multiple: Ref<boolean>;
+  filterOption: Fn;
+  emits: Fn;
 }

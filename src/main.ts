@@ -6,10 +6,8 @@ import ArcoVue from '@arco-design/web-vue';
 import ArcoVueIcon from '@arco-design/web-vue/es/icon';
 import '@arco-design/web-vue/dist/arco.css';
 // 导入组件库
-// import YcUi from './components';
-// import '@/components/index.less';
-import YcUi from '../es/src/components/index';
-import '../es/style.css';
+import YcUi from './components';
+import '@/components/index.less';
 
 const app = createApp(App);
 app.use(router);

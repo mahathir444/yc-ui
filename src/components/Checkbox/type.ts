@@ -1,3 +1,4 @@
+import { WritableComputedRef, Ref } from 'vue';
 import { Direction } from '@/components/_type';
 export type CheckboxValue = string | number | boolean;
 
@@ -23,4 +24,10 @@ export interface CheckboxGroupProps {
   options?: CheckboxOption[];
   direction?: Direction;
   disabled?: boolean;
+}
+
+export interface ProvideType {
+  computedValue: WritableComputedRef<CheckboxValue[]> | Ref<undefined>;
+  max: Ref<number | undefined>;
+  disabled: Ref<boolean>;
 }

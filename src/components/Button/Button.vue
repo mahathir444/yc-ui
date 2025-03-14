@@ -49,11 +49,16 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, toRefs, inject, Ref, useSlots } from 'vue';
+import { computed, toRefs, inject } from 'vue';
 import { SIZE_MAP } from '@/components/_constants';
-import { SIZE_CLASS, TYPE_CLASS, STATUS_CLASS, SHAPE_CLASS } from './constants';
-import { ButtonProps, ButtonType, ButtonShape, ButtonStatus } from './type';
-import { Size } from '@/components/_type';
+import {
+  SIZE_CLASS,
+  TYPE_CLASS,
+  STATUS_CLASS,
+  SHAPE_CLASS,
+  BUTTON_GROUP_PROVIDE_KEY,
+} from './constants';
+import { ButtonProps, ProvideType } from './type';
 import YcSpin from '../Spin/index.vue';
 defineOptions({
   name: 'Button',
@@ -82,11 +87,16 @@ const {
   shape: _shape,
 } = toRefs(props);
 // buttonGroup接收的属性
-const type = inject('type', _type) as Ref<ButtonType>;
-const status = inject('status', _status) as Ref<ButtonStatus>;
-const size = inject('size', _size) as Ref<Size>;
-const shape = inject('shape', _shape) as Ref<ButtonShape>;
-const disabled = inject('disabled', _disabled) as Ref<boolean>;
+const { size, disabled, type, status, shape } = inject<ProvideType>(
+  BUTTON_GROUP_PROVIDE_KEY,
+  {
+    size: _size,
+    disabled: _disabled,
+    type: _type,
+    status: _status,
+    shape: _shape,
+  }
+);
 // borderRadius
 const borderRadius = computed(() => {
   const map = {

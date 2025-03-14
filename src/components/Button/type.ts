@@ -1,4 +1,6 @@
+import { Ref } from 'vue';
 import { Size } from '@/components/_type';
+
 // status
 export type ButtonStatus = 'normal' | 'warning' | 'success' | 'danger';
 // shape
@@ -30,4 +32,12 @@ export interface ButtonGroupProps {
   shape?: ButtonShape;
   size?: Size;
   disabled?: boolean;
+}
+
+export interface ProvideType {
+  type: Ref<ButtonType>;
+  status: Ref<ButtonStatus>;
+  size: Ref<Size>;
+  shape: Ref<ButtonShape>;
+  disabled: Ref<boolean>;
 }

@@ -38,7 +38,8 @@
 
 <script lang="ts" setup>
 import { toRefs, Ref, inject, WritableComputedRef, computed, ref } from 'vue';
-import { CheckboxProps, CheckboxValue } from './type';
+import { CheckboxProps, ProvideType } from './type';
+import { CHECKBOX_GROUP_PROVIDE_KEY } from './constants';
 import useControlValue from '@/components/_hooks/useControlValue';
 
 defineOptions({
@@ -61,14 +62,16 @@ const {
   disabled: _disabled,
   value: checkboxValue,
 } = toRefs(props);
-// checkgroup的值
-const computedValue = inject<
-  WritableComputedRef<CheckboxValue[]> | Ref<undefined>
->('computedValue', ref(undefined));
-// checkgroup传入的最大勾选数
-const max = inject('max', ref(undefined));
-// group传入的disabled
-const tempDisabled = inject('disabled', _disabled);
+// 接收的值
+const {
+  computedValue,
+  max,
+  disabled: injectDisabled,
+} = inject<ProvideType>(CHECKBOX_GROUP_PROVIDE_KEY, {
+  computedValue: ref(undefined),
+  max: ref(undefined),
+  disabled: _disabled,
+});
 // 受控的值
 const _checked = useControlValue<boolean>(
   modelValue,
@@ -84,7 +87,7 @@ const computedChecked = computed(() => {
 });
 // 禁用
 const disabled = computed(() => {
-  if (!max.value || !computedValue.value) return tempDisabled.value;
+  if (!max.value || !computedValue.value) return injectDisabled.value;
   return computedValue.value.length >= max.value && !computedChecked.value;
 });
 // 处理check发生改变
@@ -95,11 +98,11 @@ const handleCollect = (e: Event) => {
     emits('change', _checked.value, e);
   } else {
     const { value } = checkboxValue;
-    // false->true
-    if (!computedChecked.value) {
-      computedValue.value = [...computedValue.value, value];
-    } else {
+    // true->false
+    if (computedChecked.value) {
       computedValue.value = computedValue.value.filter((item) => item != value);
+    } else {
+      computedValue.value = [...computedValue.value, value];
     }
   }
 };

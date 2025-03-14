@@ -38,12 +38,20 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, inject, computed, toRefs, CSSProperties, nextTick } from 'vue';
-import { Fn } from '@/components/_type';
+import {
+  ref,
+  inject,
+  computed,
+  toRefs,
+  CSSProperties,
+  nextTick,
+  provide,
+} from 'vue';
 import { DsubmenuProps } from './type';
+import { DROPDOWN_PROVIDE_KEY } from './constants';
 import YcScrollbar from '@/components/Scrollbar/Scrollbar.vue';
 import YcDoption from './Doption.vue';
-import useTriggerLevel from '@/components/_hooks/useTriggerLevel';
+import useTriggerNested from '@/components/_hooks/useTriggerNested';
 import useControlValue from '../_hooks/useControlValue';
 defineOptions({
   name: 'Dsubmenu',
@@ -101,6 +109,20 @@ const menuTrigger = computed(() => {
 const doptionRef = ref<InstanceType<typeof YcDoption>>();
 // content的实例
 const contentRef = ref<HTMLDivElement>();
+// 处理嵌套关闭
+const { groupId, curLevel, level, groupIds, isSameGroup, hide } =
+  useTriggerNested(() => {
+    if (menuTrigger.value != 'hover') return;
+    computedVisible.value = false;
+  });
+// 标识用于取消
+const timeout = inject('timeout', ref<NodeJS.Timeout>());
+// 继续传递
+provide(DROPDOWN_PROVIDE_KEY, {
+  level,
+  curLevel,
+  groupIds,
+});
 // 处理计算style
 const handleCalcStyle = () => {
   const dom = doptionRef.value?.getRef();
@@ -125,15 +147,6 @@ const handleCalcStyle = () => {
     };
   }
 };
-// 处理嵌套关闭
-const { isSameGroup, groupId } = useTriggerLevel(() => {
-  if (menuTrigger.value != 'hover') return;
-  computedVisible.value = false;
-});
-// 关闭函数
-const hide = inject('hide') as Fn;
-// 标识用于取消
-const timeout = inject('timeout', ref<NodeJS.Timeout>());
 // 鼠标进入
 const handleMouseenter = async () => {
   if (timeout.value) clearTimeout(timeout.value);
@@ -149,7 +162,6 @@ const handleMouseleave = (e: MouseEvent) => {
   if (timeout.value) clearTimeout(timeout.value);
   if (menuTrigger.value != 'hover' || !computedVisible.value) return;
   timeout.value = setTimeout(() => {
-    console.log(isSameGroup(e.relatedTarget as HTMLDivElement), 'isSame');
     if (isSameGroup(e.relatedTarget as HTMLDivElement)) {
       computedVisible.value = false;
     } else {

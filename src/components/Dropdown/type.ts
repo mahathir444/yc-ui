@@ -1,6 +1,7 @@
+import { Ref } from 'vue';
 import { TriggerType, PopupContainer } from '@/components/Trigger/type';
 import { ButtonProps, ButtonType } from '@/components/Button/type';
-import { Size } from '../_type';
+import { Fn, Size } from '../_type';
 export interface DropdownProps {
   popupVisible?: boolean;
   defaultPopupVisible?: boolean;
@@ -43,4 +44,13 @@ export interface DropdownButtonProps {
   size?: Size;
   buttonProps?: ButtonProps;
   hideOnSelect?: boolean;
+}
+
+export interface ProvideType {
+  level: Ref<number>;
+  curLevel: Ref<number>;
+  groupIds: Ref<string[]>;
+  hideOnSelect: Ref<boolean>;
+  emits: Fn;
+  hide: Fn;
 }

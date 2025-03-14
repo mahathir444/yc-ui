@@ -47,24 +47,25 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, provide, toRefs, computed, watch } from 'vue';
+import { ref, provide, toRefs, computed } from 'vue';
 import { TriggerPostion } from '@/components/Trigger/type';
 import { TRANSFORM_ORIGIN_MAP } from '@/components/Trigger/constants';
-import { DropdownProps, DoptionValue } from './type';
+import { DROPDOWN_PROVIDE_KEY } from './constants';
+import { DropdownProps, DoptionValue, ProvideType } from './type';
 import { TriggerInstance } from '@/components/Trigger';
 import YcTrigger from '@/components/Trigger/index.vue';
 import YcScrollbar from '@/components/Scrollbar/Scrollbar.vue';
-import useTriggerLevel from '@/components/_hooks/useTriggerLevel';
+import useTriggerNested from '@/components/_hooks/useTriggerNested';
 defineOptions({
   name: 'Dropdown',
 });
 const props = withDefaults(defineProps<DropdownProps>(), {
   popupVisible: undefined,
   defaultPopupVisible: false,
-  trigger: 'click',
+  trigger: 'hover',
   position: 'bottom',
   popupContainer: 'body',
-  hideOnSelect: false,
+  hideOnSelect: true,
 });
 const emits = defineEmits<{
   (e: 'update:popupVisible', value: boolean): void;
@@ -85,16 +86,24 @@ const submenuPosition = computed(() => {
 });
 // 当前的位置
 const triggerPostion = ref<TriggerPostion>('bottom');
-// dropdown属性
-provide('emits', emits);
-provide('hideOnSelect', hideOnSelect);
-provide('hide', () => {
-  triggerRef.value?.hide();
-});
 // 处理嵌套关闭
-const { isSameGroup, level, curLevel, groupId } = useTriggerLevel(() => {
-  if (trigger.value != 'hover') return;
+const { isSameGroup, level, curLevel, groupId, groupIds } = useTriggerNested(
+  () => {
+    if (trigger.value != 'hover') return;
+    hide();
+  }
+);
+// 隐藏
+const hide = () => {
   triggerRef.value?.hide();
+};
+provide<ProvideType>(DROPDOWN_PROVIDE_KEY, {
+  level,
+  curLevel,
+  groupIds,
+  hideOnSelect,
+  emits,
+  hide,
 });
 </script>
 

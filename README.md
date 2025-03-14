@@ -54,5 +54,5 @@ export default {
 
 ---
 
-
-  vue-tsc && 
+vue-tsc && 
+"unpkg": "dist/arco-vue.min.js",
