@@ -13,11 +13,8 @@
 <script lang="ts" setup>
 import { toRefs, provide } from 'vue';
 import { ButtonGroupProps, ProvideType } from './type';
-import {
-  GROUP_TYPE_CLASS,
-  GROUP_STAUTS_CLASS,
-  BUTTON_GROUP_PROVIDE_KEY,
-} from './constants';
+import { GROUP_TYPE_CLASS, GROUP_STAUTS_CLASS } from './constants';
+import { BUTTON_GROUP_PROVIDE_KEY } from '@/components/_constants';
 defineOptions({
   name: 'ButtonGroup',
 });

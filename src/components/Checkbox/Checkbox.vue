@@ -37,9 +37,9 @@
 </template>
 
 <script lang="ts" setup>
-import { toRefs, Ref, inject, WritableComputedRef, computed, ref } from 'vue';
+import { toRefs, inject, computed, ref } from 'vue';
 import { CheckboxProps, ProvideType } from './type';
-import { CHECKBOX_GROUP_PROVIDE_KEY } from './constants';
+import { CHECKBOX_GROUP_PROVIDE_KEY } from '@/components/_constants';
 import useControlValue from '@/components/_hooks/useControlValue';
 
 defineOptions({
@@ -72,7 +72,7 @@ const {
   max: ref(undefined),
   disabled: _disabled,
 });
-// 受控的值
+// checkbox受控的值
 const _checked = useControlValue<boolean>(
   modelValue,
   defaultChecked.value,
@@ -80,7 +80,7 @@ const _checked = useControlValue<boolean>(
     emits('update:modelValue', val);
   }
 );
-// 计算的checked
+// 用于显示的值
 const computedChecked = computed(() => {
   if (!computedValue.value) return _checked.value;
   return computedValue.value.includes(checkboxValue.value);
@@ -95,15 +95,14 @@ const handleCollect = (e: Event) => {
   // 如果外面没有嵌套checkbox-group则执行收集就可以了
   if (!computedValue.value) {
     _checked.value = (e.target as HTMLInputElement)?.checked;
-    emits('change', _checked.value, e);
+    return emits('change', _checked.value, e);
+  }
+  const { value } = checkboxValue;
+  // true->false
+  if (computedChecked.value) {
+    computedValue.value = computedValue.value.filter((item) => item != value);
   } else {
-    const { value } = checkboxValue;
-    // true->false
-    if (computedChecked.value) {
-      computedValue.value = computedValue.value.filter((item) => item != value);
-    } else {
-      computedValue.value = [...computedValue.value, value];
-    }
+    computedValue.value = [...computedValue.value, value];
   }
 };
 </script>

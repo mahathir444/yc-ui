@@ -50,7 +50,7 @@
 import { ref, provide, toRefs, computed } from 'vue';
 import { TriggerPostion } from '@/components/Trigger/type';
 import { TRANSFORM_ORIGIN_MAP } from '@/components/Trigger/constants';
-import { DROPDOWN_PROVIDE_KEY } from './constants';
+import { DROPDOWN_PROVIDE_KEY } from '@/components/_constants';
 import { DropdownProps, DoptionValue, ProvideType } from './type';
 import { TriggerInstance } from '@/components/Trigger';
 import YcTrigger from '@/components/Trigger/index.vue';

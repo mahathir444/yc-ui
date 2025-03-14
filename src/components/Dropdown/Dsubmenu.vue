@@ -48,7 +48,7 @@ import {
   provide,
 } from 'vue';
 import { DsubmenuProps } from './type';
-import { DROPDOWN_PROVIDE_KEY } from './constants';
+import { DROPDOWN_PROVIDE_KEY } from '@/components/_constants';
 import YcScrollbar from '@/components/Scrollbar/Scrollbar.vue';
 import YcDoption from './Doption.vue';
 import useTriggerNested from '@/components/_hooks/useTriggerNested';

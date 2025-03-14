@@ -130,7 +130,7 @@
 <script lang="ts" setup>
 import { ref, computed, toRefs, provide } from 'vue';
 import { TRANSFORM_ORIGIN_MAP } from '@/components/Trigger/constants';
-import { SELECT_PROVIDE_KEY } from './constants';
+import { SELECT_PROVIDE_KEY } from '@/components/_constants';
 import { TriggerPostion } from '@/components/Trigger';
 import {
   SelectProps,

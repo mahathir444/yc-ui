@@ -24,7 +24,7 @@
 <script lang="ts" setup>
 import { ref, toRefs, inject } from 'vue';
 import { DoptionProps, ProvideType } from './type';
-import { DROPDOWN_PROVIDE_KEY } from './constants';
+import { DROPDOWN_PROVIDE_KEY } from '@/components/_constants';
 defineOptions({
   name: 'Doption',
 });
@@ -44,7 +44,7 @@ const {
   emits: dEmits,
   hide,
 } = inject<ProvideType>(DROPDOWN_PROVIDE_KEY, {
-  level: ref(-1),
+  level: -1,
   curLevel: ref(0),
   groupIds: ref([]),
   hideOnSelect: ref(true),
@@ -64,7 +64,7 @@ const handleClick = (ev: MouseEvent) => {
 };
 // 鼠标进入的时候处理层级
 const handleMouseenter = () => {
-  curLevel.value = isSubmenu.value ? level.value - 1 : level.value;
+  curLevel.value = isSubmenu.value ? level - 1 : level;
   console.log(curLevel.value);
 };
 

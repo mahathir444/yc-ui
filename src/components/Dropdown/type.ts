@@ -47,7 +47,7 @@ export interface DropdownButtonProps {
 }
 
 export interface ProvideType {
-  level: Ref<number>;
+  level: number;
   curLevel: Ref<number>;
   groupIds: Ref<string[]>;
   hideOnSelect: Ref<boolean>;

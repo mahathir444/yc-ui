@@ -21,8 +21,8 @@
 
 <script lang="ts" setup>
 import { toRefs, provide } from 'vue';
-import { CheckboxGroupProps, CheckboxValue } from './type';
-import { CHECKBOX_GROUP_PROVIDE_KEY } from './constants';
+import { CheckboxGroupProps, CheckboxValue, ProvideType } from './type';
+import { CHECKBOX_GROUP_PROVIDE_KEY } from '@/components/_constants';
 import useControlValue from '@/components/_hooks/useControlValue';
 import YcCheckbox from './Checkbox.vue';
 defineOptions({
@@ -49,8 +49,8 @@ const computedValue = useControlValue<CheckboxValue[]>(
     emits('update:modelValue', val);
   }
 );
-// 提供给字
-provide(CHECKBOX_GROUP_PROVIDE_KEY, {
+// 提供给子组件
+provide<ProvideType>(CHECKBOX_GROUP_PROVIDE_KEY, {
   computedValue,
   max,
   disabled,

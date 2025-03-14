@@ -35,7 +35,7 @@
 <script lang="ts" setup>
 import { ref, toRefs, inject, onMounted, computed } from 'vue';
 import { OptionProps, SelectValue, ProvideType } from './type';
-import { SELECT_PROVIDE_KEY } from './constants';
+import { SELECT_PROVIDE_KEY } from '@/components/_constants';
 import { isUndefined } from '@/components/_utils/is';
 import YcCheckbox from '@/components/Checkbox/Checkbox.vue';
 defineOptions({
