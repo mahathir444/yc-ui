@@ -1,6 +1,6 @@
 <template>
-  <trigger-element
-    v-if="TriggerElement"
+  <component
+    :is="findFirstLegitChild(vNodes)"
     @click="handleClick"
     @contextmenu.prevent="handleContextmenu"
     @mouseenter="handleMouseenter(true, $event)"
@@ -9,9 +9,11 @@
     @blur="handleBlur"
     ref="triggerRef"
   />
-  <!-- <component :is="findFirstLegitChild($slots.default?.())" /> -->
-  <!-- <component v-for="(node, index) in vNodes" :key="index" :is="node" /> -->
-  <slot />
+  <!-- <component
+    v-for="(node, i) in getVnodeFromChildren(vNodes).slice(1)"
+    :key="i"
+    :is="node"
+  /> -->
   <teleport :to="popupContainer" :disabled="!renderToBody">
     <transition
       :name="animationName"
@@ -143,14 +145,7 @@ const contentRef = ref<HTMLDivElement>();
 const triggerRef = ref<HTMLElement | null>(null);
 // 获取插槽
 const slots = useSlots();
-// 获取触发插槽
-const TriggerElement = computed(() => {
-  return findFirstLegitChild(slots.default?.() ?? []);
-});
-// const vNodes = computed(() => {
-//   return getVnodeFromChildren(slots.default?.() ?? []).slice(1);
-// });
-// console.log(vNodes.value);
+const vNodes = computed(() => slots.default?.() ?? []);
 // 处理trigger关闭与开启
 const {
   computedVisible,
@@ -183,7 +178,7 @@ const {
 const { wrapperPosition, contentCss, arrowCss } = initTrigger();
 // 初始化trigger
 function initTrigger() {
-  if (!TriggerElement?.value) {
+  if (!vNodes.value.length) {
     return {
       wrapperPosition: {},
       contentCss: {},

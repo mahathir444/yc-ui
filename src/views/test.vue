@@ -12,6 +12,8 @@
     <div>
       <yc-popover trigger="click">
         <yc-button>测试</yc-button>
+        <yc-button>测试1</yc-button>
+        <yc-button>测试2</yc-button>
         <template #content>
           <a-checkbox-group v-model="value1" :max="3">
             <a-checkbox v-for="i in 5" :key="i" :value="i">
