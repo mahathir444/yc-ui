@@ -1,4 +1,4 @@
-import { ref, inject, watch } from 'vue';
+import { ref, Ref, inject, watch } from 'vue';
 import { nanoid } from 'nanoid';
 import { Fn } from '../_type';
 import { ProvideType } from '@/components/Dropdown/type';
@@ -11,17 +11,14 @@ export default (hideCallback?: Fn) => {
    * @param curLevel 记录当前的层级
    * @param groupIds 同一个submenu里面的groupId集合
    */
-  const { level, curLevel, groupIds, hide } = inject<ProvideType>(
-    DROPDOWN_PROVIDE_KEY,
-    {
+  const { level, curLevel, groupIds, hideOnSelect, hide, emits } =
+    inject<ProvideType>(DROPDOWN_PROVIDE_KEY, {
       level: -1,
       curLevel: ref(0),
       groupIds: ref([]),
-      hideOnSelect: ref(false),
+      hideOnSelect: ref(true),
       hide: () => {},
-      emits: () => {},
-    }
-  );
+    });
   // 设置level
   const selfLevel = level + 1;
   // 设置groupId
@@ -44,11 +41,13 @@ export default (hideCallback?: Fn) => {
     hideCallback && hideCallback();
   });
   return {
-    hide,
     level: selfLevel,
     curLevel,
     groupId,
     groupIds,
+    hideOnSelect,
+    emits,
+    hide,
     isSameGroup,
   };
 };

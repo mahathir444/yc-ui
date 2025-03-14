@@ -41,7 +41,7 @@ const {
   level,
   curLevel,
   hideOnSelect,
-  emits: dEmits,
+  emits: _emits,
   hide,
 } = inject<ProvideType>(DROPDOWN_PROVIDE_KEY, {
   level: -1,
@@ -49,7 +49,6 @@ const {
   groupIds: ref([]),
   hideOnSelect: ref(true),
   hide: () => {},
-  emits: () => {},
 });
 // 自身实例
 const doptionRef = ref<HTMLDivElement>();
@@ -57,8 +56,8 @@ const doptionRef = ref<HTMLDivElement>();
 const handleClick = (ev: MouseEvent) => {
   if (disabled.value) return;
   emits('click', ev);
-  if (isSubmenu.value) return;
-  dEmits('select', value.value, ev);
+  if (isSubmenu.value || !_emits) return;
+  _emits('select', value.value, ev);
   if (!hideOnSelect.value) return;
   hide();
 };

@@ -51,6 +51,6 @@ export interface ProvideType {
   curLevel: Ref<number>;
   groupIds: Ref<string[]>;
   hideOnSelect: Ref<boolean>;
-  emits: Fn;
   hide: Fn;
+  emits?: Fn;
 }

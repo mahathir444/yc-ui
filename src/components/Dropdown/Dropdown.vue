@@ -87,23 +87,31 @@ const submenuPosition = computed(() => {
 // 当前的位置
 const triggerPostion = ref<TriggerPostion>('bottom');
 // 处理嵌套关闭
-const { isSameGroup, level, curLevel, groupId, groupIds } = useTriggerNested(
-  () => {
-    if (trigger.value != 'hover') return;
-    hide();
-  }
-);
+const {
+  isSameGroup,
+  level,
+  curLevel,
+  groupId,
+  groupIds,
+  hideOnSelect: _hideOnSelect,
+  emits: _emits,
+  hide: _hide,
+} = useTriggerNested(() => {
+  if (trigger.value != 'hover') return;
+  hide();
+});
 // 隐藏
 const hide = () => {
   triggerRef.value?.hide();
 };
+// 提供值
 provide<ProvideType>(DROPDOWN_PROVIDE_KEY, {
   level,
   curLevel,
   groupIds,
-  hideOnSelect,
-  emits,
-  hide,
+  hideOnSelect: _emits ? _hideOnSelect : hideOnSelect,
+  emits: _emits ?? emits,
+  hide: _emits ? _hide : hide,
 });
 </script>
 

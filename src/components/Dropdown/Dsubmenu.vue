@@ -3,7 +3,7 @@
     :disabled="disabled"
     is-submenu
     value=""
-    ref="doptionRef"
+    ref="optionRef"
     @click="handleClick"
     @mouseenter="handleMouseenter"
     @mouseleave="handleMouseleave($event)"
@@ -47,7 +47,7 @@ import {
   nextTick,
   provide,
 } from 'vue';
-import { DsubmenuProps } from './type';
+import { DsubmenuProps, ProvideType } from './type';
 import { DROPDOWN_PROVIDE_KEY } from '@/components/_constants';
 import YcScrollbar from '@/components/Scrollbar/Scrollbar.vue';
 import YcDoption from './Doption.vue';
@@ -106,26 +106,41 @@ const menuTrigger = computed(() => {
   return trigger.value;
 });
 // option的实例
-const doptionRef = ref<InstanceType<typeof YcDoption>>();
+const optionRef = ref<InstanceType<typeof YcDoption>>();
 // content的实例
 const contentRef = ref<HTMLDivElement>();
 // 处理嵌套关闭
-const { groupId, curLevel, level, groupIds, isSameGroup, hide } =
-  useTriggerNested(() => {
-    if (menuTrigger.value != 'hover') return;
-    computedVisible.value = false;
-  });
-// 标识用于取消
-const timeout = inject('timeout', ref<NodeJS.Timeout>());
-// 继续传递
-provide(DROPDOWN_PROVIDE_KEY, {
+const {
+  groupId,
+  curLevel,
+  level,
+  groupIds,
+  hideOnSelect,
+  isSameGroup,
+  hide,
+  emits: _emits,
+} = useTriggerNested(() => {
+  if (menuTrigger.value != 'hover') return;
+  computedVisible.value = false;
+});
+// 继续传递值
+provide<ProvideType>(DROPDOWN_PROVIDE_KEY, {
   level,
   curLevel,
   groupIds,
+  hideOnSelect,
+  hide: _emits
+    ? hide
+    : () => {
+        computedVisible.value = false;
+      },
+  emits: _emits ?? emits,
 });
+// 接收父级的值
+const timeout = inject('timeout', ref<NodeJS.Timeout>());
 // 处理计算style
 const handleCalcStyle = () => {
-  const dom = doptionRef.value?.getRef();
+  const dom = optionRef.value?.getRef();
   if (!dom) return;
   const {
     left: offsetLeft,
