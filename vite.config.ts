@@ -74,15 +74,15 @@ export default defineConfig({
           entryFileNames: '[name].js',
           preserveModules: true,
           preserveModulesRoot: 'components',
-          assetFileNames: ({ name }) => {
-            const isStyleFile = ['.css', '.less', '.scss'].some((ext) =>
-              name.endsWith(ext)
-            );
-            if (isStyleFile) {
-              return 'index.css'; // 将样式文件重命名为 index.less
-            }
-            return 'static/[name].[hash][extname]';
-          },
+          // assetFileNames: ({ name }) => {
+          //   const isStyleFile = ['.css', '.less', '.scss'].some((ext) =>
+          //     name.endsWith(ext)
+          //   );
+          //   if (isStyleFile) {
+          //     return 'index.css'; // 将样式文件重命名为 index.less
+          //   }
+          //   return 'static/[name].[hash][extname]';
+          // },
         },
         {
           format: 'commonjs',
@@ -90,15 +90,15 @@ export default defineConfig({
           entryFileNames: '[name].js',
           preserveModules: true,
           preserveModulesRoot: 'components',
-          assetFileNames: ({ name }) => {
-            const isStyleFile = ['.css', '.less', '.scss'].some((ext) =>
-              name.endsWith(ext)
-            );
-            if (isStyleFile) {
-              return 'index.css'; // 将样式文件重命名为 index.less
-            }
-            return 'static/[name].[hash][extname]';
-          },
+          // assetFileNames: ({ name }) => {
+          //   const isStyleFile = ['.css', '.less', '.scss'].some((ext) =>
+          //     name.endsWith(ext)
+          //   );
+          //   if (isStyleFile) {
+          //     return 'index.css'; // 将样式文件重命名为 index.less
+          //   }
+          //   return 'static/[name].[hash][extname]';
+          // },
         },
         // {
         //   format: 'umd',

@@ -46,7 +46,6 @@ import { ref, toRefs, computed } from 'vue';
 import useControlValue from '../_hooks/useControlValue';
 import { TextareaProps, ResizeRange } from './type';
 import { isNumber } from '@/components/_utils/is';
-
 import { useElementSize } from '@vueuse/core';
 defineOptions({
   name: 'Textarea',

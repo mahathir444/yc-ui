@@ -7,6 +7,8 @@
   color: rgb(29, 33, 41);
   display: inline-flex;
   align-items: center;
+  overflow: hidden;
+
   .yc-tag-icon {
     margin-right: 4px;
   }
@@ -14,6 +16,15 @@
   .yc-tag-close-button {
     margin-left: 4px;
     font-size: 12px;
+  }
+  .yc-tag-loading-icon,
+  .yc-tag-close-button,
+  .yc-tag-label {
+    flex-shrink: 0;
+  }
+  .yc-tag-label {
+    flex: 1;
+    line-height: 1;
   }
 }
 // loading

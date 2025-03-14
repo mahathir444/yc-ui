@@ -2,6 +2,8 @@ import { RenderFunction } from 'vue';
 
 export type Size = 'mini' | 'small' | 'medium' | 'large';
 
+export type Direction = 'vertical' | 'horizontal';
+
 export type CloseType =
   | 'mask'
   | 'closeBtn'
@@ -20,5 +22,3 @@ export type ClassName =
 export type YcUiOptions = Record<string, any>;
 
 export type Fn = (...args: any) => any;
-
-export type Direction = 'vertical' | 'horizontal';

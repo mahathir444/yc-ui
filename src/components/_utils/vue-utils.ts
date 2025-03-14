@@ -11,6 +11,19 @@ export const getSlotFunction = (param: RenderContent | undefined) => {
   return undefined;
 };
 
+// 包裹文本节点
+function wrapTextContent(s: string | VNode) {
+  return h(
+    'span',
+    {
+      class: {
+        'only-child__content': true,
+      },
+    },
+    s
+  );
+}
+
 // 在vnode数组中查找第一个合法的子元素
 export function findFirstLegitChild(node: VNode[] | undefined): VNode | null {
   if (!node) return null;
@@ -32,18 +45,6 @@ export function findFirstLegitChild(node: VNode[] | undefined): VNode | null {
     return wrapTextContent(child);
   }
   return null;
-}
-
-function wrapTextContent(s: string | VNode) {
-  return h(
-    'span',
-    {
-      class: {
-        'only-child__content': true,
-      },
-    },
-    s
-  );
 }
 
 export function getVnodeFromChildren(node: VNode[]) {

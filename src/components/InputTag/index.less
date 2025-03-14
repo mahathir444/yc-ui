@@ -1,0 +1,164 @@
+.yc-input-tag {
+  cursor: text;
+  width: 100%;
+  padding: 2px 4px;
+  background-color: rgb(242, 243, 245);
+  border: 1px solid transparent;
+  border-radius: 2px;
+  transition:
+    color 0.1s cubic-bezier(0, 0, 1, 1),
+    border-color 0.1s cubic-bezier(0, 0, 1, 1),
+    background-color 0.1s cubic-bezier(0, 0, 1, 1);
+  color: rgb(29, 33, 41);
+  font-weight: 400;
+  display: flex;
+  &:focus-within {
+    background-color: #fff !important;
+    border-color: rgb(22, 93, 255) !important;
+    box-shadow: 0 0 0 0 rgb(190, 218, 255);
+  }
+  .yc-input-tag-prefix,
+  .yc-input-tag-suffix {
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: rgb(78, 89, 105);
+    font-size: 14px;
+
+    &.yc-input-tag-prefix {
+      padding-right: 12px;
+    }
+    &.yc-input-tag-suffix {
+      padding-left: 12px;
+    }
+  }
+  .yc-input-tag-clear-button {
+    visibility: hidden;
+  }
+  .yc-input-tag-inner {
+    position: relative;
+    flex: 1;
+    flex-shrink: 0;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 2px 4px;
+    .yc-input-tag {
+      min-width: 12px;
+      max-width: 100%;
+    }
+    .yc-input-tag-mirror {
+      min-width: 12px;
+      position: absolute;
+      top: 0;
+      left: 0;
+      visibility: hidden;
+      font-family:
+        Inter,
+        -apple-system,
+        BlinkMacSystemFont,
+        PingFang SC,
+        Hiragino Sans GB,
+        noto sans,
+        Microsoft YaHei,
+        Helvetica Neue,
+        Helvetica,
+        Arial,
+        sans-serif;
+      font-variant: normal;
+      letter-spacing: normal;
+      text-indent: 0;
+      text-rendering: auto;
+      text-transform: none;
+      white-space: pre-wrap;
+      overflow-wrap: break-word;
+    }
+    .yc-input-tag-input {
+      max-width: 100%;
+      cursor: inherit;
+      outline: none;
+      border: none;
+      border-radius: 0;
+      background-color: transparent;
+      color: inherit;
+      &::placeholder {
+        color: rgb(134, 144, 156);
+      }
+    }
+  }
+}
+// hoverable
+.yc-input-tag-hoverable {
+  &:hover {
+    border-color: transparent;
+    background-color: rgb(229, 230, 235);
+  }
+  &:hover .yc-input-clear-button {
+    visibility: visible;
+  }
+  &.yc-input-error {
+    &:hover {
+      border-color: transparent;
+      background-color: rgb(253, 205, 197);
+    }
+  }
+}
+// disabled
+.yc-input-tag-disabled {
+  cursor: not-allowed;
+  cursor: not-allowed;
+  border-color: transparent;
+  background-color: rgb(242, 243, 245);
+  color: rgb(201, 205, 212);
+  .yc-input-tag-prefix,
+  .yc-input-tag-suffix {
+    color: inherit;
+  }
+}
+// error
+.yc-input-tag-error {
+  background-color: rgb(255, 236, 232);
+  &:focus-within {
+    border-color: rgb(245, 63, 63) !important;
+    box-shadow: 0 0 0 0 rgb(253, 205, 197);
+  }
+}
+//size
+.yc-input-tag-size-mini {
+  font-size: 12px;
+  .yc-input-wrapper {
+    .yc-input {
+      padding: 1px 0;
+      line-height: 1.667;
+    }
+  }
+}
+.yc-input-tag-size-small {
+  font-size: 14px;
+  .yc-input-wrapper {
+    .yc-input {
+      padding: 2px 0;
+      line-height: 1.5715;
+    }
+  }
+}
+.yc-input-tag-size-medium {
+  font-size: 14px;
+  .yc-input-wrapper {
+    .yc-input {
+      padding: 4px 0;
+      line-height: 1.5715;
+    }
+  }
+}
+.yc-input-tag-size-large {
+  font-size: 14px;
+  .yc-input-wrapper {
+    .yc-input {
+      padding: 6px 0;
+      line-height: 1.5715;
+    }
+  }
+}

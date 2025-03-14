@@ -3,7 +3,6 @@
     v-if="computedVisible"
     :class="[
       'yc-tag',
-      'text-ellipsis',
       SIZE_CLASS[size],
       COLOR_CLASS[color] ?? 'yc-tag-custom-color',
       loading ? 'yc-tag-loading' : '',
@@ -21,10 +20,10 @@
       <slot name="icon" />
     </div>
     <!-- content -->
-    <slot />
+    <span class="yc-tag-label text-ellipsis"> <slot /></span>
     <!-- close -->
     <yc-icon-button
-      v-if="closable"
+      v-if="closeable"
       name="close"
       hover-size="16px"
       hover-color="rgba(255, 255, 255, 0.2)"
@@ -60,7 +59,7 @@ const props = withDefaults(defineProps<TagProps>(), {
   size: 'medium',
   bordered: false,
   loading: false,
-  closable: false,
+  closeable: false,
   checkable: false,
   visible: undefined,
   defaultVisible: true,
