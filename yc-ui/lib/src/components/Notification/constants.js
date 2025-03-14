@@ -1,1 +1,0 @@
-"use strict";Object.defineProperty(exports,Symbol.toStringTag,{value:"Module"});exports.config={containerId:"ycServiceNotificationContainer"},exports.notificationPosition=["topLeft","topRight","bottomLeft","bottomRight"],exports.notificationType=["info","warning","success","error"];

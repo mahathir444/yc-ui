@@ -1,1 +1,0 @@
-"use strict";Object.defineProperty(exports,Symbol.toStringTag,{value:"Module"});exports.config={containerId:"ycServiceMessageContainer"},exports.messageType=["info","warning","success","error","loading","normal"];

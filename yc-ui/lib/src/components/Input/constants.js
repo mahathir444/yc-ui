@@ -1,1 +1,0 @@
-"use strict";Object.defineProperty(exports,Symbol.toStringTag,{value:"Module"});exports.SIZE_CLASS={mini:"yc-input-size-mini",small:"yc-input-size-small",medium:"yc-input-size-medium",large:"yc-input-size-large"};
