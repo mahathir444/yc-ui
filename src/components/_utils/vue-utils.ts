@@ -1,6 +1,7 @@
+import { Fragment, h, VNode } from 'vue';
 import { RenderContent } from '../_type';
 import { isFunction, isObject } from './is';
-import { Fragment, h, VNode } from 'vue';
+import { SHAPE_FLAGS } from '../_constants';
 
 export const getSlotFunction = (param: RenderContent | undefined) => {
   if (param) {
@@ -10,6 +11,7 @@ export const getSlotFunction = (param: RenderContent | undefined) => {
   return undefined;
 };
 
+// 在vnode数组中查找第一个合法的子元素
 export function findFirstLegitChild(node: VNode[] | undefined): VNode | null {
   if (!node) return null;
   const children = node as VNode[];
@@ -20,22 +22,39 @@ export function findFirstLegitChild(node: VNode[] | undefined): VNode | null {
           continue;
         case Text:
         case 'svg':
-          return h(
-            'span',
-            {
-              class: {
-                'trigger-wrapper-span': true,
-              },
-            },
-            child
-          );
+          return wrapTextContent(child);
         case Fragment:
           return findFirstLegitChild(child.children as VNode[]);
         default:
           return child;
       }
     }
-    return h('span', child);
+    return wrapTextContent(child);
   }
   return null;
+}
+
+function wrapTextContent(s: string | VNode) {
+  return h(
+    'span',
+    {
+      class: {
+        'only-child__content': true,
+      },
+    },
+    s
+  );
+}
+
+export function getVnodeFromChildren(node: VNode[]) {
+  const nodeArr: VNode[] = [];
+  const children = node as VNode[];
+  for (const child of children) {
+    if (child.shapeFlag == SHAPE_FLAGS.slot) {
+      nodeArr.push(...getVnodeFromChildren(child.children as VNode[]));
+    } else {
+      nodeArr.push(child);
+    }
+  }
+  return nodeArr;
 }

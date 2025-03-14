@@ -9,7 +9,9 @@
     @blur="handleBlur"
     ref="triggerRef"
   />
-
+  <!-- <component :is="findFirstLegitChild($slots.default?.())" /> -->
+  <!-- <component v-for="(node, index) in vNodes" :key="index" :is="node" /> -->
+  <slot />
   <teleport :to="popupContainer" :disabled="!renderToBody">
     <transition
       :name="animationName"
@@ -51,12 +53,17 @@ import {
   CSSProperties,
   toRefs,
   watchEffect,
+  VNode,
+  h,
 } from 'vue';
 import { useElementBounding, useElementSize } from '@vueuse/core';
 import useTriggerVisible from '@/components/_hooks/useTriggerVisible';
 import useTriggerPosition from '@/components/_hooks/useTriggerPosition';
 import { TriggerProps, TriggerPostion } from './type';
-import { findFirstLegitChild } from '@/components/_utils/vue-utils';
+import {
+  findFirstLegitChild,
+  getVnodeFromChildren,
+} from '@/components/_utils/vue-utils';
 defineOptions({
   name: 'Trigger',
 });
@@ -138,10 +145,12 @@ const triggerRef = ref<HTMLElement | null>(null);
 const slots = useSlots();
 // 获取触发插槽
 const TriggerElement = computed(() => {
-  const result = findFirstLegitChild(slots.default?.() ?? []);
-  console.log(result, 'res');
-  return result;
+  return findFirstLegitChild(slots.default?.() ?? []);
 });
+// const vNodes = computed(() => {
+//   return getVnodeFromChildren(slots.default?.() ?? []).slice(1);
+// });
+// console.log(vNodes.value);
 // 处理trigger关闭与开启
 const {
   computedVisible,
