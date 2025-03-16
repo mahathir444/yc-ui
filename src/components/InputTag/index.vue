@@ -21,8 +21,7 @@
       <yc-tag
         v-for="(item, index) in computedValue"
         :key="item?.value ?? item"
-        :value="item?.value ?? item"
-        :closeable="item?.value ?? true"
+        :closeable="item?.closeable ?? true"
         :bordered="item?.tagProps?.bordered ?? true"
         stop-propagation
         color="white"
@@ -186,7 +185,6 @@ const handleBlur = (e: FocusEvent) => {
   computedInputValue.value = '';
   emits('blur', e);
 };
-
 // 暴露方法
 defineExpose({
   focus() {
@@ -202,5 +200,5 @@ defineExpose({
 </script>
 
 <style lang="less" scoped>
-@import './index.less';
+@import './style/index.less';
 </style>

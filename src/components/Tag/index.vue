@@ -8,6 +8,7 @@
       loading ? 'yc-tag-loading' : '',
       bordered ? 'yc-tag-bordered' : '',
       computedChecked ? 'yc-tag-checked' : '',
+      nowrap ? 'yc-tag-no-wrap' : 'yc-tag-wrap',
     ]"
     :style="{
       background: COLOR_CLASS[color] ? '' : (COLOR_MAP[color] ?? color),
@@ -23,7 +24,7 @@
       <slot name="icon" />
     </div>
     <!-- content -->
-    <span class="yc-tag-label text-ellipsis"> <slot /></span>
+    <span class="yc-tag-label"> <slot /></span>
     <!-- close -->
     <yc-icon-button
       v-if="closeable"
@@ -69,7 +70,6 @@ const props = withDefaults(defineProps<TagProps>(), {
   checked: undefined,
   defaultChecked: true,
   nowrap: false,
-  value: '',
   stopPropagation: false,
   preventFocus: false,
 });
@@ -102,7 +102,7 @@ const computedChecked = useControlValue<boolean>(
 // 处理关闭
 const handleClose = (ev: MouseEvent) => {
   computedVisible.value = false;
-  emits('close', ev, props.value);
+  emits('close', ev);
 };
 // 处理选中
 const handleCheck = (ev: MouseEvent) => {

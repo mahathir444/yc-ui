@@ -1,6 +1,6 @@
-# @yc-ui - 现代化的 UI 组件库
+# yc-ui - 现代化的 UI 组件库
 
-`@yc-ui` 是一个基于 [Vue.js](https://vuejs.org/) 的 UI 组件库，旨在为开发者提供一套高质量、可复用的组件，帮助快速构建现代化的 Web 应用。所有组件都经过精心设计，支持高度定制化，适合各种业务场景。
+`yc-ui` 是一个基于 [Vue.js](https://vuejs.org/) 的 UI 组件库，旨在为开发者提供一套高质量、可复用的组件，帮助快速构建现代化的 Web 应用。所有组件都经过精心设计，支持高度定制化，适合各种业务场景。
 
 ## 特性
 
@@ -14,35 +14,13 @@
 
 ## 安装
 
-使用 npm 或 yarn 安装 `yc_ui`：
+使用 npm 或 yarn 安装 `yc-ui`：
 
 ```bash
-npm install yc_ui
+npm install yc-ui
 # 或
-yarn add yc_ui
+yarn add yc-ui
 ```
-
-如果你希望按需加载组件，可以使用 [unplugin-vue-components](https://github.com/antfu/unplugin-vue-components) 插件：
-
-```bash
-npm install unplugin-vue-components -D
-```
-
-然后在 `vite.config.ts` 或 `webpack.config.js` 中配置：
-
-```javascript
-import Components from 'unplugin-vue-components/vite';
-import { YcResolver } from 'yc_ui/resolver';
-
-export default {
-  plugins: [
-    Components({
-      resolvers: [YcResolver()],
-    }),
-  ],
-};
-```
----
 
 ## 贡献
 
