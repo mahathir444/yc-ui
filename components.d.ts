@@ -44,6 +44,7 @@ declare module 'vue' {
     RouterView: typeof import('vue-router')['RouterView']
     Scrollbar: typeof import('./src/components/Scrollbar/Scrollbar.vue')['default']
     Select: typeof import('./src/components/Select/Select.vue')['default']
+    SelectIcon: typeof import('./src/components/Select/component/SelectIcon.vue')['default']
     ServiceModal: typeof import('./src/components/Modal/component/ServiceModal.vue')['default']
     Spin: typeof import('./src/components/Spin/index.vue')['default']
     SpinIcon: typeof import('./src/components/Spin/component/SpinIcon.vue')['default']

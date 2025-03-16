@@ -22,6 +22,7 @@
       <div
         :class="[
           'yc-select-wrapper',
+          !computedValue.length ? 'yc-select-no-value' : '',
           allowSearch ? 'yc-select-allow-search' : '',
           showClearBtn ? 'yc-select-allow-clear' : '',
         ]"
@@ -50,41 +51,17 @@
             <slot name="prefix" />
           </template>
           <!-- suffix -->
-          <template #suffix>
-            <!-- loading -->
-            <yc-spin
-              v-if="loading"
-              :size="12"
-              style="color: inherit"
-              class="yc-select-loading-icon"
-            >
-              <template v-if="$slots['loading-icon']" #icon>
-                <slot name="loading-icon" />
-              </template>
-            </yc-spin>
-            <template v-else>
-              <!-- default -->
-              <div class="yc-select-suffix-icon">
-                <slot name="arrow-icon">
-                  <yc-icon name="arrow-right" />
-                </slot>
-              </div>
-              <!-- search -->
-              <div v-if="allowSearch" class="yc-select-search-icon">
-                <slot name="search-icon">
-                  <yc-icon name="search" />
-                </slot>
-              </div>
-              <!-- clear -->
-              <yc-icon-button
-                v-if="showClearBtn"
-                name="close"
-                style="color: inherit"
-                class="yc-select-clear-icon"
-                @click.stop="handleClear"
-              />
+          <select-icon
+            :show-clear-btn="showClearBtn"
+            :allow-clear="allowClear"
+            :allow-search="allowSearch"
+            :loading="loading"
+            @clear="handleClear"
+          >
+            <template v-if="$slots['loading-icon']" #loading-icon>
+              <slot name="loading-icon" />
             </template>
-          </template>
+          </select-icon>
         </yc-input>
         <!-- multiple -->
         <yc-input-tag
@@ -96,7 +73,6 @@
           :disabled="disabled"
           :size="size"
           :error="error"
-          :del-to-remove="false"
           :enter-to-create="false"
           :format-tag="formatLabel"
           class="yc-select-multiple"
@@ -109,39 +85,17 @@
           </template>
           <!-- suffix -->
           <template #suffix>
-            <!-- loading -->
-            <yc-spin
-              v-if="loading"
-              :size="12"
-              style="color: inherit"
-              class="yc-select-loading-icon"
+            <select-icon
+              :show-clear-btn="showClearBtn"
+              :allow-clear="allowClear"
+              :allow-search="allowSearch"
+              :loading="loading"
+              @clear="handleClear"
             >
-              <template v-if="$slots['loading-icon']" #icon>
+              <template v-if="$slots['loading-icon']" #loading-icon>
                 <slot name="loading-icon" />
               </template>
-            </yc-spin>
-            <template v-else>
-              <!-- default -->
-              <div class="yc-select-suffix-icon">
-                <slot name="arrow-icon">
-                  <yc-icon name="arrow-right" />
-                </slot>
-              </div>
-              <!-- search -->
-              <div v-if="allowSearch" class="yc-select-search-icon">
-                <slot name="search-icon">
-                  <yc-icon name="search" />
-                </slot>
-              </div>
-              <!-- clear -->
-              <yc-icon-button
-                v-if="showClearBtn"
-                name="close"
-                style="color: inherit"
-                class="yc-select-clear-icon"
-                @click.stop="handleClear"
-              />
-            </template>
+            </select-icon>
           </template>
         </yc-input-tag>
       </div>
@@ -206,6 +160,7 @@ import YcScrollbar from '@/components/Scrollbar/Scrollbar.vue';
 import YcSpin from '@/components/Spin/index.vue';
 import YcInputTag from '@/components/InputTag/index.vue';
 import YcEmpty from '@/components/Empty/index.vue';
+import SelectIcon from './component/SelectIcon.vue';
 import YcOption from './Option.vue';
 defineOptions({
   name: 'Select',
@@ -221,7 +176,7 @@ const props = withDefaults(defineProps<SelectProps>(), {
   loading: false,
   disabled: false,
   error: false,
-  allowClear: false,
+  allowClear: true,
   allowSearch: true,
   popupContainer: 'body',
   defaultActivefirstOption: false,
@@ -302,7 +257,7 @@ const showClearBtn = computed(
     allowClear.value &&
     !disabled.value &&
     !loading.value &&
-    String(computedValue.value).length
+    !!String(computedValue.value).length
 );
 // 提供值
 provide<ProvideType>(SELECT_PROVIDE_KEY, {
@@ -322,10 +277,7 @@ provide<ProvideType>(SELECT_PROVIDE_KEY, {
 // 判断是否是关闭按钮,从而不关闭选项
 const ingoreFn = (el: HTMLElement): boolean => {
   const classList = el.classList;
-  if (
-    classList.contains('yc-select-clear-icon') ||
-    classList.contains('yc-tag')
-  ) {
+  if (classList.contains('yc-select-clear-icon')) {
     return true;
   } else if (el.tagName == 'BODY') {
     return false;

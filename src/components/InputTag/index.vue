@@ -17,6 +17,7 @@
     </div>
     <!-- input -->
     <div class="yc-input-tag-inner">
+      <!-- tag-list -->
       <yc-tag
         v-for="(item, index) in computedValue"
         :key="item?.value ?? item"
@@ -43,6 +44,7 @@
         }"
         class="yc-input-tag-input"
         ref="inputRef"
+        @input="(e) => $emit('input', e)"
         @change="(e) => $emit('inputValueChange', computedInputValue, e)"
         @focus="(e) => emits('focus', e)"
         @blur="handleBlur"
@@ -100,6 +102,7 @@ const emits = defineEmits<{
   (e: 'pressEnter', ev: KeyboardEvent): void;
   (e: 'remove', ev: MouseEvent | KeyboardEvent): void;
   (e: 'clear', ev: MouseEvent): void;
+  (e: 'input', ev: Event): void;
   (e: 'focus', ev: FocusEvent): void;
   (e: 'blur', ev: FocusEvent): void;
 }>();
