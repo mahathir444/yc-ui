@@ -129,3 +129,11 @@ export type {
   CheckboxGroupInstance,
 } from './Checkbox';
 export { default as Checkbox, CheckboxGroup } from './Checkbox';
+
+export type {
+  InputTagProps,
+  TagData,
+  InputTagValue,
+  InputTagInstance,
+} from './InputTag';
+export { default as InputTag } from './InputTag';
