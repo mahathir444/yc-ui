@@ -23,19 +23,21 @@
         :value="item?.value ?? item"
         :closeable="item?.value ?? true"
         :bordered="item?.tagProps?.bordered ?? true"
+        stop-propagation
         color="white"
         @close="(ev) => handleDel(ev, index)"
       >
         {{ item?.label ?? item }}
       </yc-tag>
       <div class="yc-input-tag-mirror" ref="mirrorRef">
-        {{ computedInputValue }}
+        {{ computedInputValue || placeholder }}
       </div>
+      <!-- input -->
       <input
         v-model="computedInputValue"
         :disabled="disabled"
         :readonly="readonly"
-        :placeholder="placeholder"
+        :placeholder="computedValue.length ? '' : placeholder"
         :style="{
           width: `${width}px`,
         }"
@@ -43,12 +45,7 @@
         ref="inputRef"
         @change="(e) => $emit('inputValueChange', computedInputValue, e)"
         @focus="(e) => emits('focus', e)"
-        @blur="
-          (e) => {
-            computedInputValue = '';
-            emits('blur', e);
-          }
-        "
+        @blur="handleBlur"
         @keydown.enter="handleAdd"
         @keydown.delete="(e) => handleDel(e, computedValue.length - 1)"
       />
@@ -70,7 +67,7 @@
 <script lang="ts" setup>
 import { ref, computed, toRefs } from 'vue';
 import { SIZE_CLASS } from './constants';
-import { InputTagProps, InputTagValue } from './type';
+import { InputTagProps, InputTagValue, TagData } from './type';
 import { SIZE_MAP } from '@/components/_constants';
 import { isObject } from '@/components/_utils/is';
 import { useElementSize } from '@vueuse/core';
@@ -91,6 +88,10 @@ const props = withDefaults(defineProps<InputTagProps>(), {
   readonly: false,
   error: false,
   placeholder: '',
+  enterToCreate: true,
+  formatTag: (data: TagData) => {
+    return data.label ?? String(data);
+  },
 });
 const emits = defineEmits<{
   (e: 'update:modelValue', value: string): void;
@@ -111,6 +112,7 @@ const {
   allowClear,
   disabled,
   readonly,
+  enterToCreate,
 } = toRefs(props);
 // div的ref
 const mirrorRef = ref<HTMLDivElement>();
@@ -140,35 +142,46 @@ const showClearBtn = computed(
 const inputRef = ref<HTMLInputElement>();
 // 处理新增
 const handleAdd = (e: KeyboardEvent) => {
-  if (computedInputValue.value == '') return;
+  if (!computedInputValue.value?.trim() || !enterToCreate.value) return;
   const type =
     !computedValue.value.length || !isObject(computedValue.value[0])
       ? 'string'
       : 'object';
   if (type == 'string') {
-    computedValue.value.push(computedInputValue.value);
+    computedValue.value = [...computedValue.value, computedInputValue.value];
   } else {
-    computedValue.value.push({
-      label: computedInputValue.value,
-      value: computedInputValue.value,
-      closeable: true,
-      tagProps: {
-        bordered: true,
+    computedValue.value = [
+      ...computedValue.value,
+      {
+        label: computedInputValue.value,
+        value: computedInputValue.value,
+        closeable: true,
+        tagProps: {
+          bordered: true,
+        },
       },
-    });
+    ];
   }
   computedInputValue.value = '';
   emits('pressEnter', e as KeyboardEvent);
 };
 // 处理删除
 const handleDel = (e: MouseEvent | KeyboardEvent, index: number) => {
-  computedValue.value.splice(index, 1);
+  if (computedInputValue.value.tirm()) return;
+  computedValue.value = (computedValue.value as TagData[]).filter(
+    (_, i: number) => i != index
+  );
   emits('remove', e);
 };
 // 处理清除
 const handleClear = (e: MouseEvent) => {
   computedValue.value = [];
   emits('clear', e);
+};
+// 处理失焦
+const handleBlur = (e: FocusEvent) => {
+  computedInputValue.value = '';
+  emits('blur', e);
 };
 
 // 暴露方法

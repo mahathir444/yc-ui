@@ -55,6 +55,7 @@ const {
   optionList,
   multiple,
   limit,
+  focus,
   emits,
   filterOption,
 } = inject<ProvideType>(SELECT_PROVIDE_KEY, {
@@ -65,6 +66,7 @@ const {
   multiple: ref(false),
   limit: ref(0),
   emits: () => {},
+  focus: () => {},
   filterOption: () => true,
 });
 // 当前value对应的index
@@ -92,6 +94,7 @@ const handleMulti = (v: boolean) => {
     }
     computedValue.value = [...curValue, value];
   }
+  focus();
 };
 
 onMounted(() => {

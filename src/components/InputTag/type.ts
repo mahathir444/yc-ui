@@ -23,4 +23,6 @@ export interface InputTagProps {
   allowClear?: boolean;
   size?: Size;
   magTagCount?: number;
+  enterToCreate?: boolean;
+  formatTag?: (data: TagData) => string;
 }

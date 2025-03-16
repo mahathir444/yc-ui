@@ -42,7 +42,7 @@ export interface SelectProps {
   options?: SelectOptionData[];
   // virtual-list-props
   triggerProps?: TriggerProps;
-  formatLabel?: (data: SelectOptionData[]) => string;
+  formatLabel?: (data: SelectOptionData) => string;
   // fallback-option
   // show-extra-options
   // value-key
@@ -64,6 +64,7 @@ export interface ProvideType {
   optionList: Ref<OptionProps[]>;
   limit: Ref<number>;
   multiple: Ref<boolean>;
+  focus: Fn;
   filterOption: Fn;
   emits: Fn;
 }

@@ -49,7 +49,7 @@ export default (params: {
         : computedValue.value == item.value;
     });
     if (!option.length) return '';
-    return formatLabel(option);
+    return formatLabel(option[0]);
   });
   // 输入框的值
   const computedInputValue = useControlValue<string>(

@@ -9,7 +9,7 @@
     :popup-container="popupContainer"
     :disabled="disabled"
     auto-fit-popup-width
-    :click-out-side-ingore-fn="isCloseButton"
+    :click-out-side-ingore-fn="ingoreFn"
     v-bind="triggerProps"
     :content-style="{
       transformOrigin: TRANSFORM_ORIGIN_MAP[triggerPostion],
@@ -27,7 +27,9 @@
         ]"
         @click="handleClick"
       >
+        <!-- signal -->
         <yc-input
+          v-if="!multiple"
           v-model="computedInputValue"
           mode="select"
           :show-input="computedVisible"
@@ -84,6 +86,64 @@
             </template>
           </template>
         </yc-input>
+        <!-- multiple -->
+        <yc-input-tag
+          v-else
+          v-model="computedValue"
+          v-model:input-value="computedInputValue"
+          :placeholder="placeholder"
+          :readonly="!allowSearch || loading"
+          :disabled="disabled"
+          :size="size"
+          :error="error"
+          :del-to-remove="false"
+          :enter-to-create="false"
+          :format-tag="formatLabel"
+          class="yc-select-multiple"
+          ref="inputRef"
+          @input-value-change="handleSearch"
+        >
+          <!-- prefix -->
+          <template v-if="$slots.prefix" #prefix>
+            <slot name="prefix" />
+          </template>
+          <!-- suffix -->
+          <template #suffix>
+            <!-- loading -->
+            <yc-spin
+              v-if="loading"
+              :size="12"
+              style="color: inherit"
+              class="yc-select-loading-icon"
+            >
+              <template v-if="$slots['loading-icon']" #icon>
+                <slot name="loading-icon" />
+              </template>
+            </yc-spin>
+            <template v-else>
+              <!-- default -->
+              <div class="yc-select-suffix-icon">
+                <slot name="arrow-icon">
+                  <yc-icon name="arrow-right" />
+                </slot>
+              </div>
+              <!-- search -->
+              <div v-if="allowSearch" class="yc-select-search-icon">
+                <slot name="search-icon">
+                  <yc-icon name="search" />
+                </slot>
+              </div>
+              <!-- clear -->
+              <yc-icon-button
+                v-if="showClearBtn"
+                name="close"
+                style="color: inherit"
+                class="yc-select-clear-icon"
+                @click.stop="handleClear"
+              />
+            </template>
+          </template>
+        </yc-input-tag>
       </div>
     </slot>
     <template #content>
@@ -144,7 +204,7 @@ import YcInput, { InputInstance } from '@/components/Input';
 import YcTrigger from '@/components/Trigger/index.vue';
 import YcScrollbar from '@/components/Scrollbar/Scrollbar.vue';
 import YcSpin from '@/components/Spin/index.vue';
-
+import YcInputTag from '@/components/InputTag/index.vue';
 import YcEmpty from '@/components/Empty/index.vue';
 import YcOption from './Option.vue';
 defineOptions({
@@ -172,8 +232,8 @@ const props = withDefaults(defineProps<SelectProps>(), {
     return option?.label?.includes(inputValue);
   },
   options: () => [],
-  formatLabel: (option: SelectOptionData[]) => {
-    return option.map((item) => item.value).join('、');
+  formatLabel: (option: SelectOptionData) => {
+    return option.label + '11';
   },
   triggerProps: () => {
     return {
@@ -252,18 +312,25 @@ provide<ProvideType>(SELECT_PROVIDE_KEY, {
   optionList,
   limit,
   multiple,
+  focus: async () => {
+    await sleep(0);
+    inputRef.value?.focus();
+  },
   filterOption,
   emits,
 });
 // 判断是否是关闭按钮,从而不关闭选项
-const isCloseButton = (el: HTMLElement): boolean => {
+const ingoreFn = (el: HTMLElement): boolean => {
   const classList = el.classList;
-  if (classList.contains('yc-select-clear-icon')) {
+  if (
+    classList.contains('yc-select-clear-icon') ||
+    classList.contains('yc-tag')
+  ) {
     return true;
   } else if (el.tagName == 'BODY') {
     return false;
   } else {
-    return isCloseButton(el.parentElement as HTMLElement);
+    return ingoreFn(el.parentElement as HTMLElement);
   }
 };
 // 处理点击
@@ -289,6 +356,5 @@ const handleSearch = async (v: string) => {
 </script>
 
 <style lang="less" scoped>
-@import '../Input/style/input.less';
 @import './style/select.less';
 </style>

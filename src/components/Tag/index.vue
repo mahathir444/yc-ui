@@ -14,6 +14,9 @@
       color: ['default', 'white'].includes(color) ? 'rgb(29, 33, 41)' : '',
     }"
     @click="handleCheck"
+    @mousedown="(e) => preventFocus && e.preventDefault()"
+    @dblclick.stop="(e) => stopPropagation && e.stopPropagation()"
+    @contextmenu.stop="(e) => stopPropagation && e.stopPropagation()"
   >
     <!-- icon -->
     <div v-if="$slots.icon" class="yc-tag-icon">
@@ -67,6 +70,8 @@ const props = withDefaults(defineProps<TagProps>(), {
   defaultChecked: true,
   nowrap: false,
   value: '',
+  stopPropagation: false,
+  preventFocus: false,
 });
 const emits = defineEmits<{
   (e: 'update:visible', value: boolean): void;
@@ -74,8 +79,14 @@ const emits = defineEmits<{
   (e: 'close', ev: MouseEvent, value?: string): void;
   (e: 'check', value: boolean, ev: MouseEvent): void;
 }>();
-const { visible, defaultVisible, checked, defaultChecked, checkable } =
-  toRefs(props);
+const {
+  visible,
+  defaultVisible,
+  checked,
+  defaultChecked,
+  checkable,
+  stopPropagation,
+} = toRefs(props);
 // visible
 const computedVisible = useControlValue<boolean>(
   visible,
@@ -95,6 +106,7 @@ const handleClose = (ev: MouseEvent) => {
 };
 // 处理选中
 const handleCheck = (ev: MouseEvent) => {
+  stopPropagation.value && ev.stopPropagation();
   if (checkable.value) {
     computedChecked.value = !computedChecked.value;
     emits('check', computedChecked.value, ev);

@@ -1,18 +1,6 @@
 <template>
   <div class="test">
     <div>
-      <yc-popover trigger="click">
-        <yc-button>测试</yc-button>
-        <template #content>
-          <a-checkbox-group v-model="value1" :max="3">
-            <a-checkbox v-for="i in 5" :key="i" :value="i">
-              测试{{ i }}
-            </a-checkbox>
-          </a-checkbox-group>
-        </template>
-      </yc-popover>
-    </div>
-    <div>
       <yc-dropdown>
         <yc-button>测试</yc-button>
         <template #content>
@@ -38,16 +26,9 @@
         </template>
       </yc-dropdown>
     </div>
-    <div>
-      <yc-checkbox-group v-model="value1" :max="3">
-        <YcCheckbox v-for="i in 5" :key="i" :value="i">
-          测试{{ i }}
-        </YcCheckbox>
-      </yc-checkbox-group>
-    </div>
 
     <div style="width: 300px">
-      <a-select placeholder="请选择" allow-search allow-clear>
+      <a-select placeholder="请选择" allow-search allow-clear multiple>
         <a-option
           v-for="i in 6"
           :key="i"
@@ -66,7 +47,7 @@
       </a-select>
     </div>
     <div style="width: 300px">
-      <yc-select v-model="value" placeholder="请选择">
+      <yc-select v-model="value" placeholder="请选择" multiple>
         <yc-optgroup label="分组1">
           <yc-option v-for="i in 20" :key="i" :value="i" :label="`选项${i}`">
           </yc-option>

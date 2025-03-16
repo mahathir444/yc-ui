@@ -14,13 +14,7 @@
     }"
     :show-arrow="false"
     :click-out-side-ingore-fn="isSameGroup"
-    :mouseenter-callback="
-      (isTrigger) => {
-        if (isTrigger) {
-          curLevel = level;
-        }
-      }
-    "
+    :mouseenter-callback="mouseenterCb"
     animation-name="slide-dynamic-origin"
     auto-fit-popup-min-width
     ref="triggerRef"
@@ -103,6 +97,12 @@ const {
 // 隐藏
 const hide = () => {
   triggerRef.value?.hide();
+};
+// 处理鼠标进入触发器
+const mouseenterCb = (isTrigger: boolean) => {
+  if (isTrigger) {
+    curLevel.value = level - 1;
+  }
 };
 // 提供值
 provide<ProvideType>(DROPDOWN_PROVIDE_KEY, {
