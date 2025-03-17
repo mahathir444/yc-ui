@@ -15,8 +15,6 @@
     :wrapper-class="`yc-tooltip ${$attrs.wrapperClass ?? ''}`"
     @popup-visible-change="(v) => $emit('popup-visible-change', v)"
     @update:popup-visible="(v) => $emit('update:popupVisible', v)"
-    @show="$emit('show')"
-    @hide="$emit('hide')"
     @position-change="(v) => (triggerPostion = v)"
   >
     <slot />
@@ -57,8 +55,6 @@ const props = withDefaults(defineProps<TooltipProps>(), {
 const emits = defineEmits<{
   (e: 'update:popupVisible', value: boolean): void;
   (e: 'popup-visible-change', value: boolean): void;
-  (e: 'show'): void;
-  (e: 'hide'): void;
 }>();
 const { arrowStyle, contentStyle, backgroundColor } = toRefs(props);
 // 当前的位置

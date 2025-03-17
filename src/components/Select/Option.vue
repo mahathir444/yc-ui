@@ -52,7 +52,6 @@ const {
   computedValue,
   computedVisible,
   computedInputValue,
-  optionList,
   multiple,
   limit,
   focus,
@@ -62,7 +61,6 @@ const {
   computedValue: ref(undefined),
   computedInputValue: ref(''),
   computedVisible: ref(false),
-  optionList: ref([]),
   multiple: ref(false),
   limit: ref(0),
   emits: () => {},
@@ -96,13 +94,6 @@ const handleMulti = (v: boolean) => {
   }
   focus();
 };
-
-onMounted(() => {
-  if (isUndefined(computedValue.value)) return;
-  optionList.value.push({
-    ...props,
-  });
-});
 </script>
 
 <style lang="less" scoped>

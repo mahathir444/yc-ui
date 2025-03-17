@@ -49,15 +49,7 @@
     <div style="width: 300px">
       <yc-select v-model="value" placeholder="请选择" multiple>
         <yc-optgroup label="分组1">
-          <yc-option
-            v-for="i in 20"
-            :key="i"
-            :value="
-              i +
-              `dsadsadsadsadsadsadsadsadsadsadsadsadsadsadsadsadsadsadsadsadsadsadsadsadsadsadsadsadsadsadsadsadsadsadsadsadsadsadsadsadsadsadsadsadsadsadsadsadsadsadsadsadsadsadsadsa`
-            "
-            :label="`选项${i}`"
-          >
+          <yc-option v-for="i in 20" :key="i" :value="i" :label="`选项${i}`">
           </yc-option>
         </yc-optgroup>
       </yc-select>
@@ -71,7 +63,6 @@
 
 <script lang="ts" setup>
 import { ref, watch, watchEffect } from 'vue';
-import YcInputTag from '@/components/InputTag/index.vue';
 const total = ref(1);
 const value = ref([]);
 const value1 = ref([]);

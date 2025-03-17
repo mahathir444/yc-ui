@@ -25,7 +25,7 @@
         :bordered="item?.tagProps?.bordered ?? true"
         stop-propagation
         color="white"
-        @close="(ev) => handleDel(ev, index)"
+        @close="(e) => handleEvent('close', e, index)"
       >
         {{ item?.label ?? item }}
       </yc-tag>
@@ -46,9 +46,9 @@
         @input="(e) => $emit('input', e)"
         @change="(e) => $emit('inputValueChange', computedInputValue, e)"
         @focus="(e) => emits('focus', e)"
-        @blur="handleBlur"
-        @keydown.enter="handleAdd"
-        @keydown.delete="(e) => handleDel(e, computedValue.length - 1)"
+        @blur="(e) => handleEvent('blur', e)"
+        @keydown.enter="(e) => handleEvent('create', e)"
+        @keydown.delete="(e) => handleEvent('del', e, computedValue.length - 1)"
       />
     </div>
     <!-- clear-btn -->
@@ -56,7 +56,7 @@
       v-if="showClearBtn"
       name="close"
       class="yc-input-tag-clear-button"
-      @click="handleClear"
+      @click="(e) => handleEvent('clear', e)"
     />
     <!-- suffix-icon -->
     <div v-if="$slots.suffix" class="yc-input-tag-suffix">
@@ -142,49 +142,56 @@ const showClearBtn = computed(
 );
 // 输入实例
 const inputRef = ref<HTMLInputElement>();
-// 处理新增
-const handleAdd = (e: KeyboardEvent) => {
-  if (!computedInputValue.value?.trim() || !enterToCreate.value) return;
-  const type =
-    !computedValue.value.length || !isObject(computedValue.value[0])
-      ? 'string'
-      : 'object';
-  if (type == 'string') {
-    computedValue.value = [...computedValue.value, computedInputValue.value];
-  } else {
-    computedValue.value = [
-      ...computedValue.value,
-      {
-        label: computedInputValue.value,
-        value: computedInputValue.value,
-        closeable: true,
-        tagProps: {
-          bordered: true,
+// 处理inputTag的事件
+const handleEvent = (
+  type: string,
+  e: MouseEvent | KeyboardEvent | FocusEvent,
+  index: number = 0
+) => {
+  const inputVal = computedInputValue.value?.trim();
+  if (type == 'create') {
+    if (!inputVal || !enterToCreate.value) {
+      return;
+    }
+    // 处理添加tag的类型
+    const type =
+      !computedValue.value.length || !isObject(computedValue.value[0])
+        ? 'string'
+        : 'object';
+    if (type == 'string') {
+      computedValue.value = [...computedValue.value, computedInputValue.value];
+    } else {
+      computedValue.value = [
+        ...computedValue.value,
+        {
+          label: computedInputValue.value,
+          value: computedInputValue.value,
+          closeable: true,
+          tagProps: {
+            bordered: true,
+          },
         },
-      },
-    ];
+      ];
+    }
+    computedInputValue.value = '';
+    emits('pressEnter', e as KeyboardEvent);
+  } else if (type == 'close' || type == 'del') {
+    if ((type == 'del' && inputVal) || index == -1) {
+      return;
+    }
+    computedValue.value = (computedValue.value as TagData[]).filter(
+      (_, i: number) => i != index
+    );
+    emits('remove', e as MouseEvent);
+  } else if (type == 'clear') {
+    computedValue.value = [];
+    emits('clear', e as MouseEvent);
+  } else if (type == 'blur') {
+    computedInputValue.value = '';
+    emits('blur', e as FocusEvent);
   }
-  computedInputValue.value = '';
-  emits('pressEnter', e as KeyboardEvent);
 };
-// 处理删除
-const handleDel = (e: MouseEvent | KeyboardEvent, index: number) => {
-  if (computedInputValue.value.tirm()) return;
-  computedValue.value = (computedValue.value as TagData[]).filter(
-    (_, i: number) => i != index
-  );
-  emits('remove', e);
-};
-// 处理清除
-const handleClear = (e: MouseEvent) => {
-  computedValue.value = [];
-  emits('clear', e);
-};
-// 处理失焦
-const handleBlur = (e: FocusEvent) => {
-  computedInputValue.value = '';
-  emits('blur', e);
-};
+
 // 暴露方法
 defineExpose({
   focus() {

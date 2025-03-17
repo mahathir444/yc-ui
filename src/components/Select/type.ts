@@ -61,7 +61,6 @@ export interface ProvideType {
     | Ref<undefined>;
   computedInputValue: WritableComputedRef<string> | Ref<string>;
   computedVisible: WritableComputedRef<boolean> | Ref<boolean>;
-  optionList: Ref<OptionProps[]>;
   limit: Ref<number>;
   multiple: Ref<boolean>;
   focus: Fn;

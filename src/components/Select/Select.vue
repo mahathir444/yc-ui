@@ -222,11 +222,11 @@ const {
   defaultPopupVisible,
   popupVisible,
   searchDelay,
-  options,
   showFooterOnEmpty,
   showHeaderOnEmpty,
   limit,
   multiple,
+  options: _options,
 } = toRefs(props);
 const { filterOption, formatLabel } = props;
 // 当前的位置
@@ -239,7 +239,7 @@ const {
   computedVisible,
   computedInputValue,
   computedValue,
-  optionList,
+  options,
   isEmpty,
 } = useSeletValue({
   popupVisible,
@@ -248,6 +248,7 @@ const {
   defaultValue,
   defaultInputValue,
   inputValue,
+  _options,
   formatLabel,
   emits,
 });
@@ -264,7 +265,6 @@ provide<ProvideType>(SELECT_PROVIDE_KEY, {
   computedVisible,
   computedValue,
   computedInputValue,
-  optionList,
   limit,
   multiple,
   focus: async () => {

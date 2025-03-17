@@ -8,12 +8,6 @@
     ]"
     ref="inputBaseRef"
     @update:model-value="(v) => $emit('update:modelValue', v)"
-    @input="(v, e) => $emit('input', v, e)"
-    @change="(v, e) => $emit('change', v, e)"
-    @clear="(e) => $emit('clear', e)"
-    @focus="(e) => emits('focus', e)"
-    @blur="(e) => emits('blur', e)"
-    @press-enter="(e) => emits('press-enter', e)"
   >
     <!-- prefix -->
     <template v-if="$slots.prefix" #prefix>
@@ -69,12 +63,6 @@ withDefaults(defineProps<InputSearchProps>(), {
 });
 const emits = defineEmits<{
   (e: 'update:modelValue', value: string): void;
-  (e: 'input', value: string, ev: Event): void;
-  (e: 'change', value: string, ev: Event): void;
-  (e: 'press-enter', ev: KeyboardEvent): void;
-  (e: 'clear', ev: MouseEvent): void;
-  (e: 'focus', ev: FocusEvent): void;
-  (e: 'blur', ev: FocusEvent): void;
   (e: 'search', value: string): void;
 }>();
 // 组件实例

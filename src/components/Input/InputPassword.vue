@@ -5,12 +5,6 @@
     :class="['yc-input-password', $attrs.class]"
     ref="inputBaseRef"
     @update:model-value="(v) => $emit('update:modelValue', v)"
-    @input="(v, e) => $emit('input', v, e)"
-    @change="(v, e) => $emit('change', v, e)"
-    @clear="(e) => $emit('clear', e)"
-    @focus="(e) => emits('focus', e)"
-    @blur="(e) => emits('blur', e)"
-    @press-enter="(e) => emits('press-enter', e)"
   >
     <!-- prefix -->
     <template v-if="$slots.prefix" #prefix>
@@ -44,7 +38,6 @@ import { ref, toRefs } from 'vue';
 import { InputPasswordProps } from './type';
 import YcInput from './Input.vue';
 import useControlValue from '@/components/_hooks/useControlValue';
-
 defineOptions({
   name: 'InputPassword',
 });
@@ -56,12 +49,6 @@ const props = withDefaults(defineProps<InputPasswordProps>(), {
 const emits = defineEmits<{
   (e: 'update:modelValue', value: string): void;
   (e: 'update:visibility', value: boolean): void;
-  (e: 'input', value: string, ev: Event): void;
-  (e: 'change', value: string, ev: Event): void;
-  (e: 'press-enter', ev: KeyboardEvent): void;
-  (e: 'clear', ev: MouseEvent): void;
-  (e: 'focus', ev: FocusEvent): void;
-  (e: 'blur', ev: FocusEvent): void;
   (e: 'visibilityChange', value: boolean): void;
 }>();
 const { defaultVisibility, visibility } = toRefs(props);

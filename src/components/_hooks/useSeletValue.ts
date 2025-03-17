@@ -1,8 +1,13 @@
-import { computed, provide, ref, Ref } from 'vue';
+import { computed, ref, Ref, onMounted, onUpdated, useSlots, VNode } from 'vue';
 import useControlValue from './useControlValue';
-import { OptionProps, SelectValue } from '@/components/Select/type';
+import {
+  OptionProps,
+  SelectValue,
+  SelectOptionData,
+} from '@/components/Select/type';
 import { Fn } from '../_type';
 import { isArray } from '../_utils/is';
+import { flattedChildren } from '@/components/_utils/vue-vnode';
 
 export default (params: {
   popupVisible: Ref<boolean | undefined>;
@@ -11,6 +16,7 @@ export default (params: {
   defaultValue: Ref<SelectValue | SelectValue[]>;
   inputValue: Ref<string | undefined>;
   defaultInputValue: Ref<string>;
+  _options: Ref<SelectOptionData[]>;
   formatLabel: Fn;
   emits: Fn;
 }) => {
@@ -21,6 +27,7 @@ export default (params: {
     defaultValue,
     inputValue,
     defaultInputValue,
+    _options,
     formatLabel,
     emits,
   } = params;
@@ -43,7 +50,7 @@ export default (params: {
   );
   // 当前的选项显示ide值
   const computedLabel = computed(() => {
-    const option = optionList.value.filter((item) => {
+    const option = options.value.filter((item) => {
       return isArray(computedValue.value)
         ? computedValue.value.includes(item.value)
         : computedValue.value == item.value;
@@ -60,16 +67,31 @@ export default (params: {
     }
   );
   // options数组
-  const optionList = ref<OptionProps[]>([]);
+  const options = ref<OptionProps[]>([]);
   // 搜索项
   const isEmpty = computed(() => {
-    const filterResult = optionList.value.filter((item) =>
+    const filterResult = options.value.filter((item) =>
       item.label?.includes(computedInputValue.value)
     );
     return !filterResult.length;
   });
+  // 获取选项的props
+  const getOptions = () => {
+    const slots = useSlots();
+    const propsArray = flattedChildren(slots?.default?.() ?? []);
+    options.value = (propsArray as Record<string, any>[])
+      .filter((vnode) => vnode?.type?.name == 'Option' && vnode?.props)
+      .map((vnode) => vnode?.props as OptionProps);
+    options.value = [...options.value, ..._options.value];
+  };
+  onMounted(() => {
+    getOptions();
+  });
+  onUpdated(() => {
+    getOptions();
+  });
   return {
-    optionList,
+    options,
     computedVisible,
     computedValue,
     computedInputValue,
