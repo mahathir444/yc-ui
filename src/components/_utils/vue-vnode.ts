@@ -17,6 +17,7 @@ import type {
   VNodeChild,
   VNodeNormalizedChildren,
 } from 'vue';
+import { ObjectData } from '../_type';
 
 const SCOPE = 'utils/vue/vnode';
 
@@ -159,7 +160,7 @@ export const flattedChildren = (
     }
     // 处理插槽的情况
     else if (isVNode(child) && isObject(child.children)) {
-      const children = (child?.children ?? {}) as Record<string, any>;
+      const children = (child?.children ?? {}) as ObjectData;
       const slotChildren = Object.keys(children)
         .filter((key) => isFunction(children[key]))
         .map((key) => children[key]?.())

@@ -4,6 +4,7 @@
       'yc-textarea-wrapper': true,
       'yc-textarea-disabled': disabled,
       'yc-textarea-error': error,
+      'yc-textarea-focus': isFocus,
       'yc-textarea-hoverable': !disabled,
       'yc-textarea-auto-size': autoSize,
     }"
@@ -19,10 +20,10 @@
       :placeholder="placeholder"
       :style="heightRange"
       class="yc-textarea"
-      @input="(e) => handleEvent('input', e)"
-      @change="(e) => handleEvent('change', e)"
-      @focus="(e) => emits('focus', e)"
-      @blur="(e) => emits('blur', e)"
+      @input="handleEvent('input', $event)"
+      @change="handleEvent('change', $event)"
+      @focus="handleEvent('focus', $event)"
+      @blur="handleEvent('blur', $event)"
     ></textarea>
 
     <!-- wordlimit -->
@@ -36,7 +37,7 @@
       v-if="showClearBtn"
       name="close"
       class="yc-textarea-clear-button"
-      @click="(e) => handleEvent('clear', e)"
+      @click="handleEvent('input', $event)"
     />
   </div>
 </template>
@@ -44,7 +45,12 @@
 <script lang="ts" setup>
 import { ref, toRefs, computed } from 'vue';
 import useControlValue from '../_hooks/useControlValue';
-import { TextareaProps, ResizeRange } from './type';
+import {
+  TextareaProps,
+  ResizeRange,
+  TextareaEvent,
+  TextareaEventType,
+} from './type';
 import { isNumber } from '@/components/_utils/is';
 import { useElementSize } from '@vueuse/core';
 defineOptions({
@@ -80,6 +86,8 @@ const {
   readonly,
   autoSize,
 } = toRefs(props);
+// 是否聚焦
+const isFocus = ref<boolean>(false);
 // 受控的value
 const computedValue = useControlValue<string>(
   modelValue,
@@ -136,14 +144,22 @@ const heightRange = computed(() => {
   };
 });
 // 处理输入，改变和清除
-const handleEvent = (type: string, e: Event | MouseEvent) => {
+const handleEvent = (type: TextareaEventType, e: TextareaEvent) => {
+  // 输入
   if (['input', 'change'].includes(type)) {
     const target = e.target as HTMLInputElement;
     const { value } = target;
     emits(type as any, value, e);
     if (computedValue.value == value) return;
     target.value = computedValue.value;
-  } else {
+  }
+  // 聚焦
+  else if (['focus', 'blur'].includes(type)) {
+    isFocus.value = type == 'focus';
+    emits(type as any, e as FocusEvent);
+  }
+  // 清除
+  else if (type == 'clear') {
     computedValue.value = '';
     emits('clear', e as MouseEvent);
   }

@@ -1,4 +1,4 @@
-.yc-select-wrapper {
+.yc-select {
   width: 100%;
   height: fit-content;
 
@@ -7,12 +7,33 @@
       transform: rotate(270deg);
     }
   }
-  .yc-select-multiple {
+}
+// 多选
+.yc-select-multiple {
+  .yc-input-tag {
     padding-right: 12px;
-    &.yc-select-multiple-focus {
-      background-color: #fff !important;
-      border-color: rgb(22, 93, 255) !important;
-      box-shadow: 0 0 0 0 rgb(190, 218, 255);
+  }
+}
+// 多选聚焦
+.yc-select-multiple-focus {
+  .yc-input-tag {
+    background-color: #fff;
+    border-color: rgb(22, 93, 255);
+    box-shadow: 0 0 0 0 rgb(190, 218, 255);
+  }
+}
+// 无边框
+.yc-select-no-border {
+  .yc-input-tag {
+    background-color: #fff;
+    box-shadow: none;
+    border: none;
+  }
+  &:deep(.yc-input-outer) {
+    .yc-input-wrapper {
+      background-color: #fff;
+      box-shadow: none;
+      border: none;
     }
   }
 }

@@ -1,4 +1,4 @@
-import { Size } from '@/components/_type';
+import { ObjectData, Size } from '@/components/_type';
 import { ButtonProps } from '../Button/type';
 // wordSlice,wordLength
 export interface InputProps {
@@ -12,11 +12,10 @@ export interface InputProps {
   placeholder?: string;
   maxLength?: number;
   showWordLimit?: boolean;
-  inputAttrs?: Record<string, any>;
+  inputAttrs?: ObjectData;
   type?: 'password' | 'text';
   showInput?: boolean;
 }
-
 export interface InputPasswordProps {
   visibility?: boolean;
   defaultVisibility?: boolean;
@@ -32,4 +31,12 @@ export interface InputSearchProps {
   buttonProps?: ButtonProps;
 }
 
-export type EventType = 'input' | 'change' | 'clear';
+export type InputEventType =
+  | 'input'
+  | 'change'
+  | 'clear'
+  | 'focus'
+  | 'blur'
+  | 'pressEnter';
+
+export type InputEvent = Event | MouseEvent | FocusEvent;

@@ -1,7 +1,13 @@
 <template>
   <div class="test">
     <div style="width: 300px">
-      <a-select placeholder="请选择" allow-search allow-clear multiple>
+      <a-select
+        placeholder="请选择"
+        allow-search
+        allow-clear
+        :multiple="false"
+        :bordered="false"
+      >
         <a-option
           v-for="i in 6"
           :key="i"
@@ -20,15 +26,29 @@
       </a-select>
     </div>
     <div style="width: 300px">
-      <yc-select v-model="value" placeholder="请选择" multiple>
-        <yc-optgroup label="分组1">
-          <yc-option v-for="i in 20" :key="i" :value="i" :label="`选项${i}`">
-          </yc-option>
-        </yc-optgroup>
+      <yc-select
+        v-model="value"
+        placeholder="请选择"
+        :multiple="true"
+        :field-names="{
+          label: 'text',
+          value: 'key',
+        }"
+        :options="options"
+      >
       </yc-select>
     </div>
     <div style="width: 300px">
-      <yc-input-tag placeholder="请输入" size="small" />
+      <yc-input-tag
+        v-model="value1"
+        placeholder="请输入"
+        :field-names="{
+          label: 'text',
+          value: 'key',
+        }"
+      />
+      <!-- <yc-input />
+      <yc-textarea /> -->
     </div>
     <div style="width: 300px">
       <a-input-tag placeholder="请输入" size="small" :max-tag-count="4" />
@@ -42,6 +62,22 @@ import { ref, watch, watchEffect } from 'vue';
 const total = ref(1);
 const value = ref([]);
 const value1 = ref([]);
+const options = ref<any[]>([]);
+for (let i = 0; i < 20; i++) {
+  options.value.push({
+    text: '选项' + i,
+    value: i,
+  });
+}
+watch(
+  value1,
+  () => {
+    console.log(value1.value, 'value1');
+  },
+  {
+    deep: true,
+  }
+);
 </script>
 
 <style lang="less" scoped>

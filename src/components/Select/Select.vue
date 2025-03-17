@@ -20,11 +20,14 @@
   >
     <slot name="trigger">
       <div
-        :class="[
-          'yc-select-wrapper',
-          allowSearch ? 'yc-select-allow-search' : '',
-          showClearBtn ? 'yc-select-allow-clear' : '',
-        ]"
+        :class="{
+          'yc-select': true,
+          'yc-select-allow-search': allowSearch,
+          'yc-select-allow-clear': showClearBtn,
+          'yc-select-no-border': !bordered,
+          'yc-select-multiple': multiple,
+          'yc-select-multiple-focus': multiple && computedVisible,
+        }"
         @click="handleClick"
       >
         <!-- signal -->
@@ -32,13 +35,12 @@
           v-if="!multiple"
           :show-input="computedVisible"
           v-model="computedInputValue"
-          :placeholder="computedLabel"
+          :placeholder="showValue?.[0]?.label"
           :readonly="!allowSearch || loading"
           :disabled="disabled"
           :size="size"
           :error="error"
           ref="inputRef"
-          class="yc-select"
           @blur="computedInputValue = ''"
           @input="handleSearch"
         >
@@ -49,29 +51,32 @@
           <template #label>
             <span
               :style="{
-                color: computedLabel ? '' : 'rgb(134, 144, 156)',
+                color: showValue?.[0]?.label ? '' : 'rgb(134, 144, 156)',
               }"
-              >{{ computedLabel || placeholder }}</span
             >
+              {{ showValue?.[0]?.label || placeholder }}
+            </span>
           </template>
           <!-- suffix -->
-          <select-icon
-            :show-clear-btn="showClearBtn"
-            :allow-clear="allowClear"
-            :allow-search="allowSearch"
-            :loading="loading"
-            @clear="handleClear"
-          >
-            <template v-if="$slots['loading-icon']" #loading-icon>
-              <slot name="loading-icon" />
-            </template>
-          </select-icon>
+          <template #suffix>
+            <select-icon
+              :show-clear-btn="showClearBtn"
+              :allow-clear="allowClear"
+              :allow-search="allowSearch"
+              :loading="loading"
+              @clear="handleClear"
+            >
+              <template v-if="$slots['loading-icon']" #loading-icon>
+                <slot name="loading-icon" />
+              </template>
+            </select-icon>
+          </template>
         </yc-input>
         <!-- multiple -->
         <yc-input-tag
           v-else
-          v-model="computedValue"
           v-model:input-value="computedInputValue"
+          :model-value="showValue"
           :placeholder="placeholder"
           :readonly="!allowSearch || loading"
           :disabled="disabled"
@@ -80,11 +85,10 @@
           :max-tag-count="maxTagCount"
           :tag-nowrap="tagNowrap"
           :enter-to-create="false"
-          :class="{
-            'yc-select-multiple': true,
-            'yc-select-multiple-focus': computedVisible,
-          }"
           ref="inputRef"
+          @update:model-value="
+            (v) => (computedValue = v.map((item) => (item as TagData).value))
+          "
           @input="(v) => handleSearch(v)"
         >
           <!-- prefix -->
@@ -126,10 +130,10 @@
               <slot />
               <yc-option
                 v-for="item in options"
-                :key="<string>item.value"
-                :value="item.value"
-                :label="item.label"
-                :disabled="item.disabled"
+                :key="(item as ObjectData)[fieldKey.value]"
+                :value="(item as ObjectData)[fieldKey.value]"
+                :label="(item as ObjectData)[fieldKey.label]"
+                :disabled="(item as ObjectData)[fieldKey.disabled]"
               />
               <slot v-if="isEmpty" name="empty">
                 <yc-empty description="暂无数据" />
@@ -160,6 +164,8 @@ import {
   SelectOptionData,
   ProvideType,
 } from './type';
+import { ObjectData } from '@/components/_type';
+import { TagData } from '@/components/InputTag';
 import useSeletValue from '../_hooks/useSeletValue';
 import { sleep } from '@/components/_utils/fn';
 import YcInput, { InputInstance } from '@/components/Input';
@@ -184,10 +190,11 @@ const props = withDefaults(defineProps<SelectProps>(), {
   loading: false,
   disabled: false,
   error: false,
-  allowClear: true,
-  allowSearch: true,
+  allowClear: false,
+  allowSearch: false,
   maxTagCount: 0,
   popupContainer: 'body',
+  bordered: true,
   defaultActivefirstOption: false,
   popupVisible: undefined,
   defaultPopupVisible: false,
@@ -196,15 +203,23 @@ const props = withDefaults(defineProps<SelectProps>(), {
     return option?.label?.includes(inputValue);
   },
   options: () => [],
-  formatLabel: (option: SelectOptionData) => {
-    return option.label;
-  },
+  // formatLabel: (option: SelectOptionData) => {
+  //   return option.label;
+  // },
   triggerProps: () => {
     return {
       contentStyle: {},
     };
   },
   limit: 0,
+  fieldNames: () => {
+    return {
+      label: 'label',
+      value: 'value',
+      disabled: 'disabled',
+      tagProps: 'tagProps',
+    };
+  },
   searchDelay: 500,
   showHeaderOnEmpty: false,
   showFooterOnEmpty: false,
@@ -236,6 +251,7 @@ const {
   showHeaderOnEmpty,
   limit,
   multiple,
+  fieldNames,
   options: _options,
 } = toRefs(props);
 const { filterOption, formatLabel } = props;
@@ -245,7 +261,8 @@ const triggerPostion = ref<TriggerPostion>('bl');
 const inputRef = ref<InputInstance>();
 // 处理值
 const {
-  computedLabel,
+  fieldKey,
+  showValue,
   computedVisible,
   computedInputValue,
   computedValue,
@@ -258,7 +275,9 @@ const {
   defaultValue,
   defaultInputValue,
   inputValue,
+  multiple,
   _options,
+  fieldNames,
   formatLabel,
   emits,
 });
@@ -288,8 +307,8 @@ provide<ProvideType>(SELECT_PROVIDE_KEY, {
 const ingoreFn = (el: HTMLElement): boolean => {
   const classList = el.classList;
   if (
-    classList.contains('yc-select-clear-icon') ||
-    classList.contains('yc-tag')
+    classList.contains('yc-select-wrapper') ||
+    classList.contains('yc-select-value-tag')
   ) {
     return true;
   } else if (el.tagName == 'BODY') {
@@ -300,7 +319,7 @@ const ingoreFn = (el: HTMLElement): boolean => {
 };
 // 处理点击
 const handleClick = async () => {
-  computedVisible.value = !computedVisible.value;
+  computedVisible.value = multiple.value ? true : !computedVisible.value;
   if (computedVisible.value) {
     await sleep(0);
     inputRef.value?.focus();

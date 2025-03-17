@@ -26,7 +26,7 @@
 
 <script lang="ts" setup>
 import { toRefs, computed } from 'vue';
-import { LinkProps } from './type';
+import { LinkProps, LinkEvent, LinkEventType } from './type';
 import { STATUS_CLASS } from './constants';
 import YcSpin from '../Spin/index.vue';
 defineOptions({
@@ -51,7 +51,7 @@ const resultHref = computed(() => {
   return href.value || 'javascript:void(0)';
 });
 // 拦截事件
-const handleEvent = (type: string, e: MouseEvent) => {
+const handleEvent = (type: LinkEventType, e: LinkEvent) => {
   if (disabled.value || loading.value) return;
   emits(type as any, e);
 };

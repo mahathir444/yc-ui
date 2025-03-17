@@ -41,3 +41,6 @@ export interface ProvideType {
   shape: Ref<ButtonShape>;
   disabled: Ref<boolean>;
 }
+
+export type ButtonEvent = MouseEvent;
+export type ButtonEventType = 'click' | 'dblclick' | 'contextmenu';

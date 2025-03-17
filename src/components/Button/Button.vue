@@ -53,7 +53,7 @@ import { computed, toRefs, inject } from 'vue';
 import { SIZE_MAP } from '@/components/_constants';
 import { SIZE_CLASS, TYPE_CLASS, STATUS_CLASS, SHAPE_CLASS } from './constants';
 import { BUTTON_GROUP_PROVIDE_KEY } from '@/components/_constants';
-import { ButtonProps, ProvideType } from './type';
+import { ButtonProps, ProvideType, ButtonEvent, ButtonEventType } from './type';
 import YcSpin from '../Spin/index.vue';
 defineOptions({
   name: 'Button',
@@ -102,7 +102,7 @@ const borderRadius = computed(() => {
   return map[shape.value];
 });
 // 拦截事件
-const handleEvent = (type: string, e: MouseEvent) => {
+const handleEvent = (type: ButtonEventType, e: ButtonEvent) => {
   if (disabled.value || loading.value) return;
   emits(type as any, e);
 };

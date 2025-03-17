@@ -7,3 +7,6 @@ export interface LinkProps {
   disabled?: boolean;
   loading?: boolean;
 }
+
+export type LinkEvent = MouseEvent;
+export type LinkEventType = 'click' | 'dblclick' | 'contextmenu';

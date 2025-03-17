@@ -22,3 +22,5 @@ export type ClassName =
 export type YcUiOptions = Record<string, any>;
 
 export type Fn = (...args: any) => any;
+
+export type ObjectData = Record<string, any>;

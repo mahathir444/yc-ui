@@ -5,9 +5,10 @@ import {
   SelectValue,
   SelectOptionData,
 } from '@/components/Select/type';
-import { Fn } from '../_type';
-import { isArray } from '../_utils/is';
+import { TagData } from '@/components/InputTag';
+import { Fn, ObjectData } from '../_type';
 import { flattedChildren } from '@/components/_utils/vue-vnode';
+import { nanoid } from 'nanoid';
 
 export default (params: {
   popupVisible: Ref<boolean | undefined>;
@@ -16,8 +17,10 @@ export default (params: {
   defaultValue: Ref<SelectValue | SelectValue[]>;
   inputValue: Ref<string | undefined>;
   defaultInputValue: Ref<string>;
+  multiple: Ref<boolean>;
+  fieldNames: Ref<Record<string, string>>;
   _options: Ref<SelectOptionData[]>;
-  formatLabel: Fn;
+  formatLabel: Fn | undefined;
   emits: Fn;
 }) => {
   const {
@@ -27,10 +30,21 @@ export default (params: {
     defaultValue,
     inputValue,
     defaultInputValue,
+    multiple,
+    fieldNames,
     _options,
     formatLabel,
     emits,
   } = params;
+  // fieldKey
+  const fieldKey = computed(() => {
+    return {
+      label: fieldNames.value['label'] ?? 'label',
+      value: fieldNames.value['value'] ?? 'value',
+      disabled: fieldNames.value['disabled'] ?? 'disabled',
+      tagProps: fieldNames.value['tagProps'] ?? 'tagProps',
+    };
+  });
   // popupVisible
   const computedVisible = useControlValue<boolean>(
     popupVisible,
@@ -48,15 +62,21 @@ export default (params: {
       emits('update:modelValue', val);
     }
   );
-  // 当前的选项显示ide值
-  const computedLabel = computed(() => {
-    const option = options.value.filter((item) => {
-      return isArray(computedValue.value)
-        ? computedValue.value.includes(item.value)
-        : computedValue.value == item.value;
-    });
-    if (!option.length) return '';
-    return formatLabel(option[0]);
+  //展示的值
+  const showValue = computed(() => {
+    const selectValue = multiple.value
+      ? computedValue.value
+      : [computedValue.value];
+    return (selectValue as any[]).map((item) => {
+      const option = optionMap.value[item];
+      return {
+        id: nanoid(),
+        label: formatLabel ? formatLabel(option) : option?.label,
+        value: item,
+        closeable: option?.tagProps?.closeable,
+        tagProps: option?.tagProps,
+      };
+    }) as TagData[];
   });
   // 输入框的值
   const computedInputValue = useControlValue<string>(
@@ -67,7 +87,11 @@ export default (params: {
     }
   );
   // options数组
-  const options = ref<OptionProps[]>([]);
+  const options = ref<SelectOptionData[]>([]);
+  // optionMap
+  const optionMap = computed(() => {
+    return Object.fromEntries(options.value.map((item) => [item.value, item]));
+  });
   // 搜索项
   const isEmpty = computed(() => {
     const filterResult = options.value.filter((item) =>
@@ -79,10 +103,15 @@ export default (params: {
   const getOptions = () => {
     const slots = useSlots();
     const propsArray = flattedChildren(slots?.default?.() ?? []);
-    options.value = (propsArray as Record<string, any>[])
+    options.value = (propsArray as ObjectData[])
       .filter((vnode) => vnode?.type?.name == 'Option' && vnode?.props)
       .map((vnode) => vnode?.props as OptionProps);
-    options.value = [...options.value, ..._options.value];
+    // ..._options.value.map(item => {
+    //   Object.keys(item).map(key=>{
+
+    //   })
+    // })
+    options.value = [...options.value];
   };
   onMounted(() => {
     getOptions();
@@ -91,11 +120,12 @@ export default (params: {
     getOptions();
   });
   return {
+    fieldKey,
     options,
     computedVisible,
     computedValue,
     computedInputValue,
-    computedLabel,
+    showValue,
     isEmpty,
   };
 };

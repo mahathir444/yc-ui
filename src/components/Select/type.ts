@@ -1,21 +1,8 @@
 import { WritableComputedRef, Ref } from 'vue';
-import { Fn, Size } from '../_type';
+import { Fn, ObjectData, Size } from '../_type';
 import { TriggerProps } from '../Trigger';
 import { PopupContainer } from '../Trigger/type';
-
-export type SelectValue = string | number | boolean;
-
-export interface OptionProps {
-  label: string;
-  value: SelectValue;
-  disabled?: boolean;
-}
-
-export interface OptgroupProps {
-  label?: string;
-}
-
-export type SelectOptionData = OptionProps;
+import { TagProps } from '../Tag';
 
 export interface SelectProps {
   multiple?: boolean;
@@ -33,13 +20,13 @@ export interface SelectProps {
   allowCreate?: boolean;
   maxTagCount?: number;
   popupContainer?: PopupContainer;
-  // bordered?: boolean;
+  bordered?: boolean;
   defaultActivefirstOption?: boolean;
   popupVisible?: boolean;
   defaultPopupVisible?: boolean;
   unmountonClose?: boolean;
   filterOption?: (inputValue: string, option: SelectOptionData) => boolean;
-  options?: SelectOptionData[];
+  options?: SelectOptionData[] | ObjectData[];
   // virtual-list-props
   triggerProps?: TriggerProps;
   formatLabel?: (data: SelectOptionData) => string;
@@ -48,12 +35,27 @@ export interface SelectProps {
   // value-key
   searchDelay?: number;
   limit?: number;
-  // field-names
+  fieldNames?: Record<string, string>;
   // scrollbar
   showHeaderOnEmpty?: boolean;
   showFooterOnEmpty?: boolean;
   tagNowrap?: boolean;
 }
+
+export interface OptionProps {
+  label: string;
+  value: SelectValue;
+  disabled?: boolean;
+  tagProps?: TagProps;
+}
+
+export interface OptgroupProps {
+  label?: string;
+}
+
+export type SelectValue = string | number | boolean;
+
+export type SelectOptionData = OptionProps | ObjectData;
 
 export interface ProvideType {
   computedValue:

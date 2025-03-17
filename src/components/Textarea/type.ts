@@ -19,4 +19,8 @@ export interface ResizeRange {
   maxRows?: number;
 }
 
+export type TextareaEvent = Event | MouseEvent | FocusEvent;
+
+export type TextareaEventType = 'input' | 'change' | 'focus' | 'blur' | 'clear';
+
 export type TextareaResize = boolean | ResizeRange;

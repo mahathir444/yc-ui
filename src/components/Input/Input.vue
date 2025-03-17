@@ -2,6 +2,7 @@
   <div
     :class="[
       'yc-input-outer',
+      isFocus ? 'yc-input-focus' : '',
       disabled ? 'yc-input-disabled' : 'yc-input-hoverable',
       error ? 'yc-input-error' : '',
       SIZE_CLASS[size],
@@ -38,9 +39,9 @@
         ref="inputRef"
         @input="handleEvent('input', $event)"
         @change="handleEvent('change', $event)"
-        @focus="(e) => emits('focus', e)"
-        @blur="(e) => emits('blur', e)"
-        @keydown.enter="(e) => emits('press-enter', e)"
+        @focus="handleEvent('focus', $event)"
+        @blur="handleEvent('blur', $event)"
+        @keydown.enter="handleEvent('pressEnter', $event)"
       />
       <!-- select模式下的label -->
       <div
@@ -87,7 +88,7 @@
 <script lang="ts" setup>
 import { ref, computed, toRefs } from 'vue';
 import { SIZE_CLASS } from './constants';
-import { InputProps } from './type';
+import { InputProps, InputEvent, InputEventType } from './type';
 import { SIZE_MAP } from '@/components/_constants';
 import { isNumber } from '@/components/_utils/is';
 import useControlValue from '../_hooks/useControlValue';
@@ -116,7 +117,7 @@ const emits = defineEmits<{
   (e: 'update:modelValue', value: string): void;
   (e: 'input', value: string, ev: Event): void;
   (e: 'change', value: string, ev: Event): void;
-  (e: 'press-enter', ev: KeyboardEvent): void;
+  (e: 'pressEnter', ev: KeyboardEvent): void;
   (e: 'clear', ev: MouseEvent): void;
   (e: 'focus', ev: FocusEvent): void;
   (e: 'blur', ev: FocusEvent): void;
@@ -137,6 +138,10 @@ const computedValue = useControlValue<string>(
   defaultValue.value,
   (val) => emits('update:modelValue', val)
 );
+// 输入实例
+const inputRef = ref<HTMLInputElement>();
+// 是否聚焦
+const isFocus = ref<boolean>(false);
 // 是否展示字数限制
 const showLimit = computed(
   () => isNumber(maxLength.value) && showWordLimit.value
@@ -149,19 +154,29 @@ const showClearBtn = computed(
     !readonly.value &&
     computedValue.value.length
 );
-// 输入实例
-const inputRef = ref<HTMLInputElement>();
 // 处理输入，改变和清除
-const handleEvent = (type: string, e: Event | MouseEvent) => {
+const handleEvent = (type: InputEventType, e: InputEvent) => {
+  // input
   if (['input', 'change'].includes(type)) {
     const target = e.target as HTMLInputElement;
-    const { value } = target;
-    emits(type as any, value, e);
-    if (computedValue.value == value) return;
-    target.value = computedValue.value;
-  } else {
+    if (computedValue.value != target.value) {
+      target.value = computedValue.value;
+    }
+    emits(type as any, computedValue.value, e);
+  }
+  // focus
+  else if (['focus', 'blur'].includes(type)) {
+    isFocus.value = type == 'focus';
+    emits(type as any, e as FocusEvent);
+  }
+  // clear
+  else if (type == 'clear') {
     computedValue.value = '';
     emits('clear', e as MouseEvent);
+  }
+  //enter
+  else if (type == 'pressEnter') {
+    emits('pressEnter', e as KeyboardEvent);
   }
 };
 // 暴露方法

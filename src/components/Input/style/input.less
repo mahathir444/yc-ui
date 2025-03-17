@@ -48,11 +48,6 @@
     display: flex;
     align-items: center;
 
-    &:focus-within {
-      background-color: #fff !important;
-      border-color: rgb(22, 93, 255) !important;
-      box-shadow: 0 0 0 0 rgb(190, 218, 255);
-    }
     .yc-input-prefix,
     .yc-input-suffix {
       height: 100%;
@@ -124,6 +119,30 @@
     }
   }
 }
+// error focus
+.yc-input-outer {
+  // focus
+  &.yc-input-focus {
+    .yc-input-wrapper {
+      background-color: #fff;
+      border-color: rgb(22, 93, 255);
+      box-shadow: 0 0 0 0 rgb(190, 218, 255);
+    }
+  }
+  // error
+  &.yc-input-error {
+    .yc-input-wrapper {
+      background-color: rgb(255, 236, 232);
+    }
+    &.yc-input-focus {
+      .yc-input-wrapper {
+        background: #fff;
+        border-color: rgb(245, 63, 63);
+        box-shadow: 0 0 0 0 rgb(253, 205, 197);
+      }
+    }
+  }
+}
 // disabled
 .yc-input-disabled {
   cursor: not-allowed;
@@ -135,16 +154,6 @@
     .yc-input-prefix,
     .yc-input-suffix {
       color: inherit;
-    }
-  }
-}
-// error
-.yc-input-error {
-  .yc-input-wrapper {
-    background-color: rgb(255, 236, 232);
-    &:focus-within {
-      border-color: rgb(245, 63, 63) !important;
-      box-shadow: 0 0 0 0 rgb(253, 205, 197);
     }
   }
 }

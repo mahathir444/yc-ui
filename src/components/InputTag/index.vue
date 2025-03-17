@@ -6,6 +6,7 @@
       !computedValue.length ? 'yc-input-tag-no-value' : '',
       disabled ? 'yc-input-tag-disabled' : 'yc-input-tag-hoverable',
       error ? 'yc-input-tag-error' : '',
+      isFocus ? 'yc-input-tag-focus' : '',
     ]"
     :style="{
       minHeight: `${SIZE_MAP[size]}px`,
@@ -20,29 +21,31 @@
     <div class="yc-input-tag-inner">
       <!-- tag-list -->
       <yc-tag
-        v-for="item in curList.showList"
-        :key="item.id"
-        :closeable="item?.closeable ?? true"
-        :bordered="item?.tagProps?.bordered ?? true"
-        :nowrap="item?.tagProps?.nowrap ?? tagNowrap"
+        v-for="item in curList.visibleList"
+        :key="item?.[fieldKey.id]"
+        :closeable="item?.[fieldKey.closeable] ?? true"
+        :bordered="item?.[fieldKey.tagProps]?.bordered ?? true"
+        :nowrap="item?.[fieldKey.tagProps]?.nowrap ?? tagNowrap"
         :size="size == 'mini' ? 'small' : size"
+        class="yc-select-value-tag"
         prevent-focus
         stop-propagation
         color="white"
-        @close="(e) => handleEvent('close', e, item.id)"
+        @close="handleEvent('close', $event, item.id)"
       >
-        {{ formatTag(item) }}
+        {{ formatTag ? formatTag(item) : item[fieldKey.label] }}
       </yc-tag>
       <yc-tag
         v-if="maxTagCount > 0 && computedValue.length > maxTagCount"
         :size="size == 'mini' ? 'small' : size"
         :nowrap="tagNowrap"
+        class="yc-select-value-tag"
         bordered
         prevent-focus
         color="white"
         stop-propagation
       >
-        +{{ curList.hideList }}...
+        +{{ curList.hideList.length }}...
       </yc-tag>
       <!-- mirror -->
       <div class="yc-input-tag-mirror" ref="mirrorRef">
@@ -59,12 +62,12 @@
         }"
         class="yc-input-tag-input"
         ref="inputRef"
-        @input="(e) => $emit('input', (e.target as HTMLInputElement).value)"
-        @change="(e) => $emit('inputValueChange', computedInputValue, e)"
-        @focus="(e) => emits('focus', e)"
-        @blur="(e) => handleEvent('blur', e)"
-        @keydown.enter="(e) => handleEvent('create', e)"
-        @keydown.delete="(e) => handleEvent('del', e)"
+        @input="handleEvent('input', $event)"
+        @change="handleEvent('inputValueChange', $event)"
+        @focus="handleEvent('focus', $event)"
+        @blur="handleEvent('blur', $event)"
+        @keydown.enter="handleEvent('pressEnter', $event)"
+        @keydown.delete="handleEvent('remove', $event)"
       />
     </div>
     <!-- clear-btn -->
@@ -72,7 +75,7 @@
       v-if="showClearBtn"
       name="close"
       class="yc-input-tag-clear-button"
-      @click="(e) => handleEvent('clear', e)"
+      @click="handleEvent('clear', $event)"
     />
     <!-- suffix-icon -->
     <div v-if="$slots.suffix" class="yc-input-tag-suffix">
@@ -84,14 +87,21 @@
 <script lang="ts" setup>
 import { ref, computed, toRefs } from 'vue';
 import { SIZE_CLASS } from './constants';
-import { InputTagProps, InputTagValue, TagData, RetainValue } from './type';
+import {
+  InputTagProps,
+  InputTagValue,
+  TagData,
+  InputRetainValue,
+  InputTagEvent,
+  InputTagEventType,
+} from './type';
+import { ObjectData } from '@/components/_type';
 import { SIZE_MAP } from '@/components/_constants';
 import { isBoolean, isObject } from '@/components/_utils/is';
 import { useElementSize } from '@vueuse/core';
 import { nanoid } from 'nanoid';
 import useControlValue from '../_hooks/useControlValue';
 import YcTag from '@/components/Tag/index.vue';
-
 defineOptions({
   name: 'InputTag',
 });
@@ -108,23 +118,32 @@ const props = withDefaults(defineProps<InputTagProps>(), {
   size: 'medium',
   maxTagCount: 5,
   retainInputValue: false,
-  formatTag: (data: TagData) => {
-    return data.label;
-  },
+  // formatTag: (data: TagData) => {
+  //   // return data.label;
+  // },
   uniqueValue: false,
   tagNowrap: false,
+  fieldNames: () => {
+    return {
+      id: 'id',
+      label: 'label',
+      value: 'value',
+      closeable: 'closeable',
+      tagProps: 'tagProps',
+    };
+  },
   enterToCreate: true,
 });
 const emits = defineEmits<{
-  (e: 'update:modelValue', value: string): void;
+  (e: 'update:modelValue', value: InputTagValue): void;
   (e: 'update:inputValue', value: string): void;
+  (e: 'input', value: string): void;
   (e: 'inputValueChange', value: string, ev: Event): void;
-  (e: 'pressEnter', ev: KeyboardEvent): void;
   (e: 'remove', ev: MouseEvent | KeyboardEvent): void;
   (e: 'clear', ev: MouseEvent): void;
-  (e: 'input', value: string): void;
   (e: 'focus', ev: FocusEvent): void;
   (e: 'blur', ev: FocusEvent): void;
+  (e: 'pressEnter', ev: KeyboardEvent): void;
 }>();
 const {
   modelValue,
@@ -139,11 +158,14 @@ const {
   retainInputValue,
   enterToCreate,
   maxTagCount,
+  fieldNames,
 } = toRefs(props);
 // 输入实例
 const inputRef = ref<HTMLInputElement>();
 // div的ref
 const mirrorRef = ref<HTMLDivElement>();
+// 是否聚焦
+const isFocus = ref<boolean>(false);
 // 获取miorr的宽度用于模拟
 const { width } = useElementSize(mirrorRef, undefined, {
   box: 'border-box',
@@ -160,27 +182,42 @@ const computedInputValue = useControlValue<string>(
   defaultInputValue.value,
   (val) => emits('update:inputValue', val)
 );
+// fieldKey
+const fieldKey = computed(() => {
+  return {
+    id: fieldNames.value['id'] ?? 'id',
+    label: fieldNames.value['label'] ?? 'label',
+    value: fieldNames.value['value'] ?? 'value',
+    closeable: fieldNames.value['closeable'] ?? 'closeable',
+    tagProps: fieldNames.value['tagProps'] ?? 'tagProps',
+  };
+});
 // 当前展示的list
 const curList = computed(() => {
-  const handleList = computedValue.value.map((item: TagData) => {
-    return isObject(item)
-      ? {
-          id: nanoid(),
-          ...item,
-        }
-      : {
-          id: nanoid(),
-          label: item,
-          value: item,
-        };
-  });
+  const { id, label, value } = fieldKey.value;
+  let handleList;
+  if (computedValue.value[0]?.[id]) {
+    handleList = computedValue.value;
+  } else {
+    handleList = computedValue.value.map((item: TagData) => {
+      let tagData: ObjectData = {};
+      if (isObject(item)) {
+        tagData = { ...item };
+      } else {
+        tagData[label] = item;
+        tagData[value] = item;
+      }
+      tagData[id] = nanoid();
+      return tagData;
+    }) as TagData[];
+  }
   return {
     handleList,
-    showList:
+    visibleList:
       maxTagCount.value > 0
         ? handleList.slice(0, maxTagCount.value)
         : handleList,
-    hideList: handleList.slice(maxTagCount.value).length,
+    hideList: handleList.slice(maxTagCount.value),
   };
 });
 // 是否展示清除按钮
@@ -189,14 +226,14 @@ const showClearBtn = computed(
     allowClear.value &&
     !disabled.value &&
     !readonly.value &&
-    computedValue.value.length
+    !!computedValue.value.length
 );
 // 清除输入值
 const clearInputValue = () => {
   // 是否保留值
   if (
     (isBoolean(retainInputValue.value) && retainInputValue.value) ||
-    (retainInputValue.value as RetainValue)?.create
+    (retainInputValue.value as InputRetainValue)?.create
   ) {
     return;
   }
@@ -204,55 +241,58 @@ const clearInputValue = () => {
 };
 // 处理inputTag的事件
 const handleEvent = (
-  type: string,
-  e: MouseEvent | KeyboardEvent | FocusEvent,
+  type: InputTagEventType,
+  e: InputTagEvent,
   id?: string
 ) => {
   const inputVal = computedInputValue.value?.trim();
-  // 创建
-  if (type == 'create') {
-    if (
-      !enterToCreate.value ||
-      !inputVal ||
+  // blur
+  if (['input', 'inputValueChange'].includes(type)) {
+    const { value } = e.target as HTMLInputElement;
+    emits(type as any, value, e as Event);
+  }
+  // focus
+  else if (['blur', 'focus'].includes(type)) {
+    isFocus.value = type == 'focus';
+    emits(type as any, e as FocusEvent);
+    if (!isFocus.value) {
+      clearInputValue();
+    }
+  }
+  // enter
+  else if (type == 'pressEnter') {
+    const { label, value } = fieldKey.value;
+    const isUnique =
+      !uniqueValue.value ||
       (uniqueValue.value &&
-        computedValue.value.find(
-          (item: TagData) => (item?.value ?? item) == inputVal
-        ))
-    ) {
+        !computedValue.value.find(
+          (item: ObjectData) => (item?.[value] ?? item) == inputVal
+        ));
+
+    if (!inputVal || !enterToCreate.value || !isUnique) {
       return;
     }
-    // 处理添加tag的类型
-    const type =
-      !computedValue.value.length || !isObject(computedValue.value[0])
-        ? 'string'
-        : 'object';
-    if (type == 'string') {
+    if (!computedValue.value.length || !isObject(computedValue.value[0])) {
       computedValue.value = [...computedValue.value, computedInputValue.value];
     } else {
-      computedValue.value = [
-        ...computedValue.value,
-        {
-          label: computedInputValue.value,
-          value: computedInputValue.value,
-          closeable: true,
-          tagProps: {
-            bordered: true,
-          },
-        },
-      ];
+      const tagData: ObjectData = {};
+      tagData[label] = computedInputValue.value;
+      tagData[value] = computedInputValue.value;
+      computedValue.value = [...computedValue.value, tagData];
     }
+    console.log(computedValue.value, 'isUnique');
     emits('pressEnter', e as KeyboardEvent);
     clearInputValue();
   }
-  // 点击tag关闭见
+  // close
   else if (type == 'close') {
     computedValue.value = (computedValue.value as TagData[]).filter(
       (_, index) => curList.value.handleList[index].id != id
     );
     emits('remove', e as MouseEvent);
   }
-  // 点击del健
-  else if (type == 'del') {
+  // del
+  else if (type == 'remove') {
     if (inputVal || !computedValue.value?.length) return;
     computedValue.value = computedValue.value.slice(
       0,
@@ -260,15 +300,10 @@ const handleEvent = (
     );
     emits('remove', e as MouseEvent);
   }
-  // 清除
+  // clear
   else if (type == 'clear') {
     computedValue.value = [];
     emits('clear', e as MouseEvent);
-  }
-  // 失焦
-  else if (type == 'blur') {
-    emits('blur', e as FocusEvent);
-    clearInputValue();
   }
 };
 

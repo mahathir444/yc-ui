@@ -1,3 +1,4 @@
+// wrapper
 .yc-textarea-wrapper {
   position: relative;
   cursor: text;
@@ -15,11 +16,6 @@
   line-height: 1.5715;
   color: rgb(29, 33, 41);
   overflow: hidden;
-  &:focus-within {
-    background-color: #fff !important;
-    border-color: rgb(22, 93, 255) !important;
-    box-shadow: 0 0 0 0 rgb(190, 218, 255);
-  }
   .yc-input-word-limit {
     position: absolute;
     right: 10px;
@@ -80,6 +76,12 @@
     overflow-wrap: break-word;
   }
 }
+// auto-size
+.yc-textarea-auto-size {
+  .yc-textarea {
+    resize: none;
+  }
+}
 // hoverable
 .yc-textarea-hoverable {
   &:hover {
@@ -93,24 +95,27 @@
     }
   }
 }
+// focus error
+.yc-textarea-wrapper {
+  // focus
+  &.yc-textarea-focus {
+    background-color: #fff;
+    border-color: rgb(22, 93, 255);
+    box-shadow: 0 0 0 0 rgb(190, 218, 255);
+  }
+  // error
+  &.yc-textarea-error {
+    background-color: rgb(255, 236, 232);
+    &.yc-textarea-focus {
+      border-color: rgb(245, 63, 63);
+      box-shadow: 0 0 0 0 rgb(253, 205, 197);
+    }
+  }
+}
 // disabled
 .yc-textarea-disabled {
   cursor: not-allowed;
   border-color: transparent;
   background-color: rgb(242, 243, 245);
   color: rgb(201, 205, 212);
-}
-// error
-.yc-textarea-error {
-  background-color: rgb(255, 236, 232);
-  &:focus-within {
-    border-color: rgb(245, 63, 63) !important;
-    box-shadow: 0 0 0 0 rgb(253, 205, 197);
-  }
-}
-// auto-size
-.yc-textarea-auto-size {
-  .yc-textarea {
-    resize: none;
-  }
 }
