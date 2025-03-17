@@ -138,7 +138,6 @@ import { Message, Notification } from '@arco-design/web-vue';
 import YcMessage from '@/components/Message/index.ts';
 import { messageType } from '@/components/Message/constants';
 import YcNotifi from '@/components/Notification/index.ts';
-import SvgIcon from '@/components/_components/SvgIcon/index.vue';
 import YcResizeBox from '@/components/ResizeBox/index.vue';
 onMounted(() => {});
 const resizeBox = reactive({

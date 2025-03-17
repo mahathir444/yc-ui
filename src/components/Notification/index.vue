@@ -32,7 +32,6 @@ import { onMounted, onUpdated, computed, useSlots, ref } from 'vue';
 import { NotificationProps } from './type';
 import { useTimeoutFn } from '@vueuse/core';
 import YcIconButton from '../_components/IconButton/index.vue';
-import SvgIcon from '@/components/_components/SvgIcon/index.vue';
 
 defineOptions({
   name: 'Notification',

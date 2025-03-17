@@ -26,13 +26,13 @@
       </div>
       <!-- input -->
       <input
-        v-show="mode == 'input' || (mode == 'select' && showInput)"
+        v-show="!$slots.label || ($slots.label && showInput)"
         v-model="computedValue"
         :type="type"
         :disabled="disabled"
         :readonly="readonly"
         :maxlength="maxLength"
-        :placeholder="mode == 'select' ? inputPlaceholder : placeholder"
+        :placeholder="placeholder"
         v-bind="inputAttrs"
         class="yc-input"
         ref="inputRef"
@@ -42,18 +42,16 @@
         @blur="(e) => emits('blur', e)"
         @keydown.enter="(e) => emits('press-enter', e)"
       />
+      <!-- select模式下的label -->
       <div
-        v-if="mode == 'select'"
+        v-if="$slots.label"
         v-show="!showInput"
-        :style="{
-          color: labelValue ? 'inherit' : 'rgb(134, 144, 156)',
-        }"
         :class="{
           'yc-input': true,
           'text-ellipsis': true,
         }"
       >
-        {{ labelValue || placeholder }}
+        <slot name="label" />
       </div>
       <!-- clear-btn -->
       <yc-icon-button
@@ -112,10 +110,7 @@ const props = withDefaults(defineProps<InputProps>(), {
     return {};
   },
   type: 'text',
-  mode: 'input',
   showInput: false,
-  inputPlaceholder: '',
-  labelValue: '',
 });
 const emits = defineEmits<{
   (e: 'update:modelValue', value: string): void;

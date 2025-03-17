@@ -22,7 +22,6 @@
       <div
         :class="[
           'yc-select-wrapper',
-          !computedValue.length ? 'yc-select-no-value' : '',
           allowSearch ? 'yc-select-allow-search' : '',
           showClearBtn ? 'yc-select-allow-clear' : '',
         ]"
@@ -31,12 +30,9 @@
         <!-- signal -->
         <yc-input
           v-if="!multiple"
-          v-model="computedInputValue"
-          mode="select"
           :show-input="computedVisible"
-          :label-value="computedLabel"
-          :placeholder="placeholder"
-          :input-placeholder="computedLabel"
+          v-model="computedInputValue"
+          :placeholder="computedLabel"
           :readonly="!allowSearch || loading"
           :disabled="disabled"
           :size="size"
@@ -49,6 +45,14 @@
           <!-- prefix -->
           <template v-if="$slots.prefix" #prefix>
             <slot name="prefix" />
+          </template>
+          <template #label>
+            <span
+              :style="{
+                color: computedLabel ? '' : 'rgb(134, 144, 156)',
+              }"
+              >{{ computedLabel || placeholder }}</span
+            >
           </template>
           <!-- suffix -->
           <select-icon
@@ -73,11 +77,15 @@
           :disabled="disabled"
           :size="size"
           :error="error"
+          :max-tag-count="maxTagCount"
+          :tag-nowrap="tagNowrap"
           :enter-to-create="false"
-          :format-tag="formatLabel"
-          class="yc-select-multiple"
+          :class="{
+            'yc-select-multiple': true,
+            'yc-select-multiple-focus': computedVisible,
+          }"
           ref="inputRef"
-          @input-value-change="handleSearch"
+          @input="(v) => handleSearch(v)"
         >
           <!-- prefix -->
           <template v-if="$slots.prefix" #prefix>
@@ -178,6 +186,7 @@ const props = withDefaults(defineProps<SelectProps>(), {
   error: false,
   allowClear: true,
   allowSearch: true,
+  maxTagCount: 0,
   popupContainer: 'body',
   defaultActivefirstOption: false,
   popupVisible: undefined,
@@ -188,7 +197,7 @@ const props = withDefaults(defineProps<SelectProps>(), {
   },
   options: () => [],
   formatLabel: (option: SelectOptionData) => {
-    return option.label + '11';
+    return option.label;
   },
   triggerProps: () => {
     return {
@@ -199,6 +208,7 @@ const props = withDefaults(defineProps<SelectProps>(), {
   searchDelay: 500,
   showHeaderOnEmpty: false,
   showFooterOnEmpty: false,
+  tagNowrap: false,
 });
 const emits = defineEmits<{
   (e: 'change', value: SelectValue): void;
@@ -277,7 +287,10 @@ provide<ProvideType>(SELECT_PROVIDE_KEY, {
 // 判断是否是关闭按钮,从而不关闭选项
 const ingoreFn = (el: HTMLElement): boolean => {
   const classList = el.classList;
-  if (classList.contains('yc-select-clear-icon')) {
+  if (
+    classList.contains('yc-select-clear-icon') ||
+    classList.contains('yc-tag')
+  ) {
     return true;
   } else if (el.tagName == 'BODY') {
     return false;
@@ -297,7 +310,7 @@ const handleClick = async () => {
 };
 // 处理清除
 const handleClear = () => {
-  computedValue.value = '';
+  computedValue.value = multiple.value ? [] : '';
   emits('clear');
 };
 //处理搜索

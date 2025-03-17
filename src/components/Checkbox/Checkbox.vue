@@ -29,7 +29,7 @@
           </span>
         </template>
       </yc-icon-button>
-      <span @mousedown.prevent="" class="yc-checkbox-label text-ellipsis">
+      <span class="yc-checkbox-label text-ellipsis">
         <slot />
       </span>
     </slot>

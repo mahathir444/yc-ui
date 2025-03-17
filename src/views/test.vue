@@ -1,32 +1,5 @@
 <template>
   <div class="test">
-    <div>
-      <yc-dropdown>
-        <yc-button>测试</yc-button>
-        <template #content>
-          <yc-dsubmenu>
-            选项0
-            <template #content>
-              <yc-dsubmenu>
-                选项0
-                <template #content>
-                  <yc-doption v-for="i in 5" :key="i" :value="i">
-                    选项{{ i }}
-                  </yc-doption>
-                </template>
-              </yc-dsubmenu>
-              <yc-doption v-for="i in 5" :key="i" :value="i">
-                选项{{ i }}
-              </yc-doption>
-            </template>
-          </yc-dsubmenu>
-          <yc-doption v-for="i in 5" :key="i" :value="i">
-            选项{{ i }}
-          </yc-doption>
-        </template>
-      </yc-dropdown>
-    </div>
-
     <div style="width: 300px">
       <a-select placeholder="请选择" allow-search allow-clear multiple>
         <a-option
@@ -54,9 +27,12 @@
         </yc-optgroup>
       </yc-select>
     </div>
-
-    <div style="width: 300px" class="">
-      <yc-input-tag />
+    <div style="width: 300px">
+      <yc-input-tag placeholder="请输入" size="small" />
+    </div>
+    <div style="width: 300px">
+      <a-input-tag placeholder="请输入" size="small" :max-tag-count="4" />
+      <a-tag size="large">测试</a-tag>
     </div>
   </div>
 </template>

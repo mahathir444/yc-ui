@@ -2,6 +2,7 @@ import { Size } from '@/components/_type';
 import { TagProps } from '@/components/Tag';
 
 export interface TagData {
+  id?: string;
   label: string;
   value: string | number;
   closeable?: boolean;
@@ -9,6 +10,8 @@ export interface TagData {
 }
 
 export type InputTagValue = (string | number | TagData)[];
+
+export type RetainValue = { create?: boolean; blur?: boolean };
 
 // wordSlice,wordLength
 export interface InputTagProps {
@@ -22,7 +25,10 @@ export interface InputTagProps {
   readonly?: boolean;
   allowClear?: boolean;
   size?: Size;
-  magTagCount?: number;
-  enterToCreate?: boolean;
+  maxTagCount?: number;
+  retainInputValue?: boolean | RetainValue;
   formatTag?: (data: TagData) => string;
+  uniqueValue?: boolean;
+  tagNowrap?: boolean;
+  enterToCreate?: boolean;
 }

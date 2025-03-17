@@ -16,8 +16,8 @@
     }"
     @click="handleCheck"
     @mousedown="(e) => preventFocus && e.preventDefault()"
-    @dblclick.stop="(e) => stopPropagation && e.stopPropagation()"
-    @contextmenu.stop="(e) => stopPropagation && e.stopPropagation()"
+    @dblclick="(e) => stopPropagation && e.stopPropagation()"
+    @contextmenu="(e) => stopPropagation && e.stopPropagation()"
   >
     <!-- icon -->
     <div v-if="$slots.icon" class="yc-tag-icon">

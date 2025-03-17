@@ -31,7 +31,7 @@ export interface SelectProps {
   allowClear?: boolean;
   allowSearch?: boolean;
   allowCreate?: boolean;
-  // maxTagCount: number;
+  maxTagCount?: number;
   popupContainer?: PopupContainer;
   // bordered?: boolean;
   defaultActivefirstOption?: boolean;
@@ -52,7 +52,7 @@ export interface SelectProps {
   // scrollbar
   showHeaderOnEmpty?: boolean;
   showFooterOnEmpty?: boolean;
-  // tag-nowrap
+  tagNowrap?: boolean;
 }
 
 export interface ProvideType {

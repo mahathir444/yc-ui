@@ -17,8 +17,6 @@
 </template>
 
 <script lang="ts" setup>
-import SvgIcon from '@/components/_components/SvgIcon/index.vue';
-
 withDefaults(
   defineProps<{
     name?: string;
