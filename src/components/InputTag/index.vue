@@ -11,6 +11,7 @@
     :style="{
       minHeight: `${SIZE_MAP[size]}px`,
     }"
+    @mousedown.prevent=""
     @click="inputRef?.focus()"
   >
     <!-- prefix-icon -->
@@ -33,6 +34,8 @@
         :size="size == 'mini' ? 'small' : size"
         class="yc-select-value-tag"
         color="white"
+        prevent-focus
+        :stop-propagation="stopPropagation"
         @close="handleEvent('close', $event, item.id)"
       >
         {{ formatTag ? formatTag(item) : item[fieldKey.label] }}
@@ -44,6 +47,8 @@
         class="yc-select-value-tag"
         bordered
         color="white"
+        prevent-focus
+        :stop-propagation="stopPropagation"
       >
         +{{ curList.hideList.length }}...
       </yc-tag>
@@ -71,7 +76,7 @@
       v-if="showClearBtn"
       name="close"
       class="yc-input-tag-clear-button"
-      @click="handleEvent('clear', $event)"
+      @click.stop="handleEvent('clear', $event)"
     />
     <!-- suffix-icon -->
     <div v-if="$slots.suffix" class="yc-input-tag-suffix">
@@ -127,6 +132,7 @@ const props = withDefaults(defineProps<InputTagProps>(), {
     };
   },
   enterToCreate: true,
+  stopPropagation: true,
 });
 const emits = defineEmits<{
   (e: 'update:modelValue', value: InputTagValue): void;

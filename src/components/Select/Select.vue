@@ -1,4 +1,5 @@
 <template>
+  <!-- :click-out-side-ingore-fn="ingoreFn" -->
   <yc-trigger
     v-model:popup-visible="computedVisible"
     trigger="click"
@@ -27,6 +28,7 @@
           'yc-select-multiple': multiple,
           'yc-select-multiple-focus': multiple && computedVisible,
         }"
+        :group-id="groupId"
         @click="handleClick"
       >
         <!-- single  -->
@@ -84,6 +86,7 @@
           :max-tag-count="maxTagCount"
           :tag-nowrap="tagNowrap"
           :enter-to-create="false"
+          :stop-propagation="false"
           ref="inputRef"
           @update:model-value="
             (v) => (computedValue = v.map((item) => (item as TagData).value))
@@ -168,6 +171,7 @@ import {
   SelectOptionData,
   ProvideType,
 } from './type';
+import { nanoid } from 'nanoid';
 import { TagData } from '@/components/InputTag';
 import useSeletValue from '../_hooks/useSeletValue';
 import { sleep } from '@/components/_utils/fn';
@@ -265,6 +269,8 @@ const { filterOption, formatLabel } = props;
 const triggerPostion = ref<TriggerPostion>('bl');
 // 输入实例
 const inputRef = ref<InputInstance>();
+// groupId
+const groupId = nanoid();
 // 处理值
 const {
   renderOptions,
@@ -319,8 +325,8 @@ async function focus() {
 }
 // 判断是否是关闭按钮,从而不关闭选项
 const ingoreFn = (el: HTMLElement): boolean => {
-  const classList = el.classList;
-  if (classList.contains('yc-select-value-tag')) {
+  const _groupId = el.getAttribute('group-id');
+  if (groupId == _groupId) {
     return true;
   } else if (el.tagName == 'BODY') {
     return false;

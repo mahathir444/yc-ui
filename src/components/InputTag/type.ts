@@ -17,8 +17,9 @@ export interface InputTagProps {
   formatTag?: (data: TagData) => string;
   uniqueValue?: boolean;
   tagNowrap?: boolean;
-  enterToCreate?: boolean;
   fieldNames?: Record<string, string>;
+  enterToCreate?: boolean;
+  stopPropagation?: boolean;
 }
 
 export type TagData =

@@ -14,6 +14,7 @@
       background: COLOR_CLASS[color] ? '' : (COLOR_MAP[color] ?? color),
       color: ['default', 'white'].includes(color) ? 'rgb(29, 33, 41)' : '',
     }"
+    @mousedown="handleEvent('mousedown', $event)"
     @click="handleEvent('check', $event)"
     @dblclick="handleEvent('dblclick', $event)"
     @contextmenu="handleEvent('contextmenu', $event)"
@@ -83,8 +84,15 @@ const emits = defineEmits<{
   (e: 'dblclick', ev: MouseEvent): void;
   (e: 'contextmenu', ev: MouseEvent): void;
 }>();
-const { visible, defaultVisible, checked, defaultChecked, checkable } =
-  toRefs(props);
+const {
+  visible,
+  defaultVisible,
+  checked,
+  defaultChecked,
+  checkable,
+  preventFocus,
+  stopPropagation,
+} = toRefs(props);
 // visible
 const computedVisible = useControlValue<boolean>(
   visible,
@@ -100,9 +108,12 @@ const computedChecked = useControlValue<boolean>(
 // 处理事件
 const handleEvent = (type: string, ev: MouseEvent, stop: boolean = false) => {
   stop && ev.stopPropagation();
+  stopPropagation.value && ev.stopPropagation();
   if (type == 'close') {
     computedVisible.value = false;
     emits('close', ev);
+  } else if (type == 'mousedown' && preventFocus.value) {
+    ev.preventDefault();
   } else if (type == 'check' && checkable.value) {
     computedChecked.value = !computedChecked.value;
     emits('check', computedChecked.value, ev);
