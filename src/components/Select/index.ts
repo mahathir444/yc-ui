@@ -8,11 +8,13 @@ export type SelectInstance = InstanceType<typeof _Select>;
 export type OptionInstance = InstanceType<typeof _Option>;
 export type OptgroupInstance = InstanceType<typeof _Optgroup>;
 export type {
-  OptionProps,
   SelectProps,
-  SelectOptionData,
-  SelectValue,
+  OptionProps,
   OptgroupProps,
+  SelectValue,
+  SelectOptionData,
+  SelectOptionGroup,
+  Options,
 } from './type';
 
 const Select = Object.assign(_Select, {

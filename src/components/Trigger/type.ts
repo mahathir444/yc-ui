@@ -1,25 +1,4 @@
-import { CSSProperties, WritableComputedRef } from 'vue';
-export type TriggerPostion =
-  | 'top'
-  | 'tl'
-  | 'tr'
-  | 'bottom'
-  | 'bl'
-  | 'br'
-  | 'left'
-  | 'lt'
-  | 'lb'
-  | 'right'
-  | 'rt'
-  | 'rb';
-
-export type TriggerType = 'hover' | 'click' | 'focus' | 'contextMenu';
-
-export type PopupContainer = string | HTMLElement;
-
-/**
- *  已经被内置：auto-fix-position
- */
+import { CSSProperties } from 'vue';
 export type TriggerProps = {
   popupVisible?: boolean;
   defaultPopupVisible?: boolean;
@@ -57,3 +36,21 @@ export type TriggerProps = {
   clickOutSideIngoreFn?: (e: HTMLElement) => void;
   mouseenterCallback?: (isTrigger: boolean, e: MouseEvent) => void;
 };
+
+export type TriggerPostion =
+  | 'top'
+  | 'tl'
+  | 'tr'
+  | 'bottom'
+  | 'bl'
+  | 'br'
+  | 'left'
+  | 'lt'
+  | 'lb'
+  | 'right'
+  | 'rt'
+  | 'rb';
+
+export type TriggerType = 'hover' | 'click' | 'focus' | 'contextMenu';
+
+export type PopupContainer = string | HTMLElement;

@@ -12,20 +12,13 @@ export type DgroupInstance = InstanceType<typeof _Dgroup>;
 export type DropdownButtonInstance = InstanceType<typeof _Dropdown>;
 export type DsubmenuInstance = InstanceType<typeof _Dsubmenu>;
 export type {
-  DropdownButtonProps,
   DropdownProps,
-  DoptionValue,
   DoptionProps,
   DsubmenuProps,
   DgroupProps,
+  DropdownButtonProps,
+  DoptionValue,
 } from './type';
-
-export {
-  _Doption as Doption,
-  _Dgroup as Dgroup,
-  _DropdownButton as DropdownButton,
-  _Dsubmenu as Dsubmenu,
-};
 
 const Dropdown = Object.assign(_Dropdown, {
   option: _Doption,
@@ -40,5 +33,11 @@ const Dropdown = Object.assign(_Dropdown, {
     app.component(getComponentPrefix() + _Dsubmenu.name, _Dsubmenu);
   },
 });
+export {
+  _Doption as Doption,
+  _Dgroup as Dgroup,
+  _DropdownButton as DropdownButton,
+  _Dsubmenu as Dsubmenu,
+};
 
 export default Dropdown;

@@ -1,5 +1,3 @@
-import { Size } from '@/components/_type';
-import { ButtonProps } from '../Button/type';
 // wordSlice,wordLength
 export interface TextareaProps {
   modelValue?: string;
@@ -19,8 +17,9 @@ export interface ResizeRange {
   maxRows?: number;
 }
 
+export type TextareaResize = boolean | ResizeRange;
+
+// 内部使用
 export type TextareaEvent = Event | MouseEvent | FocusEvent;
 
 export type TextareaEventType = 'input' | 'change' | 'focus' | 'blur' | 'clear';
-
-export type TextareaResize = boolean | ResizeRange;

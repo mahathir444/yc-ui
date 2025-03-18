@@ -3,7 +3,12 @@ import _Scrollbar from './Scrollbar.vue';
 import { getComponentPrefix } from '@/components/_utils/global-config';
 
 export type ScrollbarInstance = InstanceType<typeof _Scrollbar>;
-export type { ScrollbarProps } from './type';
+export type {
+  ScrollbarProps,
+  ScrollbarSize,
+  ScrollbarType,
+  TackType,
+} from './type';
 
 const Scrollbar = Object.assign(_Scrollbar, {
   install: (app: App) => {

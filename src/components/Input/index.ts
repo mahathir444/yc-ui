@@ -18,7 +18,6 @@ const Input = Object.assign(_Input, {
     app.component(getComponentPrefix() + _InputPassword.name, _InputPassword);
   },
 });
-
 export { _InputSearch as InputSearch, _InputPassword as InputPassword };
 
 export default Input;

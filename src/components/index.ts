@@ -2,32 +2,32 @@ import 'virtual:svg-icons-register';
 export { default } from './yc-ui';
 
 export type {
-  ButtonHtmlType,
   ButtonProps,
+  ButtonGroupProps,
+  ButtonHtmlType,
   ButtonType,
   ButtonStatus,
   ButtonShape,
-  ButtonGroupProps,
   ButonInstance,
   ButonGroupInstance,
 } from './Button';
 export { default as Button, ButtonGroup } from './Button';
 
-export type { DrawerProps, DrawerInstance } from './Drawer';
+export type { DrawerProps, DrawerPlacement, DrawerInstance } from './Drawer';
 export { default as Drawer } from './Drawer';
 
 export type {
-  DropdownButtonProps,
   DropdownProps,
-  DoptionValue,
   DoptionProps,
   DsubmenuProps,
+  DgroupProps,
+  DropdownButtonProps,
+  DoptionValue,
   DropdownInstance,
-  DgroupInstance,
   DoptionInstance,
+  DgroupInstance,
   DropdownButtonInstance,
   DsubmenuInstance,
-  DgroupProps,
 } from './Dropdown';
 export {
   default as Dropdown,
@@ -38,9 +38,9 @@ export {
 } from './Dropdown';
 
 export type {
+  InputProps,
   InputPasswordProps,
   InputSearchProps,
-  InputProps,
   InputInstance,
   InputSearchInstance,
   InputPasswordInstance,
@@ -59,7 +59,7 @@ export type {
 } from './Message';
 export { default as Message } from './Message';
 
-export type { ModalConfig, ModalProps, ModalInstance } from './Modal';
+export type { ModalProps, ModalConfig, ModalInstance } from './Modal';
 export { default as Modal } from './Modal';
 
 export type {
@@ -70,7 +70,11 @@ export type {
 } from './Notification';
 export { default as Notification } from './Notification';
 
-export type { PopconfirmProps, PopconfirmInstance } from './Popconfirm';
+export type {
+  PopconfirmProps,
+  PopconfirmType,
+  PopconfirmInstance,
+} from './Popconfirm';
 export { default as Popconfirm } from './Popconfirm';
 
 export type { PopoverProps, PopoverInstance } from './Popover';
@@ -83,19 +87,30 @@ export type {
 } from './ResizeBox';
 export { default as ResizeBox } from './ResizeBox';
 
-export type { ScrollbarProps, ScrollbarInstance } from './Scrollbar';
+export type {
+  ScrollbarProps,
+  ScrollbarSize,
+  ScrollbarType,
+  TackType,
+  ScrollbarInstance,
+} from './Scrollbar';
 export { default as Scrollbar } from './Scrollbar';
 
-export type { TextareaProps, TextareaInstance } from './Textarea';
+export type {
+  TextareaProps,
+  TextareaResize,
+  TextareaInstance,
+} from './Textarea';
 export { default as Textarea } from './Textarea';
 
 export type { TooltipProps, TooltipInstance } from './Tooltip';
 export { default as Tooltip } from './Tooltip';
 
 export type {
-  TriggerPostion,
   TriggerProps,
+  TriggerPostion,
   TriggerType,
+  PopupContainer,
   TriggerInstance,
 } from './Trigger';
 export { default as Trigger } from './Trigger';
@@ -110,11 +125,13 @@ export type { EmptyProps, EmptyInstance } from './Empty';
 export { default as Empty } from './Empty';
 
 export type {
-  SelectOptionData,
   SelectProps,
   OptionProps,
-  SelectValue,
   OptgroupProps,
+  SelectValue,
+  SelectOptionData,
+  SelectOptionGroup,
+  Options,
   SelectInstance,
   OptgroupInstance,
   OptionInstance,
@@ -123,17 +140,19 @@ export { default as Select, Option, Optgroup } from './Select';
 
 export type {
   CheckboxProps,
-  CheckboxInstance,
   CheckboxGroupProps,
   CheckboxValue,
+  CheckboxOption,
+  CheckboxInstance,
   CheckboxGroupInstance,
 } from './Checkbox';
 export { default as Checkbox, CheckboxGroup } from './Checkbox';
 
 export type {
   InputTagProps,
-  TagData,
   InputTagValue,
+  TagData,
+  InputRetainValue,
   InputTagInstance,
 } from './InputTag';
 export { default as InputTag } from './InputTag';

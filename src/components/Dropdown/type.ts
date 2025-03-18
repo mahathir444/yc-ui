@@ -11,8 +11,6 @@ export interface DropdownProps {
   hideOnSelect?: boolean;
 }
 
-export type DoptionValue = string | number | boolean;
-
 export interface DoptionProps {
   value: DoptionValue;
   disabled?: boolean;
@@ -46,6 +44,9 @@ export interface DropdownButtonProps {
   hideOnSelect?: boolean;
 }
 
+export type DoptionValue = string | number | boolean;
+
+// 内部使用
 export interface ProvideType {
   level: number;
   curLevel: Ref<number>;

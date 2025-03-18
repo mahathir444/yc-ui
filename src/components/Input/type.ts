@@ -16,6 +16,7 @@ export interface InputProps {
   type?: 'password' | 'text';
   showInput?: boolean;
 }
+
 export interface InputPasswordProps {
   visibility?: boolean;
   defaultVisibility?: boolean;
@@ -31,6 +32,7 @@ export interface InputSearchProps {
   buttonProps?: ButtonProps;
 }
 
+// 内部使用
 export type InputEventType =
   | 'input'
   | 'change'

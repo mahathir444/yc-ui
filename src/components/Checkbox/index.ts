@@ -5,8 +5,12 @@ import { getComponentPrefix } from '@/components/_utils/global-config';
 
 export type CheckboxInstance = InstanceType<typeof _Checkbox>;
 export type CheckboxGroupInstance = InstanceType<typeof _CheckboxGroup>;
-
-export type { CheckboxProps, CheckboxGroupProps, CheckboxValue } from './type';
+export type {
+  CheckboxProps,
+  CheckboxGroupProps,
+  CheckboxValue,
+  CheckboxOption,
+} from './type';
 
 const Checkbox = Object.assign(_Checkbox, {
   group: _CheckboxGroup,
@@ -15,7 +19,6 @@ const Checkbox = Object.assign(_Checkbox, {
     app.component(getComponentPrefix() + _CheckboxGroup.name, _CheckboxGroup);
   },
 });
-
 export { _CheckboxGroup as CheckboxGroup };
 
 export default Checkbox;

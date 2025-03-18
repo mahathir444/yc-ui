@@ -1,19 +1,6 @@
 import { Ref } from 'vue';
 import { Size } from '@/components/_type';
 
-// status
-export type ButtonStatus = 'normal' | 'warning' | 'success' | 'danger';
-// shape
-export type ButtonShape = 'square' | 'circle' | 'round';
-// type
-export type ButtonType =
-  | 'primary'
-  | 'secondary'
-  | 'dashed'
-  | 'outline'
-  | 'text';
-// htmltype
-export type ButtonHtmlType = 'button' | 'reset' | 'submit';
 // herf
 export interface ButtonProps {
   type?: ButtonType;
@@ -34,6 +21,24 @@ export interface ButtonGroupProps {
   disabled?: boolean;
 }
 
+export type ButtonStatus = 'normal' | 'warning' | 'success' | 'danger';
+
+export type ButtonShape = 'square' | 'circle' | 'round';
+
+export type ButtonType =
+  | 'primary'
+  | 'secondary'
+  | 'dashed'
+  | 'outline'
+  | 'text';
+
+export type ButtonHtmlType = 'button' | 'reset' | 'submit';
+
+// 内部使用
+export type ButtonEvent = MouseEvent;
+
+export type ButtonEventType = 'click' | 'dblclick' | 'contextmenu';
+
 export interface ProvideType {
   type: Ref<ButtonType>;
   status: Ref<ButtonStatus>;
@@ -41,6 +46,3 @@ export interface ProvideType {
   shape: Ref<ButtonShape>;
   disabled: Ref<boolean>;
 }
-
-export type ButtonEvent = MouseEvent;
-export type ButtonEventType = 'click' | 'dblclick' | 'contextmenu';

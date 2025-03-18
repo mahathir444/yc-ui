@@ -1,14 +1,5 @@
 import { CSSProperties, Ref, ComputedRef } from 'vue';
 
-export type TackType = 'track' | 'embed';
-export type ScrollbarType = 'virtual' | 'real';
-export interface ScrollbarSize {
-  verticalTrack?: number;
-  verticalThumb?: number;
-  horizontalTrack?: number;
-  horizontalThumb?: number;
-}
-
 export interface ScrollbarProps {
   type?: TackType;
   scrollbarType?: ScrollbarType;
@@ -19,6 +10,18 @@ export interface ScrollbarProps {
   scrollbarSize?: ScrollbarSize;
 }
 
+export type TackType = 'track' | 'embed';
+
+export type ScrollbarType = 'virtual' | 'real';
+
+export interface ScrollbarSize {
+  verticalTrack?: number;
+  verticalThumb?: number;
+  horizontalTrack?: number;
+  horizontalThumb?: number;
+}
+
+// 内部使用
 export interface ProvideType {
   elementTop: Ref<number>;
   elementLeft: Ref<number>;

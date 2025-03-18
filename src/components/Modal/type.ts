@@ -46,4 +46,5 @@ export interface ModalConfig extends Omit<ModalProps, 'visible'> {
   onBeforeClose?: () => void;
 }
 
+// 内部使用
 export type ModalServiceData = { id: string; container: HTMLDivElement | null };

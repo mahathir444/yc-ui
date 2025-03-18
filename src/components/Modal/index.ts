@@ -5,23 +5,21 @@ import ServiceModal from './component/ServiceModal.vue';
 import _Modal from './index.vue';
 
 export type ModalInstance = InstanceType<typeof _Modal>;
-
-export type { ModalConfig, ModalProps } from './type';
-
-// 记录modal数据
-const modalConfig: ModalServiceData = {
-  id: 'ycServiceModalContainer',
-  container: null,
-};
+export type { ModalProps, ModalConfig } from './type';
 
 const Modal = Object.assign(_Modal, {
+  modalConfig: {
+    id: 'ycServiceModalContainer',
+    container: null,
+  },
   install: (app: App) => {
     app.component(getComponentPrefix() + _Modal.name, _Modal);
   },
   open(props: ModalConfig) {
+    const modalConfig = this.modalConfig as ModalServiceData;
     if (!modalConfig.container) {
       const container = document.createElement('div');
-      container.id = modalConfig.id;
+      container.id = this.modalConfig.id;
       modalConfig.container = container;
       document.body.append(container);
     }

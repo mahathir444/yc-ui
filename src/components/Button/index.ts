@@ -6,12 +6,12 @@ import { getComponentPrefix } from '@/components/_utils/global-config';
 export type ButonInstance = InstanceType<typeof _Button>;
 export type ButonGroupInstance = InstanceType<typeof _ButtonGroup>;
 export type {
-  ButtonHtmlType,
   ButtonProps,
+  ButtonGroupProps,
+  ButtonHtmlType,
   ButtonType,
   ButtonStatus,
   ButtonShape,
-  ButtonGroupProps,
 } from './type';
 
 const Button = Object.assign(_Button, {
@@ -21,7 +21,6 @@ const Button = Object.assign(_Button, {
     app.component(getComponentPrefix() + _ButtonGroup.name, _ButtonGroup);
   },
 });
-
 export { _ButtonGroup as ButtonGroup };
 
 export default Button;

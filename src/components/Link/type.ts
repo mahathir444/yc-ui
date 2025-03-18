@@ -1,4 +1,3 @@
-export type LinkStatus = 'normal' | 'warning' | 'success' | 'danger';
 // icon
 export interface LinkProps {
   href?: string;
@@ -8,5 +7,9 @@ export interface LinkProps {
   loading?: boolean;
 }
 
+export type LinkStatus = 'normal' | 'warning' | 'success' | 'danger';
+
+// 内部使用
 export type LinkEvent = MouseEvent;
+
 export type LinkEventType = 'click' | 'dblclick' | 'contextmenu';

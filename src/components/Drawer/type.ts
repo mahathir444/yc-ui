@@ -1,7 +1,5 @@
 import { CSSProperties } from 'vue';
 import { ButtonProps } from '@/components/Button/type';
-type DrawerPlacement = 'right' | 'left' | 'top' | 'bottom';
-
 // on-before-ok on-before-cancel
 export interface DrawerProps {
   visible?: boolean;
@@ -27,3 +25,5 @@ export interface DrawerProps {
   footer?: boolean;
   hideCancel?: boolean;
 }
+
+export type DrawerPlacement = 'right' | 'left' | 'top' | 'bottom';

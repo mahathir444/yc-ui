@@ -35,6 +35,7 @@ export type InputTagValue = (string | number | TagData)[];
 
 export type InputRetainValue = { create?: boolean; blur?: boolean };
 
+// 内部使用
 export type InputTagEventType =
   | 'pressEnter'
   | 'input'
