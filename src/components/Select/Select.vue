@@ -125,7 +125,10 @@
             <slot name="header" />
           </div>
           <!-- list -->
-          <yc-scrollbar style="max-height: 200px">
+          <yc-scrollbar
+            style="max-height: 200px"
+            :scrollbar-type="scrollbar ? 'virtual' : 'real'"
+          >
             <div class="yc-select-dropdown-list">
               <slot />
               <render-option
@@ -216,6 +219,7 @@ const props = withDefaults(defineProps<SelectProps>(), {
       tagProps: 'tagProps',
     };
   },
+  scrollbar: true,
   searchDelay: 500,
   showHeaderOnEmpty: false,
   showFooterOnEmpty: false,

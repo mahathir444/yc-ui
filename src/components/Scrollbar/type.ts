@@ -20,8 +20,8 @@ export interface ScrollbarProps {
 }
 
 export interface ProvideType {
-  minTop: Ref<number>;
-  minLeft: Ref<number>;
+  elementTop: Ref<number>;
+  elementLeft: Ref<number>;
   curTop: Ref<number>;
   curLeft: Ref<number>;
   movableLeft: Ref<number> | ComputedRef<number>;

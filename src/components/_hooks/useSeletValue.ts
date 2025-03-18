@@ -1,11 +1,6 @@
 import { computed, ref, Ref, onMounted, onUpdated, useSlots, VNode } from 'vue';
 import useControlValue from './useControlValue';
-import {
-  OptionProps,
-  SelectValue,
-  SelectOptionGroup,
-  SelectOptionData,
-} from '@/components/Select/type';
+import { OptionProps, SelectValue, Options } from '@/components/Select/type';
 import { TagData } from '@/components/InputTag';
 import { Fn, ObjectData } from '../_type';
 import { flattedChildren } from '@/components/_utils/vue-vnode';
@@ -14,13 +9,13 @@ import { nanoid } from 'nanoid';
 export default (params: {
   popupVisible: Ref<boolean | undefined>;
   defaultPopupVisible: Ref<boolean>;
-  modelValue: Ref<SelectValue | SelectValue[] | undefined>;
-  defaultValue: Ref<SelectValue | SelectValue[]>;
+  modelValue: Ref<SelectValue | undefined>;
+  defaultValue: Ref<SelectValue>;
   inputValue: Ref<string | undefined>;
   defaultInputValue: Ref<string>;
   multiple: Ref<boolean>;
   fieldNames: Ref<Record<string, string>>;
-  _options: Ref<SelectOptionData[]>;
+  _options: Ref<Options>;
   formatLabel: Fn | undefined;
   emits: Fn;
 }) => {
@@ -55,7 +50,7 @@ export default (params: {
     }
   );
   // 当前选项
-  const computedValue = useControlValue<SelectValue | SelectValue[]>(
+  const computedValue = useControlValue<SelectValue>(
     modelValue,
     defaultValue.value,
     (val) => {
@@ -94,7 +89,7 @@ export default (params: {
     }
   );
   // slot收集的options数组
-  const slotOptions = ref<SelectOptionData[]>([]);
+  const slotOptions = ref<OptionProps[]>([]);
   // 传入的option数组
   const renderOptions = computed(() =>
     _options.value.map((item) => {

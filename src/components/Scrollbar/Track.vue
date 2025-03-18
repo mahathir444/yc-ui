@@ -57,8 +57,8 @@ const isVertical = computed(() => direction.value == 'vertical');
 // 接受值
 const {
   scrollbarSize,
-  minLeft,
-  minTop,
+  elementLeft,
+  elementTop,
   thumbHeight,
   thumbWidth,
   movableLeft,
@@ -66,8 +66,8 @@ const {
   curTop,
   curLeft,
 } = inject<ProvideType>(SCROLLBAR_PROVIDE_KEY, {
-  minTop: ref(0),
-  minLeft: ref(0),
+  elementTop: ref(0),
+  elementLeft: ref(0),
   curTop: ref(0),
   curLeft: ref(0),
   movableLeft: ref(0),
@@ -88,16 +88,18 @@ const { x, y, isDragging } = useDraggable(dragRef);
 // 计算越界情况
 useEventListener('mousemove', () => {
   if (!isDragging.value) return;
-  const maxLeft = movableLeft.value + minLeft.value;
-  const maxTop = movableTop.value + minTop.value;
+  const minTop = elementTop.value;
+  const maxTop = movableTop.value + elementTop.value;
+  const minLeft = elementLeft.value;
+  const maxLeft = movableLeft.value + elementLeft.value;
   if (isVertical.value) {
+    y.value = y.value <= minTop ? minTop : y.value;
     y.value = y.value >= maxTop ? maxTop : y.value;
-    y.value = y.value <= minTop.value ? minTop.value : y.value;
-    curTop.value = y.value - minTop.value;
+    emits('drag', true, y.value - minTop);
   } else {
+    x.value = x.value <= minLeft ? minLeft : x.value;
     x.value = x.value >= maxLeft ? maxLeft : x.value;
-    x.value = x.value <= minLeft.value ? minLeft.value : x.value;
-    curLeft.value = x.value - minLeft.value;
+    emits('drag', false, x.value - minLeft);
   }
 });
 // 处理鼠标点击
@@ -108,18 +110,18 @@ const handleClick = (e: MouseEvent) => {
     const moveDistance =
       curTop.value < offsetY ? movableTop.value / 9 : -movableTop.value / 9;
     // 判断合法性
-    let value = +(curTop.value + moveDistance).toFixed(0);
-    value = value > movableTop.value ? movableTop.value : value;
+    let value = curTop.value + moveDistance;
     value = value <= 0 ? 0 : value;
+    value = value > movableTop.value ? movableTop.value : value;
     emits('drag', true, value);
   } else {
     // 计算位移的
     const moveDistance =
       curLeft.value < offsetX ? movableLeft.value / 9 : -movableLeft.value / 9;
-    let value = +(curLeft.value + moveDistance).toFixed(0);
     // 判断合法性
-    value = value > movableLeft.value ? movableLeft.value : value;
+    let value = curLeft.value + moveDistance;
     value = value <= 0 ? 0 : value;
+    value = value > movableLeft.value ? movableLeft.value : value;
     emits('drag', false, value);
   }
 };

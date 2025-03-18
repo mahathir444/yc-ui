@@ -6,8 +6,8 @@ import { TagProps } from '../Tag';
 
 export interface SelectProps {
   multiple?: boolean;
-  modelValue?: SelectValue | SelectValue[];
-  defaultValue?: SelectValue | SelectValue[];
+  modelValue?: SelectValue;
+  defaultValue?: SelectValue;
   inputValue?: string;
   defaultInputValue?: string;
   size?: Size;
@@ -26,7 +26,7 @@ export interface SelectProps {
   defaultPopupVisible?: boolean;
   unmountonClose?: boolean;
   filterOption?: (inputValue: string, option: SelectOptionData) => boolean;
-  options?: SelectOptionData[] | SelectOptionGroup[] | ObjectData[];
+  options?: Options;
   // virtual-list-props
   triggerProps?: TriggerProps;
   formatLabel?: (data: SelectOptionData) => string;
@@ -36,7 +36,7 @@ export interface SelectProps {
   searchDelay?: number;
   limit?: number;
   fieldNames?: Record<string, string>;
-  // scrollbar
+  scrollbar?: boolean;
   showHeaderOnEmpty?: boolean;
   showFooterOnEmpty?: boolean;
   tagNowrap?: boolean;
@@ -54,7 +54,9 @@ export interface OptgroupProps {
   label?: string;
 }
 
-export type SelectValue = string | number | boolean;
+export type SelectValue =
+  | (string | number | boolean)
+  | (string | number | boolean)[];
 
 export type SelectOptionData = OptionProps | ObjectData;
 
@@ -64,6 +66,8 @@ export type SelectOptionGroup = {
   isGroup: true;
   options: SelectOptionData[];
 };
+
+export type Options = SelectOptionData[] | SelectOptionGroup[] | ObjectData[];
 
 export interface ProvideType {
   computedValue:

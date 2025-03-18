@@ -5,14 +5,14 @@
       'yc-scrollbar-auto-fill': autoFill,
       'yc-scrollbar-virtual': scrollbarType == 'virtual',
       'yc-scrollbar-both-track':
-        type == 'track' &&
         thumbHeight &&
         thumbWidth &&
+        type == 'track' &&
         scrollbarType == 'virtual',
       'yc-scrollbar-vertical-track':
-        type == 'track' && thumbHeight && scrollbarType == 'virtual',
+        thumbHeight && type == 'track' && scrollbarType == 'virtual',
       'yc-scrollbar-horizontal-track':
-        type == 'track' && thumbWidth && scrollbarType == 'virtual',
+        thumbWidth && type == 'track' && scrollbarType == 'virtual',
       outerClass,
     }"
     :style="outerStyle"
@@ -53,7 +53,7 @@ defineOptions({
 });
 const props = withDefaults(defineProps<ScrollbarProps>(), {
   type: 'embed',
-  scrollscrollbarType: 'virtual',
+  scrollbarType: 'virtual',
   outerClass: '',
   outerStyle: () => {
     return {};
@@ -79,113 +79,154 @@ const { type, scrollbarType, scrollbarSize } = toRefs(props);
 const contentRef = ref<HTMLElement>();
 // scrollRef
 const scrollRef = ref<HTMLDivElement>();
-// 获取内容高度
-const { width: contentWidth, height: contentHeight } = useElementSize(
-  contentRef,
-  undefined,
-  {
-    box: 'border-box',
-  }
-);
-// 获取滚动容器高度
+// 初始化需要计算的属性
 const {
-  top: minTop,
-  left: minLeft,
-  width: srcollWidth,
-  height: srcollHeight,
-} = useElementBounding(scrollRef);
-// 计算滚动条高度
-const thumbHeight = computed(() => {
-  if (contentHeight.value <= srcollHeight.value) return 0;
-  const height = +(
-    (srcollHeight.value * srcollHeight.value) /
-    contentHeight.value
-  ).toFixed(0);
-  return height <= 20 ? 20 : height;
-});
-// 计算滚动条宽度
-const thumbWidth = computed(() => {
-  if (contentWidth.value <= srcollWidth.value) return 0;
-  const width = +(
-    (srcollWidth.value * srcollWidth.value) /
-    contentWidth.value
-  ).toFixed(0);
-  return width <= 20 ? 20 : width;
-});
-// 计算top
-const curTop = ref<number>(0);
-//计算left
-const curLeft = ref<number>(0);
-// 可移动的top
-const movableTop = computed(() => {
-  // 横向track的宽度
-  const horizontalTrack = scrollbarSize.value?.horizontalTrack || 15;
-  // 如果有横向滚动条
-  const track = thumbWidth.value ? horizontalTrack : 0;
-  return srcollHeight.value - thumbHeight.value - track;
-});
-// 可移动的left
-const movableLeft = computed(() => {
-  // 纵向track的宽度
-  const verticalTrack = scrollbarSize.value?.verticalTrack || 15;
-  // 如果有纵向滚动条
-  const track = thumbHeight.value ? verticalTrack : 0;
-  return srcollWidth.value - thumbWidth.value - track;
-});
-// 提供数据
-provide<ProvideType>(SCROLLBAR_PROVIDE_KEY, {
+  thumbHeight,
+  thumbWidth,
   curTop,
   curLeft,
   movableLeft,
   movableTop,
-  thumbHeight,
-  thumbWidth,
-  minTop,
-  minLeft,
-  scrollbarSize,
-});
+  contentHeight,
+  contentWidth,
+  scrollHeight,
+  scrollWidth,
+} = initScrollbar();
 // 处理容器滚动
 const handleScroll = (e: Event) => {
   const { scrollTop, scrollLeft } = e.target as HTMLDivElement;
   emits('scroll', scrollLeft, scrollTop);
-  if (scrollbarType.value != 'virtual') return;
+  if (scrollbarType.value != 'virtual') {
+    return;
+  }
   //计算top
-  const top = +(
-    ((scrollTop as number) / (contentHeight.value - srcollHeight.value)) *
-    movableTop.value
-  ).toFixed(1);
-  // 计算left
-  const left = +(
-    ((scrollLeft as number) / (contentWidth.value - srcollWidth.value)) *
-    movableLeft.value
-  ).toFixed(1);
+  const top =
+    (scrollTop / (contentHeight.value - scrollHeight.value)) * movableTop.value;
   curTop.value = top <= movableTop.value ? top : movableTop.value;
+  // 计算left
+  const left =
+    (scrollLeft / (contentWidth.value - scrollWidth.value)) * movableLeft.value;
   curLeft.value = left <= movableLeft.value ? left : movableLeft.value;
 };
 // 处理滑块拖动
 const handleDrag = (isVertical: boolean, value: number) => {
   if (isVertical) {
     curTop.value = value;
-    const maxScrollbarMoveTop = contentHeight.value - srcollHeight.value;
+    // 计算最大可位移的top
+    const maxScrollbarMoveTop = contentHeight.value - scrollHeight.value;
     // 反向计算scrollTop
-    const scrollTop = +(
-      (curTop.value / movableTop.value) *
-      maxScrollbarMoveTop
-    ).toFixed(1);
+    const scrollTop = (curTop.value / movableTop.value) * maxScrollbarMoveTop;
+    // 设置scrollTop
     scrollRef.value!.scrollTop =
       scrollTop >= maxScrollbarMoveTop ? maxScrollbarMoveTop : scrollTop;
   } else {
     curLeft.value = value;
+    // 计算最大可位移的left
+    const maxScrollbarMoveLeft = contentWidth.value - scrollWidth.value;
     // 反向计算scrollLeft
-    const maxScrollbarMoveLeft = contentWidth.value - srcollWidth.value;
-    const scrollLeft = +(
-      (curLeft.value / movableLeft.value) *
-      maxScrollbarMoveLeft
-    ).toFixed(1);
+    const scrollLeft =
+      (curLeft.value / movableLeft.value) * maxScrollbarMoveLeft;
+    // 设置scrollLeft
     scrollRef.value!.scrollLeft =
       scrollLeft >= maxScrollbarMoveLeft ? maxScrollbarMoveLeft : scrollLeft;
   }
 };
+// 初始化滚动条
+function initScrollbar() {
+  // 真实滚动条不需要
+  if (scrollbarType.value == 'real') {
+    return {
+      thumbHeight: ref(0),
+      thumbWidth: ref(0),
+      curTop: ref(0),
+      curLeft: ref(0),
+      movableTop: ref(0),
+      movableLeft: ref(0),
+      contentWidth: ref(0),
+      contentHeight: ref(0),
+      scrollWidth: ref(0),
+      scrollHeight: ref(0),
+    };
+  }
+  // 获取内容高度
+  const { width: contentWidth, height: contentHeight } = useElementSize(
+    contentRef,
+    undefined,
+    {
+      box: 'border-box',
+    }
+  );
+  // 获取滚动容器高度
+  const {
+    top: elementTop,
+    left: elementLeft,
+    width: scrollWidth,
+    height: scrollHeight,
+  } = useElementBounding(scrollRef);
+  // 计算top
+  const curTop = ref<number>(0);
+  //计算left
+  const curLeft = ref<number>(0);
+  // 可移动的top
+  const movableTop = computed(() => {
+    // 横向track的宽度
+    const track = thumbWidth.value
+      ? scrollbarSize.value?.horizontalTrack || 15
+      : 0;
+    return scrollHeight.value - thumbHeight.value - track;
+  });
+  // 可移动的left
+  const movableLeft = computed(() => {
+    // 纵向track的宽度
+    const track = thumbHeight.value
+      ? scrollbarSize.value?.verticalTrack || 15
+      : 0;
+    return scrollWidth.value - thumbWidth.value - track;
+  });
+  // 计算滚动条高度
+  const thumbHeight = computed(() => {
+    if (contentHeight.value <= scrollHeight.value) return 0;
+    const height = +(
+      (scrollHeight.value * scrollHeight.value) /
+      contentHeight.value
+    ).toFixed(0);
+    return height <= 20 ? 20 : height;
+  });
+  // 计算滚动条宽度
+  const thumbWidth = computed(() => {
+    if (contentWidth.value <= scrollWidth.value) return 0;
+    const width = +(
+      (scrollWidth.value * scrollWidth.value) /
+      contentWidth.value
+    ).toFixed(0);
+    return width <= 20 ? 20 : width;
+  });
+
+  // 提供数据
+  provide<ProvideType>(SCROLLBAR_PROVIDE_KEY, {
+    curTop,
+    curLeft,
+    movableLeft,
+    movableTop,
+    thumbHeight,
+    thumbWidth,
+    elementTop,
+    elementLeft,
+    scrollbarSize,
+  });
+  return {
+    thumbHeight,
+    thumbWidth,
+    curTop,
+    curLeft,
+    movableTop,
+    movableLeft,
+    contentWidth,
+    contentHeight,
+    scrollWidth,
+    scrollHeight,
+  };
+}
 
 defineExpose({
   scrollTo(options: ScrollOptions) {
