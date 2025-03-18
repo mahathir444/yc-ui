@@ -3,16 +3,23 @@
     :class="{
       'yc-scrollbar': true,
       'yc-scrollbar-auto-fill': autoFill,
-      'yc-scrollbar-both-track': type == 'track' && thumbHeight && thumbWidth,
-      'yc-scrollbar-vertical-track': type == 'track' && thumbHeight,
-      'yc-scrollbar-horizontal-track': type == 'track' && thumbWidth,
+      'yc-scrollbar-virtual': scrollbarType == 'virtual',
+      'yc-scrollbar-both-track':
+        type == 'track' &&
+        thumbHeight &&
+        thumbWidth &&
+        scrollbarType == 'virtual',
+      'yc-scrollbar-vertical-track':
+        type == 'track' && thumbHeight && scrollbarType == 'virtual',
+      'yc-scrollbar-horizontal-track':
+        type == 'track' && thumbWidth && scrollbarType == 'virtual',
       outerClass,
     }"
     :style="outerStyle"
   >
     <div
-      class="yc-scrollbar-container"
       :style="style"
+      class="yc-scrollbar-container"
       ref="scrollRef"
       @scroll="handleScroll"
     >
@@ -20,43 +27,25 @@
         <slot />
       </div>
     </div>
-    <!-- 横向滚动条 -->
-    <yc-track
-      v-if="srcollHeight < contentHeight"
-      direction="vertical"
-      :type="type"
-      :height="thumbHeight"
-      :top="thumbTop"
-      :minTop="offsetTop"
-      :maxTop="maxThumbTop + offsetTop"
-      :verticalTrackWidth="verticalTrackWidth"
-      :horizontalTrackHeight="horizontalTrackHeight"
-      :verticalThumbWidth="verticalThumbWidth"
-      :verticalThubmHeight="horizontalThubmHeight"
-      :horizontalThumbHeight="horizontalThubmHeight"
-      @drag="handleDrag"
-    />
     <!-- 纵向滚动条 -->
     <yc-track
-      v-if="srcollWidth < contentWidth"
+      v-if="thumbHeight && scrollbarType == 'virtual'"
+      direction="vertical"
+      @drag="handleDrag"
+    />
+    <!-- 横向滚动条 -->
+    <yc-track
+      v-if="thumbWidth && scrollbarType == 'virtual'"
       direction="horizontal"
-      :type="type"
-      :width="thumbWidth"
-      :left="thumbLeft"
-      :minLeft="offsetLeft"
-      :maxLeft="maxThumbLeft + offsetLeft"
-      :verticalTrackWidth="verticalTrackWidth"
-      :horizontalTrackHeight="horizontalTrackHeight"
-      :verticalThumbWidth="verticalThumbWidth"
-      :horizontalThubmHeight="horizontalThubmHeight"
       @drag="handleDrag"
     />
   </div>
 </template>
 
 <script lang="ts" setup>
-import { ref, computed, toRefs } from 'vue';
-import { ScrollbarProps } from './type';
+import { ref, computed, toRefs, provide } from 'vue';
+import { ScrollbarProps, ProvideType } from './type';
+import { SCROLLBAR_PROVIDE_KEY } from '@/components/_constants';
 import { useElementBounding, useElementSize } from '@vueuse/core';
 import YcTrack from './Track.vue';
 defineOptions({
@@ -64,6 +53,7 @@ defineOptions({
 });
 const props = withDefaults(defineProps<ScrollbarProps>(), {
   type: 'embed',
+  scrollscrollbarType: 'virtual',
   outerClass: '',
   outerStyle: () => {
     return {};
@@ -72,15 +62,19 @@ const props = withDefaults(defineProps<ScrollbarProps>(), {
     return {};
   },
   autoFill: false,
-  verticalTrackWidth: 15,
-  horizontalTrackHeight: 15,
-  verticalThumbWidth: 9,
-  horizontalThubmHeight: 9,
+  scrollbarSize: () => {
+    return {
+      verticalTrack: 15,
+      verticalThumb: 9,
+      horizontalTrack: 15,
+      horizontalThumb: 9,
+    };
+  },
 });
 const emits = defineEmits<{
   (e: 'scroll', left: number, top: number): void;
 }>();
-const { type, verticalTrackWidth, horizontalTrackHeight } = toRefs(props);
+const { type, scrollbarType, scrollbarSize } = toRefs(props);
 // contentRef
 const contentRef = ref<HTMLElement>();
 // scrollRef
@@ -95,8 +89,8 @@ const { width: contentWidth, height: contentHeight } = useElementSize(
 );
 // 获取滚动容器高度
 const {
-  top: offsetTop,
-  left: offsetLeft,
+  top: minTop,
+  left: minLeft,
   width: srcollWidth,
   height: srcollHeight,
 } = useElementBounding(scrollRef);
@@ -119,53 +113,73 @@ const thumbWidth = computed(() => {
   return width <= 20 ? 20 : width;
 });
 // 计算top
-const thumbTop = ref<number>(0);
+const curTop = ref<number>(0);
 //计算left
-const thumbLeft = ref<number>(0);
-// 计算最大的top和Left
-const maxThumbTop = computed(() => {
+const curLeft = ref<number>(0);
+// 可移动的top
+const movableTop = computed(() => {
+  // 横向track的宽度
+  const horizontalTrack = scrollbarSize.value?.horizontalTrack || 15;
   // 如果有横向滚动条
-  const track = thumbWidth.value ? horizontalTrackHeight.value : 0;
+  const track = thumbWidth.value ? horizontalTrack : 0;
   return srcollHeight.value - thumbHeight.value - track;
 });
-const maxThumbLeft = computed(() => {
-  const track = thumbHeight.value ? verticalTrackWidth.value : 0;
+// 可移动的left
+const movableLeft = computed(() => {
+  // 纵向track的宽度
+  const verticalTrack = scrollbarSize.value?.verticalTrack || 15;
+  // 如果有纵向滚动条
+  const track = thumbHeight.value ? verticalTrack : 0;
   return srcollWidth.value - thumbWidth.value - track;
 });
+// 提供数据
+provide<ProvideType>(SCROLLBAR_PROVIDE_KEY, {
+  curTop,
+  curLeft,
+  movableLeft,
+  movableTop,
+  thumbHeight,
+  thumbWidth,
+  minTop,
+  minLeft,
+  scrollbarSize,
+});
 // 处理容器滚动
-const handleScroll = (e: any) => {
+const handleScroll = (e: Event) => {
   const { scrollTop, scrollLeft } = e.target as HTMLDivElement;
+  emits('scroll', scrollLeft, scrollTop);
+  if (scrollbarType.value != 'virtual') return;
   //计算top
   const top = +(
     ((scrollTop as number) / (contentHeight.value - srcollHeight.value)) *
-    maxThumbTop.value
+    movableTop.value
   ).toFixed(1);
   // 计算left
   const left = +(
     ((scrollLeft as number) / (contentWidth.value - srcollWidth.value)) *
-    maxThumbLeft.value
+    movableLeft.value
   ).toFixed(1);
-  thumbTop.value = top <= maxThumbTop.value ? top : maxThumbTop.value;
-  thumbLeft.value = left <= maxThumbLeft.value ? left : maxThumbLeft.value;
+  curTop.value = top <= movableTop.value ? top : movableTop.value;
+  curLeft.value = left <= movableLeft.value ? left : movableLeft.value;
 };
 // 处理滑块拖动
 const handleDrag = (isVertical: boolean, value: number) => {
   if (isVertical) {
-    thumbTop.value = value;
+    curTop.value = value;
     const maxScrollbarMoveTop = contentHeight.value - srcollHeight.value;
     // 反向计算scrollTop
     const scrollTop = +(
-      (thumbTop.value / maxThumbTop.value) *
+      (curTop.value / movableTop.value) *
       maxScrollbarMoveTop
     ).toFixed(1);
     scrollRef.value!.scrollTop =
       scrollTop >= maxScrollbarMoveTop ? maxScrollbarMoveTop : scrollTop;
   } else {
-    thumbLeft.value = value;
+    curLeft.value = value;
     // 反向计算scrollLeft
     const maxScrollbarMoveLeft = contentWidth.value - srcollWidth.value;
     const scrollLeft = +(
-      (thumbLeft.value / maxThumbLeft.value) *
+      (curLeft.value / movableLeft.value) *
       maxScrollbarMoveLeft
     ).toFixed(1);
     scrollRef.value!.scrollLeft =

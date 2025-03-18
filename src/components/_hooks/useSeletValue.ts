@@ -3,6 +3,7 @@ import useControlValue from './useControlValue';
 import {
   OptionProps,
   SelectValue,
+  SelectOptionGroup,
   SelectOptionData,
 } from '@/components/Select/type';
 import { TagData } from '@/components/InputTag';
@@ -62,11 +63,17 @@ export default (params: {
       emits('update:modelValue', val);
     }
   );
-  //展示的值
-  const showValue = computed(() => {
+  // 选中的值
+  const selectOptions = computed(() => {
+    // 扁平化值
     const selectValue = multiple.value
       ? computedValue.value
       : [computedValue.value];
+    // 创建optionMap
+    const optionMap = Object.fromEntries(
+      options.value.map((item) => [item.value, item])
+    );
+    // 计算input-tag需要显示的值
     return (selectValue as any[]).map((item) => {
       const option = optionMap.value[item];
       return {
@@ -86,11 +93,32 @@ export default (params: {
       emits('update:inputValue', val);
     }
   );
-  // options数组
-  const options = ref<SelectOptionData[]>([]);
-  // optionMap
-  const optionMap = computed(() => {
-    return Object.fromEntries(options.value.map((item) => [item.value, item]));
+  // slot收集的options数组
+  const slotOptions = ref<SelectOptionData[]>([]);
+  // 传入的option数组
+  const renderOptions = computed(() =>
+    _options.value.map((item) => {
+      item.id = nanoid();
+      return item;
+    })
+  );
+  // 合并所有的选项
+  const options = computed(() => {
+    // 传入的_options转换字段
+    const flattOptions = _options.value
+      .map((item: ObjectData) => {
+        return item?.options ? item.options : item;
+      })
+      .flat(1)
+      .map((item) => {
+        const newEntries = Object.entries(fieldKey.value).map(
+          ([oldKey, newKey]) => {
+            return [oldKey, (item as ObjectData)[newKey]];
+          }
+        );
+        return Object.fromEntries(newEntries);
+      });
+    return [...slotOptions.value, ...flattOptions];
   });
   // 搜索项
   const isEmpty = computed(() => {
@@ -101,17 +129,12 @@ export default (params: {
   });
   // 获取选项的props
   const getOptions = () => {
+    // 插槽的option无需处理
     const slots = useSlots();
     const propsArray = flattedChildren(slots?.default?.() ?? []);
-    options.value = (propsArray as ObjectData[])
+    slotOptions.value = (propsArray as ObjectData[])
       .filter((vnode) => vnode?.type?.name == 'Option' && vnode?.props)
       .map((vnode) => vnode?.props as OptionProps);
-    // ..._options.value.map(item => {
-    //   Object.keys(item).map(key=>{
-
-    //   })
-    // })
-    options.value = [...options.value];
   };
   onMounted(() => {
     getOptions();
@@ -120,12 +143,13 @@ export default (params: {
     getOptions();
   });
   return {
-    fieldKey,
     options,
+    renderOptions,
+    fieldKey,
     computedVisible,
     computedValue,
     computedInputValue,
-    showValue,
+    selectOptions,
     isEmpty,
   };
 };

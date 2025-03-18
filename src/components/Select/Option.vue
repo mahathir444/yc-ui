@@ -92,6 +92,7 @@ const handleMulti = (v: boolean) => {
     }
     computedValue.value = [...curValue, value];
   }
+  // focus();
 };
 </script>
 

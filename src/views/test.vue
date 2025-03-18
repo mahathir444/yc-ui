@@ -34,7 +34,13 @@
           label: 'text',
           value: 'key',
         }"
-        :options="options"
+        :options="[
+          {
+            label: '分组1',
+            isGroup: true,
+            options,
+          },
+        ]"
       >
       </yc-select>
     </div>
@@ -52,7 +58,6 @@
     </div>
     <div style="width: 300px">
       <a-input-tag placeholder="请输入" size="small" :max-tag-count="4" />
-      <a-tag size="large">测试</a-tag>
     </div>
   </div>
 </template>
@@ -66,7 +71,7 @@ const options = ref<any[]>([]);
 for (let i = 0; i < 20; i++) {
   options.value.push({
     text: '选项' + i,
-    value: i,
+    key: i,
   });
 }
 watch(

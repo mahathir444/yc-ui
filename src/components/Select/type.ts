@@ -26,7 +26,7 @@ export interface SelectProps {
   defaultPopupVisible?: boolean;
   unmountonClose?: boolean;
   filterOption?: (inputValue: string, option: SelectOptionData) => boolean;
-  options?: SelectOptionData[] | ObjectData[];
+  options?: SelectOptionData[] | SelectOptionGroup[] | ObjectData[];
   // virtual-list-props
   triggerProps?: TriggerProps;
   formatLabel?: (data: SelectOptionData) => string;
@@ -43,6 +43,7 @@ export interface SelectProps {
 }
 
 export interface OptionProps {
+  id?: string;
   label: string;
   value: SelectValue;
   disabled?: boolean;
@@ -56,6 +57,13 @@ export interface OptgroupProps {
 export type SelectValue = string | number | boolean;
 
 export type SelectOptionData = OptionProps | ObjectData;
+
+export type SelectOptionGroup = {
+  id?: string;
+  label: string;
+  isGroup: true;
+  options: SelectOptionData[];
+};
 
 export interface ProvideType {
   computedValue:

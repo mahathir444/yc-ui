@@ -2,8 +2,8 @@
   <div
     :class="`yc-scrollbar-track yc-scrollbar-track-direction-${direction}`"
     :style="{
-      width: isVertical ? `${verticalTrackWidth}px` : '',
-      height: isVertical ? '' : `${horizontalTrackHeight}px`,
+      width: isVertical ? `${scrollbarSize.verticalTrack || 15}px` : '',
+      height: isVertical ? '' : `${scrollbarSize.horizontalTrack || 15}px`,
     }"
     ref="trackRef"
     @click.self="handleClick"
@@ -11,10 +11,10 @@
     <div
       :class="`yc-scrollbar-thumb yc-scrollbar-thumb-direction-${direction}`"
       :style="{
-        height: isVertical ? height + 'px' : '',
-        top: isVertical ? top + 'px' : '',
-        width: !isVertical ? width + 'px' : '',
-        left: !isVertical ? left + 'px' : '',
+        height: isVertical ? `${thumbHeight}px` : '',
+        top: isVertical ? `${curTop}px` : '',
+        width: !isVertical ? `${thumbWidth}px` : '',
+        left: !isVertical ? `${curLeft}px` : '',
       }"
       ref="dragRef"
     >
@@ -24,8 +24,8 @@
           'is-dragging': isDragging,
         }"
         :style="{
-          width: isVertical ? `${verticalThumbWidth}px` : '',
-          height: isVertical ? '' : `${horizontalThumbHeight}px`,
+          width: isVertical ? `${scrollbarSize.verticalThumb || 9}px` : '',
+          height: isVertical ? '' : `${scrollbarSize.horizontalThumb || 9}px`,
         }"
       ></div>
     </div>
@@ -33,82 +33,92 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, toRefs, computed } from 'vue';
-import { useDraggable } from '@vueuse/core';
-import { useEventListener } from '@vueuse/core';
+import { ref, toRefs, computed, inject } from 'vue';
+import { SCROLLBAR_PROVIDE_KEY } from '@/components/_constants';
+import { ProvideType } from './type';
 import { Direction } from '@/components/_type';
-import { TackType } from './type';
+import { useDraggable, useEventListener } from '@vueuse/core';
+
 const props = withDefaults(
   defineProps<{
-    type?: TackType;
     direction?: Direction;
-    height?: number;
-    width?: number;
-    top?: number;
-    left?: number;
-    minTop?: number;
-    maxTop?: number;
-    minLeft?: number;
-    maxLeft?: number;
-    verticalTrackWidth?: number;
-    horizontalTrackHeight?: number;
-    verticalThumbWidth?: number;
-    horizontalThumbHeight?: number;
   }>(),
   {
     direction: 'vertical',
-    type: 'embed',
-    height: 0,
-    width: 0,
-    top: 0,
-    left: 0,
-    minTop: 0,
-    maxTop: 0,
-    minLeft: 0,
-    maxLeft: 0,
   }
 );
 const emits = defineEmits<{
   (e: 'drag', isVertical: boolean, value: number): void;
   (e: 'resize', width: number, height: number): void;
 }>();
-const { minLeft, maxLeft, minTop, maxTop, top, left, direction } =
-  toRefs(props);
+const { direction } = toRefs(props);
+// 是否是垂直
+const isVertical = computed(() => direction.value == 'vertical');
+// 接受值
+const {
+  scrollbarSize,
+  minLeft,
+  minTop,
+  thumbHeight,
+  thumbWidth,
+  movableLeft,
+  movableTop,
+  curTop,
+  curLeft,
+} = inject<ProvideType>(SCROLLBAR_PROVIDE_KEY, {
+  minTop: ref(0),
+  minLeft: ref(0),
+  curTop: ref(0),
+  curLeft: ref(0),
+  movableLeft: ref(0),
+  movableTop: ref(0),
+  thumbHeight: ref(0),
+  thumbWidth: ref(0),
+  scrollbarSize: ref({
+    verticalTrack: 15,
+    verticalThumb: 9,
+    horizontalTrack: 15,
+    horizontalThumb: 9,
+  }),
+});
 // dargRef
 const dragRef = ref<HTMLDivElement>();
 // 处理拖动
 const { x, y, isDragging } = useDraggable(dragRef);
-// 是否是垂直
-const isVertical = computed(() => direction.value == 'vertical');
 // 计算越界情况
 useEventListener('mousemove', () => {
   if (!isDragging.value) return;
+  const maxLeft = movableLeft.value + minLeft.value;
+  const maxTop = movableTop.value + minTop.value;
   if (isVertical.value) {
-    y.value = y.value >= maxTop.value ? maxTop.value : y.value;
+    y.value = y.value >= maxTop ? maxTop : y.value;
     y.value = y.value <= minTop.value ? minTop.value : y.value;
-    emits('drag', true, y.value - minTop.value);
+    curTop.value = y.value - minTop.value;
   } else {
-    x.value = x.value >= maxLeft.value ? maxLeft.value : x.value;
+    x.value = x.value >= maxLeft ? maxLeft : x.value;
     x.value = x.value <= minLeft.value ? minLeft.value : x.value;
-    emits('drag', false, x.value - minLeft.value);
+    curLeft.value = x.value - minLeft.value;
   }
 });
 // 处理鼠标点击
 const handleClick = (e: MouseEvent) => {
   const { offsetX, offsetY } = e;
   if (isVertical.value) {
-    const maxMovable = maxTop.value - minTop.value;
-    const moveDistance = top.value < offsetY ? maxMovable / 9 : -maxMovable / 9;
-    let value = +(top.value + moveDistance).toFixed(0);
-    value = value > maxMovable ? maxMovable : value;
+    // 计算位移的拘留
+    const moveDistance =
+      curTop.value < offsetY ? movableTop.value / 9 : -movableTop.value / 9;
+    // 判断合法性
+    let value = +(curTop.value + moveDistance).toFixed(0);
+    value = value > movableTop.value ? movableTop.value : value;
     value = value <= 0 ? 0 : value;
     emits('drag', true, value);
   } else {
-    const maxMovable = maxLeft.value - minLeft.value;
+    // 计算位移的
     const moveDistance =
-      left.value < offsetX ? maxMovable / 9 : -maxMovable / 9;
-    let value = +(left.value + moveDistance).toFixed(0);
-    value = value > maxMovable ? maxMovable : value;
+      curLeft.value < offsetX ? movableLeft.value / 9 : -movableLeft.value / 9;
+    let value = +(curLeft.value + moveDistance).toFixed(0);
+    // 判断合法性
+    value = value > movableLeft.value ? movableLeft.value : value;
     value = value <= 0 ? 0 : value;
     emits('drag', false, value);
   }

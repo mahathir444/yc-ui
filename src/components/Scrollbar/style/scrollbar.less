@@ -9,11 +9,6 @@
   }
   .yc-scrollbar-container {
     overflow: auto;
-    &::-webkit-scrollbar {
-      width: 0;
-      height: 0;
-      scroll-behavior: smooth;
-    }
     .yc-scrollbar-content {
       height: fit-content;
       width: fit-content;
@@ -21,6 +16,16 @@
     }
   }
 }
+// 虚拟滚动条
+.yc-scrollbar-virtual {
+  .yc-scrollbar-container {
+    &::-webkit-scrollbar {
+      width: 0;
+      height: 0;
+    }
+  }
+}
+// 双向轨道
 .yc-scrollbar-both-track {
   &::before {
     z-index: 10;
@@ -35,6 +40,7 @@
     border-bottom: 1px solid rgb(229, 230, 235);
   }
 }
+// 横向
 .yc-scrollbar-vertical-track {
   .yc-scrollbar-container {
     padding-right: 15px;
@@ -45,6 +51,7 @@
     border-right: 1px solid rgb(229, 230, 235);
   }
 }
+// 纵向
 .yc-scrollbar-horizontal-track {
   .yc-scrollbar-container {
     padding-bottom: 15px;
@@ -55,7 +62,7 @@
     border-bottom: 1px solid rgb(229, 230, 235);
   }
 }
-
+// 自动天聪
 .yc-scrollbar-auto-fill {
   flex: 1;
   display: flex;

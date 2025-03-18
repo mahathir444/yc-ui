@@ -35,7 +35,7 @@
           v-if="!multiple"
           :show-input="computedVisible"
           v-model="computedInputValue"
-          :placeholder="showValue?.[0]?.label"
+          :placeholder="selectOptions?.[0]?.label"
           :readonly="!allowSearch || loading"
           :disabled="disabled"
           :size="size"
@@ -51,10 +51,10 @@
           <template #label>
             <span
               :style="{
-                color: showValue?.[0]?.label ? '' : 'rgb(134, 144, 156)',
+                color: selectOptions?.[0]?.label ? '' : 'rgb(134, 144, 156)',
               }"
             >
-              {{ showValue?.[0]?.label || placeholder }}
+              {{ selectOptions?.[0]?.label || placeholder }}
             </span>
           </template>
           <!-- suffix -->
@@ -76,7 +76,7 @@
         <yc-input-tag
           v-else
           v-model:input-value="computedInputValue"
-          :model-value="showValue"
+          :model-value="selectOptions"
           :placeholder="placeholder"
           :readonly="!allowSearch || loading"
           :disabled="disabled"
@@ -128,12 +128,11 @@
           <yc-scrollbar style="max-height: 200px">
             <div class="yc-select-dropdown-list">
               <slot />
-              <yc-option
-                v-for="item in options"
-                :key="(item as ObjectData)[fieldKey.value]"
-                :value="(item as ObjectData)[fieldKey.value]"
-                :label="(item as ObjectData)[fieldKey.label]"
-                :disabled="(item as ObjectData)[fieldKey.disabled]"
+              <render-option
+                v-for="option in renderOptions"
+                :key="option.id"
+                :option="option"
+                :field-key="fieldKey"
               />
               <slot v-if="isEmpty" name="empty">
                 <yc-empty description="暂无数据" />
@@ -164,7 +163,6 @@ import {
   SelectOptionData,
   ProvideType,
 } from './type';
-import { ObjectData } from '@/components/_type';
 import { TagData } from '@/components/InputTag';
 import useSeletValue from '../_hooks/useSeletValue';
 import { sleep } from '@/components/_utils/fn';
@@ -175,7 +173,7 @@ import YcSpin from '@/components/Spin/index.vue';
 import YcInputTag from '@/components/InputTag/index.vue';
 import YcEmpty from '@/components/Empty/index.vue';
 import SelectIcon from './component/SelectIcon.vue';
-import YcOption from './Option.vue';
+import RenderOption from './component/RenderOption.vue';
 defineOptions({
   name: 'Select',
 });
@@ -191,7 +189,7 @@ const props = withDefaults(defineProps<SelectProps>(), {
   disabled: false,
   error: false,
   allowClear: false,
-  allowSearch: false,
+  allowSearch: true,
   maxTagCount: 0,
   popupContainer: 'body',
   bordered: true,
@@ -203,9 +201,7 @@ const props = withDefaults(defineProps<SelectProps>(), {
     return option?.label?.includes(inputValue);
   },
   options: () => [],
-  // formatLabel: (option: SelectOptionData) => {
-  //   return option.label;
-  // },
+  formatLabel: undefined,
   triggerProps: () => {
     return {
       contentStyle: {},
@@ -252,6 +248,7 @@ const {
   limit,
   multiple,
   fieldNames,
+  allowSearch,
   options: _options,
 } = toRefs(props);
 const { filterOption, formatLabel } = props;
@@ -261,13 +258,13 @@ const triggerPostion = ref<TriggerPostion>('bl');
 const inputRef = ref<InputInstance>();
 // 处理值
 const {
+  renderOptions,
   fieldKey,
-  showValue,
+  selectOptions,
+  isEmpty,
   computedVisible,
   computedInputValue,
   computedValue,
-  options,
-  isEmpty,
 } = useSeletValue({
   popupVisible,
   defaultPopupVisible,
@@ -297,6 +294,7 @@ provide<ProvideType>(SELECT_PROVIDE_KEY, {
   limit,
   multiple,
   focus: async () => {
+    if (!allowSearch.value) return;
     await sleep(0);
     inputRef.value?.focus();
   },

@@ -118,9 +118,7 @@ const props = withDefaults(defineProps<InputTagProps>(), {
   size: 'medium',
   maxTagCount: 5,
   retainInputValue: false,
-  // formatTag: (data: TagData) => {
-  //   // return data.label;
-  // },
+  formatLabel: undefined,
   uniqueValue: false,
   tagNowrap: false,
   fieldNames: () => {
