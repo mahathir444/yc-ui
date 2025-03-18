@@ -32,7 +32,7 @@ export interface SelectProps {
   formatLabel?: (data: SelectOptionData) => string;
   // fallback-option
   // show-extra-options
-  // value-key
+  valueKey?: string;
   searchDelay?: number;
   limit?: number;
   fieldNames?: Record<string, string>;
@@ -55,8 +55,8 @@ export interface OptgroupProps {
 }
 
 export type SelectValue =
-  | (string | number | boolean)
-  | (string | number | boolean)[];
+  | (string | number | boolean | ObjectData)
+  | (string | number | boolean | ObjectData)[];
 
 export type SelectOptionData = OptionProps | ObjectData;
 
@@ -80,4 +80,5 @@ export interface ProvideType {
   focus: Fn;
   filterOption: Fn;
   emits: Fn;
+  getValue: Fn;
 }

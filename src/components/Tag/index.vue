@@ -14,26 +14,27 @@
       background: COLOR_CLASS[color] ? '' : (COLOR_MAP[color] ?? color),
       color: ['default', 'white'].includes(color) ? 'rgb(29, 33, 41)' : '',
     }"
-    @click="handleCheck"
-    @mousedown="(e) => preventFocus && e.preventDefault()"
-    @dblclick="(e) => stopPropagation && e.stopPropagation()"
-    @contextmenu="(e) => stopPropagation && e.stopPropagation()"
+    @click="handleEvent('check', $event)"
+    @dblclick="handleEvent('dblclick', $event)"
+    @contextmenu="handleEvent('contextmenu', $event)"
   >
     <!-- icon -->
     <div v-if="$slots.icon" class="yc-tag-icon">
       <slot name="icon" />
     </div>
     <!-- content -->
-    <span class="yc-tag-label"> <slot /></span>
+    <span class="yc-tag-label">
+      <slot />
+    </span>
     <!-- close -->
     <yc-icon-button
       v-if="closeable"
       name="close"
       hover-size="16px"
       hover-color="rgba(255, 255, 255, 0.2)"
-      class="yc-tag-close-button"
       style="color: inherit"
-      @click="handleClose"
+      class="yc-tag-close-button"
+      @click="handleEvent('close', $event, true)"
     >
       <template v-if="$slots.closeIcon" #icon>
         <slot name="closeIcon" />
@@ -70,23 +71,20 @@ const props = withDefaults(defineProps<TagProps>(), {
   checked: undefined,
   defaultChecked: true,
   nowrap: false,
-  stopPropagation: false,
   preventFocus: false,
+  stopPropagation: false,
 });
 const emits = defineEmits<{
   (e: 'update:visible', value: boolean): void;
   (e: 'update:checked', value: boolean): void;
   (e: 'close', ev: MouseEvent, value?: string): void;
   (e: 'check', value: boolean, ev: MouseEvent): void;
+  (e: 'click', ev: MouseEvent): void;
+  (e: 'dblclick', ev: MouseEvent): void;
+  (e: 'contextmenu', ev: MouseEvent): void;
 }>();
-const {
-  visible,
-  defaultVisible,
-  checked,
-  defaultChecked,
-  checkable,
-  stopPropagation,
-} = toRefs(props);
+const { visible, defaultVisible, checked, defaultChecked, checkable } =
+  toRefs(props);
 // visible
 const computedVisible = useControlValue<boolean>(
   visible,
@@ -99,17 +97,18 @@ const computedChecked = useControlValue<boolean>(
   defaultChecked.value,
   (val) => emits('update:checked', val)
 );
-// 处理关闭
-const handleClose = (ev: MouseEvent) => {
-  computedVisible.value = false;
-  emits('close', ev);
-};
-// 处理选中
-const handleCheck = (ev: MouseEvent) => {
-  stopPropagation.value && ev.stopPropagation();
-  if (checkable.value) {
+// 处理事件
+const handleEvent = (type: string, ev: MouseEvent, stop: boolean = false) => {
+  stop && ev.stopPropagation();
+  if (type == 'close') {
+    computedVisible.value = false;
+    emits('close', ev);
+  } else if (type == 'check' && checkable.value) {
     computedChecked.value = !computedChecked.value;
     emits('check', computedChecked.value, ev);
+    emits('click', ev);
+  } else {
+    emits(type as any, ev);
   }
 };
 </script>

@@ -16,10 +16,16 @@
 }
 // 多选聚焦
 .yc-select-multiple-focus {
-  .yc-input-tag {
+  &:deep(.yc-input-tag) {
     background-color: #fff;
     border-color: rgb(22, 93, 255);
     box-shadow: 0 0 0 0 rgb(190, 218, 255);
+    .yc-input-tag-inner {
+      .yc-tag {
+        background-color: rgb(242, 243, 245) !important;
+        border-color: rgb(242, 243, 245) !important;
+      }
+    }
   }
 }
 // 无边框

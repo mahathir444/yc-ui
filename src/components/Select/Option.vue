@@ -33,7 +33,8 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, toRefs, inject, onMounted, computed } from 'vue';
+import { ref, toRefs, inject, computed } from 'vue';
+import { ObjectData } from '@/components/_type';
 import { OptionProps, SelectValue, ProvideType } from './type';
 import { SELECT_PROVIDE_KEY } from '@/components/_constants';
 import { isUndefined } from '@/components/_utils/is';
@@ -57,6 +58,7 @@ const {
   focus,
   emits,
   filterOption,
+  getValue,
 } = inject<ProvideType>(SELECT_PROVIDE_KEY, {
   computedValue: ref(undefined),
   computedInputValue: ref(''),
@@ -66,13 +68,14 @@ const {
   emits: () => {},
   focus: () => {},
   filterOption: () => true,
+  getValue: () => {},
 });
 // 当前value对应的index
 const curIndex = computed(() => {
   if (!multiple.value) return -1;
-  return (computedValue.value as SelectValue[]).findIndex(
-    (item) => item == optionValue.value
-  );
+  return (computedValue.value as SelectValue[]).findIndex((item) => {
+    return getValue(item) === getValue(optionValue.value);
+  });
 });
 // 处理单选
 const handleSingle = () => {
@@ -88,11 +91,11 @@ const handleMulti = (v: boolean) => {
     computedValue.value = curValue.filter((item) => item != value);
   } else {
     if (limit.value > 0 && curValue.length == limit.value) {
-      return emits('exceed-limit', value);
+      return emits('exceedLimit', value);
     }
     computedValue.value = [...curValue, value];
   }
-  // focus();
+  focus();
 };
 </script>
 

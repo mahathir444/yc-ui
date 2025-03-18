@@ -1,5 +1,6 @@
 .yc-input-tag {
   cursor: text;
+  position: relative;
   width: 100%;
   background-color: rgb(242, 243, 245);
   border: 1px solid transparent;
@@ -32,44 +33,42 @@
   .yc-input-tag-clear-button {
     visibility: hidden;
   }
+  .yc-input-tag-mirror {
+    min-width: 12px;
+    position: absolute;
+    top: 0;
+    left: 0;
+    visibility: hidden;
+    font-family:
+      Inter,
+      -apple-system,
+      BlinkMacSystemFont,
+      PingFang SC,
+      Hiragino Sans GB,
+      noto sans,
+      Microsoft YaHei,
+      Helvetica Neue,
+      Helvetica,
+      Arial,
+      sans-serif;
+    font-variant: normal;
+    letter-spacing: normal;
+    text-indent: 0;
+    text-rendering: auto;
+    text-transform: none;
+    white-space: pre-wrap;
+    overflow-wrap: break-word;
+  }
   .yc-input-tag-inner {
-    position: relative;
+    overflow: hidden;
     flex: 1;
     flex-shrink: 0;
-    overflow: hidden;
     display: flex;
     align-items: center;
     flex-wrap: wrap;
     gap: 2px 4px;
-
-    .yc-tag {
+    .yc-select-value-tag {
       max-width: 100%;
-    }
-    .yc-input-tag-mirror {
-      min-width: 12px;
-      position: absolute;
-      top: 0;
-      left: 0;
-      visibility: hidden;
-      font-family:
-        Inter,
-        -apple-system,
-        BlinkMacSystemFont,
-        PingFang SC,
-        Hiragino Sans GB,
-        noto sans,
-        Microsoft YaHei,
-        Helvetica Neue,
-        Helvetica,
-        Arial,
-        sans-serif;
-      font-variant: normal;
-      letter-spacing: normal;
-      text-indent: 0;
-      text-rendering: auto;
-      text-transform: none;
-      white-space: pre-wrap;
-      overflow-wrap: break-word;
     }
     .yc-input-tag-input {
       max-width: 100%;

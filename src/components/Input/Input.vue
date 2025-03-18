@@ -159,7 +159,7 @@ const handleEvent = (type: InputEventType, e: InputEvent) => {
   // input
   if (['input', 'change'].includes(type)) {
     const target = e.target as HTMLInputElement;
-    if (computedValue.value != target.value) {
+    if (computedValue.value !== target.value) {
       target.value = computedValue.value;
     }
     emits(type as any, computedValue.value, e);

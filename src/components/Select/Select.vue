@@ -9,7 +9,6 @@
     :popup-container="popupContainer"
     :disabled="disabled"
     auto-fit-popup-width
-    :click-out-side-ingore-fn="ingoreFn"
     v-bind="triggerProps"
     :content-style="{
       transformOrigin: TRANSFORM_ORIGIN_MAP[triggerPostion],
@@ -30,7 +29,7 @@
         }"
         @click="handleClick"
       >
-        <!-- signal -->
+        <!-- single  -->
         <yc-input
           v-if="!multiple"
           :show-input="computedVisible"
@@ -90,6 +89,7 @@
             (v) => (computedValue = v.map((item) => (item as TagData).value))
           "
           @input="(v) => handleSearch(v)"
+          @remove="focus"
         >
           <!-- prefix -->
           <template v-if="$slots.prefix" #prefix>
@@ -128,6 +128,7 @@
           <yc-scrollbar
             style="max-height: 200px"
             :scrollbar-type="scrollbar ? 'virtual' : 'real'"
+            @scroll="$emit('dropdownScroll')"
           >
             <div class="yc-select-dropdown-list">
               <slot />
@@ -160,6 +161,7 @@ import { ref, computed, toRefs, provide } from 'vue';
 import { TRANSFORM_ORIGIN_MAP } from '@/components/Trigger/constants';
 import { SELECT_PROVIDE_KEY } from '@/components/_constants';
 import { TriggerPostion } from '@/components/Trigger';
+import { ObjectData } from '@/components/_type';
 import {
   SelectProps,
   SelectValue,
@@ -191,7 +193,7 @@ const props = withDefaults(defineProps<SelectProps>(), {
   loading: false,
   disabled: false,
   error: false,
-  allowClear: false,
+  allowClear: true,
   allowSearch: true,
   maxTagCount: 0,
   popupContainer: 'body',
@@ -205,6 +207,7 @@ const props = withDefaults(defineProps<SelectProps>(), {
   },
   options: () => [],
   formatLabel: undefined,
+  valueKey: '',
   triggerProps: () => {
     return {
       contentStyle: {},
@@ -234,7 +237,8 @@ const emits = defineEmits<{
   (e: 'update:inputValue', value: SelectValue): void;
   (e: 'update:popupVisible', value: boolean): void;
   (e: 'popupVisibleChange', value: boolean): void;
-  (e: 'exceed-limit', value: SelectValue, ev?: MouseEvent): void;
+  (e: 'exceedLimit', value: SelectValue, ev?: MouseEvent): void;
+  (e: 'dropdownScroll'): void;
 }>();
 const {
   modelValue,
@@ -253,6 +257,7 @@ const {
   multiple,
   fieldNames,
   allowSearch,
+  valueKey,
   options: _options,
 } = toRefs(props);
 const { filterOption, formatLabel } = props;
@@ -281,6 +286,7 @@ const {
   fieldNames,
   formatLabel,
   emits,
+  getValue,
 });
 // 是否展示清除按钮
 const showClearBtn = computed(
@@ -297,21 +303,24 @@ provide<ProvideType>(SELECT_PROVIDE_KEY, {
   computedInputValue,
   limit,
   multiple,
-  focus: async () => {
-    if (!allowSearch.value) return;
-    await sleep(0);
-    inputRef.value?.focus();
-  },
+  focus,
   filterOption,
   emits,
+  getValue,
 });
+// 获取value
+function getValue(value: string | ObjectData) {
+  return (value as ObjectData)[valueKey.value] ?? value;
+}
+async function focus() {
+  if (!allowSearch.value) return;
+  await sleep(0);
+  inputRef.value?.focus();
+}
 // 判断是否是关闭按钮,从而不关闭选项
 const ingoreFn = (el: HTMLElement): boolean => {
   const classList = el.classList;
-  if (
-    classList.contains('yc-select-wrapper') ||
-    classList.contains('yc-select-value-tag')
-  ) {
+  if (classList.contains('yc-select-value-tag')) {
     return true;
   } else if (el.tagName == 'BODY') {
     return false;
@@ -322,8 +331,8 @@ const ingoreFn = (el: HTMLElement): boolean => {
 // 处理点击
 const handleClick = async () => {
   computedVisible.value = multiple.value ? true : !computedVisible.value;
+  await sleep(0);
   if (computedVisible.value) {
-    await sleep(0);
     inputRef.value?.focus();
   } else {
     inputRef.value?.blur();
@@ -333,6 +342,7 @@ const handleClick = async () => {
 const handleClear = () => {
   computedValue.value = multiple.value ? [] : '';
   emits('clear');
+  focus();
 };
 //处理搜索
 const handleSearch = async (v: string) => {

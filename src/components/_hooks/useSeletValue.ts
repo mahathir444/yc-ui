@@ -18,6 +18,7 @@ export default (params: {
   _options: Ref<Options>;
   formatLabel: Fn | undefined;
   emits: Fn;
+  getValue: Fn;
 }) => {
   const {
     popupVisible,
@@ -31,6 +32,7 @@ export default (params: {
     _options,
     formatLabel,
     emits,
+    getValue,
   } = params;
   // fieldKey
   const fieldKey = computed(() => {
@@ -65,16 +67,16 @@ export default (params: {
       ? computedValue.value
       : [computedValue.value];
     // 创建optionMap
-    const optionMap = Object.fromEntries(
-      options.value.map((item) => [item.value, item])
+    const optionMap = new Map(
+      options.value.map((item) => [getValue(item.value), item])
     );
     // 计算input-tag需要显示的值
-    return (selectValue as any[]).map((item) => {
-      const option = optionMap.value[item];
+    return (selectValue as any[]).map((v) => {
+      const option = optionMap.get(getValue(v));
       return {
         id: nanoid(),
         label: formatLabel ? formatLabel(option) : option?.label,
-        value: item,
+        value: v,
         closeable: option?.tagProps?.closeable,
         tagProps: option?.tagProps,
       };

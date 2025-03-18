@@ -1,11 +1,6 @@
 <template>
   <div
     class="yc-icon-button"
-    @mousedown.stop="
-      (e) => {
-        e.preventDefault();
-      }
-    "
     :style="{
       fontSize,
     }"

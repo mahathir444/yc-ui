@@ -1,6 +1,6 @@
 export interface TagProps {
   color?: string;
-  size?: 'small' | 'medium' | 'large';
+  size?: TagSize;
   bordered?: boolean;
   visible?: boolean;
   defaultVisible?: boolean;
@@ -13,3 +13,5 @@ export interface TagProps {
   stopPropagation?: boolean;
   preventFocus?: boolean;
 }
+
+export type TagSize = 'small' | 'medium' | 'large';

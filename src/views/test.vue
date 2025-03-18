@@ -1,31 +1,6 @@
 <template>
   <div class="test">
     <div style="width: 300px">
-      <a-select
-        placeholder="请选择"
-        allow-search
-        allow-clear
-        :multiple="false"
-        :bordered="false"
-      >
-        <a-option
-          v-for="i in 6"
-          :key="i"
-          :value="i"
-          :index="6 - i"
-          :label="i.toString()"
-        >
-          <template #icon>
-            <icon-align-center />
-          </template>
-          test{{ i }}
-          <template #suffix>
-            <icon-align-center />
-          </template>
-        </a-option>
-      </a-select>
-    </div>
-    <div style="width: 300px">
       <yc-select
         v-model="value"
         placeholder="请选择"
@@ -46,25 +21,51 @@
     </div>
     <div style="width: 300px">
       <yc-input-tag
-        v-model="value1"
+        v-model="value"
         placeholder="请输入"
         :field-names="{
           label: 'text',
           value: 'key',
         }"
       />
-      <!-- <yc-input />
-      <yc-textarea /> -->
     </div>
     <div style="width: 300px">
-      <a-input-tag placeholder="请输入" size="small" :max-tag-count="4" />
+      <a-select
+        v-model="value1"
+        placeholder="请选择"
+        allow-search
+        allow-clear
+        :multiple="true"
+        :search-delay="500"
+        :options="[
+          {
+            label: '分组1',
+            isGroup: true,
+            options,
+          },
+        ]"
+        :limit="10"
+        :field-names="{
+          label: 'text',
+          value: 'key',
+        }"
+        @search="() => console.log('search')"
+      >
+      </a-select>
+    </div>
+    <div style="width: 300px">
+      <a-input-tag
+        v-model="value1"
+        placeholder="请输入"
+        size="small"
+        :max-tag-count="4"
+      />
     </div>
   </div>
 </template>
 
 <script lang="ts" setup>
 import { ref, watch, watchEffect } from 'vue';
-const total = ref(1);
 const value = ref([]);
 const value1 = ref([]);
 const options = ref<any[]>([]);
@@ -74,15 +75,6 @@ for (let i = 0; i < 20; i++) {
     key: i,
   });
 }
-watch(
-  value1,
-  () => {
-    console.log(value1.value, 'value1');
-  },
-  {
-    deep: true,
-  }
-);
 </script>
 
 <style lang="less" scoped>

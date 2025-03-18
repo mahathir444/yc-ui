@@ -17,9 +17,13 @@
     <div v-if="$slots.prefix" class="yc-input-tag-prefix">
       <slot name="prefix" />
     </div>
-    <!-- input -->
+    <!-- mirror -->
+    <div class="yc-input-tag-mirror" ref="mirrorRef">
+      {{ computedInputValue || (modelValue.length ? '' : placeholder) }}
+    </div>
+    <!-- tag-list -->
+    <!-- <transition-group tag="div"> </transition-group> -->
     <div class="yc-input-tag-inner">
-      <!-- tag-list -->
       <yc-tag
         v-for="item in curList.visibleList"
         :key="item?.[fieldKey.id]"
@@ -28,8 +32,6 @@
         :nowrap="item?.[fieldKey.tagProps]?.nowrap ?? tagNowrap"
         :size="size == 'mini' ? 'small' : size"
         class="yc-select-value-tag"
-        prevent-focus
-        stop-propagation
         color="white"
         @close="handleEvent('close', $event, item.id)"
       >
@@ -41,16 +43,10 @@
         :nowrap="tagNowrap"
         class="yc-select-value-tag"
         bordered
-        prevent-focus
         color="white"
-        stop-propagation
       >
         +{{ curList.hideList.length }}...
       </yc-tag>
-      <!-- mirror -->
-      <div class="yc-input-tag-mirror" ref="mirrorRef">
-        {{ computedInputValue || placeholder }}
-      </div>
       <!-- input -->
       <input
         v-model="computedInputValue"
