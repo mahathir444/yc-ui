@@ -26,6 +26,7 @@ import Select, { Option, Optgroup } from './Select';
 import Empty from './Empty';
 import Checkbox, { CheckboxGroup } from './Checkbox';
 import InputTag from './InputTag';
+import AutoComplete from './AutoComplete';
 import YcIcon from '@/components/_components/Icon/index.vue';
 import YcIconButton from '@/components/_components/IconButton/index.vue';
 
@@ -51,6 +52,7 @@ export const components: Record<string, Plugin> = {
   Empty,
   Checkbox,
   InputTag,
+  AutoComplete,
 };
 
 const YcUi = {
@@ -112,5 +114,6 @@ declare module 'vue' {
     YcCheckbox: typeof Checkbox;
     YcCheckboxGroup: typeof CheckboxGroup;
     YcInputTag: typeof InputTag;
+    YcAutoComplete: typeof AutoComplete;
   }
 }

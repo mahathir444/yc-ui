@@ -41,15 +41,17 @@
           :disabled="disabled"
           :size="size"
           :error="error"
+          :allow-clear="isAutoCompleteMode && allowClear"
+          v-bind="$attrs"
           ref="inputRef"
-          @blur="computedInputValue = ''"
-          @input="handleSearch"
+          @blur="handleEvent('blur')"
+          @input="(v) => handleEvent('search', v)"
         >
           <!-- prefix -->
           <template v-if="$slots.prefix" #prefix>
             <slot name="prefix" />
           </template>
-          <template #label>
+          <template v-if="!isAutoCompleteMode" #label>
             <span
               :style="{
                 color: selectOptions?.[0]?.label ? '' : 'rgb(134, 144, 156)',
@@ -59,13 +61,13 @@
             </span>
           </template>
           <!-- suffix -->
-          <template #suffix>
+          <template v-if="!isAutoCompleteMode" #suffix>
             <select-icon
               :show-clear-btn="showClearBtn"
               :allow-clear="allowClear"
               :allow-search="allowSearch"
               :loading="loading"
-              @clear="handleClear"
+              @clear="handleEvent('clear')"
             >
               <template v-if="$slots['loading-icon']" #loading-icon>
                 <slot name="loading-icon" />
@@ -87,11 +89,12 @@
           :tag-nowrap="tagNowrap"
           :enter-to-create="false"
           :stop-propagation="false"
+          v-bind="$attrs"
           ref="inputRef"
           @update:model-value="
             (v) => (computedValue = v.map((item) => (item as TagData).value))
           "
-          @input="(v) => handleSearch(v)"
+          @input="(v) => handleEvent('search', v)"
           @remove="focus"
         >
           <!-- prefix -->
@@ -105,7 +108,7 @@
               :allow-clear="allowClear"
               :allow-search="allowSearch"
               :loading="loading"
-              @clear="handleClear"
+              @clear="handleEvent('clear')"
             >
               <template v-if="$slots['loading-icon']" #loading-icon>
                 <slot name="loading-icon" />
@@ -170,6 +173,7 @@ import {
   SelectValue,
   SelectOptionData,
   ProvideType,
+  SelectEventType,
 } from './type';
 import { nanoid } from 'nanoid';
 import { TagData } from '@/components/InputTag';
@@ -231,6 +235,7 @@ const props = withDefaults(defineProps<SelectProps>(), {
   showHeaderOnEmpty: false,
   showFooterOnEmpty: false,
   tagNowrap: false,
+  isAutoCompleteMode: false,
 });
 const emits = defineEmits<{
   (e: 'change', value: SelectValue): void;
@@ -261,6 +266,7 @@ const {
   multiple,
   fieldNames,
   allowSearch,
+  isAutoCompleteMode,
   valueKey,
   options: _options,
 } = toRefs(props);
@@ -318,6 +324,7 @@ provide<ProvideType>(SELECT_PROVIDE_KEY, {
 function getValue(value: string | ObjectData) {
   return (value as ObjectData)[valueKey.value] ?? value;
 }
+// 聚焦
 async function focus() {
   if (!allowSearch.value) return;
   await sleep(0);
@@ -344,17 +351,28 @@ const handleClick = async () => {
     inputRef.value?.blur();
   }
 };
-// 处理清除
-const handleClear = () => {
-  computedValue.value = multiple.value ? [] : '';
-  emits('clear');
-  focus();
+// 处理事件
+const handleEvent = async (type: SelectEventType, value: string = '') => {
+  if (type == 'clear') {
+    computedValue.value = multiple.value ? [] : '';
+    emits('clear');
+    focus();
+  } else if (type == 'search') {
+    await sleep(searchDelay.value);
+    emits('search', value);
+  } else if (type == 'blur' && !isAutoCompleteMode.value) {
+    computedInputValue.value = '';
+  }
 };
-//处理搜索
-const handleSearch = async (v: string) => {
-  await sleep(searchDelay.value);
-  emits('search', v);
-};
+
+defineExpose({
+  focus() {
+    inputRef.value?.focus();
+  },
+  blur() {
+    inputRef.value?.blur();
+  },
+});
 </script>
 
 <style lang="less" scoped>

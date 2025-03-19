@@ -156,3 +156,6 @@ export type {
   InputTagInstance,
 } from './InputTag';
 export { default as InputTag } from './InputTag';
+
+export type { AutoCompleteProps, AutoCompleteInstance } from './AutoComplete';
+export { default as AutoComplete } from './AutoComplete';

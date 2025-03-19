@@ -30,6 +30,9 @@
       />
     </div>
     <div style="width: 300px">
+      <yc-auto-complete />
+    </div>
+    <div style="width: 300px">
       <a-select
         v-model="value1"
         placeholder="请选择"

@@ -25,8 +25,8 @@ export interface SelectProps {
   popupVisible?: boolean;
   defaultPopupVisible?: boolean;
   unmountonClose?: boolean;
-  filterOption?: (inputValue: string, option: SelectOptionData) => boolean;
-  options?: Options;
+  filterOption?: FilterOption;
+  options?: SelectOptions;
   // virtual-list-props
   triggerProps?: TriggerProps;
   formatLabel?: (data: SelectOptionData) => string;
@@ -40,6 +40,8 @@ export interface SelectProps {
   showHeaderOnEmpty?: boolean;
   showFooterOnEmpty?: boolean;
   tagNowrap?: boolean;
+  // 以下用于autoComplete
+  isAutoCompleteMode?: boolean;
 }
 
 export interface OptionProps {
@@ -58,6 +60,11 @@ export type SelectValue =
   | (string | number | boolean | ObjectData)
   | (string | number | boolean | ObjectData)[];
 
+export type FilterOption = (
+  inputValue: string,
+  option: SelectOptionData
+) => boolean;
+
 export type SelectOptionData = OptionProps | ObjectData;
 
 export type SelectOptionGroup = {
@@ -67,7 +74,10 @@ export type SelectOptionGroup = {
   options: SelectOptionData[];
 };
 
-export type Options = SelectOptionData[] | SelectOptionGroup[] | ObjectData[];
+export type SelectOptions =
+  | SelectOptionData[]
+  | SelectOptionGroup[]
+  | ObjectData[];
 
 export interface ProvideType {
   computedValue:
@@ -82,3 +92,6 @@ export interface ProvideType {
   emits: Fn;
   getValue: Fn;
 }
+
+// 内部使用
+export type SelectEventType = 'clear' | 'search' | 'blur';

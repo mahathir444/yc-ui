@@ -1,6 +1,10 @@
 import { computed, ref, Ref, onMounted, onUpdated, useSlots, VNode } from 'vue';
 import useControlValue from './useControlValue';
-import { OptionProps, SelectValue, Options } from '@/components/Select/type';
+import {
+  OptionProps,
+  SelectValue,
+  SelectOptions,
+} from '@/components/Select/type';
 import { TagData } from '@/components/InputTag';
 import { Fn, ObjectData } from '../_type';
 import { flattedChildren } from '@/components/_utils/vue-vnode';
@@ -15,7 +19,7 @@ export default (params: {
   defaultInputValue: Ref<string>;
   multiple: Ref<boolean>;
   fieldNames: Ref<Record<string, string>>;
-  _options: Ref<Options>;
+  _options: Ref<SelectOptions>;
   formatLabel: Fn | undefined;
   emits: Fn;
   getValue: Fn;
