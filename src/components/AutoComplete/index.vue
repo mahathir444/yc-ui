@@ -1,19 +1,22 @@
 <template>
   <yc-select
     v-model:input-value="computedValue"
+    :popup-visible="popupVisible && !!data.length"
     :disabled="disabled"
     :options="data"
     :popup-container="popupContainer"
     :filter-option="filterOption"
     :trigger-props="triggerProps"
     :allow-clear="allowClear"
-    is-auto-complete-mode
     v-bind="$attrs"
+    :allow-search="true"
+    is-auto-complete-mode
+    @update:popup-visible="(v) => (popupVisible = v)"
+    @update:model-value="(v) => $emit('select', v as string)"
     @input-value-change="(v) => $emit('change', v)"
     @search="(v) => $emit('search', v)"
     @clear="(ev) => $emit('clear', ev)"
     @dropdown-scroll="(ev) => $emit('dropdown-scroll', ev)"
-    @update:model-value="(v) => $emit('select', v as string)"
     ref="selectRef"
   >
     <template v-if="$slots.prefix" #prefix>
@@ -26,7 +29,7 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, toRefs, watch } from 'vue';
+import { ref, toRefs } from 'vue';
 import { AutoCompleteProps } from './type';
 import {
   default as YcSelect,
@@ -63,6 +66,8 @@ const emits = defineEmits<{
 const { modelValue, defaultValue } = toRefs(props);
 // selectRef
 const selectRef = ref<SelectInstance>();
+// visible
+const popupVisible = ref<boolean>(false);
 // 计算
 const computedValue = useControlValue<string>(
   modelValue,
@@ -71,14 +76,6 @@ const computedValue = useControlValue<string>(
     emits('update:modelValue', val);
   }
 );
-const data = ref<any[]>([]);
-watch(computedValue, (value) => {
-  if (value) {
-    data.value = [...Array(5)].map((_, index) => `${value}-${index}`);
-  } else {
-    data.value = [];
-  }
-});
 defineExpose({
   focus() {
     selectRef.value?.focus();

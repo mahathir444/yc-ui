@@ -20,7 +20,7 @@ export default (params: {
   defaultInputValue: Ref<string>;
   multiple: Ref<boolean>;
   fieldNames: Ref<Record<string, string>>;
-  _options: Ref<SelectOptions>;
+  provideOptions: Ref<SelectOptions>;
   formatLabel: Fn | undefined;
   emits: Fn;
   getValue: Fn;
@@ -34,7 +34,7 @@ export default (params: {
     defaultInputValue,
     multiple,
     fieldNames,
-    _options,
+    provideOptions,
     formatLabel,
     emits,
     getValue,
@@ -99,7 +99,7 @@ export default (params: {
   const slotOptions = ref<OptionProps[]>([]);
   // 传入的option数组
   const renderOptions = computed(() =>
-    _options.value.map((item) => {
+    provideOptions.value.map((item) => {
       return isObject(item)
         ? {
             id: nanoid(),
@@ -115,7 +115,7 @@ export default (params: {
   // 合并所有的选项
   const options = computed(() => {
     // 传入的_options转换字段
-    const flattOptions = _options.value
+    const flattOptions = provideOptions.value
       .map((item: ObjectData) => {
         return item?.options ? item.options : item;
       })

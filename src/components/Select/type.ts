@@ -84,14 +84,19 @@ export interface ProvideType {
     | WritableComputedRef<SelectValue | SelectValue[]>
     | Ref<undefined>;
   computedInputValue: WritableComputedRef<string> | Ref<string>;
-  computedVisible: WritableComputedRef<boolean> | Ref<boolean>;
-  limit: Ref<number>;
   multiple: Ref<boolean>;
+  limit: Ref<number>;
   focus: Fn;
+  blur: Fn;
   filterOption: Fn;
-  emits: Fn;
   getValue: Fn;
+  emits: Fn;
 }
 
 // 内部使用
-export type SelectEventType = 'clear' | 'search' | 'blur';
+export type SelectEventType =
+  | 'clear'
+  | 'search'
+  | 'updateValue'
+  | 'blur'
+  | 'focus';

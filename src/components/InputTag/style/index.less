@@ -14,6 +14,10 @@
   display: flex;
   align-items: center;
 
+  &:hover .yc-input-tag-clear-button {
+    visibility: visible;
+  }
+
   .yc-input-tag-prefix,
   .yc-input-tag-suffix {
     height: 100%;
@@ -113,8 +117,8 @@
     box-shadow: 0 0 0 0 rgb(190, 218, 255);
     .yc-input-tag-inner {
       .yc-tag {
-        border-color: rgb(242, 243, 245);
-        background-color: rgb(242, 243, 245);
+        border-color: rgb(242, 243, 245) !important;
+        background-color: rgb(242, 243, 245) !important;
       }
     }
   }

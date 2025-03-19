@@ -20,12 +20,15 @@
       <div
         v-if="!unmountOnClose || (computedVisible && !disabled)"
         v-show="computedVisible && !disabled"
+        v-prevent="{
+          eventName: 'mousedown',
+          isPrevent: preventFocus,
+        }"
         :class="['yc-trigger', wrapperClass]"
         :style="wrapperPosition"
         ref="contentRef"
         @mouseenter="handleMouseenter(false, $event)"
         @mouseleave="handleMouseleave"
-        @mousedown="handleMousedown"
       >
         <!-- content -->
         <div :class="['yc-trigger-content', contentClass]" :style="contentCss">
@@ -148,12 +151,10 @@ const {
   handleFocus,
   handleBlur,
   handleContextmenu,
-  handleMousedown,
   handleClick,
 } = useTriggerVisible({
   popupVisible,
   defaultPopupVisible,
-  preventFocus,
   trigger,
   clickToClose,
   blurToClose,

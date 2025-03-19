@@ -131,7 +131,7 @@ export type {
   SelectValue,
   SelectOptionData,
   SelectOptionGroup,
-  Options,
+  SelectOptions,
   SelectInstance,
   OptgroupInstance,
   OptionInstance,

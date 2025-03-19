@@ -1,5 +1,6 @@
 <template>
   <label
+    v-prevent="'mousedown'"
     :class="{
       'yc-checkbox': true,
       'yc-checkbox-hoverable': !computedChecked && !disabled,
@@ -51,6 +52,7 @@ const props = withDefaults(defineProps<CheckboxProps>(), {
   disabled: false,
   value: '',
   indeterminate: false,
+  preventFocus: false,
 });
 const emits = defineEmits<{
   (e: 'update:modelValue', value: boolean): void;

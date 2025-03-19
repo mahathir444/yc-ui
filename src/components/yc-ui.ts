@@ -1,4 +1,5 @@
 import { App, Plugin } from 'vue';
+import { vPrevent, VPreventBindingValue } from './_directives/prevent';
 import { YcUiOptions } from './_type';
 import Button, { ButtonGroup } from './Button';
 import Drawer from './Drawer';
@@ -70,6 +71,7 @@ const YcUi = {
   install: (app: App, options?: YcUiOptions) => {
     app.component('YcIcon', YcIcon);
     app.component('YcIconButton', YcIconButton);
+    app.directive('prevent', vPrevent);
     for (const key of Object.keys(components)) {
       app.use(components[key], options);
     }
@@ -115,5 +117,8 @@ declare module 'vue' {
     YcCheckboxGroup: typeof CheckboxGroup;
     YcInputTag: typeof InputTag;
     YcAutoComplete: typeof AutoComplete;
+  }
+  export interface ComponentCustomProperties {
+    vPrevent: VPreventBindingValue;
   }
 }

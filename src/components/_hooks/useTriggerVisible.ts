@@ -14,7 +14,6 @@ export default (params: {
   mouseEnterDelay: Ref<number>;
   mouseLeaveDelay: Ref<number>;
   focusDelay: Ref<number>;
-  preventFocus: Ref<boolean>;
   contentRef: Ref<HTMLDivElement | undefined>;
   clickOutSideIngoreFn?: Fn;
   mouseenterCallback?: Fn;
@@ -30,7 +29,6 @@ export default (params: {
     mouseEnterDelay,
     mouseLeaveDelay,
     focusDelay,
-    preventFocus,
     contentRef,
     clickOutSideIngoreFn,
     mouseenterCallback,
@@ -76,12 +74,6 @@ export default (params: {
     mouseX.value = pageX;
     mouseY.value = pageY;
     computedVisible.value = clickToClose.value ? !computedVisible.value : true;
-  };
-  //处理鼠标按下事件，用于阻止content内的元素获取焦点
-  const handleMousedown = (e: MouseEvent) => {
-    if (preventFocus.value) {
-      e.preventDefault();
-    }
   };
   // 鼠标进入
   const handleMouseenter = (isTrigger: boolean, e: MouseEvent) => {
@@ -153,7 +145,6 @@ export default (params: {
     mouseX,
     mouseY,
     computedVisible,
-    handleMousedown,
     handleClick,
     handleMouseenter,
     handleMouseleave,

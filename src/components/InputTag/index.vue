@@ -1,5 +1,6 @@
 <template>
   <div
+    v-prevent="'mousedown'"
     :class="[
       'yc-input-tag',
       SIZE_CLASS[size],
@@ -11,11 +12,14 @@
     :style="{
       minHeight: `${SIZE_MAP[size]}px`,
     }"
-    @mousedown.prevent=""
     @click="inputRef?.focus()"
   >
     <!-- prefix-icon -->
-    <div v-if="$slots.prefix" class="yc-input-tag-prefix">
+    <div
+      v-if="$slots.prefix"
+      v-prevent="'mousedown'"
+      class="yc-input-tag-prefix"
+    >
       <slot name="prefix" />
     </div>
     <!-- mirror -->
@@ -35,7 +39,6 @@
         class="yc-select-value-tag"
         color="white"
         prevent-focus
-        :stop-propagation="stopPropagation"
         @close="handleEvent('close', $event, item.id)"
       >
         {{ formatTag ? formatTag(item) : item[fieldKey.label] }}
@@ -48,7 +51,6 @@
         bordered
         color="white"
         prevent-focus
-        :stop-propagation="stopPropagation"
       >
         +{{ curList.hideList.length }}...
       </yc-tag>
@@ -79,7 +81,11 @@
       @click="handleEvent('clear', $event)"
     />
     <!-- suffix-icon -->
-    <div v-if="$slots.suffix" class="yc-input-tag-suffix">
+    <div
+      v-if="$slots.suffix"
+      v-prevent="'mousedown'"
+      class="yc-input-tag-suffix"
+    >
       <slot name="suffix" />
     </div>
   </div>
@@ -131,8 +137,7 @@ const props = withDefaults(defineProps<InputTagProps>(), {
       tagProps: 'tagProps',
     };
   },
-  enterToCreate: true,
-  stopPropagation: true,
+  allowCreate: true,
 });
 const emits = defineEmits<{
   (e: 'update:modelValue', value: InputTagValue): void;
@@ -156,7 +161,7 @@ const {
   readonly,
   uniqueValue,
   retainInputValue,
-  enterToCreate,
+  allowCreate,
   maxTagCount,
   fieldNames,
 } = toRefs(props);
@@ -226,7 +231,7 @@ const showClearBtn = computed(
     allowClear.value &&
     !disabled.value &&
     !readonly.value &&
-    !!computedValue.value.length
+    computedValue.value.length
 );
 // 清除输入值
 const clearInputValue = () => {
@@ -269,7 +274,7 @@ const handleEvent = (
           (item: ObjectData) => (item?.[value] ?? item) == inputVal
         ));
 
-    if (!inputVal || !enterToCreate.value || !isUnique) {
+    if (!inputVal || !allowCreate.value || !isUnique) {
       return;
     }
     if (!computedValue.value.length || !isObject(computedValue.value[0])) {
@@ -280,7 +285,6 @@ const handleEvent = (
       tagData[value] = computedInputValue.value;
       computedValue.value = [...computedValue.value, tagData];
     }
-    console.log(computedValue.value, 'isUnique');
     emits('pressEnter', e as KeyboardEvent);
     clearInputValue();
   }

@@ -12,6 +12,7 @@
     <slot />
     <div
       v-for="item in directions"
+      v-prevent="'mousedown'"
       :key="item"
       :class="[
         'yc-resizebox-trigger',
@@ -20,7 +21,6 @@
       ]"
       :id="`direction-${item}`"
       :ref="(el) => setRef(item, el)"
-      @mousedown="(e) => hanClickTrigger(item, e)"
     >
       <slot name="resize-trigger" :direction="item">
         <div class="yc-resizebox-trigger-icon-wrapper">

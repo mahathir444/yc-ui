@@ -14,7 +14,7 @@ export type {
   SelectValue,
   SelectOptionData,
   SelectOptionGroup,
-  Options,
+  SelectOptions,
 } from './type';
 
 const Select = Object.assign(_Select, {

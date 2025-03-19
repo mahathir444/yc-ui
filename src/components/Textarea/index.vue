@@ -9,9 +9,11 @@
       'yc-textarea-auto-size': autoSize,
     }"
   >
+    <!-- moirror获取 -->
     <div v-if="autoSize" class="yc-textarea-mirror" ref="mirrorRef">
       {{ computedValue }}
     </div>
+    <!-- textarea -->
     <textarea
       v-model="computedValue"
       :disabled="disabled"
@@ -25,9 +27,8 @@
       @focus="handleEvent('focus', $event)"
       @blur="handleEvent('blur', $event)"
     ></textarea>
-
     <!-- wordlimit -->
-    <span v-if="showLimit" class="yc-input-word-limit">
+    <span v-if="showLimit" v-prevent="'mousedown'" class="yc-input-word-limit">
       {{ computedValue.length }}
       /
       {{ maxLength }}

@@ -1,14 +1,14 @@
 <template>
-  <!-- :click-out-side-ingore-fn="ingoreFn" -->
   <yc-trigger
-    :popup-visible="computedVisible"
     trigger="focus"
     position="bl"
     animation-name="slide-dynamic-origin"
+    :popup-visible="computedVisible"
     :popup-offset="4"
     :unmount-on-close="unmountonClose"
     :popup-container="popupContainer"
     :disabled="disabled"
+    prevent-focus
     auto-fit-popup-width
     v-bind="triggerProps"
     :content-style="{
@@ -28,23 +28,23 @@
           'yc-select-multiple': multiple,
           'yc-select-multiple-focus': multiple && computedVisible,
         }"
-        :group-id="groupId"
-        @click="handleClick"
       >
         <!-- single  -->
         <yc-input
           v-if="!multiple"
-          :show-input="computedVisible"
           v-model="computedInputValue"
-          :placeholder="selectOptions?.[0]?.label"
+          :show-input="computedVisible"
           :readonly="!allowSearch || loading"
           :disabled="disabled"
           :size="size"
           :error="error"
+          :placeholder="
+            isAutoCompleteMode ? placeholder : selectOptions?.[0]?.label
+          "
           :allow-clear="isAutoCompleteMode && allowClear"
           v-bind="$attrs"
           ref="inputRef"
-          @focus="computedVisible = true"
+          @click="handleEvent('focus')"
           @blur="handleEvent('blur')"
           @input="(v) => handleEvent('search', v)"
         >
@@ -88,17 +88,13 @@
           :error="error"
           :max-tag-count="maxTagCount"
           :tag-nowrap="tagNowrap"
-          :enter-to-create="false"
-          :stop-propagation="false"
+          :allow-create="allowCreate"
           v-bind="$attrs"
           ref="inputRef"
-          @update:model-value="
-            (v) => (computedValue = v.map((item) => (item as TagData).value))
-          "
-          @focus="computedVisible = true"
-          @blur="computedVisible = false"
+          @focus="handleEvent('focus')"
+          @blur="handleEvent('blur')"
           @input="(v) => handleEvent('search', v)"
-          @remove="focus"
+          @update:model-value="(v) => handleEvent('updateValue', v)"
         >
           <!-- prefix -->
           <template v-if="$slots.prefix" #prefix>
@@ -178,8 +174,7 @@ import {
   ProvideType,
   SelectEventType,
 } from './type';
-import { nanoid } from 'nanoid';
-import { TagData } from '@/components/InputTag';
+import { TagData, InputTagValue } from '@/components/InputTag';
 import useSeletValue from '../_hooks/useSeletValue';
 import { sleep } from '@/components/_utils/fn';
 import YcInput, { InputInstance } from '@/components/Input';
@@ -205,7 +200,8 @@ const props = withDefaults(defineProps<SelectProps>(), {
   disabled: false,
   error: false,
   allowClear: false,
-  allowSearch: true,
+  allowSearch: false,
+  allowCreate: false,
   maxTagCount: 0,
   popupContainer: 'body',
   bordered: true,
@@ -269,26 +265,24 @@ const {
   multiple,
   fieldNames,
   allowSearch,
-  isAutoCompleteMode,
   valueKey,
-  options: _options,
+  options: provideOptions,
+  isAutoCompleteMode,
 } = toRefs(props);
 const { filterOption, formatLabel } = props;
 // 当前的位置
 const triggerPostion = ref<TriggerPostion>('bl');
 // 输入实例
 const inputRef = ref<InputInstance>();
-// groupId
-const groupId = nanoid();
 // 处理值
 const {
-  renderOptions,
   fieldKey,
-  selectOptions,
   isEmpty,
-  computedVisible,
-  computedInputValue,
+  renderOptions,
+  selectOptions,
   computedValue,
+  computedInputValue,
+  computedVisible,
 } = useSeletValue({
   popupVisible,
   defaultPopupVisible,
@@ -297,28 +291,27 @@ const {
   defaultInputValue,
   inputValue,
   multiple,
-  _options,
+  provideOptions,
   fieldNames,
   formatLabel,
   emits,
   getValue,
 });
 // 是否展示清除按钮
-const showClearBtn = computed(
-  () =>
-    allowClear.value &&
-    !disabled.value &&
-    !loading.value &&
-    !!String(computedValue.value).length
-);
+const showClearBtn = computed(() => {
+  const hasValue = multiple.value
+    ? computedValue.value.length
+    : String(computedValue.value).length;
+  return allowClear.value && !disabled.value && !loading.value && !!hasValue;
+});
 // 提供值
 provide<ProvideType>(SELECT_PROVIDE_KEY, {
-  computedVisible,
   computedValue,
   computedInputValue,
   limit,
   multiple,
   focus,
+  blur,
   filterOption,
   emits,
   getValue,
@@ -329,46 +322,47 @@ function getValue(value: string | ObjectData) {
 }
 // 聚焦
 async function focus() {
-  if (!allowSearch.value) return;
   await sleep(0);
   inputRef.value?.focus();
 }
-// 判断是否是关闭按钮,从而不关闭选项
-const ingoreFn = (el: HTMLElement): boolean => {
-  const _groupId = el.getAttribute('group-id');
-  if (groupId == _groupId) {
-    return true;
-  } else if (el.tagName == 'BODY') {
-    return false;
-  } else {
-    return ingoreFn(el.parentElement as HTMLElement);
-  }
-};
-// 处理点击
-const handleClick = async () => {
-  // if (isAutoCompleteMode.value && !computedValue.value) {
-  //   computedVisible.value = true;
-  //   return focus();
-  // }
-  // computedVisible.value = !computedVisible.value;
-  // await sleep(0);
-  // if (computedVisible.value) {
-  //   inputRef.value?.focus();
-  // } else {
-  //   inputRef.value?.blur();
-  // }
-};
+// 失焦
+function blur() {
+  inputRef.value?.blur();
+}
 // 处理事件
-const handleEvent = async (type: SelectEventType, value: string = '') => {
+const handleEvent = async (
+  type: SelectEventType,
+  value: string | InputTagValue = ''
+) => {
+  // 清除
   if (type == 'clear') {
     computedValue.value = multiple.value ? [] : '';
     emits('clear');
-    focus();
-  } else if (type == 'search') {
+  }
+  // 搜索
+  else if (type == 'search') {
     await sleep(searchDelay.value);
-    emits('search', value);
-  } else if (type == 'blur' && !isAutoCompleteMode.value) {
+    emits('search', value as string);
+  }
+  // 聚焦
+  else if (type == 'focus') {
+    if (computedVisible.value) {
+      return blur();
+    }
+    computedVisible.value = true;
+    focus();
+  }
+  // 失焦
+  else if (type == 'blur') {
+    computedVisible.value = false;
+    if (isAutoCompleteMode.value) {
+      return;
+    }
     computedInputValue.value = '';
+  } else if (type == 'updateValue') {
+    computedValue.value = (value as InputTagValue).map(
+      (item) => (item as TagData).value
+    );
   }
 };
 

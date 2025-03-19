@@ -4,8 +4,8 @@
       select
       <yc-select
         allow-clear
+        allow-search
         placeholder="请选择"
-        :multiple="false"
         :field-names="{
           label: 'text',
           value: 'key',
@@ -28,6 +28,7 @@
           label: 'text',
           value: 'key',
         }"
+        allow-clear
       />
     </div>
     <div style="width: 300px">
@@ -36,11 +37,11 @@
     </div>
     <div style="width: 300px">
       input
-      <yc-input allow-clear />
+      <yc-input allow-clear :max-length="100" show-word-limit />
     </div>
     <div style="width: 300px">
       text-area
-      <yc-textarea allow-clear />
+      <yc-textarea allow-clear :max-length="100" show-word-limit />
     </div>
 
     <div style="width: 300px">

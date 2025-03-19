@@ -1,6 +1,10 @@
 <template>
   <div
     v-if="computedVisible"
+    v-prevent="{
+      eventName: 'mousedown',
+      isPrevent: preventFocus,
+    }"
     :class="[
       'yc-tag',
       SIZE_CLASS[size],
@@ -14,10 +18,6 @@
       background: COLOR_CLASS[color] ? '' : (COLOR_MAP[color] ?? color),
       color: ['default', 'white'].includes(color) ? 'rgb(29, 33, 41)' : '',
     }"
-    @mousedown="handleEvent('mousedown', $event)"
-    @click="handleEvent('check', $event)"
-    @dblclick="handleEvent('dblclick', $event)"
-    @contextmenu="handleEvent('contextmenu', $event)"
   >
     <!-- icon -->
     <div v-if="$slots.icon" class="yc-tag-icon">
@@ -35,7 +35,7 @@
       hover-color="rgba(255, 255, 255, 0.2)"
       style="color: inherit"
       class="yc-tag-close-button"
-      @click="handleEvent('close', $event, true)"
+      @click="handleEvent('close', $event)"
     >
       <template v-if="$slots.closeIcon" #icon>
         <slot name="closeIcon" />
@@ -55,7 +55,6 @@ import { toRefs } from 'vue';
 import { TagProps } from './type';
 import { SIZE_CLASS, COLOR_CLASS, COLOR_MAP } from './constants';
 import YcSpin from '../Spin/index.vue';
-
 import useControlValue from '@/components/_hooks/useControlValue';
 defineOptions({
   name: 'Tag',
@@ -73,16 +72,12 @@ const props = withDefaults(defineProps<TagProps>(), {
   defaultChecked: true,
   nowrap: false,
   preventFocus: false,
-  stopPropagation: false,
 });
 const emits = defineEmits<{
   (e: 'update:visible', value: boolean): void;
   (e: 'update:checked', value: boolean): void;
   (e: 'close', ev: MouseEvent, value?: string): void;
   (e: 'check', value: boolean, ev: MouseEvent): void;
-  (e: 'click', ev: MouseEvent): void;
-  (e: 'dblclick', ev: MouseEvent): void;
-  (e: 'contextmenu', ev: MouseEvent): void;
 }>();
 const {
   visible,
@@ -91,7 +86,6 @@ const {
   defaultChecked,
   checkable,
   preventFocus,
-  stopPropagation,
 } = toRefs(props);
 // visible
 const computedVisible = useControlValue<boolean>(
@@ -106,20 +100,13 @@ const computedChecked = useControlValue<boolean>(
   (val) => emits('update:checked', val)
 );
 // 处理事件
-const handleEvent = (type: string, ev: MouseEvent, stop: boolean = false) => {
-  stop && ev.stopPropagation();
-  stopPropagation.value && ev.stopPropagation();
+const handleEvent = (type: string, ev: MouseEvent) => {
   if (type == 'close') {
     computedVisible.value = false;
     emits('close', ev);
-  } else if (type == 'mousedown' && preventFocus.value) {
-    ev.preventDefault();
   } else if (type == 'check' && checkable.value) {
     computedChecked.value = !computedChecked.value;
     emits('check', computedChecked.value, ev);
-    emits('click', ev);
-  } else {
-    emits(type as any, ev);
   }
 };
 </script>

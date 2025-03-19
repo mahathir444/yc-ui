@@ -10,7 +10,6 @@ export interface TagProps {
   checked?: boolean;
   defaultChecked?: boolean;
   nowrap?: boolean;
-  stopPropagation?: boolean;
   preventFocus?: boolean;
 }
 

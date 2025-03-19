@@ -7,6 +7,7 @@ export interface CheckboxProps {
   disabled?: boolean;
   value?: CheckboxValue;
   indeterminate?: boolean;
+  preventFocus?: boolean;
 }
 
 export interface CheckboxGroupProps {

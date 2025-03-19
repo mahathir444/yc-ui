@@ -14,6 +14,7 @@
       v-if="multiple"
       class="yc-select-option-content"
       :model-value="curIndex != -1"
+      prevent-focus
       @update:model-value="handleMulti"
     >
       {{ label }}
@@ -50,24 +51,24 @@ const { label, value: optionValue, disabled } = toRefs(props);
 // 解构父级provide的属性
 const {
   computedValue,
-  computedVisible,
   computedInputValue,
   multiple,
   limit,
   focus,
+  blur,
   emits,
   filterOption,
   getValue,
 } = inject<ProvideType>(SELECT_PROVIDE_KEY, {
   computedValue: ref(undefined),
   computedInputValue: ref(''),
-  computedVisible: ref(false),
   multiple: ref(false),
   limit: ref(0),
-  emits: () => {},
+  blur: () => {},
   focus: () => {},
   filterOption: () => true,
   getValue: () => {},
+  emits: () => {},
 });
 // 当前value对应的index
 const curIndex = computed(() => {
@@ -80,7 +81,7 @@ const curIndex = computed(() => {
 const handleSingle = () => {
   if (disabled.value || isUndefined(computedValue.value)) return;
   computedValue.value = optionValue.value;
-  computedVisible.value = false;
+  blur();
 };
 // 处理单选多选发生改变
 const handleMulti = (v: boolean) => {

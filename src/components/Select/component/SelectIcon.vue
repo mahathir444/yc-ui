@@ -2,6 +2,7 @@
   <!-- loading -->
   <yc-spin
     v-if="loading"
+    v-prevent="'mousedown'"
     :size="12"
     style="color: inherit"
     class="yc-select-loading-icon"
@@ -12,13 +13,17 @@
   </yc-spin>
   <template v-else>
     <!-- default -->
-    <div class="yc-select-suffix-icon">
+    <div v-prevent="'mousedown'" class="yc-select-suffix-icon">
       <slot name="arrow-icon">
         <yc-icon name="arrow-right" />
       </slot>
     </div>
     <!-- search -->
-    <div v-if="allowSearch" class="yc-select-search-icon">
+    <div
+      v-if="allowSearch"
+      v-prevent="'mousedown'"
+      class="yc-select-search-icon"
+    >
       <slot name="search-icon">
         <yc-icon name="search" />
       </slot>
@@ -47,18 +52,5 @@ const emits = defineEmits<{
 </script>
 
 <style lang="less" scoped>
-.yc-select-suffix-icon {
-  transform: rotate(90deg);
-}
-
-.yc-select-suffix-icon,
-.yc-select-search-icon {
-  font-size: 12px;
-  color: inherit;
-}
-
-.yc-select-clear-icon,
-.yc-select-search-icon {
-  display: none;
-}
+@import '../style/select-icon.less';
 </style>

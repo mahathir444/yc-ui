@@ -1,13 +1,10 @@
 <template>
   <div
+    v-prevent="'mousedown'"
     class="yc-icon-button"
     :style="{
       fontSize,
     }"
-    @mousedown.prevent=""
-    @click.stop=""
-    @dblclick.stop=""
-    @contextmenu.stop=""
   >
     <slot name="icon">
       <yc-icon :name="name" />

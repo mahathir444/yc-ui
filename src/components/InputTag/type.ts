@@ -18,8 +18,7 @@ export interface InputTagProps {
   uniqueValue?: boolean;
   tagNowrap?: boolean;
   fieldNames?: Record<string, string>;
-  enterToCreate?: boolean;
-  stopPropagation?: boolean;
+  allowCreate?: boolean;
 }
 
 export type TagData =
