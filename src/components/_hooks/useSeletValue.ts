@@ -9,6 +9,7 @@ import { TagData } from '@/components/InputTag';
 import { Fn, ObjectData } from '../_type';
 import { flattedChildren } from '@/components/_utils/vue-vnode';
 import { nanoid } from 'nanoid';
+import { isObject } from '../_utils/is';
 
 export default (params: {
   popupVisible: Ref<boolean | undefined>;
@@ -58,7 +59,7 @@ export default (params: {
   // 当前选项
   const computedValue = useControlValue<SelectValue>(
     modelValue,
-    defaultValue.value,
+    defaultValue.value ? defaultValue.value : multiple.value ? [] : '',
     (val) => {
       emits('change', val);
       emits('update:modelValue', val);
@@ -75,7 +76,7 @@ export default (params: {
       options.value.map((item) => [getValue(item.value), item])
     );
     // 计算input-tag需要显示的值
-    return (selectValue as any[]).map((v) => {
+    return (selectValue as ObjectData[]).map((v) => {
       const option = optionMap.get(getValue(v));
       return {
         id: nanoid(),
@@ -99,8 +100,16 @@ export default (params: {
   // 传入的option数组
   const renderOptions = computed(() =>
     _options.value.map((item) => {
-      item.id = nanoid();
-      return item;
+      return isObject(item)
+        ? {
+            id: nanoid(),
+            ...item,
+          }
+        : {
+            id: nanoid(),
+            label: item,
+            value: item,
+          };
     })
   );
   // 合并所有的选项

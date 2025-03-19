@@ -38,7 +38,7 @@
             ]"
             :style="modalCss"
             ref="modalRef"
-            @click.stop="() => {}"
+            @click.stop=""
           >
             <!-- header -->
             <div class="yc-modal-header" ref="headerRef">

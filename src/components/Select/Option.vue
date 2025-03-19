@@ -34,7 +34,6 @@
 
 <script lang="ts" setup>
 import { ref, toRefs, inject, computed } from 'vue';
-import { ObjectData } from '@/components/_type';
 import { OptionProps, SelectValue, ProvideType } from './type';
 import { SELECT_PROVIDE_KEY } from '@/components/_constants';
 import { isUndefined } from '@/components/_utils/is';

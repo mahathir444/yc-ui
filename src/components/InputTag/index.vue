@@ -20,7 +20,7 @@
     </div>
     <!-- mirror -->
     <div class="yc-input-tag-mirror" ref="mirrorRef">
-      {{ computedInputValue || (modelValue.length ? '' : placeholder) }}
+      {{ computedInputValue || (computedValue.length ? '' : placeholder) }}
     </div>
     <!-- tag-list -->
     <!-- <transition-group tag="div"> </transition-group> -->
@@ -76,7 +76,7 @@
       v-if="showClearBtn"
       name="close"
       class="yc-input-tag-clear-button"
-      @click.stop="handleEvent('clear', $event)"
+      @click="handleEvent('clear', $event)"
     />
     <!-- suffix-icon -->
     <div v-if="$slots.suffix" class="yc-input-tag-suffix">

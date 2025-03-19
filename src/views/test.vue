@@ -1,10 +1,11 @@
 <template>
   <div class="test">
     <div style="width: 300px">
+      select
       <yc-select
-        v-model="value"
+        allow-clear
         placeholder="请选择"
-        :multiple="true"
+        :multiple="false"
         :field-names="{
           label: 'text',
           value: 'key',
@@ -20,8 +21,8 @@
       </yc-select>
     </div>
     <div style="width: 300px">
+      input-tag
       <yc-input-tag
-        v-model="value"
         placeholder="请输入"
         :field-names="{
           label: 'text',
@@ -30,11 +31,20 @@
       />
     </div>
     <div style="width: 300px">
+      auto-complete
       <yc-auto-complete />
     </div>
     <div style="width: 300px">
+      input
+      <yc-input allow-clear />
+    </div>
+    <div style="width: 300px">
+      text-area
+      <yc-textarea allow-clear />
+    </div>
+
+    <div style="width: 300px">
       <a-select
-        v-model="value1"
         placeholder="请选择"
         allow-search
         allow-clear

@@ -29,7 +29,7 @@
       name="close"
       style="color: inherit"
       class="yc-select-clear-icon"
-      @click.stop="(ev) => $emit('clear', ev)"
+      @click="(ev) => $emit('clear', ev)"
     />
   </template>
 </template>

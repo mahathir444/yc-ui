@@ -26,7 +26,7 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, toRefs } from 'vue';
+import { ref, toRefs, watch } from 'vue';
 import { AutoCompleteProps } from './type';
 import {
   default as YcSelect,
@@ -61,6 +61,7 @@ const emits = defineEmits<{
   (e: 'dropdown-scroll', ev?: Event): void;
 }>();
 const { modelValue, defaultValue } = toRefs(props);
+// selectRef
 const selectRef = ref<SelectInstance>();
 // 计算
 const computedValue = useControlValue<string>(
@@ -70,7 +71,14 @@ const computedValue = useControlValue<string>(
     emits('update:modelValue', val);
   }
 );
-
+const data = ref<any[]>([]);
+watch(computedValue, (value) => {
+  if (value) {
+    data.value = [...Array(5)].map((_, index) => `${value}-${index}`);
+  } else {
+    data.value = [];
+  }
+});
 defineExpose({
   focus() {
     selectRef.value?.focus();

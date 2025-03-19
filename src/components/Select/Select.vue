@@ -1,8 +1,8 @@
 <template>
   <!-- :click-out-side-ingore-fn="ingoreFn" -->
   <yc-trigger
-    v-model:popup-visible="computedVisible"
-    trigger="click"
+    :popup-visible="computedVisible"
+    trigger="focus"
     position="bl"
     animation-name="slide-dynamic-origin"
     :popup-offset="4"
@@ -44,6 +44,7 @@
           :allow-clear="isAutoCompleteMode && allowClear"
           v-bind="$attrs"
           ref="inputRef"
+          @focus="computedVisible = true"
           @blur="handleEvent('blur')"
           @input="(v) => handleEvent('search', v)"
         >
@@ -94,6 +95,8 @@
           @update:model-value="
             (v) => (computedValue = v.map((item) => (item as TagData).value))
           "
+          @focus="computedVisible = true"
+          @blur="computedVisible = false"
           @input="(v) => handleEvent('search', v)"
           @remove="focus"
         >
@@ -144,7 +147,7 @@
                 :option="option"
                 :field-key="fieldKey"
               />
-              <slot v-if="isEmpty" name="empty">
+              <slot v-if="isEmpty && !isAutoCompleteMode" name="empty">
                 <yc-empty description="暂无数据" />
               </slot>
             </div>
@@ -201,7 +204,7 @@ const props = withDefaults(defineProps<SelectProps>(), {
   loading: false,
   disabled: false,
   error: false,
-  allowClear: true,
+  allowClear: false,
   allowSearch: true,
   maxTagCount: 0,
   popupContainer: 'body',
@@ -322,7 +325,7 @@ provide<ProvideType>(SELECT_PROVIDE_KEY, {
 });
 // 获取value
 function getValue(value: string | ObjectData) {
-  return (value as ObjectData)[valueKey.value] ?? value;
+  return (value as ObjectData)?.[valueKey.value] ?? value;
 }
 // 聚焦
 async function focus() {
@@ -343,13 +346,17 @@ const ingoreFn = (el: HTMLElement): boolean => {
 };
 // 处理点击
 const handleClick = async () => {
-  computedVisible.value = multiple.value ? true : !computedVisible.value;
-  await sleep(0);
-  if (computedVisible.value) {
-    inputRef.value?.focus();
-  } else {
-    inputRef.value?.blur();
-  }
+  // if (isAutoCompleteMode.value && !computedValue.value) {
+  //   computedVisible.value = true;
+  //   return focus();
+  // }
+  // computedVisible.value = !computedVisible.value;
+  // await sleep(0);
+  // if (computedVisible.value) {
+  //   inputRef.value?.focus();
+  // } else {
+  //   inputRef.value?.blur();
+  // }
 };
 // 处理事件
 const handleEvent = async (type: SelectEventType, value: string = '') => {

@@ -37,7 +37,7 @@
       v-if="showClearBtn"
       name="close"
       class="yc-textarea-clear-button"
-      @click="handleEvent('input', $event)"
+      @click="handleEvent('clear', $event)"
     />
   </div>
 </template>
@@ -106,7 +106,7 @@ const showClearBtn = computed(
     allowClear.value &&
     !disabled.value &&
     !readonly.value &&
-    computedValue.value.length
+    !!computedValue.value.length
 );
 // div的ref
 const mirrorRef = ref<HTMLDivElement>();
@@ -160,6 +160,8 @@ const handleEvent = (type: TextareaEventType, e: TextareaEvent) => {
   }
   // 清除
   else if (type == 'clear') {
+    console.log('11');
+
     computedValue.value = '';
     emits('clear', e as MouseEvent);
   }
