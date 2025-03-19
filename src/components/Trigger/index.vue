@@ -58,7 +58,7 @@ import { TRANSFORM_ORIGIN_MAP } from './constants';
 import { useElementBounding, useElementSize } from '@vueuse/core';
 import useTriggerVisible from '@/components/_hooks/useTriggerVisible';
 import useTriggerPosition from '@/components/_hooks/useTriggerPosition';
-import { TriggerProps, TriggerPostion } from './type';
+import { TriggerProps } from './type';
 import { findFirstLegitChild } from '@/components/_utils/vue-utils';
 defineOptions({
   name: 'Trigger',
@@ -98,8 +98,8 @@ const props = withDefaults(defineProps<TriggerProps>(), {
   scrollToClose: false,
   scrollToCloseDistance: 0.1,
   preventFocus: false,
-  needTransformOrigin: false,
   alignPoint: false,
+  needTransformOrigin: false,
 });
 const emits = defineEmits<{
   (e: 'update:popupVisible', value: boolean): void;
@@ -189,6 +189,7 @@ function initTrigger() {
   } = useElementBounding(triggerRef, {
     windowScroll: updateAtScroll.value,
   });
+  // 获取content元素的信息
   const { width: contentWidth, height: contentHeight } = useElementSize(
     contentRef,
     undefined,

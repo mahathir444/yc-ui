@@ -13,9 +13,9 @@
     trigger="click"
     show-arrow
     need-transform-origin
+    ref="triggerRef"
     v-bind="$attrs"
     :wrapper-class="`yc-popoconfirm ${$attrs.wrapperClass ?? ''}`"
-    ref="triggerRef"
     @popup-visible-change="(v) => $emit('popup-visible-change', v)"
     @update:popup-visible="(v) => $emit('update:popupVisible', v)"
   >

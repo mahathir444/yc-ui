@@ -99,7 +99,7 @@ import { ref, toRefs, computed, CSSProperties } from 'vue';
 import { CloseType } from '@/components/_type';
 import { ModalProps } from './type';
 import useModalDraggable from '@/components/_hooks/useModalDraggable';
-import useCloseCompt from '@/components/_hooks/useCloseCompt';
+import useModalClose from '@/components/_hooks/useModalClose';
 import YcButton from '@/components/Button/Button.vue';
 
 defineOptions({
@@ -171,7 +171,7 @@ const {
 } = toRefs(props);
 // 处理组件关闭开启
 const { outerVisible, innerVisible, closeType, handleClose, handleAfterLeave } =
-  useCloseCompt(emits, {
+  useModalClose(emits, {
     visible,
     defaultVisible,
     escToClose,

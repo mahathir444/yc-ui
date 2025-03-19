@@ -3,7 +3,6 @@
     :popup-offset="4"
     :mouse-enter-delay="150"
     :mouse-leave-delay="150"
-    v-bind="$attrs"
     :popup-visible="popupVisible"
     :default-popup-visible="defaultPopupVisible"
     :trigger="trigger"
@@ -15,6 +14,7 @@
     auto-fit-popup-min-width
     need-transform-origin
     ref="triggerRef"
+    v-bind="$attrs"
     @popup-visible-change="(v) => $emit('popup-visible-change', v)"
     @update:popup-visible="(v) => $emit('update:popupVisible', v)"
   >

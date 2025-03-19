@@ -81,7 +81,7 @@ import { toRefs, computed, CSSProperties } from 'vue';
 import { DRAWER_POSTION_STYLE } from './constants';
 import { DrawerProps } from './type';
 import { CloseType } from '@/components/_type';
-import useCloseCompt from '@/components/_hooks/useCloseCompt';
+import useDrawerClose from '@/components/_hooks/useModalClose';
 import YcButton from '@/components/Button/Button.vue';
 
 defineOptions({
@@ -154,7 +154,7 @@ const drawerCss = computed(() => {
 });
 // 处理组件关闭开启
 const { outerVisible, innerVisible, closeType, handleClose, handleAfterLeave } =
-  useCloseCompt(emits, {
+  useDrawerClose(emits, {
     visible,
     defaultVisible,
     escToClose,
