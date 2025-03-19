@@ -68,12 +68,11 @@
       </a-select>
     </div>
     <div style="width: 300px">
-      <a-input-tag
-        v-model="value1"
-        placeholder="请输入"
-        size="small"
-        :max-tag-count="4"
-      />
+      <a-input-tag v-model="value1" allow-clear placeholder="请输入">
+        <template #suffix>
+          <icon-align-center />
+        </template>
+      </a-input-tag>
     </div>
   </div>
 </template>

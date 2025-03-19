@@ -17,7 +17,6 @@
   &:hover .yc-input-tag-clear-button {
     visibility: visible;
   }
-
   .yc-input-tag-prefix,
   .yc-input-tag-suffix {
     height: 100%;
@@ -88,6 +87,7 @@
     }
   }
 }
+
 // hoverable
 .yc-input-tag-hoverable {
   &:hover {
@@ -104,11 +104,15 @@
     }
   }
 }
-// error focus no-value
+// error focus no-value has suffix
 .yc-input-tag {
   // novalue
   &.yc-input-tag-no-value {
     padding: 0 12px;
+  }
+  // has-suffix
+  &.yc-input-tag-has-suffix {
+    padding-right: 12px;
   }
   // focus
   &.yc-input-tag-focus {
@@ -143,7 +147,6 @@
     color: inherit;
   }
 }
-
 //size
 .yc-input-tag-size-mini {
   font-size: 12px;

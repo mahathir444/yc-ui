@@ -2,7 +2,9 @@
   <!-- loading -->
   <yc-spin
     v-if="loading"
-    v-prevent="'mousedown'"
+    v-prevent="{
+      eventName: 'mousedown',
+    }"
     :size="12"
     style="color: inherit"
     class="yc-select-loading-icon"
@@ -13,7 +15,12 @@
   </yc-spin>
   <template v-else>
     <!-- default -->
-    <div v-prevent="'mousedown'" class="yc-select-suffix-icon">
+    <div
+      v-prevent="{
+        eventName: 'mousedown',
+      }"
+      class="yc-select-suffix-icon"
+    >
       <slot name="arrow-icon">
         <yc-icon name="arrow-right" />
       </slot>
@@ -21,7 +28,9 @@
     <!-- search -->
     <div
       v-if="allowSearch"
-      v-prevent="'mousedown'"
+      v-prevent="{
+        eventName: 'mousedown',
+      }"
       class="yc-select-search-icon"
     >
       <slot name="search-icon">

@@ -1,6 +1,8 @@
 <template>
   <div
-    v-prevent="'mousedown'"
+    v-prevent="{
+      eventName: 'mousedown',
+    }"
     class="yc-icon-button"
     :style="{
       fontSize,

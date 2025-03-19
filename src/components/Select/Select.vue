@@ -134,6 +134,7 @@
             style="max-height: 200px"
             :scrollbar-type="scrollbar ? 'virtual' : 'real'"
             @scroll="$emit('dropdownScroll')"
+            @arrived-bottom="$emit('dropdownReachBottom')"
           >
             <div class="yc-select-dropdown-list">
               <slot />
@@ -237,16 +238,17 @@ const props = withDefaults(defineProps<SelectProps>(), {
   isAutoCompleteMode: false,
 });
 const emits = defineEmits<{
-  (e: 'change', value: SelectValue): void;
-  (e: 'clear'): void;
-  (e: 'search', value: string): void;
-  (e: 'input-value-change', value: string): void;
   (e: 'update:modelValue', value: SelectValue): void;
   (e: 'update:inputValue', value: SelectValue): void;
+  (e: 'change', value: SelectValue): void;
+  (e: 'input-value-change', value: string): void;
+  (e: 'clear'): void;
+  (e: 'search', value: string): void;
   (e: 'update:popupVisible', value: boolean): void;
   (e: 'popupVisibleChange', value: boolean): void;
-  (e: 'exceedLimit', value: SelectValue, ev?: MouseEvent): void;
   (e: 'dropdownScroll'): void;
+  (e: 'dropdownReachBottom'): void;
+  (e: 'exceedLimit', value: SelectValue, ev?: MouseEvent): void;
 }>();
 const {
   modelValue,

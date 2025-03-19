@@ -28,7 +28,13 @@
       @blur="handleEvent('blur', $event)"
     ></textarea>
     <!-- wordlimit -->
-    <span v-if="showLimit" v-prevent="'mousedown'" class="yc-input-word-limit">
+    <span
+      v-if="showLimit"
+      v-prevent="{
+        eventName: 'mousedown',
+      }"
+      class="yc-input-word-limit"
+    >
       {{ computedValue.length }}
       /
       {{ maxLength }}

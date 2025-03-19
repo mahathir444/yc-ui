@@ -11,7 +11,13 @@
     ]"
   >
     <!-- prepend -->
-    <div v-if="$slots.prepend" v-prevent="'mousedown'" class="yc-input-prepend">
+    <div
+      v-if="$slots.prepend"
+      v-prevent="{
+        eventName: 'mousedown',
+      }"
+      class="yc-input-prepend"
+    >
       <slot name="prepend" />
     </div>
     <!-- yc-input-wrapper"  -->
@@ -22,7 +28,13 @@
       }"
     >
       <!-- prefix-icon -->
-      <div v-if="$slots.prefix" v-prevent="'mousedown'" class="yc-input-prefix">
+      <div
+        v-if="$slots.prefix"
+        v-prevent="{
+          eventName: 'mousedown',
+        }"
+        class="yc-input-prefix"
+      >
         <slot name="prefix" />
       </div>
       <!-- input -->
@@ -64,7 +76,9 @@
       <!-- suffix-icon -->
       <div
         v-if="$slots.suffix || $slots.extra || showLimit"
-        v-prevent="'mousedown'"
+        v-prevent="{
+          eventName: 'mousedown',
+        }"
         class="yc-input-suffix"
       >
         <!-- word-limit -->
@@ -80,7 +94,13 @@
       </div>
     </div>
     <!-- append -->
-    <div v-if="$slots.append" v-prevent="'mousedown'" class="yc-input-append">
+    <div
+      v-if="$slots.append"
+      v-prevent="{
+        eventName: 'mousedown',
+      }"
+      class="yc-input-append"
+    >
       <slot name="append" />
     </div>
   </div>

@@ -52,7 +52,7 @@
 
 <script lang="ts" setup>
 import { toRefs } from 'vue';
-import { TagProps } from './type';
+import { TagProps, TagEventType } from './type';
 import { SIZE_CLASS, COLOR_CLASS, COLOR_MAP } from './constants';
 import YcSpin from '../Spin/index.vue';
 import useControlValue from '@/components/_hooks/useControlValue';
@@ -100,7 +100,7 @@ const computedChecked = useControlValue<boolean>(
   (val) => emits('update:checked', val)
 );
 // 处理事件
-const handleEvent = (type: string, ev: MouseEvent) => {
+const handleEvent = (type: TagEventType, ev: MouseEvent) => {
   if (type == 'close') {
     computedVisible.value = false;
     emits('close', ev);

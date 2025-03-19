@@ -1,6 +1,8 @@
 <template>
   <label
-    v-prevent="'mousedown'"
+    v-prevent="{
+      eventName: 'mousedown',
+    }"
     :class="{
       'yc-checkbox': true,
       'yc-checkbox-hoverable': !computedChecked && !disabled,

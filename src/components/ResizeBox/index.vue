@@ -12,7 +12,9 @@
     <slot />
     <div
       v-for="item in directions"
-      v-prevent="'mousedown'"
+      v-prevent="{
+        eventName: 'mousedown',
+      }"
       :key="item"
       :class="[
         'yc-resizebox-trigger',

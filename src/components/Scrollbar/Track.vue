@@ -2,8 +2,12 @@
   <div
     :class="`yc-scrollbar-track yc-scrollbar-track-direction-${direction}`"
     :style="{
-      width: isVertical ? `${scrollbarSize.verticalTrack || 15}px` : '',
-      height: isVertical ? '' : `${scrollbarSize.horizontalTrack || 15}px`,
+      width: isVertical
+        ? `${scrollbarSize.verticalTrack || DEFAULT_TRACK_WIDTH}px`
+        : '',
+      height: isVertical
+        ? ''
+        : `${scrollbarSize.horizontalTrack || DEFAULT_TRACK_WIDTH}px`,
     }"
     ref="trackRef"
     @click.self="handleClick"
@@ -24,8 +28,12 @@
           'is-dragging': isDragging,
         }"
         :style="{
-          width: isVertical ? `${scrollbarSize.verticalThumb || 9}px` : '',
-          height: isVertical ? '' : `${scrollbarSize.horizontalThumb || 9}px`,
+          width: isVertical
+            ? `${scrollbarSize.verticalThumb || DEFAULT_BAR_WIDTH}px`
+            : '',
+          height: isVertical
+            ? ''
+            : `${scrollbarSize.horizontalThumb || DEFAULT_BAR_WIDTH}px`,
         }"
       ></div>
     </div>
@@ -38,6 +46,7 @@ import { SCROLLBAR_PROVIDE_KEY } from '@/components/_constants';
 import { ProvideType } from './type';
 import { Direction } from '@/components/_type';
 import { useDraggable, useEventListener } from '@vueuse/core';
+import { DEFAULT_BAR_WIDTH, DEFAULT_TRACK_WIDTH } from './constants';
 
 const props = withDefaults(
   defineProps<{
@@ -75,10 +84,10 @@ const {
   thumbHeight: ref(0),
   thumbWidth: ref(0),
   scrollbarSize: ref({
-    verticalTrack: 15,
-    verticalThumb: 9,
-    horizontalTrack: 15,
-    horizontalThumb: 9,
+    verticalTrack: DEFAULT_TRACK_WIDTH,
+    verticalThumb: DEFAULT_BAR_WIDTH,
+    horizontalTrack: DEFAULT_TRACK_WIDTH,
+    horizontalThumb: DEFAULT_BAR_WIDTH,
   }),
 });
 // dargRef

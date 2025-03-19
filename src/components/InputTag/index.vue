@@ -1,6 +1,8 @@
 <template>
   <div
-    v-prevent="'mousedown'"
+    v-prevent="{
+      eventName: 'mousedown',
+    }"
     :class="[
       'yc-input-tag',
       SIZE_CLASS[size],
@@ -8,6 +10,7 @@
       disabled ? 'yc-input-tag-disabled' : 'yc-input-tag-hoverable',
       error ? 'yc-input-tag-error' : '',
       isFocus ? 'yc-input-tag-focus' : '',
+      $slots.suffix || showClearBtn ? 'yc-input-tag-has-suffix' : '',
     ]"
     :style="{
       minHeight: `${SIZE_MAP[size]}px`,
@@ -17,7 +20,9 @@
     <!-- prefix-icon -->
     <div
       v-if="$slots.prefix"
-      v-prevent="'mousedown'"
+      v-prevent="{
+        eventName: 'mousedown',
+      }"
       class="yc-input-tag-prefix"
     >
       <slot name="prefix" />
@@ -73,19 +78,21 @@
         @keydown.delete="handleEvent('remove', $event)"
       />
     </div>
-    <!-- clear-btn -->
-    <yc-icon-button
-      v-if="showClearBtn"
-      name="close"
-      class="yc-input-tag-clear-button"
-      @click="handleEvent('clear', $event)"
-    />
     <!-- suffix-icon -->
     <div
-      v-if="$slots.suffix"
-      v-prevent="'mousedown'"
+      v-if="$slots.suffix || showClearBtn"
+      v-prevent="{
+        eventName: 'mousedown',
+      }"
       class="yc-input-tag-suffix"
     >
+      <!-- clear-btn -->
+      <yc-icon-button
+        v-if="showClearBtn"
+        name="close"
+        class="yc-input-tag-clear-button"
+        @click="handleEvent('clear', $event)"
+      />
       <slot name="suffix" />
     </div>
   </div>
