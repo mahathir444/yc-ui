@@ -7,17 +7,17 @@
     :arrow-class="`${arrowClass} yc-popoconfirm-popup-arrow `"
     :arrow-style="arrowStyle"
     :content-class="`${contentClass} yc-popconfirm-popup-content`"
-    :content-style="computedContentStyle"
+    :content-style="contentStyle"
     :popup-offset="10"
     animation-name="zoom-in-fade-out"
     trigger="click"
     show-arrow
+    need-transform-origin
     v-bind="$attrs"
     :wrapper-class="`yc-popoconfirm ${$attrs.wrapperClass ?? ''}`"
     ref="triggerRef"
     @popup-visible-change="(v) => $emit('popup-visible-change', v)"
     @update:popup-visible="(v) => $emit('update:popupVisible', v)"
-    @position-change="(v) => (triggerPostion = v)"
   >
     <slot />
     <template #content>
@@ -50,9 +50,7 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, toRefs, computed, CSSProperties } from 'vue';
-import { TriggerPostion } from '@/components/Trigger/type';
-import { TRANSFORM_ORIGIN_MAP } from '@/components/Trigger/constants';
+import { ref } from 'vue';
 import { TYPE_CLASS } from './constants';
 import { PopconfirmProps } from './type';
 import { TriggerInstance } from '@/components/Trigger';
@@ -61,7 +59,7 @@ import YcButton from '@/components/Button/Button.vue';
 defineOptions({
   name: 'Popconfirm',
 });
-const props = withDefaults(defineProps<PopconfirmProps>(), {
+withDefaults(defineProps<PopconfirmProps>(), {
   content: '',
   position: 'bottom',
   popupVisible: undefined,
@@ -92,16 +90,6 @@ const emits = defineEmits<{
   (e: 'ok'): void;
   (e: 'cancel'): void;
 }>();
-const { contentStyle } = toRefs(props);
-// 当前的位置
-const triggerPostion = ref<TriggerPostion>('bottom');
-// content-style
-const computedContentStyle = computed(() => {
-  return {
-    transformOrigin: TRANSFORM_ORIGIN_MAP[triggerPostion.value],
-    ...contentStyle?.value,
-  } as CSSProperties;
-});
 // 触发器实例
 const triggerRef = ref<TriggerInstance>();
 // 处理确认

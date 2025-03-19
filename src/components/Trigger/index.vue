@@ -53,9 +53,8 @@ import {
   CSSProperties,
   toRefs,
   watchEffect,
-  VNode,
-  h,
 } from 'vue';
+import { TRANSFORM_ORIGIN_MAP } from './constants';
 import { useElementBounding, useElementSize } from '@vueuse/core';
 import useTriggerVisible from '@/components/_hooks/useTriggerVisible';
 import useTriggerPosition from '@/components/_hooks/useTriggerPosition';
@@ -99,12 +98,12 @@ const props = withDefaults(defineProps<TriggerProps>(), {
   scrollToClose: false,
   scrollToCloseDistance: 0.1,
   preventFocus: false,
+  needTransformOrigin: false,
   alignPoint: false,
 });
 const emits = defineEmits<{
   (e: 'update:popupVisible', value: boolean): void;
   (e: 'popup-visible-change', value: boolean): void;
-  (e: 'position-change', value: TriggerPostion): void;
   (e: 'show'): void;
   (e: 'hide'): void;
 }>();
@@ -132,6 +131,7 @@ const {
   scrollToCloseDistance,
   autoFitPosition,
   alignPoint,
+  needTransformOrigin,
 } = toRefs(props);
 const { clickOutSideIngoreFn, mouseenterCallback } = props;
 // content的ref
@@ -197,31 +197,36 @@ function initTrigger() {
     }
   );
   // 计算wrapper与arrow的位置信息
-  const { wrapperPosition, arrowPostion } = useTriggerPosition({
-    position,
-    left,
-    top,
-    bottom,
-    right,
-    mouseX,
-    mouseY,
-    alignPoint,
-    trigger,
-    triggerHeight,
-    triggerWidth,
-    contentHeight,
-    contentWidth,
-    popupTranslate,
-    popupOffset,
-    autoFitPosition,
-    emits,
-  });
+  const { wrapperPosition, arrowPostion, triggerPosition } = useTriggerPosition(
+    {
+      position,
+      left,
+      top,
+      bottom,
+      right,
+      mouseX,
+      mouseY,
+      alignPoint,
+      trigger,
+      triggerHeight,
+      triggerWidth,
+      contentHeight,
+      contentWidth,
+      popupTranslate,
+      popupOffset,
+      autoFitPosition,
+      emits,
+    }
+  );
   // contentCss
   const contentCss = computed(() => {
     return {
       ...contentStyle.value,
       width: autoFitPopupWidth.value ? `${triggerWidth.value}px` : '',
       minWidth: autoFitPopupMinWidth.value ? `${triggerWidth.value}px` : '',
+      transformOrigin: needTransformOrigin.value
+        ? TRANSFORM_ORIGIN_MAP[triggerPosition.value]
+        : '',
     } as CSSProperties;
   });
   // arrowcss

@@ -136,15 +136,21 @@ function initScrollbar() {
   const curLeft = ref<number>(0);
   // 是否有纵向滚动条
   const hasVerticalBar = computed(() => {
+    const curScrollHeight = scrollRef.value?.scrollHeight ?? 0;
+    console.log(curScrollHeight, 'curscrollHeight');
+    console.log(scrollHeight.value, 'elementHeight');
     return (
       contentHeight.value > scrollHeight.value &&
+      scrollHeight.value < curScrollHeight &&
       scrollbarType.value == BAR_TYPE.virtual
     );
   });
   // 是否有很想滚动条
   const hashorizontalBar = computed(() => {
+    const curScrollWidth = scrollRef.value?.scrollWidth || 0;
     return (
-      contentWidth.value > contentWidth.value &&
+      contentWidth.value > scrollWidth.value &&
+      scrollWidth.value < curScrollWidth &&
       scrollbarType.value == BAR_TYPE.virtual
     );
   });

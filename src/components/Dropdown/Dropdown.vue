@@ -8,19 +8,15 @@
     :default-popup-visible="defaultPopupVisible"
     :trigger="trigger"
     :position="submenuPosition"
-    :content-style="{
-      ...($attrs.contentStyle || {}),
-      transformOrigin: TRANSFORM_ORIGIN_MAP[triggerPostion],
-    }"
     :show-arrow="false"
     :click-out-side-ingore-fn="isSameGroup"
     :mouseenter-callback="mouseenterCb"
     animation-name="slide-dynamic-origin"
     auto-fit-popup-min-width
+    need-transform-origin
     ref="triggerRef"
     @popup-visible-change="(v) => $emit('popup-visible-change', v)"
     @update:popup-visible="(v) => $emit('update:popupVisible', v)"
-    @position-change="(v) => (triggerPostion = v)"
   >
     <slot />
     <template #content>
@@ -40,8 +36,6 @@
 
 <script lang="ts" setup>
 import { ref, provide, toRefs, computed } from 'vue';
-import { TriggerPostion } from '@/components/Trigger/type';
-import { TRANSFORM_ORIGIN_MAP } from '@/components/Trigger/constants';
 import { DROPDOWN_PROVIDE_KEY } from '@/components/_constants';
 import { DropdownProps, DoptionValue, ProvideType } from './type';
 import { TriggerInstance } from '@/components/Trigger';
@@ -74,8 +68,6 @@ const submenuPosition = computed(() => {
   }
   return position.value;
 });
-// 当前的位置
-const triggerPostion = ref<TriggerPostion>('bottom');
 // 处理嵌套关闭
 const {
   isSameGroup,

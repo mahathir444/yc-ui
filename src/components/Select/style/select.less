@@ -1,26 +1,6 @@
 .yc-select {
   width: 100%;
   height: fit-content;
-
-  &:focus-within {
-    &:deep(.yc-select-suffix-icon) {
-      transform: rotate(270deg);
-    }
-  }
-}
-// 多选
-.yc-select-multiple {
-  .yc-input-tag {
-    padding-right: 12px;
-  }
-}
-// 多选聚焦
-.yc-select-multiple-focus {
-  &:deep(.yc-input-tag) {
-    background-color: #fff;
-    border-color: rgb(22, 93, 255);
-    box-shadow: 0 0 0 0 rgb(190, 218, 255);
-  }
 }
 // 无边框
 .yc-select-no-border {
@@ -58,43 +38,6 @@
     }
     &:deep(.yc-select-clear-icon) {
       display: flex;
-    }
-  }
-}
-
-// select-dropdown样式
-.yc-select-dropdown-loading {
-  height: fit-content;
-  width: 100%;
-  .yc-select-dropdown {
-    padding: 4px 0;
-    background-color: #fff;
-    border: 1px solid rgb(229, 230, 235);
-    border-radius: 4px;
-    box-shadow: 0 4px 10px #0000001a;
-
-    .yc-select-dropdown-header {
-      border-bottom: 1px solid rgb(229, 230, 235);
-    }
-    .yc-select-dropdown-footer {
-      border-top: 1px solid rgb(229, 230, 235);
-    }
-
-    .yc-scrollbar {
-      &:deep(.yc-scrollbar-container) {
-        .yc-scrollbar-content {
-          width: 100%;
-          overflow: hidden;
-        }
-      }
-    }
-
-    .yc-select-dropdown-list {
-      display: flex;
-      flex-direction: column;
-      .yc-select-option {
-        flex-shrink: 0;
-      }
     }
   }
 }

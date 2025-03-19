@@ -33,6 +33,7 @@ export type TriggerProps = {
   alignPoint?: boolean;
   scrollToClose?: boolean;
   scrollToCloseDistance?: number;
+  needTransformOrigin?: boolean;
   clickOutSideIngoreFn?: (e: HTMLElement) => void;
   mouseenterCallback?: (isTrigger: boolean, e: MouseEvent) => void;
 };

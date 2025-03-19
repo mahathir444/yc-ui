@@ -128,7 +128,6 @@ export default (params: {
       offsetLeft,
       offsetTop
     ) as TriggerPostion;
-    emits('position-change', triggerPosition.value);
     return {
       top: `${offsetTop + offsetY}px`,
       left: `${offsetLeft + offsetX}px`,
@@ -247,6 +246,7 @@ export default (params: {
     return position.value;
   }
   return {
+    triggerPosition,
     wrapperPosition,
     arrowPostion,
   };

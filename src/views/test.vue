@@ -5,6 +5,7 @@
       <yc-select
         allow-clear
         allow-search
+        multiple
         placeholder="请选择"
         :field-names="{
           label: 'text',

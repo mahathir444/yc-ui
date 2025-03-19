@@ -10,12 +10,8 @@
     :disabled="disabled"
     prevent-focus
     auto-fit-popup-width
+    need-transform-origin
     v-bind="triggerProps"
-    :content-style="{
-      transformOrigin: TRANSFORM_ORIGIN_MAP[triggerPostion],
-      ...triggerProps.contentStyle,
-    }"
-    @position-change="(v) => (triggerPostion = v)"
     @popup-visible-change="(v) => $emit('popupVisibleChange', v)"
   >
     <slot name="trigger">
@@ -25,8 +21,6 @@
           'yc-select-allow-search': allowSearch,
           'yc-select-allow-clear': showClearBtn,
           'yc-select-no-border': !bordered,
-          'yc-select-multiple': multiple,
-          'yc-select-multiple-focus': multiple && computedVisible,
         }"
       >
         <!-- single  -->
@@ -64,6 +58,7 @@
           <!-- suffix -->
           <template v-if="!isAutoCompleteMode" #suffix>
             <select-icon
+              :popup-visible="computedVisible"
               :show-clear-btn="showClearBtn"
               :allow-clear="allowClear"
               :allow-search="allowSearch"
@@ -94,6 +89,7 @@
           @focus="handleEvent('focus')"
           @blur="handleEvent('blur')"
           @input="(v) => handleEvent('search', v)"
+          @remove="() => $emit('remove')"
           @update:model-value="(v) => handleEvent('updateValue', v)"
         >
           <!-- prefix -->
@@ -103,6 +99,7 @@
           <!-- suffix -->
           <template #suffix>
             <select-icon
+              :popup-visible="computedVisible"
               :show-clear-btn="showClearBtn"
               :allow-clear="allowClear"
               :allow-search="allowSearch"
@@ -118,55 +115,41 @@
       </div>
     </slot>
     <template #content>
-      <!-- loading -->
-      <yc-spin :loading="loading" class="yc-select-dropdown-loading">
-        <!--dropdown -->
-        <div class="yc-select-dropdown">
-          <!-- header -->
-          <div
-            v-if="$slots.header && (showHeaderOnEmpty || !isEmpty)"
-            class="yc-select-dropdown-header"
-          >
-            <slot name="header" />
-          </div>
-          <!-- list -->
-          <yc-scrollbar
-            style="max-height: 200px"
-            :scrollbar-type="scrollbar ? 'virtual' : 'real'"
-            @scroll="$emit('dropdownScroll')"
-            @arrived-bottom="$emit('dropdownReachBottom')"
-          >
-            <div class="yc-select-dropdown-list">
-              <slot />
-              <render-option
-                v-for="option in renderOptions"
-                :key="option.id"
-                :option="option"
-                :field-key="fieldKey"
-              />
-              <slot v-if="isEmpty && !isAutoCompleteMode" name="empty">
-                <yc-empty description="暂无数据" />
-              </slot>
-            </div>
-          </yc-scrollbar>
-          <!-- footer -->
-          <div
-            v-if="$slots.footer && (showFooterOnEmpty || !isEmpty)"
-            class="yc-select-dropdown-footer"
-          >
-            <slot name="footer" />
-          </div>
-        </div>
-      </yc-spin>
+      <select-dropdown
+        :options="renderOptions"
+        :field-key="fieldKey"
+        :loading="loading"
+        :scrollbar="scrollbar"
+        :is-empty="isEmpty"
+        :is-auto-complete-mode="isAutoCompleteMode"
+        :show-footer-on-empty="showFooterOnEmpty"
+        :show-header-on-empty="showHeaderOnEmpty"
+      >
+        <!-- loading -->
+        <template v-if="$slots['loading-icon']" #loading-icon>
+          <slot name="loading-icon" />
+        </template>
+        <!-- header -->
+        <template v-if="$slots.header" #header>
+          <slot name="header" />
+        </template>
+        <!-- header -->
+        <template v-if="$slots.footer" #footer>
+          <slot name="footer" />
+        </template>
+        <!-- empty -->
+        <template v-if="$slots.empty" #empty>
+          <slot name="empty" />
+        </template>
+        <slot />
+      </select-dropdown>
     </template>
   </yc-trigger>
 </template>
 
 <script lang="ts" setup>
 import { ref, computed, toRefs, provide } from 'vue';
-import { TRANSFORM_ORIGIN_MAP } from '@/components/Trigger/constants';
 import { SELECT_PROVIDE_KEY } from '@/components/_constants';
-import { TriggerPostion } from '@/components/Trigger';
 import { ObjectData } from '@/components/_type';
 import {
   SelectProps,
@@ -180,12 +163,9 @@ import useSeletValue from '../_hooks/useSeletValue';
 import { sleep } from '@/components/_utils/fn';
 import YcInput, { InputInstance } from '@/components/Input';
 import YcTrigger from '@/components/Trigger/index.vue';
-import YcScrollbar from '@/components/Scrollbar/Scrollbar.vue';
-import YcSpin from '@/components/Spin/index.vue';
 import YcInputTag from '@/components/InputTag/index.vue';
-import YcEmpty from '@/components/Empty/index.vue';
 import SelectIcon from './component/SelectIcon.vue';
-import RenderOption from './component/RenderOption.vue';
+import SelectDropdown from './component/SelectDropdown.vue';
 defineOptions({
   name: 'Select',
 });
@@ -243,6 +223,7 @@ const emits = defineEmits<{
   (e: 'change', value: SelectValue): void;
   (e: 'input-value-change', value: string): void;
   (e: 'clear'): void;
+  (e: 'remove'): void;
   (e: 'search', value: string): void;
   (e: 'update:popupVisible', value: boolean): void;
   (e: 'popupVisibleChange', value: boolean): void;
@@ -272,8 +253,6 @@ const {
   isAutoCompleteMode,
 } = toRefs(props);
 const { filterOption, formatLabel } = props;
-// 当前的位置
-const triggerPostion = ref<TriggerPostion>('bl');
 // 输入实例
 const inputRef = ref<InputInstance>();
 // 处理值

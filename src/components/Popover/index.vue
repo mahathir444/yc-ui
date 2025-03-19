@@ -8,15 +8,15 @@
     :arrow-class="`yc-popover-popup-arrow ${arrowClass}`"
     :arrow-style="arrowStyle"
     :content-class="`yc-popover-popup-content ${contentClass}`"
-    :content-style="computedContentStyle"
+    :content-style="contentStyle"
     :popup-offset="10"
     animation-name="zoom-in-fade-out"
     show-arrow
+    need-transform-origin
     v-bind="$attrs"
     :wrapper-class="`yc-popover ${$attrs.wrapperClass ?? ''}`"
     @popup-visible-change="(v) => $emit('popup-visible-change', v)"
     @update:popup-visible="(v) => $emit('update:popupVisible', v)"
-    @position-change="(v) => (triggerPostion = v)"
   >
     <slot />
     <template #content>
@@ -35,15 +35,12 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, toRefs, computed, CSSProperties } from 'vue';
-import { TriggerPostion } from '@/components/Trigger/type';
-import { TRANSFORM_ORIGIN_MAP } from '@/components/Trigger/constants';
 import { PopoverProps } from './type';
 import YcTrigger from '@/components/Trigger/index.vue';
 defineOptions({
   name: 'Popover',
 });
-const props = withDefaults(defineProps<PopoverProps>(), {
+withDefaults(defineProps<PopoverProps>(), {
   popupVisible: undefined,
   defaultPopupVisible: false,
   title: '',
@@ -64,16 +61,6 @@ const emits = defineEmits<{
   (e: 'update:popupVisible', value: boolean): void;
   (e: 'popup-visible-change', value: boolean): void;
 }>();
-const { contentStyle } = toRefs(props);
-// 当前的位置
-const triggerPostion = ref<TriggerPostion>('bottom');
-// content-style
-const computedContentStyle = computed(() => {
-  return {
-    transformOrigin: TRANSFORM_ORIGIN_MAP[triggerPostion.value],
-    ...contentStyle?.value,
-  } as CSSProperties;
-});
 </script>
 
 <style lang="less">

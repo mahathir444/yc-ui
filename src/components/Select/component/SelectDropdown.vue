@@ -1,0 +1,97 @@
+<template>
+  <!-- loading -->
+  <yc-spin :loading="loading" class="yc-select-dropdown-loading">
+    <template v-if="$slots['loading-icon']" #icon>
+      <slot name="loading-icon" />
+    </template>
+    <!--dropdown -->
+    <div class="yc-select-dropdown">
+      <!-- header -->
+      <div
+        v-if="$slots.header && (showHeaderOnEmpty || !isEmpty)"
+        class="yc-select-dropdown-header"
+      >
+        <slot name="header" />
+      </div>
+      <!-- list -->
+      <yc-scrollbar
+        style="max-height: 200px"
+        :scrollbar-type="scrollbar ? 'virtual' : 'real'"
+        @scroll="emits('dropdownScroll')"
+        @arrived-bottom="emits('dropdownReachBottom')"
+      >
+        <div class="yc-select-dropdown-list">
+          <!-- 默认插槽 -->
+          <slot />
+          <!-- 自己渲染的options -->
+          <template v-for="option in options" :key="option.id">
+            <template v-if="(option as ObjectData).isGroup">
+              <yc-optgroup :label="option.label">
+                <yc-option
+                  v-for="v in (option as ObjectData).options"
+                  :key="(v as ObjectData)[fieldKey.value]"
+                  :value="(v as ObjectData)[fieldKey.value]"
+                  :label="(v as ObjectData)[fieldKey.label]"
+                  :disabled="(v as ObjectData)[fieldKey.disabled]"
+                />
+              </yc-optgroup>
+            </template>
+            <template v-else>
+              <yc-option
+                :value="(option as ObjectData)[fieldKey.value]"
+                :label="(option as ObjectData)[fieldKey.label]"
+                :disabled="(option as ObjectData)[fieldKey.disabled]"
+              />
+            </template>
+          </template>
+          <!-- empty -->
+          <slot v-if="!isAutoCompleteMode && isEmpty" name="empty">
+            <yc-empty description="暂无数据" />
+          </slot>
+        </div>
+      </yc-scrollbar>
+      <!-- footer -->
+      <div
+        v-if="$slots.footer && (showFooterOnEmpty || !isEmpty)"
+        class="yc-select-dropdown-footer"
+      >
+        <slot name="footer" />
+      </div>
+    </div>
+  </yc-spin>
+</template>
+
+<script lang="ts" setup>
+import { inject, ref } from 'vue';
+import { SelectOptions, ProvideType } from '../type';
+import { SELECT_PROVIDE_KEY } from '@/components/_constants';
+import { ObjectData } from '@/components/_type';
+import YcOption from '../Option.vue';
+import YcOptgroup from '../Optgroup.vue';
+defineProps<{
+  options: SelectOptions;
+  fieldKey: Record<string, string>;
+  loading: boolean;
+  scrollbar: boolean;
+  isEmpty: boolean;
+  isAutoCompleteMode: boolean;
+  showHeaderOnEmpty: boolean;
+  showFooterOnEmpty: boolean;
+}>();
+// 解构父级provide的属性
+const { emits } = inject<ProvideType>(SELECT_PROVIDE_KEY, {
+  computedValue: ref(undefined),
+  computedInputValue: ref(''),
+  multiple: ref(false),
+  limit: ref(0),
+  blur: () => {},
+  focus: () => {},
+  filterOption: () => true,
+  getValue: () => {},
+  emits: () => {},
+});
+</script>
+
+<style lang="less" scoped>
+@import '../style/selec-dropdown.less';
+</style>

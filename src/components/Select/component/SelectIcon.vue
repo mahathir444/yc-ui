@@ -19,7 +19,10 @@
       v-prevent="{
         eventName: 'mousedown',
       }"
-      class="yc-select-suffix-icon"
+      :class="{
+        'yc-select-suffix-icon': true,
+        'yc-select-suffix-icon-focus': popupVisible,
+      }"
     >
       <slot name="arrow-icon">
         <yc-icon name="arrow-right" />
@@ -54,6 +57,7 @@ defineProps<{
   allowSearch: boolean;
   allowClear: boolean;
   showClearBtn: boolean;
+  popupVisible: boolean;
 }>();
 const emits = defineEmits<{
   (e: 'clear', ev: MouseEvent): void;
