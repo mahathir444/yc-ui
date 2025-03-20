@@ -49,10 +49,11 @@ import {
 } from 'vue';
 import { DsubmenuProps, ProvideType } from './type';
 import { DROPDOWN_PROVIDE_KEY } from '@/components/_constants';
-import YcScrollbar from '@/components/Scrollbar/Scrollbar.vue';
-import YcDoption from './Doption.vue';
 import useTriggerNested from '@/components/_hooks/useTriggerNested';
 import useControlValue from '../_hooks/useControlValue';
+import YcDoption from './Doption.vue';
+import YcScrollbar from '@/components/Scrollbar';
+
 defineOptions({
   name: 'Dsubmenu',
 });

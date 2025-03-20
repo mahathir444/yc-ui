@@ -51,7 +51,6 @@
 
 <script lang="ts" setup>
 import { ref, toRefs, computed } from 'vue';
-import useControlValue from '../_hooks/useControlValue';
 import {
   TextareaProps,
   ResizeRange,
@@ -59,6 +58,7 @@ import {
   TextareaEventType,
 } from './type';
 import { isNumber } from '@/components/_utils/is';
+import useControlValue from '@/components/_hooks/useControlValue';
 import { useElementSize } from '@vueuse/core';
 defineOptions({
   name: 'Textarea',

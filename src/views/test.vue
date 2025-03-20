@@ -75,11 +75,23 @@
         </template>
       </a-input-tag>
     </div>
+    <div>
+      <yc-button @click="visible = true">测试</yc-button>
+    </div>
+    <a-modal
+      v-model:visible="visible"
+      title="测试"
+      :on-before-cancel="() => false"
+      :on-before-ok="onBeforeOk"
+      :ok-loading="loading"
+    >
+    </a-modal>
   </div>
 </template>
 
 <script lang="ts" setup>
 import { ref, watch, watchEffect } from 'vue';
+import { sleep } from '@/components/_utils/fn';
 const value = ref([]);
 const value1 = ref([]);
 const options = ref<any[]>([]);
@@ -89,6 +101,15 @@ for (let i = 0; i < 20; i++) {
     key: i,
   });
 }
+
+const visible = ref(false);
+const loading = ref(false);
+const onBeforeOk = async () => {
+  loading.value = true;
+  await sleep(1000);
+  loading.value = false;
+  return true;
+};
 </script>
 
 <style lang="less" scoped>

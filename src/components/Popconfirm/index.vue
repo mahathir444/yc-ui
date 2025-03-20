@@ -53,13 +53,13 @@
 import { ref } from 'vue';
 import { TYPE_CLASS } from './constants';
 import { PopconfirmProps } from './type';
-import { TriggerInstance } from '@/components/Trigger';
-import YcTrigger from '@/components/Trigger/index.vue';
-import YcButton from '@/components/Button/Button.vue';
+import useOnBeforeClose from '@/components/_hooks/useOnBeforeClose';
+import YcTrigger, { TriggerInstance } from '@/components/Trigger';
+import YcButton from '@/components/Button';
 defineOptions({
   name: 'Popconfirm',
 });
-withDefaults(defineProps<PopconfirmProps>(), {
+const props = withDefaults(defineProps<PopconfirmProps>(), {
   content: '',
   position: 'bottom',
   popupVisible: undefined,
@@ -83,6 +83,8 @@ withDefaults(defineProps<PopconfirmProps>(), {
     return {};
   },
   popupContainer: 'body',
+  onBeforeOk: () => true,
+  onBeforeCancel: () => true,
 });
 const emits = defineEmits<{
   (e: 'update:popupVisible', value: boolean): void;
@@ -90,15 +92,20 @@ const emits = defineEmits<{
   (e: 'ok'): void;
   (e: 'cancel'): void;
 }>();
+const { onBeforeOk, onBeforeCancel } = props;
 // 触发器实例
 const triggerRef = ref<TriggerInstance>();
 // 处理确认
 const handleOk = () => {
+  const isClose = useOnBeforeClose('confirmBtn', onBeforeOk, onBeforeCancel);
+  if (!isClose) return;
   emits('ok');
   triggerRef.value?.hide();
 };
 // 处理取消
 const handleCancel = () => {
+  const isClose = useOnBeforeClose('cancelBtn', onBeforeOk, onBeforeCancel);
+  if (!isClose) return;
   emits('cancel');
   triggerRef.value?.hide();
 };

@@ -1,4 +1,4 @@
-import { ref, Ref, inject, watch } from 'vue';
+import { ref, inject, watch } from 'vue';
 import { nanoid } from 'nanoid';
 import { Fn } from '../_type';
 import { ProvideType } from '@/components/Dropdown/type';

@@ -1,6 +1,7 @@
 // icon
 export interface LinkProps {
   href?: string;
+  icon?: boolean;
   status?: LinkStatus;
   hoverable?: boolean;
   disabled?: boolean;

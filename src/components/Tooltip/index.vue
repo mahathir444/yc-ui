@@ -29,7 +29,7 @@
 <script lang="ts" setup>
 import { toRefs, computed, CSSProperties } from 'vue';
 import { TooltipProps } from './type';
-import YcTrigger from '@/components/Trigger/index.vue';
+import YcTrigger from '@/components/Trigger';
 defineOptions({
   name: 'Tooltip',
 });

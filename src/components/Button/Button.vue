@@ -50,11 +50,10 @@
 
 <script lang="ts" setup>
 import { computed, toRefs, inject } from 'vue';
-import { SIZE_MAP } from '@/components/_constants';
 import { SIZE_CLASS, TYPE_CLASS, STATUS_CLASS, SHAPE_CLASS } from './constants';
-import { BUTTON_GROUP_PROVIDE_KEY } from '@/components/_constants';
+import { BUTTON_GROUP_PROVIDE_KEY, SIZE_MAP } from '@/components/_constants';
 import { ButtonProps, ProvideType, ButtonEvent, ButtonEventType } from './type';
-import YcSpin from '../Spin/index.vue';
+import YcSpin from '@/components/Spin';
 defineOptions({
   name: 'Button',
 });

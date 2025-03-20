@@ -5,7 +5,12 @@ import ServiceModal from './component/ServiceModal.vue';
 import _Modal from './index.vue';
 
 export type ModalInstance = InstanceType<typeof _Modal>;
-export type { ModalProps, ModalConfig } from './type';
+export type {
+  ModalProps,
+  ModalConfig,
+  OnBeforeCancel,
+  OnBeforeOk,
+} from './type';
 
 const Modal = Object.assign(_Modal, {
   modalConfig: {

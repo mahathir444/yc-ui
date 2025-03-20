@@ -149,8 +149,6 @@
 
 <script lang="ts" setup>
 import { ref, computed, toRefs, provide } from 'vue';
-import { SELECT_PROVIDE_KEY } from '@/components/_constants';
-import { ObjectData } from '@/components/_type';
 import {
   SelectProps,
   SelectValue,
@@ -158,14 +156,15 @@ import {
   ProvideType,
   SelectEventType,
 } from './type';
-import { TagData, InputTagValue } from '@/components/InputTag';
-import useSeletValue from '../_hooks/useSeletValue';
+import { ObjectData } from '@/components/_type';
+import { SELECT_PROVIDE_KEY } from '@/components/_constants';
 import { sleep } from '@/components/_utils/fn';
+import useSeletValue from '@/components/_hooks/useSeletValue';
 import YcInput, { InputInstance } from '@/components/Input';
-import YcTrigger from '@/components/Trigger/index.vue';
-import YcInputTag from '@/components/InputTag/index.vue';
 import SelectIcon from './component/SelectIcon.vue';
 import SelectDropdown from './component/SelectDropdown.vue';
+import YcTrigger from '@/components/Trigger';
+import YcInputTag, { TagData, InputTagValue } from '@/components/InputTag';
 defineOptions({
   name: 'Select',
 });

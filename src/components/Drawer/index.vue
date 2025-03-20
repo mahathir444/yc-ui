@@ -82,8 +82,7 @@ import { DRAWER_POSTION_STYLE } from './constants';
 import { DrawerProps } from './type';
 import { CloseType } from '@/components/_type';
 import useDrawerClose from '@/components/_hooks/useModalClose';
-import YcButton from '@/components/Button/Button.vue';
-
+import YcButton from '@/components/Button';
 defineOptions({
   name: 'Drawer',
 });
@@ -116,6 +115,12 @@ const props = withDefaults(defineProps<DrawerProps>(), {
   header: true,
   footer: true,
   hideCancel: false,
+  onBeforeCancel: () => {
+    return true;
+  },
+  onBeforeOk: () => {
+    return true;
+  },
 });
 const emits = defineEmits<{
   (e: 'update:visible', value: boolean): void;
@@ -126,6 +131,7 @@ const emits = defineEmits<{
   (e: 'beforeClose', type: CloseType): void;
   (e: 'close', type: CloseType): void;
 }>();
+// 结构属性
 const {
   visible,
   defaultVisible,
@@ -136,6 +142,7 @@ const {
   escToClose,
   drawerStyle,
 } = toRefs(props);
+const { onBeforeOk, onBeforeCancel } = props;
 // drawer绝对定位的left,top
 const drawerCss = computed(() => {
   return {
@@ -154,11 +161,14 @@ const drawerCss = computed(() => {
 });
 // 处理组件关闭开启
 const { outerVisible, innerVisible, closeType, handleClose, handleAfterLeave } =
-  useDrawerClose(emits, {
+  useDrawerClose({
     visible,
     defaultVisible,
     escToClose,
     maskClosable,
+    onBeforeCancel,
+    onBeforeOk,
+    emits,
   });
 </script>
 

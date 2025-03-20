@@ -16,8 +16,10 @@
     @dblclick="handleEvent('dblclick', $event)"
     @contextmenu="handleEvent('contextmenu', $event)"
   >
-    <span v-if="$slots.icon || loading" class="yc-link-icon">
-      <slot v-if="!loading" name="icon" />
+    <span v-if="$slots.icon || icon || loading" class="yc-link-icon">
+      <slot v-if="!loading" name="icon">
+        <yc-icon v-if="icon" name="link" />
+      </slot>
       <yc-spin v-else style="color: inherit; font-size: inherit" />
     </span>
     <slot />
@@ -28,7 +30,7 @@
 import { toRefs, computed } from 'vue';
 import { LinkProps, LinkEvent, LinkEventType } from './type';
 import { STATUS_CLASS } from './constants';
-import YcSpin from '../Spin/index.vue';
+import YcSpin from '@/components/Spin';
 defineOptions({
   name: 'Link',
 });
@@ -38,6 +40,7 @@ const props = withDefaults(defineProps<LinkProps>(), {
   hoverable: true,
   loading: false,
   disabled: false,
+  icon: false,
 });
 const emits = defineEmits<{
   (e: 'click', event: MouseEvent): void;

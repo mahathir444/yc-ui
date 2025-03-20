@@ -1,7 +1,7 @@
 import { Ref, ref, provide, inject } from 'vue';
-import { TriggerType } from '@/components/Trigger/type';
-import { onClickOutside } from '@vueuse/core';
+import { TriggerType } from '@/components/Trigger';
 import { Fn } from '../_type';
+import { onClickOutside } from '@vueuse/core';
 import useControlValue from './useControlValue';
 
 export default (params: {

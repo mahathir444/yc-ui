@@ -16,19 +16,3 @@ export const sleep = (ms: number) => {
     }, ms);
   });
 };
-
-//计算文件大小
-export const calFileSize = (size: number) => {
-  let count = 0;
-  const sizeMap: Record<string, string> = {
-    0: 'Byte',
-    1: 'KB',
-    2: 'MB',
-    3: 'GB',
-  };
-  while (size / 1024 >= 1) {
-    size /= 1024;
-    count++;
-  }
-  return size.toFixed(2) + ' ' + sizeMap[count];
-};

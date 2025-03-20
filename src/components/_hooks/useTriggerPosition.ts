@@ -1,10 +1,11 @@
-import { TriggerPostion, TriggerType } from '@/components/Trigger/type';
+import { computed, CSSProperties, Ref, ref } from 'vue';
+import { TriggerPostion, TriggerType } from '@/components/Trigger';
 import {
   BORDER_MAP,
   BORDER_RADIUS_MAP,
   TRANSLATE_MAP,
 } from '@/components/Trigger/constants';
-import { computed, CSSProperties, Ref, ref } from 'vue';
+
 export default (params: {
   position: Ref<TriggerPostion>;
   left: Ref<number>;

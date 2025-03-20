@@ -54,11 +54,11 @@ import {
   toRefs,
   watchEffect,
 } from 'vue';
+import { TriggerProps } from './type';
 import { TRANSFORM_ORIGIN_MAP } from './constants';
 import { useElementBounding, useElementSize } from '@vueuse/core';
 import useTriggerVisible from '@/components/_hooks/useTriggerVisible';
 import useTriggerPosition from '@/components/_hooks/useTriggerPosition';
-import { TriggerProps } from './type';
 import { findFirstLegitChild } from '@/components/_utils/vue-utils';
 defineOptions({
   name: 'Trigger',

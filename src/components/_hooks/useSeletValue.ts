@@ -1,15 +1,11 @@
-import { computed, ref, Ref, onMounted, onUpdated, useSlots, VNode } from 'vue';
-import useControlValue from './useControlValue';
-import {
-  OptionProps,
-  SelectValue,
-  SelectOptions,
-} from '@/components/Select/type';
+import { computed, ref, Ref, onMounted, onUpdated, useSlots } from 'vue';
+import { OptionProps, SelectValue, SelectOptions } from '@/components/Select';
 import { TagData } from '@/components/InputTag';
 import { Fn, ObjectData } from '../_type';
 import { flattedChildren } from '@/components/_utils/vue-vnode';
-import { nanoid } from 'nanoid';
 import { isObject } from '../_utils/is';
+import { nanoid } from 'nanoid';
+import useControlValue from './useControlValue';
 
 export default (params: {
   popupVisible: Ref<boolean | undefined>;

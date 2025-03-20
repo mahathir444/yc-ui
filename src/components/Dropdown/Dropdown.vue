@@ -36,12 +36,12 @@
 
 <script lang="ts" setup>
 import { ref, provide, toRefs, computed } from 'vue';
-import { DROPDOWN_PROVIDE_KEY } from '@/components/_constants';
 import { DropdownProps, DoptionValue, ProvideType } from './type';
-import { TriggerInstance } from '@/components/Trigger';
-import YcTrigger from '@/components/Trigger/index.vue';
-import YcScrollbar from '@/components/Scrollbar/Scrollbar.vue';
+import { DROPDOWN_PROVIDE_KEY } from '@/components/_constants';
 import useTriggerNested from '@/components/_hooks/useTriggerNested';
+import YcTrigger, { TriggerInstance } from '@/components/Trigger';
+import YcScrollbar from '@/components/Scrollbar';
+
 defineOptions({
   name: 'Dropdown',
 });

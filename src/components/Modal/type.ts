@@ -1,7 +1,7 @@
 import { CSSProperties } from 'vue';
 import { ButtonProps } from '@/components/Button/type';
 
-// simple on-before-ok on-before-cancel
+// simple
 export interface ModalProps {
   visible?: boolean;
   defaultVisible?: boolean;
@@ -34,7 +34,15 @@ export interface ModalProps {
   bodyClass?: string;
   bodyStyle?: CSSProperties;
   hideTitle?: boolean;
+  onBeforeCancel?: OnBeforeCancel;
+  onBeforeOk?: OnBeforeOk;
 }
+
+export type OnBeforeOk = (
+  done: (closed: boolean) => void
+) => void | boolean | Promise<boolean | void>;
+
+export type OnBeforeCancel = () => boolean;
 
 export interface ModalConfig extends Omit<ModalProps, 'visible'> {
   content?: string;

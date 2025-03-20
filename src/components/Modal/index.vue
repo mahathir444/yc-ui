@@ -96,12 +96,11 @@
 
 <script lang="ts" setup>
 import { ref, toRefs, computed, CSSProperties } from 'vue';
-import { CloseType } from '@/components/_type';
 import { ModalProps } from './type';
+import { CloseType } from '@/components/_type';
 import useModalDraggable from '@/components/_hooks/useModalDraggable';
 import useModalClose from '@/components/_hooks/useModalClose';
-import YcButton from '@/components/Button/Button.vue';
-
+import YcButton from '@/components/Button';
 defineOptions({
   name: 'Modal',
 });
@@ -147,6 +146,12 @@ const props = withDefaults(defineProps<ModalProps>(), {
     return {};
   },
   hideTitle: false,
+  onBeforeCancel: () => {
+    return true;
+  },
+  onBeforeOk: () => {
+    return true;
+  },
 });
 const emits = defineEmits<{
   (e: 'update:visible', value: boolean): void;
@@ -169,13 +174,17 @@ const {
   fullscreen,
   draggable,
 } = toRefs(props);
+const { onBeforeOk, onBeforeCancel } = props;
 // 处理组件关闭开启
 const { outerVisible, innerVisible, closeType, handleClose, handleAfterLeave } =
-  useModalClose(emits, {
+  useModalClose({
     visible,
     defaultVisible,
     escToClose,
     maskClosable,
+    onBeforeOk,
+    onBeforeCancel,
+    emits,
   });
 // headerRef,用于拖拽
 const headerRef = ref<HTMLDivElement>();

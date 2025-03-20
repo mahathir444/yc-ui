@@ -36,7 +36,7 @@
 
 <script lang="ts" setup>
 import { PopoverProps } from './type';
-import YcTrigger from '@/components/Trigger/index.vue';
+import YcTrigger from '@/components/Trigger';
 defineOptions({
   name: 'Popover',
 });

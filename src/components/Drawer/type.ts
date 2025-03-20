@@ -1,6 +1,6 @@
 import { CSSProperties } from 'vue';
-import { ButtonProps } from '@/components/Button/type';
-// on-before-ok on-before-cancel
+import { ButtonProps } from '@/components/Button';
+import { OnBeforeCancel } from '@/components/Modal';
 export interface DrawerProps {
   visible?: boolean;
   defaultVisible?: boolean;
@@ -24,6 +24,8 @@ export interface DrawerProps {
   header?: boolean;
   footer?: boolean;
   hideCancel?: boolean;
+  onBeforeCancel?: OnBeforeCancel;
+  onBeforeOk?: OnBeforeCancel;
 }
 
 export type DrawerPlacement = 'right' | 'left' | 'top' | 'bottom';

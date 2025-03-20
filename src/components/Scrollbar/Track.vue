@@ -42,11 +42,11 @@
 
 <script lang="ts" setup>
 import { ref, toRefs, computed, inject } from 'vue';
-import { SCROLLBAR_PROVIDE_KEY } from '@/components/_constants';
+import { DEFAULT_BAR_WIDTH, DEFAULT_TRACK_WIDTH } from './constants';
 import { ProvideType } from './type';
+import { SCROLLBAR_PROVIDE_KEY } from '@/components/_constants';
 import { Direction } from '@/components/_type';
 import { useDraggable, useEventListener } from '@vueuse/core';
-import { DEFAULT_BAR_WIDTH, DEFAULT_TRACK_WIDTH } from './constants';
 
 const props = withDefaults(
   defineProps<{
