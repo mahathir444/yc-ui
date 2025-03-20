@@ -30,8 +30,8 @@ export interface SelectProps {
   // virtual-list-props
   triggerProps?: TriggerProps;
   formatLabel?: (data: SelectOptionData) => string;
-  // fallback-option
-  // show-extra-options
+  fallbackOption?: (value: SelectValue) => SelectOptionData;
+  showExtraOptions?: boolean;
   valueKey?: string;
   searchDelay?: number;
   limit?: number;

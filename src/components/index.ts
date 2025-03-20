@@ -59,7 +59,13 @@ export type {
 } from './Message';
 export { default as Message } from './Message';
 
-export type { ModalProps, ModalConfig, ModalInstance } from './Modal';
+export type {
+  ModalProps,
+  ModalConfig,
+  ModalInstance,
+  OnBeforeOk,
+  OnBeforeCancel,
+} from './Modal';
 export { default as Modal } from './Modal';
 
 export type {

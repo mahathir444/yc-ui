@@ -4,20 +4,21 @@ export type VPreventBindingValue = {
   eventName: string;
   isPrevent?: boolean;
 };
+// 阻止事件
+const eventPrevent = (e: Event) => {
+  e.preventDefault();
+};
 // 定义指令
 export const vPrevent: Directive<HTMLElement, VPreventBindingValue> = {
   mounted(el, binding) {
     const { value } = binding;
     const { eventName, isPrevent = true } = value;
-    el.addEventListener(eventName, (e: Event) => {
-      isPrevent && e.preventDefault();
-    });
+    if (!isPrevent) return;
+    el.addEventListener(eventName, eventPrevent);
   },
   unmounted(el, binding) {
     const { value } = binding;
-    const { eventName, isPrevent = true } = value;
-    el.removeEventListener(eventName, (e: Event) => {
-      isPrevent && e.preventDefault();
-    });
+    const { eventName } = value;
+    el.removeEventListener(eventName, eventPrevent);
   },
 };

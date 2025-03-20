@@ -18,7 +18,7 @@
         style="max-height: 200px"
         :scrollbar-type="scrollbar ? 'virtual' : 'real'"
         @scroll="emits('dropdownScroll')"
-        @arrived-bottom="emits('dropdownReachBottom')"
+        @reach-bottom="emits('dropdownReachBottom')"
       >
         <div class="yc-select-dropdown-list">
           <!-- 默认插槽 -->

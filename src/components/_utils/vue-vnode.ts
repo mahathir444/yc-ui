@@ -7,17 +7,17 @@ import {
   isVNode,
   openBlock,
 } from 'vue';
-import { isArray, isFunction, isObject } from './is';
-// import { camelize } from '../strings';
-// import { hasOwn } from '../objects';
-// import { debugWarn } from './error';
 import type {
   VNode,
   VNodeArrayChildren,
   VNodeChild,
   VNodeNormalizedChildren,
 } from 'vue';
+import { isArray, isFunction, isObject } from './is';
 import { ObjectData } from '../_type';
+// import { camelize } from '../strings';
+// import { hasOwn } from '../objects';
+// import { debugWarn } from './error';
 
 const SCOPE = 'utils/vue/vnode';
 

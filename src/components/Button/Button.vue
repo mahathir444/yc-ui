@@ -34,13 +34,7 @@
     @contextmenu="handleEvent('contextmenu', $event)"
   >
     <!-- 只有icon的时候无margin -->
-    <span
-      v-if="$slots.icon || loading"
-      :style="{
-        margin: !$slots.default ? 0 : '',
-      }"
-      class="yc-button-icon"
-    >
+    <span v-if="$slots.icon || loading" class="yc-button-icon">
       <slot v-if="!loading" name="icon"></slot>
       <yc-spin v-else style="color: inherit; font-size: inherit" />
     </span>
