@@ -1,5 +1,5 @@
 import { App, Plugin } from 'vue';
-import { vPrevent, VPreventBindingValue } from './_directives/prevent';
+import { vPrevent, VPreventDirective } from './_directives/prevent';
 import { YcUiOptions } from './_type';
 import Button, { ButtonGroup } from './Button';
 import Drawer from './Drawer';
@@ -119,6 +119,6 @@ declare module 'vue' {
     YcAutoComplete: typeof AutoComplete;
   }
   export interface ComponentCustomProperties {
-    vPrevent: VPreventBindingValue;
+    vPrevent: VPreventDirective;
   }
 }

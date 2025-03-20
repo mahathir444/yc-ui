@@ -21,7 +21,7 @@
         v-if="!unmountOnClose || (computedVisible && !disabled)"
         v-show="computedVisible && !disabled"
         v-prevent="{
-          eventName: 'mousedown',
+          event: 'mousedown',
           isPrevent: preventFocus,
         }"
         :class="['yc-trigger', wrapperClass]"

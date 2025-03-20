@@ -13,7 +13,7 @@
     <div
       v-for="item in directions"
       v-prevent="{
-        eventName: 'mousedown',
+        event: 'mousedown',
       }"
       :key="item"
       :class="[

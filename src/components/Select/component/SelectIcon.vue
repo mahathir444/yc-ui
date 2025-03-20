@@ -3,7 +3,7 @@
   <yc-spin
     v-if="loading"
     v-prevent="{
-      eventName: 'mousedown',
+      event: 'mousedown',
     }"
     :size="12"
     style="color: inherit"
@@ -17,7 +17,7 @@
     <!-- default -->
     <div
       v-prevent="{
-        eventName: 'mousedown',
+        event: 'mousedown',
       }"
       :class="{
         'yc-select-suffix-icon': true,
@@ -32,7 +32,7 @@
     <div
       v-if="allowSearch"
       v-prevent="{
-        eventName: 'mousedown',
+        event: 'mousedown',
       }"
       class="yc-select-search-icon"
     >

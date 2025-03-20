@@ -1,7 +1,7 @@
 <template>
   <label
     v-prevent="{
-      eventName: 'mousedown',
+      event: 'mousedown',
     }"
     :class="{
       'yc-checkbox': true,

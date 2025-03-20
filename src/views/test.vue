@@ -18,11 +18,6 @@
             options,
           },
         ]"
-        @dropdown-reach-bottom="
-          () => {
-            console.log('触底了');
-          }
-        "
       >
         <template #prefix>
           <div>测试测</div>
@@ -46,7 +41,7 @@
     </div>
     <div style="width: 300px">
       input
-      <yc-input allow-clear :max-length="100" show-word-limit />
+      <yc-input v-enter-blur allow-clear :max-length="100" show-word-limit />
     </div>
     <div style="width: 300px">
       text-area
@@ -84,32 +79,20 @@
       </a-input-tag>
     </div>
     <div>
-      <yc-button @click="visible = true">测试</yc-button>
+      <yc-button @click="visible = true">
+        <template #icon>
+          <icon-alipay-circle />
+        </template>
+        测试
+      </yc-button>
     </div>
-    <a-modal
-      v-model:visible="visible"
-      title="测试"
-      :on-before-cancel="() => false"
-      :on-before-ok="onBeforeOk"
-      :ok-loading="loading"
-    >
-    </a-modal>
-
-    <yc-popover trigger="click">
-      <yc-link> 测试</yc-link>
-      <template #content>
-        <div style="width: 200px">
-          <a-empty description="测试" />
-        </div>
-      </template>
-    </yc-popover>
-    <yc-checkbox-group></yc-checkbox-group>
   </div>
 </template>
 
 <script lang="ts" setup>
 import { ref, watch, watchEffect } from 'vue';
 import { sleep } from '@/components/_utils/fn';
+
 const value = ref([]);
 const value1 = ref([]);
 const options = ref<any[]>([]);
@@ -122,21 +105,13 @@ for (let i = 0; i < 20; i++) {
 
 const visible = ref(false);
 const loading = ref(false);
-const onBeforeOk = async () => {
-  loading.value = true;
-  await sleep(1000);
-  loading.value = false;
-  return true;
-};
 </script>
 
 <style lang="less" scoped>
 .test {
   height: 100%;
   width: 100%;
-  height: 300vh;
-  width: 300vw;
-  overflow: auto;
+
   display: flex;
   flex-direction: column;
   justify-content: center;

@@ -1,24 +1,29 @@
 import { Directive } from 'vue';
 
-export type VPreventBindingValue = {
-  eventName: string;
+type VPreventBindingValue = {
+  event: keyof HTMLElementEventMap;
   isPrevent?: boolean;
 };
+export type VPreventDirective = Directive<HTMLElement, VPreventBindingValue>;
 // 阻止事件
-const eventPrevent = (e: Event) => {
+const preventEvent = (e: Event) => {
   e.preventDefault();
 };
 // 定义指令
-export const vPrevent: Directive<HTMLElement, VPreventBindingValue> = {
+export const vPrevent: VPreventDirective = {
   mounted(el, binding) {
-    const { value } = binding;
-    const { eventName, isPrevent = true } = value;
-    if (!isPrevent) return;
-    el.addEventListener(eventName, eventPrevent);
+    const {
+      value: { event, isPrevent = true },
+    } = binding;
+    if (!isPrevent) {
+      return;
+    }
+    el.addEventListener(event, preventEvent);
   },
   unmounted(el, binding) {
-    const { value } = binding;
-    const { eventName } = value;
-    el.removeEventListener(eventName, eventPrevent);
+    const {
+      value: { event },
+    } = binding;
+    el.removeEventListener(event, preventEvent);
   },
 };

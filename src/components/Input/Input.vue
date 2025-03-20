@@ -14,7 +14,7 @@
     <div
       v-if="$slots.prepend"
       v-prevent="{
-        eventName: 'mousedown',
+        event: 'mousedown',
       }"
       class="yc-input-prepend"
     >
@@ -31,7 +31,7 @@
       <div
         v-if="$slots.prefix"
         v-prevent="{
-          eventName: 'mousedown',
+          event: 'mousedown',
         }"
         class="yc-input-prefix"
       >
@@ -77,7 +77,7 @@
       <div
         v-if="$slots.suffix || $slots.extra || showLimit"
         v-prevent="{
-          eventName: 'mousedown',
+          event: 'mousedown',
         }"
         class="yc-input-suffix"
       >
@@ -97,7 +97,7 @@
     <div
       v-if="$slots.append"
       v-prevent="{
-        eventName: 'mousedown',
+        event: 'mousedown',
       }"
       class="yc-input-append"
     >

@@ -2,7 +2,7 @@
   <div
     v-if="computedVisible"
     v-prevent="{
-      eventName: 'mousedown',
+      event: 'mousedown',
       isPrevent: preventFocus,
     }"
     :class="[

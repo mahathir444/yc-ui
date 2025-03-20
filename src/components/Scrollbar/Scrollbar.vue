@@ -137,8 +137,8 @@ function initScrollbar() {
   // 是否有纵向滚动条
   const hasVerticalBar = computed(() => {
     const curScrollHeight = scrollRef.value?.scrollHeight ?? 0;
-    console.log(curScrollHeight, 'curscrollHeight');
-    console.log(scrollHeight.value, 'elementHeight');
+    // console.log(curScrollHeight, 'curscrollHeight');
+    // console.log(scrollHeight.value, 'elementHeight');
     return (
       contentHeight.value > scrollHeight.value &&
       scrollHeight.value < curScrollHeight &&

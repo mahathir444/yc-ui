@@ -1,7 +1,7 @@
 <template>
   <div
     v-prevent="{
-      eventName: 'mousedown',
+      event: 'mousedown',
     }"
     :class="[
       'yc-input-tag',
@@ -21,7 +21,7 @@
     <div
       v-if="$slots.prefix"
       v-prevent="{
-        eventName: 'mousedown',
+        event: 'mousedown',
       }"
       class="yc-input-tag-prefix"
     >
@@ -82,7 +82,7 @@
     <div
       v-if="$slots.suffix || showClearBtn"
       v-prevent="{
-        eventName: 'mousedown',
+        event: 'mousedown',
       }"
       class="yc-input-tag-suffix"
     >

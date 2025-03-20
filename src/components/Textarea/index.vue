@@ -31,7 +31,7 @@
     <span
       v-if="showLimit"
       v-prevent="{
-        eventName: 'mousedown',
+        event: 'mousedown',
       }"
       class="yc-input-word-limit"
     >
