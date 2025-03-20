@@ -7,10 +7,6 @@
         allow-search
         multiple
         placeholder="请选择"
-        :field-names="{
-          label: 'text',
-          value: 'key',
-        }"
         :options="[
           {
             label: '分组1',
@@ -41,7 +37,7 @@
     </div>
     <div style="width: 300px">
       input
-      <yc-input v-enter-blur allow-clear :max-length="100" show-word-limit />
+      <yc-input allow-clear :max-length="100" show-word-limit />
     </div>
     <div style="width: 300px">
       text-area
@@ -53,8 +49,7 @@
         placeholder="请选择"
         allow-search
         allow-clear
-        :multiple="true"
-        :search-delay="500"
+        :show-extra-options="true"
         :options="[
           {
             label: '分组1',
@@ -62,12 +57,6 @@
             options,
           },
         ]"
-        :limit="10"
-        :field-names="{
-          label: 'text',
-          value: 'key',
-        }"
-        @search="() => console.log('search')"
       >
       </a-select>
     </div>
@@ -78,33 +67,47 @@
         </template>
       </a-input-tag>
     </div>
-    <div>
-      <yc-button @click="visible = true">
-        <template #icon>
-          <icon-alipay-circle />
+    <div style="width: 300px">
+      <yc-dropdown trigger="hover">
+        <yc-button> 测试 </yc-button>
+        <template #content>
+          <yc-dsubmenu>
+            分组1
+            <template #content>
+              <yc-dsubmenu>
+                分组2
+                <template #content>
+                  <yc-dsubmenu>
+                    分组3
+                    <template #content>
+                      <yc-doption v-for="i in 6" :value="i">{{ i }}</yc-doption>
+                    </template>
+                  </yc-dsubmenu>
+                  <yc-doption v-for="i in 6" :value="i">{{ i }}</yc-doption>
+                </template>
+              </yc-dsubmenu>
+              <yc-doption v-for="i in 6" :value="i">{{ i }}</yc-doption>
+            </template>
+          </yc-dsubmenu>
+          <yc-doption v-for="i in 6" :value="i">{{ i }}</yc-doption>
         </template>
-        测试
-      </yc-button>
+      </yc-dropdown>
     </div>
   </div>
 </template>
 
 <script lang="ts" setup>
 import { ref, watch, watchEffect } from 'vue';
-import { sleep } from '@/components/_utils/fn';
 
 const value = ref([]);
 const value1 = ref([]);
 const options = ref<any[]>([]);
 for (let i = 0; i < 20; i++) {
   options.value.push({
-    text: '选项' + i,
-    key: i,
+    label: '选项' + i,
+    value: i,
   });
 }
-
-const visible = ref(false);
-const loading = ref(false);
 </script>
 
 <style lang="less" scoped>

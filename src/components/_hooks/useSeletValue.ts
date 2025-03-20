@@ -1,11 +1,14 @@
-import { computed, ref, Ref, onMounted, onUpdated, useSlots } from 'vue';
-import { OptionProps, SelectValue, SelectOptions } from '@/components/Select';
-import { TagData } from '@/components/InputTag';
+import { computed, Ref } from 'vue';
+import {
+  SelectValue,
+  SelectOptions,
+  FallbackOption,
+  FormatLabel,
+} from '@/components/Select';
 import { Fn, ObjectData } from '../_type';
-import { flattedChildren } from '@/components/_utils/vue-vnode';
-import { isObject } from '../_utils/is';
 import { nanoid } from 'nanoid';
 import useControlValue from './useControlValue';
+import useSelectOptions from './useSelectOptions';
 
 export default (params: {
   popupVisible: Ref<boolean | undefined>;
@@ -14,12 +17,14 @@ export default (params: {
   defaultValue: Ref<SelectValue>;
   inputValue: Ref<string | undefined>;
   defaultInputValue: Ref<string>;
-  multiple: Ref<boolean>;
   fieldNames: Ref<Record<string, string>>;
+  multiple: Ref<boolean>;
   provideOptions: Ref<SelectOptions>;
-  formatLabel: Fn | undefined;
+  showExtraOptions: Ref<boolean>;
   emits: Fn;
   getValue: Fn;
+  fallbackOption?: FallbackOption;
+  formatLabel?: FormatLabel;
 }) => {
   const {
     popupVisible,
@@ -30,20 +35,13 @@ export default (params: {
     defaultInputValue,
     multiple,
     fieldNames,
+    showExtraOptions,
     provideOptions,
     formatLabel,
+    fallbackOption,
     emits,
     getValue,
   } = params;
-  // fieldKey
-  const fieldKey = computed(() => {
-    return {
-      label: fieldNames.value['label'] ?? 'label',
-      value: fieldNames.value['value'] ?? 'value',
-      disabled: fieldNames.value['disabled'] ?? 'disabled',
-      tagProps: fieldNames.value['tagProps'] ?? 'tagProps',
-    };
-  });
   // popupVisible
   const computedVisible = useControlValue<boolean>(
     popupVisible,
@@ -61,28 +59,6 @@ export default (params: {
       emits('update:modelValue', val);
     }
   );
-  // 选中的值
-  const selectOptions = computed(() => {
-    // 扁平化值
-    const selectValue = multiple.value
-      ? computedValue.value
-      : [computedValue.value];
-    // 创建optionMap
-    const optionMap = new Map(
-      options.value.map((item) => [getValue(item.value), item])
-    );
-    // 计算input-tag需要显示的值
-    return (selectValue as ObjectData[]).map((v) => {
-      const option = optionMap.get(getValue(v));
-      return {
-        id: nanoid(),
-        label: formatLabel ? formatLabel(option) : option?.label,
-        value: v,
-        closeable: option?.tagProps?.closeable,
-        tagProps: option?.tagProps,
-      };
-    }) as TagData[];
-  });
   // 输入框的值
   const computedInputValue = useControlValue<string>(
     inputValue,
@@ -91,40 +67,44 @@ export default (params: {
       emits('update:inputValue', val);
     }
   );
-  // slot收集的options数组
-  const slotOptions = ref<OptionProps[]>([]);
-  // 传入的option数组
-  const renderOptions = computed(() =>
-    provideOptions.value.map((item) => {
-      return isObject(item)
-        ? {
-            id: nanoid(),
-            ...item,
-          }
-        : {
-            id: nanoid(),
-            label: item,
-            value: item,
-          };
-    })
+  // fieldKey
+  const fieldKey = computed(() => {
+    return {
+      label: fieldNames.value['label'] ?? 'label',
+      value: fieldNames.value['value'] ?? 'value',
+      disabled: fieldNames.value['disabled'] ?? 'disabled',
+      tagProps: fieldNames.value['tagProps'] ?? 'tagProps',
+    };
+  });
+  // 选中的value
+  const selectValue = computed<ObjectData[]>(() =>
+    multiple.value ? computedValue.value : [computedValue.value]
   );
-  // 合并所有的选项
-  const options = computed(() => {
-    // 传入的_options转换字段
-    const flattOptions = provideOptions.value
-      .map((item: ObjectData) => {
-        return item?.options ? item.options : item;
-      })
-      .flat(1)
-      .map((item) => {
-        const newEntries = Object.entries(fieldKey.value).map(
-          ([oldKey, newKey]) => {
-            return [oldKey, (item as ObjectData)[newKey]];
-          }
-        );
-        return Object.fromEntries(newEntries);
-      });
-    return [...slotOptions.value, ...flattOptions];
+  // 获取选项的值
+  const { options, renderOptions } = useSelectOptions({
+    fieldKey,
+    selectValue,
+    showExtraOptions,
+    provideOptions,
+    fallbackOption,
+  });
+  // 选中的值
+  const selectOptions = computed(() => {
+    // 创建optionMap
+    const optionMap = new Map(
+      options.value.map((item) => [getValue(item.value), item])
+    );
+    // 计算input-tag需要显示的值
+    return selectValue.value.map((v) => {
+      const option = optionMap.get(getValue(v));
+      return {
+        id: nanoid(),
+        label: formatLabel ? formatLabel(option) : option?.label,
+        value: v,
+        closeable: option?.tagProps?.closeable,
+        tagProps: option?.tagProps,
+      };
+    });
   });
   // 搜索项
   const isEmpty = computed(() => {
@@ -133,29 +113,14 @@ export default (params: {
     );
     return !filterResult.length;
   });
-  // 获取选项的props
-  const getOptions = () => {
-    // 插槽的option无需处理
-    const slots = useSlots();
-    const propsArray = flattedChildren(slots?.default?.() ?? []);
-    slotOptions.value = (propsArray as ObjectData[])
-      .filter((vnode) => vnode?.type?.name == 'Option' && vnode?.props)
-      .map((vnode) => vnode?.props as OptionProps);
-  };
-  onMounted(() => {
-    getOptions();
-  });
-  onUpdated(() => {
-    getOptions();
-  });
   return {
-    options,
-    renderOptions,
-    fieldKey,
     computedVisible,
     computedValue,
     computedInputValue,
+    fieldKey,
     selectOptions,
+    options,
+    renderOptions,
     isEmpty,
   };
 };

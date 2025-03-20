@@ -15,6 +15,9 @@ export type {
   SelectOptionData,
   SelectOptionGroup,
   SelectOptions,
+  FilterOption,
+  FallbackOption,
+  FormatLabel,
 } from './type';
 
 const Select = Object.assign(_Select, {

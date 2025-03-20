@@ -5,6 +5,7 @@ import {
   BORDER_RADIUS_MAP,
   TRANSLATE_MAP,
 } from '@/components/Trigger/constants';
+import { Fn } from '../_type';
 
 export default (params: {
   position: Ref<TriggerPostion>;
@@ -23,7 +24,7 @@ export default (params: {
   popupTranslate: Ref<number[]>;
   popupOffset: Ref<number>;
   autoFitPosition: Ref<boolean>;
-  emits: (...args: any) => any;
+  emits: Fn;
 }) => {
   const {
     position,

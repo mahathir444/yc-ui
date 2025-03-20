@@ -1,6 +1,6 @@
 import { ref, Ref, watch } from 'vue';
 import { OnBeforeCancel, OnBeforeOk } from '@/components/Modal/type';
-import { CloseType } from '@/components/_type';
+import { CloseType, Fn } from '@/components/_type';
 import { useMagicKeys, whenever } from '@vueuse/core';
 import useControlValue from './useControlValue';
 import useOnBeforeClose from './useOnBeforeClose';
@@ -12,7 +12,7 @@ export default (params: {
   defaultVisible: Ref<boolean>;
   onBeforeOk: OnBeforeOk;
   onBeforeCancel: OnBeforeCancel;
-  emits: (...args: any) => any;
+  emits: Fn;
 }) => {
   const {
     maskClosable,
@@ -29,7 +29,13 @@ export default (params: {
   const innerVisible = useControlValue<boolean>(
     visible,
     defaultVisible.value,
-    (val) => emits('update:visible', val)
+    (val) => {
+      emits('update:visible', val);
+      closeType.value = '';
+      if (val) {
+        outerVisible.value = val;
+      }
+    }
   );
   // 关闭类型
   const closeType = ref<CloseType>('');
@@ -66,20 +72,6 @@ export default (params: {
     });
   };
   initHotKeys();
-
-  // 检测visible的开关，从而决定打开组件还是关闭组件
-  watch(
-    () => innerVisible.value,
-    (v) => {
-      closeType.value = '';
-      if (v) {
-        outerVisible.value = true;
-      }
-    },
-    {
-      immediate: true,
-    }
-  );
 
   return {
     closeType,

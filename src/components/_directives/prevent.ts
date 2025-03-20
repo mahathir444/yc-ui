@@ -9,7 +9,7 @@ export type VPreventDirective = Directive<HTMLElement, VPreventBindingValue>;
 const preventEvent = (e: Event) => {
   e.preventDefault();
 };
-// 定义指令
+// prevent指令
 export const vPrevent: VPreventDirective = {
   mounted(el, binding) {
     const {

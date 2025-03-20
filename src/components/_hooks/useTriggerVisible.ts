@@ -1,10 +1,12 @@
-import { Ref, ref, provide, inject } from 'vue';
+import { provide, Ref, ref } from 'vue';
 import { TriggerType } from '@/components/Trigger';
 import { Fn } from '../_type';
 import { onClickOutside } from '@vueuse/core';
+import useTriggerNested from './useTriggerNested';
 import useControlValue from './useControlValue';
 
 export default (params: {
+  isNested: Ref<boolean>;
   trigger: Ref<TriggerType>;
   popupVisible: Ref<boolean | undefined>;
   defaultPopupVisible: Ref<boolean>;
@@ -15,11 +17,10 @@ export default (params: {
   mouseLeaveDelay: Ref<number>;
   focusDelay: Ref<number>;
   contentRef: Ref<HTMLDivElement | undefined>;
-  clickOutSideIngoreFn?: Fn;
-  mouseenterCallback?: Fn;
   emits: Fn;
 }) => {
   const {
+    isNested,
     trigger,
     popupVisible,
     defaultPopupVisible,
@@ -30,10 +31,11 @@ export default (params: {
     mouseLeaveDelay,
     focusDelay,
     contentRef,
-    clickOutSideIngoreFn,
-    mouseenterCallback,
     emits,
   } = params;
+  // 鼠标操作的位置
+  const mouseX = ref<number>(0);
+  const mouseY = ref<number>(0);
   // visible
   const computedVisible = useControlValue<boolean>(
     popupVisible,
@@ -43,12 +45,11 @@ export default (params: {
       emits('popup-visible-change', val);
     }
   );
-  // 计时器用于异步处理
-  const timeout = inject('timeout', ref<NodeJS.Timeout>());
-  provide('timeout', timeout);
-  // 鼠标操作的位置
-  const mouseX = ref<number>(0);
-  const mouseY = ref<number>(0);
+  // 处理嵌套
+  const { level, curLevel, timeout, groupId, isSameGroup } = useTriggerNested(
+    trigger.value,
+    () => (computedVisible.value = false)
+  );
   // 点击
   const handleClick = (e: MouseEvent) => {
     if (timeout.value) {
@@ -76,10 +77,12 @@ export default (params: {
     computedVisible.value = clickToClose.value ? !computedVisible.value : true;
   };
   // 鼠标进入
-  const handleMouseenter = (isTrigger: boolean, e: MouseEvent) => {
-    if (mouseenterCallback) {
-      mouseenterCallback(isTrigger, e);
+  const handleMouseenter = (isTrigger: boolean) => {
+    // 处理嵌套情况
+    if (isTrigger) {
+      curLevel.value = level;
     }
+    // 处理开启
     if (timeout.value) {
       clearTimeout(timeout.value);
     }
@@ -92,6 +95,7 @@ export default (params: {
   };
   // 鼠标离开
   const handleMouseleave = () => {
+    // 处理关闭
     if (timeout.value) {
       clearTimeout(timeout.value);
     }
@@ -131,8 +135,9 @@ export default (params: {
   // 点击到contentRef外层关闭
   if (clickOutsideToClose.value) {
     onClickOutside(contentRef, async (e) => {
+      // 是否忽略
       const isIngore =
-        clickOutSideIngoreFn && clickOutSideIngoreFn(e.target ?? e);
+        isNested.value && isSameGroup((e.target ?? e) as HTMLElement);
       if (!computedVisible.value || isIngore) {
         return;
       }
@@ -142,6 +147,7 @@ export default (params: {
     });
   }
   return {
+    groupId,
     mouseX,
     mouseY,
     computedVisible,

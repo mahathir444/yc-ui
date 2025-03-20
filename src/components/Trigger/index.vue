@@ -3,7 +3,7 @@
     :is="findFirstLegitChild(vNodes)"
     @click="handleClick"
     @contextmenu.prevent="handleContextmenu"
-    @mouseenter="handleMouseenter(true, $event)"
+    @mouseenter="handleMouseenter(true)"
     @mouseleave="handleMouseleave"
     @focus="handleFocus"
     @blur="handleBlur"
@@ -26,8 +26,9 @@
         }"
         :class="['yc-trigger', wrapperClass]"
         :style="wrapperPosition"
+        :data-group-id="groupId"
         ref="contentRef"
-        @mouseenter="handleMouseenter(false, $event)"
+        @mouseenter="handleMouseenter(false)"
         @mouseleave="handleMouseleave"
       >
         <!-- content -->
@@ -100,6 +101,7 @@ const props = withDefaults(defineProps<TriggerProps>(), {
   preventFocus: false,
   alignPoint: false,
   needTransformOrigin: false,
+  isNested: false,
 });
 const emits = defineEmits<{
   (e: 'update:popupVisible', value: boolean): void;
@@ -132,8 +134,8 @@ const {
   autoFitPosition,
   alignPoint,
   needTransformOrigin,
+  isNested,
 } = toRefs(props);
-const { clickOutSideIngoreFn, mouseenterCallback } = props;
 // content的ref
 const contentRef = ref<HTMLDivElement>();
 // trigger的ref
@@ -144,6 +146,7 @@ const vNodes = computed(() => slots?.default?.() ?? []);
 // 处理trigger关闭与开启
 const {
   computedVisible,
+  groupId,
   mouseX,
   mouseY,
   handleMouseenter,
@@ -153,6 +156,7 @@ const {
   handleContextmenu,
   handleClick,
 } = useTriggerVisible({
+  isNested,
   popupVisible,
   defaultPopupVisible,
   trigger,
@@ -163,8 +167,6 @@ const {
   mouseLeaveDelay,
   focusDelay,
   contentRef,
-  clickOutSideIngoreFn,
-  mouseenterCallback,
   emits,
 });
 // 初始化trigger地计算参数

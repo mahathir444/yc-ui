@@ -48,10 +48,7 @@ export type DoptionValue = string | number | boolean;
 
 // 内部使用
 export interface ProvideType {
-  level: number;
-  curLevel: Ref<number>;
-  groupIds: Ref<string[]>;
   hideOnSelect: Ref<boolean>;
   hide: Fn;
-  emits?: Fn;
+  emits: Fn;
 }

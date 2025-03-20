@@ -29,8 +29,8 @@ export interface SelectProps {
   options?: SelectOptions;
   // virtual-list-props
   triggerProps?: TriggerProps;
-  formatLabel?: (data: SelectOptionData) => string;
-  fallbackOption?: (value: SelectValue) => SelectOptionData;
+  formatLabel?: FormatLabel;
+  fallbackOption?: FallbackOption;
   showExtraOptions?: boolean;
   valueKey?: string;
   searchDelay?: number;
@@ -65,6 +65,10 @@ export type FilterOption = (
   option: SelectOptionData
 ) => boolean;
 
+export type FallbackOption = (value: SelectValue) => SelectOptionData;
+
+export type FormatLabel = (data: SelectOptionData) => string;
+
 export type SelectOptionData = OptionProps | ObjectData;
 
 export type SelectOptionGroup = {
@@ -79,6 +83,7 @@ export type SelectOptions =
   | SelectOptionGroup[]
   | ObjectData[];
 
+// 内部使用
 export interface ProvideType {
   computedValue:
     | WritableComputedRef<SelectValue | SelectValue[]>
@@ -93,7 +98,6 @@ export interface ProvideType {
   emits: Fn;
 }
 
-// 内部使用
 export type SelectEventType =
   | 'clear'
   | 'search'

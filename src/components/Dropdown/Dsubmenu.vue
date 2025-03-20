@@ -38,17 +38,8 @@
 </template>
 
 <script lang="ts" setup>
-import {
-  ref,
-  inject,
-  computed,
-  toRefs,
-  CSSProperties,
-  nextTick,
-  provide,
-} from 'vue';
-import { DsubmenuProps, ProvideType } from './type';
-import { DROPDOWN_PROVIDE_KEY } from '@/components/_constants';
+import { ref, computed, toRefs, CSSProperties, nextTick } from 'vue';
+import { DsubmenuProps } from './type';
 import useTriggerNested from '@/components/_hooks/useTriggerNested';
 import useControlValue from '../_hooks/useControlValue';
 import YcDoption from './Doption.vue';
@@ -111,34 +102,10 @@ const optionRef = ref<InstanceType<typeof YcDoption>>();
 // content的实例
 const contentRef = ref<HTMLDivElement>();
 // 处理嵌套关闭
-const {
-  groupId,
-  curLevel,
-  level,
-  groupIds,
-  hideOnSelect,
-  isSameGroup,
-  hide,
-  emits: _emits,
-} = useTriggerNested(() => {
-  if (menuTrigger.value != 'hover') return;
-  computedVisible.value = false;
-});
-// 继续传递值
-provide<ProvideType>(DROPDOWN_PROVIDE_KEY, {
-  level,
-  curLevel,
-  groupIds,
-  hideOnSelect,
-  hide: _emits
-    ? hide
-    : () => {
-        computedVisible.value = false;
-      },
-  emits: _emits ?? emits,
-});
-// 接收父级的值
-const timeout = inject('timeout', ref<NodeJS.Timeout>());
+const { curLevel, groupId, timeout, isSameGroup } = useTriggerNested(
+  menuTrigger.value,
+  () => (computedVisible.value = false)
+);
 // 处理计算style
 const handleCalcStyle = () => {
   const dom = optionRef.value?.getRef();
@@ -181,7 +148,7 @@ const handleMouseleave = (e: MouseEvent) => {
     if (isSameGroup(e.relatedTarget as HTMLDivElement)) {
       computedVisible.value = false;
     } else {
-      hide();
+      curLevel.value = -1;
     }
   }, mouseLeaveDelay.value);
 };

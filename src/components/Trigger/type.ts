@@ -1,4 +1,5 @@
-import { CSSProperties } from 'vue';
+import { Fn } from '@vueuse/core';
+import { CSSProperties, Ref } from 'vue';
 export type TriggerProps = {
   popupVisible?: boolean;
   defaultPopupVisible?: boolean;
@@ -33,9 +34,10 @@ export type TriggerProps = {
   alignPoint?: boolean;
   scrollToClose?: boolean;
   scrollToCloseDistance?: number;
+  // 是否需要
   needTransformOrigin?: boolean;
-  clickOutSideIngoreFn?: (e: HTMLElement) => void;
-  mouseenterCallback?: (isTrigger: boolean, e: MouseEvent) => void;
+  // 是否嵌套
+  isNested?: boolean;
 };
 
 export type TriggerPostion =
@@ -55,3 +57,12 @@ export type TriggerPostion =
 export type TriggerType = 'hover' | 'click' | 'focus' | 'contextMenu';
 
 export type PopupContainer = string | HTMLElement;
+
+// 内部使用
+export type ProvideType = {
+  level: number;
+  curLevel: Ref<number>;
+  groupIds: Ref<string[]>;
+  timeout: Ref<NodeJS.Timeout | undefined>;
+  hide?: Fn;
+};

@@ -35,6 +35,7 @@
 
 <script lang="ts" setup>
 import { ref, toRefs, inject, computed } from 'vue';
+import { ObjectData } from '@/components/_type';
 import { OptionProps, SelectValue, ProvideType } from './type';
 import { SELECT_PROVIDE_KEY } from '@/components/_constants';
 import { isUndefined } from '@/components/_utils/is';
@@ -73,7 +74,7 @@ const {
 // 当前value对应的index
 const curIndex = computed(() => {
   if (!multiple.value) return -1;
-  return (computedValue.value as SelectValue[]).findIndex((item) => {
+  return (computedValue.value as ObjectData[]).findIndex((item) => {
     return getValue(item) === getValue(optionValue.value);
   });
 });

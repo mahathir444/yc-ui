@@ -8,11 +8,10 @@
     :trigger="trigger"
     :position="submenuPosition"
     :show-arrow="false"
-    :click-out-side-ingore-fn="isSameGroup"
-    :mouseenter-callback="mouseenterCb"
     animation-name="slide-dynamic-origin"
     auto-fit-popup-min-width
     need-transform-origin
+    is-nested
     ref="triggerRef"
     v-bind="$attrs"
     @popup-visible-change="(v) => $emit('popup-visible-change', v)"
@@ -20,7 +19,7 @@
   >
     <slot />
     <template #content>
-      <div class="yc-dropdown" :data-group-id="groupId">
+      <div class="yc-dropdown">
         <yc-scrollbar style="max-height: 200px">
           <div class="yc-dropdown-list">
             <slot name="content" />
@@ -68,38 +67,13 @@ const submenuPosition = computed(() => {
   }
   return position.value;
 });
-// 处理嵌套关闭
-const {
-  isSameGroup,
-  level,
-  curLevel,
-  groupId,
-  groupIds,
-  hideOnSelect: _hideOnSelect,
-  emits: _emits,
-  hide: _hide,
-} = useTriggerNested(() => {
-  if (trigger.value != 'hover') return;
-  hide();
-});
-// 隐藏
-const hide = () => {
-  triggerRef.value?.hide();
-};
-// 处理鼠标进入触发器
-const mouseenterCb = (isTrigger: boolean) => {
-  if (isTrigger) {
-    curLevel.value = level - 1;
-  }
-};
-// 提供值
+// dropdown提供的值
 provide<ProvideType>(DROPDOWN_PROVIDE_KEY, {
-  level,
-  curLevel,
-  groupIds,
-  hideOnSelect: _emits ? _hideOnSelect : hideOnSelect,
-  emits: _emits ?? emits,
-  hide: _emits ? _hide : hide,
+  hideOnSelect,
+  emits,
+  hide: () => {
+    triggerRef.value?.hide();
+  },
 });
 </script>
 

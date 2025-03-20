@@ -17,3 +17,4 @@ export const CHECKBOX_GROUP_PROVIDE_KEY = 'checkbox-group-props';
 export const SELECT_PROVIDE_KEY = 'select-props';
 export const DROPDOWN_PROVIDE_KEY = 'dropdown-props';
 export const SCROLLBAR_PROVIDE_KEY = 'scrollbar-props';
+export const TRIGGER_PROVIDE_KEY = 'trigger-nested';

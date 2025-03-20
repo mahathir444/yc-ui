@@ -194,6 +194,8 @@ const props = withDefaults(defineProps<SelectProps>(), {
   },
   options: () => [],
   formatLabel: undefined,
+  fallbackOption: undefined,
+  showExtraOptions: true,
   valueKey: '',
   triggerProps: () => {
     return {
@@ -249,20 +251,21 @@ const {
   allowSearch,
   valueKey,
   options: provideOptions,
+  showExtraOptions,
   isAutoCompleteMode,
 } = toRefs(props);
-const { filterOption, formatLabel } = props;
+const { filterOption, formatLabel, fallbackOption } = props;
 // 输入实例
 const inputRef = ref<InputInstance>();
 // 处理值
 const {
-  fieldKey,
-  isEmpty,
-  renderOptions,
-  selectOptions,
+  computedVisible,
   computedValue,
   computedInputValue,
-  computedVisible,
+  renderOptions,
+  selectOptions,
+  fieldKey,
+  isEmpty,
 } = useSeletValue({
   popupVisible,
   defaultPopupVisible,
@@ -273,6 +276,8 @@ const {
   multiple,
   provideOptions,
   fieldNames,
+  showExtraOptions,
+  fallbackOption,
   formatLabel,
   emits,
   getValue,
