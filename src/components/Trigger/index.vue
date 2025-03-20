@@ -1,8 +1,8 @@
 <template>
   <component
     :is="findFirstLegitChild(vNodes)"
-    @click="handleClick"
-    @contextmenu.prevent="handleContextmenu"
+    @click="handleClickEvent($event, 'click')"
+    @contextmenu.prevent="handleClickEvent($event, 'contextMenu')"
     @mouseenter="handleMouseenter(true)"
     @mouseleave="handleMouseleave"
     @focus="handleFocus"
@@ -102,6 +102,7 @@ const props = withDefaults(defineProps<TriggerProps>(), {
   alignPoint: false,
   needTransformOrigin: false,
   isNested: false,
+  isDropdown: false,
 });
 const emits = defineEmits<{
   (e: 'update:popupVisible', value: boolean): void;
@@ -135,6 +136,7 @@ const {
   alignPoint,
   needTransformOrigin,
   isNested,
+  isDropdown,
 } = toRefs(props);
 // content的ref
 const contentRef = ref<HTMLDivElement>();
@@ -149,24 +151,24 @@ const {
   groupId,
   mouseX,
   mouseY,
+  handleClickEvent,
   handleMouseenter,
   handleMouseleave,
   handleFocus,
   handleBlur,
-  handleContextmenu,
-  handleClick,
 } = useTriggerVisible({
+  isDropdown,
   isNested,
+  contentRef,
+  trigger,
   popupVisible,
   defaultPopupVisible,
-  trigger,
   clickToClose,
   blurToClose,
   clickOutsideToClose,
   mouseEnterDelay,
   mouseLeaveDelay,
   focusDelay,
-  contentRef,
   emits,
 });
 // 初始化trigger地计算参数

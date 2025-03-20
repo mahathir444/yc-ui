@@ -7,6 +7,7 @@ import useControlValue from './useControlValue';
 
 export default (params: {
   isNested: Ref<boolean>;
+  isDropdown: Ref<boolean>;
   trigger: Ref<TriggerType>;
   popupVisible: Ref<boolean | undefined>;
   defaultPopupVisible: Ref<boolean>;
@@ -20,6 +21,7 @@ export default (params: {
   emits: Fn;
 }) => {
   const {
+    isDropdown,
     isNested,
     trigger,
     popupVisible,
@@ -51,24 +53,11 @@ export default (params: {
     () => (computedVisible.value = false)
   );
   // 点击
-  const handleClick = (e: MouseEvent) => {
+  const handleClickEvent = (e: MouseEvent, type: 'click' | 'contextMenu') => {
     if (timeout.value) {
       clearTimeout(timeout.value);
     }
-    if (trigger.value != 'click') {
-      return;
-    }
-    const { pageX, pageY } = e;
-    mouseX.value = pageX;
-    mouseY.value = pageY;
-    computedVisible.value = clickToClose.value ? !computedVisible.value : true;
-  };
-  // 鼠标右击
-  const handleContextmenu = (e: MouseEvent) => {
-    if (timeout.value) {
-      clearTimeout(timeout.value);
-    }
-    if (trigger.value != 'contextMenu') {
+    if (trigger.value != type) {
       return;
     }
     const { pageX, pageY } = e;
@@ -78,8 +67,12 @@ export default (params: {
   };
   // 鼠标进入
   const handleMouseenter = (isTrigger: boolean) => {
-    // 处理嵌套情况
-    if (isTrigger) {
+    // 处理dropdown嵌套
+    if (isDropdown.value && isTrigger) {
+      curLevel.value = level;
+    }
+    // 处理trigger嵌套
+    if (!isDropdown.value) {
       curLevel.value = level;
     }
     // 处理开启
@@ -94,7 +87,7 @@ export default (params: {
     }, mouseEnterDelay.value);
   };
   // 鼠标离开
-  const handleMouseleave = () => {
+  const handleMouseleave = (e: MouseEvent) => {
     // 处理关闭
     if (timeout.value) {
       clearTimeout(timeout.value);
@@ -103,7 +96,15 @@ export default (params: {
       return;
     }
     timeout.value = setTimeout(() => {
-      computedVisible.value = false;
+      if (!isNested.value || isDropdown.value) {
+        computedVisible.value = false;
+        return;
+      }
+      if (isSameGroup(e.relatedTarget as HTMLDivElement)) {
+        computedVisible.value = false;
+      } else {
+        curLevel.value = -1;
+      }
     }, mouseLeaveDelay.value);
   };
   // 聚焦
@@ -137,7 +138,8 @@ export default (params: {
     onClickOutside(contentRef, async (e) => {
       // 是否忽略
       const isIngore =
-        isNested.value && isSameGroup((e.target ?? e) as HTMLElement);
+        (isNested.value || isDropdown.value) &&
+        isSameGroup((e.target ?? e) as HTMLElement);
       if (!computedVisible.value || isIngore) {
         return;
       }
@@ -151,11 +153,10 @@ export default (params: {
     mouseX,
     mouseY,
     computedVisible,
-    handleClick,
+    handleClickEvent,
     handleMouseenter,
     handleMouseleave,
     handleFocus,
     handleBlur,
-    handleContextmenu,
   };
 };

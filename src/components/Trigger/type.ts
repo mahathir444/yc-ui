@@ -38,6 +38,8 @@ export type TriggerProps = {
   needTransformOrigin?: boolean;
   // 是否嵌套
   isNested?: boolean;
+  // 是否是dropdown
+  isDropdown?: boolean;
 };
 
 export type TriggerPostion =

@@ -11,7 +11,7 @@
     animation-name="slide-dynamic-origin"
     auto-fit-popup-min-width
     need-transform-origin
-    is-nested
+    is-dropdown
     ref="triggerRef"
     v-bind="$attrs"
     @popup-visible-change="(v) => $emit('popup-visible-change', v)"

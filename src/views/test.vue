@@ -92,6 +92,38 @@
           <yc-doption v-for="i in 6" :value="i">{{ i }}</yc-doption>
         </template>
       </yc-dropdown>
+      <yc-trigger trigger="click" is-nested>
+        <yc-button> 测试 </yc-button>
+        <template #content>
+          <div class="popover-content">
+            <a-empty />
+            <yc-trigger trigger="click" is-nested>
+              <yc-button> 测试 </yc-button>
+              <template #content>
+                <div class="popover-content">
+                  <a-empty />
+                  <yc-trigger trigger="click" is-nested>
+                    <yc-button> 测试 </yc-button>
+                    <template #content>
+                      <div class="popover-content">
+                        <a-empty />
+                        <yc-trigger trigger="click" is-nested>
+                          <yc-button> 测试 </yc-button>
+                          <template #content>
+                            <div class="popover-content">
+                              <a-empty />
+                            </div>
+                          </template>
+                        </yc-trigger>
+                      </div>
+                    </template>
+                  </yc-trigger>
+                </div>
+              </template>
+            </yc-trigger>
+          </div>
+        </template>
+      </yc-trigger>
     </div>
   </div>
 </template>
