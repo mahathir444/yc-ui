@@ -101,6 +101,10 @@
         </template>
       </yc-popover>
     </div>
+    <div>
+      <a-button href="https://v1.chaoxing.com/manage">测试</a-button>
+      <yc-button href="https://v1.chaoxing.com/manage">测试</yc-button>
+    </div>
   </div>
 </template>
 

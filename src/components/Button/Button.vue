@@ -1,49 +1,45 @@
 <template>
-  <button
-    :type="htmlType"
-    :disabled="disabled"
-    :class="[
-      'yc-button',
-      // button是否hoverable
-      !disabled && !loading ? 'yc-button-hoverable' : '',
-      // long
-      long ? 'yc-button-long' : '',
-      // loading
-      loading ? 'yc-button-loading' : '',
-      // disabled
-      disabled ? 'yc-button-disabled' : '',
-      // size
-      SIZE_CLASS[size],
-      // type
-      TYPE_CLASS[type],
-      // status
-      STATUS_CLASS[status],
-      // shape
-      SHAPE_CLASS[shape],
-    ]"
-    :style="{
-      padding: !$slots.default || shape == 'circle' ? 0 : '',
-      width:
-        !$slots.default || shape == 'circle'
-          ? `${SIZE_MAP[size]}px`
-          : 'fit-content',
-      borderRadius,
-    }"
+  <a
+    v-if="href"
+    :href="href"
+    :class="btnClass"
+    :style="btnStyle"
+    v-bind="$attrs"
+    @mousedown="handleEvent('mousedown', $event)"
+    @mouseup="handleEvent('mouseup', $event)"
     @click="handleEvent('click', $event)"
     @dblclick="handleEvent('dblclick', $event)"
     @contextmenu="handleEvent('contextmenu', $event)"
   >
-    <!-- 只有icon的时候无margin -->
     <span v-if="$slots.icon || loading" class="yc-button-icon">
-      <slot v-if="!loading" name="icon"></slot>
+      <slot v-if="!loading" name="icon" />
       <yc-spin v-else style="color: inherit; font-size: inherit" />
     </span>
-    <slot></slot>
+    <slot />
+  </a>
+  <button
+    v-else
+    :type="htmlType"
+    :disabled="disabled"
+    :class="btnClass"
+    :style="btnStyle"
+    v-bind="$attrs"
+    @mousedown="handleEvent('mousedown', $event)"
+    @mouseup="handleEvent('mouseup', $event)"
+    @click="handleEvent('click', $event)"
+    @dblclick="handleEvent('dblclick', $event)"
+    @contextmenu="handleEvent('contextmenu', $event)"
+  >
+    <span v-if="$slots.icon || loading" class="yc-button-icon">
+      <slot v-if="!loading" name="icon" />
+      <yc-spin v-else style="color: inherit; font-size: inherit" />
+    </span>
+    <slot />
   </button>
 </template>
 
 <script lang="ts" setup>
-import { computed, toRefs, inject } from 'vue';
+import { computed, toRefs, inject, useSlots, CSSProperties } from 'vue';
 import { SIZE_CLASS, TYPE_CLASS, STATUS_CLASS, SHAPE_CLASS } from './constants';
 import { BUTTON_GROUP_PROVIDE_KEY, SIZE_MAP } from '@/components/_constants';
 import { ButtonProps, ProvideType, ButtonEvent, ButtonEventType } from './type';
@@ -60,6 +56,7 @@ const props = withDefaults(defineProps<ButtonProps>(), {
   loading: false,
   long: false,
   htmlType: 'button',
+  href: '',
 });
 const emits = defineEmits<{
   (e: 'click', event: MouseEvent): void;
@@ -73,7 +70,9 @@ const {
   type: _type,
   status: _status,
   shape: _shape,
+  long,
 } = toRefs(props);
+const slots = useSlots();
 // buttonGroup接收的属性
 const { size, disabled, type, status, shape } = inject<ProvideType>(
   BUTTON_GROUP_PROVIDE_KEY,
@@ -85,14 +84,43 @@ const { size, disabled, type, status, shape } = inject<ProvideType>(
     shape: _shape,
   }
 );
-// borderRadius
-const borderRadius = computed(() => {
-  const map = {
+// button的class
+const btnClass = computed(() => {
+  return [
+    'yc-button',
+    // button是否hoverable
+    !disabled.value && !loading.value ? 'yc-button-hoverable' : '',
+    // long
+    long.value ? 'yc-button-long' : '',
+    // loading
+    loading.value ? 'yc-button-loading' : '',
+    // disabled
+    disabled.value ? 'yc-button-disabled' : '',
+    // size
+    SIZE_CLASS[size.value],
+    // type
+    TYPE_CLASS[type.value],
+    // status
+    STATUS_CLASS[status.value],
+    // shape
+    SHAPE_CLASS[shape.value],
+  ];
+});
+// button的样式
+const btnStyle = computed(() => {
+  const borderRadiusMap = {
     circle: '50%',
     round: SIZE_MAP[size.value] / 2 + 'px',
     square: '2px',
   };
-  return map[shape.value];
+  return {
+    padding: !slots.default || shape.value == 'circle' ? 0 : '',
+    width:
+      !slots.default || shape.value == 'circle'
+        ? `${SIZE_MAP[size.value]}px`
+        : 'fit-content',
+    borderRadius: borderRadiusMap[shape.value],
+  } as CSSProperties;
 });
 // 拦截事件
 const handleEvent = (type: ButtonEventType, e: ButtonEvent) => {

@@ -1,7 +1,7 @@
 import { Ref } from 'vue';
 import { Size } from '@/components/_type';
 
-// herf
+//
 export interface ButtonProps {
   type?: ButtonType;
   shape?: ButtonShape;
@@ -11,6 +11,7 @@ export interface ButtonProps {
   loading?: boolean;
   disabled?: boolean;
   htmlType?: ButtonHtmlType;
+  href?: string;
 }
 
 export interface ButtonGroupProps {
@@ -37,7 +38,12 @@ export type ButtonHtmlType = 'button' | 'reset' | 'submit';
 // 内部使用
 export type ButtonEvent = MouseEvent;
 
-export type ButtonEventType = 'click' | 'dblclick' | 'contextmenu';
+export type ButtonEventType =
+  | 'click'
+  | 'dblclick'
+  | 'contextmenu'
+  | 'mousedown'
+  | 'mouseup';
 
 export interface ProvideType {
   type: Ref<ButtonType>;
