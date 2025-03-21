@@ -13,7 +13,7 @@
     :style="outerStyle"
   >
     <div
-      :style="$attrs.style as CSSProperties"
+      :style="<CSSProperties>$attrs.style"
       class="yc-scrollbar-container"
       ref="scrollRef"
       @scroll="handleScroll"
@@ -114,7 +114,7 @@ function initScrollbar() {
       hashorizontalBar: ref(false),
     };
   }
-  // 获取内容高度
+  // 获取内容的高度
   const { width: contentWidth, height: contentHeight } = useElementSize(
     contentRef,
     undefined,
@@ -122,34 +122,43 @@ function initScrollbar() {
       box: 'border-box',
     }
   );
+  // 获取滚动的高度
+  // const { width: scrollWidth, height: scrollHeight } = useElementSize(
+  //   scrollRef,
+  //   undefined,
+  //   {
+  //     box: 'border-box',
+  //   }
+  // );
   // 获取滚动容器高度
   const {
     top: elementTop,
     left: elementLeft,
-    width: scrollWidth,
     height: scrollHeight,
-  } = useElementBounding(scrollRef);
+    width: scrollWidth,
+  } = useElementBounding(scrollRef, {
+    updateTiming: 'next-frame',
+  });
   // 计算top
   const curTop = ref<number>(0);
   //计算left
   const curLeft = ref<number>(0);
   // 是否有纵向滚动条
   const hasVerticalBar = computed(() => {
-    const curScrollHeight = scrollRef.value?.scrollHeight ?? 0;
-    // console.log(curScrollHeight, 'curscrollHeight');
-    // console.log(scrollHeight.value, 'elementHeight');
+    const offsetHeight = scrollRef.value?.offsetHeight || 0;
+    const { height: boundHeight } =
+      scrollRef.value?.getBoundingClientRect() || { height: 0 };
+    console.log(offsetHeight, boundHeight);
     return (
-      contentHeight.value > scrollHeight.value &&
-      scrollHeight.value < curScrollHeight &&
+      contentHeight.value > offsetHeight &&
       scrollbarType.value == BAR_TYPE.virtual
     );
   });
   // 是否有很想滚动条
   const hashorizontalBar = computed(() => {
-    const curScrollWidth = scrollRef.value?.scrollWidth || 0;
+    const offsetWidth = scrollRef.value?.offsetWidth || 0;
     return (
-      contentWidth.value > scrollWidth.value &&
-      scrollWidth.value < curScrollWidth &&
+      contentWidth.value > offsetWidth &&
       scrollbarType.value == BAR_TYPE.virtual
     );
   });

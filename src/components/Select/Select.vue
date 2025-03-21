@@ -87,8 +87,8 @@
           v-bind="$attrs"
           ref="inputRef"
           @focus="handleEvent('focus')"
-          @blur="handleEvent('blur')"
           @input="(v) => handleEvent('search', v)"
+          @blur="handleEvent('blur')"
           @remove="() => $emit('remove')"
           @update:model-value="(v) => handleEvent('updateValue', v)"
         >
