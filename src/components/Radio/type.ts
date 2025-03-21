@@ -34,4 +34,5 @@ export interface ProvideType {
   computedValue: WritableComputedRef<RadioValue> | Ref<undefined>;
   type: Ref<RadioType>;
   disabled: Ref<boolean>;
+  size: Ref<Size>;
 }

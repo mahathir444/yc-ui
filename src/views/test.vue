@@ -54,12 +54,6 @@
         <yc-radio v-for="i in 5" :key="i" :value="i">选项{{ i }} </yc-radio>
       </yc-radio-group>
     </div>
-    <div style="width: 500px">
-      radio
-      <a-radio-group type="button" direction="vertical">
-        <a-radio v-for="i in 5" :key="i" :value="i">选项{{ i }} </a-radio>
-      </a-radio-group>
-    </div>
   </div>
 </template>
 

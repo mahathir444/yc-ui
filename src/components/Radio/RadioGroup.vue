@@ -1,13 +1,15 @@
 <template>
   <div
-    :class="{
-      'yc-radio-group': true,
-      'yc-radio-group-direction-horizontal':
-        type == 'radio' && direction == 'horizontal',
-      'yc-radio-group-direction-vertical':
-        type == 'radio' && direction == 'vertical',
-      'yc-radio-button-group': type == 'button',
-    }"
+    :class="[
+      type == 'radio' ? 'yc-radio-group' : 'yc-radio-button-group',
+      type == 'radio' && direction == 'horizontal'
+        ? 'yc-radio-group-direction-horizontal'
+        : '',
+      type == 'radio' && direction == 'vertical'
+        ? 'yc-radio-group-direction-vertical'
+        : '',
+      type == 'button' ? SIZE_CLASS[size] : '',
+    ]"
   >
     <slot />
     <yc-radio
@@ -31,6 +33,7 @@
 <script lang="ts" setup>
 import { toRefs, provide } from 'vue';
 import { RadioGroupProps, RadioValue, ProvideType } from './type';
+import { SIZE_CLASS } from './constants';
 import { RADIO_GROUP_PROVIDE_KEY } from '@/components/_constants';
 import useControlValue from '@/components/_hooks/useControlValue';
 import YcRadio from './Radio.vue';
@@ -41,6 +44,7 @@ const props = withDefaults(defineProps<RadioGroupProps>(), {
   modelValue: undefined,
   defaultValue: '',
   type: 'button',
+  size: 'medium',
   options: () => [],
   direction: 'horizontal',
   disabled: false,
@@ -49,7 +53,7 @@ const emits = defineEmits<{
   (e: 'update:modelValue', value: RadioValue): void;
   (e: 'change', value: RadioValue, ev: Event): void;
 }>();
-const { modelValue, defaultValue, disabled, type } = toRefs(props);
+const { modelValue, defaultValue, disabled, type, size } = toRefs(props);
 // 受控值
 const computedValue = useControlValue<RadioValue>(
   modelValue,
@@ -63,27 +67,10 @@ provide<ProvideType>(RADIO_GROUP_PROVIDE_KEY, {
   computedValue,
   type,
   disabled,
+  size,
 });
 </script>
 
 <style lang="less">
-.yc-radio-group-direction-horizontal {
-  display: inline-flex;
-  align-items: center;
-  gap: 16px;
-}
-.yc-radio-group-direction-vertical {
-  display: flex;
-  flex-direction: column;
-  .yc-checkbox {
-    line-height: 32px;
-  }
-}
-.yc-radio-button-group {
-  display: inline-flex;
-  padding: 1.5px;
-  line-height: 26px;
-  background-color: rgb(242, 243, 245);
-  border-radius: 2px;
-}
+@import './style/radio-group.less';
 </style>

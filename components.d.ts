@@ -62,6 +62,7 @@ declare module 'vue' {
     ServiceModal: typeof import('./src/components/Modal/component/ServiceModal.vue')['default']
     Spin: typeof import('./src/components/Spin/index.vue')['default']
     SpinIcon: typeof import('./src/components/Spin/component/SpinIcon.vue')['default']
+    Switch: typeof import('./src/components/Switch/index.vue')['default']
     Tag: typeof import('./src/components/Tag/index.vue')['default']
     Textarea: typeof import('./src/components/Textarea/index.vue')['default']
     Tooltip: typeof import('./src/components/Tooltip/index.vue')['default']
