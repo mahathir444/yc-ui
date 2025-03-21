@@ -102,7 +102,7 @@ const optionRef = ref<InstanceType<typeof YcDoption>>();
 // content的实例
 const contentRef = ref<HTMLDivElement>();
 // 处理嵌套关闭
-const { curLevel, groupId, timeout, isSameGroup } = useTriggerNested(
+const { curHoverLevel, groupId, timeout, isSameNestedGroup } = useTriggerNested(
   menuTrigger.value,
   () => (computedVisible.value = false)
 );
@@ -145,10 +145,11 @@ const handleMouseleave = (e: MouseEvent) => {
   if (timeout.value) clearTimeout(timeout.value);
   if (menuTrigger.value != 'hover' || !computedVisible.value) return;
   timeout.value = setTimeout(() => {
-    if (isSameGroup(e.relatedTarget as HTMLDivElement)) {
+    const { isGroup } = isSameNestedGroup(e.relatedTarget as HTMLDivElement);
+    if (isGroup) {
       computedVisible.value = false;
     } else {
-      curLevel.value = -1;
+      curHoverLevel.value = -1;
     }
   }, mouseLeaveDelay.value);
 };

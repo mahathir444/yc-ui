@@ -36,8 +36,6 @@ export type TriggerProps = {
   scrollToCloseDistance?: number;
   // 是否需要
   needTransformOrigin?: boolean;
-  // 是否嵌套
-  isNested?: boolean;
   // 是否是dropdown
   isDropdown?: boolean;
 };
@@ -63,7 +61,7 @@ export type PopupContainer = string | HTMLElement;
 // 内部使用
 export type ProvideType = {
   level: number;
-  curLevel: Ref<number>;
+  curHoverLevel: Ref<number>;
   groupIds: Ref<string[]>;
   timeout: Ref<NodeJS.Timeout | undefined>;
   hide?: Fn;

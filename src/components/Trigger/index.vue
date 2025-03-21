@@ -27,6 +27,7 @@
         :class="['yc-trigger', wrapperClass]"
         :style="wrapperPosition"
         :data-group-id="groupId"
+        :data-group-level="level"
         ref="contentRef"
         @mouseenter="handleMouseenter(false)"
         @mouseleave="handleMouseleave"
@@ -101,7 +102,6 @@ const props = withDefaults(defineProps<TriggerProps>(), {
   preventFocus: false,
   alignPoint: false,
   needTransformOrigin: false,
-  isNested: false,
   isDropdown: false,
 });
 const emits = defineEmits<{
@@ -135,19 +135,19 @@ const {
   autoFitPosition,
   alignPoint,
   needTransformOrigin,
-  isNested,
   isDropdown,
 } = toRefs(props);
 // content的ref
 const contentRef = ref<HTMLDivElement>();
 // trigger的ref
-const triggerRef = ref<HTMLElement | null>(null);
+const triggerRef = ref<HTMLElement>();
 // 获取插槽
 const slots = useSlots();
 const vNodes = computed(() => slots?.default?.() ?? []);
 // 处理trigger关闭与开启
 const {
   computedVisible,
+  level,
   groupId,
   mouseX,
   mouseY,
@@ -157,8 +157,8 @@ const {
   handleFocus,
   handleBlur,
 } = useTriggerVisible({
+  triggerRef,
   isDropdown,
-  isNested,
   contentRef,
   trigger,
   popupVisible,

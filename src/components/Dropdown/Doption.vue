@@ -41,12 +41,15 @@ const emits = defineEmits<{
 }>();
 const { value, disabled, isSubmenu } = toRefs(props);
 // trigger传递的值
-const { level, curLevel } = inject<TriggerProvideType>(TRIGGER_PROVIDE_KEY, {
-  level: -1,
-  curLevel: ref(0),
-  groupIds: ref([]),
-  timeout: ref<NodeJS.Timeout>(),
-});
+const { level, curHoverLevel } = inject<TriggerProvideType>(
+  TRIGGER_PROVIDE_KEY,
+  {
+    level: -1,
+    curHoverLevel: ref(0),
+    groupIds: ref([]),
+    timeout: ref<NodeJS.Timeout>(),
+  }
+);
 // dropdown传递的值
 const {
   emits: _emits,
@@ -70,7 +73,7 @@ const handleClick = (ev: MouseEvent) => {
 };
 // 鼠标进入的时候处理层级
 const handleMouseenter = () => {
-  curLevel.value = level;
+  curHoverLevel.value = level;
 };
 
 defineExpose({

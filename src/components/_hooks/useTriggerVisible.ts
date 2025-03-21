@@ -1,4 +1,4 @@
-import { provide, Ref, ref } from 'vue';
+import { Ref, ref } from 'vue';
 import { TriggerType } from '@/components/Trigger';
 import { Fn } from '../_type';
 import { onClickOutside } from '@vueuse/core';
@@ -6,7 +6,6 @@ import useTriggerNested from './useTriggerNested';
 import useControlValue from './useControlValue';
 
 export default (params: {
-  isNested: Ref<boolean>;
   isDropdown: Ref<boolean>;
   trigger: Ref<TriggerType>;
   popupVisible: Ref<boolean | undefined>;
@@ -18,11 +17,11 @@ export default (params: {
   mouseLeaveDelay: Ref<number>;
   focusDelay: Ref<number>;
   contentRef: Ref<HTMLDivElement | undefined>;
+  triggerRef: Ref<HTMLElement | undefined>;
   emits: Fn;
 }) => {
   const {
     isDropdown,
-    isNested,
     trigger,
     popupVisible,
     defaultPopupVisible,
@@ -33,6 +32,7 @@ export default (params: {
     mouseLeaveDelay,
     focusDelay,
     contentRef,
+    triggerRef,
     emits,
   } = params;
   // 鼠标操作的位置
@@ -48,10 +48,14 @@ export default (params: {
     }
   );
   // 处理嵌套
-  const { level, curLevel, timeout, groupId, isSameGroup } = useTriggerNested(
-    trigger.value,
-    () => (computedVisible.value = false)
-  );
+  const {
+    isNested,
+    level,
+    curHoverLevel,
+    timeout,
+    groupId,
+    isSameNestedGroup,
+  } = useTriggerNested(trigger.value, () => (computedVisible.value = false));
   // 点击
   const handleClickEvent = (e: MouseEvent, type: 'click' | 'contextMenu') => {
     if (timeout.value) {
@@ -68,12 +72,12 @@ export default (params: {
   // 鼠标进入
   const handleMouseenter = (isTrigger: boolean) => {
     // 处理dropdown嵌套
-    if (isDropdown.value && isTrigger) {
-      curLevel.value = level;
+    if (isDropdown.value) {
+      curHoverLevel.value = isTrigger ? level : curHoverLevel.value;
     }
     // 处理trigger嵌套
-    if (!isDropdown.value) {
-      curLevel.value = level;
+    if (isNested.value) {
+      curHoverLevel.value = level;
     }
     // 处理开启
     if (timeout.value) {
@@ -96,14 +100,17 @@ export default (params: {
       return;
     }
     timeout.value = setTimeout(() => {
+      // 处理不嵌套的情况
       if (!isNested.value || isDropdown.value) {
         computedVisible.value = false;
         return;
       }
-      if (isSameGroup(e.relatedTarget as HTMLDivElement)) {
+      // 处理嵌套情况
+      const { isGroup } = isSameNestedGroup(e.relatedTarget as HTMLDivElement);
+      if (isGroup) {
         computedVisible.value = false;
       } else {
-        curLevel.value = -1;
+        curHoverLevel.value = -1;
       }
     }, mouseLeaveDelay.value);
   };
@@ -134,21 +141,37 @@ export default (params: {
     computedVisible.value = false;
   };
   // 点击到contentRef外层关闭
-  if (clickOutsideToClose.value) {
-    onClickOutside(contentRef, async (e) => {
-      // 是否忽略
-      const isIngore =
-        (isNested.value || isDropdown.value) &&
-        isSameGroup((e.target ?? e) as HTMLElement);
-      if (!computedVisible.value || isIngore) {
-        return;
-      }
-      timeout.value = setTimeout(() => {
+  if (
+    clickOutsideToClose.value &&
+    ['click', 'contextMenu'].includes(trigger.value)
+  ) {
+    onClickOutside(
+      contentRef,
+      (e) => {
+        let isIngore = false;
+        // 处理dropdown或者嵌套情况
+        if (isDropdown.value || isNested.value) {
+          const { isGroup, level: _level } = isSameNestedGroup(
+            (e.target ?? e) as HTMLElement
+          );
+          isIngore = isGroup;
+          if (isIngore && !isDropdown.value) {
+            computedVisible.value = level <= _level;
+          }
+        }
+        // 处理正常逻辑
+        if (!computedVisible.value || isIngore) {
+          return;
+        }
         computedVisible.value = false;
-      }, 0);
-    });
+      },
+      {
+        ignore: [triggerRef],
+      }
+    );
   }
   return {
+    level,
     groupId,
     mouseX,
     mouseY,
