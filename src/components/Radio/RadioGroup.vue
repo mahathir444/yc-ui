@@ -2,8 +2,11 @@
   <div
     :class="{
       'yc-radio-group': true,
-      'yc-radio-group-direction-horizontal': direction == 'horizontal',
-      'yc-radio-group-direction-vertical': direction == 'vertical',
+      'yc-radio-group-direction-horizontal':
+        type == 'radio' && direction == 'horizontal',
+      'yc-radio-group-direction-vertical':
+        type == 'radio' && direction == 'vertical',
+      'yc-radio-button-group': type == 'button',
     }"
   >
     <slot />
@@ -37,7 +40,7 @@ defineOptions({
 const props = withDefaults(defineProps<RadioGroupProps>(), {
   modelValue: undefined,
   defaultValue: '',
-  type: 'radio',
+  type: 'button',
   options: () => [],
   direction: 'horizontal',
   disabled: false,
@@ -63,4 +66,24 @@ provide<ProvideType>(RADIO_GROUP_PROVIDE_KEY, {
 });
 </script>
 
-<style lang="less"></style>
+<style lang="less">
+.yc-radio-group-direction-horizontal {
+  display: inline-flex;
+  align-items: center;
+  gap: 16px;
+}
+.yc-radio-group-direction-vertical {
+  display: flex;
+  flex-direction: column;
+  .yc-checkbox {
+    line-height: 32px;
+  }
+}
+.yc-radio-button-group {
+  display: inline-flex;
+  padding: 1.5px;
+  line-height: 26px;
+  background-color: rgb(242, 243, 245);
+  border-radius: 2px;
+}
+</style>

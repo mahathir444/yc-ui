@@ -1,14 +1,6 @@
 <template>
   <div class="test">
     <div style="width: 300px">
-      checkbox
-      <yc-checkbox-group>
-        <yc-checkbox v-for="i in 5" :key="i" :value="i"
-          >选项{{ i }}
-        </yc-checkbox>
-      </yc-checkbox-group>
-    </div>
-    <div style="width: 300px">
       select
       <yc-select
         allow-clear
@@ -23,9 +15,6 @@
           },
         ]"
       >
-        <template #prefix>
-          <div>测试测</div>
-        </template>
       </yc-select>
     </div>
     <div style="width: 300px">
@@ -51,12 +40,25 @@
       text-area
       <yc-textarea allow-clear :max-length="100" show-word-limit />
     </div>
-    <div style="width: 300px">
+    <div style="width: 500px">
+      checkbox
+      <yc-checkbox-group>
+        <yc-checkbox v-for="i in 5" :key="i" :value="i"
+          >选项{{ i }}
+        </yc-checkbox>
+      </yc-checkbox-group>
+    </div>
+    <div style="width: 500px">
+      radio
       <yc-radio-group>
-        <yc-radio value="1">测试</yc-radio>
-        <yc-radio value="2">测试</yc-radio>
+        <yc-radio v-for="i in 5" :key="i" :value="i">选项{{ i }} </yc-radio>
       </yc-radio-group>
-      <a-radio type="button">测试</a-radio>
+    </div>
+    <div style="width: 500px">
+      radio
+      <a-radio-group type="button" direction="vertical">
+        <a-radio v-for="i in 5" :key="i" :value="i">选项{{ i }} </a-radio>
+      </a-radio-group>
     </div>
   </div>
 </template>

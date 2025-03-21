@@ -4,7 +4,8 @@
       event: 'mousedown',
     }"
     :class="{
-      'yc-radio': true,
+      'yc-radio': type == 'radio',
+      'yc-radio-button': type == 'button',
       'yc-radio-hoverable': !computedChecked && !disabled,
       'yc-radio-disabled': disabled,
       'yc-radio-checked': computedChecked,
@@ -18,18 +19,24 @@
       :disabled="disabled"
       @change="handleCollect"
     />
+
     <slot name="radio" :checked="computedChecked" :disabled="disabled">
-      <yc-icon-button
-        hover-size="24px"
-        :hover-color="
-          computedChecked || disabled ? 'transparent' : 'rgb(242, 243, 245)'
-        "
-      >
-        <template #icon>
-          <span class="yc-radio-icon"> </span>
-        </template>
-      </yc-icon-button>
-      <span class="yc-radio-label text-ellipsis">
+      <template v-if="type == 'radio'">
+        <yc-icon-button
+          hover-size="24px"
+          :hover-color="
+            computedChecked || disabled ? 'transparent' : 'rgb(242, 243, 245)'
+          "
+        >
+          <template #icon>
+            <span class="yc-radio-icon"> </span>
+          </template>
+        </yc-icon-button>
+        <span class="yc-radio-label text-ellipsis">
+          <slot />
+        </span>
+      </template>
+      <span class="yc-radio-button-content">
         <slot />
       </span>
     </slot>
@@ -109,14 +116,6 @@ const handleCollect = (e: Event) => {
   align-items: center;
   gap: 8px;
 
-  .yc-radio-target {
-    position: absolute;
-    left: 0;
-    top: 0;
-    width: 0;
-    height: 0;
-    opacity: 0;
-  }
   .yc-radio-icon,
   .yc-radio-label {
     flex-shrink: 0;
@@ -151,43 +150,118 @@ const handleCollect = (e: Event) => {
     color: rgb(29, 33, 41);
   }
 }
+.yc-radio-button {
+  position: relative;
+  display: inline-block;
+  margin: 1.5px;
+  color: rgb(78, 89, 105);
+  font-size: 14px;
+  line-height: 26px;
+  background-color: transparent;
+  border-radius: 2px;
+  cursor: pointer;
+  transition: all 0.1s cubic-bezier(0, 0, 1, 1);
+  &::before {
+    content: '';
+    display: block;
+    position: absolute;
+    top: 50%;
+    left: -2px;
+    transform: translateY(-50%);
+    background-color: rgb(229, 230, 235);
+    width: 1px;
+    height: 14px;
+    transition: all 0.1s cubic-bezier(0, 0, 1, 1);
+  }
+  .yc-radio-button-content {
+    display: block;
+    padding: 0 12px;
+  }
+}
+.yc-radio,
+.yc-radio-button {
+  .yc-radio-target {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 0;
+    height: 0;
+    opacity: 0;
+  }
+}
 // hoverable
 .yc-radio-hoverable {
-  &:hover .yc-icon-button {
-    &::before {
-      background-color: rgba(242, 243, 245);
+  &.yc-radio {
+    &:hover .yc-icon-button {
+      &::before {
+        background-color: rgba(242, 243, 245);
+      }
+      .yc-radio-icon {
+        transition: border-color 0.1s cubic-bezier(0, 0, 1, 1);
+        border-color: rgb(201, 205, 212);
+      }
     }
-    .yc-radio-icon {
-      transition: border-color 0.1s cubic-bezier(0, 0, 1, 1);
-      border-color: rgb(201, 205, 212);
+  }
+  &.yc-radio-button {
+    &:hover {
+      background-color: #fff;
+    }
+    &:hover::before {
+      opacity: 0;
+    }
+    .yc-radio-button-content {
+      color: rgb(29, 33, 41);
     }
   }
 }
 // 全选
 .yc-radio-checked {
-  .yc-radio-icon {
-    border-color: transparent;
-    background-color: rgb(22, 93, 255);
-    &::after {
-      transform: translateX(-50%) translateY(-50%) scale(0.4);
+  &.yc-radio {
+    .yc-radio-icon {
+      border-color: transparent;
+      background-color: rgb(22, 93, 255);
+      &::after {
+        transform: translateX(-50%) translateY(-50%) scale(0.4);
+      }
+    }
+  }
+  &.yc-radio-button {
+    background-color: #fff;
+    &::before {
+      opacity: 0;
+    }
+    .yc-radio-button-content {
+      color: rgb(22, 93, 255);
     }
   }
   &.yc-radio-disabled {
-    .yc-radio-icon {
-      background-color: rgb(148, 191, 255);
-      border-color: transparent;
+    &.yc-radio {
+      .yc-radio-icon {
+        background-color: rgb(148, 191, 255);
+        border-color: transparent;
+      }
+    }
+    &.yc-radio-button {
+      color: rgb(148, 191, 255);
     }
   }
 }
 // disabled
 .yc-radio-disabled {
   cursor: not-allowed;
-  .yc-radio-icon {
-    border-color: rgb(229, 230, 235);
-    background-color: rgb(242, 243, 245);
+  &.yc-radio {
+    .yc-radio-icon {
+      border-color: rgb(229, 230, 235);
+      background-color: rgb(242, 243, 245);
+    }
+    .yc-radio-label {
+      color: rgb(201, 205, 212);
+    }
   }
-  .yc-radio-label {
-    color: rgb(201, 205, 212);
+  .yc-radio-button {
+    .yc-radio-button-content {
+      color: rgb(201, 205, 212);
+    }
   }
 }
 </style>
