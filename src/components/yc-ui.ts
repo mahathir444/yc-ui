@@ -28,6 +28,7 @@ import Empty from './Empty';
 import Checkbox, { CheckboxGroup } from './Checkbox';
 import InputTag from './InputTag';
 import AutoComplete from './AutoComplete';
+import Radio, { RadioGroup } from './Radio';
 import YcIcon from '@/components/_components/Icon/index.vue';
 import YcIconButton from '@/components/_components/IconButton/index.vue';
 
@@ -54,6 +55,7 @@ export const components: Record<string, Plugin> = {
   Checkbox,
   InputTag,
   AutoComplete,
+  Radio,
 };
 
 const YcUi = {
@@ -68,6 +70,7 @@ const YcUi = {
   Option,
   Optgroup,
   CheckboxGroup,
+  RadioGroup,
   install: (app: App, options?: YcUiOptions) => {
     app.component('YcIcon', YcIcon);
     app.component('YcIconButton', YcIconButton);
@@ -117,6 +120,8 @@ declare module 'vue' {
     YcCheckboxGroup: typeof CheckboxGroup;
     YcInputTag: typeof InputTag;
     YcAutoComplete: typeof AutoComplete;
+    YcRadio: typeof Radio;
+    YcRadioGroup: typeof RadioGroup;
   }
   export interface ComponentCustomProperties {
     vPrevent: VPreventDirective;

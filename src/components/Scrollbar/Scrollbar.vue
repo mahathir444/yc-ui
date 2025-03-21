@@ -146,9 +146,6 @@ function initScrollbar() {
   // 是否有纵向滚动条
   const hasVerticalBar = computed(() => {
     const offsetHeight = scrollRef.value?.offsetHeight || 0;
-    const { height: boundHeight } =
-      scrollRef.value?.getBoundingClientRect() || { height: 0 };
-    console.log(offsetHeight, boundHeight);
     return (
       contentHeight.value > offsetHeight &&
       scrollbarType.value == BAR_TYPE.virtual

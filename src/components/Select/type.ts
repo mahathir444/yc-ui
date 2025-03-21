@@ -27,7 +27,7 @@ export interface SelectProps {
   unmountonClose?: boolean;
   filterOption?: FilterOption;
   options?: SelectOptions;
-  // virtual-list-props
+  virtualListProps?: VirtualListProps;
   triggerProps?: TriggerProps;
   formatLabel?: FormatLabel;
   fallbackOption?: FallbackOption;
@@ -82,6 +82,13 @@ export type SelectOptions =
   | SelectOptionData[]
   | SelectOptionGroup[]
   | ObjectData[];
+
+export type VirtualListProps = {
+  height: number;
+  itemHeight: number;
+  threshold?: number;
+  buffer?: number;
+};
 
 // 内部使用
 export interface ProvideType {

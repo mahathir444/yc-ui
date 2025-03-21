@@ -28,7 +28,11 @@
       >
         <template #icon>
           <span class="yc-checkbox-icon">
-            <yc-icon v-show="computedChecked" name="checked" :size="[8, 10]" />
+            <yc-icon
+              v-show="computedChecked"
+              name="checkbox-checked"
+              :size="[8, 10]"
+            />
           </span>
         </template>
       </yc-icon-button>

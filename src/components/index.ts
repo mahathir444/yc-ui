@@ -165,3 +165,14 @@ export { default as InputTag } from './InputTag';
 
 export type { AutoCompleteProps, AutoCompleteInstance } from './AutoComplete';
 export { default as AutoComplete } from './AutoComplete';
+
+export type {
+  RadioProps,
+  RadioGroupProps,
+  RadioOption,
+  RadioValue,
+  RadioType,
+  RadioInstance,
+  RadioGroupInstance,
+} from './Radio';
+export { default as Radio, RadioGroup } from './Radio';

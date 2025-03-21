@@ -158,6 +158,7 @@ import {
 } from './type';
 import { ObjectData } from '@/components/_type';
 import { SELECT_PROVIDE_KEY } from '@/components/_constants';
+import { useVirtualList } from '@vueuse/core';
 import { sleep } from '@/components/_utils/fn';
 import useSeletValue from '@/components/_hooks/useSeletValue';
 import YcInput, { InputInstance } from '@/components/Input';
@@ -257,6 +258,7 @@ const {
 const { filterOption, formatLabel, fallbackOption } = props;
 // 输入实例
 const inputRef = ref<InputInstance>();
+
 // 处理值
 const {
   computedVisible,
@@ -266,6 +268,7 @@ const {
   selectOptions,
   fieldKey,
   isEmpty,
+  options,
 } = useSeletValue({
   popupVisible,
   defaultPopupVisible,
@@ -281,6 +284,16 @@ const {
   formatLabel,
   emits,
   getValue,
+});
+// 虚拟列表
+const {
+  list,
+  containerProps,
+  wrapperProps,
+  scrollTo: scrollToTop,
+} = useVirtualList(options, {
+  overscan: 5,
+  itemHeight: 72,
 });
 // 是否展示清除按钮
 const showClearBtn = computed(() => {

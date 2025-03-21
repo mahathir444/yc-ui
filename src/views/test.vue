@@ -1,6 +1,14 @@
 <template>
   <div class="test">
     <div style="width: 300px">
+      checkbox
+      <yc-checkbox-group>
+        <yc-checkbox v-for="i in 5" :key="i" :value="i"
+          >选项{{ i }}
+        </yc-checkbox>
+      </yc-checkbox-group>
+    </div>
+    <div style="width: 300px">
       select
       <yc-select
         allow-clear
@@ -43,74 +51,18 @@
       text-area
       <yc-textarea allow-clear :max-length="100" show-word-limit />
     </div>
-
     <div style="width: 300px">
-      <a-select
-        placeholder="请选择"
-        allow-search
-        allow-clear
-        :show-extra-options="true"
-        :options="[
-          {
-            label: '分组1',
-            isGroup: true,
-            options,
-          },
-        ]"
-      >
-      </a-select>
-    </div>
-    <div style="width: 300px">
-      <a-input-tag v-model="value1" allow-clear placeholder="请输入">
-        <template #suffix>
-          <icon-align-center />
-        </template>
-      </a-input-tag>
-    </div>
-    <div style="width: 300px">
-      <yc-dropdown trigger="hover">
-        <yc-button> 测试 </yc-button>
-        <template #content>
-          <yc-dsubmenu>
-            分组1
-            <template #content>
-              <yc-dsubmenu>
-                分组2
-                <template #content>
-                  <yc-dsubmenu>
-                    分组3
-                    <template #content>
-                      <yc-doption v-for="i in 6" :value="i">{{ i }}</yc-doption>
-                    </template>
-                  </yc-dsubmenu>
-                  <yc-doption v-for="i in 6" :value="i">{{ i }}</yc-doption>
-                </template>
-              </yc-dsubmenu>
-              <yc-doption v-for="i in 6" :value="i">{{ i }}</yc-doption>
-            </template>
-          </yc-dsubmenu>
-          <yc-doption v-for="i in 6" :value="i">{{ i }}</yc-doption>
-        </template>
-      </yc-dropdown>
-      <yc-popover trigger="hover" class="test" id="111">
-        <yc-button> 测试 </yc-button>
-        <template #content>
-          <div class="popover-content">
-            <a-empty />
-          </div>
-        </template>
-      </yc-popover>
-    </div>
-    <div>
-      <a-button href="https://v1.chaoxing.com/manage">测试</a-button>
-      <yc-button href="https://v1.chaoxing.com/manage">测试</yc-button>
+      <yc-radio-group>
+        <yc-radio value="1">测试</yc-radio>
+        <yc-radio value="2">测试</yc-radio>
+      </yc-radio-group>
+      <a-radio type="button">测试</a-radio>
     </div>
   </div>
 </template>
 
 <script lang="ts" setup>
 import { ref, watch, watchEffect } from 'vue';
-
 const value = ref([]);
 const value1 = ref([]);
 const options = ref<any[]>([]);

@@ -14,7 +14,16 @@
       :disabled="item.disabled"
       :indeterminate="item.indeterminate"
     >
-      {{ item.label }}
+      <!-- checkbox -->
+      <template v-if="$slots.checkbox" #checkbox="{ checked, disabled }">
+        <slot name="checkbox" :checked="checked" :disabled="disabled" />
+      </template>
+      <!-- label -->
+      <template #default>
+        <slot name="label" :data="item">
+          {{ item.label }}
+        </slot>
+      </template>
     </yc-checkbox>
   </div>
 </template>

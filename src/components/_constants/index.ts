@@ -9,6 +9,7 @@ export const SIZE_MAP = {
 // provide-keys
 export const BUTTON_GROUP_PROVIDE_KEY = 'button-group-props';
 export const CHECKBOX_GROUP_PROVIDE_KEY = 'checkbox-group-props';
+export const RADIO_GROUP_PROVIDE_KEY = 'radio-group-props';
 export const SELECT_PROVIDE_KEY = 'select-props';
 export const DROPDOWN_PROVIDE_KEY = 'dropdown-props';
 export const SCROLLBAR_PROVIDE_KEY = 'scrollbar-props';
