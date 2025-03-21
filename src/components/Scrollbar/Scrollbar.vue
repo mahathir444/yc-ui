@@ -13,7 +13,7 @@
     :style="outerStyle"
   >
     <div
-      :style="style"
+      :style="$attrs.style as CSSProperties"
       class="yc-scrollbar-container"
       ref="scrollRef"
       @scroll="handleScroll"
@@ -34,7 +34,7 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, computed, toRefs, provide, watch } from 'vue';
+import { ref, computed, toRefs, provide, watch, CSSProperties } from 'vue';
 import { ScrollbarProps, ProvideType } from './type';
 import { DEFAULT_BAR_WIDTH, DEFAULT_TRACK_WIDTH, BAR_TYPE } from './constants';
 import { SCROLLBAR_PROVIDE_KEY } from '@/components/_constants';
@@ -42,15 +42,13 @@ import { useElementBounding, useElementSize, useScroll } from '@vueuse/core';
 import YcTrack from './Track.vue';
 defineOptions({
   name: 'Scrollbar',
+  inheritAttrs: false,
 });
 const props = withDefaults(defineProps<ScrollbarProps>(), {
   type: 'embed',
   scrollbarType: 'virtual',
   outerClass: '',
   outerStyle: () => {
-    return {};
-  },
-  style: () => {
     return {};
   },
   autoFill: false,
@@ -73,6 +71,7 @@ const { type, scrollbarType, scrollbarSize } = toRefs(props);
 const contentRef = ref<HTMLElement>();
 // scrollRef
 const scrollRef = ref<HTMLDivElement>();
+// 滚动状态
 const { arrivedState } = useScroll(scrollRef);
 // 判断是否触底
 watch(arrivedState, () => {
@@ -254,7 +253,7 @@ const handleDrag = (isVertical: boolean, value: number) => {
       scrollLeft >= maxScrollbarMoveLeft ? maxScrollbarMoveLeft : scrollLeft;
   }
 };
-
+// 暴露方法
 defineExpose({
   scrollTo(options: ScrollOptions) {
     scrollRef.value?.scrollTo(options);

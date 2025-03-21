@@ -6,11 +6,6 @@ export const SIZE_MAP = {
   large: 36,
 };
 
-// vue的shape_fka
-export const SHAPE_FLAGS = {
-  slot: 16,
-};
-
 // provide-keys
 export const BUTTON_GROUP_PROVIDE_KEY = 'button-group-props';
 export const CHECKBOX_GROUP_PROVIDE_KEY = 'checkbox-group-props';

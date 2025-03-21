@@ -1,4 +1,4 @@
-import { Ref, ref } from 'vue';
+import { Ref, ref, watchEffect } from 'vue';
 import { TriggerType } from '@/components/Trigger';
 import { Fn } from '../_type';
 import { onClickOutside } from '@vueuse/core';
@@ -6,7 +6,6 @@ import useTriggerNested from './useTriggerNested';
 import useControlValue from './useControlValue';
 
 export default (params: {
-  isDropdown: Ref<boolean>;
   trigger: Ref<TriggerType>;
   popupVisible: Ref<boolean | undefined>;
   defaultPopupVisible: Ref<boolean>;
@@ -18,6 +17,9 @@ export default (params: {
   focusDelay: Ref<number>;
   contentRef: Ref<HTMLDivElement | undefined>;
   triggerRef: Ref<HTMLElement | undefined>;
+  isDropdown: Ref<boolean>;
+  scrollToClose: Ref<boolean>;
+  scrollToCloseDistance: Ref<number>;
   emits: Fn;
 }) => {
   const {
@@ -33,6 +35,8 @@ export default (params: {
     focusDelay,
     contentRef,
     triggerRef,
+    scrollToClose,
+    scrollToCloseDistance,
     emits,
   } = params;
   // 鼠标操作的位置
@@ -141,10 +145,13 @@ export default (params: {
     computedVisible.value = false;
   };
   // 点击到contentRef外层关闭
-  if (
-    clickOutsideToClose.value &&
-    ['click', 'contextMenu'].includes(trigger.value)
-  ) {
+  const handleClickOutsideClose = () => {
+    if (
+      !clickOutsideToClose.value ||
+      !['click', 'contextMenu'].includes(trigger.value)
+    ) {
+      return;
+    }
     onClickOutside(
       contentRef,
       (e) => {
@@ -169,7 +176,27 @@ export default (params: {
         ignore: [triggerRef],
       }
     );
-  }
+  };
+  // 处理滚动关闭
+  const handleScrollToClose = (left: Ref<number>, top: Ref<number>) => {
+    // 检测滚动关闭
+    if (!scrollToClose.value) return;
+    let oldLeft = left.value;
+    let oldTop = top.value;
+    watchEffect(() => {
+      if (!computedVisible.value) return;
+      const distanceX = Math.abs(oldLeft - left.value);
+      const distanceY = Math.abs(oldTop - top.value);
+      if (
+        distanceX >= scrollToCloseDistance.value ||
+        distanceY >= scrollToCloseDistance.value
+      ) {
+        computedVisible.value = false;
+      }
+      oldLeft = left.value;
+      oldTop = top.value;
+    });
+  };
   return {
     level,
     groupId,
@@ -181,5 +208,7 @@ export default (params: {
     handleMouseleave,
     handleFocus,
     handleBlur,
+    handleClickOutsideClose,
+    handleScrollToClose,
   };
 };

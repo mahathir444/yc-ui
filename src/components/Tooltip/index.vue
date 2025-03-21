@@ -9,11 +9,11 @@
     :content-class="`yc-tooltip-popup-content ${contentClass} ${mini ? 'yc-tooltip-mini' : ''}`"
     :content-style="computedContentStyle"
     :popup-offset="10"
+    :class="`yc-popover ${$attrs.class}`"
     animation-name="zoom-in-fade-out"
     show-arrow
     need-transform-origin
     v-bind="$attrs"
-    :wrapper-class="`yc-tooltip ${$attrs.wrapperClass ?? ''}`"
     @popup-visible-change="(v) => $emit('popup-visible-change', v)"
     @update:popup-visible="(v) => $emit('update:popupVisible', v)"
   >

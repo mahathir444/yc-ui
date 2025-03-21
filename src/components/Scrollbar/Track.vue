@@ -47,7 +47,6 @@ import { ProvideType } from './type';
 import { SCROLLBAR_PROVIDE_KEY } from '@/components/_constants';
 import { Direction } from '@/components/_type';
 import { useDraggable, useEventListener } from '@vueuse/core';
-
 const props = withDefaults(
   defineProps<{
     direction?: Direction;

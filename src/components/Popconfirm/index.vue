@@ -9,13 +9,13 @@
     :content-class="`${contentClass} yc-popconfirm-popup-content`"
     :content-style="contentStyle"
     :popup-offset="10"
+    :class="`yc-popoconfirm ${$attrs.class ?? ''}`"
     animation-name="zoom-in-fade-out"
-    trigger="click"
     show-arrow
     need-transform-origin
+    trigger="click"
     ref="triggerRef"
     v-bind="$attrs"
-    :wrapper-class="`yc-popoconfirm ${$attrs.wrapperClass ?? ''}`"
     @popup-visible-change="(v) => $emit('popup-visible-change', v)"
     @update:popup-visible="(v) => $emit('update:popupVisible', v)"
   >

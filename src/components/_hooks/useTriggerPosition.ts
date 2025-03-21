@@ -5,7 +5,6 @@ import {
   BORDER_RADIUS_MAP,
   TRANSLATE_MAP,
 } from '@/components/Trigger/constants';
-import { Fn } from '../_type';
 
 export default (params: {
   position: Ref<TriggerPostion>;
@@ -24,7 +23,6 @@ export default (params: {
   popupTranslate: Ref<number[]>;
   popupOffset: Ref<number>;
   autoFitPosition: Ref<boolean>;
-  emits: Fn;
 }) => {
   const {
     position,
@@ -43,12 +41,11 @@ export default (params: {
     popupTranslate,
     popupOffset,
     autoFitPosition,
-    emits,
   } = params;
   // 动态计算当前的位置
   const triggerPosition = ref<TriggerPostion>(position.value);
   // 计算content的位置
-  const wrapperPosition = computed(() => {
+  const contentPosition = computed(() => {
     // 计算偏移量
     const { offsetX, offsetY } = calcOffset();
     // 如果跟随鼠标点击位置
@@ -249,7 +246,7 @@ export default (params: {
   }
   return {
     triggerPosition,
-    wrapperPosition,
+    contentPosition,
     arrowPostion,
   };
 };

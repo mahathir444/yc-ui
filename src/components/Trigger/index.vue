@@ -1,6 +1,6 @@
 <template>
   <component
-    :is="findFirstLegitChild(vNodes)"
+    :is="vNode"
     @click="handleClickEvent($event, 'click')"
     @contextmenu.prevent="handleClickEvent($event, 'contextMenu')"
     @mouseenter="handleMouseenter(true)"
@@ -24,10 +24,10 @@
           event: 'mousedown',
           isPrevent: preventFocus,
         }"
-        :class="['yc-trigger', wrapperClass]"
-        :style="wrapperPosition"
         :data-group-id="groupId"
         :data-group-level="level"
+        :style="contentPosition"
+        :class="['yc-trigger', $attrs.class]"
         ref="contentRef"
         @mouseenter="handleMouseenter(false)"
         @mouseleave="handleMouseleave"
@@ -48,14 +48,7 @@
 </template>
 
 <script lang="ts" setup>
-import {
-  ref,
-  computed,
-  useSlots,
-  CSSProperties,
-  toRefs,
-  watchEffect,
-} from 'vue';
+import { ref, computed, useSlots, CSSProperties, toRefs } from 'vue';
 import { TriggerProps } from './type';
 import { TRANSFORM_ORIGIN_MAP } from './constants';
 import { useElementBounding, useElementSize } from '@vueuse/core';
@@ -64,6 +57,7 @@ import useTriggerPosition from '@/components/_hooks/useTriggerPosition';
 import { findFirstLegitChild } from '@/components/_utils/vue-utils';
 defineOptions({
   name: 'Trigger',
+  inheritAttrs: false,
 });
 const props = withDefaults(defineProps<TriggerProps>(), {
   popupVisible: undefined,
@@ -143,7 +137,7 @@ const contentRef = ref<HTMLDivElement>();
 const triggerRef = ref<HTMLElement>();
 // 获取插槽
 const slots = useSlots();
-const vNodes = computed(() => slots?.default?.() ?? []);
+const vNode = computed(() => findFirstLegitChild(slots.default?.() || []));
 // 处理trigger关闭与开启
 const {
   computedVisible,
@@ -156,6 +150,8 @@ const {
   handleMouseleave,
   handleFocus,
   handleBlur,
+  handleClickOutsideClose,
+  handleScrollToClose,
 } = useTriggerVisible({
   triggerRef,
   isDropdown,
@@ -169,15 +165,17 @@ const {
   mouseEnterDelay,
   mouseLeaveDelay,
   focusDelay,
+  scrollToClose,
+  scrollToCloseDistance,
   emits,
 });
 // 初始化trigger地计算参数
-const { wrapperPosition, contentCss, arrowCss } = initTrigger();
+const { contentPosition, contentCss, arrowCss } = initTrigger();
 // 初始化trigger
 function initTrigger() {
-  if (!vNodes.value.length) {
+  if (!vNode.value) {
     return {
-      wrapperPosition: {},
+      contentPosition: {},
       contentCss: {},
       arrowCss: {},
     };
@@ -202,7 +200,7 @@ function initTrigger() {
     }
   );
   // 计算wrapper与arrow的位置信息
-  const { wrapperPosition, arrowPostion, triggerPosition } = useTriggerPosition(
+  const { contentPosition, arrowPostion, triggerPosition } = useTriggerPosition(
     {
       position,
       left,
@@ -220,7 +218,6 @@ function initTrigger() {
       popupTranslate,
       popupOffset,
       autoFitPosition,
-      emits,
     }
   );
   // contentCss
@@ -241,26 +238,12 @@ function initTrigger() {
       ...arrowStyle.value,
     } as CSSProperties;
   });
-  // 检测滚动关闭
-  if (scrollToClose.value) {
-    let oldLeft = left.value;
-    let oldTop = top.value;
-    watchEffect(() => {
-      if (!computedVisible.value) return;
-      const distanceX = Math.abs(oldLeft - left.value);
-      const distanceY = Math.abs(oldTop - top.value);
-      if (
-        distanceX >= scrollToCloseDistance.value ||
-        distanceY >= scrollToCloseDistance.value
-      ) {
-        computedVisible.value = false;
-      }
-      oldLeft = left.value;
-      oldTop = top.value;
-    });
-  }
+  // 处理点击到外层关闭
+  handleClickOutsideClose();
+  // 处理滚动关闭
+  handleScrollToClose(left, top);
   return {
-    wrapperPosition,
+    contentPosition,
     contentCss,
     arrowCss,
   };

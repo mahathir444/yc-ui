@@ -14,7 +14,6 @@ export type TriggerProps = {
   clickToClose?: boolean;
   clickOutsideToClose?: boolean;
   unmountOnClose?: boolean;
-  wrapperClass?: string;
   contentClass?: string;
   contentStyle?: CSSProperties;
   arrowClass?: string;

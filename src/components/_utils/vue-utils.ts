@@ -1,8 +1,8 @@
 import { Fragment, h, VNode } from 'vue';
 import { RenderContent } from '../_type';
 import { isFunction, isObject } from './is';
-import { SHAPE_FLAGS } from '../_constants';
 
+// 获取renderFunction
 export const getSlotFunction = (param: RenderContent | undefined) => {
   if (param) {
     if (isFunction(param)) return param;
@@ -45,17 +45,4 @@ export function findFirstLegitChild(node: VNode[] | undefined): VNode | null {
     return wrapTextContent(child);
   }
   return null;
-}
-
-export function getVnodeFromChildren(node: VNode[]) {
-  const nodeArr: VNode[] = [];
-  const children = node as VNode[];
-  for (const child of children) {
-    if (child.shapeFlag == SHAPE_FLAGS.slot) {
-      nodeArr.push(...getVnodeFromChildren(child.children as VNode[]));
-    } else {
-      nodeArr.push(child);
-    }
-  }
-  return nodeArr;
 }
