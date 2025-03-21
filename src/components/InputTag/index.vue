@@ -333,5 +333,5 @@ defineExpose({
 </script>
 
 <style lang="less" scoped>
-@import './style/index.less';
+@import './style/input-tag.less';
 </style>

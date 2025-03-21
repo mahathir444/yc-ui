@@ -112,5 +112,5 @@ const handleEvent = (type: TagEventType, ev: MouseEvent) => {
 </script>
 
 <style lang="less" scoped>
-@import './style/index.less';
+@import './style/tag.less';
 </style>

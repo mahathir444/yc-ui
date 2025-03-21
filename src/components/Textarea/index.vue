@@ -176,5 +176,5 @@ const handleEvent = (type: TextareaEventType, e: TextareaEvent) => {
 </script>
 
 <style lang="less" scoped>
-@import './style/index.less';
+@import './style/textarea.less';
 </style>

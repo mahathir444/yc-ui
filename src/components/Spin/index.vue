@@ -54,5 +54,5 @@ withDefaults(defineProps<SpinProps>(), {
 </script>
 
 <style lang="less" scoped>
-@import './style/index.less';
+@import './style/spin.less';
 </style>

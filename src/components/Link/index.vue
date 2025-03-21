@@ -61,5 +61,5 @@ const handleEvent = (type: LinkEventType, e: LinkEvent) => {
 </script>
 
 <style lang="less" scoped>
-@import './style/index.less';
+@import './style/link.less';
 </style>

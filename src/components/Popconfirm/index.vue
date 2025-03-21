@@ -112,5 +112,5 @@ const handleCancel = () => {
 </script>
 
 <style lang="less">
-@import './style/index.less';
+@import './style/popconfirm.less';
 </style>

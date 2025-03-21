@@ -211,5 +211,5 @@ const modalCss = computed(() => {
 </script>
 
 <style lang="less" scoped>
-@import './style/index.less';
+@import './style/modal.less';
 </style>

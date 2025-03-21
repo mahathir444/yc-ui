@@ -64,5 +64,5 @@ const emits = defineEmits<{
 </script>
 
 <style lang="less">
-@import './style/index.less';
+@import './style/popover.less';
 </style>
