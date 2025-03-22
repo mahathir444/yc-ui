@@ -15,10 +15,7 @@
   </yc-spin>
   <template v-else>
     <!-- default -->
-    <div
-      v-prevent="{
-        event: 'mousedown',
-      }"
+    <yc-prevent-focus
       :class="{
         'yc-select-suffix-icon': true,
         'yc-select-suffix-icon-focus': popupVisible,
@@ -27,19 +24,13 @@
       <slot name="arrow-icon">
         <yc-icon name="arrow-right" />
       </slot>
-    </div>
+    </yc-prevent-focus>
     <!-- search -->
-    <div
-      v-if="allowSearch"
-      v-prevent="{
-        event: 'mousedown',
-      }"
-      class="yc-select-search-icon"
-    >
+    <yc-prevent-focus v-if="allowSearch" class="yc-select-search-icon">
       <slot name="search-icon">
         <yc-icon name="search" />
       </slot>
-    </div>
+    </yc-prevent-focus>
     <!-- clear -->
     <yc-icon-button
       v-if="showClearBtn"

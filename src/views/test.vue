@@ -1,6 +1,24 @@
 <template>
   <div class="test">
-    <yc-switch />
+    <div style="width: 300px">
+      <yc-input
+        allow-clear
+        :max-length="10"
+        :word-length="(value) => value.length - 2"
+        show-word-limit
+      />
+    </div>
+    <div style="width: 300px">
+      input-tag
+      <yc-input-tag
+        placeholder="请输入"
+        :field-names="{
+          label: 'text',
+          value: 'key',
+        }"
+        allow-clear
+      />
+    </div>
   </div>
 </template>
 

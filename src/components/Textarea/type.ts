@@ -1,4 +1,4 @@
-// wordSlice,wordLength
+import { WordLength, WordSlice } from '../Input/type';
 export interface TextareaProps {
   modelValue?: string;
   defaultValue?: string;
@@ -10,6 +10,8 @@ export interface TextareaProps {
   allowClear?: boolean;
   readonly?: boolean;
   autoSize?: TextareaResize;
+  wordLength?: WordLength;
+  wordSlice?: WordSlice;
 }
 
 export interface ResizeRange {

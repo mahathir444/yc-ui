@@ -28,17 +28,11 @@
       @blur="handleEvent('blur', $event)"
     ></textarea>
     <!-- wordlimit -->
-    <span
-      v-if="showLimit"
-      v-prevent="{
-        event: 'mousedown',
-      }"
-      class="yc-input-word-limit"
-    >
-      {{ computedValue.length }}
+    <yc-prevent-focus v-if="showLimited" class="yc-input-word-limit">
+      {{ curLength }}
       /
-      {{ maxLength }}
-    </span>
+      {{ _maxLength }}
+    </yc-prevent-focus>
     <!-- clear -->
     <yc-icon-button
       v-if="showClearBtn"
@@ -57,9 +51,8 @@ import {
   TextareaEvent,
   TextareaEventType,
 } from './type';
-import { isNumber } from '@/components/_utils/is';
-import useControlValue from '@/components/_hooks/useControlValue';
 import { useElementSize } from '@vueuse/core';
+import useLimitedInput from '../_hooks/useLimitedInput';
 defineOptions({
   name: 'Textarea',
 });
@@ -74,6 +67,10 @@ const props = withDefaults(defineProps<TextareaProps>(), {
   showWordLimit: false,
   allowClear: false,
   autoSize: false,
+  wordLength: undefined,
+  wordSlice: (value: string, maxLength: number) => {
+    return value.slice(0, maxLength + 1);
+  },
 });
 const emits = defineEmits<{
   (e: 'update:modelValue', value: string): void;
@@ -86,27 +83,27 @@ const emits = defineEmits<{
 const {
   modelValue,
   defaultValue,
-  maxLength,
+  maxLength: _maxLength,
   showWordLimit,
   allowClear,
   disabled,
   readonly,
   autoSize,
 } = toRefs(props);
+const { wordLength, wordSlice } = props;
+// 限制输入hooks
+const { showLimited, computedValue, maxLength, curLength, handleLimitedInput } =
+  useLimitedInput({
+    modelValue,
+    defaultValue,
+    maxLength: _maxLength,
+    showWordLimit,
+    wordLength,
+    wordSlice,
+    emits,
+  });
 // 是否聚焦
 const isFocus = ref<boolean>(false);
-// 受控的value
-const computedValue = useControlValue<string>(
-  modelValue,
-  defaultValue.value,
-  (val) => {
-    emits('update:modelValue', val);
-  }
-);
-// 显示字数限制
-const showLimit = computed(
-  () => isNumber(maxLength.value) && showWordLimit.value
-);
 // 显示i清楚按钮
 const showClearBtn = computed(
   () =>
@@ -154,11 +151,8 @@ const heightRange = computed(() => {
 const handleEvent = (type: TextareaEventType, e: TextareaEvent) => {
   // 输入
   if (['input', 'change'].includes(type)) {
-    const target = e.target as HTMLInputElement;
-    const { value } = target;
-    emits(type as any, value, e);
-    if (computedValue.value == value) return;
-    target.value = computedValue.value;
+    handleLimitedInput(e);
+    emits(type as any, (e.target as HTMLTextAreaElement).value, e);
   }
   // 聚焦
   else if (['focus', 'blur'].includes(type)) {

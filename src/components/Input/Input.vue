@@ -11,15 +11,11 @@
     ]"
   >
     <!-- prepend -->
-    <div
-      v-if="$slots.prepend"
-      v-prevent="{
-        event: 'mousedown',
-      }"
-      class="yc-input-prepend"
-    >
-      <slot name="prepend" />
-    </div>
+    <yc-prevent-focus v-if="$slots.prepend || prepend" class="yc-input-prepend">
+      <slot name="prepend">
+        {{ prepend }}
+      </slot>
+    </yc-prevent-focus>
     <!-- yc-input-wrapper"  -->
     <div
       class="yc-input-wrapper"
@@ -28,15 +24,9 @@
       }"
     >
       <!-- prefix-icon -->
-      <div
-        v-if="$slots.prefix"
-        v-prevent="{
-          event: 'mousedown',
-        }"
-        class="yc-input-prefix"
-      >
+      <yc-prevent-focus v-if="$slots.prefix" class="yc-input-prefix">
         <slot name="prefix" />
-      </div>
+      </yc-prevent-focus>
       <!-- input -->
       <input
         v-show="!$slots.label || ($slots.label && showInput)"
@@ -56,7 +46,7 @@
         @keydown.enter="handleEvent('pressEnter', $event)"
       />
       <!-- select模式下的label -->
-      <div
+      <yc-prevent-focus
         v-if="$slots.label"
         v-show="!showInput"
         :class="{
@@ -65,7 +55,7 @@
         }"
       >
         <slot name="label" />
-      </div>
+      </yc-prevent-focus>
       <!-- clear-btn -->
       <yc-icon-button
         v-if="showClearBtn"
@@ -74,35 +64,28 @@
         @click="handleEvent('clear', $event)"
       />
       <!-- suffix-icon -->
-      <div
-        v-if="$slots.suffix || $slots.extra || showLimit"
-        v-prevent="{
-          event: 'mousedown',
-        }"
+      <yc-prevent-focus
+        v-if="$slots.suffix || $slots.extra || showLimited"
         class="yc-input-suffix"
       >
         <!-- word-limit -->
-        <span v-if="showLimit" class="yc-input-word-limit">
-          {{ computedValue.length }}
+        <span v-if="showLimited" class="yc-input-word-limit">
+          {{ curLength }}
           /
-          {{ maxLength }}
+          {{ _maxLength }}
         </span>
         <!-- extra -->
         <slot v-if="$slots.extra" name="extra" />
         <!-- suffix -->
         <slot name="suffix" />
-      </div>
+      </yc-prevent-focus>
     </div>
     <!-- append -->
-    <div
-      v-if="$slots.append"
-      v-prevent="{
-        event: 'mousedown',
-      }"
-      class="yc-input-append"
-    >
-      <slot name="append" />
-    </div>
+    <yc-prevent-focus v-if="$slots.append || append" class="yc-input-append">
+      <slot name="append">
+        {{ append }}
+      </slot>
+    </yc-prevent-focus>
   </div>
 </template>
 
@@ -111,9 +94,7 @@ import { ref, computed, toRefs } from 'vue';
 import { SIZE_CLASS } from './constants';
 import { InputProps, InputEvent, InputEventType } from './type';
 import { SIZE_MAP } from '@/components/_constants';
-import { isNumber } from '@/components/_utils/is';
-import useControlValue from '../_hooks/useControlValue';
-
+import useLimitedInput from '../_hooks/useLimitedInput';
 defineOptions({
   name: 'Input',
 });
@@ -132,7 +113,13 @@ const props = withDefaults(defineProps<InputProps>(), {
     return {};
   },
   type: 'text',
+  prepend: '',
+  append: '',
   showInput: false,
+  wordLength: undefined,
+  wordSlice: (value: string, maxLength: number) => {
+    return value.slice(0, maxLength + 1);
+  },
 });
 const emits = defineEmits<{
   (e: 'update:modelValue', value: string): void;
@@ -144,46 +131,46 @@ const emits = defineEmits<{
   (e: 'blur', ev: FocusEvent): void;
 }>();
 const {
-  size,
-  showWordLimit,
-  maxLength,
-  allowClear,
   modelValue,
   defaultValue,
+  size,
+  showWordLimit,
+  allowClear,
   disabled,
   readonly,
+  maxLength: _maxLength,
 } = toRefs(props);
-// 受控值
-const computedValue = useControlValue<string>(
-  modelValue,
-  defaultValue.value,
-  (val) => emits('update:modelValue', val)
-);
+const { wordLength, wordSlice } = props;
+// 限制输入hooks
+const { showLimited, computedValue, maxLength, curLength, handleLimitedInput } =
+  useLimitedInput({
+    modelValue,
+    defaultValue,
+    maxLength: _maxLength,
+    showWordLimit,
+    wordLength,
+    wordSlice,
+    emits,
+  });
 // 输入实例
 const inputRef = ref<HTMLInputElement>();
 // 是否聚焦
 const isFocus = ref<boolean>(false);
-// 是否展示字数限制
-const showLimit = computed(
-  () => isNumber(maxLength.value) && showWordLimit.value
-);
 // 是否展示清除按钮
-const showClearBtn = computed(
-  () =>
+const showClearBtn = computed(() => {
+  return (
     allowClear.value &&
     !disabled.value &&
     !readonly.value &&
     computedValue.value.length
-);
+  );
+});
 // 处理输入，改变和清除
 const handleEvent = (type: InputEventType, e: InputEvent) => {
   // input
   if (['input', 'change'].includes(type)) {
-    const target = e.target as HTMLInputElement;
-    if (computedValue.value !== target.value) {
-      target.value = computedValue.value;
-    }
-    emits(type as any, computedValue.value, e);
+    handleLimitedInput(e);
+    emits(type as any, (e.target as HTMLInputElement).value, e as Event);
   }
   // focus
   else if (['focus', 'blur'].includes(type)) {

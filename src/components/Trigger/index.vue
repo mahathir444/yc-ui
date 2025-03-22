@@ -17,13 +17,10 @@
       @after-enter="$emit('show')"
     >
       <!-- wrapper -->
-      <div
+      <yc-prevent-focus
         v-if="!unmountOnClose || (computedVisible && !disabled)"
         v-show="computedVisible && !disabled"
-        v-prevent="{
-          event: 'mousedown',
-          isPrevent: preventFocus,
-        }"
+        :preventFocus="preventFocus"
         :data-group-id="groupId"
         :data-group-level="level"
         :style="contentPosition"
@@ -42,7 +39,7 @@
           :class="['yc-trigger-arrow', arrowClass]"
           :style="arrowCss"
         ></div>
-      </div>
+      </yc-prevent-focus>
     </transition>
   </teleport>
 </template>

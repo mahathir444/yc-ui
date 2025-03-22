@@ -1,10 +1,8 @@
 <template>
-  <div
+  <yc-prevent-focus
     v-if="computedVisible"
-    v-prevent="{
-      event: 'mousedown',
-      isPrevent: preventFocus,
-    }"
+    :preventFocus="preventFocus"
+    render-tag="label"
     :class="[
       'yc-tag',
       SIZE_CLASS[size],
@@ -47,7 +45,7 @@
       style="color: inherit; font-size: inherit"
       class="yc-tag-loading-icon"
     />
-  </div>
+  </yc-prevent-focus>
 </template>
 
 <script lang="ts" setup>

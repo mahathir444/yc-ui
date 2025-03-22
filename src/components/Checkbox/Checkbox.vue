@@ -1,8 +1,6 @@
 <template>
-  <label
-    v-prevent="{
-      event: 'mousedown',
-    }"
+  <yc-prevent-focus
+    render-tag="label"
     :class="{
       'yc-checkbox': true,
       'yc-checkbox-hoverable': !computedChecked && !disabled,
@@ -40,7 +38,7 @@
         <slot />
       </span>
     </slot>
-  </label>
+  </yc-prevent-focus>
 </template>
 
 <script lang="ts" setup>

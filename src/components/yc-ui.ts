@@ -30,6 +30,7 @@ import InputTag from './InputTag';
 import AutoComplete from './AutoComplete';
 import Radio, { RadioGroup } from './Radio';
 import Switch from './Switch';
+import YcPreventFocus from '@/components/_components/PreventFocus/index.vue';
 import YcIcon from '@/components/_components/Icon/index.vue';
 import YcIconButton from '@/components/_components/IconButton/index.vue';
 
@@ -76,6 +77,7 @@ const YcUi = {
   install: (app: App, options?: YcUiOptions) => {
     app.component('YcIcon', YcIcon);
     app.component('YcIconButton', YcIconButton);
+    app.component('YcPreventFocus', YcPreventFocus);
     app.directive('prevent', vPrevent);
     for (const key of Object.keys(components)) {
       app.use(components[key], options);
@@ -88,6 +90,7 @@ export default YcUi;
 // 定义类型
 declare module 'vue' {
   export interface GlobalComponents {
+    YcPreventFocus: typeof YcPreventFocus;
     YcIcon: typeof YcIcon;
     YcIconButton: typeof YcIconButton;
     YcButtonGroup: typeof ButtonGroup;

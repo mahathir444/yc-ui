@@ -1,8 +1,5 @@
 <template>
-  <div
-    v-prevent="{
-      event: 'mousedown',
-    }"
+  <yc-prevent-focus
     :class="[
       'yc-input-tag',
       SIZE_CLASS[size],
@@ -18,15 +15,9 @@
     @click="inputRef?.focus()"
   >
     <!-- prefix-icon -->
-    <div
-      v-if="$slots.prefix"
-      v-prevent="{
-        event: 'mousedown',
-      }"
-      class="yc-input-tag-prefix"
-    >
+    <yc-prevent-focus v-if="$slots.prefix" class="yc-input-tag-prefix">
       <slot name="prefix" />
-    </div>
+    </yc-prevent-focus>
     <!-- mirror -->
     <div class="yc-input-tag-mirror" ref="mirrorRef">
       {{ computedInputValue || (computedValue.length ? '' : placeholder) }}
@@ -79,11 +70,8 @@
       />
     </div>
     <!-- suffix-icon -->
-    <div
+    <yc-prevent-focus
       v-if="$slots.suffix || showClearBtn"
-      v-prevent="{
-        event: 'mousedown',
-      }"
       class="yc-input-tag-suffix"
     >
       <!-- clear-btn -->
@@ -94,8 +82,8 @@
         @click="handleEvent('clear', $event)"
       />
       <slot name="suffix" />
-    </div>
-  </div>
+    </yc-prevent-focus>
+  </yc-prevent-focus>
 </template>
 
 <script lang="ts" setup>

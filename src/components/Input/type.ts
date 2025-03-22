@@ -1,6 +1,6 @@
 import { ObjectData, Size } from '@/components/_type';
 import { ButtonProps } from '../Button/type';
-// wordSlice,wordLength
+//
 export interface InputProps {
   modelValue?: string;
   defaultValue?: string;
@@ -11,9 +11,14 @@ export interface InputProps {
   error?: boolean;
   placeholder?: string;
   maxLength?: number;
+  wordLength?: WordLength;
+  wordSlice?: WordSlice;
   showWordLimit?: boolean;
   inputAttrs?: ObjectData;
   type?: 'password' | 'text';
+  append?: string;
+  prepend?: string;
+  //select使用
   showInput?: boolean;
 }
 
@@ -31,6 +36,10 @@ export interface InputSearchProps {
   buttonText?: string;
   buttonProps?: ButtonProps;
 }
+
+export type WordSlice = (value: string, maxLength: number) => string;
+
+export type WordLength = (value: string) => number;
 
 // 内部使用
 export type InputEventType =

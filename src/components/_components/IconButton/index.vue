@@ -1,8 +1,5 @@
 <template>
-  <div
-    v-prevent="{
-      event: 'mousedown',
-    }"
+  <yc-prevent-focus
     class="yc-icon-button"
     :style="{
       fontSize,
@@ -11,7 +8,7 @@
     <slot name="icon">
       <yc-icon :name="name" />
     </slot>
-  </div>
+  </yc-prevent-focus>
 </template>
 
 <script lang="ts" setup>

@@ -49,6 +49,7 @@ declare module 'vue' {
     OptionList: typeof import('./src/components/Select/component/OptionList.vue')['default']
     Popconfirm: typeof import('./src/components/Popconfirm/index.vue')['default']
     Popover: typeof import('./src/components/Popover/index.vue')['default']
+    PreventFocus: typeof import('./src/components/_components/PreventFocus/index.vue')['default']
     Radio: typeof import('./src/components/Radio/Radio.vue')['default']
     RadioGroup: typeof import('./src/components/Radio/RadioGroup.vue')['default']
     RenderOption: typeof import('./src/components/Select/component/RenderOption.vue')['default']
@@ -61,6 +62,8 @@ declare module 'vue' {
     SelectDropdown: typeof import('./src/components/Select/component/SelectDropdown.vue')['default']
     SelectIcon: typeof import('./src/components/Select/component/SelectIcon.vue')['default']
     ServiceModal: typeof import('./src/components/Modal/component/ServiceModal.vue')['default']
+    Slot: typeof import('./src/components/_components/Slot/index.vue')['default']
+    SlotCompt: typeof import('./src/components/Input/component/SlotCompt.vue')['default']
     Spin: typeof import('./src/components/Spin/index.vue')['default']
     SpinIcon: typeof import('./src/components/Spin/component/SpinIcon.vue')['default']
     Switch: typeof import('./src/components/Switch/index.vue')['default']
@@ -69,5 +72,6 @@ declare module 'vue' {
     Tooltip: typeof import('./src/components/Tooltip/index.vue')['default']
     Track: typeof import('./src/components/Scrollbar/Track.vue')['default']
     Trigger: typeof import('./src/components/Trigger/index.vue')['default']
+    WordLimit: typeof import('./src/components/Input/component/WordLimit.vue')['default']
   }
 }
