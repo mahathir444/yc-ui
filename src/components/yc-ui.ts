@@ -1,5 +1,4 @@
 import { App, Plugin } from 'vue';
-import { vPrevent, VPreventDirective } from './_directives/prevent';
 import { YcUiOptions } from './_type';
 import Button, { ButtonGroup } from './Button';
 import Drawer from './Drawer';
@@ -78,7 +77,6 @@ const YcUi = {
     app.component('YcIcon', YcIcon);
     app.component('YcIconButton', YcIconButton);
     app.component('YcPreventFocus', YcPreventFocus);
-    app.directive('prevent', vPrevent);
     for (const key of Object.keys(components)) {
       app.use(components[key], options);
     }
@@ -128,8 +126,5 @@ declare module 'vue' {
     YcRadio: typeof Radio;
     YcRadioGroup: typeof RadioGroup;
     YcSwitch: typeof Switch;
-  }
-  export interface ComponentCustomProperties {
-    vPrevent: VPreventDirective;
   }
 }

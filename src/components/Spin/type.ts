@@ -4,4 +4,5 @@ export interface SpinProps {
   dot?: boolean;
   tip?: string;
   hideIcon?: boolean;
+  preventFocus?: boolean;
 }

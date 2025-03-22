@@ -1,12 +1,21 @@
 <template>
   <div class="test">
     <div style="width: 300px">
-      <yc-input
+      select
+      <yc-select
         allow-clear
-        :max-length="10"
-        :word-length="(value) => value.length - 2"
-        show-word-limit
-      />
+        allow-search
+        multiple
+        placeholder="请选择"
+        :options="[
+          {
+            label: '分组1',
+            isGroup: true,
+            options,
+          },
+        ]"
+      >
+      </yc-select>
     </div>
     <div style="width: 300px">
       input-tag
@@ -18,6 +27,32 @@
         }"
         allow-clear
       />
+    </div>
+    <div style="width: 300px">
+      auto-complete
+      <yc-auto-complete />
+    </div>
+    <div style="width: 300px">
+      input
+      <yc-input allow-clear :max-length="100" show-word-limit />
+    </div>
+    <div style="width: 300px">
+      text-area
+      <yc-textarea allow-clear :max-length="100" show-word-limit />
+    </div>
+    <div style="width: 500px">
+      checkbox
+      <yc-checkbox-group>
+        <yc-checkbox v-for="i in 5" :key="i" :value="i"
+          >选项{{ i }}
+        </yc-checkbox>
+      </yc-checkbox-group>
+    </div>
+    <div style="width: 500px">
+      radio
+      <yc-radio-group>
+        <yc-radio v-for="i in 5" :key="i" :value="i">选项{{ i }} </yc-radio>
+      </yc-radio-group>
     </div>
   </div>
 </template>

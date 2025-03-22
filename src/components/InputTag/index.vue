@@ -23,7 +23,6 @@
       {{ computedInputValue || (computedValue.length ? '' : placeholder) }}
     </div>
     <!-- tag-list -->
-    <!-- <transition-group tag="div"> </transition-group> -->
     <div class="yc-input-tag-inner">
       <yc-tag
         v-for="item in curList.visibleList"

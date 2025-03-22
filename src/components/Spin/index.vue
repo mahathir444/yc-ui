@@ -1,6 +1,6 @@
 <template>
-  <div
-    class="yc-spin"
+  <yc-prevent-focus
+    :prevent-focus="preventFocus"
     :class="{
       'yc-spin': true,
       'yc-spin-loading': loading,
@@ -35,7 +35,7 @@
       </div>
     </transition>
     <slot />
-  </div>
+  </yc-prevent-focus>
 </template>
 
 <script lang="ts" setup>
@@ -50,6 +50,7 @@ withDefaults(defineProps<SpinProps>(), {
   dot: false,
   tip: '',
   hideIcon: false,
+  preventFocus: false,
 });
 </script>
 

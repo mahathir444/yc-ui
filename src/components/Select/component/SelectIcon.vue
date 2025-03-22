@@ -2,10 +2,8 @@
   <!-- loading -->
   <yc-spin
     v-if="loading"
-    v-prevent="{
-      event: 'mousedown',
-    }"
     :size="12"
+    prevent-focus
     style="color: inherit"
     class="yc-select-loading-icon"
   >
