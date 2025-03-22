@@ -1,10 +1,9 @@
 import { App, render, ref, createVNode, reactive } from 'vue';
-import _Message from './index.vue';
+import _Message from './Message.vue';
+import _MessageContainer from './Container.vue';
 import { getComponentPrefix } from '@/components/_utils/global-config';
 import { MessageConfig, MessageList, MessageType } from './type';
 import { config, messageType } from './constants';
-import _MessageContainer from './container.vue';
-
 export type MessageInstance = InstanceType<typeof _Message>;
 export type {
   MessageProps,

@@ -1,7 +1,7 @@
 import { App, render, ref, createVNode, reactive, Ref } from 'vue';
-import _Notification from './index.vue';
 import { getComponentPrefix } from '@/components/_utils/global-config';
-import _NotificationContainer from './notificationList.vue';
+import _Notification from './Notification.vue';
+import _NotificationContainer from './Container.vue';
 import {
   NotificationConfig,
   NotificationPosition,

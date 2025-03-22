@@ -1,9 +1,12 @@
 <template>
-  <teleport :to="popupContainer" :disabled="!renderToBody">
+  <teleport :to="popupContainer || 'body'" :disabled="!renderToBody">
     <div
       v-if="!unmountOnClose || outerVisible"
       v-show="outerVisible"
       class="yc-drawer-wrapper"
+      :style="{
+        position: popupContainer || !renderToBody ? 'absolute' : 'fixed',
+      }"
     >
       <!-- mask -->
       <transition name="fade" appear>
@@ -106,7 +109,7 @@ const props = withDefaults(defineProps<DrawerProps>(), {
   unmountOnClose: false,
   width: 250,
   height: 250,
-  popupContainer: 'body',
+  popupContainer: undefined,
   drawerStyle: () => {
     return {};
   },
@@ -141,6 +144,8 @@ const {
   maskClosable,
   escToClose,
   drawerStyle,
+  renderToBody,
+  popupContainer,
 } = toRefs(props);
 const { onBeforeOk, onBeforeCancel } = props;
 // drawer绝对定位的left,top

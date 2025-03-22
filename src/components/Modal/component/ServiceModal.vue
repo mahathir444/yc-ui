@@ -45,7 +45,7 @@ withDefaults(defineProps<ModalConfig>(), {
   },
   footer: true,
   renderToBody: true,
-  popupContainer: 'body',
+  popupContainer: undefined,
   maskStyle: () => {
     return {};
   },

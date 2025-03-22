@@ -1,0 +1,73 @@
+@keyframes loading {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.yc-notification-box {
+  padding: 20px;
+  width: 340px;
+  background-color: #fff;
+  border: 1px solid rgb(229, 230, 235);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  display: flex;
+  gap: 16px;
+  position: relative;
+  .yc-notification-left {
+    display: flex;
+    align-items: start;
+    .yc-notification-icon {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 24px;
+      &.info {
+        color: rgb(22, 93, 255);
+      }
+
+      &.success {
+        color: rgb(0, 180, 42);
+      }
+
+      &.warning {
+        color: rgb(255, 125, 0);
+      }
+
+      &.error {
+        color: rgb(245, 63, 63);
+      }
+
+      &.loading {
+        color: rgb(22, 93, 225);
+
+        .svg-icon {
+          animation: loading 1s infinite cubic-bezier(0, 0, 1, 1);
+        }
+      }
+    }
+  }
+  .yc-notification-right {
+    flex: 1;
+    color: rgb(29, 33, 41);
+    .yc-notification-title {
+      font-weight: 500;
+      font-size: 16px;
+    }
+    .yc-notification-content {
+      margin-top: 4px;
+    }
+    .yc-notification-footer {
+      margin-top: 16px;
+      text-align: right;
+    }
+  }
+  .yc-close-btn {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+  }
+}

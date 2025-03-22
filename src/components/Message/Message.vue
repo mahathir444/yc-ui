@@ -26,7 +26,6 @@
 import { onMounted, onUpdated, ref, computed, useSlots } from 'vue';
 import { MessageProps } from './type';
 import { useTimeoutFn } from '@vueuse/core';
-import YcIconButton from '../_components/IconButton/index.vue';
 
 defineOptions({
   name: 'Message',
@@ -82,54 +81,5 @@ const hasIcon = computed(() => {
 });
 </script>
 <style scoped lang="less">
-@keyframes loading {
-  0% {
-    transform: rotate(0deg);
-  }
-
-  100% {
-    transform: rotate(360deg);
-  }
-}
-
-.yc-message-box {
-  padding: 10px 16px;
-  background-color: #fff;
-  border: 1px solid rgb(229, 230, 235);
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-
-  .yc-message-icon {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 20px;
-
-    &.info {
-      color: rgb(22, 93, 255);
-    }
-
-    &.success {
-      color: rgb(0, 180, 42);
-    }
-
-    &.warning {
-      color: rgb(255, 125, 0);
-    }
-
-    &.error {
-      color: rgb(245, 63, 63);
-    }
-
-    &.loading {
-      color: rgb(22, 93, 225);
-
-      .svg-icon {
-        animation: loading 1s infinite cubic-bezier(0, 0, 1, 1);
-      }
-    }
-  }
-}
+@import './style/message.less';
 </style>

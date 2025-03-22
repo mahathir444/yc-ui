@@ -1,9 +1,12 @@
 <template>
-  <teleport :to="popupContainer" :disabled="!renderToBody">
+  <teleport :to="popupContainer || 'body'" :disabled="!renderToBody">
     <div
       v-if="!unmountOnClose || outerVisible"
       v-show="outerVisible"
       class="yc-modal-container"
+      :style="{
+        position: popupContainer || !renderToBody ? 'absolute' : 'fixed',
+      }"
     >
       <!-- mask -->
       <transition :name="maskAnimationName" appear>
@@ -128,7 +131,7 @@ const props = withDefaults(defineProps<ModalProps>(), {
   },
   footer: true,
   renderToBody: true,
-  popupContainer: 'body',
+  popupContainer: undefined,
   maskStyle: () => {
     return {};
   },
@@ -173,6 +176,8 @@ const {
   modalStyle,
   fullscreen,
   draggable,
+  renderToBody,
+  popupContainer,
 } = toRefs(props);
 const { onBeforeOk, onBeforeCancel } = props;
 // 处理组件关闭开启

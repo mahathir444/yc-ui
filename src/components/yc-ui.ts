@@ -29,6 +29,7 @@ import Checkbox, { CheckboxGroup } from './Checkbox';
 import InputTag from './InputTag';
 import AutoComplete from './AutoComplete';
 import Radio, { RadioGroup } from './Radio';
+import Switch from './Switch';
 import YcIcon from '@/components/_components/Icon/index.vue';
 import YcIconButton from '@/components/_components/IconButton/index.vue';
 
@@ -56,6 +57,7 @@ export const components: Record<string, Plugin> = {
   InputTag,
   AutoComplete,
   Radio,
+  Switch,
 };
 
 const YcUi = {
@@ -122,6 +124,7 @@ declare module 'vue' {
     YcAutoComplete: typeof AutoComplete;
     YcRadio: typeof Radio;
     YcRadioGroup: typeof RadioGroup;
+    YcSwitch: typeof Switch;
   }
   export interface ComponentCustomProperties {
     vPrevent: VPreventDirective;
