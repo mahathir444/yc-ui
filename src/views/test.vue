@@ -34,7 +34,13 @@
     </div>
     <div style="width: 300px">
       input
-      <yc-input allow-clear :max-length="100" show-word-limit />
+      <yc-input
+        allow-clear
+        :max-length="10"
+        :word-slice="(v, max) => v.slice(1, max + 1)"
+        :word-length="(value) => value.length + 2"
+        show-word-limit
+      />
     </div>
     <div style="width: 300px">
       text-area
@@ -74,7 +80,6 @@ for (let i = 0; i < 20; i++) {
 .test {
   height: 100%;
   width: 100%;
-
   display: flex;
   flex-direction: column;
   justify-content: center;

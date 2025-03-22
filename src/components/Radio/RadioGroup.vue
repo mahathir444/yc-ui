@@ -43,7 +43,7 @@ defineOptions({
 const props = withDefaults(defineProps<RadioGroupProps>(), {
   modelValue: undefined,
   defaultValue: '',
-  type: 'button',
+  type: 'radio',
   size: 'medium',
   options: () => [],
   direction: 'horizontal',

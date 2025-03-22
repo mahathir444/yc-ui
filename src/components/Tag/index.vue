@@ -2,7 +2,7 @@
   <yc-prevent-focus
     v-if="computedVisible"
     :preventFocus="preventFocus"
-    render-tag="label"
+    tag="label"
     :class="[
       'yc-tag',
       SIZE_CLASS[size],

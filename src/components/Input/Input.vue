@@ -34,7 +34,7 @@
         :type="type"
         :disabled="disabled"
         :readonly="readonly"
-        :maxlength="maxLength"
+        :maxlength="_maxLength"
         :placeholder="placeholder"
         v-bind="inputAttrs"
         class="yc-input"
@@ -69,11 +69,15 @@
         class="yc-input-suffix"
       >
         <!-- word-limit -->
-        <span v-if="showLimited" class="yc-input-word-limit">
+        <yc-prevent-focus
+          v-if="showLimited"
+          tag="span"
+          class="yc-input-word-limit"
+        >
           {{ curLength }}
           /
-          {{ _maxLength }}
-        </span>
+          {{ maxLength }}
+        </yc-prevent-focus>
         <!-- extra -->
         <slot v-if="$slots.extra" name="extra" />
         <!-- suffix -->
@@ -118,7 +122,7 @@ const props = withDefaults(defineProps<InputProps>(), {
   showInput: false,
   wordLength: undefined,
   wordSlice: (value: string, maxLength: number) => {
-    return value.slice(0, maxLength + 1);
+    return value.slice(0, maxLength);
   },
 });
 const emits = defineEmits<{
@@ -138,20 +142,25 @@ const {
   allowClear,
   disabled,
   readonly,
-  maxLength: _maxLength,
+  maxLength,
 } = toRefs(props);
 const { wordLength, wordSlice } = props;
 // 限制输入hooks
-const { showLimited, computedValue, maxLength, curLength, handleLimitedInput } =
-  useLimitedInput({
-    modelValue,
-    defaultValue,
-    maxLength: _maxLength,
-    showWordLimit,
-    wordLength,
-    wordSlice,
-    emits,
-  });
+const {
+  showLimited,
+  computedValue,
+  curLength,
+  _maxLength,
+  handleLimitedInput,
+} = useLimitedInput({
+  modelValue,
+  defaultValue,
+  maxLength,
+  showWordLimit,
+  wordLength,
+  wordSlice,
+  emits,
+});
 // 输入实例
 const inputRef = ref<HTMLInputElement>();
 // 是否聚焦

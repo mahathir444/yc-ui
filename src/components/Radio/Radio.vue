@@ -1,6 +1,6 @@
 <template>
   <yc-prevent-focus
-    render-tag="label"
+    tag="label"
     :class="[
       SIZE_CLASS[size],
       type == 'radio' ? 'yc-radio' : 'yc-radio-button',

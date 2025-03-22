@@ -26,7 +26,7 @@ export function isNaN(value: any): value is number {
 
 // 检查给定的值是否是数值
 export function isNumber(value: any): value is number {
-  return objToString.call(value) === '[object Number]' && !isNaN(value);
+  return typeof value == 'number' && !isNaN(value);
 }
 
 // 检查给定的值是否是字符串

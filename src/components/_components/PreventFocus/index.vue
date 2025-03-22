@@ -1,24 +1,30 @@
 <template>
   <div
-    v-if="renderTag == 'div'"
+    v-if="tag == 'div'"
     @mousedown="(e) => preventFocus && e.preventDefault()"
   >
     <slot />
   </div>
-  <label v-else @mousedown="(e) => preventFocus && e.preventDefault()">
+  <label
+    v-else-if="tag == 'label'"
+    @mousedown="(e) => preventFocus && e.preventDefault()"
+  >
     <slot />
   </label>
+  <span v-else @mousedown="(e) => preventFocus && e.preventDefault()">
+    <slot />
+  </span>
 </template>
 
 <script lang="ts" setup>
 withDefaults(
   defineProps<{
     preventFocus?: boolean;
-    renderTag?: 'div' | 'label';
+    tag?: 'div' | 'label' | 'span';
   }>(),
   {
     preventFocus: true,
-    renderTag: 'div',
+    tag: 'div',
   }
 );
 </script>

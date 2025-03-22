@@ -19,6 +19,9 @@
 }
 // allow-search
 .yc-select-allow-search {
+  &:deep(.yc-select-search-icon) {
+    display: none;
+  }
   &:focus-within {
     &:deep(.yc-select-clear-icon),
     &:deep(.yc-select-suffix-icon) {
@@ -31,6 +34,9 @@
 }
 // allow-clear
 .yc-select-allow-clear {
+  &:deep(.yc-select-clear-icon) {
+    display: none;
+  }
   &:hover {
     &:deep(.yc-select-search-icon),
     &:deep(.yc-select-suffix-icon) {

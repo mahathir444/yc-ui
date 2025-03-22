@@ -286,15 +286,15 @@ const {
   getValue,
 });
 // 虚拟列表
-const {
-  list,
-  containerProps,
-  wrapperProps,
-  scrollTo: scrollToTop,
-} = useVirtualList(options, {
-  overscan: 5,
-  itemHeight: 72,
-});
+// const {
+//   list,
+//   containerProps,
+//   wrapperProps,
+//   scrollTo: scrollToTop,
+// } = useVirtualList(options, {
+//   overscan: 5,
+//   itemHeight: 72,
+// });
 // 是否展示清除按钮
 const showClearBtn = computed(() => {
   const hasValue = multiple.value

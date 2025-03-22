@@ -1,6 +1,6 @@
 <template>
   <yc-prevent-focus
-    render-tag="label"
+    tag="label"
     :class="{
       'yc-checkbox': true,
       'yc-checkbox-hoverable': !computedChecked && !disabled,

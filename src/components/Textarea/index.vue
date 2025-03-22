@@ -18,7 +18,7 @@
       v-model="computedValue"
       :disabled="disabled"
       :readonly="readonly"
-      :maxlength="maxLength"
+      :maxlength="_maxLength"
       :placeholder="placeholder"
       :style="heightRange"
       class="yc-textarea"
@@ -28,10 +28,14 @@
       @blur="handleEvent('blur', $event)"
     ></textarea>
     <!-- wordlimit -->
-    <yc-prevent-focus v-if="showLimited" class="yc-input-word-limit">
+    <yc-prevent-focus
+      v-if="showLimited"
+      tag="span"
+      class="yc-textarea-word-limit"
+    >
       {{ curLength }}
       /
-      {{ _maxLength }}
+      {{ maxLength }}
     </yc-prevent-focus>
     <!-- clear -->
     <yc-icon-button
@@ -83,7 +87,7 @@ const emits = defineEmits<{
 const {
   modelValue,
   defaultValue,
-  maxLength: _maxLength,
+  maxLength,
   showWordLimit,
   allowClear,
   disabled,
@@ -92,16 +96,21 @@ const {
 } = toRefs(props);
 const { wordLength, wordSlice } = props;
 // 限制输入hooks
-const { showLimited, computedValue, maxLength, curLength, handleLimitedInput } =
-  useLimitedInput({
-    modelValue,
-    defaultValue,
-    maxLength: _maxLength,
-    showWordLimit,
-    wordLength,
-    wordSlice,
-    emits,
-  });
+const {
+  showLimited,
+  computedValue,
+  _maxLength,
+  curLength,
+  handleLimitedInput,
+} = useLimitedInput({
+  modelValue,
+  defaultValue,
+  maxLength,
+  showWordLimit,
+  wordLength,
+  wordSlice,
+  emits,
+});
 // 是否聚焦
 const isFocus = ref<boolean>(false);
 // 显示i清楚按钮
@@ -120,9 +129,6 @@ const { height } = useElementSize(mirrorRef, undefined, {
 });
 // 高度范围
 const heightRange = computed(() => {
-  const _calcHeight = (rows: number) => {
-    return rows * 14 * 1.5715 + 8;
-  };
   const resizeRange = autoSize.value as ResizeRange;
   if (!resizeRange) {
     return {
@@ -130,6 +136,9 @@ const heightRange = computed(() => {
       maxHeight: '',
     };
   }
+  const _calcHeight = (rows: number) => {
+    return rows * 14 * 1.5715 + 8;
+  };
   let minRows = resizeRange?.minRows ?? 1;
   minRows = minRows <= 1 ? 1 : minRows;
   const minHeight = _calcHeight(minRows);
