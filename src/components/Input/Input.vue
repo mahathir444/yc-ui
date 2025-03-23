@@ -94,7 +94,7 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, computed, toRefs } from 'vue';
+import { ref, computed, toRefs, nextTick } from 'vue';
 import { SIZE_CLASS } from './constants';
 import { InputProps, InputEvent, InputEventType } from './type';
 import { SIZE_MAP } from '@/components/_constants';
@@ -116,14 +116,14 @@ const props = withDefaults(defineProps<InputProps>(), {
   inputAttrs: () => {
     return {};
   },
-  type: 'text',
   prepend: '',
   append: '',
-  showInput: false,
   wordLength: undefined,
   wordSlice: (value: string, maxLength: number) => {
     return value.slice(0, maxLength);
   },
+  type: 'text',
+  showInput: false,
 });
 const emits = defineEmits<{
   (e: 'update:modelValue', value: string): void;
@@ -175,11 +175,16 @@ const showClearBtn = computed(() => {
   );
 });
 // 处理输入，改变和清除
-const handleEvent = (type: InputEventType, e: InputEvent) => {
+const handleEvent = async (type: InputEventType, e: InputEvent) => {
   // input
   if (['input', 'change'].includes(type)) {
     handleLimitedInput(e);
-    emits(type as any, (e.target as HTMLInputElement).value, e as Event);
+    const target = e.target as HTMLInputElement;
+    emits(type as any, target.value, e as Event);
+    await nextTick();
+    if (computedValue.value !== target.value) {
+      target.value = computedValue.value;
+    }
   }
   // focus
   else if (['focus', 'blur'].includes(type)) {

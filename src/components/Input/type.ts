@@ -15,9 +15,10 @@ export interface InputProps {
   wordSlice?: WordSlice;
   showWordLimit?: boolean;
   inputAttrs?: ObjectData;
-  type?: 'password' | 'text';
   append?: string;
   prepend?: string;
+  // input-password使用
+  type?: 'password' | 'text' | 'number' | 'digit';
   //select使用
   showInput?: boolean;
 }

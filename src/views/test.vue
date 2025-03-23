@@ -46,13 +46,14 @@
       text-area
       <yc-textarea allow-clear :max-length="100" show-word-limit />
     </div>
-    <div style="width: 500px">
-      checkbox
-      <yc-checkbox-group>
+    <div style="width: 500px; height: 30px">
+      <!-- checkbox -->
+      <yc-checkbox :value="1">测试</yc-checkbox>
+      <!-- <yc-checkbox-group>
         <yc-checkbox v-for="i in 5" :key="i" :value="i"
           >选项{{ i }}
         </yc-checkbox>
-      </yc-checkbox-group>
+      </yc-checkbox-group> -->
     </div>
     <div style="width: 500px">
       radio
@@ -60,11 +61,29 @@
         <yc-radio v-for="i in 5" :key="i" :value="i">选项{{ i }} </yc-radio>
       </yc-radio-group>
     </div>
+    <div style="width: 300px">
+      <yc-input-number
+        :step="1.2"
+        :precision="4"
+        :min="2"
+        :max="13"
+        placeholder="请输入"
+      ></yc-input-number>
+      <a-input-number
+        :step="1.2"
+        :precision="4"
+        :min="10"
+        :max="100"
+        placeholder="请输入"
+      >
+      </a-input-number>
+    </div>
   </div>
 </template>
 
 <script lang="ts" setup>
 import { ref, watch, watchEffect } from 'vue';
+import YcInputNumber from '@/components/InputNumber/index.vue';
 const value = ref([]);
 const value1 = ref([]);
 const options = ref<any[]>([]);

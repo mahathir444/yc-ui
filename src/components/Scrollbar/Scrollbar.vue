@@ -123,39 +123,28 @@ function initScrollbar() {
     }
   );
   // 获取滚动的高度
-  // const { width: scrollWidth, height: scrollHeight } = useElementSize(
-  //   scrollRef,
-  //   undefined,
-  //   {
-  //     box: 'border-box',
-  //   }
-  // );
-  // 获取滚动容器高度
-  const {
-    top: elementTop,
-    left: elementLeft,
-    height: scrollHeight,
-    width: scrollWidth,
-  } = useElementBounding(scrollRef, {
-    updateTiming: 'next-frame',
-  });
+  const { width: scrollWidth, height: scrollHeight } = useElementSize(
+    scrollRef,
+    undefined,
+    {
+      box: 'border-box',
+    }
+  );
   // 计算top
   const curTop = ref<number>(0);
   //计算left
   const curLeft = ref<number>(0);
   // 是否有纵向滚动条
   const hasVerticalBar = computed(() => {
-    const offsetHeight = scrollRef.value?.offsetHeight || 0;
     return (
-      contentHeight.value > offsetHeight &&
+      contentHeight.value > scrollHeight.value &&
       scrollbarType.value == BAR_TYPE.virtual
     );
   });
   // 是否有很想滚动条
   const hashorizontalBar = computed(() => {
-    const offsetWidth = scrollRef.value?.offsetWidth || 0;
     return (
-      contentWidth.value > offsetWidth &&
+      contentWidth.value > scrollWidth.value &&
       scrollbarType.value == BAR_TYPE.virtual
     );
   });
@@ -201,9 +190,8 @@ function initScrollbar() {
     movableTop,
     thumbHeight,
     thumbWidth,
-    elementTop,
-    elementLeft,
     scrollbarSize,
+    scrollRef,
   });
   return {
     thumbHeight,

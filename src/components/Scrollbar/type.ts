@@ -22,8 +22,6 @@ export interface ScrollbarSize {
 
 // 内部使用
 export interface ProvideType {
-  elementTop: Ref<number>;
-  elementLeft: Ref<number>;
   curTop: Ref<number>;
   curLeft: Ref<number>;
   movableLeft: Ref<number> | ComputedRef<number>;
@@ -31,4 +29,5 @@ export interface ProvideType {
   thumbHeight: Ref<number> | ComputedRef<number>;
   thumbWidth: Ref<number> | ComputedRef<number>;
   scrollbarSize: Ref<ScrollbarSize>;
+  scrollRef: Ref<HTMLDivElement | undefined>;
 }

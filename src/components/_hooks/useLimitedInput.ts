@@ -58,9 +58,6 @@ export default (params: {
     ) {
       computedValue.value = wordSlice(computedValue.value, wordLengthMax);
     }
-    if (computedValue.value !== target.value) {
-      target.value = computedValue.value;
-    }
   };
 
   return {

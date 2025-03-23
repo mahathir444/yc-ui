@@ -9,7 +9,6 @@
         ? ''
         : `${scrollbarSize.horizontalTrack || DEFAULT_TRACK_WIDTH}px`,
     }"
-    ref="trackRef"
     @click.self="handleClick"
   >
     <div
@@ -65,8 +64,7 @@ const isVertical = computed(() => direction.value == 'vertical');
 // 接受值
 const {
   scrollbarSize,
-  elementLeft,
-  elementTop,
+  scrollRef,
   thumbHeight,
   thumbWidth,
   movableLeft,
@@ -74,8 +72,6 @@ const {
   curTop,
   curLeft,
 } = inject<ProvideType>(SCROLLBAR_PROVIDE_KEY, {
-  elementTop: ref(0),
-  elementLeft: ref(0),
   curTop: ref(0),
   curLeft: ref(0),
   movableLeft: ref(0),
@@ -88,6 +84,7 @@ const {
     horizontalTrack: DEFAULT_TRACK_WIDTH,
     horizontalThumb: DEFAULT_BAR_WIDTH,
   }),
+  scrollRef: ref(),
 });
 // dargRef
 const dragRef = ref<HTMLDivElement>();
@@ -96,10 +93,11 @@ const { x, y, isDragging } = useDraggable(dragRef);
 // 计算越界情况
 useEventListener('mousemove', () => {
   if (!isDragging.value) return;
-  const minTop = elementTop.value;
-  const maxTop = movableTop.value + elementTop.value;
-  const minLeft = elementLeft.value;
-  const maxLeft = movableLeft.value + elementLeft.value;
+  const { left, top } = scrollRef.value!.getBoundingClientRect();
+  const minTop = top;
+  const maxTop = movableTop.value + minTop;
+  const minLeft = left;
+  const maxLeft = movableLeft.value + minLeft;
   if (isVertical.value) {
     y.value = y.value <= minTop ? minTop : y.value;
     y.value = y.value >= maxTop ? maxTop : y.value;

@@ -48,7 +48,7 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, toRefs, computed } from 'vue';
+import { ref, toRefs, computed, nextTick } from 'vue';
 import {
   TextareaProps,
   ResizeRange,
@@ -157,11 +157,16 @@ const heightRange = computed(() => {
   };
 });
 // 处理输入，改变和清除
-const handleEvent = (type: TextareaEventType, e: TextareaEvent) => {
+const handleEvent = async (type: TextareaEventType, e: TextareaEvent) => {
   // 输入
   if (['input', 'change'].includes(type)) {
     handleLimitedInput(e);
-    emits(type as any, (e.target as HTMLTextAreaElement).value, e);
+    const target = e.target as HTMLInputElement;
+    emits(type as any, target.value, e as Event);
+    await nextTick();
+    if (computedValue.value !== target.value) {
+      target.value = computedValue.value;
+    }
   }
   // 聚焦
   else if (['focus', 'blur'].includes(type)) {

@@ -59,6 +59,8 @@ const props = withDefaults(defineProps<ButtonProps>(), {
   href: '',
 });
 const emits = defineEmits<{
+  (e: 'mousedown', event: MouseEvent): void;
+  (e: 'mouseup', event: MouseEvent): void;
   (e: 'click', event: MouseEvent): void;
   (e: 'dblclick', event: MouseEvent): void;
   (e: 'contextmenu', event: MouseEvent): void;
