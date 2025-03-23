@@ -49,6 +49,6 @@ export type InputEventType =
   | 'clear'
   | 'focus'
   | 'blur'
-  | 'pressEnter';
+  | 'keydown';
 
 export type InputEvent = Event | MouseEvent | FocusEvent;

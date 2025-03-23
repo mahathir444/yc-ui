@@ -18,8 +18,9 @@
 <script lang="ts" setup>
 import { computed, toRefs } from 'vue';
 import { Size } from '@/components/_type';
+import { InputNumberMode } from '../type';
 const props = defineProps<{
-  mode: string;
+  mode: InputNumberMode;
   disabled: boolean;
   computedValue: string;
   min: number;
@@ -31,7 +32,7 @@ defineEmits<{
 const { disabled, computedValue, min } = toRefs(props);
 // 禁用递减
 const disabledMinus = computed(() => {
-  return disabled.value || +computedValue.value == min.value;
+  return disabled.value || +computedValue.value <= min.value;
 });
 </script>
 

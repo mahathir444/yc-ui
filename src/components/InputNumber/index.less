@@ -1,0 +1,25 @@
+.yc-input-number {
+  position: relative;
+  &:hover .yc-input-number-step {
+    opacity: 1;
+  }
+  &:deep(.yc-input-prepend),
+  &:deep(.yc-input-append) {
+    padding: 0;
+  }
+  &.yc-input-focus {
+    .yc-input-number-step {
+      opacity: 1;
+    }
+  }
+}
+.yc-input-number-step {
+  position: absolute;
+  right: 4px;
+  top: 50%;
+  transform: translateY(-50%);
+  opacity: 0;
+  display: flex;
+  flex-direction: column;
+  transition: all 0.1s cubic-bezier(0, 0, 1, 1);
+}

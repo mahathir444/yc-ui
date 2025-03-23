@@ -11,6 +11,7 @@
     class="yc-input-number"
     ref="inputRef"
     @clear="(ev) => $emit('clear', ev)"
+    @keydown="(ev) => $emit('keydown', ev)"
     @change="(v, ev) => $emit('change', +v, ev)"
     @blur="handleBlur"
     @input="handleInput"
@@ -20,11 +21,8 @@
       <slot name="prefix" />
     </template>
     <!-- suffix -->
-    <template v-if="(!hideButton && mode == 'embed') || $slots.suffix" #suffix>
-      <div
-        v-if="(!hideButton && mode == 'embed') || $slots.suffix"
-        class="yc-input-number-step"
-      >
+    <template v-if="showEmbed || $slots.suffix" #suffix>
+      <div v-if="showEmbed || $slots.suffix" class="yc-input-number-step">
         <yc-minus
           :mode="mode"
           :computed-value="computedValue"
@@ -41,7 +39,7 @@
           :mode="mode"
           :computed-value="computedValue"
           :disabled="disabled"
-          :max="min"
+          :max="max"
           :size="size"
           @plus="handleStep('plus')"
         >
@@ -53,12 +51,9 @@
       <slot v-else name="suffix" />
     </template>
     <!-- prepend -->
-    <template
-      v-if="(!hideButton && mode == 'button') || $slots.prepend"
-      #prepend
-    >
+    <template v-if="showButton || $slots.prepend" #prepend>
       <yc-minus
-        v-if="!hideButton && mode == 'button'"
+        v-if="showButton"
         :mode="mode"
         :computed-value="computedValue"
         :disabled="disabled"
@@ -73,9 +68,9 @@
       <slot v-else name="prepend" />
     </template>
     <!-- append -->
-    <template v-if="(!hideButton && mode == 'button') || $slots.append" #append>
+    <template v-if="showButton || $slots.append" #append>
       <yc-plus
-        v-if="!hideButton && mode == 'button'"
+        v-if="showButton"
         :mode="mode"
         :computed-value="computedValue"
         :disabled="disabled"
@@ -94,53 +89,34 @@
 
 <script lang="ts" setup>
 import { ref, toRefs, computed } from 'vue';
-import { Fn, Size, ObjectData } from '@/components/_type';
+import { InputNumberProps } from './type';
 import YcInput, { InputInstance } from '@/components/Input';
 import YcMinus from './component/Minus.vue';
 import YcPlus from './component/Plus.vue';
 import useControlValue from '../_hooks/useControlValue';
-const props = withDefaults(
-  defineProps<{
-    modelValue?: number | string;
-    defaultValue?: number | string;
-    mode?: 'embed' | 'button';
-    precision?: number;
-    step?: number;
-    disabled?: boolean;
-    error?: boolean;
-    max?: number;
-    min?: number;
-    formatter?: Fn;
-    parser?: Fn;
-    placeholder?: string;
-    hideButton?: boolean;
-    size?: Size;
-    allowClear?: boolean;
-    modelEvent?: 'change' | 'input';
-    readonly?: boolean;
-    inputAttrs?: ObjectData;
-  }>(),
-  {
-    modelValue: undefined,
-    defaultValue: '',
-    mode: 'embed',
-    precision: 0,
-    step: 1,
-    disabled: false,
-    error: false,
-    max: Infinity,
-    min: -Infinity,
-    placeholder: '请输入',
-    hideButton: false,
-    size: 'medium',
-    allowClear: false,
-    modelEvent: 'change',
-    readonly: false,
-    inputAttrs: () => {
-      return {};
-    },
-  }
-);
+defineOptions({
+  name: 'InputNumber',
+});
+const props = withDefaults(defineProps<InputNumberProps>(), {
+  modelValue: undefined,
+  defaultValue: '',
+  mode: 'embed',
+  precision: 0,
+  step: 1,
+  disabled: false,
+  error: false,
+  max: Infinity,
+  min: -Infinity,
+  placeholder: '请输入',
+  hideButton: false,
+  size: 'medium',
+  allowClear: false,
+  modelEvent: 'change',
+  readonly: false,
+  inputAttrs: () => {
+    return {};
+  },
+});
 const emits = defineEmits<{
   (e: 'update:modelValue', value: number): void;
   (e: 'change', value: number, ev: Event): void;
@@ -156,10 +132,10 @@ const {
   min,
   max,
   disabled,
+  hideButton,
+  mode,
   precision: _precision,
 } = toRefs(props);
-// 实例
-const inputRef = ref<InputInstance>();
 // 值
 const computedValue = useControlValue<number | string>(
   modelValue,
@@ -168,13 +144,23 @@ const computedValue = useControlValue<number | string>(
     emits('update:modelValue', val);
   }
 );
-// 进度
+// 精度
 const precision = computed(() => {
   const stepMatch = step.value.toString().match(/\.(\d+)/);
   const stepPrecision = stepMatch ? stepMatch[1].length : 0;
   // const rangePrecision =
   return stepPrecision >= _precision.value ? stepPrecision : _precision.value;
 });
+// 展示button
+const showButton = computed(() => {
+  return !hideButton.value && mode.value == 'button';
+});
+// 展示embed
+const showEmbed = computed(() => {
+  return !hideButton.value && mode.value == 'embed';
+});
+// 实例
+const inputRef = ref<InputInstance>();
 // 处理精度问题
 function handlePrecision(value: string) {
   return precision.value
@@ -204,15 +190,16 @@ const handleBlur = (e: FocusEvent) => {
 // 处理输入
 const handleInput = (v: string, e: Event) => {
   if (!v) {
-    return (computedValue.value = v);
+    computedValue.value = v;
+    return;
   }
   if (!/^-?\d*\.?\d*$/.test(v)) {
     return;
   }
   // 处理小数点只能一个
-  const ponitMatch = v.match(/\./g);
-  const pointNumber = ponitMatch ? ponitMatch.length : 0;
-  if (pointNumber > 1) {
+  const math = v.match(/\./g);
+  const pointNum = math ? math.length : 0;
+  if (pointNum > 1) {
     return;
   }
   // 处理－号只能一个
@@ -234,29 +221,5 @@ defineExpose({
 </script>
 
 <style lang="less" scoped>
-.yc-input-number {
-  position: relative;
-  &:hover .yc-input-number-step {
-    opacity: 1;
-  }
-  &:deep(.yc-input-prepend),
-  &:deep(.yc-input-append) {
-    padding: 0;
-  }
-  &.yc-input-focus {
-    .yc-input-number-step {
-      opacity: 1;
-    }
-  }
-}
-.yc-input-number-step {
-  position: absolute;
-  right: 4px;
-  top: 50%;
-  transform: translateY(-50%);
-  opacity: 0;
-  display: flex;
-  flex-direction: column;
-  transition: all 0.1s cubic-bezier(0, 0, 1, 1);
-}
+@import './index.less';
 </style>

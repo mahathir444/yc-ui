@@ -18,9 +18,10 @@
 <script lang="ts" setup>
 import { computed, toRefs } from 'vue';
 import { Size } from '@/components/_type';
+import { InputNumberMode } from '../type';
 import YcButton from '@/components/Button';
 const props = defineProps<{
-  mode: string;
+  mode: InputNumberMode;
   disabled: boolean;
   computedValue: string;
   max: number;
@@ -32,7 +33,7 @@ defineEmits<{
 const { disabled, computedValue, max } = toRefs(props);
 // 禁用递减
 const disabledPlus = computed(() => {
-  return disabled.value || +computedValue.value == max.value;
+  return disabled.value || +computedValue.value >= max.value;
 });
 </script>
 

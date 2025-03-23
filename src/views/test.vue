@@ -64,7 +64,7 @@
     <div style="width: 300px">
       <yc-input-number
         :step="1.2"
-        :precision="4"
+        :precision="1"
         :min="2"
         :max="13"
         placeholder="请输入"

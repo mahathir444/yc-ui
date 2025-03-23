@@ -43,7 +43,7 @@
         @change="handleEvent('change', $event)"
         @focus="handleEvent('focus', $event)"
         @blur="handleEvent('blur', $event)"
-        @keydown.enter="handleEvent('pressEnter', $event)"
+        @keydown.enter="handleEvent('keydown', $event)"
       />
       <!-- select模式下的label -->
       <yc-prevent-focus
@@ -130,6 +130,7 @@ const emits = defineEmits<{
   (e: 'input', value: string, ev: Event): void;
   (e: 'change', value: string, ev: Event): void;
   (e: 'pressEnter', ev: KeyboardEvent): void;
+  (e: 'keydown', ev: KeyboardEvent): void;
   (e: 'clear', ev: MouseEvent): void;
   (e: 'focus', ev: FocusEvent): void;
   (e: 'blur', ev: FocusEvent): void;
@@ -197,8 +198,10 @@ const handleEvent = async (type: InputEventType, e: InputEvent) => {
     emits('clear', e as MouseEvent);
   }
   //enter
-  else if (type == 'pressEnter') {
-    emits('pressEnter', e as KeyboardEvent);
+  else if (type == 'keydown') {
+    const ev = e as KeyboardEvent;
+    ev.keyCode == 13 && emits('pressEnter', ev);
+    emits('keydown', ev);
   }
 };
 // 暴露方法
