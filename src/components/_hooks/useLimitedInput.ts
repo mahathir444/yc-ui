@@ -1,6 +1,6 @@
-import { computed, Ref } from 'vue';
-import { WordLength, WordSlice } from '../Input/type';
-import { isFunction, isNull, isNumber, isUndefined } from '../_utils/is';
+import { computed, Ref, nextTick } from 'vue';
+import { InputEventType, WordLength, WordSlice } from '../Input/type';
+import { isFunction, isNumber, isUndefined } from '../_utils/is';
 import useControlValue from '../_hooks/useControlValue';
 import { Fn } from '../_type';
 export default (params: {
@@ -46,7 +46,7 @@ export default (params: {
       : computedValue.value.length;
   });
   // 处理限制输入
-  const handleLimitedInput = (e: Event) => {
+  const handleLimitedInput = async (e: Event, type: InputEventType) => {
     const target = e.target as HTMLInputElement;
     // 计算wordLength下面的最大值
     if (curLength.value == maxLength.value) {
@@ -57,6 +57,11 @@ export default (params: {
       curLength.value > (maxLength.value as number)
     ) {
       computedValue.value = wordSlice(computedValue.value, wordLengthMax);
+    }
+    emits(type as any, target.value, e as Event);
+    await nextTick();
+    if (computedValue.value !== target.value) {
+      target.value = computedValue.value;
     }
   };
 

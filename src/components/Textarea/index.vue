@@ -160,13 +160,7 @@ const heightRange = computed(() => {
 const handleEvent = async (type: TextareaEventType, e: TextareaEvent) => {
   // 输入
   if (['input', 'change'].includes(type)) {
-    handleLimitedInput(e);
-    const target = e.target as HTMLInputElement;
-    emits(type as any, target.value, e as Event);
-    await nextTick();
-    if (computedValue.value !== target.value) {
-      target.value = computedValue.value;
-    }
+    handleLimitedInput(e, type);
   }
   // 聚焦
   else if (['focus', 'blur'].includes(type)) {

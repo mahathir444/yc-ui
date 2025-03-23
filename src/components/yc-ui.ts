@@ -29,6 +29,7 @@ import InputTag from './InputTag';
 import AutoComplete from './AutoComplete';
 import Radio, { RadioGroup } from './Radio';
 import Switch from './Switch';
+import InputNumber from './InputNumber';
 import YcPreventFocus from '@/components/_components/PreventFocus/index.vue';
 import YcIcon from '@/components/_components/Icon/index.vue';
 import YcIconButton from '@/components/_components/IconButton/index.vue';
@@ -58,6 +59,7 @@ export const components: Record<string, Plugin> = {
   AutoComplete,
   Radio,
   Switch,
+  InputNumber,
 };
 
 const YcUi = {
@@ -126,5 +128,6 @@ declare module 'vue' {
     YcRadio: typeof Radio;
     YcRadioGroup: typeof RadioGroup;
     YcSwitch: typeof Switch;
+    YcInputNumber: typeof InputNumber;
   }
 }
