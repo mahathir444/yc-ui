@@ -8,6 +8,7 @@
     :filter-option="filterOption"
     :trigger-props="triggerProps"
     :allow-clear="allowClear"
+    :strict="strict"
     :virtual-list-props="vistualListProps"
     v-bind="$attrs"
     :allow-search="true"

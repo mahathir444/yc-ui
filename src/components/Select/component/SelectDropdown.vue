@@ -24,7 +24,7 @@
           <!-- 默认插槽 -->
           <slot />
           <!-- 自己渲染的options -->
-          <template v-for="option in options" :key="option.id">
+          <template v-for="option in renderOptions" :key="option.id">
             <template v-if="(option as ObjectData).isGroup">
               <yc-optgroup :label="option.label">
                 <yc-option
@@ -62,14 +62,16 @@
 </template>
 
 <script lang="ts" setup>
-import { inject, ref } from 'vue';
+import { inject, ref, toRefs } from 'vue';
 import { SelectOptions, ProvideType } from '../type';
 import { SELECT_PROVIDE_KEY } from '@/components/_constants';
 import { ObjectData } from '@/components/_type';
+import { useVirtualList } from '@vueuse/core';
 import YcOption from '../Option.vue';
 import YcOptgroup from '../Optgroup.vue';
-defineProps<{
+const props = defineProps<{
   options: SelectOptions;
+  renderOptions: SelectOptions;
   fieldKey: Record<string, string>;
   loading: boolean;
   scrollbar: boolean;
@@ -84,12 +86,23 @@ const { emits } = inject<ProvideType>(SELECT_PROVIDE_KEY, {
   computedInputValue: ref(''),
   multiple: ref(false),
   limit: ref(0),
+  strict: ref(false),
   blur: () => {},
   focus: () => {},
   filterOption: () => true,
   getValue: () => {},
   emits: () => {},
 });
+const { options } = toRefs(props);
+// 虚拟列表
+// const {
+//   containerProps,
+//   wrapperProps,
+//   scrollTo: scrollToTop,
+// } = useVirtualList(options, {
+//   overscan: 5,
+//   itemHeight: 72,
+// });
 </script>
 
 <style lang="less" scoped>

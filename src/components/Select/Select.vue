@@ -116,7 +116,8 @@
     </slot>
     <template #content>
       <select-dropdown
-        :options="renderOptions"
+        :options="options"
+        :render-options="renderOptions"
         :field-key="fieldKey"
         :loading="loading"
         :scrollbar="scrollbar"
@@ -159,7 +160,6 @@ import {
 import { ObjectData } from '@/components/_type';
 import { SELECT_PROVIDE_KEY } from '@/components/_constants';
 import { sleep } from '@/components/_utils/fn';
-import { useVirtualList } from '@vueuse/core';
 import useSeletValue from '@/components/_hooks/useSeletValue';
 import YcInput, { InputInstance } from '@/components/Input';
 import SelectIcon from './component/SelectIcon.vue';
@@ -190,8 +190,14 @@ const props = withDefaults(defineProps<SelectProps>(), {
   popupVisible: undefined,
   defaultPopupVisible: false,
   unmountOnClose: false,
-  filterOption: (inputValue: string, option: SelectOptionData) => {
-    return option?.label?.includes(inputValue);
+  filterOption: (
+    inputValue: string,
+    option: SelectOptionData,
+    strict: boolean = false
+  ) => {
+    const label = strict ? option?.label : option?.label?.toLowerCase();
+    const value = strict ? inputValue : inputValue.toLowerCase();
+    return label?.includes(value);
   },
   options: () => [],
   formatLabel: undefined,
@@ -218,6 +224,7 @@ const props = withDefaults(defineProps<SelectProps>(), {
   showFooterOnEmpty: false,
   tagNowrap: false,
   isAutoCompleteMode: false,
+  strict: false,
 });
 const emits = defineEmits<{
   (e: 'update:modelValue', value: SelectValue): void;
@@ -254,11 +261,11 @@ const {
   options: provideOptions,
   showExtraOptions,
   isAutoCompleteMode,
+  strict,
 } = toRefs(props);
 const { filterOption, formatLabel, fallbackOption } = props;
 // 输入实例
 const inputRef = ref<InputInstance>();
-
 // 处理值
 const {
   computedVisible,
@@ -285,16 +292,6 @@ const {
   emits,
   getValue,
 });
-// 虚拟列表
-// const {
-//   list,
-//   containerProps,
-//   wrapperProps,
-//   scrollTo: scrollToTop,
-// } = useVirtualList(options, {
-//   overscan: 5,
-//   itemHeight: 72,
-// });
 // 是否展示清除按钮
 const showClearBtn = computed(() => {
   const hasValue = multiple.value
@@ -308,6 +305,7 @@ provide<ProvideType>(SELECT_PROVIDE_KEY, {
   computedInputValue,
   limit,
   multiple,
+  strict,
   focus,
   blur,
   filterOption,

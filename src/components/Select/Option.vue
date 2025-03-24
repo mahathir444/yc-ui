@@ -1,6 +1,6 @@
 <template>
   <div
-    v-show="filterOption(computedInputValue, props)"
+    v-show="filterOption(computedInputValue, props, strict)"
     :class="{
       'yc-select-option': true,
       'yc-select-option-disabled': disabled,
@@ -55,6 +55,7 @@ const {
   computedInputValue,
   multiple,
   limit,
+  strict,
   focus,
   blur,
   emits,
@@ -65,6 +66,7 @@ const {
   computedInputValue: ref(''),
   multiple: ref(false),
   limit: ref(0),
+  strict: ref(false),
   blur: () => {},
   focus: () => {},
   filterOption: () => true,

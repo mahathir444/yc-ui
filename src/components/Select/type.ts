@@ -42,6 +42,7 @@ export interface SelectProps {
   tagNowrap?: boolean;
   // 以下用于autoComplete
   isAutoCompleteMode?: boolean;
+  strict?: boolean;
 }
 
 export interface OptionProps {
@@ -98,6 +99,7 @@ export interface ProvideType {
   computedInputValue: WritableComputedRef<string> | Ref<string>;
   multiple: Ref<boolean>;
   limit: Ref<number>;
+  strict: Ref<boolean>;
   focus: Fn;
   blur: Fn;
   filterOption: Fn;
