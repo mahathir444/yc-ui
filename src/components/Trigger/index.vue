@@ -20,7 +20,7 @@
       <yc-prevent-focus
         v-if="!unmountOnClose || (computedVisible && !disabled)"
         v-show="computedVisible && !disabled"
-        :preventFocus="preventFocus"
+        :prevent-focus="preventFocus"
         :data-group-id="groupId"
         :data-group-level="level"
         :style="contentPosition"

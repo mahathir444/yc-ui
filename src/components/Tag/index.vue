@@ -1,7 +1,7 @@
 <template>
   <yc-prevent-focus
     v-if="computedVisible"
-    :preventFocus="preventFocus"
+    :prevent-focus="preventFocus"
     tag="label"
     :class="[
       'yc-tag',

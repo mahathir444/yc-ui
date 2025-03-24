@@ -21,6 +21,7 @@ export interface InputProps {
   type?: 'password' | 'text' | 'number' | 'digit';
   //select使用
   showInput?: boolean;
+  isFocus?: boolean;
 }
 
 export interface InputPasswordProps {

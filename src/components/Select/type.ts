@@ -100,7 +100,6 @@ export interface ProvideType {
   multiple: Ref<boolean>;
   limit: Ref<number>;
   strict: Ref<boolean>;
-  focus: Fn;
   blur: Fn;
   filterOption: Fn;
   getValue: Fn;
@@ -112,4 +111,5 @@ export type SelectEventType =
   | 'search'
   | 'updateValue'
   | 'blur'
-  | 'focus';
+  | 'focus'
+  | 'click';

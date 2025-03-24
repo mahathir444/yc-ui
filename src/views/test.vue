@@ -47,13 +47,11 @@
       <yc-textarea allow-clear :max-length="100" show-word-limit />
     </div>
     <div style="width: 500px; height: 30px">
-      <!-- checkbox -->
-      <yc-checkbox :value="1">测试</yc-checkbox>
-      <!-- <yc-checkbox-group>
+      <yc-checkbox-group>
         <yc-checkbox v-for="i in 5" :key="i" :value="i"
           >选项{{ i }}
         </yc-checkbox>
-      </yc-checkbox-group> -->
+      </yc-checkbox-group>
     </div>
     <div style="width: 500px">
       radio
@@ -62,6 +60,7 @@
       </yc-radio-group>
     </div>
     <div style="width: 300px">
+      inputNumber
       <yc-input-number
         :step="1.2"
         :precision="1"

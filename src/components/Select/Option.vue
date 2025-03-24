@@ -12,10 +12,8 @@
     <!-- 多选 -->
     <yc-checkbox
       v-if="multiple"
+      v-model="modelValue"
       class="yc-select-option-content"
-      :model-value="curIndex != -1"
-      prevent-focus
-      @update:model-value="handleMulti"
     >
       {{ label }}
     </yc-checkbox>
@@ -56,11 +54,10 @@ const {
   multiple,
   limit,
   strict,
-  focus,
   blur,
-  emits,
   filterOption,
   getValue,
+  emits,
 } = inject<ProvideType>(SELECT_PROVIDE_KEY, {
   computedValue: ref(undefined),
   computedInputValue: ref(''),
@@ -68,37 +65,37 @@ const {
   limit: ref(0),
   strict: ref(false),
   blur: () => {},
-  focus: () => {},
   filterOption: () => true,
   getValue: () => {},
   emits: () => {},
 });
-// 当前value对应的index
-const curIndex = computed(() => {
-  if (!multiple.value) return -1;
-  return (computedValue.value as ObjectData[]).findIndex((item) => {
-    return getValue(item) === getValue(optionValue.value);
-  });
+//  选项的值
+const modelValue = computed({
+  get() {
+    if (!multiple.value) return false;
+    const index = (computedValue.value as ObjectData[]).findIndex((item) => {
+      return getValue(item) === getValue(optionValue.value);
+    });
+    return index != -1;
+  },
+  set(v) {
+    const curValue = computedValue.value as SelectValue[];
+    const { value } = optionValue;
+    if (!v) {
+      computedValue.value = curValue.filter((item) => item != value);
+    } else {
+      if (limit.value > 0 && curValue.length == limit.value) {
+        return emits('exceedLimit', value);
+      }
+      computedValue.value = [...curValue, value];
+    }
+  },
 });
 // 处理单选
 const handleSingle = () => {
   if (disabled.value || isUndefined(computedValue.value)) return;
   computedValue.value = optionValue.value;
   blur();
-};
-// 处理单选多选发生改变
-const handleMulti = (v: boolean) => {
-  const curValue = computedValue.value as SelectValue[];
-  const { value } = optionValue;
-  if (!v) {
-    computedValue.value = curValue.filter((item) => item != value);
-  } else {
-    if (limit.value > 0 && curValue.length == limit.value) {
-      return emits('exceedLimit', value);
-    }
-    computedValue.value = [...curValue, value];
-  }
-  focus();
 };
 </script>
 

@@ -21,9 +21,9 @@
       <slot name="prefix" />
     </template>
     <!-- suffix -->
-    <template v-if="$slots.suffix" #suffix>
+    <template v-if="$slots.suffix || (!hideButton && mode == 'embed')" #suffix>
       <slot name="suffix">
-        <div v-if="!hideButton && mode == 'embed'" class="yc-input-number-step">
+        <div class="yc-input-number-step">
           <yc-minus
             :mode="mode"
             :computed-value="computedValue"
@@ -52,10 +52,12 @@
       </slot>
     </template>
     <!-- prepend -->
-    <template v-if="$slots.prepend" #prepend>
+    <template
+      v-if="$slots.prepend || (!hideButton && mode == 'button')"
+      #prepend
+    >
       <slot name="prepend">
         <yc-minus
-          v-if="!hideButton && mode == 'button'"
           :mode="mode"
           :computed-value="computedValue"
           :disabled="disabled"
@@ -70,10 +72,9 @@
       </slot>
     </template>
     <!-- append -->
-    <template v-if="$slots.append" #append>
+    <template v-if="$slots.append || (!hideButton && mode == 'button')" #append>
       <slot name="append">
         <yc-plus
-          v-if="!hideButton && mode == 'button'"
           :mode="mode"
           :computed-value="computedValue"
           :disabled="disabled"

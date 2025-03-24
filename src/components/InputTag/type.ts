@@ -19,6 +19,8 @@ export interface InputTagProps {
   tagNowrap?: boolean;
   fieldNames?: Record<string, string>;
   allowCreate?: boolean;
+  //select使用
+  isFocus?: boolean;
 }
 
 export type TagData =

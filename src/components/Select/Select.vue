@@ -3,7 +3,7 @@
     trigger="focus"
     position="bl"
     animation-name="slide-dynamic-origin"
-    :popup-visible="computedVisible"
+    v-model:popup-visible="computedVisible"
     :popup-offset="4"
     :unmount-on-close="unmountonClose"
     :popup-container="popupContainer"
@@ -306,7 +306,6 @@ provide<ProvideType>(SELECT_PROVIDE_KEY, {
   limit,
   multiple,
   strict,
-  focus,
   blur,
   filterOption,
   emits,
@@ -315,11 +314,6 @@ provide<ProvideType>(SELECT_PROVIDE_KEY, {
 // 获取value
 function getValue(value: string | ObjectData) {
   return (value as ObjectData)?.[valueKey.value] ?? value;
-}
-// 聚焦
-async function focus() {
-  await sleep(0);
-  inputRef.value?.focus();
 }
 // 失焦
 function blur() {
@@ -346,7 +340,6 @@ const handleEvent = async (
       return blur();
     }
     computedVisible.value = true;
-    focus();
   }
   // 失焦
   else if (type == 'blur') {

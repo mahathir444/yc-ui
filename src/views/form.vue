@@ -54,6 +54,16 @@
         <yc-radio v-for="i in 5" :key="i" :value="i">选项{{ i }} </yc-radio>
       </yc-radio-group>
     </div>
+    <div style="width: 300px">
+      inputNumber
+      <yc-input-number
+        :step="1.2"
+        :precision="1"
+        :min="2"
+        :max="13"
+        placeholder="请输入"
+      ></yc-input-number>
+    </div>
   </div>
 </template>
 

@@ -1,11 +1,11 @@
 <template>
-  <teleport :to="popupContainer || 'body'" :disabled="!renderToBody">
+  <teleport :to="popupContainer" :disabled="!renderToBody">
     <div
       v-if="!unmountOnClose || outerVisible"
       v-show="outerVisible"
       class="yc-modal-container"
       :style="{
-        position: popupContainer || !renderToBody ? 'absolute' : 'fixed',
+        position,
       }"
     >
       <!-- mask -->
@@ -177,20 +177,29 @@ const {
   fullscreen,
   draggable,
   renderToBody,
-  popupContainer,
+  popupContainer: _popupContainer,
 } = toRefs(props);
 const { onBeforeOk, onBeforeCancel } = props;
 // 处理组件关闭开启
-const { outerVisible, innerVisible, closeType, handleClose, handleAfterLeave } =
-  useModalClose({
-    visible,
-    defaultVisible,
-    escToClose,
-    maskClosable,
-    onBeforeOk,
-    onBeforeCancel,
-    emits,
-  });
+const {
+  outerVisible,
+  innerVisible,
+  closeType,
+  popupContainer,
+  position,
+  handleClose,
+  handleAfterLeave,
+} = useModalClose({
+  visible,
+  defaultVisible,
+  escToClose,
+  maskClosable,
+  popupContainer: _popupContainer,
+  renderToBody,
+  onBeforeOk,
+  onBeforeCancel,
+  emits,
+});
 // headerRef,用于拖拽
 const headerRef = ref<HTMLDivElement>();
 // modalRef,用于获取宽高处理越界问题

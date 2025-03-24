@@ -1,11 +1,11 @@
 <template>
-  <teleport :to="popupContainer || 'body'" :disabled="!renderToBody">
+  <teleport :to="popupContainer" :disabled="!renderToBody">
     <div
       v-if="!unmountOnClose || outerVisible"
       v-show="outerVisible"
       class="yc-drawer-wrapper"
       :style="{
-        position: popupContainer || !renderToBody ? 'absolute' : 'fixed',
+        position,
       }"
     >
       <!-- mask -->
@@ -145,7 +145,7 @@ const {
   escToClose,
   drawerStyle,
   renderToBody,
-  popupContainer,
+  popupContainer: _popupContainer,
 } = toRefs(props);
 const { onBeforeOk, onBeforeCancel } = props;
 // drawer绝对定位的left,top
@@ -165,16 +165,25 @@ const drawerCss = computed(() => {
   } as CSSProperties;
 });
 // 处理组件关闭开启
-const { outerVisible, innerVisible, closeType, handleClose, handleAfterLeave } =
-  useDrawerClose({
-    visible,
-    defaultVisible,
-    escToClose,
-    maskClosable,
-    onBeforeCancel,
-    onBeforeOk,
-    emits,
-  });
+const {
+  outerVisible,
+  innerVisible,
+  closeType,
+  popupContainer,
+  position,
+  handleClose,
+  handleAfterLeave,
+} = useDrawerClose({
+  visible,
+  defaultVisible,
+  escToClose,
+  maskClosable,
+  popupContainer: _popupContainer,
+  renderToBody,
+  onBeforeCancel,
+  onBeforeOk,
+  emits,
+});
 </script>
 
 <style lang="less" scoped>

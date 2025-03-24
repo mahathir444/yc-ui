@@ -1,6 +1,7 @@
 <template>
   <yc-prevent-focus
     tag="label"
+    :prevent-focus="preventFocus"
     :class="[
       SIZE_CLASS[size],
       type == 'radio' ? 'yc-radio' : 'yc-radio-button',
@@ -57,6 +58,7 @@ const props = withDefaults(defineProps<RadioProps>(), {
   disabled: false,
   value: true,
   type: 'radio',
+  preventFocus: false,
 });
 const emits = defineEmits<{
   (e: 'update:modelValue', value: boolean): void;

@@ -6,7 +6,7 @@
       !computedValue.length ? 'yc-input-tag-no-value' : '',
       disabled ? 'yc-input-tag-disabled' : 'yc-input-tag-hoverable',
       error ? 'yc-input-tag-error' : '',
-      isFocus ? 'yc-input-tag-focus' : '',
+      _isFocus || isFocus ? 'yc-input-tag-focus' : '',
       $slots.suffix || showClearBtn ? 'yc-input-tag-has-suffix' : '',
     ]"
     :style="{
@@ -132,6 +132,7 @@ const props = withDefaults(defineProps<InputTagProps>(), {
     };
   },
   allowCreate: true,
+  isFocus: false,
 });
 const emits = defineEmits<{
   (e: 'update:modelValue', value: InputTagValue): void;
@@ -158,6 +159,7 @@ const {
   allowCreate,
   maxTagCount,
   fieldNames,
+  isFocus: _isFocus,
 } = toRefs(props);
 // 输入实例
 const inputRef = ref<HTMLInputElement>();

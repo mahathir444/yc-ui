@@ -1,15 +1,18 @@
-import { ref, Ref, watch } from 'vue';
+import { ref, Ref, computed, watch } from 'vue';
 import { OnBeforeCancel, OnBeforeOk } from '@/components/Modal/type';
 import { CloseType, Fn } from '@/components/_type';
 import { useMagicKeys, whenever } from '@vueuse/core';
 import useControlValue from './useControlValue';
 import useOnBeforeClose from './useOnBeforeClose';
+import { PopupContainer } from '../Trigger';
 
 export default (params: {
   maskClosable: Ref<boolean>;
   escToClose: Ref<boolean>;
   visible: Ref<boolean | undefined>;
   defaultVisible: Ref<boolean>;
+  popupContainer: Ref<PopupContainer | undefined>;
+  renderToBody: Ref<boolean>;
   onBeforeOk: OnBeforeOk;
   onBeforeCancel: OnBeforeCancel;
   emits: Fn;
@@ -19,10 +22,18 @@ export default (params: {
     escToClose,
     visible,
     defaultVisible,
+    popupContainer: _popupContainer,
+    renderToBody,
     onBeforeCancel,
     onBeforeOk,
     emits,
   } = params;
+  // popupContainer
+  const popupContainer = computed(() => _popupContainer.value || 'body');
+  // position
+  const position = computed(() =>
+    _popupContainer.value || !renderToBody.value ? 'absolute' : 'fixed'
+  );
   // 外层visible，用于播放动画
   const outerVisible = ref<boolean>(false);
   // 内存visible，用于显示组件
@@ -31,10 +42,6 @@ export default (params: {
     defaultVisible.value,
     (val) => {
       emits('update:visible', val);
-      closeType.value = '';
-      if (val) {
-        outerVisible.value = val;
-      }
     }
   );
   // 关闭类型
@@ -64,17 +71,29 @@ export default (params: {
     innerVisible.value = false;
   };
   // 初始化关闭快捷键
-  const initHotKeys = () => {
-    const keys = useMagicKeys();
-    whenever(keys.escape, () => {
-      if (!escToClose.value || !innerVisible.value) return;
-      handleClose('esc');
-    });
-  };
-  initHotKeys();
+  const keys = useMagicKeys();
+  whenever(keys.escape, () => {
+    if (!escToClose.value || !innerVisible.value) return;
+    handleClose('esc');
+  });
+  // 检测
+  watch(
+    innerVisible,
+    (val) => {
+      closeType.value = '';
+      if (val) {
+        outerVisible.value = val;
+      }
+    },
+    {
+      immediate: true,
+    }
+  );
 
   return {
     closeType,
+    position,
+    popupContainer,
     outerVisible,
     innerVisible,
     handleClose,
