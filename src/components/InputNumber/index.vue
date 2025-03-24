@@ -21,9 +21,41 @@
       <slot name="prefix" />
     </template>
     <!-- suffix -->
-    <template v-if="showEmbed || $slots.suffix" #suffix>
-      <div v-if="showEmbed || $slots.suffix" class="yc-input-number-step">
+    <template v-if="$slots.suffix" #suffix>
+      <slot name="suffix">
+        <div v-if="!hideButton && mode == 'embed'" class="yc-input-number-step">
+          <yc-minus
+            :mode="mode"
+            :computed-value="computedValue"
+            :disabled="disabled"
+            :min="min"
+            :size="size"
+            @minus="handleStep('minus')"
+          >
+            <template v-if="$slots.minus" #icon>
+              <slot name="minus"> </slot>
+            </template>
+          </yc-minus>
+          <yc-plus
+            :mode="mode"
+            :computed-value="computedValue"
+            :disabled="disabled"
+            :max="max"
+            :size="size"
+            @plus="handleStep('plus')"
+          >
+            <template v-if="$slots.plus" #icon>
+              <slot name="plus"> </slot>
+            </template>
+          </yc-plus>
+        </div>
+      </slot>
+    </template>
+    <!-- prepend -->
+    <template v-if="$slots.prepend" #prepend>
+      <slot name="prepend">
         <yc-minus
+          v-if="!hideButton && mode == 'button'"
           :mode="mode"
           :computed-value="computedValue"
           :disabled="disabled"
@@ -32,10 +64,16 @@
           @minus="handleStep('minus')"
         >
           <template v-if="$slots.minus" #icon>
-            <slot name="minus"> </slot>
+            <slot name="minus" />
           </template>
         </yc-minus>
+      </slot>
+    </template>
+    <!-- append -->
+    <template v-if="$slots.append" #append>
+      <slot name="append">
         <yc-plus
+          v-if="!hideButton && mode == 'button'"
           :mode="mode"
           :computed-value="computedValue"
           :disabled="disabled"
@@ -44,45 +82,10 @@
           @plus="handleStep('plus')"
         >
           <template v-if="$slots.plus" #icon>
-            <slot name="plus"> </slot>
+            <slot name="plus" />
           </template>
         </yc-plus>
-      </div>
-      <slot v-else name="suffix" />
-    </template>
-    <!-- prepend -->
-    <template v-if="showButton || $slots.prepend" #prepend>
-      <yc-minus
-        v-if="showButton"
-        :mode="mode"
-        :computed-value="computedValue"
-        :disabled="disabled"
-        :min="min"
-        :size="size"
-        @minus="handleStep('minus')"
-      >
-        <template v-if="$slots.minus" #icon>
-          <slot name="minus" />
-        </template>
-      </yc-minus>
-      <slot v-else name="prepend" />
-    </template>
-    <!-- append -->
-    <template v-if="showButton || $slots.append" #append>
-      <yc-plus
-        v-if="showButton"
-        :mode="mode"
-        :computed-value="computedValue"
-        :disabled="disabled"
-        :max="max"
-        :size="size"
-        @plus="handleStep('plus')"
-      >
-        <template v-if="$slots.plus" #icon>
-          <slot name="plus" />
-        </template>
-      </yc-plus>
-      <slot v-else name="append" />
+      </slot>
     </template>
   </yc-input>
 </template>
@@ -150,14 +153,6 @@ const precision = computed(() => {
   const stepPrecision = stepMatch ? stepMatch[1].length : 0;
   // const rangePrecision =
   return stepPrecision >= _precision.value ? stepPrecision : _precision.value;
-});
-// 展示button
-const showButton = computed(() => {
-  return !hideButton.value && mode.value == 'button';
-});
-// 展示embed
-const showEmbed = computed(() => {
-  return !hideButton.value && mode.value == 'embed';
 });
 // 实例
 const inputRef = ref<InputInstance>();

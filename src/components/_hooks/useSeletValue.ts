@@ -86,6 +86,7 @@ export default (params: {
     selectValue,
     showExtraOptions,
     provideOptions,
+    getValue,
     fallbackOption,
   });
   // 选中的值

@@ -13,7 +13,7 @@ import {
   SelectOptions,
   FallbackOption,
 } from '@/components/Select';
-import { ObjectData } from '../_type';
+import { Fn, ObjectData } from '../_type';
 import { flattedChildren } from '@/components/_utils/vue-vnode';
 import { isObject } from '../_utils/is';
 import { nanoid } from 'nanoid';
@@ -22,6 +22,7 @@ export default (params: {
   selectValue: ComputedRef<ObjectData[]>;
   provideOptions: Ref<SelectOptions>;
   showExtraOptions: Ref<boolean>;
+  getValue: Fn;
   fallbackOption?: FallbackOption;
 }) => {
   const {
@@ -29,16 +30,41 @@ export default (params: {
     selectValue,
     provideOptions,
     showExtraOptions,
+    getValue,
     fallbackOption,
   } = params;
   // slot收集的options数组
   const slotOptions = ref<OptionProps[]>([]);
+  // 扁平化的renderOption
+  const flattedRenderOption = computed(() => {
+    return provideOptions.value
+      .map((item: ObjectData) => {
+        return item?.options ? item.options : item;
+      })
+      .flat(1)
+      .map((item) => {
+        const newEntries = Object.entries(fieldKey.value).map(
+          ([oldKey, newKey]) => {
+            return [oldKey, (item as ObjectData)[newKey]];
+          }
+        );
+        return Object.fromEntries(newEntries);
+      });
+  });
   // fallbackoption
   const fallbackOptions = computed(() => {
+    const optionMap = new Map(
+      [...flattedRenderOption.value, ...slotOptions.value].map((item) => [
+        getValue(item!.value),
+        item,
+      ])
+    );
     return fallbackOption
-      ? selectValue.value.map((item: SelectValue) => {
-          return fallbackOption(item);
-        })
+      ? selectValue.value
+          .filter((item) => !optionMap.has(getValue(item)))
+          .map((item: SelectValue) => {
+            return fallbackOption(item);
+          })
       : [];
   });
   // 渲染的option数组
@@ -61,23 +87,12 @@ export default (params: {
   });
   // 所有的options
   const options = computed(() => {
-    // 传入的_options转换字段
-    const flattOptions = provideOptions.value
-      .map((item: ObjectData) => {
-        return item?.options ? item.options : item;
-      })
-      .flat(1)
-      .map((item) => {
-        const newEntries = Object.entries(fieldKey.value).map(
-          ([oldKey, newKey]) => {
-            return [oldKey, (item as ObjectData)[newKey]];
-          }
-        );
-        return Object.fromEntries(newEntries);
-      });
-    return [...slotOptions.value, ...flattOptions, ...fallbackOptions.value];
+    return [
+      ...slotOptions.value,
+      ...flattedRenderOption.value,
+      ...fallbackOptions.value,
+    ];
   });
-
   // 获取选项的props
   const getOptions = () => {
     // 插槽的option无需处理

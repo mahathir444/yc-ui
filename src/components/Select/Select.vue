@@ -158,8 +158,8 @@ import {
 } from './type';
 import { ObjectData } from '@/components/_type';
 import { SELECT_PROVIDE_KEY } from '@/components/_constants';
-import { useVirtualList } from '@vueuse/core';
 import { sleep } from '@/components/_utils/fn';
+import { useVirtualList } from '@vueuse/core';
 import useSeletValue from '@/components/_hooks/useSeletValue';
 import YcInput, { InputInstance } from '@/components/Input';
 import SelectIcon from './component/SelectIcon.vue';
