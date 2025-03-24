@@ -1,3 +1,5 @@
+import { SelectValue } from '../Select';
+
 export interface SwitchProps {
   modelValue?: SwitchValue;
   defaultValue?: SwitchValue;
@@ -11,6 +13,9 @@ export interface SwitchProps {
   uncheckedColor?: string;
   checkedText?: string;
   uncheckedText?: string;
+  beforeChange?: (
+    newValue: SelectValue
+  ) => Promise<boolean | void> | boolean | void;
 }
 
 export type SwitchValue = string | number | boolean;

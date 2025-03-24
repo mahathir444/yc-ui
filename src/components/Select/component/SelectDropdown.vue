@@ -88,7 +88,6 @@ const { emits } = inject<ProvideType>(SELECT_PROVIDE_KEY, {
   limit: ref(0),
   strict: ref(false),
   blur: () => {},
-  focus: () => {},
   filterOption: () => true,
   getValue: () => {},
   emits: () => {},

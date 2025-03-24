@@ -6,22 +6,28 @@ export default async (
   onBeforeOk: OnBeforeOk,
   onBeforeCancel: OnBeforeCancel
 ) => {
+  const handleBeforeOk = () => {
+    return new Promise<boolean>(async (resolve) => {
+      const closeResult = onBeforeOk(resolve);
+      let isClose = true;
+      if (isBoolean(closeResult)) {
+        isClose = closeResult;
+      } else if (closeResult instanceof Promise) {
+        try {
+          const _isClose = await closeResult;
+          if (isBoolean(_isClose)) {
+            isClose = _isClose;
+          }
+        } catch {
+          isClose = false;
+        }
+      }
+      resolve(isClose);
+    });
+  };
   let isClose: boolean;
   if (type == 'confirmBtn') {
-    isClose = await new Promise<boolean>(async (resolve) => {
-      const closeFn = onBeforeOk(resolve);
-      if (isBoolean(closeFn)) {
-        return;
-      }
-      if (!(closeFn instanceof Promise)) {
-        return;
-      }
-      const _isClose = await closeFn;
-      if (!isBoolean(_isClose)) {
-        return;
-      }
-      resolve(_isClose);
-    });
+    isClose = await handleBeforeOk();
   } else {
     isClose = onBeforeCancel();
   }

@@ -13,12 +13,7 @@
     </div>
     <div style="width: 300px">
       switch
-      <yc-switch
-        :model-value="true"
-        checked-text="启动"
-        unchecked-text="关闭"
-        disabled
-      >
+      <yc-switch checked-text="启动" unchecked-text="关闭" :loading="loading">
         <template #checked-icon>
           <icon-check />
         </template>
@@ -26,15 +21,7 @@
           <icon-close />
         </template>
       </yc-switch>
-      <a-switch
-        checked-text="启动"
-        unchecked-text="关闭"
-        :default-checked="true"
-        type="line"
-        checked-color="red"
-        unchecked-color="green"
-        loading
-      >
+      <a-switch checked-text="启动" unchecked-text="关闭" :loading="loading">
         <template #checked-icon>
           <icon-check />
         </template>
@@ -51,6 +38,7 @@ import { ref, watch } from 'vue';
 import YcInputNumber from '@/components/InputNumber/index.vue';
 const value = ref('');
 const value1 = ref([]);
+const loading = ref(false);
 const options = ref<any[]>([]);
 for (let i = 0; i < 20; i++) {
   options.value.push({
