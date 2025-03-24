@@ -18,6 +18,7 @@ declare module 'vue' {
     ARadio: typeof import('@arco-design/web-vue')['Radio']
     ARadioGroup: typeof import('@arco-design/web-vue')['RadioGroup']
     ASelect: typeof import('@arco-design/web-vue')['Select']
+    ASwitch: typeof import('@arco-design/web-vue')['Switch']
     ATag: typeof import('@arco-design/web-vue')['Tag']
     AutoComplete: typeof import('./src/components/AutoComplete/index.vue')['default']
     Button: typeof import('./src/components/Button/Button.vue')['default']

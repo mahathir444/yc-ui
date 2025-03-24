@@ -2,7 +2,7 @@ import { App } from 'vue';
 import _Switch from './index.vue';
 import { getComponentPrefix } from '@/components/_utils/global-config';
 export type SwitchInstance = InstanceType<typeof _Switch>;
-export type { SwitchProps } from './type';
+export type { SwitchProps, SwitchSize, SwitchType, SwitchValue } from './type';
 
 const Switch = Object.assign(_Switch, {
   install: (app: App) => {

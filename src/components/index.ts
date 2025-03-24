@@ -176,3 +176,21 @@ export type {
   RadioGroupInstance,
 } from './Radio';
 export { default as Radio, RadioGroup } from './Radio';
+
+export type {
+  SwitchProps,
+  SwitchSize,
+  SwitchType,
+  SwitchValue,
+  SwitchInstance,
+} from './Switch';
+export { default as Switch } from './Switch';
+
+export type {
+  InputNumberProps,
+  InputNumberMode,
+  InputNumberValue,
+  ModelEvent,
+  InputNumberInstance,
+} from './InputNumber';
+export { default as InputNumber } from './InputNumber';

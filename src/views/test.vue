@@ -1,64 +1,6 @@
 <template>
   <div class="test">
     <div style="width: 300px">
-      select
-      <yc-select
-        allow-clear
-        allow-search
-        multiple
-        placeholder="请选择"
-        :options="[
-          {
-            label: '分组1',
-            isGroup: true,
-            options,
-          },
-        ]"
-      >
-      </yc-select>
-    </div>
-    <div style="width: 300px">
-      input-tag
-      <yc-input-tag
-        placeholder="请输入"
-        :field-names="{
-          label: 'text',
-          value: 'key',
-        }"
-        allow-clear
-      />
-    </div>
-    <div style="width: 300px">
-      auto-complete
-      <yc-auto-complete />
-    </div>
-    <div style="width: 300px">
-      input
-      <yc-input
-        allow-clear
-        :max-length="10"
-        :word-length="(value) => value.length + 2"
-        show-word-limit
-      />
-    </div>
-    <div style="width: 300px">
-      text-area
-      <yc-textarea allow-clear :max-length="100" show-word-limit />
-    </div>
-    <div style="width: 500px; height: 30px">
-      <yc-checkbox-group>
-        <yc-checkbox v-for="i in 5" :key="i" :value="i"
-          >选项{{ i }}
-        </yc-checkbox>
-      </yc-checkbox-group>
-    </div>
-    <div style="width: 500px">
-      radio
-      <yc-radio-group>
-        <yc-radio v-for="i in 5" :key="i" :value="i">选项{{ i }} </yc-radio>
-      </yc-radio-group>
-    </div>
-    <div style="width: 300px">
       inputNumber
       <yc-input-number
         v-model="value"
@@ -68,13 +10,38 @@
         :max="1000"
         placeholder="请输入"
       ></yc-input-number>
-      <a-input-number
-        :step="1.2"
-        :min="-100000.0000001"
-        :precision="4"
-        placeholder="请输入"
+    </div>
+    <div style="width: 300px">
+      switch
+      <yc-switch
+        :model-value="true"
+        checked-text="启动"
+        unchecked-text="关闭"
+        disabled
       >
-      </a-input-number>
+        <template #checked-icon>
+          <icon-check />
+        </template>
+        <template #unchecked-icon>
+          <icon-close />
+        </template>
+      </yc-switch>
+      <a-switch
+        checked-text="启动"
+        unchecked-text="关闭"
+        :default-checked="true"
+        type="line"
+        checked-color="red"
+        unchecked-color="green"
+        loading
+      >
+        <template #checked-icon>
+          <icon-check />
+        </template>
+        <template #unchecked-icon>
+          <icon-close />
+        </template>
+      </a-switch>
     </div>
   </div>
 </template>

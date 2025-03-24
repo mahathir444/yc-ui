@@ -64,6 +64,22 @@
         placeholder="请输入"
       ></yc-input-number>
     </div>
+    <div style="width: 300px">
+      switch
+      <yc-switch
+        :model-value="true"
+        checked-text="启动"
+        unchecked-text="关闭"
+        disabled
+      >
+        <template #checked-icon>
+          <icon-check />
+        </template>
+        <template #unchecked-icon>
+          <icon-close />
+        </template>
+      </yc-switch>
+    </div>
   </div>
 </template>
 
