@@ -62,8 +62,9 @@
     <div style="width: 300px">
       inputNumber
       <yc-input-number
+        v-model="value"
         :step="1.2"
-        :precision="1"
+        :precision="5"
         :min="2"
         :max="13"
         placeholder="请输入"
@@ -81,9 +82,9 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, watch, watchEffect } from 'vue';
+import { ref, watch } from 'vue';
 import YcInputNumber from '@/components/InputNumber/index.vue';
-const value = ref([]);
+const value = ref('');
 const value1 = ref([]);
 const options = ref<any[]>([]);
 for (let i = 0; i < 20; i++) {
@@ -92,6 +93,11 @@ for (let i = 0; i < 20; i++) {
     value: i,
   });
 }
+
+watch(value, () => {
+  console.log(value.value);
+  console.log(typeof value.value);
+});
 </script>
 
 <style lang="less" scoped>

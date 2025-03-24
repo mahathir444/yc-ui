@@ -1,7 +1,7 @@
 import { Fn, Size, ObjectData } from '@/components/_type';
 export interface InputNumberProps {
-  modelValue?: number | string;
-  defaultValue?: number | string;
+  modelValue?: InputNumberValue;
+  defaultValue?: InputNumberValue;
   mode?: InputNumberMode;
   precision?: number;
   step?: number;
@@ -19,5 +19,7 @@ export interface InputNumberProps {
   readonly?: boolean;
   inputAttrs?: ObjectData;
 }
+
+export type InputNumberValue = number | string;
 
 export type InputNumberMode = 'embed' | 'button';

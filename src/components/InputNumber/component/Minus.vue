@@ -5,6 +5,10 @@
     :class="{
       'yc-input-number-plus-embed': mode == 'embed',
     }"
+    :style="{
+      height: mode == 'embed' ? '11px' : '',
+      width: mode == 'embed' ? '18px' : '',
+    }"
     @click="$emit('minus')"
   >
     <template #icon>
@@ -18,11 +22,11 @@
 <script lang="ts" setup>
 import { computed, toRefs } from 'vue';
 import { Size } from '@/components/_type';
-import { InputNumberMode } from '../type';
+import { InputNumberMode, InputNumberValue } from '../type';
 const props = defineProps<{
   mode: InputNumberMode;
   disabled: boolean;
-  computedValue: string;
+  computedValue: InputNumberValue;
   min: number;
   size: Size;
 }>();
@@ -38,8 +42,6 @@ const disabledMinus = computed(() => {
 
 <style lang="less" scoped>
 .yc-input-number-plus-embed {
-  height: 11px;
-  width: 18px !important;
   &:deep(.yc-button-icon) {
     height: 10px;
     width: 10px;

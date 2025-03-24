@@ -1,6 +1,6 @@
 <template>
   <yc-input
-    :model-value="computedValue"
+    :model-value="<string>computedValue"
     :allow-clear="allowClear"
     :disabled="disabled"
     :readonly="readonly"
@@ -93,11 +93,11 @@
 
 <script lang="ts" setup>
 import { ref, toRefs, computed } from 'vue';
-import { InputNumberProps } from './type';
+import { InputNumberProps, InputNumberValue } from './type';
 import YcInput, { InputInstance } from '@/components/Input';
 import YcMinus from './component/Minus.vue';
 import YcPlus from './component/Plus.vue';
-import useControlValue from '../_hooks/useControlValue';
+import { isUndefined, isNumber, isString } from '@/components/_utils/is';
 defineOptions({
   name: 'InputNumber',
 });
@@ -122,11 +122,11 @@ const props = withDefaults(defineProps<InputNumberProps>(), {
   },
 });
 const emits = defineEmits<{
-  (e: 'update:modelValue', value: number): void;
-  (e: 'change', value: number, ev: Event): void;
+  (e: 'update:modelValue', value: InputNumberValue): void;
+  (e: 'input', value: InputNumberValue, ev: Event): void;
+  (e: 'change', value: InputNumberValue, ev: Event): void;
   (e: 'blur', ev: FocusEvent): void;
   (e: 'clear', ev: MouseEvent): void;
-  (e: 'input', value: number, ev: Event): void;
   (e: 'keydown', ev: KeyboardEvent): void;
 }>();
 const {
@@ -138,49 +138,73 @@ const {
   disabled,
   hideButton,
   mode,
+  modelEvent,
   precision: _precision,
 } = toRefs(props);
+// 控制的值
+const controlValue = ref<InputNumberValue>(defaultValue.value);
 // 值
-const computedValue = useControlValue<number | string>(
-  modelValue,
-  defaultValue.value,
-  (val) => {
-    emits('update:modelValue', val);
-  }
-);
+const computedValue = computed({
+  get() {
+    const numberValue = isUndefined(modelValue.value)
+      ? controlValue.value
+      : modelValue.value;
+    return isString(numberValue)
+      ? numberValue
+      : handlePrecision(numberValue, 'string');
+  },
+  set(val) {
+    emits(
+      'update:modelValue',
+      modelEvent.value == 'change' ? val : handlePrecision(val, 'number')
+    );
+  },
+});
 // 精度
 const precision = computed(() => {
-  const stepMatch = step.value.toString().match(/\.(\d+)/);
-  const stepPrecision = stepMatch ? stepMatch[1].length : 0;
-  // const rangePrecision =
-  return stepPrecision >= _precision.value ? stepPrecision : _precision.value;
+  const regexp = /\.(\d+)/;
+  const stepPrecision = String(step.value)?.[1]?.length ?? 0;
+  const minPrecision = String(min.value).match(regexp)?.[1]?.length ?? 0;
+  const maxPrecision = String(max.value).match(regexp)?.[1]?.length ?? 0;
+  return Math.max(
+    ...[stepPrecision, minPrecision, maxPrecision, _precision.value]
+  );
 });
 // 实例
 const inputRef = ref<InputInstance>();
 // 处理精度问题
-function handlePrecision(value: string) {
-  return precision.value
-    ? (+value).toFixed(precision.value)
-    : Number.parseInt(value).toString();
+function handlePrecision(value: InputNumberValue, type: 'number' | 'string') {
+  // 处理过后的值
+  const handleValue = isNumber(value) ? value : +value;
+  // 处理的值
+  const numberValue = precision.value
+    ? handleValue.toFixed(precision.value)
+    : Number.parseInt(handleValue.toFixed(0));
+  return type == 'number' ? +numberValue : numberValue;
 }
 // 处理点击
 const handleStep = (type: 'minus' | 'plus') => {
-  const value = +(computedValue.value ?? 0);
   if (type == 'minus') {
-    computedValue.value = handlePrecision(String(value - step.value));
+    emits(
+      'update:modelValue',
+      handlePrecision(+computedValue.value - step.value, 'number')
+    );
   } else {
-    computedValue.value = handlePrecision(String(value + step.value));
+    emits(
+      'update:modelValue',
+      handlePrecision(+computedValue.value + step.value, 'number')
+    );
   }
   inputRef.value?.focus();
 };
 // 处理失焦越界
 const handleBlur = (e: FocusEvent) => {
-  if (!String(computedValue.value)) return;
+  if (!computedValue.value) return;
   let value = +computedValue.value;
   value = value < min.value ? min.value : value;
   value = value > max.value ? max.value : value;
   // 处理精度
-  computedValue.value = handlePrecision(String(value));
+  emits('update:modelValue', handlePrecision(value, 'number'));
   emits('blur', e);
 };
 // 处理输入
@@ -203,7 +227,7 @@ const handleInput = (v: string, e: Event) => {
     return;
   }
   computedValue.value = v;
-  emits('input', +v, e);
+  emits('input', v, e);
 };
 // 暴漏方法
 defineExpose({

@@ -2,12 +2,12 @@
   <div
     :class="[
       'yc-input-outer',
-      isFocus || _isFocus ? 'yc-input-focus' : '',
+      isFocus ? 'yc-input-focus' : '',
       disabled ? 'yc-input-disabled' : 'yc-input-hoverable',
       error ? 'yc-input-error' : '',
-      SIZE_CLASS[size],
       $slots.prepend ? 'yc-input-has-prepend' : '',
       $slots.append ? 'yc-input-has-append' : '',
+      SIZE_CLASS[size],
     ]"
   >
     <!-- prepend -->
@@ -124,7 +124,6 @@ const props = withDefaults(defineProps<InputProps>(), {
   },
   type: 'text',
   showInput: false,
-  isFocus: false,
 });
 const emits = defineEmits<{
   (e: 'update:modelValue', value: string): void;
@@ -145,7 +144,6 @@ const {
   disabled,
   readonly,
   maxLength,
-  isFocus: _isFocus,
 } = toRefs(props);
 const { wordLength, wordSlice } = props;
 // 限制输入hooks
