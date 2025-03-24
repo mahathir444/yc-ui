@@ -37,7 +37,6 @@
       <yc-input
         allow-clear
         :max-length="10"
-        :word-slice="(v, max) => v.slice(1, max + 1)"
         :word-length="(value) => value.length + 2"
         show-word-limit
       />
@@ -65,15 +64,14 @@
         v-model="value"
         :step="1.2"
         :precision="5"
-        :min="2"
-        :max="13"
+        :min="-100000.0000001"
+        :max="1000"
         placeholder="请输入"
       ></yc-input-number>
       <a-input-number
         :step="1.2"
+        :min="-100000.0000001"
         :precision="4"
-        :min="10"
-        :max="100"
         placeholder="请输入"
       >
       </a-input-number>

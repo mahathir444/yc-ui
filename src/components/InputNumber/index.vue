@@ -13,7 +13,8 @@
     @clear="(ev) => $emit('clear', ev)"
     @keydown="(ev) => $emit('keydown', ev)"
     @change="(v, ev) => $emit('change', +v, ev)"
-    @blur="handleBlur"
+    @blur="(ev) => handleUpdateValue('blur', ev)"
+    @press-enter="(ev) => handleUpdateValue('keydown', ev)"
     @input="handleInput"
   >
     <!-- prefix -->
@@ -98,6 +99,7 @@ import YcInput, { InputInstance } from '@/components/Input';
 import YcMinus from './component/Minus.vue';
 import YcPlus from './component/Plus.vue';
 import { isUndefined, isNumber, isString } from '@/components/_utils/is';
+import { sleep } from '@/components/_utils/fn';
 defineOptions({
   name: 'InputNumber',
 });
@@ -141,6 +143,8 @@ const {
   modelEvent,
   precision: _precision,
 } = toRefs(props);
+// 实例
+const inputRef = ref<InputInstance>();
 // 控制的值
 const controlValue = ref<InputNumberValue>(defaultValue.value);
 // 值
@@ -162,16 +166,9 @@ const computedValue = computed({
 });
 // 精度
 const precision = computed(() => {
-  const regexp = /\.(\d+)/;
-  const stepPrecision = String(step.value)?.[1]?.length ?? 0;
-  const minPrecision = String(min.value).match(regexp)?.[1]?.length ?? 0;
-  const maxPrecision = String(max.value).match(regexp)?.[1]?.length ?? 0;
-  return Math.max(
-    ...[stepPrecision, minPrecision, maxPrecision, _precision.value]
-  );
+  const stepPrecision = String(step.value).match(/\.(\d+)/)?.[1]?.length ?? 0;
+  return Math.max(...[stepPrecision, _precision.value]);
 });
-// 实例
-const inputRef = ref<InputInstance>();
 // 处理精度问题
 function handlePrecision(value: InputNumberValue, type: 'number' | 'string') {
   // 处理过后的值
@@ -184,28 +181,29 @@ function handlePrecision(value: InputNumberValue, type: 'number' | 'string') {
 }
 // 处理点击
 const handleStep = (type: 'minus' | 'plus') => {
-  if (type == 'minus') {
-    emits(
-      'update:modelValue',
-      handlePrecision(+computedValue.value - step.value, 'number')
-    );
-  } else {
-    emits(
-      'update:modelValue',
-      handlePrecision(+computedValue.value + step.value, 'number')
-    );
-  }
+  const value =
+    type == 'minus'
+      ? +computedValue.value - step.value
+      : +computedValue.value + step.value;
+  computedValue.value = handlePrecision(value, 'string');
   inputRef.value?.focus();
 };
 // 处理失焦越界
-const handleBlur = (e: FocusEvent) => {
+const handleUpdateValue = (
+  type: 'blur' | 'keydown',
+  e: FocusEvent | KeyboardEvent
+) => {
   if (!computedValue.value) return;
   let value = +computedValue.value;
   value = value < min.value ? min.value : value;
   value = value > max.value ? max.value : value;
   // 处理精度
   emits('update:modelValue', handlePrecision(value, 'number'));
-  emits('blur', e);
+  if (type == 'blur') {
+    emits('blur', e as FocusEvent);
+  } else {
+    emits('keydown', e as KeyboardEvent);
+  }
 };
 // 处理输入
 const handleInput = (v: string, e: Event) => {
@@ -213,17 +211,14 @@ const handleInput = (v: string, e: Event) => {
     computedValue.value = v;
     return;
   }
-  if (!/^-?\d*\.?\d*$/.test(v)) {
-    return;
-  }
+  // 只能输入数字、.、-
+  const isInValidNumber = !/^-?\d*\.?\d*$/.test(v);
   // 处理小数点只能一个
-  const math = v.match(/\./g);
-  const pointNum = math ? math.length : 0;
-  if (pointNum > 1) {
-    return;
-  }
-  // 处理－号只能一个
-  if (v.includes('-') && (v[0] != '-' || v[1] == '.')) {
+  const isInValidPoint = (v.match(/\./g)?.length ?? 0) > 1;
+  // 处理－号只能一个,且位置正确
+  const isInValidNegative = v.includes('-') && v[0] != '-';
+  // 处理逻辑
+  if (isInValidNumber || isInValidPoint || isInValidNegative) {
     return;
   }
   computedValue.value = v;

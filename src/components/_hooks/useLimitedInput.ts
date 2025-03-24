@@ -45,23 +45,35 @@ export default (params: {
       ? wordLength?.(computedValue.value)
       : computedValue.value.length;
   });
+  // 重置光标
+  const setCursor = async (index: number, target: HTMLInputElement) => {
+    const cursor = index - 1 < 0 ? 0 : index - 1;
+    target.setSelectionRange(cursor, cursor);
+  };
   // 处理限制输入
   const handleLimitedInput = async (e: Event, type: InputEventType) => {
     const target = e.target as HTMLInputElement;
+    const start = target.selectionStart;
     // 计算wordLength下面的最大值
     if (curLength.value == maxLength.value) {
       wordLengthMax = computedValue.value.length;
     }
+    // 处理字符串截取，重置光标位置
     if (
       isUndefined(_maxLength.value) &&
       curLength.value > (maxLength.value as number)
     ) {
       computedValue.value = wordSlice(computedValue.value, wordLengthMax);
+      nextTick(() => {
+        setCursor((start as number) + 1, target);
+      });
     }
     emits(type as any, target.value, e as Event);
     await nextTick();
+    // 如果值不相等重置光标
     if (computedValue.value !== target.value) {
       target.value = computedValue.value;
+      setCursor(start as number, target);
     }
   };
 
