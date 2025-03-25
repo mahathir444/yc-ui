@@ -27,4 +27,12 @@ const Input = Object.assign(_Input, {
 });
 export { _InputSearch as InputSearch, _InputPassword as InputPassword };
 
+declare module 'vue' {
+  export interface GlobalComponents {
+    YcInput: typeof Input;
+    YcInputSearch: typeof _InputSearch;
+    YcInputPassword: typeof _InputPassword;
+  }
+}
+
 export default Input;

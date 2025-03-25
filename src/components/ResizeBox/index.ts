@@ -12,4 +12,10 @@ const ResizeBox = Object.assign(_ResizeBox, {
   },
 });
 
+declare module 'vue' {
+  export interface GlobalComponents {
+    YcResizeBox: typeof ResizeBox;
+  }
+}
+
 export default ResizeBox;

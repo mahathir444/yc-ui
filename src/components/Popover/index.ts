@@ -11,4 +11,10 @@ const Popover = Object.assign(_Popover, {
   },
 });
 
+declare module 'vue' {
+  export interface GlobalComponents {
+    YcPopover: typeof Popover;
+  }
+}
+
 export default Popover;

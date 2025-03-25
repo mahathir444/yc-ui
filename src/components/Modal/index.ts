@@ -55,4 +55,10 @@ const Modal = Object.assign(_Modal, {
   },
 });
 
+declare module 'vue' {
+  export interface GlobalComponents {
+    YcModal: typeof Modal;
+  }
+}
+
 export default Modal;

@@ -40,4 +40,14 @@ export {
   _Dsubmenu as Dsubmenu,
 };
 
+declare module 'vue' {
+  export interface GlobalComponents {
+    YcDropdown: typeof Dropdown;
+    YcDropdownButton: typeof _DropdownButton;
+    YcDoption: typeof _Doption;
+    YcDgroup: typeof _Dgroup;
+    YcDsubmenu: typeof _Dsubmenu;
+  }
+}
+
 export default Dropdown;

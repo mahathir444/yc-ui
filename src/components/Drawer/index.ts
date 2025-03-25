@@ -11,4 +11,10 @@ const Drawer = Object.assign(_Drawer, {
   },
 });
 
+declare module 'vue' {
+  export interface GlobalComponents {
+    YcDrawer: typeof Drawer;
+  }
+}
+
 export default Drawer;

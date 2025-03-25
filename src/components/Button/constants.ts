@@ -26,6 +26,7 @@ export const STATUS_CLASS = {
   normal: '',
 };
 
+// button-group
 export const GROUP_SHAPE_CLASS = {
   round: 'yc-button-group-shape-round',
   circle: 'yc-button-group-shape-circle',

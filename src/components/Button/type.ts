@@ -1,7 +1,6 @@
 import { Ref } from 'vue';
 import { Size } from '@/components/_/type';
 
-//
 export interface ButtonProps {
   type?: ButtonType;
   shape?: ButtonShape;

@@ -16,4 +16,10 @@ const InputNumber = Object.assign(_InputNumber, {
   },
 });
 
+declare module 'vue' {
+  export interface GlobalComponents {
+    YcInputNumber: typeof InputNumber;
+  }
+}
+
 export default InputNumber;

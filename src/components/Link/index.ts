@@ -12,4 +12,10 @@ const Link = Object.assign(_Link, {
   },
 });
 
+declare module 'vue' {
+  export interface GlobalComponents {
+    YcLink: typeof Link;
+  }
+}
+
 export default Link;

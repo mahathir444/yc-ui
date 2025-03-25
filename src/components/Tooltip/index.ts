@@ -11,4 +11,10 @@ const Tooltip = Object.assign(_Tooltip, {
   },
 });
 
+declare module 'vue' {
+  export interface GlobalComponents {
+    YcTooltip: typeof Tooltip;
+  }
+}
+
 export default Tooltip;

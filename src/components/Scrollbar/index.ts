@@ -16,4 +16,10 @@ const Scrollbar = Object.assign(_Scrollbar, {
   },
 });
 
+declare module 'vue' {
+  export interface GlobalComponents {
+    YcScrollbar: typeof Scrollbar;
+  }
+}
+
 export default Scrollbar;

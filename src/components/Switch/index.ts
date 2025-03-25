@@ -10,4 +10,9 @@ const Switch = Object.assign(_Switch, {
   },
 });
 
+declare module 'vue' {
+  export interface GlobalComponents {
+    YcSwitch: typeof Switch;
+  }
+}
 export default Switch;

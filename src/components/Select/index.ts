@@ -29,7 +29,14 @@ const Select = Object.assign(_Select, {
     app.component(getComponentPrefix() + _Optgroup.name, _Optgroup);
   },
 });
-
 export { _Option as Option, _Optgroup as Optgroup };
+
+declare module 'vue' {
+  export interface GlobalComponents {
+    YcSelect: typeof Select;
+    YcOption: typeof Option;
+    YcOptgroup: typeof _Optgroup;
+  }
+}
 
 export default Select;

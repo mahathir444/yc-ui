@@ -11,4 +11,10 @@ const Empty = Object.assign(_Empty, {
   },
 });
 
+declare module 'vue' {
+  export interface GlobalComponents {
+    YcEmpty: typeof Empty;
+  }
+}
+
 export default Empty;
