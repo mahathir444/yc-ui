@@ -99,7 +99,7 @@ export default (params: {
     return selectValue.value.map((v) => {
       const option = optionMap.get(getValue(v));
       return {
-        id: nanoid(),
+        id: `${v}`,
         label: formatLabel ? formatLabel(option) : option?.label,
         value: v,
         closeable: option?.tagProps?.closeable,

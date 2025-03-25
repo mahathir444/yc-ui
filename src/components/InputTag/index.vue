@@ -23,7 +23,12 @@
       {{ computedInputValue || (computedValue.length ? '' : placeholder) }}
     </div>
     <!-- tag-list -->
-    <div class="yc-input-tag-inner">
+    <!-- <div class="yc-input-tag-inner"></div> -->
+    <transition-group
+      name="input-tag-zoom"
+      tag="yc-input-tag-inner"
+      class="yc-input-tag-inner"
+    >
       <yc-tag
         v-for="item in curList.visibleList"
         :key="item?.[fieldKey.id]"
@@ -42,6 +47,7 @@
         v-if="maxTagCount > 0 && computedValue.length > maxTagCount"
         :size="size == 'mini' ? 'small' : size"
         :nowrap="tagNowrap"
+        key="yc-select-value-tag"
         class="yc-select-value-tag"
         bordered
         color="white"
@@ -52,6 +58,7 @@
       <!-- input -->
       <input
         v-model="computedInputValue"
+        key="yc-input-tag-input"
         :disabled="disabled"
         :readonly="readonly"
         :placeholder="computedValue.length ? '' : placeholder"
@@ -67,7 +74,7 @@
         @keydown.enter="handleEvent('pressEnter', $event)"
         @keydown.delete="handleEvent('remove', $event)"
       />
-    </div>
+    </transition-group>
     <!-- suffix-icon -->
     <yc-prevent-focus
       v-if="$slots.suffix || showClearBtn"
@@ -260,7 +267,7 @@ const handleEvent = (
   }
   // enter
   else if (type == 'pressEnter') {
-    const { label, value } = fieldKey.value;
+    const { label, value, id } = fieldKey.value;
     const isUnique =
       !uniqueValue.value ||
       (uniqueValue.value &&
@@ -275,6 +282,7 @@ const handleEvent = (
       computedValue.value = [...computedValue.value, computedInputValue.value];
     } else {
       const tagData: ObjectData = {};
+      tagData[id] = nanoid();
       tagData[label] = computedInputValue.value;
       tagData[value] = computedInputValue.value;
       computedValue.value = [...computedValue.value, tagData];

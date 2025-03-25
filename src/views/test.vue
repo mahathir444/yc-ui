@@ -20,6 +20,14 @@
     <div style="width: 300px">
       rate
       <yc-rate :count="10" />
+      <a-rate
+        allow-clea
+        :count="5"
+        :color="{
+          1: 'blue',
+          2: 'black',
+        }"
+      />
     </div>
   </div>
 </template>

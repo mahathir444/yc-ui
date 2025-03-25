@@ -6,6 +6,7 @@ import {
   createCommentVNode,
   isVNode,
   openBlock,
+  h,
 } from 'vue';
 import type {
   VNode,
@@ -15,11 +16,15 @@ import type {
 } from 'vue';
 import { isArray, isFunction, isObject } from './is';
 import { ObjectData } from '../type';
-// import { camelize } from '../strings';
-// import { hasOwn } from '../objects';
-// import { debugWarn } from './error';
 
-const SCOPE = 'utils/vue/vnode';
+export type VNodeChildAtom = Exclude<VNodeChild, Array<any>>;
+
+export type RawSlots = Exclude<
+  VNodeNormalizedChildren,
+  Array<any> | null | string
+>;
+
+export type FlattenVNodes = Array<VNodeChildAtom | RawSlots>;
 
 export enum PatchFlags {
   TEXT = 1,
@@ -37,33 +42,19 @@ export enum PatchFlags {
   BAIL = -2,
 }
 
-export type VNodeChildAtom = Exclude<VNodeChild, Array<any>>;
-export type RawSlots = Exclude<
-  VNodeNormalizedChildren,
-  Array<any> | null | string
->;
-
-export function isFragment(node: VNode): boolean;
-export function isFragment(node: unknown): node is VNode;
 export function isFragment(node: unknown): node is VNode {
   return isVNode(node) && node.type === Fragment;
 }
 
-export function isText(node: VNode): boolean;
-export function isText(node: unknown): node is VNode;
 export function isText(node: unknown): node is VNode {
   return isVNode(node) && node.type === Text;
 }
 
-export function isComment(node: VNode): boolean;
-export function isComment(node: unknown): node is VNode;
 export function isComment(node: unknown): node is VNode {
   return isVNode(node) && node.type === Comment;
 }
 
 const TEMPLATE = 'template';
-export function isTemplate(node: VNode): boolean;
-export function isTemplate(node: unknown): node is VNode;
 export function isTemplate(node: unknown): node is VNode {
   return isVNode(node) && node.type === TEMPLATE;
 }
@@ -72,8 +63,6 @@ export function isTemplate(node: unknown): node is VNode {
  * determine if the element is a valid element type rather than fragments and comment e.g. <template> v-if
  * @param node {VNode} node to be tested
  */
-export function isValidElementNode(node: VNode): boolean;
-export function isValidElementNode(node: unknown): node is VNode;
 export function isValidElementNode(node: unknown): node is VNode {
   return isVNode(node) && !isFragment(node) && !isComment(node);
 }
@@ -116,37 +105,12 @@ export function renderBlock(...args: Parameters<typeof createBlock>) {
   return openBlock(), createBlock(...args);
 }
 
-// export const getNormalizedProps = (node: VNode) => {
-//   if (!isVNode(node)) {
-//     debugWarn(SCOPE, '[getNormalizedProps] must be a VNode');
-//     return {};
-//   }
-
-//   const raw = node.props || {};
-//   const type = (isVNode(node.type) ? node.type.props : undefined) || {};
-//   const props: Record<string, any> = {};
-
-//   Object.keys(type).forEach((key) => {
-//     if (hasOwn(type[key], 'default')) {
-//       props[key] = type[key].default;
-//     }
-//   });
-
-//   Object.keys(raw).forEach((key) => {
-//     props[camelize(key)] = raw[key];
-//   });
-
-//   return props;
-// };
-
 export const ensureOnlyChild = (children: VNodeArrayChildren | undefined) => {
   if (!isArray(children) || children.length > 1) {
     throw new Error('expect to receive a single Vue element child');
   }
   return children[0];
 };
-
-export type FlattenVNodes = Array<VNodeChildAtom | RawSlots>;
 
 // 扁平化child
 export const flattedChildren = (
@@ -180,3 +144,39 @@ export const flattedChildren = (
   });
   return result;
 };
+
+// 包裹文本节点
+function wrapTextContent(s: string | VNode) {
+  return h(
+    'span',
+    {
+      class: {
+        'only-child__content': true,
+      },
+    },
+    s
+  );
+}
+
+// 在vnode数组中查找第一个合法的子元素
+export function findFirstLegitChild(node: VNode[] | undefined): VNode | null {
+  if (!node) return null;
+  const children = node as VNode[];
+  for (const child of children) {
+    if (isObject(child)) {
+      switch (child.type) {
+        case Comment:
+          continue;
+        case Text:
+        case 'svg':
+          return wrapTextContent(child);
+        case Fragment:
+          return findFirstLegitChild(child.children as VNode[]);
+        default:
+          return child;
+      }
+    }
+    return wrapTextContent(child);
+  }
+  return null;
+}

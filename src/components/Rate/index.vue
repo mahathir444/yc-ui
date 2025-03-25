@@ -10,6 +10,7 @@
       v-for="i in count"
       :key="i"
       class="yc-rate-character"
+      :ref="(el) => (chars[i] = el as HTMLDivElement)"
       @click="handleClick(i)"
     >
       <div
@@ -17,7 +18,7 @@
         :style="{
           color:
             (i - 0.5 <= computedValue && !curHover) || i - 0.5 <= curHover
-              ? color
+              ? getColor(i)
               : '',
         }"
         @mouseenter="handleMouseenter(i - 0.5)"
@@ -32,7 +33,7 @@
         :style="{
           color:
             (i - 0.5 <= computedValue && !curHover) || i - 0.5 <= curHover
-              ? color
+              ? getColor(i)
               : '',
         }"
         @mouseenter="handleMouseenter(i)"
@@ -49,6 +50,8 @@
 <script lang="ts" setup>
 import { ref, toRefs } from 'vue';
 import { RateProps } from './type';
+import { isObject } from '@shared/utils/is';
+import { sleep } from '@shared/utils/fn';
 import useControlValue from '@shared/hooks/useControlValue';
 defineOptions({
   name: 'Rate',
@@ -68,8 +71,19 @@ const emits = defineEmits<{
   (e: 'change', value: number): void;
   (e: 'hoverChange', value: number): void;
 }>();
-const { allowHalf, modelValue, defaultValue, readonly, disabled } =
-  toRefs(props);
+const {
+  allowHalf,
+  modelValue,
+  defaultValue,
+  readonly,
+  disabled,
+  color,
+  count,
+} = toRefs(props);
+// char对应的el
+const chars = ref<HTMLDivElement[]>([]);
+// 是否动画还在播放中
+let loading = false;
 // 当前hover的等级
 const curHover = ref<number>(0);
 // 控制值
@@ -80,11 +94,18 @@ const computedValue = useControlValue<number>(
     emits('update:modelValue', val);
   }
 );
+// 获取颜色
+const getColor = (i: number) => {
+  return isObject(color.value)
+    ? (color.value[i] ?? 'rgb(247, 186, 30)')
+    : color.value;
+};
 // 点击评分
-const handleClick = (index: number) => {
-  if (readonly.value || disabled.value) {
+const handleClick = async (index: number) => {
+  if (readonly.value || disabled.value || loading) {
     return;
   }
+  loading = true;
   if (allowHalf.value) {
     computedValue.value =
       computedValue.value == index - 0.5 ? index : index - 0.5;
@@ -92,6 +113,19 @@ const handleClick = (index: number) => {
     computedValue.value = index;
   }
   emits('change', computedValue.value);
+  // 处理动画
+  for (let i = 1; i <= count.value; i++) {
+    if (i > computedValue.value) {
+      continue;
+    }
+    const el = chars.value[i];
+    el.classList.add('yc-rate-character-scale');
+    await sleep(50);
+    setTimeout(() => {
+      el.classList.remove('yc-rate-character-scale');
+    }, 150);
+  }
+  loading = false;
 };
 // 处理鼠标变色
 let timer: NodeJS.Timeout;

@@ -49,7 +49,7 @@ import { ref, computed, useSlots, CSSProperties, toRefs } from 'vue';
 import { TriggerProps } from './type';
 import { TRANSFORM_ORIGIN_MAP } from './constants';
 import { useElementBounding, useElementSize } from '@vueuse/core';
-import { findFirstLegitChild } from '@shared/utils/vue-utils';
+import { findFirstLegitChild } from '@shared/utils/vue-vnode';
 import useTriggerVisible from '@shared/hooks/useTriggerVisible';
 import useTriggerPosition from '@shared/hooks/useTriggerPosition';
 defineOptions({

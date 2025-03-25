@@ -52,6 +52,7 @@ declare module 'vue' {
     SelectDropdown: typeof import('./src/components/Select/component/SelectDropdown.vue')['default']
     SelectIcon: typeof import('./src/components/Select/component/SelectIcon.vue')['default']
     ServiceModal: typeof import('./src/components/Modal/component/ServiceModal.vue')['default']
+    Slider: typeof import('./src/components/Slider/index.vue')['default']
     Spin: typeof import('./src/components/Spin/index.vue')['default']
     SpinIcon: typeof import('./src/components/Spin/component/SpinIcon.vue')['default']
     Switch: typeof import('./src/components/Switch/index.vue')['default']
