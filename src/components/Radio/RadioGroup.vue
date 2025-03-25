@@ -34,8 +34,8 @@
 import { toRefs, provide } from 'vue';
 import { RadioGroupProps, RadioValue, ProvideType } from './type';
 import { SIZE_CLASS } from './constants';
-import { RADIO_GROUP_PROVIDE_KEY } from '@/components/_constants';
-import useControlValue from '@/components/_hooks/useControlValue';
+import { RADIO_GROUP_PROVIDE_KEY } from '@/components/_/constants';
+import useControlValue from '@/components/_/hooks/useControlValue';
 import YcRadio from './Radio.vue';
 defineOptions({
   name: 'RadioGroup',

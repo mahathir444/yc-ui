@@ -1,5 +1,5 @@
 import { Ref } from 'vue';
-import { Size } from '@/components/_type';
+import { Size } from '@/components/_/type';
 
 //
 export interface ButtonProps {

@@ -14,7 +14,7 @@ import type {
   VNodeNormalizedChildren,
 } from 'vue';
 import { isArray, isFunction, isObject } from './is';
-import { ObjectData } from '../_type';
+import { ObjectData } from '../type';
 // import { camelize } from '../strings';
 // import { hasOwn } from '../objects';
 // import { debugWarn } from './error';

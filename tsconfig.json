@@ -27,7 +27,7 @@
     "src/**/*.d.ts",
     "src/**/*.tsx",
     "src/**/*.vue",
-    "src/components/_utils/generate.tsenerate.ts",
+    "src/components/_/utils/generate.tsenerate.ts",
     "src/main.ts",
     "src/main.ts"
   ],

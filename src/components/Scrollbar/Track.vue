@@ -43,8 +43,8 @@
 import { ref, toRefs, computed, inject } from 'vue';
 import { DEFAULT_BAR_WIDTH, DEFAULT_TRACK_WIDTH } from './constants';
 import { ProvideType } from './type';
-import { SCROLLBAR_PROVIDE_KEY } from '@/components/_constants';
-import { Direction } from '@/components/_type';
+import { SCROLLBAR_PROVIDE_KEY } from '@/components/_/constants';
+import { Direction } from '@/components/_/type';
 import { useDraggable, useEventListener } from '@vueuse/core';
 const props = withDefaults(
   defineProps<{

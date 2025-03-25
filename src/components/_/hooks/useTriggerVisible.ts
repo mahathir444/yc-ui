@@ -1,6 +1,6 @@
 import { Ref, ref, watchEffect } from 'vue';
 import { TriggerType } from '@/components/Trigger';
-import { Fn } from '../_type';
+import { Fn } from '../type';
 import { onClickOutside } from '@vueuse/core';
 import useTriggerNested from './useTriggerNested';
 import useControlValue from './useControlValue';

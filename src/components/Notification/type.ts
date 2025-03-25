@@ -1,4 +1,4 @@
-import { ClassName, RenderContent } from '../_type';
+import { ClassName, RenderContent } from '@/components/_/type';
 import { notificationPosition, notificationType } from './constants';
 import { CSSProperties, RenderFunction } from 'vue';
 

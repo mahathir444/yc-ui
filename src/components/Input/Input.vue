@@ -94,11 +94,11 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, computed, toRefs, nextTick } from 'vue';
+import { ref, computed, toRefs } from 'vue';
 import { SIZE_CLASS } from './constants';
 import { InputProps, InputEvent, InputEventType } from './type';
-import { SIZE_MAP } from '@/components/_constants';
-import useLimitedInput from '../_hooks/useLimitedInput';
+import { SIZE_MAP } from '@/components/_/constants';
+import useLimitedInput from '../_/hooks/useLimitedInput';
 defineOptions({
   name: 'Input',
 });

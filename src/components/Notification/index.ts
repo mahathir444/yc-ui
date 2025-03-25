@@ -1,5 +1,5 @@
 import { App, render, ref, createVNode, reactive, Ref } from 'vue';
-import { getComponentPrefix } from '@/components/_utils/global-config';
+import { getComponentPrefix } from '@/components/_/utils/global-config';
 import _Notification from './Notification.vue';
 import _NotificationContainer from './Container.vue';
 import {
@@ -8,7 +8,7 @@ import {
   NotificationType,
 } from './type';
 import { config, notificationPosition, notificationType } from './constants';
-import { isString } from '../_utils/is';
+import { isString } from '../_/utils/is';
 
 export type NotificationInstance = InstanceType<typeof _Notification>;
 export type {

@@ -1,5 +1,5 @@
 import { Fragment, h, VNode } from 'vue';
-import { RenderContent } from '../_type';
+import { RenderContent } from '../type';
 import { isFunction, isObject } from './is';
 
 // 获取renderFunction

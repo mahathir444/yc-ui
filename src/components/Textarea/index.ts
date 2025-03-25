@@ -1,6 +1,6 @@
 import { App } from 'vue';
 import _Textarea from './index.vue';
-import { getComponentPrefix } from '@/components/_utils/global-config';
+import { getComponentPrefix } from '@/components/_/utils/global-config';
 
 export type TextareaInstance = InstanceType<typeof _Textarea>;
 export type { TextareaProps, TextareaResize } from './type';

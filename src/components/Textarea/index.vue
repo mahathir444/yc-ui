@@ -56,7 +56,7 @@ import {
   TextareaEventType,
 } from './type';
 import { useElementSize } from '@vueuse/core';
-import useLimitedInput from '../_hooks/useLimitedInput';
+import useLimitedInput from '../_/hooks/useLimitedInput';
 defineOptions({
   name: 'Textarea',
 });

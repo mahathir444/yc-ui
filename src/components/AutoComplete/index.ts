@@ -1,6 +1,6 @@
 import { App } from 'vue';
 import _AutoComplete from './index.vue';
-import { getComponentPrefix } from '@/components/_utils/global-config';
+import { getComponentPrefix } from '@/components/_/utils/global-config';
 
 export type AutoCompleteInstance = InstanceType<typeof _AutoComplete>;
 export type { AutoCompleteProps } from './type';

@@ -2,7 +2,7 @@ import { App } from 'vue';
 import _Select from './Select.vue';
 import _Option from './Option.vue';
 import _Optgroup from './Optgroup.vue';
-import { getComponentPrefix } from '@/components/_utils/global-config';
+import { getComponentPrefix } from '@/components/_/utils/global-config';
 
 export type SelectInstance = InstanceType<typeof _Select>;
 export type OptionInstance = InstanceType<typeof _Option>;

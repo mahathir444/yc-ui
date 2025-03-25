@@ -38,7 +38,7 @@ import {
   SelectOptionData,
   SelectInstance,
 } from '@/components/Select';
-import useControlValue from '@/components/_hooks/useControlValue';
+import useControlValue from '@/components/_/hooks/useControlValue';
 defineOptions({
   name: 'AutoComplete',
 });

@@ -1,6 +1,6 @@
 import { App } from 'vue';
 import _Link from './index.vue';
-import { getComponentPrefix } from '@/components/_utils/global-config';
+import { getComponentPrefix } from '@/components/_/utils/global-config';
 
 export type LinkInstance = InstanceType<typeof _Link>;
 

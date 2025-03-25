@@ -38,7 +38,7 @@
 
 <script setup lang="ts">
 import { computed } from 'vue';
-import { getSlotFunction } from '../_utils/vue-utils';
+import { getSlotFunction } from '../_/utils/vue-utils';
 import Notification from './Notification.vue';
 import { NotificationConfig, NotificationPosition } from './type';
 const props = defineProps<{

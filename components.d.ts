@@ -10,6 +10,7 @@ declare module 'vue' {
     AButton: typeof import('@arco-design/web-vue')['Button']
     ACheckbox: typeof import('@arco-design/web-vue')['Checkbox']
     ACheckboxGroup: typeof import('@arco-design/web-vue')['CheckboxGroup']
+    AColorPicker: typeof import('@arco-design/web-vue')['ColorPicker']
     AEmpty: typeof import('@arco-design/web-vue')['Empty']
     AInputNumber: typeof import('@arco-design/web-vue')['InputNumber']
     AInputTag: typeof import('@arco-design/web-vue')['InputTag']

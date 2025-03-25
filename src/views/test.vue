@@ -29,13 +29,13 @@
           <icon-close />
         </template>
       </a-switch>
+      <!-- <a-color-picker defaultValue="#165DFF" showText /> -->
     </div>
   </div>
 </template>
 
 <script lang="ts" setup>
 import { ref, watch } from 'vue';
-import YcInputNumber from '@/components/InputNumber/index.vue';
 const value = ref('');
 const value1 = ref([]);
 const loading = ref(false);

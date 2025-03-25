@@ -1,6 +1,6 @@
 import { App } from 'vue';
 import _Empty from './index.vue';
-import { getComponentPrefix } from '@/components/_utils/global-config';
+import { getComponentPrefix } from '@/components/_/utils/global-config';
 
 export type EmptyInstance = InstanceType<typeof _Empty>;
 export type { EmptyProps } from './type';

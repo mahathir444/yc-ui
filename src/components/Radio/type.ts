@@ -1,5 +1,5 @@
 import { WritableComputedRef, Ref } from 'vue';
-import { Direction, Size } from '../_type';
+import { Direction, Size } from '@/components/_/type';
 
 export interface RadioProps {
   modelValue?: RadioValue;

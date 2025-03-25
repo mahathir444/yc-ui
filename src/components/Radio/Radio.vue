@@ -46,9 +46,9 @@
 import { toRefs, inject, computed, ref } from 'vue';
 import { RadioProps, RadioValue, ProvideType } from './type';
 import { SIZE_CLASS } from './constants';
-import { RADIO_GROUP_PROVIDE_KEY } from '@/components/_constants';
-import { isUndefined } from '@/components/_utils/is';
-import useControlValue from '@/components/_hooks/useControlValue';
+import { RADIO_GROUP_PROVIDE_KEY } from '@/components/_/constants';
+import { isUndefined } from '@/components/_/utils/is';
+import useControlValue from '@/components/_/hooks/useControlValue';
 defineOptions({
   name: 'Radio',
 });

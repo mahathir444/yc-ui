@@ -36,7 +36,7 @@
 <script lang="ts" setup>
 import { ref, toRefs } from 'vue';
 import { InputPasswordProps } from './type';
-import useControlValue from '@/components/_hooks/useControlValue';
+import useControlValue from '@/components/_/hooks/useControlValue';
 import YcInput from './Input.vue';
 
 defineOptions({

@@ -1,8 +1,8 @@
 import { computed, Ref, nextTick } from 'vue';
-import { InputEventType, WordLength, WordSlice } from '../Input/type';
-import { isFunction, isNumber, isUndefined } from '../_utils/is';
-import useControlValue from '../_hooks/useControlValue';
-import { Fn } from '../_type';
+import { InputEventType, WordLength, WordSlice } from '../../Input/type';
+import { isFunction, isNumber, isUndefined } from '../../_/utils/is';
+import useControlValue from './useControlValue';
+import { Fn } from '../type';
 export default (params: {
   modelValue: Ref<string | undefined>;
   defaultValue: Ref<string>;

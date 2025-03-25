@@ -1,4 +1,4 @@
-import { Fn, Size, ObjectData } from '@/components/_type';
+import { Fn, Size, ObjectData } from '@/components/_/type';
 // formatter?: Fn;
 // parser?: Fn;
 export interface InputNumberProps {

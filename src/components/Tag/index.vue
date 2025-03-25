@@ -53,7 +53,7 @@ import { toRefs } from 'vue';
 import { TagProps, TagEventType } from './type';
 import { SIZE_CLASS, COLOR_CLASS, COLOR_MAP } from './constants';
 import YcSpin from '@/components/Spin';
-import useControlValue from '@/components/_hooks/useControlValue';
+import useControlValue from '@/components/_/hooks/useControlValue';
 defineOptions({
   name: 'Tag',
 });

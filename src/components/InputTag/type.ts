@@ -1,4 +1,4 @@
-import { ObjectData, Size } from '@/components/_type';
+import { ObjectData, Size } from '@/components/_/type';
 import { TagProps } from '@/components/Tag';
 
 export interface InputTagProps {

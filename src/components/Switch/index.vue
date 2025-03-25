@@ -37,6 +37,7 @@
       :style="{
         margin: compuedChecked ? '0 26px 0 8px' : '0 8px 0 26px',
         visibility: 'hidden',
+        fontSize: '12px',
       }"
     >
       {{ compuedChecked ? checkedText : uncheckedText }}
@@ -53,9 +54,9 @@
 <script lang="ts" setup>
 import { toRefs, computed, CSSProperties } from 'vue';
 import { SwitchProps, SwitchValue } from './type';
-import { SIZE_MAP } from '@/components/_constants';
-import { isBoolean, isUndefined } from '@/components/_utils/is';
-import useControlValue from '@/components/_hooks/useControlValue';
+import { SIZE_MAP } from '@/components/_/constants';
+import { isBoolean, isUndefined } from '@/components/_/utils/is';
+import useControlValue from '@/components/_/hooks/useControlValue';
 import YcSpin from '@/components/Spin';
 defineOptions({
   name: 'Switch',
@@ -132,6 +133,7 @@ const switchCss = computed(() => {
   }
   return {
     backgroundColor,
+    cursor: disabled ? 'not-allowed' : 'pointer',
     borderRadius: type.value == 'round' ? '2px' : `${SIZE_MAP[size.value]}px`,
   } as CSSProperties;
 });
@@ -168,169 +170,5 @@ const handleClick = async (e: Event) => {
 </script>
 
 <style lang="less" scoped>
-.yc-switch {
-  cursor: pointer;
-  overflow: hidden;
-  position: relative;
-  padding: 0;
-  vertical-align: middle;
-  outline: none;
-  border: none;
-  transition: background-color 0.2s cubic-bezier(0.34, 0.69, 0.1, 1);
-  .yc-switch-handle {
-    z-index: 1;
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    transition: all 0.2s cubic-bezier(0.34, 0.69, 0.1, 1);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    .yc-switch-handle-icon {
-      font-size: inherit;
-    }
-  }
-  .yc-switch-text {
-    position: absolute;
-  }
-}
-// unchecked
-.yc-switch-unchecked {
-  background-color: rgb(201, 205, 212);
-  &::after {
-    background-color: rgb(201, 205, 212);
-  }
-  .yc-switch-handle {
-    background-color: #fff;
-    color: rgb(229, 230, 235);
-  }
-  .yc-switch-text {
-    left: 26px;
-    color: #fff;
-  }
-}
-// checked
-.yc-switch-checked {
-  background-color: rgba(22, 93, 255);
-  &::after {
-    background-color: rgba(22, 93, 255);
-  }
-  .yc-switch-handle {
-    background-color: #fff;
-    color: rgb(22, 93, 255);
-  }
-  .yc-switch-text {
-    left: 8px;
-    color: #fff;
-  }
-}
-// loading disabled
-.yc-switch-loading,
-.yc-switch-disabled {
-  &.yc-switch-disabled {
-    cursor: not-allowed;
-  }
-  &.yc-switch-unchecked {
-    background-color: rgb(242, 243, 245);
-    &::after {
-      background-color: rgb(242, 243, 245);
-    }
-    .yc-switch-handle {
-      color: rgb(229, 230, 235);
-    }
-    .yc-switch-text {
-      color: #fff;
-    }
-  }
-  &.yc-switch-checked {
-    background-color: rgb(148, 191, 255);
-    &::after {
-      background-color: rgb(148, 191, 255);
-    }
-    .yc-switch-handle {
-      color: rgb(148, 191, 255);
-    }
-    .yc-switch-text {
-      color: rgb(232, 243, 255);
-    }
-  }
-}
-// size
-.yc-switch-size-small {
-  min-width: 28px;
-  height: 16px;
-  line-height: 16px;
-  .yc-switch-handle {
-    left: 2px;
-    width: 12px;
-    height: 12px;
-    font-size: 8px;
-  }
-  &.yc-switch-checked {
-    .yc-switch-handle {
-      left: calc(100% - 14px);
-    }
-  }
-}
-.yc-switch-size-medium {
-  min-width: 40px;
-  height: 24px;
-  line-height: 24px;
-  .yc-switch-handle {
-    left: 4px;
-    width: 16px;
-    height: 16px;
-    font-size: 12px;
-  }
-  &.yc-switch-checked {
-    .yc-switch-handle {
-      left: calc(100% - 20px);
-    }
-  }
-}
-
-.yc-switch-type-line {
-  background: transparent;
-  &::after {
-    content: '';
-    position: absolute;
-    left: 0;
-    right: 0;
-    top: 50%;
-    transform: translateY(-50%);
-    height: 6px;
-    border-radius: 3px;
-  }
-  .yc-switch-handle {
-    box-shadow: 0 1px 3px rgb(134, 144, 156);
-  }
-  &.yc-switch-size-small {
-    min-width: 28px;
-    height: 16px;
-    line-height: 16px;
-    .yc-switch-handle {
-      width: 16px;
-      height: 16px;
-    }
-    &.yc-switch-type-line {
-      .yc-switch-handle {
-        left: calc(100% - 16px);
-      }
-    }
-  }
-  &.yc-switch-size-medium {
-    min-width: 36px;
-    overflow: unset;
-    .yc-switch-handle {
-      left: 0;
-      width: 20px;
-      height: 20px;
-    }
-    &.yc-switch-type-line {
-      .yc-switch-handle {
-        left: calc(100% - 20px);
-      }
-    }
-  }
-}
+@import './style/switch.less';
 </style>

@@ -21,7 +21,7 @@
 
 <script lang="ts" setup>
 import { computed, toRefs } from 'vue';
-import { Size } from '@/components/_type';
+import { Size } from '@/components/_/type';
 import { InputNumberMode, InputNumberValue } from '../type';
 const props = defineProps<{
   mode: InputNumberMode;

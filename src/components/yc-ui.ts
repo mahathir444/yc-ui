@@ -1,5 +1,5 @@
 import { App, Plugin } from 'vue';
-import { YcUiOptions } from './_type';
+import { YcUiOptions } from './_/type';
 import Button, { ButtonGroup } from './Button';
 import Drawer from './Drawer';
 import Dropdown, {

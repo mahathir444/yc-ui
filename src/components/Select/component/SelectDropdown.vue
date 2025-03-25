@@ -64,8 +64,8 @@
 <script lang="ts" setup>
 import { inject, ref, toRefs } from 'vue';
 import { SelectOptions, ProvideType } from '../type';
-import { SELECT_PROVIDE_KEY } from '@/components/_constants';
-import { ObjectData } from '@/components/_type';
+import { SELECT_PROVIDE_KEY } from '@/components/_/constants';
+import { ObjectData } from '@/components/_/type';
 import { useVirtualList } from '@vueuse/core';
 import YcOption from '../Option.vue';
 import YcOptgroup from '../Optgroup.vue';

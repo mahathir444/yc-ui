@@ -27,7 +27,7 @@ import { DoptionProps, ProvideType } from './type';
 import {
   DROPDOWN_PROVIDE_KEY,
   TRIGGER_PROVIDE_KEY,
-} from '@/components/_constants';
+} from '@/components/_/constants';
 import { ProvideType as TriggerProvideType } from '@/components/Trigger/type';
 defineOptions({
   name: 'Doption',

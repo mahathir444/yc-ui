@@ -1,6 +1,6 @@
 import { App } from 'vue';
 import _InputNumber from './index.vue';
-import { getComponentPrefix } from '@/components/_utils/global-config';
+import { getComponentPrefix } from '@/components/_/utils/global-config';
 
 export type InputNumberInstance = InstanceType<typeof _InputNumber>;
 export type {

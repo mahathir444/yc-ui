@@ -6,7 +6,7 @@
 
 <script lang="ts" setup>
 import { toRefs, computed } from 'vue';
-import is from '@/components/_utils/is';
+import is from '@/components/_/utils/is';
 const props = withDefaults(
   defineProps<{
     name: string;

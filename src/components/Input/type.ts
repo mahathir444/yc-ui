@@ -1,4 +1,4 @@
-import { ObjectData, Size } from '@/components/_type';
+import { ObjectData, Size } from '@/components/_/type';
 import { ButtonProps } from '../Button/type';
 //
 export interface InputProps {

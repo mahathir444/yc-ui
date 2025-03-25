@@ -5,7 +5,7 @@ import {
   FallbackOption,
   FormatLabel,
 } from '@/components/Select';
-import { Fn, ObjectData } from '../_type';
+import { Fn, ObjectData } from '../type';
 import { nanoid } from 'nanoid';
 import useControlValue from './useControlValue';
 import useSelectOptions from './useSelectOptions';
