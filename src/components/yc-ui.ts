@@ -1,7 +1,7 @@
 import { App, Plugin } from 'vue';
-import Icon from '@shared/component/Icon';
-import IconButton from '@shared/component/IconButton';
-import PreventFocus from '@shared/component/PreventFocus';
+import Icon from '@shared/components/Icon';
+import IconButton from '@shared/components/IconButton';
+import PreventFocus from '@shared/components/PreventFocus';
 import Button, { ButtonGroup } from './Button';
 import Drawer from './Drawer';
 import Dropdown, {

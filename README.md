@@ -12,25 +12,36 @@
 
 ---
 
-## 安装
-
-使用 npm 或 yarn 安装 `yc-ui`：
-
+## 使用
+1. 下载依赖
 ```bash
-npm install yc-ui
-# 或
-yarn add yc-ui
+npm i vite-plugin-svg-icons -D
+npm i @vueuse/core dayjs nanoid
 ```
-
-## 贡献
-
-欢迎贡献代码！请阅读 [CONTRIBUTING.md](CONTRIBUTING.md) 了解如何参与项目开发。
-
-## 许可证
-
-本项目基于 [MIT 许可证](LICENSE) 开源。
-
----
-
-vue-tsc && 
-"unpkg": "dist/arco-vue.min.js",
+2. vite.config.ts配置插件 
+```ts
+import { createSvgIconsPlugin } from 'vite-plugin-svg-icons';
+export default defineConfig({
+  plugins: [
+    createSvgIconsPlugin({
+      iconDirs: [
+        // 可以自定义自己icon的位置
+        path.resolve(process.cwd(), 'src/assets/icons'),
+        // 组件库默认icon
+        path.resolve(process.cwd(), 'src/components/_shared'),
+      ],
+      symbolId: 'icon-[name]',
+    }),
+  ],
+  resolve: {
+    alias: {
+      '@': path.resolve(__dirname, 'src'),
+      '@shared': path.resolve(__dirname, 'src/components/_shared'),
+    },
+  },
+});
+```
+3. main.ts配置vite-plugin-svg-icon
+```ts
+import 'virtual:svg-icons-register';
+```

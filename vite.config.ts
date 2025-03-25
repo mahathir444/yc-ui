@@ -31,7 +31,7 @@ export default defineConfig({
       // 指定需要缓存的图标文件夹
       iconDirs: [
         path.resolve(process.cwd(), 'src/assets/icons'),
-        path.resolve(process.cwd(), 'src/components/_'),
+        path.resolve(process.cwd(), 'src/components/_shared'),
       ],
       // 指定symbolId格式
       symbolId: 'icon-[name]',
@@ -40,7 +40,7 @@ export default defineConfig({
   resolve: {
     alias: {
       '@': path.resolve(__dirname, 'src'),
-      '@shared': path.resolve(__dirname, 'src/components/_'),
+      '@shared': path.resolve(__dirname, 'src/components/_shared'),
     },
   },
   server: {

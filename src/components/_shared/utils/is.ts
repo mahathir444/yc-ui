@@ -16,7 +16,7 @@ export function isNull(value: any): value is null {
 
 // 检查给定的值是否是 undefined
 export function isUndefined(value: any): value is undefined {
-  return value === void 0;
+  return typeof value == 'undefined';
 }
 
 // 检查给定的值是否是 NaN，这和原生的 isNaN 函数不一样，如果变量是 undefined，原生的 isNaN 函数也会返回 true
@@ -31,16 +31,12 @@ export function isNumber(value: any): value is number {
 
 // 检查给定的值是否是字符串
 export function isString(value: any): value is string {
-  return objToString.call(value) === '[object String]';
+  return typeof value == 'string';
 }
 
 // 检查给定的值是否是布尔值
 export function isBoolean(value: any): value is boolean {
-  return (
-    value === true ||
-    value === false ||
-    objToString.call(value) === '[object Boolean]'
-  );
+  return typeof value == 'boolean';
 }
 
 // 检查给定的值是否是正则表达式
@@ -63,7 +59,7 @@ export function isFunction(value: any) {
 
 // 检查给定的值是否是数组
 export function isArray(value: any): value is Array<any> {
-  return objToString.call(value) === '[object Array]';
+  return Array.isArray(value);
 }
 
 // 检查给定的值是否是对象
