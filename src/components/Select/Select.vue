@@ -86,7 +86,7 @@
           :allow-create="allowCreate"
           v-bind="$attrs"
           ref="inputRef"
-          @click="handleEvent('focus')"
+          @focus="handleEvent('focus')"
           @blur="handleEvent('blur')"
           @input="(v) => handleEvent('search', v)"
           @remove="$emit('remove')"
@@ -114,6 +114,7 @@
         </yc-input-tag>
       </div>
     </slot>
+    <!-- dropdown -->
     <template #content>
       <select-dropdown
         :options="options"

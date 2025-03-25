@@ -79,6 +79,10 @@
           <icon-close />
         </template>
       </yc-switch>
+      <div>
+        rate
+        <yc-rate :count="10" />
+      </div>
     </div>
   </div>
 </template>

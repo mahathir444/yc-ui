@@ -5,6 +5,7 @@
       <yc-select
         allow-clear
         allow-search
+        multiple
         placeholder="请选择"
         :options="[
           {
@@ -17,36 +18,8 @@
       </yc-select>
     </div>
     <div style="width: 300px">
-      inputNumber
-      <yc-input-number
-        v-model="value"
-        :step="1.2"
-        :precision="5"
-        :min="-100000.0000001"
-        :max="1000"
-        placeholder="请输入"
-      ></yc-input-number>
-    </div>
-    <div style="width: 300px">
-      switch
-      <yc-switch checked-text="启动" unchecked-text="关闭" :loading="loading">
-        <template #checked-icon>
-          <icon-check />
-        </template>
-        <template #unchecked-icon>
-          <icon-close />
-        </template>
-      </yc-switch>
-      <a-switch checked-text="启动" unchecked-text="关闭" :loading="loading">
-        <template #checked-icon>
-          <icon-check />
-        </template>
-        <template #unchecked-icon>
-          <icon-close />
-        </template>
-      </a-switch>
-
-      <!-- <a-color-picker defaultValue="#165DFF" showText /> -->
+      rate
+      <yc-rate :count="10" />
     </div>
   </div>
 </template>

@@ -30,6 +30,7 @@ import AutoComplete from './AutoComplete';
 import Radio, { RadioGroup } from './Radio';
 import Switch from './Switch';
 import InputNumber from './InputNumber';
+import Rate from './Rate';
 
 export const components: Record<string, Plugin> = {
   Button,
@@ -57,6 +58,7 @@ export const components: Record<string, Plugin> = {
   Radio,
   Switch,
   InputNumber,
+  Rate,
 };
 
 export default {

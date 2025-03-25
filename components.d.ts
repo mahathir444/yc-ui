@@ -7,6 +7,7 @@ export {}
 /* prettier-ignore */
 declare module 'vue' {
   export interface GlobalComponents {
+    ARate: typeof import('@arco-design/web-vue')['Rate']
     ASwitch: typeof import('@arco-design/web-vue')['Switch']
     AutoComplete: typeof import('./src/components/AutoComplete/index.vue')['default']
     Button: typeof import('./src/components/Button/Button.vue')['default']
@@ -42,6 +43,7 @@ declare module 'vue' {
     PreventFocus: typeof import('./src/components/_shared/components/PreventFocus/index.vue')['default']
     Radio: typeof import('./src/components/Radio/Radio.vue')['default']
     RadioGroup: typeof import('./src/components/Radio/RadioGroup.vue')['default']
+    Rate: typeof import('./src/components/Rate/index.vue')['default']
     ResizeBox: typeof import('./src/components/ResizeBox/index.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']

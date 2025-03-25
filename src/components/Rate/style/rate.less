@@ -1,0 +1,38 @@
+.yc-rate {
+  min-height: 32px;
+  font-size: 24px;
+  line-height: 1;
+  user-select: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  .yc-rate-character {
+    position: relative;
+    color: rgb(229, 230, 235);
+    transition: transform 0.2s cubic-bezier(0.34, 0.69, 0.1, 1);
+
+    .yc-rate-character-left {
+      width: 50%;
+      position: absolute;
+      left: 0;
+      top: 0;
+      overflow: hidden;
+    }
+  }
+}
+// hoverable
+.yc-rate-hoverable {
+  .yc-rate-character {
+    cursor: pointer;
+    &:hover {
+      transform: scale(1.2);
+    }
+  }
+}
+// disabled
+.yc-rate-disabled {
+  cursor: not-allowed;
+  .yc-rate-character {
+    cursor: not-allowed;
+  }
+}

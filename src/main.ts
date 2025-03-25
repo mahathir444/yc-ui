@@ -2,6 +2,7 @@ import { createApp } from 'vue';
 import App from './App.vue';
 import router from './router';
 import YcUi from './components';
+import '@/components/index.less';
 import ArcoIcon from '@arco-design/web-vue/es/icon';
 
 const app = createApp(App);

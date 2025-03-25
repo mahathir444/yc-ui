@@ -34,7 +34,7 @@ export { _Option as Option, _Optgroup as Optgroup };
 declare module 'vue' {
   export interface GlobalComponents {
     YcSelect: typeof Select;
-    YcOption: typeof Option;
+    YcOption: typeof _Option;
     YcOptgroup: typeof _Optgroup;
   }
 }
