@@ -1,5 +1,5 @@
 import { WritableComputedRef, Ref } from 'vue';
-import { Fn, ObjectData, Size } from '@/components/_/type';
+import { Fn, ObjectData, Size } from '@shared/type';
 import { TriggerProps } from '../Trigger';
 import { PopupContainer } from '../Trigger/type';
 import { TagProps } from '../Tag';

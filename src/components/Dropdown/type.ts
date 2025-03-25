@@ -1,7 +1,7 @@
 import { Ref } from 'vue';
 import { TriggerType, PopupContainer } from '@/components/Trigger';
 import { ButtonProps, ButtonType } from '@/components/Button';
-import { Fn, Size } from '@/components/_/type';
+import { Fn, Size } from '@shared/type';
 export interface DropdownProps {
   popupVisible?: boolean;
   defaultPopupVisible?: boolean;

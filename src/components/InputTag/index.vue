@@ -96,12 +96,12 @@ import {
   InputTagEvent,
   InputTagEventType,
 } from './type';
-import { ObjectData } from '@/components/_/type';
-import { SIZE_MAP } from '@/components/_/constants';
-import { isBoolean, isObject } from '@/components/_/utils/is';
+import { ObjectData } from '@shared/type';
+import { SIZE_MAP } from '@shared/constants';
+import { isBoolean, isObject } from '@shared/utils/is';
 import { nanoid } from 'nanoid';
 import { useElementSize } from '@vueuse/core';
-import useControlValue from '@/components/_/hooks/useControlValue';
+import useControlValue from '@shared/hooks/useControlValue';
 import YcTag from '@/components/Tag';
 defineOptions({
   name: 'InputTag',

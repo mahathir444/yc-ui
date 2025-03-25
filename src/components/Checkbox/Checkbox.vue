@@ -45,8 +45,8 @@
 <script lang="ts" setup>
 import { toRefs, inject, computed, ref } from 'vue';
 import { CheckboxProps, ProvideType } from './type';
-import { CHECKBOX_GROUP_PROVIDE_KEY } from '@/components/_/constants';
-import useControlValue from '@/components/_/hooks/useControlValue';
+import { CHECKBOX_GROUP_PROVIDE_KEY } from '@shared/constants';
+import useControlValue from '@shared/hooks/useControlValue';
 
 defineOptions({
   name: 'Checkbox',

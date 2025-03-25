@@ -14,7 +14,7 @@
 import { toRefs, provide } from 'vue';
 import { ButtonGroupProps, ProvideType } from './type';
 import { GROUP_TYPE_CLASS, GROUP_STAUTS_CLASS } from './constants';
-import { BUTTON_GROUP_PROVIDE_KEY } from '@/components/_/constants';
+import { BUTTON_GROUP_PROVIDE_KEY } from '@shared/constants';
 defineOptions({
   name: 'ButtonGroup',
 });

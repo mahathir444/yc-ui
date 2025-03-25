@@ -34,9 +34,9 @@
 <script lang="ts" setup>
 import { ref, toRefs, inject, computed } from 'vue';
 import { OptionProps, SelectValue, ProvideType } from './type';
-import { ObjectData } from '@/components/_/type';
-import { SELECT_PROVIDE_KEY } from '@/components/_/constants';
-import { isUndefined } from '@/components/_/utils/is';
+import { ObjectData } from '@shared/type';
+import { SELECT_PROVIDE_KEY } from '@shared/constants';
+import { isUndefined } from '@shared/utils/is';
 import YcCheckbox from '@/components/Checkbox';
 defineOptions({
   name: 'Option',

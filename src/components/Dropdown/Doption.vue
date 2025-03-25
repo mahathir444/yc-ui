@@ -24,10 +24,7 @@
 <script lang="ts" setup>
 import { ref, toRefs, inject } from 'vue';
 import { DoptionProps, ProvideType } from './type';
-import {
-  DROPDOWN_PROVIDE_KEY,
-  TRIGGER_PROVIDE_KEY,
-} from '@/components/_/constants';
+import { DROPDOWN_PROVIDE_KEY, TRIGGER_PROVIDE_KEY } from '@shared/constants';
 import { ProvideType as TriggerProvideType } from '@/components/Trigger/type';
 defineOptions({
   name: 'Doption',

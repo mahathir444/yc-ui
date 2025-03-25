@@ -1,5 +1,5 @@
 import { WritableComputedRef, Ref } from 'vue';
-import { Direction } from '@/components/_/type';
+import { Direction } from '@shared/type';
 
 export interface CheckboxProps {
   modelValue?: boolean;

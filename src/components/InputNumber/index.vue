@@ -95,7 +95,7 @@
 <script lang="ts" setup>
 import { ref, toRefs, computed } from 'vue';
 import { InputNumberProps, InputNumberValue } from './type';
-import { isUndefined, isNumber, isString } from '@/components/_/utils/is';
+import { isUndefined, isNumber, isString } from '@shared/utils/is';
 import YcMinus from './component/Minus.vue';
 import YcPlus from './component/Plus.vue';
 import YcInput, { InputInstance } from '@/components/Input';

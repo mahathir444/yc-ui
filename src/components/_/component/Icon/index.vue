@@ -6,7 +6,11 @@
 
 <script lang="ts" setup>
 import { toRefs, computed } from 'vue';
-import is from '@/components/_/utils/is';
+import { IconProps } from './type';
+import is from '@shared/utils/is';
+defineOptions({
+  name: 'icon',
+});
 const props = withDefaults(
   defineProps<{
     name: string;

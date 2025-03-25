@@ -17,6 +17,9 @@
 </template>
 
 <script lang="ts" setup>
+defineOptions({
+  name: 'PreventFocus',
+});
 withDefaults(
   defineProps<{
     preventFocus?: boolean;

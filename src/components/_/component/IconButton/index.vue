@@ -12,20 +12,16 @@
 </template>
 
 <script lang="ts" setup>
-withDefaults(
-  defineProps<{
-    name?: string;
-    fontSize?: string;
-    hoverColor?: string;
-    hoverSize?: string;
-  }>(),
-  {
-    name: 'close',
-    fontSize: '12px',
-    hoverColor: 'rgb(242, 243, 245)',
-    hoverSize: '20px',
-  }
-);
+import { IconButtonProps } from './type.ts';
+defineOptions({
+  name: 'IconButton',
+});
+withDefaults(defineProps<IconButtonProps>(), {
+  name: 'close',
+  fontSize: '12px',
+  hoverColor: 'rgb(242, 243, 245)',
+  hoverSize: '20px',
+});
 </script>
 
 <style lang="less" scoped>

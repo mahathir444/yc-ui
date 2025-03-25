@@ -53,7 +53,7 @@
 import { ref } from 'vue';
 import { TYPE_CLASS } from './constants';
 import { PopconfirmProps } from './type';
-import useOnBeforeClose from '@/components/_/hooks/useOnBeforeClose';
+import useOnBeforeClose from '@shared/hooks/useOnBeforeClose';
 import YcTrigger, { TriggerInstance } from '@/components/Trigger';
 import YcButton from '@/components/Button';
 defineOptions({

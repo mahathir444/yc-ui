@@ -21,7 +21,7 @@
 
 <script lang="ts" setup>
 import { computed, toRefs } from 'vue';
-import { Size } from '@/components/_/type';
+import { Size } from '@shared/type';
 import { InputNumberMode, InputNumberValue } from '../type';
 import YcButton from '@/components/Button';
 const props = defineProps<{

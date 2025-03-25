@@ -157,10 +157,10 @@ import {
   ProvideType,
   SelectEventType,
 } from './type';
-import { ObjectData } from '@/components/_/type';
-import { SELECT_PROVIDE_KEY } from '@/components/_/constants';
-import { sleep } from '@/components/_/utils/fn';
-import useSeletValue from '@/components/_/hooks/useSeletValue';
+import { ObjectData } from '@shared/type';
+import { SELECT_PROVIDE_KEY } from '@shared/constants';
+import { sleep } from '@shared/utils/fn';
+import useSeletValue from '@shared/hooks/useSeletValue';
 import SelectIcon from './component/SelectIcon.vue';
 import SelectDropdown from './component/SelectDropdown.vue';
 import YcInput, { InputInstance } from '@/components/Input';

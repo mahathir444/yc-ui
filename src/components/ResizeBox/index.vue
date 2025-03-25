@@ -42,7 +42,7 @@
 import { ref, onMounted, computed, watch, toRefs } from 'vue';
 import { ResizeBoxProps, DirectionType } from './type';
 import { useResizeObserver, useEventListener } from '@vueuse/core';
-import useControlValue from '@/components/_/hooks/useControlValue';
+import useControlValue from '@shared/hooks/useControlValue';
 defineOptions({
   name: 'ResizeBox',
 });

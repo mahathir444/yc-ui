@@ -1,5 +1,7 @@
 import { App, Plugin } from 'vue';
-import { YcUiOptions } from './_/type';
+import Icon from '@shared/component/Icon';
+import IconButton from '@shared/component/IconButton';
+import PreventFocus from '@shared/component/PreventFocus';
 import Button, { ButtonGroup } from './Button';
 import Drawer from './Drawer';
 import Dropdown, {
@@ -30,11 +32,11 @@ import AutoComplete from './AutoComplete';
 import Radio, { RadioGroup } from './Radio';
 import Switch from './Switch';
 import InputNumber from './InputNumber';
-import YcPreventFocus from '@/components/_/components/PreventFocus/index.vue';
-import YcIcon from '@/components/_/components/Icon/index.vue';
-import YcIconButton from '@/components/_/components/IconButton/index.vue';
 
 export const components: Record<string, Plugin> = {
+  Icon,
+  IconButton,
+  PreventFocus,
   Button,
   Drawer,
   Dropdown,
@@ -75,23 +77,11 @@ const YcUi = {
   Optgroup,
   CheckboxGroup,
   RadioGroup,
-  install: (app: App, options?: YcUiOptions) => {
-    app.component('YcIcon', YcIcon);
-    app.component('YcIconButton', YcIconButton);
-    app.component('YcPreventFocus', YcPreventFocus);
+  install: (app: App) => {
     for (const key of Object.keys(components)) {
-      app.use(components[key], options);
+      app.use(components[key]);
     }
   },
 };
 
 export default YcUi;
-
-// 定义类型
-declare module 'vue' {
-  export interface GlobalComponents {
-    YcPreventFocus: typeof YcPreventFocus;
-    YcIcon: typeof YcIcon;
-    YcIconButton: typeof YcIconButton;
-  }
-}

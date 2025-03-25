@@ -1,6 +1,5 @@
-import { YcUiOptions } from '../type';
 const COMPONENT_PREFIX = 'Yc';
 
-export const getComponentPrefix = (_options?: YcUiOptions) => {
+export const getComponentPrefix = () => {
   return COMPONENT_PREFIX;
 };

@@ -1,6 +1,6 @@
 import { App } from 'vue';
 import _Trigger from './index.vue';
-import { getComponentPrefix } from '@/components/_/utils/global-config';
+import { getComponentPrefix } from '@shared/utils/global-config';
 
 export type TriggerInstance = InstanceType<typeof _Trigger>;
 export type {

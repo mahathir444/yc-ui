@@ -42,7 +42,7 @@
 import { computed, toRefs, inject, useSlots, CSSProperties } from 'vue';
 import { ButtonProps, ProvideType, ButtonEvent, ButtonEventType } from './type';
 import { SIZE_CLASS, TYPE_CLASS, STATUS_CLASS, SHAPE_CLASS } from './constants';
-import { BUTTON_GROUP_PROVIDE_KEY, SIZE_MAP } from '@/components/_/constants';
+import { BUTTON_GROUP_PROVIDE_KEY, SIZE_MAP } from '@shared/constants';
 import YcSpin from '@/components/Spin';
 defineOptions({
   name: 'Button',

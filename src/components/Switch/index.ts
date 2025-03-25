@@ -1,6 +1,6 @@
 import { App } from 'vue';
 import _Switch from './index.vue';
-import { getComponentPrefix } from '@/components/_/utils/global-config';
+import { getComponentPrefix } from '@shared/utils/global-config';
 export type SwitchInstance = InstanceType<typeof _Switch>;
 export type { SwitchProps, SwitchSize, SwitchType, SwitchValue } from './type';
 

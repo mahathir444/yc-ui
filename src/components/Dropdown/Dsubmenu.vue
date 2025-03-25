@@ -40,8 +40,8 @@
 <script lang="ts" setup>
 import { ref, computed, toRefs, CSSProperties, nextTick } from 'vue';
 import { DsubmenuProps } from './type';
-import useTriggerNested from '@/components/_/hooks/useTriggerNested';
-import useControlValue from '@/components/_/hooks/useControlValue';
+import useTriggerNested from '@shared/hooks/useTriggerNested';
+import useControlValue from '@shared/hooks/useControlValue';
 import YcDoption from './Doption.vue';
 import YcScrollbar from '@/components/Scrollbar';
 

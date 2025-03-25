@@ -1,6 +1,6 @@
 import { App } from 'vue';
 import _Drawer from './index.vue';
-import { getComponentPrefix } from '@/components/_/utils/global-config';
+import { getComponentPrefix } from '@shared/utils/global-config';
 
 export type DrawerInstance = InstanceType<typeof _Drawer>;
 export type { DrawerProps, DrawerPlacement } from './type';

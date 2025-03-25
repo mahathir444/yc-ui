@@ -3,7 +3,7 @@ import _Message from './Message.vue';
 import _MessageContainer from './Container.vue';
 import { MessageConfig, MessageList, MessageType } from './type';
 import { config, messageType } from './constants';
-import { getComponentPrefix } from '@/components/_/utils/global-config';
+import { getComponentPrefix } from '@shared/utils/global-config';
 
 export type MessageInstance = InstanceType<typeof _Message>;
 export type {

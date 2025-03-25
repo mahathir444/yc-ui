@@ -1,6 +1,6 @@
 import { App, h, render } from 'vue';
 import { ModalConfig, ModalServiceData } from './type';
-import { getComponentPrefix } from '@/components/_/utils/global-config';
+import { getComponentPrefix } from '@shared/utils/global-config';
 import ServiceModal from './component/ServiceModal.vue';
 import _Modal from './index.vue';
 

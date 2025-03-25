@@ -83,8 +83,8 @@
 import { toRefs, computed, CSSProperties } from 'vue';
 import { DRAWER_POSTION_STYLE } from './constants';
 import { DrawerProps } from './type';
-import { CloseType } from '@/components/_/type';
-import useDrawerClose from '@/components/_/hooks/useModalClose';
+import { CloseType } from '@shared/type';
+import useDrawerClose from '@shared/hooks/useModalClose';
 import YcButton from '@/components/Button';
 defineOptions({
   name: 'Drawer',

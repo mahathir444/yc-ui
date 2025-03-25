@@ -2,7 +2,7 @@ import { App } from 'vue';
 import _Input from './Input.vue';
 import _InputPassword from './InputPassword.vue';
 import _InputSearch from './InputSearch.vue';
-import { getComponentPrefix } from '@/components/_/utils/global-config';
+import { getComponentPrefix } from '@shared/utils/global-config';
 
 export type InputInstance = InstanceType<typeof _Input>;
 export type InputSearchInstance = InstanceType<typeof _InputSearch>;
