@@ -1,6 +1,22 @@
 <template>
   <div class="test">
     <div style="width: 300px">
+      select
+      <yc-select
+        allow-clear
+        allow-search
+        placeholder="请选择"
+        :options="[
+          {
+            label: '分组1',
+            isGroup: true,
+            options,
+          },
+        ]"
+      >
+      </yc-select>
+    </div>
+    <div style="width: 300px">
       inputNumber
       <yc-input-number
         v-model="value"

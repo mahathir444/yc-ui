@@ -1,7 +1,5 @@
 import { App, Plugin } from 'vue';
-import Icon from '@shared/components/Icon';
-import IconButton from '@shared/components/IconButton';
-import PreventFocus from '@shared/components/PreventFocus';
+import GlobalComponents from '@shared/components';
 import Button, { ButtonGroup } from './Button';
 import Drawer from './Drawer';
 import Dropdown, {
@@ -34,9 +32,6 @@ import Switch from './Switch';
 import InputNumber from './InputNumber';
 
 export const components: Record<string, Plugin> = {
-  Icon,
-  IconButton,
-  PreventFocus,
   Button,
   Drawer,
   Dropdown,
@@ -64,7 +59,7 @@ export const components: Record<string, Plugin> = {
   InputNumber,
 };
 
-const YcUi = {
+export default {
   ...components,
   ButtonGroup,
   DropdownButton,
@@ -78,10 +73,9 @@ const YcUi = {
   CheckboxGroup,
   RadioGroup,
   install: (app: App) => {
+    app.use(GlobalComponents);
     for (const key of Object.keys(components)) {
       app.use(components[key]);
     }
   },
 };
-
-export default YcUi;

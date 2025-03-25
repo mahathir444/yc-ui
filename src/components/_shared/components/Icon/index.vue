@@ -9,23 +9,16 @@ import { toRefs, computed } from 'vue';
 import { IconProps } from './type';
 import is from '@shared/utils/is';
 defineOptions({
-  name: 'icon',
+  name: 'Icon',
 });
-const props = withDefaults(
-  defineProps<{
-    name: string;
-    prefix?: string;
-    size?: number | string | Array<number | string>;
-    color?: string;
-  }>(),
-  {
-    prefix: 'icon',
-    color: 'inherit',
-  }
-);
+const props = withDefaults(defineProps<IconProps>(), {
+  prefix: 'icon',
+  color: 'inherit',
+  size: undefined,
+});
 const { size, color, name, prefix } = toRefs(props);
 // 计算图标id
-const symbolId = computed(() => `#${prefix.value}-_icons/${name.value}`);
+const symbolId = computed(() => `#${prefix.value}-icons/${name.value}`);
 // 计算width
 const width = computed(() => {
   if (is.undefined(size.value)) {

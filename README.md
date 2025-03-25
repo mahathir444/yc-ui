@@ -43,5 +43,16 @@ export default defineConfig({
 ```
 3. main.ts配置vite-plugin-svg-icon
 ```ts
+import { createApp } from 'vue';
+import App from './App.vue';
 import 'virtual:svg-icons-register';
+// 注入全局组件
+import GlobalComponents from '@shared/components';
+// 注入样式
+import "@shared/style"
+
+const app = createApp(App);
+app.use(GlobalComponents)
+app.mount('#app');
+
 ```

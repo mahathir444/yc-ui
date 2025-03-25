@@ -86,10 +86,10 @@
           :allow-create="allowCreate"
           v-bind="$attrs"
           ref="inputRef"
-          @focus="handleEvent('focus')"
-          @input="(v) => handleEvent('search', v)"
+          @click="handleEvent('focus')"
           @blur="handleEvent('blur')"
-          @remove="() => $emit('remove')"
+          @input="(v) => handleEvent('search', v)"
+          @remove="$emit('remove')"
           @update:model-value="(v) => handleEvent('updateValue', v)"
         >
           <!-- prefix -->
@@ -306,7 +306,9 @@ provide<ProvideType>(SELECT_PROVIDE_KEY, {
   limit,
   multiple,
   strict,
-  blur,
+  blur: () => {
+    inputRef.value?.blur();
+  },
   filterOption,
   emits,
   getValue,
@@ -314,10 +316,6 @@ provide<ProvideType>(SELECT_PROVIDE_KEY, {
 // 获取value
 function getValue(value: string | ObjectData) {
   return (value as ObjectData)?.[valueKey.value] ?? value;
-}
-// 失焦
-function blur() {
-  inputRef.value?.blur();
 }
 // 处理事件
 const handleEvent = async (
@@ -337,9 +335,11 @@ const handleEvent = async (
   // 聚焦
   else if (type == 'focus') {
     if (computedVisible.value) {
-      return blur();
+      return inputRef.value?.blur();
     }
     computedVisible.value = true;
+    await sleep(0);
+    inputRef.value?.focus();
   }
   // 失焦
   else if (type == 'blur') {
