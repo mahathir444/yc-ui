@@ -29,11 +29,17 @@
         }"
       />
     </div>
+    <div style="width: 300px; height: 300px">
+      slider
+      <yc-slider />
+      <a-slider direction="vertical" show-ticks :step="5" />
+    </div>
   </div>
 </template>
 
 <script lang="ts" setup>
 import { ref, watch } from 'vue';
+import YcSlider from '@/components/Slider/index.vue';
 const value = ref('');
 const value1 = ref([]);
 const loading = ref(false);

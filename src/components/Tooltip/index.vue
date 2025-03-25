@@ -9,7 +9,7 @@
     :content-class="`yc-tooltip-popup-content ${contentClass} ${mini ? 'yc-tooltip-mini' : ''}`"
     :content-style="computedContentStyle"
     :popup-offset="10"
-    :class="`yc-popover ${$attrs.class}`"
+    :class="`yc-tooltip ${$attrs.class}`"
     animation-name="zoom-in-fade-out"
     show-arrow
     need-transform-origin
@@ -19,9 +19,9 @@
   >
     <slot />
     <template #content>
-      <div>
-        <slot name="content" />
-      </div>
+      <slot name="content">
+        {{ content }}
+      </slot>
     </template>
   </yc-trigger>
 </template>

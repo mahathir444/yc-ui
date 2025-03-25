@@ -8,6 +8,7 @@ export {}
 declare module 'vue' {
   export interface GlobalComponents {
     ARate: typeof import('@arco-design/web-vue')['Rate']
+    ASlider: typeof import('@arco-design/web-vue')['Slider']
     ASwitch: typeof import('@arco-design/web-vue')['Switch']
     AutoComplete: typeof import('./src/components/AutoComplete/index.vue')['default']
     Button: typeof import('./src/components/Button/Button.vue')['default']
