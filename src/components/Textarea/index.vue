@@ -48,7 +48,7 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, toRefs, computed, nextTick } from 'vue';
+import { ref, toRefs, computed } from 'vue';
 import {
   TextareaProps,
   ResizeRange,
@@ -56,7 +56,7 @@ import {
   TextareaEventType,
 } from './type';
 import { useElementSize } from '@vueuse/core';
-import useLimitedInput from '../_/hooks/useLimitedInput';
+import useLimitedInput from '@/components/_/hooks/useLimitedInput';
 defineOptions({
   name: 'Textarea',
 });

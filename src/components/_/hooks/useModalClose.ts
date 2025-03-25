@@ -1,10 +1,10 @@
 import { ref, Ref, computed, watch } from 'vue';
-import { OnBeforeCancel, OnBeforeOk } from '@/components/Modal/type';
 import { CloseType, Fn } from '../type';
+import { OnBeforeCancel, OnBeforeOk } from '@/components/Modal/type';
+import { PopupContainer } from '@/components/Trigger';
 import { useMagicKeys, whenever } from '@vueuse/core';
 import useControlValue from './useControlValue';
 import useOnBeforeClose from './useOnBeforeClose';
-import { PopupContainer } from '../../Trigger';
 
 export default (params: {
   maskClosable: Ref<boolean>;

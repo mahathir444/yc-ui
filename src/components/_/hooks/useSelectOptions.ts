@@ -7,6 +7,7 @@ import {
   useSlots,
   ComputedRef,
 } from 'vue';
+import { nanoid } from 'nanoid';
 import {
   OptionProps,
   SelectValue,
@@ -14,9 +15,8 @@ import {
   FallbackOption,
 } from '@/components/Select';
 import { Fn, ObjectData } from '../type';
-import { flattedChildren } from '@/components/_/utils/vue-vnode';
-import { isObject } from '../../_/utils/is';
-import { nanoid } from 'nanoid';
+import { flattedChildren } from '../utils/vue-vnode';
+import { isObject } from '../utils/is';
 export default (params: {
   fieldKey: ComputedRef<Record<string, string>>;
   selectValue: ComputedRef<ObjectData[]>;

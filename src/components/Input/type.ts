@@ -1,6 +1,5 @@
 import { ObjectData, Size } from '@/components/_/type';
-import { ButtonProps } from '../Button/type';
-//
+import { ButtonProps } from '@/components/Button/type';
 export interface InputProps {
   modelValue?: string;
   defaultValue?: string;

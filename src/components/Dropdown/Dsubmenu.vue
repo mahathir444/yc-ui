@@ -41,7 +41,7 @@
 import { ref, computed, toRefs, CSSProperties, nextTick } from 'vue';
 import { DsubmenuProps } from './type';
 import useTriggerNested from '@/components/_/hooks/useTriggerNested';
-import useControlValue from '../_/hooks/useControlValue';
+import useControlValue from '@/components/_/hooks/useControlValue';
 import YcDoption from './Doption.vue';
 import YcScrollbar from '@/components/Scrollbar';
 

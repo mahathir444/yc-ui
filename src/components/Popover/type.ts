@@ -1,5 +1,9 @@
 import { CSSProperties } from 'vue';
-import { TriggerPostion, TriggerType, PopupContainer } from '../Trigger/type';
+import {
+  TriggerPostion,
+  TriggerType,
+  PopupContainer,
+} from '@/components/Trigger/type';
 
 export interface PopoverProps {
   popupVisible?: boolean;

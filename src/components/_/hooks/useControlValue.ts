@@ -1,6 +1,6 @@
 import { computed, ref, Ref } from 'vue';
-import { isUndefined } from '../../_/utils/is';
 import { Fn } from '../type';
+import { isUndefined } from '../utils/is';
 
 export default <T>(
   modelValue: Ref<T | undefined>,

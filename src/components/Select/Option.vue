@@ -33,8 +33,8 @@
 
 <script lang="ts" setup>
 import { ref, toRefs, inject, computed } from 'vue';
-import { ObjectData } from '@/components/_/type';
 import { OptionProps, SelectValue, ProvideType } from './type';
+import { ObjectData } from '@/components/_/type';
 import { SELECT_PROVIDE_KEY } from '@/components/_/constants';
 import { isUndefined } from '@/components/_/utils/is';
 import YcCheckbox from '@/components/Checkbox';

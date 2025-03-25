@@ -161,11 +161,11 @@ import { ObjectData } from '@/components/_/type';
 import { SELECT_PROVIDE_KEY } from '@/components/_/constants';
 import { sleep } from '@/components/_/utils/fn';
 import useSeletValue from '@/components/_/hooks/useSeletValue';
-import YcInput, { InputInstance } from '@/components/Input';
 import SelectIcon from './component/SelectIcon.vue';
 import SelectDropdown from './component/SelectDropdown.vue';
-import YcTrigger from '@/components/Trigger';
+import YcInput, { InputInstance } from '@/components/Input';
 import YcInputTag, { TagData, InputTagValue } from '@/components/InputTag';
+import YcTrigger from '@/components/Trigger';
 defineOptions({
   name: 'Select',
 });

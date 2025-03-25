@@ -30,9 +30,9 @@ import AutoComplete from './AutoComplete';
 import Radio, { RadioGroup } from './Radio';
 import Switch from './Switch';
 import InputNumber from './InputNumber';
-import YcPreventFocus from '@/components/_components/PreventFocus/index.vue';
-import YcIcon from '@/components/_components/Icon/index.vue';
-import YcIconButton from '@/components/_components/IconButton/index.vue';
+import YcPreventFocus from '@/components/_/components/PreventFocus/index.vue';
+import YcIcon from '@/components/_/components/Icon/index.vue';
+import YcIconButton from '@/components/_/components/IconButton/index.vue';
 
 export const components: Record<string, Plugin> = {
   Button,

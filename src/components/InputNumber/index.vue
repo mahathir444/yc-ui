@@ -95,11 +95,11 @@
 <script lang="ts" setup>
 import { ref, toRefs, computed } from 'vue';
 import { InputNumberProps, InputNumberValue } from './type';
-import YcInput, { InputInstance } from '@/components/Input';
+import { isUndefined, isNumber, isString } from '@/components/_/utils/is';
 import YcMinus from './component/Minus.vue';
 import YcPlus from './component/Plus.vue';
-import { isUndefined, isNumber, isString } from '@/components/_/utils/is';
-import { sleep } from '@/components/_/utils/fn';
+import YcInput, { InputInstance } from '@/components/Input';
+
 defineOptions({
   name: 'InputNumber',
 });

@@ -98,7 +98,7 @@ import { ref, computed, toRefs } from 'vue';
 import { SIZE_CLASS } from './constants';
 import { InputProps, InputEvent, InputEventType } from './type';
 import { SIZE_MAP } from '@/components/_/constants';
-import useLimitedInput from '../_/hooks/useLimitedInput';
+import useLimitedInput from '@/components/_/hooks/useLimitedInput';
 defineOptions({
   name: 'Input',
 });

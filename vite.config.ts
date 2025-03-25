@@ -31,7 +31,7 @@ export default defineConfig({
       // 指定需要缓存的图标文件夹
       iconDirs: [
         path.resolve(process.cwd(), 'src/assets/icons'),
-        path.resolve(process.cwd(), 'src/components/_assets'),
+        path.resolve(process.cwd(), 'src/components/_'),
       ],
       // 指定symbolId格式
       symbolId: 'icon-[name]',

@@ -1,6 +1,6 @@
 import { computed, Ref, nextTick } from 'vue';
-import { InputEventType, WordLength, WordSlice } from '../../Input/type';
-import { isFunction, isNumber, isUndefined } from '../../_/utils/is';
+import { InputEventType, WordLength, WordSlice } from '@/components/Input';
+import { isFunction, isNumber, isUndefined } from '../utils/is';
 import useControlValue from './useControlValue';
 import { Fn } from '../type';
 export default (params: {

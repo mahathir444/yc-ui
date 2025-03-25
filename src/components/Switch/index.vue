@@ -55,7 +55,7 @@
 import { toRefs, computed, CSSProperties } from 'vue';
 import { SwitchProps, SwitchValue } from './type';
 import { SIZE_MAP } from '@/components/_/constants';
-import { isBoolean, isUndefined } from '@/components/_/utils/is';
+import { isBoolean } from '@/components/_/utils/is';
 import useControlValue from '@/components/_/hooks/useControlValue';
 import YcSpin from '@/components/Spin';
 defineOptions({

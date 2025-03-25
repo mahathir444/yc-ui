@@ -1,12 +1,12 @@
 import { computed, Ref } from 'vue';
+import { nanoid } from 'nanoid';
+import { Fn, ObjectData } from '../type';
 import {
   SelectValue,
   SelectOptions,
   FallbackOption,
   FormatLabel,
 } from '@/components/Select';
-import { Fn, ObjectData } from '../type';
-import { nanoid } from 'nanoid';
 import useControlValue from './useControlValue';
 import useSelectOptions from './useSelectOptions';
 
