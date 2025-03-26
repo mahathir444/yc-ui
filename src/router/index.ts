@@ -25,6 +25,11 @@ const router = createRouter({
           name: 'lsh',
           component: () => import('@/views/test-lsh.vue'),
         },
+        {
+          path: 'form',
+          name: 'form',
+          component: () => import('@/views/form.vue'),
+        },
       ],
     },
   ],

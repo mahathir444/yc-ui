@@ -82,7 +82,18 @@
     </div>
     <div>
       rate
-      <yc-rate :count="10" />
+      <yc-rate :count="5" allow-half allow-clear />
+    </div>
+    <div style="width: 300px; height: 300px">
+      slider
+      <yc-slider
+        :marks="{
+          10: '10km',
+          30: '30km',
+          60: '60km',
+          90: '90km',
+        }"
+      />
     </div>
   </div>
 </template>
