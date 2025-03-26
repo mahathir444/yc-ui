@@ -23,8 +23,10 @@
         'yc-slider-tick-active':
           type == 'ticks' && computedValue >= value * step,
       }"
-      >{{ type == 'marks' ? label : '' }}</span
+      @click="$emit('labelClick', value)"
     >
+      {{ type == 'marks' ? label : '' }}
+    </span>
   </div>
 </template>
 
@@ -37,6 +39,9 @@ const props = defineProps<{
   direction: Direction;
   computedValue: number;
   step: number;
+}>();
+defineEmits<{
+  (e: 'labelClick', value: number): void;
 }>();
 const { type, step } = toRefs(props);
 // 计算position

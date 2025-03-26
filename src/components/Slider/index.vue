@@ -4,9 +4,7 @@
       'yc-slider': true,
       'yc-slider-horizontal': direction == 'horizontal',
       'yc-slider-vertical': direction == 'vertical',
-    }"
-    :style="{
-      width: direction == 'vertical' && showInput ? '60px' : '',
+      'yc-slider-show-input': direction == 'vertical' && showInput,
     }"
   >
     <div class="yc-slider-track" ref="trackRef">
@@ -34,6 +32,7 @@
         :data="marks"
         :step="step"
         :direction="direction"
+        @label-click="(v) => (computedValue = v)"
       />
       <!-- bar -->
       <div
@@ -51,8 +50,8 @@
         :popup-visible="popupVisible || isDragging"
         :disabled="!showTooltip"
         :position="direction == 'vertical' ? 'right' : 'bottom'"
+        :content="computedValue + ''"
         @update:popup-visible="(v) => (popupVisible = v)"
-        :content="String(computedValue)"
       >
         <div
           class="yc-slider-btn"
@@ -77,7 +76,15 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, toRefs, computed, reactive, nextTick, watchEffect } from 'vue';
+import {
+  ref,
+  toRefs,
+  computed,
+  reactive,
+  nextTick,
+  watch,
+  watchEffect,
+} from 'vue';
 import { SliderProps, PositionData, RangeData } from './type';
 import { useDraggable, useEventListener } from '@vueuse/core';
 import useControlValue from '@shared/hooks/useControlValue';
@@ -249,13 +256,19 @@ watchEffect(async () => {
   setOriginPosition();
 });
 // 检测computedValue的改变重置位置
-watchEffect(async () => {
-  if (isDragging.value) {
-    return;
+watch(
+  computedValue,
+  async (v) => {
+    if (isDragging.value) {
+      return;
+    }
+    await nextTick();
+    setPositionFromValue(v);
+  },
+  {
+    immediate: true,
   }
-  await nextTick();
-  setPositionFromValue(computedValue.value);
-});
+);
 </script>
 
 <style lang="less" scoped>

@@ -114,7 +114,7 @@ const props = withDefaults(defineProps<InputNumberProps>(), {
   error: false,
   max: Infinity,
   min: -Infinity,
-  placeholder: '请输入',
+  placeholder: '',
   hideButton: false,
   size: 'medium',
   allowClear: false,

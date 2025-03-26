@@ -31,6 +31,7 @@ import Radio, { RadioGroup } from './Radio';
 import Switch from './Switch';
 import InputNumber from './InputNumber';
 import Rate from './Rate';
+import Slider from './Slider';
 
 export const components: Record<string, Plugin> = {
   Button,
@@ -59,6 +60,7 @@ export const components: Record<string, Plugin> = {
   Switch,
   InputNumber,
   Rate,
+  Slider,
 };
 
 export default {

@@ -193,3 +193,9 @@ export type {
   InputNumberInstance,
 } from './InputNumber';
 export { default as InputNumber } from './InputNumber';
+
+export type { RateProps, RateInstance } from './Rate';
+export { default as Rate } from './Rate';
+
+export type { SliderProps, SliderInstance } from './Slider';
+export { default as Slider } from './Rate';

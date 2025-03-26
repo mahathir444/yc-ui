@@ -18,6 +18,10 @@
       </yc-select>
     </div>
     <div style="width: 300px; height: 300px">
+      <div>
+        rate
+        <a-rate :count="5" allow-clear allow-half />
+      </div>
       slider
       <yc-slider
         v-model="value"
@@ -43,7 +47,6 @@
 
 <script lang="ts" setup>
 import { ref, watch } from 'vue';
-import YcSlider from '@/components/Slider/index.vue';
 const value = ref(0);
 //
 const options = ref<any[]>([]);

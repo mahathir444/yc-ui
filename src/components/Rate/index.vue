@@ -11,7 +11,6 @@
       :key="i"
       class="yc-rate-character"
       :ref="(el) => (chars[i] = el as HTMLDivElement)"
-      @click="handleClick(i)"
     >
       <div
         class="yc-rate-character-left"
@@ -21,6 +20,7 @@
               ? getColor(i)
               : '',
         }"
+        @click.stop="handleClick(i - 0.5)"
         @mouseenter="handleMouseenter(i - 0.5)"
         @mouseleave="handleMouseleave"
       >
@@ -32,10 +32,11 @@
         class="yc-rate-character-right"
         :style="{
           color:
-            (i - 0.5 <= computedValue && !curHover) || i - 0.5 <= curHover
+            (i <= computedValue && !curHover) || i <= curHover
               ? getColor(i)
               : '',
         }"
+        @click="handleClick(i)"
         @mouseenter="handleMouseenter(i)"
         @mouseleave="handleMouseleave"
       >
@@ -79,6 +80,7 @@ const {
   disabled,
   color,
   count,
+  allowClear,
 } = toRefs(props);
 // char对应的el
 const chars = ref<HTMLDivElement[]>([]);
@@ -105,14 +107,10 @@ const handleClick = async (index: number) => {
   if (readonly.value || disabled.value || loading) {
     return;
   }
-  loading = true;
-  if (allowHalf.value) {
-    computedValue.value =
-      computedValue.value == index - 0.5 ? index : index - 0.5;
-  } else {
-    computedValue.value = index;
-  }
+  computedValue.value =
+    allowClear.value && computedValue.value == index ? 0 : index;
   emits('change', computedValue.value);
+  loading = true;
   // 处理动画
   for (let i = 1; i <= count.value; i++) {
     if (i > computedValue.value) {
