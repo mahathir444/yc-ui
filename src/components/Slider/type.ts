@@ -1,7 +1,7 @@
 import { Direction } from '@shared/type';
 export interface SliderProps {
-  modelValue?: number;
-  defaultValue?: number;
+  modelValue?: SliderValue;
+  defaultValue?: SliderValue;
   step?: number;
   min?: number;
   marks?: Record<number, string>;
@@ -13,6 +13,8 @@ export interface SliderProps {
   range?: boolean;
   showTooltip?: boolean;
 }
+
+export type SliderValue = number;
 
 export interface PositionData {
   left: string;

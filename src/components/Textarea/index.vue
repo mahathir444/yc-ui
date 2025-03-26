@@ -22,6 +22,10 @@
       :placeholder="placeholder"
       :style="heightRange"
       class="yc-textarea"
+      ref="inputRef"
+      @compositionstart="handleComposition"
+      @compositionupdate="handleComposition"
+      @compositionend="handleComposition"
       @input="handleEvent('input', $event)"
       @change="handleEvent('change', $event)"
       @focus="handleEvent('focus', $event)"
@@ -71,7 +75,9 @@ const props = withDefaults(defineProps<TextareaProps>(), {
   showWordLimit: false,
   allowClear: false,
   autoSize: false,
-  wordLength: undefined,
+  wordLength: (value: string) => {
+    return value.length;
+  },
   wordSlice: (value: string, maxLength: number) => {
     return value.slice(0, maxLength + 1);
   },
@@ -95,6 +101,7 @@ const {
   autoSize,
 } = toRefs(props);
 const { wordLength, wordSlice } = props;
+const inputRef = ref<HTMLTextAreaElement>();
 // 限制输入hooks
 const {
   showLimited,
@@ -102,11 +109,13 @@ const {
   _maxLength,
   curLength,
   handleLimitedInput,
+  handleComposition,
 } = useLimitedInput({
   modelValue,
   defaultValue,
   maxLength,
   showWordLimit,
+  inputRef,
   wordLength,
   wordSlice,
   emits,
@@ -158,19 +167,17 @@ const heightRange = computed(() => {
 });
 // 处理输入，改变和清除
 const handleEvent = async (type: TextareaEventType, e: TextareaEvent) => {
-  // 输入
-  if (['input', 'change'].includes(type)) {
-    handleLimitedInput(e, type);
-  }
   // 聚焦
-  else if (['focus', 'blur'].includes(type)) {
+  if (['focus', 'blur', 'change'].includes(type)) {
     isFocus.value = type == 'focus';
     emits(type as any, e as FocusEvent);
   }
+  // 输入
+  else if (['input', 'change'].includes(type)) {
+    handleLimitedInput(e);
+  }
   // 清除
   else if (type == 'clear') {
-    console.log('11');
-
     computedValue.value = '';
     emits('clear', e as MouseEvent);
   }

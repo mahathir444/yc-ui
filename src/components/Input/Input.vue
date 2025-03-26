@@ -44,6 +44,9 @@
         @change="handleEvent('change', $event)"
         @focus="handleEvent('focus', $event)"
         @blur="handleEvent('blur', $event)"
+        @compositionstart="handleComposition"
+        @compositionupdate="handleComposition"
+        @compositionend="handleComposition"
         @keydown.enter="handleEvent('keydown', $event)"
       />
       <!-- select模式下的label -->
@@ -119,7 +122,9 @@ const props = withDefaults(defineProps<InputProps>(), {
   },
   prepend: '',
   append: '',
-  wordLength: undefined,
+  wordLength: (value: string) => {
+    return value.length;
+  },
   wordSlice: (value: string, maxLength: number) => {
     return value.slice(0, maxLength);
   },
@@ -148,6 +153,8 @@ const {
   maxLength,
 } = toRefs(props);
 const { wordLength, wordSlice } = props;
+// 输入实例
+const inputRef = ref<HTMLInputElement>();
 // 限制输入hooks
 const {
   showLimited,
@@ -155,17 +162,17 @@ const {
   curLength,
   _maxLength,
   handleLimitedInput,
+  handleComposition,
 } = useLimitedInput({
   modelValue,
   defaultValue,
   maxLength,
   showWordLimit,
+  inputRef,
   wordLength,
   wordSlice,
   emits,
 });
-// 输入实例
-const inputRef = ref<HTMLInputElement>();
 // 是否聚焦
 const isFocus = ref<boolean>(false);
 // 是否展示清除按钮
@@ -179,14 +186,14 @@ const showClearBtn = computed(() => {
 });
 // 处理输入，改变和清除
 const handleEvent = async (type: InputEventType, e: InputEvent) => {
-  // input
-  if (['input', 'change'].includes(type)) {
-    handleLimitedInput(e, type);
-  }
-  // focus
-  else if (['focus', 'blur'].includes(type)) {
+  // focus,blur,change
+  if (['focus', 'blur', 'change'].includes(type)) {
     isFocus.value = type == 'focus';
     emits(type as any, e as FocusEvent);
+  }
+  // input
+  else if (type == 'input') {
+    handleLimitedInput(e);
   }
   // clear
   else if (type == 'clear') {

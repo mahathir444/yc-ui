@@ -33,11 +33,12 @@
 <script lang="ts" setup>
 import { toRefs } from 'vue';
 import { Direction } from '@shared/type';
+import { SliderValue } from '../type';
 const props = defineProps<{
   type: 'dots' | 'marks' | 'ticks';
   data: Record<string, any>[];
   direction: Direction;
-  computedValue: number;
+  computedValue: SliderValue;
   step: number;
 }>();
 defineEmits<{

@@ -7,6 +7,7 @@
         allow-search
         multiple
         placeholder="请选择"
+        :max-tag-count="3"
         :options="[
           {
             label: '分组1',
@@ -34,11 +35,17 @@
     </div>
     <div style="width: 300px">
       input
-      <yc-input allow-clear :max-length="100" show-word-limit />
+      <yc-input
+        allow-clear
+        :max-length="15"
+        :word-length="(value) => value.length - 2"
+        :word-slice="(value, maxLength) => value.slice(1, maxLength + 1)"
+        show-word-limit
+      />
     </div>
     <div style="width: 300px">
       text-area
-      <yc-textarea allow-clear :max-length="100" show-word-limit />
+      <yc-textarea allow-clear :max-length="20" show-word-limit />
     </div>
     <div style="width: 500px">
       checkbox
@@ -66,12 +73,7 @@
     </div>
     <div style="width: 300px">
       switch
-      <yc-switch
-        :model-value="true"
-        checked-text="启动"
-        unchecked-text="关闭"
-        disabled
-      >
+      <yc-switch checked-text="启动" unchecked-text="关闭">
         <template #checked-icon>
           <icon-check />
         </template>

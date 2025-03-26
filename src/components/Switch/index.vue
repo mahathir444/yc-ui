@@ -133,7 +133,7 @@ const switchCss = computed(() => {
   }
   return {
     backgroundColor,
-    cursor: disabled ? 'not-allowed' : 'pointer',
+    cursor: disabled.value ? 'not-allowed' : 'pointer',
     borderRadius: type.value == 'round' ? '2px' : `${SIZE_MAP[size.value]}px`,
   } as CSSProperties;
 });

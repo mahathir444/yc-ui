@@ -15,7 +15,7 @@
     @keydown="(ev) => $emit('keydown', ev)"
     @change="(v, ev) => $emit('change', +v, ev)"
     @blur="(ev) => handleUpdateValue('blur', ev)"
-    @press-enter="(ev) => handleUpdateValue('keydown', ev)"
+    @press-enter="(ev) => handleUpdateValue('pressEnter', ev)"
     @input="handleInput"
   >
     <!-- prefix -->
@@ -132,6 +132,7 @@ const emits = defineEmits<{
   (e: 'blur', ev: FocusEvent): void;
   (e: 'clear', ev: MouseEvent): void;
   (e: 'keydown', ev: KeyboardEvent): void;
+  (e: 'pressEnter', ev: KeyboardEvent): void;
 }>();
 const {
   modelValue,
@@ -179,21 +180,24 @@ function handlePrecision(value: InputNumberValue, type: 'number' | 'string') {
   // 处理的值
   const numberValue = precision.value
     ? handleValue.toFixed(precision.value)
-    : Number.parseInt(handleValue.toFixed(0));
+    : handleValue.toFixed(0);
   return type == 'number' ? +numberValue : numberValue;
 }
 // 处理点击
 const handleStep = (type: 'minus' | 'plus') => {
-  const value =
+  let value =
     type == 'minus'
       ? +computedValue.value - step.value
       : +computedValue.value + step.value;
-  computedValue.value = handlePrecision(value, 'string');
+  value = value < min.value ? min.value : value;
+  value = value > max.value ? max.value : value;
+  // 处理精度
+  computedValue.value = handlePrecision(value, 'number');
   inputRef.value?.focus();
 };
 // 处理失焦越界
 const handleUpdateValue = (
-  type: 'blur' | 'keydown',
+  type: 'blur' | 'pressEnter',
   e: FocusEvent | KeyboardEvent
 ) => {
   if (!computedValue.value) return;
@@ -201,11 +205,11 @@ const handleUpdateValue = (
   value = value < min.value ? min.value : value;
   value = value > max.value ? max.value : value;
   // 处理精度
-  emits('update:modelValue', handlePrecision(value, 'number'));
+  computedValue.value = handlePrecision(value, 'number');
   if (type == 'blur') {
     emits('blur', e as FocusEvent);
   } else {
-    emits('keydown', e as KeyboardEvent);
+    emits('pressEnter', e as KeyboardEvent);
   }
 };
 // 处理输入

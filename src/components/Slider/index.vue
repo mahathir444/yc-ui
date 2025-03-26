@@ -66,10 +66,13 @@
     <!-- input -->
     <yc-input-number
       v-if="showInput"
+      v-model="tempValue"
       :min="min"
       :max="max"
       hide-button
       text-center
+      @blur="computedValue = tempValue"
+      @press-enter="computedValue = tempValue"
       style="width: 60px"
     />
   </div>
@@ -85,9 +88,10 @@ import {
   watch,
   watchEffect,
 } from 'vue';
-import { SliderProps, PositionData, RangeData } from './type';
+import { SliderProps, PositionData, RangeData, SliderValue } from './type';
 import { useDraggable, useEventListener } from '@vueuse/core';
 import useControlValue from '@shared/hooks/useControlValue';
+import useSliderDraggable from '@shared/hooks/useSliderDraggable';
 import YcTicks from './component/Ticks.vue';
 import YcTooltip from '@/components/Tooltip';
 import YcInputNumber from '@/components/InputNumber';
@@ -124,11 +128,14 @@ const {
   marks: _marks,
   disabled,
 } = toRefs(props);
+// 中间值
+const tempValue = ref<SliderValue>(0);
 // 控制值
-const computedValue = useControlValue<number>(
+const computedValue = useControlValue<SliderValue>(
   modelValue,
   defaultValue.value,
   (val) => {
+    tempValue.value = val;
     emits('update:modelValue', val);
   }
 );
@@ -156,119 +163,18 @@ const marks = computed(() => {
 const trackRef = ref<HTMLDivElement>();
 // buttonRef
 const triggerRef = ref<HTMLDivElement>();
-// 处理Button拖动
-const { x, y, isDragging } = useDraggable(triggerRef);
 // 可见性
 const popupVisible = ref<boolean>(false);
-// 水平情况下的距离
-const position = reactive<PositionData>({
-  top: '',
-  bottom: '',
-  left: '',
-  right: '',
-});
-// 范围
-const range = reactive<RangeData>({
-  minLeft: 0,
-  maxLeft: 0,
-  minTop: 0,
-  maxTop: 0,
-});
-// 计算value
-const calcValueFromPosition = (distance: number) => {
-  const {
-    left: sliderLeft,
-    bottom: sliderBottom,
-    width: sliderWidth,
-    height: sliderHeight,
-  } = trackRef.value!.getBoundingClientRect();
-  // 计算比例
-  const rate =
-    direction.value == 'vertical'
-      ? ((sliderBottom - distance) / sliderHeight) * 100
-      : ((distance - sliderLeft) / sliderWidth) * 100;
-  // 处理步长
-  return +(rate / step.value).toFixed(0) * step.value;
-};
-// 计算position
-const calcPositionFromValue = (distance: number) => {
-  const {
-    left: sliderLeft,
-    bottom: sliderBottom,
-    width: sliderWidth,
-    height: sliderHeight,
-  } = trackRef.value!.getBoundingClientRect();
-  return direction.value == 'vertical'
-    ? sliderBottom - (distance / 100) * sliderHeight
-    : (distance / 100) * sliderWidth + sliderLeft;
-};
-// 设置 位置
-const setPositionFromValue = (distance: number) => {
-  // button的宽度
-  const { offsetHeight: btnHeight, offsetWidth: btnWidth } = triggerRef.value!;
-  if (direction.value == 'vertical') {
-    position.top = 100 - distance + '%';
-    position.bottom = `calc(${distance}% - ${btnHeight / 2}px)`;
-  } else {
-    position.left = `calc(${distance}% -  ${btnWidth / 2}px)`;
-    position.right = 100 - distance + '%';
-  }
-};
-// 设置最初的位置
-const setOriginPosition = () => {
-  if (computedValue.value > max.value) {
-    computedValue.value = max.value;
-  } else if (computedValue.value < min.value) {
-    computedValue.value = min.value;
-  }
-  position.top = max.value + '%';
-  position.bottom = computedValue.value + '%';
-  position.left = computedValue.value + '%';
-  position.right = max.value + '%';
-};
-// 处理越界情况
-useEventListener('mousemove', () => {
-  if (!isDragging.value) return;
-  // 给出范围
-  const { minTop, maxTop, minLeft, maxLeft } = range;
-  // 处理不同情况的拖动
-  if (direction.value == 'vertical') {
-    y.value = y.value > minTop ? minTop : y.value;
-    y.value = y.value < maxTop ? maxTop : y.value;
-    const value = calcValueFromPosition(y.value);
-    setPositionFromValue(value);
-    computedValue.value = value;
-  } else {
-    x.value = x.value < minLeft ? minLeft : x.value;
-    x.value = x.value > maxLeft ? maxLeft : x.value;
-    const value = calcValueFromPosition(x.value);
-    setPositionFromValue(value);
-    computedValue.value = value;
-  }
-});
-// 检测min,max计算范围
-watchEffect(async () => {
-  await nextTick();
-  range.minTop = calcPositionFromValue(min.value);
-  range.maxTop = calcPositionFromValue(max.value);
-  range.minLeft = calcPositionFromValue(min.value);
-  range.maxLeft = calcPositionFromValue(max.value);
-  setOriginPosition();
-});
-// 检测computedValue的改变重置位置
-watch(
+// 拖动hook
+const { position, isDragging } = useSliderDraggable({
+  trackRef,
+  triggerRef,
   computedValue,
-  async (v) => {
-    if (isDragging.value) {
-      return;
-    }
-    await nextTick();
-    setPositionFromValue(v);
-  },
-  {
-    immediate: true,
-  }
-);
+  direction,
+  step,
+  min,
+  max,
+});
 </script>
 
 <style lang="less" scoped>

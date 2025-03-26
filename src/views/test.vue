@@ -1,30 +1,9 @@
 <template>
   <div class="test">
-    <div style="width: 300px">
-      select
-      <yc-select
-        allow-clear
-        allow-search
-        multiple
-        placeholder="请选择"
-        :options="[
-          {
-            label: '分组1',
-            isGroup: true,
-            options,
-          },
-        ]"
-      >
-      </yc-select>
-    </div>
     <div style="width: 300px; height: 300px">
-      <div>
-        rate
-        <a-rate :count="5" allow-clear allow-half />
-      </div>
-      slider
       <yc-slider
         v-model="value"
+        show-input
         :marks="{
           10: '10km',
           30: '30km',
@@ -32,15 +11,14 @@
           90: '90km',
         }"
       />
-      <a-slider
-        show-ticks
-        :step="5"
-        :marks="{
-          10: '10km',
-          20: '20km',
-          30: '30km',
-        }"
-      />
+      <!-- <yc-input-number
+        v-model="value"
+        :step="1.2"
+        :precision="1"
+        :min="2"
+        :max="13"
+        placeholder="请输入"
+      ></yc-input-number> -->
     </div>
   </div>
 </template>

@@ -1,15 +1,18 @@
-import { computed, Ref, nextTick } from 'vue';
+import { computed, Ref, nextTick, ref } from 'vue';
 import { InputEventType, WordLength, WordSlice } from '@/components/Input';
 import { isFunction, isNumber, isUndefined } from '../utils/is';
 import useControlValue from './useControlValue';
+import { useCursor } from './useCursor';
 import { Fn } from '../type';
+import InputTag from '@/components/InputTag';
 export default (params: {
   modelValue: Ref<string | undefined>;
   defaultValue: Ref<string>;
   maxLength: Ref<number | undefined>;
   showWordLimit: Ref<boolean>;
+  inputRef: Ref<HTMLInputElement | HTMLTextAreaElement | undefined>;
   wordSlice: WordSlice;
-  wordLength?: WordLength;
+  wordLength: WordLength;
   emits: Fn;
 }) => {
   const {
@@ -17,10 +20,12 @@ export default (params: {
     defaultValue,
     showWordLimit,
     maxLength,
+    inputRef,
     wordLength,
     wordSlice,
     emits,
   } = params;
+  const [recordCursor, setCursor] = useCursor(inputRef);
   // 受控值
   const computedValue = useControlValue<string>(
     modelValue,
@@ -41,40 +46,78 @@ export default (params: {
   let wordLengthMax = 0;
   //   当前显示的长度
   const curLength = computed(() => {
-    return isFunction(wordLength)
-      ? wordLength?.(computedValue.value)
-      : computedValue.value.length;
+    return getValueLength(computedValue.value);
   });
-  // 重置光标
-  const setCursor = async (index: number, target: HTMLInputElement) => {
-    const cursor = index - 1 < 0 ? 0 : index - 1;
-    target.setSelectionRange(cursor, cursor);
-  };
-  // 处理限制输入
-  const handleLimitedInput = async (e: Event, type: InputEventType) => {
-    const target = e.target as HTMLInputElement;
-    const start = target.selectionStart;
-    // 计算wordLength下面的最大值
+  // 是否中文合成
+  const isComposition = ref<boolean>(false);
+  // 记录最大长度
+  const recordWordMaxLength = () => {
     if (curLength.value == maxLength.value) {
       wordLengthMax = computedValue.value.length;
+      console.log(wordLengthMax);
     }
-    // 处理字符串截取，重置光标位置
-    if (
-      isUndefined(_maxLength.value) &&
-      curLength.value > (maxLength.value as number)
-    ) {
+  };
+  // 计算wordMaxLength
+  const calcWordMaxLength = (value: string) => {
+    let str = '';
+    for (let ch of value) {
+      str = str + ch;
+      if (getValueLength(str) == maxLength.value) {
+        break;
+      }
+    }
+    return str.length;
+  };
+  // 获取value的长度
+  function getValueLength(value: string) {
+    if (isFunction(wordLength)) {
+      wordLength(value);
+    }
+    return value?.length || 0;
+  }
+  // 处理中文合成
+  const handleComposition = (e: CompositionEvent) => {
+    if (e.type === 'compositionend') {
+      isComposition.value = false;
+    } else {
+      isComposition.value = true;
+    }
+  };
+  // 保持受控
+  const keepControl = () => {
+    recordCursor();
+    if (inputRef.value && computedValue.value !== inputRef.value.value) {
+      inputRef.value.value = computedValue.value;
+      setCursor();
+    }
+  };
+  // 更新值
+  const updateValue = () => {
+    if (!isUndefined(maxLength.value) && curLength.value > maxLength.value) {
       computedValue.value = wordSlice(computedValue.value, wordLengthMax);
-      nextTick(() => {
-        setCursor((start as number) + 1, target);
-      });
     }
-    emits(type as any, target.value, e as Event);
-    await nextTick();
-    // 如果值不相等重置光标
-    if (computedValue.value !== target.value) {
-      target.value = computedValue.value;
-      setCursor(start as number, target);
+  };
+  // 处理限制输入
+  const handleLimitedInput = async (e: Event) => {
+    const { value } = e.target as HTMLInputElement;
+    const { inputType } = e as InputEvent;
+    // 中文合成退出
+    if (isComposition.value) {
+      return;
     }
+    if (
+      inputType == 'insertFromPaste' &&
+      !isUndefined(maxLength.value) &&
+      getValueLength(value) > maxLength.value
+    ) {
+      computedValue.value = wordSlice(value, calcWordMaxLength(value));
+      keepControl();
+      return;
+    }
+    recordWordMaxLength();
+    updateValue();
+    emits('input', value, e);
+    keepControl();
   };
 
   return {
@@ -82,6 +125,8 @@ export default (params: {
     curLength,
     _maxLength,
     showLimited,
+    isComposition,
     handleLimitedInput,
+    handleComposition,
   };
 };
