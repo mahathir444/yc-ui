@@ -18,6 +18,7 @@ export interface InputNumberProps {
   modelEvent?: ModelEvent;
   readonly?: boolean;
   inputAttrs?: ObjectData;
+  textCenter?: boolean;
 }
 
 export type InputNumberValue = number | string;

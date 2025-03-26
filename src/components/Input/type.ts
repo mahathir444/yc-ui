@@ -20,6 +20,7 @@ export interface InputProps {
   type?: 'password' | 'text' | 'number' | 'digit';
   //select使用
   showInput?: boolean;
+  textCenter?: boolean;
 }
 
 export interface InputPasswordProps {

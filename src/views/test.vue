@@ -17,21 +17,9 @@
       >
       </yc-select>
     </div>
-    <div style="width: 300px">
-      rate
-      <yc-rate :count="10" />
-      <a-rate
-        allow-clea
-        :count="5"
-        :color="{
-          1: 'blue',
-          2: 'black',
-        }"
-      />
-    </div>
     <div style="width: 300px; height: 300px">
       slider
-      <yc-slider />
+      <yc-slider v-model="value" />
       <a-slider direction="vertical" show-ticks :step="5" />
     </div>
   </div>
@@ -40,9 +28,8 @@
 <script lang="ts" setup>
 import { ref, watch } from 'vue';
 import YcSlider from '@/components/Slider/index.vue';
-const value = ref('');
-const value1 = ref([]);
-const loading = ref(false);
+const value = ref(60);
+//
 const options = ref<any[]>([]);
 for (let i = 0; i < 20; i++) {
   options.value.push({
@@ -50,13 +37,6 @@ for (let i = 0; i < 20; i++) {
     value: i,
   });
 }
-
-console.log(window.ls.get('install'));
-
-watch(value, () => {
-  console.log(value.value);
-  console.log(typeof value.value);
-});
 </script>
 
 <style lang="less" scoped>

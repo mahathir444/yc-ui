@@ -33,6 +33,7 @@
   }
   .yc-input-wrapper {
     flex: 1;
+    max-width: 100%;
     overflow: hidden;
     cursor: text;
     padding: 0 12px;
@@ -74,6 +75,7 @@
     }
     .yc-input {
       flex: 1;
+      max-width: 100%;
       cursor: inherit;
       outline: none;
       border: none;
@@ -157,6 +159,15 @@
     }
   }
 }
+// text-center
+.yc-input-text-center {
+  .yc-input-wrapper {
+    .yc-input {
+      text-align: center;
+    }
+  }
+}
+
 //size
 .yc-input-size-mini {
   font-size: 12px;

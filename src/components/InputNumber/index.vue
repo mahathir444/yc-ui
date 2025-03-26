@@ -8,6 +8,7 @@
     :size="size"
     :placeholder="placeholder"
     :input-attrs="inputAttrs"
+    :text-center="textCenter"
     class="yc-input-number"
     ref="inputRef"
     @clear="(ev) => $emit('clear', ev)"
@@ -119,6 +120,7 @@ const props = withDefaults(defineProps<InputNumberProps>(), {
   allowClear: false,
   modelEvent: 'change',
   readonly: false,
+  textCenter: false,
   inputAttrs: () => {
     return {};
   },
@@ -148,7 +150,7 @@ const inputRef = ref<InputInstance>();
 // 控制的值
 const controlValue = ref<InputNumberValue>(defaultValue.value);
 // 值
-const computedValue = computed({
+const computedValue = computed<InputNumberValue>({
   get() {
     const numberValue = isUndefined(modelValue.value)
       ? controlValue.value
