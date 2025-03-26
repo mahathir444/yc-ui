@@ -160,6 +160,7 @@ const computedValue = computed<InputNumberValue>({
       : handlePrecision(numberValue, 'string');
   },
   set(val) {
+    controlValue.value = val;
     emits(
       'update:modelValue',
       modelEvent.value == 'change' ? val : handlePrecision(val, 'number')

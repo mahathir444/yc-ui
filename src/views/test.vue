@@ -19,8 +19,24 @@
     </div>
     <div style="width: 300px; height: 300px">
       slider
-      <yc-slider v-model="value" />
-      <a-slider direction="vertical" show-ticks :step="5" />
+      <yc-slider
+        v-model="value"
+        :marks="{
+          10: '10km',
+          30: '30km',
+          60: '60km',
+          90: '90km',
+        }"
+      />
+      <a-slider
+        show-ticks
+        :step="5"
+        :marks="{
+          10: '10km',
+          20: '20km',
+          30: '30km',
+        }"
+      />
     </div>
   </div>
 </template>
@@ -28,7 +44,7 @@
 <script lang="ts" setup>
 import { ref, watch } from 'vue';
 import YcSlider from '@/components/Slider/index.vue';
-const value = ref(60);
+const value = ref(0);
 //
 const options = ref<any[]>([]);
 for (let i = 0; i < 20; i++) {

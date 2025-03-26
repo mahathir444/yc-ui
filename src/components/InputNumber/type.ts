@@ -2,7 +2,7 @@ import { Fn, Size, ObjectData } from '@shared/type';
 // formatter?: Fn;
 // parser?: Fn;
 export interface InputNumberProps {
-  modelValue?: InputNumberValue;
+  modelValue?: any;
   defaultValue?: InputNumberValue;
   mode?: InputNumberMode;
   precision?: number;

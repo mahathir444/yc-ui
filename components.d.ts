@@ -59,6 +59,8 @@ declare module 'vue' {
     Switch: typeof import('./src/components/Switch/index.vue')['default']
     Tag: typeof import('./src/components/Tag/index.vue')['default']
     Textarea: typeof import('./src/components/Textarea/index.vue')['default']
+    Tick: typeof import('./src/components/Slider/component/Tick.vue')['default']
+    Ticks: typeof import('./src/components/Slider/component/Ticks.vue')['default']
     Tooltip: typeof import('./src/components/Tooltip/index.vue')['default']
     Track: typeof import('./src/components/Scrollbar/Track.vue')['default']
     Trigger: typeof import('./src/components/Trigger/index.vue')['default']
