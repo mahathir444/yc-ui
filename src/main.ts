@@ -4,6 +4,7 @@ import router from './router';
 import YcUi from './components';
 import '@/components/index.less';
 import ArcoIcon from '@arco-design/web-vue/es/icon';
+import '../_storage';
 
 const app = createApp(App);
 app.use(router);

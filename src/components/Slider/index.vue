@@ -13,7 +13,8 @@
           v-for="i in ticks"
           :key="i"
           :style="{
-            left: i * step + '%',
+            left: direction == 'horizontal' ? i * step + '%' : '',
+            bottom: direction == 'vertical' ? i * step + '%' : '',
           }"
           :class="{
             'yc-silder-tick': true,
@@ -74,7 +75,7 @@ const props = withDefaults(
   {
     modelValue: undefined,
     defaultValue: 0,
-    step: 1,
+    step: 5,
     min: 0,
     max: 100,
     direction: 'vertical',
@@ -267,7 +268,7 @@ useEventListener('mousemove', () => {
       bottom: 0;
 
       .yc-silder-tick {
-        left: -4px;
+        left: 0px;
         width: 3px;
         height: 1px;
         border-top-left-radius: 1px;

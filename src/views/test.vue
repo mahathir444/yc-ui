@@ -51,6 +51,8 @@ for (let i = 0; i < 20; i++) {
   });
 }
 
+console.log(window.ls.get('install'));
+
 watch(value, () => {
   console.log(value.value);
   console.log(typeof value.value);
