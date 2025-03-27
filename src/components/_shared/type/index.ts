@@ -31,3 +31,7 @@ export type IconProps = {
   spin?: boolean;
   size?: number | number[];
 };
+
+export type RequiredDeep<T> = {
+  [P in keyof T]-?: T[P] extends object ? RequiredDeep<T[P]> : T[P];
+};

@@ -6,15 +6,14 @@ export default <T>(
   modelValue: Ref<T | undefined>,
   defaultValue: T,
   onSet: Fn = (data: T) => data,
-  onGet: Fn = (data: T) => data,
-  onTrasnform: Fn = (data: T) => data
+  onGet: Fn = (data: T) => data
 ) => {
-  const controlValue = ref<T>(onTrasnform(defaultValue));
+  const controlValue = ref<T>(defaultValue);
   return computed({
     get() {
       const value = isUndefined(modelValue.value)
         ? controlValue.value
-        : onTrasnform(modelValue.value);
+        : modelValue.value;
       return onGet(value);
     },
     set(value: T) {

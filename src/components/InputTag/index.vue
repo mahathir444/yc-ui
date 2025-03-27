@@ -190,7 +190,6 @@ const computedValue = useControlValue<InputTagValue>(
   modelValue,
   defaultValue.value,
   (val) => emits('update:modelValue', val),
-  (val) => val,
   handleData
 );
 // 输入值

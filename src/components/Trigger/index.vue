@@ -23,21 +23,24 @@
         :prevent-focus="preventFocus"
         :data-group-id="groupId"
         :data-group-level="level"
-        :style="contentPosition"
         :class="['yc-trigger', $attrs.class]"
-        ref="contentRef"
+        :style="popupPosition"
+        ref="popupRef"
         @mouseenter="handleMouseenter(false)"
         @mouseleave="handleMouseleave"
       >
         <!-- content -->
-        <div :class="['yc-trigger-content', contentClass]" :style="contentCss">
+        <div
+          :class="['yc-trigger-content', contentClass]"
+          :style="contentStyle"
+        >
           <slot name="content" />
         </div>
         <!-- arrow -->
         <div
           v-if="showArrow"
           :class="['yc-trigger-arrow', arrowClass]"
-          :style="arrowCss"
+          :style="arrowStyle"
         ></div>
       </yc-prevent-focus>
     </transition>
@@ -47,8 +50,7 @@
 <script lang="ts" setup>
 import { ref, computed, useSlots, CSSProperties, toRefs } from 'vue';
 import { TriggerProps } from './type';
-import { TRANSFORM_ORIGIN_MAP } from './constants';
-import { useElementBounding, useElementSize } from '@vueuse/core';
+import { RequiredDeep, Fn, ObjectData } from '@shared/type';
 import { findFirstLegitChild } from '@shared/utils/vue-vnode';
 import useTriggerVisible from '@shared/hooks/useTriggerVisible';
 import useTriggerPosition from '@shared/hooks/useTriggerPosition';
@@ -101,35 +103,8 @@ const emits = defineEmits<{
   (e: 'show'): void;
   (e: 'hide'): void;
 }>();
-const {
-  popupVisible,
-  defaultPopupVisible,
-  trigger,
-  position,
-  popupTranslate,
-  popupOffset,
-  contentStyle,
-  arrowStyle,
-  clickToClose,
-  blurToClose,
-  clickOutsideToClose,
-  mouseEnterDelay,
-  mouseLeaveDelay,
-  preventFocus,
-  focusDelay,
-  duration,
-  autoFitPopupWidth,
-  autoFitPopupMinWidth,
-  updateAtScroll,
-  scrollToClose,
-  scrollToCloseDistance,
-  autoFitPosition,
-  alignPoint,
-  needTransformOrigin,
-  isDropdown,
-} = toRefs(props);
-// content的ref
-const contentRef = ref<HTMLDivElement>();
+// 弹出层的ref
+const popupRef = ref<HTMLDivElement>();
 // trigger的ref
 const triggerRef = ref<HTMLElement>();
 // 获取插槽
@@ -137,9 +112,9 @@ const slots = useSlots();
 const vNode = computed(() => findFirstLegitChild(slots.default?.() || []));
 // 处理trigger关闭与开启
 const {
-  computedVisible,
   level,
   groupId,
+  computedVisible,
   mouseX,
   mouseY,
   handleClickEvent,
@@ -150,99 +125,39 @@ const {
   handleClickOutsideClose,
   handleScrollToClose,
 } = useTriggerVisible({
-  triggerRef,
-  isDropdown,
-  contentRef,
-  trigger,
-  popupVisible,
-  defaultPopupVisible,
-  clickToClose,
-  blurToClose,
-  clickOutsideToClose,
-  mouseEnterDelay,
-  mouseLeaveDelay,
-  focusDelay,
-  scrollToClose,
-  scrollToCloseDistance,
+  props: props as ObjectData as RequiredDeep<TriggerProps>,
   emits,
+  popupRef,
+  triggerRef,
 });
 // 初始化trigger地计算参数
-const { contentPosition, contentCss, arrowCss } = initTrigger();
+const { popupPosition, contentStyle, arrowStyle } = initTrigger();
 // 初始化trigger
 function initTrigger() {
   if (!vNode.value) {
     return {
-      contentPosition: {},
-      contentCss: {},
-      arrowCss: {},
+      popupPosition: {},
+      contentStyle: {},
+      arrowStyle: {},
     };
   }
-  // 获取trigger元素bounding
-  const {
-    left,
-    top,
-    bottom,
-    right,
-    width: triggerWidth,
-    height: triggerHeight,
-  } = useElementBounding(triggerRef, {
-    windowScroll: updateAtScroll.value,
-  });
-  // 获取content元素的信息
-  const { width: contentWidth, height: contentHeight } = useElementSize(
-    contentRef,
-    undefined,
-    {
-      box: 'border-box',
-    }
-  );
   // 计算wrapper与arrow的位置信息
-  const { contentPosition, arrowPostion, triggerPosition } = useTriggerPosition(
-    {
-      position,
-      left,
-      top,
-      bottom,
-      right,
+  const { left, top, popupPosition, contentStyle, arrowStyle } =
+    useTriggerPosition({
+      props: props as ObjectData as RequiredDeep<TriggerProps>,
+      popupRef,
+      triggerRef,
       mouseX,
       mouseY,
-      alignPoint,
-      trigger,
-      triggerHeight,
-      triggerWidth,
-      contentHeight,
-      contentWidth,
-      popupTranslate,
-      popupOffset,
-      autoFitPosition,
-    }
-  );
-  // contentCss
-  const contentCss = computed(() => {
-    return {
-      ...contentStyle.value,
-      width: autoFitPopupWidth.value ? `${triggerWidth.value}px` : '',
-      minWidth: autoFitPopupMinWidth.value ? `${triggerWidth.value}px` : '',
-      transformOrigin: needTransformOrigin.value
-        ? TRANSFORM_ORIGIN_MAP[triggerPosition.value]
-        : '',
-    } as CSSProperties;
-  });
-  // arrowcss
-  const arrowCss = computed(() => {
-    return {
-      ...arrowPostion.value,
-      ...arrowStyle.value,
-    } as CSSProperties;
-  });
+    });
   // 处理点击到外层关闭
   handleClickOutsideClose();
   // 处理滚动关闭
   handleScrollToClose(left, top);
   return {
-    contentPosition,
-    contentCss,
-    arrowCss,
+    popupPosition,
+    contentStyle,
+    arrowStyle,
   };
 }
 

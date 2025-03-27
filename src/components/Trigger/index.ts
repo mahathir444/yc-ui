@@ -6,6 +6,7 @@ export type TriggerInstance = InstanceType<typeof _Trigger>;
 export type {
   TriggerPostion,
   TriggerProps,
+  TriggerEmits,
   TriggerType,
   PopupContainer,
 } from './type';

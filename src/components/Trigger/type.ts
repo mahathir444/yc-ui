@@ -39,6 +39,13 @@ export type TriggerProps = {
   isDropdown?: boolean;
 };
 
+export interface TriggerEmits {
+  (e: 'update:popupVisible', value: boolean): void;
+  (e: 'popup-visible-change', value: boolean): void;
+  (e: 'show'): void;
+  (e: 'hide'): void;
+}
+
 export type TriggerPostion =
   | 'top'
   | 'tl'

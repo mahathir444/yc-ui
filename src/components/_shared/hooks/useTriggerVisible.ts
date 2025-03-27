@@ -1,27 +1,16 @@
-import { Ref, ref, watchEffect } from 'vue';
-import { TriggerType } from '@/components/Trigger';
-import { Fn } from '../type';
+import { Ref, ref, toRefs, watchEffect } from 'vue';
+import { TriggerProps, TriggerEmits } from '@/components/Trigger';
+import { RequiredDeep, Fn } from '../type';
 import { onClickOutside } from '@vueuse/core';
 import useTriggerNested from './useTriggerNested';
 import useControlValue from './useControlValue';
-
 export default (params: {
-  trigger: Ref<TriggerType>;
-  popupVisible: Ref<boolean | undefined>;
-  defaultPopupVisible: Ref<boolean>;
-  clickToClose: Ref<boolean>;
-  blurToClose: Ref<boolean>;
-  clickOutsideToClose: Ref<boolean>;
-  mouseEnterDelay: Ref<number>;
-  mouseLeaveDelay: Ref<number>;
-  focusDelay: Ref<number>;
-  contentRef: Ref<HTMLDivElement | undefined>;
+  props: RequiredDeep<TriggerProps>;
+  emits: TriggerEmits;
+  popupRef: Ref<HTMLDivElement | undefined>;
   triggerRef: Ref<HTMLElement | undefined>;
-  isDropdown: Ref<boolean>;
-  scrollToClose: Ref<boolean>;
-  scrollToCloseDistance: Ref<number>;
-  emits: Fn;
 }) => {
+  const { props, emits, popupRef, triggerRef } = params;
   const {
     isDropdown,
     trigger,
@@ -33,12 +22,9 @@ export default (params: {
     mouseEnterDelay,
     mouseLeaveDelay,
     focusDelay,
-    contentRef,
-    triggerRef,
     scrollToClose,
     scrollToCloseDistance,
-    emits,
-  } = params;
+  } = toRefs(props);
   // 鼠标操作的位置
   const mouseX = ref<number>(0);
   const mouseY = ref<number>(0);
@@ -153,7 +139,7 @@ export default (params: {
       return;
     }
     onClickOutside(
-      contentRef,
+      popupRef,
       (e) => {
         let isIngore = false;
         // 处理dropdown或者嵌套情况
