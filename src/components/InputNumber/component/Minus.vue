@@ -13,7 +13,8 @@
   >
     <template #icon>
       <slot name="icon">
-        <yc-icon :name="mode == 'embed' ? 'arrow-right' : 'minus'" />
+        <icon-arrow-right v-if="mode == 'embed'" />
+        <icon-minus v-else />
       </slot>
     </template>
   </yc-button>
@@ -23,6 +24,8 @@
 import { computed, toRefs } from 'vue';
 import { Size } from '@shared/type';
 import { InputNumberMode, InputNumberValue } from '../type';
+import IconArrowRight from '@shared/icons/IconArrowRight.vue';
+import IconMinus from '@shared/icons/IconMinus.vue';
 const props = defineProps<{
   mode: InputNumberMode;
   disabled: boolean;

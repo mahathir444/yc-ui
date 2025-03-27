@@ -1,0 +1,39 @@
+<template>
+  <svg
+    viewBox="0 0 48 48"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+    stroke="currentColor"
+    :class="{
+      'yc-icon': true,
+      'yc-icon-spin': spin,
+    }"
+    :style="{
+      transform: rotate ? `rotate(${rotate}deg)` : 'unset',
+      width: size ? `${(size as Number[])?.[0] ?? size}px` : '1em',
+      height: size ? `${(size as Number[])?.[1] ?? size}px` : '1em',
+    }"
+    :stroke-width="strokeWidth"
+    :stroke-linecap="strokeLinecap"
+    :stroke-linejoin="strokeLinejoin"
+  >
+    <path
+      d="M14 14.5c-2.69 2-5.415 5.33-8 9.5 5.373 8.667 11.373 13 18 13 3.325 0 6.491-1.09 9.5-3.271M17.463 12.5C19 11 21.75 11 24 11c6.627 0 12.627 4.333 18 13-1.766 2.848-3.599 5.228-5.5 7.14"
+    ></path>
+    <path
+      d="M29 24a5 5 0 1 1-10 0 5 5 0 0 1 10 0ZM6.852 7.103l34.294 34.294"
+    ></path>
+  </svg>
+</template>
+
+<script lang="ts" setup>
+import { IconProps } from '@shared/type';
+const props = withDefaults(defineProps<IconProps>(), {
+  strokeWidth: 4,
+  strokeLinecap: 'butt',
+  strokeLinejoin: 'miter',
+  spin: false,
+  rotate: undefined,
+  size: undefined,
+});
+</script>

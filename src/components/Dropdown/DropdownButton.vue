@@ -18,7 +18,7 @@
       <yc-button v-bind="buttonProps">
         <template #icon>
           <slot name="icon">
-            <yc-icon name="more" />
+            <icon-more />
           </slot>
         </template>
       </yc-button>
@@ -33,6 +33,7 @@
 import { DropdownButtonProps, DoptionValue } from './type';
 import YcDropdown from './Dropdown.vue';
 import YcButton, { ButtonGroup as YcButtonGroup } from '@/components/Button';
+import IconMore from '@shared/icons/IconMore.vue';
 defineOptions({
   name: 'DropdownButton',
 });

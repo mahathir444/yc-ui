@@ -6,13 +6,14 @@
     }"
   >
     <slot name="icon">
-      <yc-icon :name="name" />
+      <icon-close />
     </slot>
   </yc-prevent-focus>
 </template>
 
 <script lang="ts" setup>
 import { IconButtonProps } from './type.ts';
+import IconClose from '@shared/icons/IconClose.vue';
 defineOptions({
   name: 'IconButton',
 });

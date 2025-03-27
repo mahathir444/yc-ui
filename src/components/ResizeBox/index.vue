@@ -25,12 +25,11 @@
       <slot name="resize-trigger" :direction="item">
         <div class="yc-resizebox-trigger-icon-wrapper">
           <slot name="resize-trigger-icon" :direction="item">
-            <yc-icon
-              :name="
-                getDir(item) === 'vertical' ? 'drag-dot-vertical' : 'drag-dot'
-              "
+            <icon-drag-dot-vertical
+              v-if="getDir(item) === 'vertical'"
               :size="12"
             />
+            <icon-drag-dot v-else :size="12" />
           </slot>
         </div>
       </slot>
@@ -43,6 +42,8 @@ import { ref, onMounted, computed, watch, toRefs } from 'vue';
 import { ResizeBoxProps, DirectionType } from './type';
 import { useResizeObserver, useEventListener } from '@vueuse/core';
 import useControlValue from '@shared/hooks/useControlValue';
+import IconDragDot from '@shared/icons/IconDragDot.vue';
+import IconDragDotVertical from '@shared/icons/IconDragDotVertical.vue';
 defineOptions({
   name: 'ResizeBox',
 });

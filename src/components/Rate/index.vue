@@ -25,7 +25,8 @@
         @mouseleave="handleMouseleave"
       >
         <slot name="character" :index="i">
-          <yc-icon :name="grading ? 'smiling-face' : 'star'" />
+          <icon-smiling-face v-if="grading" />
+          <icon-star v-else />
         </slot>
       </div>
       <div
@@ -41,7 +42,8 @@
         @mouseleave="handleMouseleave"
       >
         <slot name="character" :index="i">
-          <yc-icon :name="grading ? 'smiling-face' : 'star'" />
+          <icon-smiling-face v-if="grading" />
+          <icon-star v-else />
         </slot>
       </div>
     </div>
@@ -54,6 +56,8 @@ import { RateProps } from './type';
 import { isObject } from '@shared/utils/is';
 import { sleep } from '@shared/utils/fn';
 import useControlValue from '@shared/hooks/useControlValue';
+import IconStar from '@shared/icons/IconStar.vue';
+import IconSmilingFace from '@shared/icons/IconSmilingFace.vue';
 defineOptions({
   name: 'Rate',
 });

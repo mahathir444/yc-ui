@@ -27,11 +27,7 @@
       >
         <template #icon>
           <span class="yc-checkbox-icon">
-            <yc-icon
-              v-show="computedChecked"
-              name="checkbox-checked"
-              :size="[8, 10]"
-            />
+            <IconCheckboxChecked v-show="computedChecked" :size="[8, 10]" />
           </span>
         </template>
       </yc-icon-button>
@@ -47,6 +43,7 @@ import { toRefs, inject, computed, ref } from 'vue';
 import { CheckboxProps, ProvideType } from './type';
 import { CHECKBOX_GROUP_PROVIDE_KEY } from '@shared/constants';
 import useControlValue from '@shared/hooks/useControlValue';
+import IconCheckboxChecked from '@shared/icons/IconCheckboxChecked.vue';
 
 defineOptions({
   name: 'Checkbox',

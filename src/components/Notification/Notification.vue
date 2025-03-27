@@ -4,7 +4,7 @@
     <div class="yc-notification-left">
       <div v-if="hasIcon" :class="['yc-notification-icon', type]">
         <slot name="icon">
-          <yc-icon :name="type" />
+          <component :is="iconMap[type]" />
         </slot>
       </div>
     </div>
@@ -21,7 +21,7 @@
     </div>
     <div v-if="closable" class="yc-close-btn" @click="emits('close')">
       <slot name="close-icon">
-        <yc-icon-button name="close" class="yc-close-icon" />
+        <yc-icon-button class="yc-close-icon" />
       </slot>
     </div>
   </div>
@@ -31,6 +31,10 @@
 import { onMounted, onUpdated, computed, useSlots, ref } from 'vue';
 import { NotificationProps } from './type';
 import { useTimeoutFn } from '@vueuse/core';
+import IconInfo from '@shared/icons/IconInfo.vue';
+import IconWarning from '@shared/icons/IconWarning.vue';
+import IconError from '@shared/icons/IconError.vue';
+import IconSuccess from '@shared/icons/IconSuccess.vue';
 defineOptions({
   name: 'Notification',
 });
@@ -57,6 +61,12 @@ const { start, stop } = useTimeoutFn(
 const resetFlag = ref(props.resetFlag);
 
 const slots = useSlots();
+const iconMap: Record<string, any> = {
+  success: IconSuccess,
+  warning: IconWarning,
+  error: IconError,
+  info: IconInfo,
+};
 onUpdated(() => {
   if (props.duration === 0) return;
   if (props.resetFlag === resetFlag.value) return;

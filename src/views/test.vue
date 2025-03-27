@@ -19,6 +19,9 @@
         :max="13"
         placeholder="请输入"
       ></yc-input-number> -->
+      <yc-popconfirm content="去INGQUES" type="warning">
+        <yc-button>测试</yc-button>
+      </yc-popconfirm>
     </div>
   </div>
 </template>

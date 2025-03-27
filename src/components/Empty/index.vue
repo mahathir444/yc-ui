@@ -3,7 +3,7 @@
     <div class="yc-empty-image">
       <slot name="image">
         <img v-if="imgSrc" :src="imgSrc" alt="图片加载失败" />
-        <yc-icon v-else name="empty" />
+        <icon-empty v-else />
       </slot>
     </div>
     <div v-if="description" class="yc-empty-description">{{ description }}</div>
@@ -12,6 +12,7 @@
 
 <script lang="ts" setup>
 import { EmptyProps } from './type';
+import IconEmpty from '@shared/icons/IconEmpty.vue';
 defineOptions({
   name: 'Empty',
 });

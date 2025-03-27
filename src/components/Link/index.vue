@@ -18,7 +18,7 @@
   >
     <span v-if="$slots.icon || icon || loading" class="yc-link-icon">
       <slot v-if="!loading" name="icon">
-        <yc-icon v-if="icon" name="link" />
+        <icon-link v-if="icon" />
       </slot>
       <yc-spin v-else style="color: inherit; font-size: inherit" />
     </span>
@@ -31,6 +31,7 @@ import { toRefs, computed } from 'vue';
 import { LinkProps, LinkEvent, LinkEventType } from './type';
 import { STATUS_CLASS } from './constants';
 import YcSpin from '@/components/Spin';
+import IconLink from '@shared/icons/IconLink.vue';
 defineOptions({
   name: 'Link',
 });

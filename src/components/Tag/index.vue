@@ -28,7 +28,6 @@
     <!-- close -->
     <yc-icon-button
       v-if="closeable"
-      name="close"
       hover-size="16px"
       hover-color="rgba(255, 255, 255, 0.2)"
       style="color: inherit"

@@ -10,7 +10,7 @@
   >
     <slot />
     <template #suffix>
-      <yc-icon name="arrow-right" />
+      <icon-arrow-right />
     </template>
   </yc-doption>
   <teleport to="body">
@@ -40,6 +40,7 @@
 <script lang="ts" setup>
 import { ref, computed, toRefs, CSSProperties, nextTick } from 'vue';
 import { DsubmenuProps } from './type';
+import IconArrowRight from '@shared/icons/IconArrowRight.vue';
 import useTriggerNested from '@shared/hooks/useTriggerNested';
 import useControlValue from '@shared/hooks/useControlValue';
 import YcDoption from './Doption.vue';

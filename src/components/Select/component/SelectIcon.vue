@@ -20,19 +20,18 @@
       }"
     >
       <slot name="arrow-icon">
-        <yc-icon name="arrow-right" />
+        <icon-arrow-right />
       </slot>
     </yc-prevent-focus>
     <!-- search -->
     <yc-prevent-focus v-if="allowSearch" class="yc-select-search-icon">
       <slot name="search-icon">
-        <yc-icon name="search" />
+        <icon-search />
       </slot>
     </yc-prevent-focus>
     <!-- clear -->
     <yc-icon-button
       v-if="showClearBtn"
-      name="close"
       style="color: inherit"
       class="yc-select-clear-icon"
       @click="(ev) => $emit('clear', ev)"
@@ -41,6 +40,8 @@
 </template>
 
 <script lang="ts" setup>
+import IconSearch from '@shared/icons/IconSearch.vue';
+import IconArrowRight from '@shared/icons/IconArrowRight.vue';
 defineProps<{
   loading: boolean;
   allowSearch: boolean;

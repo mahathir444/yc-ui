@@ -63,7 +63,6 @@
       <!-- clear-btn -->
       <yc-icon-button
         v-if="showClearBtn"
-        name="close"
         class="yc-input-clear-button"
         @click="handleEvent('clear', $event)"
       />

@@ -22,3 +22,12 @@ export type ClassName =
 export type Fn = (...args: any) => any;
 
 export type ObjectData = Record<string, any>;
+
+export type IconProps = {
+  strokeWidth?: number;
+  strokeLinecap?: 'butt' | 'round' | 'square';
+  strokeLinejoin?: 'bevel' | 'miter' | 'round' | 'inherit';
+  rotate?: number;
+  spin?: boolean;
+  size?: number | number[];
+};

@@ -61,7 +61,6 @@
               <!-- close-btn -->
               <yc-icon-button
                 v-if="closable"
-                name="close"
                 class="yc-modal-close-button"
                 @click="handleClose('closeBtn')"
               />

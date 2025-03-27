@@ -25,10 +25,14 @@
     <!-- extra -->
     <template v-if="invisibleButton" #extra>
       <yc-icon-button
-        :name="computedVisibility ? 'eye-open' : 'eye-close'"
-        size="14"
+        size="14px"
         @click="computedVisibility = !computedVisibility"
-      />
+      >
+        <template #icon>
+          <icon-eye-open v-if="computedVisibility" />
+          <icon-eye-close v-else />
+        </template>
+      </yc-icon-button>
     </template>
   </yc-input>
 </template>
@@ -38,6 +42,8 @@ import { ref, toRefs } from 'vue';
 import { InputPasswordProps } from './type';
 import useControlValue from '@shared/hooks/useControlValue';
 import YcInput from './Input.vue';
+import IconEyeOpen from '@shared/icons/IconEyeOpen.vue';
+import IconEyeClose from '@shared/icons/IconEyeClose.vue';
 
 defineOptions({
   name: 'InputPassword',

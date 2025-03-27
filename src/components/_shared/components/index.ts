@@ -1,10 +1,8 @@
 import { App, Plugin } from 'vue';
-import Icon from '@shared/components/Icon';
 import IconButton from '@shared/components/IconButton';
 import PreventFocus from '@shared/components/PreventFocus';
 // 全局组件
 const components: Record<string, Plugin> = {
-  Icon,
   IconButton,
   PreventFocus,
 };

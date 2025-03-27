@@ -24,7 +24,7 @@
       <div class="yc-popconfirm-body">
         <div :class="['yc-popconfirm-icon', TYPE_CLASS[type]]">
           <slot v-if="$slots.icon" name="icon" />
-          <yc-icon :name="type" v-else />
+          <component v-else :is="iconMap[type]" />
         </div>
         <div class="yc-popconfirm-content">
           <slot v-if="$slots.content" name="content" />
@@ -56,6 +56,10 @@ import { PopconfirmProps } from './type';
 import useOnBeforeClose from '@shared/hooks/useOnBeforeClose';
 import YcTrigger, { TriggerInstance } from '@/components/Trigger';
 import YcButton from '@/components/Button';
+import IconInfo from '@shared/icons/IconInfo.vue';
+import IconWarning from '@shared/icons/IconWarning.vue';
+import IconError from '@shared/icons/IconError.vue';
+import IconSuccess from '@shared/icons/IconSuccess.vue';
 defineOptions({
   name: 'Popconfirm',
 });
@@ -95,6 +99,13 @@ const emits = defineEmits<{
 const { onBeforeOk, onBeforeCancel } = props;
 // 触发器实例
 const triggerRef = ref<TriggerInstance>();
+// icon映射
+const iconMap: Record<string, any> = {
+  success: IconSuccess,
+  warning: IconWarning,
+  error: IconError,
+  info: IconInfo,
+};
 // 处理确认
 const handleOk = () => {
   const isClose = useOnBeforeClose('confirmBtn', onBeforeOk, onBeforeCancel);

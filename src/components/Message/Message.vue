@@ -8,13 +8,12 @@
     >
       <span v-if="hasIcon" :class="['yc-message-icon', type]">
         <slot name="icon">
-          <yc-icon :name="type" class="svg-icon" />
+          <component :is="iconMap[type]" />
         </slot>
       </span>
       <span class="yc-message-content">{{ content }}</span>
       <yc-icon-button
         v-if="closable"
-        name="close"
         class="yc-message-close"
         @click="emits('close')"
       />
@@ -26,7 +25,10 @@
 import { onMounted, onUpdated, ref, computed, useSlots } from 'vue';
 import { MessageProps } from './type';
 import { useTimeoutFn } from '@vueuse/core';
-
+import IconInfo from '@shared/icons/IconInfo.vue';
+import IconWarning from '@shared/icons/IconWarning.vue';
+import IconError from '@shared/icons/IconError.vue';
+import IconSuccess from '@shared/icons/IconSuccess.vue';
 defineOptions({
   name: 'Message',
 });
@@ -54,6 +56,12 @@ const { isPending, start, stop } = useTimeoutFn(
 );
 const resetFlag = ref(props.resetFlag);
 const slots = useSlots();
+const iconMap: Record<string, any> = {
+  success: IconSuccess,
+  warning: IconWarning,
+  error: IconError,
+  info: IconInfo,
+};
 onUpdated(() => {
   if (props.duration === 0) return;
   if (props.resetFlag === resetFlag.value) return;
