@@ -31,7 +31,7 @@ export default function useCursor(
     };
   }
 
-  function setCursor() {
+  function getCursor() {
     if (!input.value || !selectionRef.value) return;
 
     const { value } = input.value;
@@ -54,12 +54,18 @@ export default function useCursor(
         startPos = newIndex + 1;
       }
     }
+    return startPos;
+  }
 
-    input.value.setSelectionRange(startPos, startPos);
+  function setCursor() {
+    const startPos = getCursor();
+    if (!startPos) return;
+    input.value?.setSelectionRange(startPos, startPos);
   }
 
   return {
     recordCursor,
     setCursor,
+    getCursor,
   };
 }

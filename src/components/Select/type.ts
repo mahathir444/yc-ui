@@ -40,9 +40,6 @@ export interface SelectProps {
   showHeaderOnEmpty?: boolean;
   showFooterOnEmpty?: boolean;
   tagNowrap?: boolean;
-  // 以下用于autoComplete
-  isAutoCompleteMode?: boolean;
-  strict?: boolean;
 }
 
 export interface OptionProps {
@@ -99,7 +96,6 @@ export interface ProvideType {
   computedInputValue: WritableComputedRef<string> | Ref<string>;
   multiple: Ref<boolean>;
   limit: Ref<number>;
-  strict: Ref<boolean>;
   blur: Fn;
   filterOption: Fn;
   getValue: Fn;

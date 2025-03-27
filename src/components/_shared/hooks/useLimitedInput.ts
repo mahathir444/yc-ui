@@ -111,7 +111,7 @@ export default (params: {
       getValueLength(value) > maxLength.value
     ) {
       computedValue.value = wordSlice(value, calcWordMaxLength(value));
-      keepControl();
+      // keepControl();
       return;
     }
     recordWordMaxLength();

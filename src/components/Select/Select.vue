@@ -32,10 +32,7 @@
           :disabled="disabled"
           :size="size"
           :error="error"
-          :placeholder="
-            isAutoCompleteMode ? placeholder : selectOptions?.[0]?.label
-          "
-          :allow-clear="isAutoCompleteMode && allowClear"
+          :placeholder="selectOptions?.[0]?.label"
           v-bind="$attrs"
           ref="inputRef"
           @click="handleEvent('focus')"
@@ -46,7 +43,7 @@
           <template v-if="$slots.prefix" #prefix>
             <slot name="prefix" />
           </template>
-          <template v-if="!isAutoCompleteMode" #label>
+          <template #label>
             <span
               :style="{
                 color: selectOptions?.[0]?.label ? '' : 'rgb(134, 144, 156)',
@@ -56,7 +53,7 @@
             </span>
           </template>
           <!-- suffix -->
-          <template v-if="!isAutoCompleteMode" #suffix>
+          <template #suffix>
             <select-icon
               :popup-visible="computedVisible"
               :show-clear-btn="showClearBtn"
@@ -123,7 +120,6 @@
         :loading="loading"
         :scrollbar="scrollbar"
         :is-empty="isEmpty"
-        :is-auto-complete-mode="isAutoCompleteMode"
         :show-footer-on-empty="showFooterOnEmpty"
         :show-header-on-empty="showHeaderOnEmpty"
       >
@@ -191,14 +187,8 @@ const props = withDefaults(defineProps<SelectProps>(), {
   popupVisible: undefined,
   defaultPopupVisible: false,
   unmountOnClose: false,
-  filterOption: (
-    inputValue: string,
-    option: SelectOptionData,
-    strict: boolean = false
-  ) => {
-    const label = strict ? option?.label : option?.label?.toLowerCase();
-    const value = strict ? inputValue : inputValue.toLowerCase();
-    return label?.includes(value);
+  filterOption: (inputValue: string, option: SelectOptionData) => {
+    return option?.label?.includes(inputValue);
   },
   options: () => [],
   formatLabel: undefined,
@@ -224,8 +214,6 @@ const props = withDefaults(defineProps<SelectProps>(), {
   showHeaderOnEmpty: false,
   showFooterOnEmpty: false,
   tagNowrap: false,
-  isAutoCompleteMode: false,
-  strict: false,
 });
 const emits = defineEmits<{
   (e: 'update:modelValue', value: SelectValue): void;
@@ -261,8 +249,6 @@ const {
   valueKey,
   options: provideOptions,
   showExtraOptions,
-  isAutoCompleteMode,
-  strict,
 } = toRefs(props);
 const { filterOption, formatLabel, fallbackOption } = props;
 // 输入实例
@@ -306,7 +292,6 @@ provide<ProvideType>(SELECT_PROVIDE_KEY, {
   computedInputValue,
   limit,
   multiple,
-  strict,
   blur: () => {
     inputRef.value?.blur();
   },
@@ -345,10 +330,6 @@ const handleEvent = async (
   // 失焦
   else if (type == 'blur') {
     computedVisible.value = false;
-    if (isAutoCompleteMode.value) {
-      return;
-    }
-    computedInputValue.value = '';
   } else if (type == 'updateValue') {
     computedValue.value = (value as InputTagValue).map(
       (item) => (item as TagData).value

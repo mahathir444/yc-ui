@@ -45,7 +45,7 @@
             </template>
           </template>
           <!-- empty -->
-          <slot v-if="!isAutoCompleteMode && isEmpty" name="empty">
+          <slot v-if="isEmpty" name="empty">
             <yc-empty description="暂无数据" />
           </slot>
         </div>
@@ -76,7 +76,6 @@ const props = defineProps<{
   loading: boolean;
   scrollbar: boolean;
   isEmpty: boolean;
-  isAutoCompleteMode: boolean;
   showHeaderOnEmpty: boolean;
   showFooterOnEmpty: boolean;
 }>();
@@ -86,7 +85,7 @@ const { emits } = inject<ProvideType>(SELECT_PROVIDE_KEY, {
   computedInputValue: ref(''),
   multiple: ref(false),
   limit: ref(0),
-  strict: ref(false),
+
   blur: () => {},
   filterOption: () => true,
   getValue: () => {},

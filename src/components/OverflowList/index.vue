@@ -9,18 +9,16 @@
       v-if="min > 0 && tagNumber > min && from == 'start'"
       :tag-index="0"
       v-bind="extraTagProps"
-      key="yc-overflow-list-tag"
     >
-      +{{ tagNumber - min }}...
+      +{{ tagNumber - min }}
     </yc-tag>
     <slot />
     <yc-tag
       v-if="min > 0 && tagNumber > min && from == 'end'"
       :tag-index="0"
       v-bind="extraTagProps"
-      key="yc-overflow-list-tag"
     >
-      +{{ tagNumber - min }}...
+      +{{ tagNumber - min }}
     </yc-tag>
   </div>
 </template>
@@ -47,9 +45,6 @@ provide<ProvideType>(OVERFLOW_LIST_PROVIDE_KEY, {
 });
 </script>
 
-<style lang="less" scoped>
-.yc-overflow-list {
-  display: flex;
-  align-items: center;
-}
+<style lang="less">
+@import './style/overflow-list.less';
 </style>

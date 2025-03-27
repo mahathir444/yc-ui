@@ -7,6 +7,7 @@ export {}
 /* prettier-ignore */
 declare module 'vue' {
   export interface GlobalComponents {
+    AMention: typeof import('@arco-design/web-vue')['Mention']
     AutoComplete: typeof import('./src/components/AutoComplete/index.vue')['default']
     Button: typeof import('./src/components/Button/Button.vue')['default']
     ButtonGroup: typeof import('./src/components/Button/ButtonGroup.vue')['default']
@@ -52,6 +53,7 @@ declare module 'vue' {
     InputSearch: typeof import('./src/components/Input/InputSearch.vue')['default']
     InputTag: typeof import('./src/components/InputTag/index.vue')['default']
     Link: typeof import('./src/components/Link/index.vue')['default']
+    Mention: typeof import('./src/components/Mention/index.vue')['default']
     Message: typeof import('./src/components/Message/Message.vue')['default']
     Minus: typeof import('./src/components/InputNumber/component/Minus.vue')['default']
     Modal: typeof import('./src/components/Modal/index.vue')['default']

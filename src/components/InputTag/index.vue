@@ -23,56 +23,6 @@
       {{ computedInputValue || (computedValue.length ? '' : placeholder) }}
     </div>
     <!-- tag-list -->
-    <!-- <transition-group
-      name="input-tag-zoom"
-      class="yc-input-tag-inner"
-      tag="div"
-    >
-      <yc-tag
-        v-for="item in computedValue"
-        :key="item?.[fieldKey.id]"
-        :closeable="item?.[fieldKey.closeable] ?? true"
-        :bordered="item?.[fieldKey.tagProps]?.bordered ?? true"
-        :nowrap="item?.[fieldKey.tagProps]?.nowrap ?? tagNowrap"
-        :size="size == 'mini' ? 'small' : size"
-        class="yc-select-value-tag"
-        color="white"
-        prevent-focus
-        @close="handleEvent('close', $event, item.id)"
-      >
-        {{ formatTag ? formatTag(item) : item[fieldKey.label] }}
-      </yc-tag>
-      <yc-tag
-        v-if="maxTagCount > 0 && computedValue.length > maxTagCount"
-        :size="size == 'mini' ? 'small' : size"
-        :nowrap="tagNowrap"
-        key="yc-select-value-tag"
-        class="yc-select-value-tag"
-        bordered
-        color="white"
-        prevent-focus
-      >
-        +{{ curList.hideList.length }}...
-      </yc-tag>
-      <input
-        v-model="computedInputValue"
-        key="yc-input-tag-input"
-        :disabled="disabled"
-        :readonly="readonly"
-        :placeholder="computedValue.length ? '' : placeholder"
-        :style="{
-          width: `${width}px`,
-        }"
-        class="yc-input-tag-input"
-        ref="inputRef"
-        @input="handleEvent('input', $event)"
-        @change="handleEvent('inputValueChange', $event)"
-        @focus="handleEvent('focus', $event)"
-        @blur="handleEvent('blur', $event)"
-        @keydown.enter="handleEvent('pressEnter', $event)"
-        @keydown.delete="handleEvent('remove', $event)"
-      />
-    </transition-group> -->
     <tag-overflow-list
       :computed-value="computedValue"
       :max-tag-count="maxTagCount"
@@ -80,6 +30,7 @@
       :size="size"
       :tagNowrap="tagNowrap"
       :format-tag="formatTag"
+      class="yc-input-tag-inner"
       @close="(ev, id) => handleEvent('close', ev, id)"
     >
       <template #extra>
@@ -194,7 +145,6 @@ const {
   fieldNames,
   tagNowrap,
 } = toRefs(props);
-const { formatTag } = props;
 // 输入实例
 const inputRef = ref<HTMLInputElement>();
 // div的ref

@@ -112,6 +112,7 @@ const handleEvent = (type: TagEventType, ev: MouseEvent) => {
     emits('check', computedChecked.value, ev);
   }
 };
+// 初始化tagIndex
 function initTagIndex() {
   const { tagNumber, min } = inject<ProvideType>(OVERFLOW_LIST_PROVIDE_KEY, {
     min: ref(0),

@@ -1,26 +1,34 @@
 <template>
   <yc-select
-    v-model:input-value="computedValue"
-    :popup-visible="popupVisible && !!data.length"
-    :disabled="disabled"
+    :popup-visible="popupVisible && hasOption"
     :options="data"
     :popup-container="popupContainer"
-    :filter-option="filterOption"
     :trigger-props="triggerProps"
-    :allow-clear="allowClear"
     :strict="strict"
     :virtual-list-props="vistualListProps"
     v-bind="$attrs"
-    :allow-search="true"
     is-auto-complete-mode
     @update:popup-visible="(v) => (popupVisible = v)"
-    @update:model-value="(v) => $emit('select', v as string)"
-    @input-value-change="(v) => $emit('change', v)"
     @search="(v) => $emit('search', v)"
-    @clear="(ev) => $emit('clear', ev)"
     @dropdown-scroll="(ev) => $emit('dropdown-scroll', ev)"
     ref="selectRef"
   >
+    <template v-if="$slots.trigger" #trigger>
+      <slot name="trigger">
+        <yc-input
+          v-model="computedValue"
+          :disabled="disabled"
+          :allow-clear="allowClear"
+          @change="(v) => $emit('change', v)"
+          @clear="
+            (ev) => {
+              computedValue.value = '';
+              $emit('clear', ev);
+            }
+          "
+        />
+      </slot>
+    </template>
     <template v-if="$slots.prefix" #prefix>
       <slot name="prefix" />
     </template>
@@ -31,13 +39,15 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, toRefs } from 'vue';
+import { ref, toRefs, computed } from 'vue';
 import { AutoCompleteProps } from './type';
 import {
   default as YcSelect,
   SelectOptionData,
   SelectInstance,
+  SelectValue,
 } from '@/components/Select';
+import YcInput from '@/components/Input';
 import useControlValue from '@shared/hooks/useControlValue';
 defineOptions({
   name: 'AutoComplete',
@@ -65,7 +75,7 @@ const emits = defineEmits<{
   (e: 'clear', ev?: Event): void;
   (e: 'dropdown-scroll', ev?: Event): void;
 }>();
-const { modelValue, defaultValue } = toRefs(props);
+const { modelValue, defaultValue, strict, data } = toRefs(props);
 // selectRef
 const selectRef = ref<SelectInstance>();
 // visible
@@ -78,6 +88,23 @@ const computedValue = useControlValue<string>(
     emits('update:modelValue', val);
   }
 );
+// 是否为空
+const hasOption = computed(() => {
+  const value = strict.value
+    ? computedValue.value
+    : computedValue.value.toLowerCase();
+  const result = data.value.filter((item) => {
+    const label = (item?.label ?? item) as string;
+    return (strict.value ? label : label.toLowerCase()).includes(value);
+  }).length;
+  return !!result;
+});
+// 处理选择
+const handleSelect = (v: SelectValue) => {
+  popupVisible.value = false;
+  computedValue.value = v as string;
+  emits('select', v as string);
+};
 defineExpose({
   focus() {
     selectRef.value?.focus();

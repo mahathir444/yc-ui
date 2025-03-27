@@ -1,7 +1,7 @@
 <template>
-  <transition-group name="input-tag-zoom" class="yc-input-tag-inner" tag="div">
+  <transition-group name="input-tag-zoom" tag="div">
     <yc-tag
-      v-for="item in curList.visibleList as ObjectData[]"
+      v-for="item in curList.visibleList"
       :key="item?.[fieldKey.id]"
       :closeable="item?.[fieldKey.closeable] ?? true"
       :bordered="item?.[fieldKey.tagProps]?.bordered ?? true"
@@ -46,15 +46,16 @@ const props = defineProps<{
 defineEmits<{
   (e: 'close', ev: MouseEvent, id: string): void;
 }>();
-
 const { computedValue, maxTagCount } = toRefs(props);
 // 当前展示的list
 const curList = computed(() => {
+  const visibleList =
+    maxTagCount.value > 0
+      ? computedValue.value.slice(0, maxTagCount.value)
+      : computedValue.value;
   return {
-    visibleList:
-      maxTagCount.value > 0
-        ? computedValue.value.slice(0, maxTagCount.value)
-        : computedValue.value,
+    visibleList: visibleList as ObjectData,
+
     hideList: computedValue.value.slice(maxTagCount.value),
   };
 });
