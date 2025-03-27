@@ -56,8 +56,7 @@ import { RateProps } from './type';
 import { isObject } from '@shared/utils/is';
 import { sleep } from '@shared/utils/fn';
 import useControlValue from '@shared/hooks/useControlValue';
-import IconStar from '@shared/icons/IconStar.vue';
-import IconSmilingFace from '@shared/icons/IconSmilingFace.vue';
+import { IconStar, IconSmilingFace } from '@shared/icons';
 defineOptions({
   name: 'Rate',
 });

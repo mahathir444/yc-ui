@@ -92,7 +92,7 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, computed, toRefs } from 'vue';
+import { ref, computed, toRefs, watch } from 'vue';
 import { SIZE_CLASS } from './constants';
 import {
   InputTagProps,
@@ -171,22 +171,6 @@ const inputRef = ref<HTMLInputElement>();
 const mirrorRef = ref<HTMLDivElement>();
 // 是否聚焦
 const isFocus = ref<boolean>(false);
-// 获取miorr的宽度用于模拟
-const { width } = useElementSize(mirrorRef, undefined, {
-  box: 'border-box',
-});
-// 受控值
-const computedValue = useControlValue<InputTagValue>(
-  modelValue,
-  defaultValue.value,
-  (val) => emits('update:modelValue', val)
-);
-// 输入值
-const computedInputValue = useControlValue<string>(
-  inputValue,
-  defaultInputValue.value,
-  (val) => emits('update:inputValue', val)
-);
 // fieldKey
 const fieldKey = computed(() => {
   return {
@@ -197,32 +181,33 @@ const fieldKey = computed(() => {
     tagProps: fieldNames.value['tagProps'] ?? 'tagProps',
   };
 });
+// 获取miorr的宽度用于模拟
+const { width } = useElementSize(mirrorRef, undefined, {
+  box: 'border-box',
+});
+// 受控值
+const computedValue = useControlValue<InputTagValue>(
+  modelValue,
+  defaultValue.value,
+  (val) => emits('update:modelValue', val),
+  (val) => val,
+  handleData
+);
+// 输入值
+const computedInputValue = useControlValue<string>(
+  inputValue,
+  defaultInputValue.value,
+  (val) => emits('update:inputValue', val)
+);
+
 // 当前展示的list
 const curList = computed(() => {
-  const { id, label, value } = fieldKey.value;
-  let handleList;
-  if (computedValue.value[0]?.[id]) {
-    handleList = computedValue.value;
-  } else {
-    handleList = computedValue.value.map((item: TagData) => {
-      let tagData: ObjectData = {};
-      if (isObject(item)) {
-        tagData = { ...item };
-      } else {
-        tagData[label] = item;
-        tagData[value] = item;
-      }
-      tagData[id] = nanoid();
-      return tagData;
-    }) as TagData[];
-  }
   return {
-    handleList,
     visibleList:
       maxTagCount.value > 0
-        ? handleList.slice(0, maxTagCount.value)
-        : handleList,
-    hideList: handleList.slice(maxTagCount.value),
+        ? computedValue.value.slice(0, maxTagCount.value)
+        : computedValue.value,
+    hideList: computedValue.value.slice(maxTagCount.value),
   };
 });
 // 是否展示清除按钮
@@ -277,22 +262,18 @@ const handleEvent = (
     if (!inputVal || !allowCreate.value || !isUnique) {
       return;
     }
-    if (!computedValue.value.length || !isObject(computedValue.value[0])) {
-      computedValue.value = [...computedValue.value, computedInputValue.value];
-    } else {
-      const tagData: ObjectData = {};
-      tagData[id] = nanoid();
-      tagData[label] = computedInputValue.value;
-      tagData[value] = computedInputValue.value;
-      computedValue.value = [...computedValue.value, tagData];
-    }
+    const tagData: ObjectData = {};
+    tagData[id] = nanoid();
+    tagData[label] = computedInputValue.value;
+    tagData[value] = computedInputValue.value;
+    computedValue.value = [...computedValue.value, tagData];
     emits('pressEnter', e as KeyboardEvent);
     clearInputValue();
   }
   // close
   else if (type == 'close') {
     computedValue.value = (computedValue.value as TagData[]).filter(
-      (_, index) => curList.value.handleList[index].id != id
+      (_, index) => computedValue.value[index].id != id
     );
     emits('remove', e as MouseEvent);
   }
@@ -311,6 +292,18 @@ const handleEvent = (
     emits('clear', e as MouseEvent);
   }
 };
+// 处理数据
+function handleData(data: InputTagValue) {
+  if (isObject(data[0]) && data[0]?.id) return data;
+  const { id, label, value } = fieldKey.value;
+  return data.map((v) => {
+    const tagData: ObjectData = {};
+    tagData[id] = nanoid();
+    tagData[label] = v;
+    tagData[value] = v;
+    return tagData;
+  });
+}
 
 // 暴露方法
 defineExpose({

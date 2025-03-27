@@ -31,7 +31,7 @@ import { toRefs, computed } from 'vue';
 import { LinkProps, LinkEvent, LinkEventType } from './type';
 import { STATUS_CLASS } from './constants';
 import YcSpin from '@/components/Spin';
-import IconLink from '@shared/icons/IconLink.vue';
+import { IconLink } from '@shared/icons';
 defineOptions({
   name: 'Link',
 });

@@ -99,6 +99,7 @@ import { InputNumberProps, InputNumberValue } from './type';
 import { isUndefined, isNumber, isString } from '@shared/utils/is';
 import YcMinus from './component/Minus.vue';
 import YcPlus from './component/Plus.vue';
+import useControlValue from '@shared/hooks/useControlValue';
 import YcInput, { InputInstance } from '@/components/Input';
 
 defineOptions({
@@ -149,25 +150,20 @@ const {
 // 实例
 const inputRef = ref<InputInstance>();
 // 控制的值
-const controlValue = ref<InputNumberValue>(defaultValue.value);
-// 值
-const computedValue = computed<InputNumberValue>({
-  get() {
-    const numberValue = isUndefined(modelValue.value)
-      ? controlValue.value
-      : modelValue.value;
-    return isString(numberValue)
-      ? numberValue
-      : handlePrecision(numberValue, 'string');
-  },
-  set(val) {
-    controlValue.value = val;
+const computedValue = useControlValue<InputNumberValue>(
+  modelValue,
+  defaultValue.value,
+  (val) => {
     emits(
       'update:modelValue',
       modelEvent.value == 'change' ? val : handlePrecision(val, 'number')
     );
   },
-});
+  (val) => {
+    return isString(val) ? val : handlePrecision(val, 'string');
+  }
+);
+
 // 精度
 const precision = computed(() => {
   const stepPrecision = String(step.value).match(/\.(\d+)/)?.[1]?.length ?? 0;
