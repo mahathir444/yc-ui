@@ -14,7 +14,7 @@
 
 <script lang="ts" setup>
 import DotIcon from './DotIcon.vue';
-import IconLoading from '@shared/icons/IconLoading.vue';
+import { IconLoading } from '@shared/icons';
 defineProps<{
   dot: boolean;
   tip: string;

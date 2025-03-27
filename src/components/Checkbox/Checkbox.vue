@@ -43,7 +43,7 @@ import { toRefs, inject, computed, ref } from 'vue';
 import { CheckboxProps, ProvideType } from './type';
 import { CHECKBOX_GROUP_PROVIDE_KEY } from '@shared/constants';
 import useControlValue from '@shared/hooks/useControlValue';
-import IconCheckboxChecked from '@shared/icons/IconCheckboxChecked.vue';
+import { IconCheckboxChecked } from '@shared/icons';
 
 defineOptions({
   name: 'Checkbox',

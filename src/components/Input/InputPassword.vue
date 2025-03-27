@@ -42,9 +42,7 @@ import { ref, toRefs } from 'vue';
 import { InputPasswordProps } from './type';
 import useControlValue from '@shared/hooks/useControlValue';
 import YcInput from './Input.vue';
-import IconEyeOpen from '@shared/icons/IconEyeOpen.vue';
-import IconEyeClose from '@shared/icons/IconEyeClose.vue';
-
+import { IconEyeClose, IconEyeOpen } from '@shared/icons';
 defineOptions({
   name: 'InputPassword',
 });

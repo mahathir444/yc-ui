@@ -25,10 +25,7 @@
 import { onMounted, onUpdated, ref, computed, useSlots } from 'vue';
 import { MessageProps } from './type';
 import { useTimeoutFn } from '@vueuse/core';
-import IconInfo from '@shared/icons/IconInfo.vue';
-import IconWarning from '@shared/icons/IconWarning.vue';
-import IconError from '@shared/icons/IconError.vue';
-import IconSuccess from '@shared/icons/IconSuccess.vue';
+import { IconInfo, IconWarning, IconError, IconSuccess } from '@shared/icons';
 defineOptions({
   name: 'Message',
 });

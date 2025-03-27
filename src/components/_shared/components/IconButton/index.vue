@@ -13,12 +13,11 @@
 
 <script lang="ts" setup>
 import { IconButtonProps } from './type.ts';
-import IconClose from '@shared/icons/IconClose.vue';
+import { IconClose } from '@shared/icons';
 defineOptions({
   name: 'IconButton',
 });
 withDefaults(defineProps<IconButtonProps>(), {
-  name: 'close',
   fontSize: '12px',
   hoverColor: 'rgb(242, 243, 245)',
   hoverSize: '20px',

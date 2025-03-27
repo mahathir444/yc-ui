@@ -56,10 +56,7 @@ import { PopconfirmProps } from './type';
 import useOnBeforeClose from '@shared/hooks/useOnBeforeClose';
 import YcTrigger, { TriggerInstance } from '@/components/Trigger';
 import YcButton from '@/components/Button';
-import IconInfo from '@shared/icons/IconInfo.vue';
-import IconWarning from '@shared/icons/IconWarning.vue';
-import IconError from '@shared/icons/IconError.vue';
-import IconSuccess from '@shared/icons/IconSuccess.vue';
+import { IconInfo, IconWarning, IconError, IconSuccess } from '@shared/icons';
 defineOptions({
   name: 'Popconfirm',
 });

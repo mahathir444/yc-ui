@@ -31,10 +31,7 @@
 import { onMounted, onUpdated, computed, useSlots, ref } from 'vue';
 import { NotificationProps } from './type';
 import { useTimeoutFn } from '@vueuse/core';
-import IconInfo from '@shared/icons/IconInfo.vue';
-import IconWarning from '@shared/icons/IconWarning.vue';
-import IconError from '@shared/icons/IconError.vue';
-import IconSuccess from '@shared/icons/IconSuccess.vue';
+import { IconInfo, IconWarning, IconError, IconSuccess } from '@shared/icons';
 defineOptions({
   name: 'Notification',
 });

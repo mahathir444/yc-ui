@@ -25,8 +25,7 @@ import { computed, toRefs } from 'vue';
 import { Size } from '@shared/type';
 import { InputNumberMode, InputNumberValue } from '../type';
 import YcButton from '@/components/Button';
-import IconPlus from '@shared/icons/IconPlus.vue';
-import IconArrowRight from '@shared/icons/IconArrowRight.vue';
+import { IconPlus, IconArrowRight } from '@shared/icons';
 const props = defineProps<{
   mode: InputNumberMode;
   computedValue: InputNumberValue;

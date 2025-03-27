@@ -24,8 +24,7 @@
 import { computed, toRefs } from 'vue';
 import { Size } from '@shared/type';
 import { InputNumberMode, InputNumberValue } from '../type';
-import IconArrowRight from '@shared/icons/IconArrowRight.vue';
-import IconMinus from '@shared/icons/IconMinus.vue';
+import { IconArrowRight, IconMinus } from '@shared/icons';
 const props = defineProps<{
   mode: InputNumberMode;
   disabled: boolean;

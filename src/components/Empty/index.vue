@@ -12,7 +12,7 @@
 
 <script lang="ts" setup>
 import { EmptyProps } from './type';
-import IconEmpty from '@shared/icons/IconEmpty.vue';
+import { IconEmpty } from '@shared/icons';
 defineOptions({
   name: 'Empty',
 });

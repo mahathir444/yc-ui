@@ -35,8 +35,7 @@
 </template>
 
 <script lang="ts" setup>
-import IconSearch from '@shared/icons/IconSearch.vue';
-import IconArrowRight from '@shared/icons/IconArrowRight.vue';
+import { IconSearch, IconArrowRight } from '@shared/icons';
 defineProps<{
   loading: boolean;
   allowSearch: boolean;

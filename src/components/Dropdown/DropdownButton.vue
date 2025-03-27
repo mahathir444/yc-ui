@@ -33,7 +33,7 @@
 import { DropdownButtonProps, DoptionValue } from './type';
 import YcDropdown from './Dropdown.vue';
 import YcButton, { ButtonGroup as YcButtonGroup } from '@/components/Button';
-import IconMore from '@shared/icons/IconMore.vue';
+import { IconMore } from '@shared/icons';
 defineOptions({
   name: 'DropdownButton',
 });
