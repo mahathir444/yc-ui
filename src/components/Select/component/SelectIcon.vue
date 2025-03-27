@@ -13,14 +13,9 @@
   </yc-spin>
   <template v-else>
     <!-- default -->
-    <yc-prevent-focus
-      :class="{
-        'yc-select-suffix-icon': true,
-        'yc-select-suffix-icon-focus': popupVisible,
-      }"
-    >
+    <yc-prevent-focus class="yc-select-suffix-icon">
       <slot name="arrow-icon">
-        <icon-arrow-right />
+        <icon-arrow-right :rotate="popupVisible ? 270 : 90" />
       </slot>
     </yc-prevent-focus>
     <!-- search -->

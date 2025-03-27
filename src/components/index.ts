@@ -1,4 +1,3 @@
-import 'virtual:svg-icons-register';
 export { default } from './yc-ui';
 export type {
   ButtonProps,

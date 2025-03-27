@@ -13,7 +13,7 @@
   >
     <template #icon>
       <slot name="icon">
-        <icon-arrow-right v-if="mode == 'embed'" />
+        <icon-arrow-right v-if="mode == 'embed'" :rotate="90" />
         <icon-plus v-else />
       </slot>
     </template>
@@ -52,7 +52,6 @@ const disabledPlus = computed(() => {
     width: 10px;
     font-size: 10px;
     margin: 0;
-    transform: rotate(90deg);
   }
 }
 </style>
