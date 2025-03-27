@@ -1,10 +1,10 @@
-import { computed, Ref, nextTick, ref } from 'vue';
-import { InputEventType, WordLength, WordSlice } from '@/components/Input';
-import { isFunction, isNumber, isUndefined } from '../utils/is';
-import useControlValue from './useControlValue';
-import { useCursor } from './useCursor';
+import { computed, Ref, ref } from 'vue';
 import { Fn } from '../type';
-import InputTag from '@/components/InputTag';
+import { isFunction, isNumber, isUndefined } from '../utils/is';
+import { WordLength, WordSlice } from '@/components/Input';
+import useControlValue from './useControlValue';
+import useCursor from './useCursor';
+
 export default (params: {
   modelValue: Ref<string | undefined>;
   defaultValue: Ref<string>;
@@ -25,7 +25,7 @@ export default (params: {
     wordSlice,
     emits,
   } = params;
-  const [recordCursor, setCursor] = useCursor(inputRef);
+  const { setCursor, recordCursor } = useCursor(inputRef);
   // 受控值
   const computedValue = useControlValue<string>(
     modelValue,

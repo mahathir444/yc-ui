@@ -7,10 +7,10 @@ import useControlValue from './useControlValue';
 import useOnBeforeClose from './useOnBeforeClose';
 
 export default (params: {
-  maskClosable: Ref<boolean>;
-  escToClose: Ref<boolean>;
   visible: Ref<boolean | undefined>;
   defaultVisible: Ref<boolean>;
+  maskClosable: Ref<boolean>;
+  escToClose: Ref<boolean>;
   popupContainer: Ref<PopupContainer | undefined>;
   renderToBody: Ref<boolean>;
   onBeforeOk: OnBeforeOk;

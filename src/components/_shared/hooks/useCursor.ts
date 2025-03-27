@@ -1,7 +1,7 @@
 import { ref, Ref } from 'vue';
 
 // Refer to Element Plus
-export function useCursor(
+export default function useCursor(
   input: Ref<HTMLInputElement | HTMLTextAreaElement | undefined>
 ) {
   const selectionRef = ref<{
@@ -58,5 +58,8 @@ export function useCursor(
     input.value.setSelectionRange(startPos, startPos);
   }
 
-  return [recordCursor, setCursor];
+  return {
+    recordCursor,
+    setCursor,
+  };
 }

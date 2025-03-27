@@ -1,9 +1,5 @@
 import { computed, CSSProperties, Ref, ref, toRefs } from 'vue';
-import {
-  TriggerPostion,
-  TriggerType,
-  TriggerProps,
-} from '@/components/Trigger';
+import { TriggerPostion, TriggerProps } from '@/components/Trigger';
 import { RequiredDeep } from '../type';
 import {
   BORDER_MAP,
@@ -13,20 +9,6 @@ import {
 } from '@/components/Trigger/constants';
 import { useElementBounding, useElementSize } from '@vueuse/core';
 
-// position: Ref<TriggerPostion>;
-// trigger: Ref<TriggerType>;
-// alignPoint: Ref<boolean>;
-
-// popupTranslate: Ref<number[]>;
-// popupOffset: Ref<number>;
-// autoFitPosition: Ref<boolean>;
-// autoFitPopupWidth: Ref<boolean>;
-// autoFitPopupMinWidth: Ref<boolean>;
-// updateAtScroll: Ref<boolean>;
-
-// arrowStyle: Ref<CSSProperties>;
-// contentStyle: Ref<CSSProperties>;
-// needTransformOrigin: Ref<boolean>;
 export default (params: {
   props: RequiredDeep<TriggerProps>;
   popupRef: Ref<HTMLDivElement | undefined>;
@@ -35,6 +17,7 @@ export default (params: {
   mouseY: Ref<number>;
 }) => {
   const { props, popupRef, triggerRef, mouseX, mouseY } = params;
+  // 解构需要使用的属性
   const {
     position,
     trigger,

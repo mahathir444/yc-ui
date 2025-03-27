@@ -2,12 +2,12 @@ import { ref, Ref, computed, CSSProperties, watch } from 'vue';
 import { useDraggable, useEventListener } from '@vueuse/core';
 import { sleep } from '../utils/fn';
 
-export default (config: {
-  visible: Ref<boolean>;
+export default (params: {
   draggable: Ref<boolean>;
   fullscreen: Ref<boolean>;
   alignCenter: Ref<boolean>;
   top: Ref<number>;
+  visible: Ref<boolean>;
   triggerRef: Ref<HTMLDivElement | undefined>;
   modalRef: Ref<HTMLDivElement | undefined>;
 }) => {
@@ -20,7 +20,7 @@ export default (config: {
     fullscreen,
     alignCenter,
     top,
-  } = config;
+  } = params;
   // 用于计算初始modal位置
   const originX = ref<number>(0);
   const originY = ref<number>(0);

@@ -48,9 +48,9 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, computed, useSlots, CSSProperties, toRefs } from 'vue';
+import { ref, computed, useSlots } from 'vue';
 import { TriggerProps } from './type';
-import { RequiredDeep, Fn, ObjectData } from '@shared/type';
+import { RequiredDeep, ObjectData } from '@shared/type';
 import { findFirstLegitChild } from '@shared/utils/vue-vnode';
 import useTriggerVisible from '@shared/hooks/useTriggerVisible';
 import useTriggerPosition from '@shared/hooks/useTriggerPosition';
