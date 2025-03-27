@@ -8,6 +8,7 @@ export type {
   InputTagValue,
   TagData,
   InputRetainValue,
+  FormatTag,
 } from './type';
 
 const InputTag = Object.assign(_InputTag, {

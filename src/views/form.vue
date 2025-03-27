@@ -23,6 +23,7 @@
       <yc-input-tag
         placeholder="请输入"
         :default-value="[1, 2, 3]"
+        :max-tag-count="7"
         :field-names="{
           label: 'text',
           value: 'key',

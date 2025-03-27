@@ -1,3 +1,4 @@
+import { Ref, WritableComputedRef } from 'vue';
 import { ObjectData, Size } from '@shared/type';
 import { TagProps } from '@/components/Tag';
 
@@ -14,7 +15,7 @@ export interface InputTagProps {
   size?: Size;
   maxTagCount?: number;
   retainInputValue?: boolean | InputRetainValue;
-  formatTag?: (data: TagData) => string;
+  formatTag?: FormatTag;
   uniqueValue?: boolean;
   tagNowrap?: boolean;
   fieldNames?: Record<string, string>;
@@ -34,6 +35,8 @@ export type TagData =
 export type InputTagValue = (string | number | TagData)[];
 
 export type InputRetainValue = { create?: boolean; blur?: boolean };
+
+export type FormatTag = (data: TagData) => string;
 
 // 内部使用
 export type InputTagEventType =

@@ -23,14 +23,13 @@
       {{ computedInputValue || (computedValue.length ? '' : placeholder) }}
     </div>
     <!-- tag-list -->
-    <!-- <div class="yc-input-tag-inner"></div> -->
-    <transition-group
+    <!-- <transition-group
       name="input-tag-zoom"
-      tag="yc-input-tag-inner"
       class="yc-input-tag-inner"
+      tag="div"
     >
       <yc-tag
-        v-for="item in curList.visibleList"
+        v-for="item in computedValue"
         :key="item?.[fieldKey.id]"
         :closeable="item?.[fieldKey.closeable] ?? true"
         :bordered="item?.[fieldKey.tagProps]?.bordered ?? true"
@@ -55,7 +54,6 @@
       >
         +{{ curList.hideList.length }}...
       </yc-tag>
-      <!-- input -->
       <input
         v-model="computedInputValue"
         key="yc-input-tag-input"
@@ -74,7 +72,37 @@
         @keydown.enter="handleEvent('pressEnter', $event)"
         @keydown.delete="handleEvent('remove', $event)"
       />
-    </transition-group>
+    </transition-group> -->
+    <tag-overflow-list
+      :computed-value="computedValue"
+      :max-tag-count="maxTagCount"
+      :field-key="fieldKey"
+      :size="size"
+      :tagNowrap="tagNowrap"
+      :format-tag="formatTag"
+      @close="(ev, id) => handleEvent('close', ev, id)"
+    >
+      <template #extra>
+        <input
+          v-model="computedInputValue"
+          key="yc-input-tag-input"
+          :disabled="disabled"
+          :readonly="readonly"
+          :placeholder="computedValue.length ? '' : placeholder"
+          :style="{
+            width: `${width}px`,
+          }"
+          class="yc-input-tag-input"
+          ref="inputRef"
+          @input="handleEvent('input', $event)"
+          @change="handleEvent('inputValueChange', $event)"
+          @focus="handleEvent('focus', $event)"
+          @blur="handleEvent('blur', $event)"
+          @keydown.enter="handleEvent('pressEnter', $event)"
+          @keydown.delete="handleEvent('remove', $event)"
+        />
+      </template>
+    </tag-overflow-list>
     <!-- suffix-icon -->
     <yc-prevent-focus
       v-if="$slots.suffix || showClearBtn"
@@ -92,7 +120,7 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, computed, toRefs, watch } from 'vue';
+import { ref, computed, toRefs, provide } from 'vue';
 import { SIZE_CLASS } from './constants';
 import {
   InputTagProps,
@@ -108,7 +136,7 @@ import { isBoolean, isObject } from '@shared/utils/is';
 import { nanoid } from 'nanoid';
 import { useElementSize } from '@vueuse/core';
 import useControlValue from '@shared/hooks/useControlValue';
-import YcTag from '@/components/Tag';
+import TagOverflowList from './component/TagOverflowList.vue';
 defineOptions({
   name: 'InputTag',
 });
@@ -164,7 +192,9 @@ const {
   allowCreate,
   maxTagCount,
   fieldNames,
+  tagNowrap,
 } = toRefs(props);
+const { formatTag } = props;
 // 输入实例
 const inputRef = ref<HTMLInputElement>();
 // div的ref
@@ -190,7 +220,17 @@ const computedValue = useControlValue<InputTagValue>(
   modelValue,
   defaultValue.value,
   (val) => emits('update:modelValue', val),
-  handleData
+  (val: InputTagValue) => {
+    if (isObject(val[0]) && val[0]?.id) return val;
+    const { id, label, value } = fieldKey.value;
+    return val.map((v) => {
+      const tagData: ObjectData = {};
+      tagData[id] = nanoid();
+      tagData[label] = v;
+      tagData[value] = v;
+      return tagData;
+    });
+  }
 );
 // 输入值
 const computedInputValue = useControlValue<string>(
@@ -198,17 +238,6 @@ const computedInputValue = useControlValue<string>(
   defaultInputValue.value,
   (val) => emits('update:inputValue', val)
 );
-
-// 当前展示的list
-const curList = computed(() => {
-  return {
-    visibleList:
-      maxTagCount.value > 0
-        ? computedValue.value.slice(0, maxTagCount.value)
-        : computedValue.value,
-    hideList: computedValue.value.slice(maxTagCount.value),
-  };
-});
 // 是否展示清除按钮
 const showClearBtn = computed(
   () =>
@@ -291,19 +320,6 @@ const handleEvent = (
     emits('clear', e as MouseEvent);
   }
 };
-// 处理数据
-function handleData(data: InputTagValue) {
-  if (isObject(data[0]) && data[0]?.id) return data;
-  const { id, label, value } = fieldKey.value;
-  return data.map((v) => {
-    const tagData: ObjectData = {};
-    tagData[id] = nanoid();
-    tagData[label] = v;
-    tagData[value] = v;
-    return tagData;
-  });
-}
-
 // 暴露方法
 defineExpose({
   focus() {

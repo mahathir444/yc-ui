@@ -5,11 +5,7 @@
     viewBox="0 0 48 48"
     aria-hidden="true"
     focusable="false"
-    :class="className"
-    :style="style"
-    :stroke-width="strokeWidth"
-    :stroke-linecap="strokeLinecap"
-    :stroke-linejoin="strokeLinejoin"
+    v-bind="attrs"
   >
     <path
       d="M14 14.5c-2.69 2-5.415 5.33-8 9.5 5.373 8.667 11.373 13 18 13 3.325 0 6.491-1.09 9.5-3.271M17.463 12.5C19 11 21.75 11 24 11c6.627 0 12.627 4.333 18 13-1.766 2.848-3.599 5.228-5.5 7.14"
@@ -31,5 +27,5 @@ const props = withDefaults(defineProps<IconProps>(), {
   rotate: undefined,
   size: undefined,
 });
-const { style, className } = useIconStyle(props);
+const { attrs } = useIconStyle(props);
 </script>

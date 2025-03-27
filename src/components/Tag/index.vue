@@ -1,6 +1,6 @@
 <template>
   <yc-prevent-focus
-    v-if="computedVisible"
+    v-if="computedVisible && (min <= 0 || tagIndex < min)"
     :prevent-focus="preventFocus"
     tag="label"
     :class="[
@@ -48,9 +48,11 @@
 </template>
 
 <script lang="ts" setup>
-import { toRefs } from 'vue';
+import { toRefs, inject, ref, onBeforeUnmount, watch } from 'vue';
 import { TagProps, TagEventType } from './type';
 import { SIZE_CLASS, COLOR_CLASS, COLOR_MAP } from './constants';
+import { OVERFLOW_LIST_PROVIDE_KEY } from '@shared/constants';
+import { ProvideType } from '@/components/OverflowList/type';
 import YcSpin from '@/components/Spin';
 import useControlValue from '@shared/hooks/useControlValue';
 defineOptions({
@@ -69,6 +71,7 @@ const props = withDefaults(defineProps<TagProps>(), {
   defaultChecked: true,
   nowrap: false,
   preventFocus: false,
+  tagIndex: -1,
 });
 const emits = defineEmits<{
   (e: 'update:visible', value: boolean): void;
@@ -83,6 +86,7 @@ const {
   defaultChecked,
   checkable,
   preventFocus,
+  tagIndex: _tagIndex,
 } = toRefs(props);
 // visible
 const computedVisible = useControlValue<boolean>(
@@ -96,6 +100,8 @@ const computedChecked = useControlValue<boolean>(
   defaultChecked.value,
   (val) => emits('update:checked', val)
 );
+// 用于折叠面板
+const { tagIndex, min } = initTagIndex();
 // 处理事件
 const handleEvent = (type: TagEventType, ev: MouseEvent) => {
   if (type == 'close') {
@@ -106,6 +112,34 @@ const handleEvent = (type: TagEventType, ev: MouseEvent) => {
     emits('check', computedChecked.value, ev);
   }
 };
+function initTagIndex() {
+  const { tagNumber, min } = inject<ProvideType>(OVERFLOW_LIST_PROVIDE_KEY, {
+    min: ref(0),
+    tagNumber: ref(0),
+  });
+  if (_tagIndex.value != -1) {
+    return {
+      tagIndex: _tagIndex,
+      min,
+      tagNumber,
+    };
+  }
+  const tagIndex = ref<number>(tagNumber.value++);
+  onBeforeUnmount(() => {
+    tagNumber.value--;
+  });
+  watch(tagNumber, (newVal, oldVal) => {
+    if (newVal < oldVal && tagNumber.value > newVal) {
+      console.log(tagIndex.value, tagNumber.value);
+      tagIndex.value--;
+    }
+  });
+  return {
+    tagIndex,
+    min,
+    tagNumber,
+  };
+}
 </script>
 
 <style lang="less" scoped>

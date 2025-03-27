@@ -2,9 +2,15 @@ import { computed, CSSProperties, toRefs } from 'vue';
 import { IconProps, ObjectData, RequiredDeep } from '../type';
 
 export default (props: ObjectData) => {
-  const { size, spin, rotate, color } = toRefs(
-    props as RequiredDeep<IconProps>
-  );
+  const {
+    size,
+    spin,
+    rotate,
+    color,
+    strokeLinecap,
+    strokeLinejoin,
+    strokeWidth,
+  } = toRefs(props as RequiredDeep<IconProps>);
   const style = computed(() => {
     let width = '';
     let height = '';
@@ -28,8 +34,16 @@ export default (props: ObjectData) => {
       'yc-icon-spin': spin.value,
     };
   });
+  const attrs = computed(() => {
+    return {
+      class: className.value,
+      style: style.value,
+      'stroke-width': strokeWidth.value,
+      'stroke-linecap': strokeLinecap.value,
+      'stroke-linejoin': strokeLinejoin.value,
+    };
+  });
   return {
-    style,
-    className,
+    attrs,
   };
 };

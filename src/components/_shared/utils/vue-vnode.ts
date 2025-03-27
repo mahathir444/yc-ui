@@ -123,14 +123,18 @@ export const flattedChildren = (
       result.push(...flattedChildren(child));
     }
     // 处理插槽的情况
-    else if (isVNode(child) && isObject(child.children)) {
+    else if (
+      isVNode(child) &&
+      isObject(child.children) &&
+      !isArray(child.children)
+    ) {
       const children = (child?.children ?? {}) as ObjectData;
       const slotChildren = Object.keys(children)
-        .filter((key) => isFunction(children[key]))
+        .filter((key) => children[key].name == 'renderFnWithContext')
         .map((key) => children[key]?.())
         .flat(Infinity)
         .map((item) => item.children);
-      result.push(...flattedChildren(slotChildren));
+      result.push(child, ...flattedChildren(slotChildren));
     } else if (isVNode(child) && child.component?.subTree) {
       result.push(child, ...flattedChildren(child.component.subTree));
     } else if (isVNode(child) && isArray(child.children)) {

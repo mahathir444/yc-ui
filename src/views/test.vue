@@ -20,11 +20,15 @@
         placeholder="请输入"
       ></yc-input-number> -->
     </div>
+    <overflow-list>
+      <yc-tag v-for="i in 20" :key="i"> tag{{ i }} </yc-tag>
+    </overflow-list>
   </div>
 </template>
 
 <script lang="ts" setup>
 import { ref, watch } from 'vue';
+import OverflowList from '@/components/OverflowList/index.vue';
 const value = ref(0);
 //
 const options = ref<any[]>([]);

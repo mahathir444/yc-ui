@@ -25,7 +25,7 @@
         @mouseleave="handleMouseleave"
       >
         <slot name="character" :index="i">
-          <icon-smiling-face v-if="grading" />
+          <icon-face-smile v-if="grading" />
           <icon-star v-else />
         </slot>
       </div>

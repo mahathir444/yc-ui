@@ -11,6 +11,8 @@ export interface TagProps {
   defaultChecked?: boolean;
   nowrap?: boolean;
   preventFocus?: boolean;
+  // 用于overflowList
+  tagIndex?: number;
 }
 
 export type TagSize = 'small' | 'medium' | 'large';

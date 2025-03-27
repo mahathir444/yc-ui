@@ -6,11 +6,7 @@
     xmlns="http://www.w3.org/2000/svg"
     aria-hidden="true"
     focusable="false"
-    :class="className"
-    :style="style"
-    :stroke-width="strokeWidth"
-    :stroke-linecap="strokeLinecap"
-    :stroke-linejoin="strokeLinejoin"
+    v-bind="attrs"
   >
     <path
       fill-rule="evenodd"
@@ -33,5 +29,5 @@ const props = withDefaults(defineProps<IconProps>(), {
   rotate: undefined,
   size: undefined,
 });
-const { style, className } = useIconStyle(props);
+const { attrs } = useIconStyle(props);
 </script>
