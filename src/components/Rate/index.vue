@@ -42,7 +42,7 @@
         @mouseleave="handleMouseleave"
       >
         <slot name="character" :index="i">
-          <icon-smiling-face v-if="grading" />
+          <icon-face-smile v-if="grading" />
           <icon-star v-else />
         </slot>
       </div>
@@ -56,7 +56,7 @@ import { RateProps } from './type';
 import { isObject } from '@shared/utils/is';
 import { sleep } from '@shared/utils/fn';
 import useControlValue from '@shared/hooks/useControlValue';
-import { IconStar, IconSmilingFace } from '@shared/icons';
+import { IconStar, IconFaceSmile } from '@shared/icons';
 defineOptions({
   name: 'Rate',
 });

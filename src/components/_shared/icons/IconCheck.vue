@@ -11,9 +11,7 @@
     :stroke-linecap="strokeLinecap"
     :stroke-linejoin="strokeLinejoin"
   >
-    <path
-      d="M9.857 9.858 24 24m0 0 14.142 14.142M24 24 38.142 9.858M24 24 9.857 38.142"
-    ></path>
+    <path d="M41.678 11.05 19.05 33.678 6.322 20.95"></path>
   </svg>
 </template>
 

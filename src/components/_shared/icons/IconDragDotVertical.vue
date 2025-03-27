@@ -1,63 +1,24 @@
 <template>
   <svg
-    width="48"
-    height="48"
-    viewBox="0 0 48 48"
     fill="none"
-    xmlns="http://www.w3.org/2000/svg"
     stroke="currentColor"
-      :class="className"
+    viewBox="0 0 48 48"
+    aria-hidden="true"
+    focusable="false"
+    :class="className"
     :style="style"
     :stroke-width="strokeWidth"
+    :stroke-linecap="strokeLinecap"
+    :stroke-linejoin="strokeLinejoin"
   >
     <path
-      d="M17 8H19V10H17V8Z"
       fill="currentColor"
       stroke="none"
-      stroke-width="none"
-      :stroke-linecap="strokeLinecap"
+      d="M17 8h2v2h-2V8ZM17 23h2v2h-2v-2ZM17 38h2v2h-2v-2ZM29 8h2v2h-2V8ZM29 23h2v2h-2v-2ZM29 38h2v2h-2v-2Z"
     ></path>
     <path
-      d="M17 23H19V25H17V23Z"
-      fill="currentColor"
-      stroke="none"
-      stroke-width="none"
-      :stroke-linecap="strokeLinecap"
+      d="M17 8h2v2h-2V8ZM17 23h2v2h-2v-2ZM17 38h2v2h-2v-2ZM29 8h2v2h-2V8ZM29 23h2v2h-2v-2ZM29 38h2v2h-2v-2Z"
     ></path>
-    <path
-      d="M17 38H19V40H17V38Z"
-      fill="currentColor"
-      stroke="none"
-      stroke-width="none"
-      :stroke-linecap="strokeLinecap"
-    ></path>
-    <path
-      d="M29 8H31V10H29V8Z"
-      fill="currentColor"
-      stroke="none"
-      stroke-width="none"
-      :stroke-linecap="strokeLinecap"
-    ></path>
-    <path
-      d="M29 23H31V25H29V23Z"
-      fill="currentColor"
-      stroke="none"
-      stroke-width="none"
-      :stroke-linecap="strokeLinecap"
-    ></path>
-    <path
-      d="M29 38H31V40H29V38Z"
-      fill="currentColor"
-      stroke="none"
-      stroke-width="none"
-      :stroke-linecap="strokeLinecap"
-    ></path>
-    <path d="M17 8H19V10H17V8Z" :stroke-linecap="strokeLinecap"></path>
-    <path d="M17 23H19V25H17V23Z" :stroke-linecap="strokeLinecap"></path>
-    <path d="M17 38H19V40H17V38Z" :stroke-linecap="strokeLinecap"></path>
-    <path d="M29 8H31V10H29V8Z" :stroke-linecap="strokeLinecap"></path>
-    <path d="M29 23H31V25H29V23Z" :stroke-linecap="strokeLinecap"></path>
-    <path d="M29 38H31V40H29V38Z" :stroke-linecap="strokeLinecap"></path>
   </svg>
 </template>
 

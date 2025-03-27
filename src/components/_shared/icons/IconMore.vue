@@ -1,18 +1,20 @@
 <template>
   <svg
-    viewBox="0 0 48 48"
     fill="none"
-    xmlns="http://www.w3.org/2000/svg"
     stroke="currentColor"
+    viewBox="0 0 48 48"
+    aria-hidden="true"
+    focusable="false"
     :class="className"
     :style="style"
+    :stroke-width="strokeWidth"
     :stroke-linecap="strokeLinecap"
     :stroke-linejoin="strokeLinejoin"
   >
     <path
-      d="M38 25v-2h2v2h-2ZM23 25v-2h2v2h-2ZM8 25v-2h2v2H8Z"
       fill="currentColor"
       stroke="none"
+      d="M38 25v-2h2v2h-2ZM23 25v-2h2v2h-2ZM8 25v-2h2v2H8Z"
     ></path>
     <path d="M38 25v-2h2v2h-2ZM23 25v-2h2v2h-2ZM8 25v-2h2v2H8Z"></path>
   </svg>

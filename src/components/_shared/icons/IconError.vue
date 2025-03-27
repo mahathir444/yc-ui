@@ -1,9 +1,11 @@
 <template>
   <svg
-    viewBox="0 0 48 48"
     fill="none"
-    xmlns="http://www.w3.org/2000/svg"
     stroke="currentColor"
+    viewBox="0 0 48 48"
+    xmlns="http://www.w3.org/2000/svg"
+    aria-hidden="true"
+    focusable="false"
     :class="className"
     :style="style"
     :stroke-width="strokeWidth"

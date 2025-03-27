@@ -1,5 +1,5 @@
 export { default as IconArrowRight } from './IconArrowRight.vue';
-export { default as IconCheckboxChecked } from './IconCheckboxChecked.vue';
+export { default as IconCheck } from './IconCheck.vue';
 export { default as IconClose } from './IconClose.vue';
 export { default as IconDragDot } from './IconDragDot.vue';
 export { default as IconDragDotVertical } from './IconDragDotVertical.vue';
@@ -14,7 +14,7 @@ export { default as IconMinus } from './IconMinus.vue';
 export { default as IconMore } from './IconMore.vue';
 export { default as IconPlus } from './IconPlus.vue';
 export { default as IconSearch } from './IconSearch.vue';
-export { default as IconSmilingFace } from './IconSmilingFace.vue';
+export { default as IconFaceSmile } from './IconFaceSmile.vue';
 export { default as IconStar } from './IconStar.vue';
 export { default as IconSuccess } from './IconSuccess.vue';
 export { default as IconWarning } from './IconWarning.vue';
