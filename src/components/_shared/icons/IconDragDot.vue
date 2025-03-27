@@ -48,13 +48,8 @@
       fill="currentColor"
       stroke="none"
       stroke-width="none"
-      :class="{
-        'yc-icon': true,
-        'yc-icon-spin': spin,
-      }"
-      :style="{
-        transform: rotate ? `rotate(${rotate}deg)` : 'unset',
-      }"
+      :class="className"
+      :style="style"
       :stroke-linecap="strokeLinecap"
     ></path>
     <path d="M40 17V19H38V17L40 17Z" :stroke-linecap="strokeLinecap"></path>
@@ -68,6 +63,7 @@
 
 <script lang="ts" setup>
 import { IconProps } from '@shared/type';
+import useIconStyle from '@shared/hooks/useIconStyle';
 const props = withDefaults(defineProps<IconProps>(), {
   strokeWidth: 4,
   strokeLinecap: 'butt',
@@ -76,4 +72,5 @@ const props = withDefaults(defineProps<IconProps>(), {
   rotate: undefined,
   size: undefined,
 });
+const { style, className } = useIconStyle(props);
 </script>

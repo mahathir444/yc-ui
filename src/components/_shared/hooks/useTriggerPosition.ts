@@ -1,6 +1,6 @@
 import { computed, CSSProperties, Ref, ref, toRefs } from 'vue';
 import { TriggerPostion, TriggerProps } from '@/components/Trigger';
-import { RequiredDeep } from '../type';
+import { ObjectData, RequiredDeep } from '../type';
 import {
   BORDER_MAP,
   BORDER_RADIUS_MAP,
@@ -10,7 +10,7 @@ import {
 import { useElementBounding, useElementSize } from '@vueuse/core';
 
 export default (params: {
-  props: RequiredDeep<TriggerProps>;
+  props: ObjectData;
   popupRef: Ref<HTMLDivElement | undefined>;
   triggerRef: Ref<HTMLElement | undefined>;
   mouseX: Ref<number>;
@@ -31,7 +31,7 @@ export default (params: {
     needTransformOrigin,
     arrowStyle: _arrowStyle,
     contentStyle: _contentStyle,
-  } = toRefs(props);
+  } = toRefs(props as RequiredDeep<TriggerProps>);
   // 动态计算当前的位置
   const curPosition = ref<TriggerPostion>(position.value);
   // 获取trigger元素bounding

@@ -1,11 +1,11 @@
 import { Ref, ref, toRefs, watchEffect } from 'vue';
 import { TriggerProps, TriggerEmits } from '@/components/Trigger';
-import { RequiredDeep, Fn } from '../type';
+import { ObjectData, RequiredDeep } from '../type';
 import { onClickOutside } from '@vueuse/core';
 import useTriggerNested from './useTriggerNested';
 import useControlValue from './useControlValue';
 export default (params: {
-  props: RequiredDeep<TriggerProps>;
+  props: ObjectData;
   emits: TriggerEmits;
   popupRef: Ref<HTMLDivElement | undefined>;
   triggerRef: Ref<HTMLElement | undefined>;
@@ -24,7 +24,7 @@ export default (params: {
     focusDelay,
     scrollToClose,
     scrollToCloseDistance,
-  } = toRefs(props);
+  } = toRefs(props as RequiredDeep<TriggerProps>);
   // 鼠标操作的位置
   const mouseX = ref<number>(0);
   const mouseY = ref<number>(0);

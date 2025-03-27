@@ -50,7 +50,6 @@
 <script lang="ts" setup>
 import { ref, computed, useSlots } from 'vue';
 import { TriggerProps } from './type';
-import { RequiredDeep, ObjectData } from '@shared/type';
 import { findFirstLegitChild } from '@shared/utils/vue-vnode';
 import useTriggerVisible from '@shared/hooks/useTriggerVisible';
 import useTriggerPosition from '@shared/hooks/useTriggerPosition';
@@ -125,7 +124,7 @@ const {
   handleClickOutsideClose,
   handleScrollToClose,
 } = useTriggerVisible({
-  props: props as ObjectData as RequiredDeep<TriggerProps>,
+  props,
   emits,
   popupRef,
   triggerRef,
@@ -144,7 +143,7 @@ function initTrigger() {
   // 计算wrapper与arrow的位置信息
   const { left, top, popupPosition, contentStyle, arrowStyle } =
     useTriggerPosition({
-      props: props as ObjectData as RequiredDeep<TriggerProps>,
+      props,
       popupRef,
       triggerRef,
       mouseX,

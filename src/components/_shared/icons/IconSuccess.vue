@@ -4,15 +4,8 @@
     fill="none"
     xmlns="http://www.w3.org/2000/svg"
     stroke="currentColor"
-    :class="{
-      'yc-icon': true,
-      'yc-icon-spin': spin,
-    }"
-    :style="{
-      transform: rotate ? `rotate(${rotate}deg)` : 'unset',
-      width: size ? `${(size as Number[])?.[0] ?? size}px` : '1em',
-      height: size ? `${(size as Number[])?.[1] ?? size}px` : '1em',
-    }"
+    :class="className"
+    :style="style"
     :stroke-width="strokeWidth"
     :stroke-linecap="strokeLinecap"
     :stroke-linejoin="strokeLinejoin"
@@ -29,6 +22,7 @@
 
 <script lang="ts" setup>
 import { IconProps } from '@shared/type';
+import useIconStyle from '@shared/hooks/useIconStyle';
 const props = withDefaults(defineProps<IconProps>(), {
   strokeWidth: 4,
   strokeLinecap: 'butt',
@@ -37,4 +31,5 @@ const props = withDefaults(defineProps<IconProps>(), {
   rotate: undefined,
   size: undefined,
 });
+const { style, className } = useIconStyle(props);
 </script>

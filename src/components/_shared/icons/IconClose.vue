@@ -3,15 +3,8 @@
     fill="none"
     stroke="currentColor"
     viewBox="0 0 48 48"
-    :class="{
-      'yc-icon': true,
-      'yc-icon-spin': spin,
-    }"
-    :style="{
-      transform: rotate ? `rotate(${rotate}deg)` : 'unset',
-      width: size ? `${(size as Number[])?.[0] ?? size}px` : '1em',
-      height: size ? `${(size as Number[])?.[1] ?? size}px` : '1em',
-    }"
+    :class="className"
+    :style="style"
     :stroke-width="strokeWidth"
   >
     <path
@@ -22,6 +15,7 @@
 
 <script lang="ts" setup>
 import { IconProps } from '@shared/type';
+import useIconStyle from '@shared/hooks/useIconStyle';
 const props = withDefaults(defineProps<IconProps>(), {
   strokeWidth: 4,
   strokeLinecap: 'butt',
@@ -30,4 +24,5 @@ const props = withDefaults(defineProps<IconProps>(), {
   rotate: undefined,
   size: undefined,
 });
+const { style, className } = useIconStyle(props);
 </script>

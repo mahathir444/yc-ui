@@ -30,6 +30,7 @@ export type IconProps = {
   rotate?: number;
   spin?: boolean;
   size?: number | number[];
+  color?: string;
 };
 
 export type RequiredDeep<T> = {
