@@ -1,7 +1,6 @@
 <template>
   <yc-trigger
-    :popup-visible="popupVisible || undefined"
-    :default-popup-visible="defaultPopupVisible"
+    v-model:popup-visible="computedVisible"
     :trigger="trigger"
     :position="position"
     :popup-container="popupContainer"
@@ -12,11 +11,9 @@
     :popup-offset="10"
     :class="`yc-popover ${$attrs.class}`"
     animation-name="zoom-in-fade-out"
-    show-arrow
     need-transform-origin
+    show-arrow
     v-bind="$attrs"
-    @popup-visible-change="(v) => $emit('popup-visible-change', v)"
-    @update:popup-visible="(v) => $emit('update:popupVisible', v)"
   >
     <slot />
     <template #content>
@@ -35,12 +32,14 @@
 </template>
 
 <script lang="ts" setup>
+import { toRefs } from 'vue';
 import { PopoverProps } from './type';
 import YcTrigger from '@/components/Trigger';
+import useControlValue from '@shared/hooks/useControlValue';
 defineOptions({
   name: 'Popover',
 });
-withDefaults(defineProps<PopoverProps>(), {
+const props = withDefaults(defineProps<PopoverProps>(), {
   popupVisible: undefined,
   defaultPopupVisible: false,
   title: '',
@@ -61,6 +60,16 @@ const emits = defineEmits<{
   (e: 'update:popupVisible', value: boolean): void;
   (e: 'popup-visible-change', value: boolean): void;
 }>();
+const { popupVisible, defaultPopupVisible } = toRefs(props);
+// 受控的visible
+const computedVisible = useControlValue<boolean>(
+  popupVisible,
+  defaultPopupVisible.value,
+  (val) => {
+    emits('update:popupVisible', val);
+    emits('popup-visible-change', val);
+  }
+);
 </script>
 
 <style lang="less">

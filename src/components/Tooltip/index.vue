@@ -1,21 +1,18 @@
 <template>
   <yc-trigger
-    :popup-visible="popupVisible"
-    :default-popup-visible="defaultPopupVisible"
+    v-model:popup-visible="computedVisible"
     :popup-container="popupContainer"
     :position="position"
     :arrow-class="`yc-tooltip-popup-arrow ${arrowClass}`"
-    :arrow-style="computedArrowStyle"
+    :arrow-style="contentStyle"
     :content-class="`yc-tooltip-popup-content ${contentClass} ${mini ? 'yc-tooltip-mini' : ''}`"
-    :content-style="computedContentStyle"
+    :content-style="arrowStyle"
     :popup-offset="10"
     :class="`yc-tooltip ${$attrs.class}`"
     animation-name="zoom-in-fade-out"
-    show-arrow
     need-transform-origin
+    show-arrow
     v-bind="$attrs"
-    @popup-visible-change="(v) => $emit('popup-visible-change', v)"
-    @update:popup-visible="(v) => $emit('update:popupVisible', v)"
   >
     <slot />
     <template #content>
@@ -29,6 +26,7 @@
 <script lang="ts" setup>
 import { toRefs, computed, CSSProperties } from 'vue';
 import { TooltipProps } from './type';
+import useControlValue from '@shared/hooks/useControlValue';
 import YcTrigger from '@/components/Trigger';
 defineOptions({
   name: 'Tooltip',
@@ -54,19 +52,33 @@ const emits = defineEmits<{
   (e: 'update:popupVisible', value: boolean): void;
   (e: 'popup-visible-change', value: boolean): void;
 }>();
-const { arrowStyle, contentStyle, backgroundColor } = toRefs(props);
+const {
+  arrowStyle: _arrowStyle,
+  contentStyle: _contentStyle,
+  backgroundColor,
+} = toRefs(props);
+const { popupVisible, defaultPopupVisible } = toRefs(props);
+// 受控的visible
+const computedVisible = useControlValue<boolean>(
+  popupVisible,
+  defaultPopupVisible.value,
+  (val) => {
+    emits('update:popupVisible', val);
+    emits('popup-visible-change', val);
+  }
+);
 // content-style
-const computedContentStyle = computed(() => {
+const contentStyle = computed(() => {
   return {
     backgroundColor: backgroundColor.value,
-    ...contentStyle.value,
+    ..._contentStyle.value,
   } as CSSProperties;
 });
 // arrowStyle
-const computedArrowStyle = computed(() => {
+const arrowStyle = computed(() => {
   return {
     backgroundColor: backgroundColor.value,
-    ...arrowStyle.value,
+    ..._arrowStyle.value,
   };
 });
 </script>

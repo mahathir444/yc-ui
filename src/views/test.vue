@@ -23,7 +23,7 @@
     <div style="width: 300px; height: 300px">
       <!-- <mention :data="options" />
       <yc-auto-complete :data="options" /> -->
-      <yc-dropdown>
+      <yc-dropdown @select="(v) => console.log('选中', v)">
         <yc-button>测试嵌套</yc-button>
         <template #content>
           <yc-dsubmenu>

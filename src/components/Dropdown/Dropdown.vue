@@ -1,20 +1,16 @@
 <template>
   <yc-trigger
+    v-model:popup-visible="computedVisible"
+    :trigger="trigger"
+    :position="position"
     :popup-offset="4"
     :mouse-enter-delay="150"
     :mouse-leave-delay="150"
-    :popup-visible="popupVisible"
-    :default-popup-visible="defaultPopupVisible"
-    :trigger="trigger"
-    :position="submenuPosition"
     :show-arrow="false"
     animation-name="slide-dynamic-origin"
-    auto-fit-popup-min-width
     need-transform-origin
-    ref="triggerRef"
+    auto-fit-popup-min-width
     v-bind="$attrs"
-    @popup-visible-change="(v) => $emit('popup-visible-change', v)"
-    @update:popup-visible="(v) => $emit('update:popupVisible', v)"
   >
     <slot />
     <template #content>
@@ -33,10 +29,12 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, provide, toRefs, computed } from 'vue';
+import { provide, toRefs, computed } from 'vue';
 import { DropdownProps, DoptionValue, ProvideType } from './type';
 import { DROPDOWN_PROVIDE_KEY } from '@shared/constants';
-import YcTrigger, { TriggerInstance } from '@/components/Trigger';
+import { DROPDOWN_POSITION_MAP } from './constants';
+import useControlValue from '@shared/hooks/useControlValue';
+import YcTrigger from '@/components/Trigger';
 import YcScrollbar from '@/components/Scrollbar';
 
 defineOptions({
@@ -55,22 +53,32 @@ const emits = defineEmits<{
   (e: 'popup-visible-change', value: boolean): void;
   (e: 'select', value: DoptionValue, ev: MouseEvent): void;
 }>();
-const { hideOnSelect, position, trigger } = toRefs(props);
-// 触发器实例
-const triggerRef = ref<TriggerInstance>();
-// 位置
-const submenuPosition = computed(() => {
-  if (!['top', 'tl', 'tr', 'bottom', 'bl', 'br'].includes(position.value)) {
-    return 'bottom';
+const {
+  popupVisible,
+  defaultPopupVisible,
+  position: _position,
+  trigger,
+  hideOnSelect,
+} = toRefs(props);
+// 受控的visible
+const computedVisible = useControlValue<boolean>(
+  popupVisible,
+  defaultPopupVisible.value,
+  (val) => {
+    emits('update:popupVisible', val);
+    emits('popup-visible-change', val);
   }
-  return position.value;
+);
+// 位置
+const position = computed(() => {
+  return DROPDOWN_POSITION_MAP[_position.value] || 'bottom';
 });
 // dropdown提供的值
 provide<ProvideType>(DROPDOWN_PROVIDE_KEY, {
   hideOnSelect,
   emits,
   hide: () => {
-    triggerRef.value?.hide();
+    computedVisible.value = false;
   },
 });
 </script>

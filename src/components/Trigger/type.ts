@@ -37,10 +37,11 @@ export type TriggerProps = {
   needTransformOrigin?: boolean;
   // 是否需要自由设置位置
   autoSetPosition?: boolean;
-  // mouseEnter
-  onMouseEnter?: Fn;
-  // mouseClick
-  onMouseClick?: Fn;
+  onMouseenter?: Fn;
+  onMouseleave?: Fn;
+  onMouseclick?: Fn;
+  onFocus?: Fn;
+  onBlur?: Fn;
 };
 
 export interface TriggerEmits {

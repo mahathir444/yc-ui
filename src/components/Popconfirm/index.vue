@@ -1,23 +1,20 @@
 <template>
   <yc-trigger
+    v-model:popup-visible="computedVisible"
     :position="position"
-    :popup-visible="popupVisible"
-    :default-popup-visible="defaultPopupVisible"
     :popup-container="popupContainer"
-    :arrow-class="`${arrowClass} yc-popoconfirm-popup-arrow `"
+    :arrow-class="`${arrowClass} yc-popoconfirm-popup-arrow`"
     :arrow-style="arrowStyle"
     :content-class="`${contentClass} yc-popconfirm-popup-content`"
     :content-style="contentStyle"
     :popup-offset="10"
     :class="`yc-popoconfirm ${$attrs.class ?? ''}`"
-    animation-name="zoom-in-fade-out"
-    show-arrow
-    need-transform-origin
     trigger="click"
+    animation-name="zoom-in-fade-out"
+    need-transform-origin
+    show-arrow
     ref="triggerRef"
     v-bind="$attrs"
-    @popup-visible-change="(v) => $emit('popup-visible-change', v)"
-    @update:popup-visible="(v) => $emit('update:popupVisible', v)"
   >
     <slot />
     <template #content>
@@ -50,10 +47,11 @@
 </template>
 
 <script lang="ts" setup>
-import { ref } from 'vue';
+import { ref, toRefs } from 'vue';
 import { TYPE_CLASS } from './constants';
 import { PopconfirmProps } from './type';
 import useOnBeforeClose from '@shared/hooks/useOnBeforeClose';
+import useControlValue from '@shared/hooks/useControlValue';
 import YcTrigger, { TriggerInstance } from '@/components/Trigger';
 import YcButton from '@/components/Button';
 import { IconInfo, IconWarning, IconError, IconSuccess } from '@shared/icons';
@@ -93,6 +91,7 @@ const emits = defineEmits<{
   (e: 'ok'): void;
   (e: 'cancel'): void;
 }>();
+const { popupVisible, defaultPopupVisible } = toRefs(props);
 const { onBeforeOk, onBeforeCancel } = props;
 // 触发器实例
 const triggerRef = ref<TriggerInstance>();
@@ -103,6 +102,15 @@ const iconMap: Record<string, any> = {
   error: IconError,
   info: IconInfo,
 };
+// 受控的visible
+const computedVisible = useControlValue<boolean>(
+  popupVisible,
+  defaultPopupVisible.value,
+  (val) => {
+    emits('update:popupVisible', val);
+    emits('popup-visible-change', val);
+  }
+);
 // 处理确认
 const handleOk = () => {
   const isClose = useOnBeforeClose('confirmBtn', onBeforeOk, onBeforeCancel);

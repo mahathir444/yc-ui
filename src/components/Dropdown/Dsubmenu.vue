@@ -1,22 +1,21 @@
 <template>
   <yc-trigger
     v-model:popup-visible="computedVisible"
-    :trigger="menuTrigger"
-    :position="menuPotision"
+    :trigger="trigger"
+    :position="position"
+    :popup-offset="4"
     :disabled="disabled"
     :mouse-enter-delay="150"
     :mouse-leave-delay="150"
     :show-arrow="false"
-    :popup-offset="4"
-    :on-mouse-enter="handleCalcStyle"
-    :on-mouse-click="handleCalcStyle"
+    :on-mouseenter="handleCalcStyle"
+    :on-mouseclick="handleCalcStyle"
     auto-set-position
     auto-fit-popup-min-width
     ref="triggerRef"
     v-bind="$attrs"
-    @popup-visible-change="(v) => $emit('popup-visible-change', v)"
   >
-    <yc-doption :disabled="disabled" is-submenu value="" ref="optionRef">
+    <yc-doption :disabled="disabled" is-submenu ref="optionRef">
       <slot />
       <template #suffix>
         <icon-arrow-right />
@@ -39,14 +38,12 @@
 
 <script lang="ts" setup>
 import { ref, computed, toRefs, nextTick } from 'vue';
-import { DsubmenuProps } from './type';
 import { IconArrowRight } from '@shared/icons';
 import useControlValue from '@shared/hooks/useControlValue';
-import { DoptionInstance } from './index';
+import { DSUBMENU_POSITION_MAP, DSUBMENU_TRIGGER_MAP } from './constants';
+import { DsubmenuProps, DoptionInstance, Doption as YcDoption } from './index';
 import YcTrigger, { TriggerInstance } from '@/components/Trigger';
-import YcDoption from './Doption.vue';
 import YcScrollbar from '@/components/Scrollbar';
-
 defineOptions({
   name: 'Dsubmenu',
 });
@@ -61,31 +58,33 @@ const emits = defineEmits<{
   (e: 'update:popupVisible', value: boolean): void;
   (e: 'popup-visible-change', value: boolean): void;
 }>();
-const { position, defaultPopupVisible, popupVisible, trigger } = toRefs(props);
-// 受控的visible
-const computedVisible = useControlValue<boolean>(
+const {
+  defaultPopupVisible,
   popupVisible,
-  defaultPopupVisible.value,
-  (val) => emits('update:popupVisible', val)
-);
-// 位置
-const menuPotision = computed(() => {
-  if (!['rt', 'lt'].includes(position.value)) {
-    return 'rt';
-  }
-  return position.value;
-});
-// 触发方式
-const menuTrigger = computed(() => {
-  if (!['click', 'hover'].includes(trigger.value)) {
-    return 'hover';
-  }
-  return trigger.value;
-});
+  trigger: _trigger,
+  position: _position,
+} = toRefs(props);
 // option的实例
 const optionRef = ref<DoptionInstance>();
 // 触发器实例
 const triggerRef = ref<TriggerInstance>();
+// 受控的visible
+const computedVisible = useControlValue<boolean>(
+  popupVisible,
+  defaultPopupVisible.value,
+  (val) => {
+    emits('update:popupVisible', val);
+    emits('popup-visible-change', val);
+  }
+);
+// 位置
+const position = computed(() => {
+  return DSUBMENU_POSITION_MAP[_position.value] || 'rt';
+});
+// 触发方式
+const trigger = computed(() => {
+  return DSUBMENU_TRIGGER_MAP[_trigger.value] || 'rt';
+});
 // 处理计算style
 const handleCalcStyle = async () => {
   await nextTick();
@@ -97,7 +96,7 @@ const handleCalcStyle = async () => {
     right: offsetRight,
     width,
   } = dom.getBoundingClientRect();
-  const x = menuPotision.value == 'rt' ? offsetRight : offsetLeft - width;
+  const x = position.value == 'rt' ? offsetRight : offsetLeft - width;
   const y = offsetTop - 5;
   triggerRef.value?.updatePosition(x, y);
 };

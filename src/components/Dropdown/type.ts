@@ -12,7 +12,7 @@ export interface DropdownProps {
 }
 
 export interface DoptionProps {
-  value: DoptionValue;
+  value?: DoptionValue;
   disabled?: boolean;
   isSubmenu?: boolean;
 }
@@ -23,8 +23,6 @@ export interface DsubmenuProps {
   position?: 'rt' | 'lt';
   popupVisible?: boolean;
   defaultPopupVisible?: boolean;
-  mouseEnterDelay?: number;
-  mouseLeaveDelay?: number;
 }
 
 export interface DgroupProps {

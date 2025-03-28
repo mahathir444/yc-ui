@@ -26,7 +26,7 @@ export default (params: {
     autoSetPosition,
   } = toRefs(props as RequiredDeep<TriggerProps>);
   // 处理事件
-  const { onMouseEnter, onMouseClick } = props;
+  const { onMouseenter, onMouseclick, onMouseleave, onBlur, onFocus } = props;
   // 鼠标操作的位置
   const mouseX = ref<number>(0);
   const mouseY = ref<number>(0);
@@ -50,89 +50,70 @@ export default (params: {
   } = useTriggerNested(trigger.value, () => (computedVisible.value = false));
   // 点击
   const handleClickEvent = (e: MouseEvent, type: 'click' | 'contextMenu') => {
-    if (timeout.value) {
-      clearTimeout(timeout.value);
-    }
-    if (trigger.value != type) {
-      return;
-    }
-    if (!autoSetPosition.value) {
-      const { pageX, pageY } = e;
-      mouseX.value = pageX;
-      mouseY.value = pageY;
-    }
+    if (timeout.value) clearTimeout(timeout.value);
+    if (!['click', 'contextMenu'].includes(type)) return;
+    const { pageX, pageY } = e;
+    mouseX.value = pageX;
+    mouseY.value = pageY;
     computedVisible.value = clickToClose.value ? !computedVisible.value : true;
     // 触发click事件
-    onMouseClick && onMouseClick();
+    onMouseclick?.();
   };
   // 鼠标进入
   const handleMouseenter = () => {
     // 处理trigger嵌套
-    if (isNested.value) {
-      curHoverLevel.value = level;
-    }
+    curHoverLevel.value = level;
     // 处理开启
-    if (timeout.value) {
-      clearTimeout(timeout.value);
-    }
-    if (trigger.value != 'hover' || computedVisible.value) {
-      return;
-    }
+    if (timeout.value) clearTimeout(timeout.value);
+    if (trigger.value != 'hover' || computedVisible.value) return;
     timeout.value = setTimeout(() => {
       computedVisible.value = true;
       // 触发enter事件
-      onMouseEnter && onMouseEnter();
+      onMouseenter?.();
     }, mouseEnterDelay.value);
   };
   // 鼠标离开
   const handleMouseleave = (e: MouseEvent) => {
     // 处理关闭
-    if (timeout.value) {
-      clearTimeout(timeout.value);
-    }
-    if (trigger.value != 'hover' || !computedVisible.value) {
-      return;
-    }
+    if (timeout.value) clearTimeout(timeout.value);
+    if (trigger.value != 'hover' || !computedVisible.value) return;
     timeout.value = setTimeout(() => {
       // 处理不嵌套的情况
       if (!isNested.value) {
         computedVisible.value = false;
-        return;
       }
       // 处理嵌套情况
-      const { isGroup } = isSameNestedGroup(e.relatedTarget as HTMLDivElement);
-      if (isGroup) {
-        computedVisible.value = false;
-      } else {
-        curHoverLevel.value = -1;
+      else {
+        const { isGroup } = isSameNestedGroup(
+          e.relatedTarget as HTMLDivElement
+        );
+        // 如果在一个组则关闭
+        isGroup && (computedVisible.value = false);
+        // 不在一个组则关闭所有
+        !isGroup && (curHoverLevel.value = -1);
       }
+      // 处理leave事件
+      onMouseleave?.();
     }, mouseLeaveDelay.value);
   };
   // 聚焦
   const handleFocus = () => {
-    if (timeout.value) {
-      clearTimeout(timeout.value);
-    }
-    if (trigger.value != 'focus' || computedVisible.value) {
-      return;
-    }
+    if (timeout.value) clearTimeout(timeout.value);
+    if (trigger.value != 'focus' || computedVisible.value) return;
     timeout.value = setTimeout(() => {
       computedVisible.value = true;
+      // 触发foucs事件
+      onFocus?.();
     }, focusDelay.value);
   };
   // 失焦
   const handleBlur = () => {
-    if (timeout.value) {
-      clearTimeout(timeout.value);
-    }
-    if (
-      trigger.value != 'focus' ||
-      !blurToClose.value ||
-      !computedVisible.value
-    ) {
-      return;
-    }
+    const disabledClose =
+      trigger.value != 'focus' || !blurToClose.value || !computedVisible.value;
+    if (timeout.value) clearTimeout(timeout.value);
+    if (disabledClose) return;
     computedVisible.value = false;
+    onBlur?.();
   };
   // 点击到contentRef外层关闭
   const handleClickOutsideClose = () => {
