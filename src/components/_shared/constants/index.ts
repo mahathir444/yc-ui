@@ -1,9 +1,26 @@
+import {
+  IconInfo,
+  IconWarning,
+  IconError,
+  IconSuccess,
+  IconLoading,
+} from '@shared/icons';
+
 // 类型到高度的映射
 export const SIZE_MAP = {
   mini: 24,
   small: 28,
   medium: 32,
   large: 36,
+};
+
+// icon映射
+export const TYPE_ICON_MAP: Record<string, any> = {
+  success: IconSuccess,
+  warning: IconWarning,
+  error: IconError,
+  info: IconInfo,
+  loading: IconLoading,
 };
 
 // provide-keys

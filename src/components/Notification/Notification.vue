@@ -4,7 +4,7 @@
     <div class="yc-notification-left">
       <div v-if="hasIcon" :class="['yc-notification-icon', type]">
         <slot name="icon">
-          <component :is="iconMap[type]" />
+          <component :is="TYPE_ICON_MAP[type]" />
         </slot>
       </div>
     </div>
@@ -31,7 +31,7 @@
 import { onMounted, onUpdated, computed, useSlots, ref } from 'vue';
 import { NotificationProps } from './type';
 import { useTimeoutFn } from '@vueuse/core';
-import { IconInfo, IconWarning, IconError, IconSuccess } from '@shared/icons';
+import { TYPE_ICON_MAP } from '@shared/constants';
 defineOptions({
   name: 'Notification',
 });
@@ -58,12 +58,6 @@ const { start, stop } = useTimeoutFn(
 const resetFlag = ref(props.resetFlag);
 
 const slots = useSlots();
-const iconMap: Record<string, any> = {
-  success: IconSuccess,
-  warning: IconWarning,
-  error: IconError,
-  info: IconInfo,
-};
 onUpdated(() => {
   if (props.duration === 0) return;
   if (props.resetFlag === resetFlag.value) return;

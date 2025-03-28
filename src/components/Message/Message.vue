@@ -8,7 +8,7 @@
     >
       <span v-if="hasIcon" :class="['yc-message-icon', type]">
         <slot name="icon">
-          <component :is="iconMap[type]" :spin="type == 'loading'" />
+          <component :is="TYPE_ICON_MAP[type]" :spin="type == 'loading'" />
         </slot>
       </span>
       <span class="yc-message-content">{{ content }}</span>
@@ -25,7 +25,7 @@
 import { onMounted, onUpdated, ref, computed, useSlots } from 'vue';
 import { MessageProps } from './type';
 import { useTimeoutFn } from '@vueuse/core';
-import { IconInfo, IconWarning, IconError, IconSuccess } from '@shared/icons';
+import { TYPE_ICON_MAP } from '@shared/constants';
 defineOptions({
   name: 'Message',
 });
@@ -53,12 +53,6 @@ const { isPending, start, stop } = useTimeoutFn(
 );
 const resetFlag = ref(props.resetFlag);
 const slots = useSlots();
-const iconMap: Record<string, any> = {
-  success: IconSuccess,
-  warning: IconWarning,
-  error: IconError,
-  info: IconInfo,
-};
 onUpdated(() => {
   if (props.duration === 0) return;
   if (props.resetFlag === resetFlag.value) return;

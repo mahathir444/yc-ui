@@ -21,7 +21,7 @@
       <div class="yc-popconfirm-body">
         <div :class="['yc-popconfirm-icon', TYPE_CLASS[type]]">
           <slot v-if="$slots.icon" name="icon" />
-          <component v-else :is="iconMap[type]" />
+          <component v-else :is="TYPE_ICON_MAP[type]" />
         </div>
         <div class="yc-popconfirm-content">
           <slot v-if="$slots.content" name="content" />
@@ -50,11 +50,11 @@
 import { ref, toRefs } from 'vue';
 import { TYPE_CLASS } from './constants';
 import { PopconfirmProps } from './type';
+import { TYPE_ICON_MAP } from '@shared/constants';
 import useOnBeforeClose from '@shared/hooks/useOnBeforeClose';
 import useControlValue from '@shared/hooks/useControlValue';
 import YcTrigger, { TriggerInstance } from '@/components/Trigger';
 import YcButton from '@/components/Button';
-import { IconInfo, IconWarning, IconError, IconSuccess } from '@shared/icons';
 defineOptions({
   name: 'Popconfirm',
 });
@@ -95,13 +95,6 @@ const { popupVisible, defaultPopupVisible } = toRefs(props);
 const { onBeforeOk, onBeforeCancel } = props;
 // 触发器实例
 const triggerRef = ref<TriggerInstance>();
-// icon映射
-const iconMap: Record<string, any> = {
-  success: IconSuccess,
-  warning: IconWarning,
-  error: IconError,
-  info: IconInfo,
-};
 // 受控的visible
 const computedVisible = useControlValue<boolean>(
   popupVisible,
