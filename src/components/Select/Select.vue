@@ -12,6 +12,7 @@
     auto-fit-popup-width
     prevent-focus
     v-bind="triggerProps"
+    ref="popupRef"
   >
     <slot name="trigger">
       <div
@@ -156,12 +157,13 @@ import {
 import { ObjectData } from '@shared/type';
 import { SELECT_PROVIDE_KEY } from '@shared/constants';
 import { sleep } from '@shared/utils/fn';
+import useSelectHotkeys from '@shared/hooks/useSelectHotkeys';
 import useSeletValue from '@shared/hooks/useSeletValue';
 import SelectIcon from './component/SelectIcon.vue';
 import SelectDropdown from './component/SelectDropdown.vue';
 import YcInput, { InputInstance } from '@/components/Input';
 import YcInputTag, { TagData, InputTagValue } from '@/components/InputTag';
-import YcTrigger from '@/components/Trigger';
+import YcTrigger, { TriggerInstance } from '@/components/Trigger';
 defineOptions({
   name: 'Select',
 });
@@ -213,6 +215,7 @@ const props = withDefaults(defineProps<SelectProps>(), {
   showHeaderOnEmpty: false,
   showFooterOnEmpty: false,
   tagNowrap: false,
+  hotKeys: false,
 });
 const emits = defineEmits<{
   (e: 'update:modelValue', value: SelectValue): void;
@@ -249,10 +252,13 @@ const {
   valueKey,
   options: provideOptions,
   showExtraOptions,
+  hotkeys,
 } = toRefs(props);
 const { filterOption, formatLabel, fallbackOption } = props;
 // 输入实例
 const inputRef = ref<InputInstance>();
+// triggerRef
+const popupRef = ref<TriggerInstance>();
 // 处理值
 const {
   computedVisible,
@@ -286,22 +292,24 @@ const showClearBtn = computed(() => {
     : String(computedValue.value).length;
   return allowClear.value && !disabled.value && !loading.value && !!hasValue;
 });
-// 提供值
-provide<ProvideType>(SELECT_PROVIDE_KEY, {
+// 初始化快捷键
+const { curIndex } = useSelectHotkeys({
   computedValue,
-  computedInputValue,
+  computedVisible,
+  hotkeys,
   limit,
   multiple,
-  blur: () => {
-    inputRef.value?.blur();
-  },
-  filterOption,
+  options,
+  blur,
   emits,
-  getValue,
 });
 // 获取value
 function getValue(value: string | ObjectData) {
   return (value as ObjectData)?.[valueKey.value] ?? value;
+}
+// 失焦
+function blur() {
+  inputRef.value?.blur();
 }
 // 处理事件
 const handleEvent = async (
@@ -337,6 +345,19 @@ const handleEvent = async (
     );
   }
 };
+// 提供值
+provide<ProvideType>(SELECT_PROVIDE_KEY, {
+  computedValue,
+  computedInputValue,
+  limit,
+  multiple,
+  curIndex,
+  options,
+  blur,
+  filterOption,
+  getValue,
+  emits,
+});
 
 defineExpose({
   focus() {
@@ -344,6 +365,9 @@ defineExpose({
   },
   blur() {
     inputRef.value?.blur();
+  },
+  getPopupRef() {
+    return popupRef.value;
   },
 });
 </script>

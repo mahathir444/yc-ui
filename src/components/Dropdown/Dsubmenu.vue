@@ -88,16 +88,11 @@ const trigger = computed(() => {
 // 处理计算style
 const handleCalcStyle = async () => {
   await nextTick();
-  const dom = optionRef.value?.getRef();
+  const dom = optionRef.value?.getOptionRef();
   if (!dom) return;
-  const {
-    left: offsetLeft,
-    top: offsetTop,
-    right: offsetRight,
-    width,
-  } = dom.getBoundingClientRect();
-  const x = position.value == 'rt' ? offsetRight : offsetLeft - width;
-  const y = offsetTop - 5;
+  const { left, top, right, width } = dom.getBoundingClientRect();
+  const x = position.value == 'rt' ? right : left - width;
+  const y = top - 5;
   triggerRef.value?.updatePosition(x, y);
 };
 </script>

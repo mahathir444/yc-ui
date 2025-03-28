@@ -10,7 +10,11 @@
     }"
   >
     <!-- moirror获取 -->
-    <div v-if="autoSize" class="yc-textarea-mirror" ref="mirrorRef">
+    <div
+      v-if="autoSize || showMirror"
+      class="yc-textarea-mirror"
+      ref="mirrorRef"
+    >
       {{ computedValue }}
     </div>
     <!-- textarea -->
@@ -18,11 +22,11 @@
       v-model="computedValue"
       :disabled="disabled"
       :readonly="readonly"
-      :maxlength="_maxLength"
       :placeholder="placeholder"
-      :style="heightRange"
+      :style="style"
       class="yc-textarea"
       ref="inputRef"
+      @keydown.enter="(ev) => enterPrevent && ev.preventDefault()"
       @compositionstart="handleComposition"
       @compositionupdate="handleComposition"
       @compositionend="handleComposition"
@@ -33,7 +37,7 @@
     ></textarea>
     <!-- wordlimit -->
     <yc-prevent-focus
-      v-if="showLimited"
+      v-if="showWordLimit"
       tag="span"
       class="yc-textarea-word-limit"
     >
@@ -51,15 +55,15 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, toRefs, computed } from 'vue';
+import { ref, toRefs } from 'vue';
 import {
   TextareaProps,
   ResizeRange,
   TextareaEvent,
   TextareaEventType,
 } from './type';
-import { useElementSize } from '@vueuse/core';
 import useLimitedInput from '@shared/hooks/useLimitedInput';
+import useTextareaHeight from '@shared/hooks/useTextareaHeight';
 defineOptions({
   name: 'Textarea',
 });
@@ -80,6 +84,8 @@ const props = withDefaults(defineProps<TextareaProps>(), {
   wordSlice: (value: string, maxLength: number) => {
     return value.slice(0, maxLength + 1);
   },
+  enterPrevent: false,
+  showMirror: false,
 });
 const emits = defineEmits<{
   (e: 'update:modelValue', value: string): void;
@@ -89,81 +95,28 @@ const emits = defineEmits<{
   (e: 'focus', ev: FocusEvent): void;
   (e: 'blur', ev: FocusEvent): void;
 }>();
-const {
-  modelValue,
-  defaultValue,
-  maxLength,
-  showWordLimit,
-  allowClear,
-  disabled,
-  readonly,
-  autoSize,
-} = toRefs(props);
-const { wordLength, wordSlice } = props;
+const { autoSize } = toRefs(props);
+// 输入实例
 const inputRef = ref<HTMLTextAreaElement>();
+// div的ref
+const mirrorRef = ref<HTMLDivElement>();
+// 是否聚焦
+const isFocus = ref<boolean>(false);
 // 限制输入hooks
 const {
-  showLimited,
   computedValue,
-  _maxLength,
+  showWordLimit,
+  showClearBtn,
   curLength,
   handleLimitedInput,
   handleComposition,
 } = useLimitedInput({
-  modelValue,
-  defaultValue,
-  maxLength,
-  showWordLimit,
-  inputRef,
-  wordLength,
-  wordSlice,
+  props,
   emits,
+  inputRef,
 });
-// 是否聚焦
-const isFocus = ref<boolean>(false);
-// 显示i清楚按钮
-const showClearBtn = computed(
-  () =>
-    allowClear.value &&
-    !disabled.value &&
-    !readonly.value &&
-    !!computedValue.value.length
-);
-// div的ref
-const mirrorRef = ref<HTMLDivElement>();
-// 用div动态获取textarea的高度
-const { height } = useElementSize(mirrorRef, undefined, {
-  box: 'border-box',
-});
-// 高度范围
-const heightRange = computed(() => {
-  const resizeRange = autoSize.value as ResizeRange;
-  if (!resizeRange) {
-    return {
-      minHeight: '',
-      maxHeight: '',
-    };
-  }
-  const _calcHeight = (rows: number) => {
-    return rows * 14 * 1.5715 + 8;
-  };
-  let minRows = resizeRange?.minRows ?? 1;
-  minRows = minRows <= 1 ? 1 : minRows;
-  const minHeight = _calcHeight(minRows);
-  if (resizeRange?.maxRows) {
-    let maxRows = resizeRange?.maxRows ?? 1;
-    maxRows = maxRows < minRows ? minRows : maxRows;
-    const maxHeight = _calcHeight(maxRows);
-    return {
-      minHeight: minHeight + 'px',
-      height: (height.value > maxHeight ? maxHeight : height.value) + 'px',
-    };
-  }
-  return {
-    minHeight: minHeight + 'px',
-    height: (height.value < minHeight ? minHeight : height.value) + 'px',
-  };
-});
+// 计算textare高度
+const { style } = useTextareaHeight(mirrorRef, autoSize.value as ResizeRange);
 // 处理输入，改变和清除
 const handleEvent = async (type: TextareaEventType, e: TextareaEvent) => {
   // 聚焦
@@ -172,7 +125,7 @@ const handleEvent = async (type: TextareaEventType, e: TextareaEvent) => {
     emits(type as any, e as FocusEvent);
   }
   // 输入
-  else if (['input', 'change'].includes(type)) {
+  else if (type == 'input') {
     handleLimitedInput(e);
   }
   // 清除
@@ -181,6 +134,21 @@ const handleEvent = async (type: TextareaEventType, e: TextareaEvent) => {
     emits('clear', e as MouseEvent);
   }
 };
+// 暴露方法
+defineExpose({
+  getInputRef() {
+    return inputRef.value;
+  },
+  getMirrorRef() {
+    return mirrorRef.value as HTMLDivElement;
+  },
+  focus() {
+    inputRef.value?.focus();
+  },
+  blur() {
+    inputRef.value?.blur();
+  },
+});
 </script>
 
 <style lang="less" scoped>

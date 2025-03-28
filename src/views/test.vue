@@ -12,17 +12,15 @@
         }"
       />
     </div>
-    <div style="width: 300px; height: 300px">
-      <mention :data="options" />
-      <yc-auto-complete :data="options" />
+    <div style="width: 300px">
+      mention
+      <yc-mention :data="options" placeholder="mention" />
     </div>
   </div>
 </template>
 
 <script lang="ts" setup>
 import { ref, watch } from 'vue';
-import OverflowList from '@/components/OverflowList/index.vue';
-import Mention from '@/components/Mention/index.vue';
 const value = ref(0);
 const options = ['Bytedance', 'Bytedesign', 'Bytenumner'].map((item) => {
   return {

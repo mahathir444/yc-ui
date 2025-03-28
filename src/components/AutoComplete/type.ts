@@ -15,4 +15,7 @@ export interface AutoCompleteProps {
   triggerProps?: TriggerProps;
   allowClear?: boolean;
   vistualListProps?: VirtualListProps;
+  // 是否在选择时设置value
+  isSelectSetValue?: boolean;
+  isSearch?: boolean;
 }

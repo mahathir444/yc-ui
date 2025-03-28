@@ -85,13 +85,14 @@ const { emits } = inject<ProvideType>(SELECT_PROVIDE_KEY, {
   computedInputValue: ref(''),
   multiple: ref(false),
   limit: ref(0),
-
+  curIndex: ref(-1),
+  options: ref([]),
   blur: () => {},
   filterOption: () => true,
   getValue: () => {},
   emits: () => {},
 });
-const { options } = toRefs(props);
+// const { options } = toRefs(props);
 // 虚拟列表
 // const {
 //   containerProps,

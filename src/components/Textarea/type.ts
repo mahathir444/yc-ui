@@ -12,6 +12,9 @@ export interface TextareaProps {
   autoSize?: TextareaResize;
   wordLength?: WordLength;
   wordSlice?: WordSlice;
+  // 是否阻止enter的默认行为
+  enterPrevent?: boolean;
+  showMirror?: boolean;
 }
 
 export interface ResizeRange {

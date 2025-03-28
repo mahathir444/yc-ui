@@ -1,31 +1,28 @@
-import { computed, Ref, ref } from 'vue';
-import { Fn } from '../type';
+import { computed, Ref, ref, toRefs } from 'vue';
+import { Fn, ObjectData, RequiredDeep } from '../type';
 import { isFunction, isNumber, isUndefined } from '../utils/is';
-import { WordLength, WordSlice } from '@/components/Input';
+import { InputProps } from '@/components/Input';
 import useControlValue from './useControlValue';
 import useCursor from './useCursor';
+import { TextareaProps } from '@/components/Textarea';
 
 export default (params: {
-  modelValue: Ref<string | undefined>;
-  defaultValue: Ref<string>;
-  maxLength: Ref<number | undefined>;
-  showWordLimit: Ref<boolean>;
-  inputRef: Ref<HTMLInputElement | HTMLTextAreaElement | undefined>;
-  wordSlice: WordSlice;
-  wordLength: WordLength;
+  props: ObjectData;
   emits: Fn;
+  inputRef: Ref<HTMLInputElement | HTMLTextAreaElement | undefined>;
 }) => {
+  const { props, emits, inputRef } = params;
+  // 解构属性
   const {
     modelValue,
     defaultValue,
-    showWordLimit,
+    disabled,
+    readonly,
+    allowClear,
+    showWordLimit: _showWordLimit,
     maxLength,
-    inputRef,
-    wordLength,
-    wordSlice,
-    emits,
-  } = params;
-  const { setCursor, recordCursor } = useCursor(inputRef);
+  } = toRefs(props as RequiredDeep<TextareaProps | InputProps>);
+  const { wordLength, wordSlice } = props;
   // 受控值
   const computedValue = useControlValue<string>(
     modelValue,
@@ -33,15 +30,19 @@ export default (params: {
     (val) => emits('update:modelValue', val)
   );
   // 是否展示字数限制
-  const showLimited = computed(() => {
-    return isNumber(maxLength.value) && showWordLimit.value;
+  const showWordLimit = computed(() => {
+    return isNumber(maxLength.value) && _showWordLimit.value;
   });
-  // 最大长度
-  const _maxLength = computed(() => {
-    return isNumber(maxLength.value) && isFunction(wordLength)
-      ? undefined
-      : maxLength.value;
-  });
+  // 显示i清楚按钮
+  const showClearBtn = computed(
+    () =>
+      allowClear.value &&
+      !disabled.value &&
+      !readonly.value &&
+      !!computedValue.value.length
+  );
+  // 初始化记录光标位置的hook
+  const { setCursor, recordCursor } = useCursor(inputRef);
   // wordLeng下的maxLength
   let wordLengthMax = 0;
   //   当前显示的长度
@@ -111,7 +112,6 @@ export default (params: {
       getValueLength(value) > maxLength.value
     ) {
       computedValue.value = wordSlice(value, calcWordMaxLength(value));
-      // keepControl();
       return;
     }
     recordWordMaxLength();
@@ -122,10 +122,11 @@ export default (params: {
 
   return {
     computedValue,
+    showClearBtn,
+    showWordLimit,
     curLength,
-    _maxLength,
-    showLimited,
-    isComposition,
+    disabled,
+    maxLength,
     handleLimitedInput,
     handleComposition,
   };

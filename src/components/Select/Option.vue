@@ -3,6 +3,7 @@
     v-show="filterOption(computedInputValue, props)"
     :class="{
       'yc-select-option': true,
+      'yc-select-option-active': options[curIndex]?.value == value,
       'yc-select-option-disabled': disabled,
     }"
   >
@@ -53,6 +54,8 @@ const {
   computedInputValue,
   multiple,
   limit,
+  curIndex,
+  options,
   blur,
   filterOption,
   getValue,
@@ -62,6 +65,8 @@ const {
   computedInputValue: ref(''),
   multiple: ref(false),
   limit: ref(0),
+  curIndex: ref(-1),
+  options: ref([]),
   blur: () => {},
   filterOption: () => true,
   getValue: () => {},
@@ -77,7 +82,7 @@ const modelValue = computed({
     return index != -1;
   },
   set(v) {
-    const curValue = computedValue.value as SelectValue[];
+    const curValue = computedValue.value as ObjectData[];
     const { value } = optionValue;
     if (!v) {
       computedValue.value = curValue.filter((item) => item != value);

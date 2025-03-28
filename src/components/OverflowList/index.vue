@@ -24,9 +24,12 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, toRefs, provide, inject } from 'vue';
+import { ref, toRefs, provide } from 'vue';
 import { OverflowListProps, ProvideType } from './type';
 import { OVERFLOW_LIST_PROVIDE_KEY } from '@shared/constants';
+defineOptions({
+  name: 'OverflowList',
+});
 const props = withDefaults(defineProps<OverflowListProps>(), {
   min: 9,
   margin: 8,

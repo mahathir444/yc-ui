@@ -35,7 +35,6 @@
         :type="type"
         :disabled="disabled"
         :readonly="readonly"
-        :maxlength="_maxLength"
         :placeholder="placeholder"
         v-bind="inputAttrs"
         class="yc-input"
@@ -68,12 +67,12 @@
       />
       <!-- suffix-icon -->
       <yc-prevent-focus
-        v-if="$slots.suffix || $slots.extra || showLimited"
+        v-if="$slots.suffix || $slots.extra || showWordLimit"
         class="yc-input-suffix"
       >
         <!-- word-limit -->
         <yc-prevent-focus
-          v-if="showLimited"
+          v-if="showWordLimit"
           tag="span"
           class="yc-input-word-limit"
         >
@@ -97,7 +96,7 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, computed, toRefs } from 'vue';
+import { ref } from 'vue';
 import { SIZE_CLASS } from './constants';
 import { InputProps, InputEvent, InputEventType } from './type';
 import { SIZE_MAP } from '@shared/constants';
@@ -141,47 +140,22 @@ const emits = defineEmits<{
   (e: 'focus', ev: FocusEvent): void;
   (e: 'blur', ev: FocusEvent): void;
 }>();
-const {
-  modelValue,
-  defaultValue,
-  size,
-  showWordLimit,
-  allowClear,
-  disabled,
-  readonly,
-  maxLength,
-} = toRefs(props);
-const { wordLength, wordSlice } = props;
 // 输入实例
 const inputRef = ref<HTMLInputElement>();
+// 是否聚焦
+const isFocus = ref<boolean>(false);
 // 限制输入hooks
 const {
-  showLimited,
   computedValue,
+  showWordLimit,
+  showClearBtn,
   curLength,
-  _maxLength,
   handleLimitedInput,
   handleComposition,
 } = useLimitedInput({
-  modelValue,
-  defaultValue,
-  maxLength,
-  showWordLimit,
-  inputRef,
-  wordLength,
-  wordSlice,
+  props,
   emits,
-});
-// 是否聚焦
-const isFocus = ref<boolean>(false);
-// 是否展示清除按钮
-const showClearBtn = computed(() => {
-  return (
-    allowClear.value &&
-    !disabled.value &&
-    !readonly.value &&
-    computedValue.value.length
-  );
+  inputRef,
 });
 // 处理输入，改变和清除
 const handleEvent = async (type: InputEventType, e: InputEvent) => {
@@ -216,6 +190,9 @@ defineExpose({
   },
   getValue() {
     return computedValue.value;
+  },
+  getInputRef() {
+    return inputRef.value;
   },
 });
 </script>

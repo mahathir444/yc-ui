@@ -74,7 +74,7 @@ const position = computed(() => {
 });
 // dropdown提供的值
 provide<ProvideType>(DROPDOWN_PROVIDE_KEY, {
-  select: (value: string, ev: MouseEvent) => {
+  select: (value: DoptionValue, ev: MouseEvent) => {
     emits('select', value, ev);
     if (!hideOnSelect.value) return;
     computedVisible.value = false;

@@ -32,6 +32,8 @@ import Switch from './Switch';
 import InputNumber from './InputNumber';
 import Rate from './Rate';
 import Slider from './Slider';
+import OverflowList from './OverflowList';
+import Mention from './Mention';
 
 export const components: Record<string, Plugin> = {
   Button,
@@ -61,6 +63,8 @@ export const components: Record<string, Plugin> = {
   InputNumber,
   Rate,
   Slider,
+  Mention,
+  OverflowList,
 };
 
 export default {

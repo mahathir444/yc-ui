@@ -51,6 +51,7 @@
 import { toRefs, inject, ref, onBeforeUnmount, watch } from 'vue';
 import { TagProps, TagEventType } from './type';
 import { SIZE_CLASS, COLOR_CLASS, COLOR_MAP } from './constants';
+import { isUndefined } from '@shared/utils/is';
 import { OVERFLOW_LIST_PROVIDE_KEY } from '@shared/constants';
 import { ProvideType } from '@/components/OverflowList/type';
 import YcSpin from '@/components/Spin';
@@ -71,7 +72,7 @@ const props = withDefaults(defineProps<TagProps>(), {
   defaultChecked: true,
   nowrap: false,
   preventFocus: false,
-  tagIndex: -1,
+  tagIndex: undefined,
 });
 const emits = defineEmits<{
   (e: 'update:visible', value: boolean): void;
@@ -116,13 +117,12 @@ const handleEvent = (type: TagEventType, ev: MouseEvent) => {
 function initTagIndex() {
   const { tagNumber, min } = inject<ProvideType>(OVERFLOW_LIST_PROVIDE_KEY, {
     min: ref(0),
-    tagNumber: ref(0),
+    tagNumber: ref(-1),
   });
-  if (_tagIndex.value != -1) {
+  if (!isUndefined(_tagIndex.value) || tagNumber.value == -1) {
     return {
       tagIndex: _tagIndex,
       min,
-      tagNumber,
     };
   }
   const tagIndex = ref<number>(tagNumber.value++);
@@ -131,14 +131,12 @@ function initTagIndex() {
   });
   watch(tagNumber, (newVal, oldVal) => {
     if (newVal < oldVal && tagNumber.value > newVal) {
-      console.log(tagIndex.value, tagNumber.value);
       tagIndex.value--;
     }
   });
   return {
     tagIndex,
     min,
-    tagNumber,
   };
 }
 </script>

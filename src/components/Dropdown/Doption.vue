@@ -50,7 +50,7 @@ const handleClick = (ev: MouseEvent) => {
 };
 
 defineExpose({
-  getRef() {
+  getOptionRef() {
     return doptionRef.value as HTMLDivElement;
   },
 });

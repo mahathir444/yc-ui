@@ -40,6 +40,8 @@ export interface SelectProps {
   showHeaderOnEmpty?: boolean;
   showFooterOnEmpty?: boolean;
   tagNowrap?: boolean;
+  // 是否开启快捷键
+  hotkeys?: boolean;
 }
 
 export interface OptionProps {
@@ -96,6 +98,8 @@ export interface ProvideType {
   computedInputValue: WritableComputedRef<string> | Ref<string>;
   multiple: Ref<boolean>;
   limit: Ref<number>;
+  curIndex: Ref<number>;
+  options: Ref<SelectOptionData[]>;
   blur: Fn;
   filterOption: Fn;
   getValue: Fn;

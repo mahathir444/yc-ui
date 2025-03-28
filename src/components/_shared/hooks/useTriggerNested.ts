@@ -59,7 +59,7 @@ export default (trigger: TriggerType, hideCallback?: Fn) => {
     });
   }
   // trigger提供的值
-  provide(TRIGGER_PROVIDE_KEY, {
+  provide<ProvideType>(TRIGGER_PROVIDE_KEY, {
     level,
     curHoverLevel,
     groupIds,

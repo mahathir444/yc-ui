@@ -1,15 +1,13 @@
 <template>
   <yc-select
-    :popup-visible="popupVisible && hasOption"
-    :options="data"
+    :popup-visible="popupVisible"
+    :options="curOptions"
     :popup-container="popupContainer"
     :trigger-props="triggerProps"
     :virtual-list-props="vistualListProps"
-    v-bind="$attrs"
-    @update:popup-visible="(v) => (popupVisible = v)"
-    @search="(v) => $emit('search', v)"
+    hotkeys
     @dropdown-scroll="(ev) => $emit('dropdown-scroll', ev)"
-    @select="handleSelect"
+    @select="(v) => handleEvent('select', null, v as string)"
     ref="selectRef"
   >
     <template #trigger>
@@ -18,13 +16,14 @@
           v-model="computedValue"
           :disabled="disabled"
           :allow-clear="allowClear"
+          class="yc-auto-complete"
+          ref="inputRef"
+          v-bind="$attrs"
           @change="(v) => $emit('change', v)"
-          @clear="
-            (ev) => {
-              computedValue.value = '';
-              $emit('clear', ev);
-            }
-          "
+          @input="(v, ev) => handleEvent('input', ev, v)"
+          @clear="(ev) => handleEvent('clear', ev)"
+          @focus="(ev) => handleEvent('focus', ev)"
+          @blur="(ev) => handleEvent('blur', ev)"
         />
       </slot>
     </template>
@@ -38,15 +37,16 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, toRefs, computed } from 'vue';
+import { ref, toRefs } from 'vue';
 import { AutoCompleteProps } from './type';
 import {
   default as YcSelect,
   SelectOptionData,
-  SelectInstance,
   SelectValue,
+  SelectOptions,
 } from '@/components/Select';
-import YcInput from '@/components/Input';
+import YcInput, { InputInstance } from '@/components/Input';
+import { sleep } from '@shared/utils/fn';
 import useControlValue from '@shared/hooks/useControlValue';
 defineOptions({
   name: 'AutoComplete',
@@ -58,28 +58,30 @@ const props = withDefaults(defineProps<AutoCompleteProps>(), {
   data: () => [],
   popupContainer: 'body',
   strict: false,
-  filterOption: (inputValue: string, option: SelectOptionData) => {
-    const label = option?.label?.toLowerCase();
-    const value = inputValue.toLowerCase();
-    return label?.includes(value);
-  },
+  filterOption: undefined,
   triggerProps: () => {
     return {};
   },
   allowClear: true,
+  isSelectSetValue: true,
+  isSearch: true,
 });
 const emits = defineEmits<{
   (e: 'update:modelValue', value: string): void;
   (e: 'change', value: string): void;
   (e: 'search', value: string): void;
-  (e: 'select', value: string): void;
   (e: 'clear', ev?: Event): void;
   (e: 'dropdown-scroll', ev?: Event): void;
+  (e: 'select', value: string): void;
+  (e: 'input', value: string, ev: Event): void;
+  (e: 'blur', ev: FocusEvent): void;
+  (e: 'Focus', ev: FocusEvent): void;
 }>();
-const { modelValue, defaultValue, data } = toRefs(props);
+const { modelValue, defaultValue, data, strict, isSelectSetValue, isSearch } =
+  toRefs(props);
 const { filterOption } = props;
-// selectRef
-const selectRef = ref<SelectInstance>();
+// inputRef
+const inputRef = ref<InputInstance>();
 // visible
 const popupVisible = ref<boolean>(false);
 // 计算
@@ -90,34 +92,76 @@ const computedValue = useControlValue<string>(
     emits('update:modelValue', val);
   }
 );
-// 是否为空
-const hasOption = computed(() => {
-  const inputValue = computedValue.value;
-  console.log(inputValue);
-  if (!inputValue) return false;
-  const result = !!data.value.filter((option) => {
-    return filterOption(inputValue, option);
-  }).length;
-  if (result) {
-    popupVisible.value = true;
-  } else {
-    popupVisible.value = false;
-  }
-  console.log(result, popupVisible.value);
-  return result;
-});
-// 处理选择
-const handleSelect = (v: SelectValue) => {
-  popupVisible.value = false;
-  computedValue.value = v as string;
-  emits('select', v as string);
+//当前的选项
+const curOptions = ref<SelectOptions>(data.value);
+// 默认过滤函数
+const defaultFilter = (inputValue: string, option: SelectOptionData) => {
+  const label = strict.value ? option.label : option.label.toLowerCase();
+  const value = strict.value ? inputValue : inputValue.toLowerCase();
+  return label?.includes(value);
 };
+// 获取过滤结果
+const getFilterResult = (value: string) => {
+  return data.value.filter((option) => {
+    return filterOption
+      ? filterOption(value, option)
+      : defaultFilter(value, option);
+  });
+};
+// 处理事件
+const handleEvent = async (
+  type: string,
+  ev: Event | FocusEvent | MouseEvent | null,
+  value: string = ''
+) => {
+  // 输入
+  if (type == 'input') {
+    if (!value) {
+      popupVisible.value = false;
+      return;
+    }
+    emits('input', value, ev as Event);
+    const filterOptions = getFilterResult(value);
+    popupVisible.value = !!filterOptions.length;
+    if (popupVisible.value && isSearch.value) {
+      curOptions.value = filterOptions;
+    }
+    await sleep(500);
+    emits('search', value);
+  }
+  // 选择
+  else if (type == 'select') {
+    popupVisible.value = false;
+    if (isSelectSetValue.value) {
+      computedValue.value = value;
+    }
+    emits('select', value);
+  }
+  // 聚焦
+  else if (type == 'focus') {
+    emits('Focus', ev as FocusEvent);
+  }
+  // 失焦
+  else if (type == 'blur') {
+    popupVisible.value = false;
+    emits('blur', ev as FocusEvent);
+  }
+  // 清空
+  else if (type == 'clear') {
+    computedValue.value = '';
+    emits('clear', ev as MouseEvent);
+  }
+};
+
 defineExpose({
   focus() {
-    selectRef.value?.focus();
+    inputRef.value?.focus();
   },
   blur() {
-    selectRef.value?.blur();
+    inputRef.value?.blur();
+  },
+  getInputRef() {
+    return inputRef.value?.getInputRef();
   },
 });
 </script>

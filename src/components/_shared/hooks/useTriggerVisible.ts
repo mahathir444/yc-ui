@@ -24,6 +24,7 @@ export default (params: {
     focusDelay,
     scrollToClose,
     scrollToCloseDistance,
+    autoSetPosition,
   } = toRefs(props as RequiredDeep<TriggerProps>);
   // 处理事件
   const { onMouseenter, onMouseclick, onMouseleave, onBlur, onFocus } = props;
@@ -52,9 +53,11 @@ export default (params: {
   const handleClickEvent = (e: MouseEvent, type: 'click' | 'contextMenu') => {
     if (timeout.value) clearTimeout(timeout.value);
     if (!['click', 'contextMenu'].includes(type)) return;
-    const { pageX, pageY } = e;
-    mouseX.value = pageX;
-    mouseY.value = pageY;
+    if (!autoSetPosition.value) {
+      const { pageX, pageY } = e;
+      mouseX.value = pageX;
+      mouseY.value = pageY;
+    }
     computedVisible.value = clickToClose.value ? !computedVisible.value : true;
     // 触发click事件
     onMouseclick?.();
