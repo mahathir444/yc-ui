@@ -1,18 +1,17 @@
 <template>
   <yc-trigger
-    trigger="focus"
-    position="bl"
-    animation-name="slide-dynamic-origin"
     v-model:popup-visible="computedVisible"
-    :popup-offset="4"
     :unmount-on-close="unmountonClose"
     :popup-container="popupContainer"
     :disabled="disabled"
-    prevent-focus
-    auto-fit-popup-width
+    :popup-offset="4"
+    trigger="focus"
+    position="bl"
+    animation-name="slide-dynamic-origin"
     need-transform-origin
+    auto-fit-popup-width
+    prevent-focus
     v-bind="triggerProps"
-    @popup-visible-change="(v) => $emit('popupVisibleChange', v)"
   >
     <slot name="trigger">
       <div

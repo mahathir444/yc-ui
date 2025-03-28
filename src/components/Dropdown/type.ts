@@ -46,7 +46,5 @@ export type DoptionValue = string | number | boolean;
 
 // 内部使用
 export interface ProvideType {
-  hideOnSelect: Ref<boolean>;
-  hide: Fn;
-  emits: Fn;
+  select: Fn;
 }

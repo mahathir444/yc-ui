@@ -48,6 +48,7 @@ export default (params: {
     defaultPopupVisible.value,
     (val) => {
       emits('update:popupVisible', val);
+      emits('popupVisibleChange', val);
     }
   );
   // 当前选项

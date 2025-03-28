@@ -6,7 +6,6 @@
     :popup-offset="4"
     :mouse-enter-delay="150"
     :mouse-leave-delay="150"
-    :show-arrow="false"
     animation-name="slide-dynamic-origin"
     need-transform-origin
     auto-fit-popup-min-width
@@ -75,9 +74,9 @@ const position = computed(() => {
 });
 // dropdown提供的值
 provide<ProvideType>(DROPDOWN_PROVIDE_KEY, {
-  hideOnSelect,
-  emits,
-  hide: () => {
+  select: (value: string, ev: MouseEvent) => {
+    emits('select', value, ev);
+    if (!hideOnSelect.value) return;
     computedVisible.value = false;
   },
 });

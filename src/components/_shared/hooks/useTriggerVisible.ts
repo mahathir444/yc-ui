@@ -11,6 +11,7 @@ export default (params: {
   triggerRef: Ref<HTMLElement | undefined>;
 }) => {
   const { props, emits, popupRef, triggerRef } = params;
+  // 解构属性
   const {
     trigger,
     popupVisible,
@@ -23,11 +24,19 @@ export default (params: {
     focusDelay,
     scrollToClose,
     scrollToCloseDistance,
-    autoSetPosition,
   } = toRefs(props as RequiredDeep<TriggerProps>);
   // 处理事件
   const { onMouseenter, onMouseclick, onMouseleave, onBlur, onFocus } = props;
-  // 鼠标操作的位置
+  // 处理嵌套
+  const {
+    isNested,
+    level,
+    curHoverLevel,
+    timeout,
+    groupId,
+    isSameNestedGroup,
+  } = useTriggerNested(trigger.value, () => (computedVisible.value = false));
+  // 记录鼠标操作的位置
   const mouseX = ref<number>(0);
   const mouseY = ref<number>(0);
   // visible
@@ -39,15 +48,6 @@ export default (params: {
       emits('popup-visible-change', val);
     }
   );
-  // 处理嵌套
-  const {
-    isNested,
-    level,
-    curHoverLevel,
-    timeout,
-    groupId,
-    isSameNestedGroup,
-  } = useTriggerNested(trigger.value, () => (computedVisible.value = false));
   // 点击
   const handleClickEvent = (e: MouseEvent, type: 'click' | 'contextMenu') => {
     if (timeout.value) clearTimeout(timeout.value);

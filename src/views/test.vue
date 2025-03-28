@@ -11,58 +11,10 @@
           90: '90km',
         }"
       />
-      <!-- <yc-input-number
-        v-model="value"
-        :step="1.2"
-        :precision="1"
-        :min="2"
-        :max="13"
-        placeholder="请输入"
-      ></yc-input-number> -->
     </div>
     <div style="width: 300px; height: 300px">
-      <!-- <mention :data="options" />
-      <yc-auto-complete :data="options" /> -->
-      <yc-dropdown @select="(v) => console.log('选中', v)">
-        <yc-button>测试嵌套</yc-button>
-        <template #content>
-          <yc-dsubmenu>
-            分组1
-            <template #content>
-              <yc-dsubmenu>
-                分组2
-                <template #content>
-                  <yc-dsubmenu>
-                    分组3
-                    <template #content>
-                      <yc-dsubmenu>
-                        分组4
-                        <template #content>
-                          <yc-doption v-for="i in 6" :key="i" :value="i">
-                            选项{{ i }}
-                          </yc-doption>
-                        </template>
-                      </yc-dsubmenu>
-                      <yc-doption v-for="i in 6" :key="i" :value="i">
-                        选项{{ i }}
-                      </yc-doption>
-                    </template>
-                  </yc-dsubmenu>
-                  <yc-doption v-for="i in 6" :key="i" :value="i">
-                    选项{{ i }}
-                  </yc-doption>
-                </template>
-              </yc-dsubmenu>
-              <yc-doption v-for="i in 6" :key="i" :value="i">
-                选项{{ i }}
-              </yc-doption>
-            </template>
-          </yc-dsubmenu>
-          <yc-doption v-for="i in 6" :key="i" :value="i">
-            选项{{ i }}
-          </yc-doption>
-        </template>
-      </yc-dropdown>
+      <mention :data="options" />
+      <yc-auto-complete :data="options" />
     </div>
   </div>
 </template>

@@ -34,16 +34,10 @@ const props = withDefaults(defineProps<DoptionProps>(), {
 const emits = defineEmits<{
   (e: 'click', ev: MouseEvent): void;
 }>();
-const { value, disabled, isSubmenu } = toRefs(props);
+const { value: optionValue, disabled, isSubmenu } = toRefs(props);
 // dropdown传递的值
-const {
-  emits: _emits,
-  hideOnSelect,
-  hide,
-} = inject<ProvideType>(DROPDOWN_PROVIDE_KEY, {
-  hideOnSelect: ref(true),
-  emits: () => {},
-  hide: () => {},
+const { select } = inject<ProvideType>(DROPDOWN_PROVIDE_KEY, {
+  select: () => {},
 });
 // 自身实例
 const doptionRef = ref<HTMLDivElement>();
@@ -51,10 +45,8 @@ const doptionRef = ref<HTMLDivElement>();
 const handleClick = (ev: MouseEvent) => {
   if (disabled.value) return;
   emits('click', ev);
-  if (isSubmenu.value || !_emits) return;
-  _emits('select', value.value, ev);
-  if (!hideOnSelect.value) return;
-  hide();
+  if (isSubmenu.value) return;
+  select(optionValue.value, ev);
 };
 
 defineExpose({

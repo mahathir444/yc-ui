@@ -7,9 +7,9 @@
     :disabled="disabled"
     :mouse-enter-delay="150"
     :mouse-leave-delay="150"
-    :show-arrow="false"
     :on-mouseenter="handleCalcStyle"
     :on-mouseclick="handleCalcStyle"
+    need-transform-origin
     auto-set-position
     auto-fit-popup-min-width
     ref="triggerRef"

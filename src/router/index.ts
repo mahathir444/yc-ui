@@ -30,6 +30,11 @@ const router = createRouter({
           name: 'form',
           component: () => import('@/views/form.vue'),
         },
+        {
+          path: 'popover',
+          name: 'popover',
+          component: () => import('@/views/popover.vue'),
+        },
       ],
     },
   ],
