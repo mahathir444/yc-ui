@@ -101,6 +101,8 @@ import { SIZE_CLASS } from './constants';
 import { InputProps, InputEvent, InputEventType } from './type';
 import { SIZE_MAP } from '@shared/constants';
 import useLimitedInput from '@shared/hooks/useLimitedInput';
+import YcPreventFocus from '@shared/components/PreventFocus';
+import YcIconButton from '@shared/components/IconButton';
 defineOptions({
   name: 'Input',
 });

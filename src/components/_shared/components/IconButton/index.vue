@@ -14,6 +14,7 @@
 <script lang="ts" setup>
 import { IconButtonProps } from './type.ts';
 import { IconClose } from '@shared/icons';
+import YcPreventFocus from '@shared/components/PreventFocus';
 defineOptions({
   name: 'IconButton',
 });

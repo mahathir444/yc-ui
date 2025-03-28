@@ -17,6 +17,9 @@
     justify-content: center;
     .yc-switch-handle-icon {
       font-size: inherit;
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
   }
   .yc-switch-text {
@@ -116,7 +119,7 @@
   }
 }
 // type-line
-.yc-switch-type-line {
+.yc-switch-shape-line {
   background: transparent;
   &::after {
     content: '';
@@ -139,7 +142,7 @@
       width: 16px;
       height: 16px;
     }
-    &.yc-switch-type-line {
+    &.yc-switch-checked {
       .yc-switch-handle {
         left: calc(100% - 16px);
       }
@@ -153,7 +156,7 @@
       width: 20px;
       height: 20px;
     }
-    &.yc-switch-type-line {
+    &.yc-switch-checked {
       .yc-switch-handle {
         left: calc(100% - 20px);
       }

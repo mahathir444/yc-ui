@@ -49,6 +49,8 @@ import { SIZE_CLASS } from './constants';
 import { RADIO_GROUP_PROVIDE_KEY } from '@shared/constants';
 import { isUndefined } from '@shared/utils/is';
 import useControlValue from '@shared/hooks/useControlValue';
+import YcPreventFocus from '@shared/components/PreventFocus';
+import YcIconButton from '@shared/components/IconButton';
 defineOptions({
   name: 'Radio',
 });

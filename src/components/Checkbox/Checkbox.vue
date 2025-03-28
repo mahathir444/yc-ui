@@ -44,6 +44,8 @@ import { CheckboxProps, ProvideType } from './type';
 import { CHECKBOX_GROUP_PROVIDE_KEY } from '@shared/constants';
 import useControlValue from '@shared/hooks/useControlValue';
 import { IconCheck } from '@shared/icons';
+import YcPreventFocus from '@shared/components/PreventFocus';
+import YcIconButton from '@shared/components/IconButton';
 
 defineOptions({
   name: 'Checkbox',

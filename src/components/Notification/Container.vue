@@ -5,7 +5,7 @@
     tag="div"
     :class="['yc-notification-list', position]"
   >
-    <notification
+    <yc-notification
       v-for="item in notificationList"
       :key="item.id"
       :duration="item.duration"
@@ -32,14 +32,14 @@
       <template #closeIcon v-if="item.closeIcon">
         <component :is="getSlotFunction(item.closeIcon)" />
       </template>
-    </notification>
+    </yc-notification>
   </transition-group>
 </template>
 
 <script setup lang="ts">
 import { computed } from 'vue';
 import { getSlotFunction } from '@shared/utils/vue-utils';
-import Notification from './Notification.vue';
+import YcNotification from './Notification.vue';
 import { NotificationConfig, NotificationPosition } from './type';
 const props = defineProps<{
   notificationList: NotificationConfig[];

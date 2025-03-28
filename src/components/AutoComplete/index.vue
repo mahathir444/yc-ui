@@ -39,15 +39,15 @@
 <script lang="ts" setup>
 import { ref, toRefs } from 'vue';
 import { AutoCompleteProps } from './type';
+import { sleep } from '@shared/utils/fn';
+import useControlValue from '@shared/hooks/useControlValue';
 import {
   default as YcSelect,
   SelectOptionData,
-  SelectValue,
   SelectOptions,
 } from '@/components/Select';
 import YcInput, { InputInstance } from '@/components/Input';
-import { sleep } from '@shared/utils/fn';
-import useControlValue from '@shared/hooks/useControlValue';
+
 defineOptions({
   name: 'AutoComplete',
 });

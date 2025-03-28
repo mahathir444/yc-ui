@@ -1,8 +1,8 @@
 <template>
   <yc-prevent-focus
     v-if="computedVisible && (min <= 0 || tagIndex < min)"
-    :prevent-focus="preventFocus"
     tag="label"
+    :prevent-focus="preventFocus"
     :class="[
       'yc-tag',
       SIZE_CLASS[size],
@@ -13,9 +13,10 @@
       nowrap ? 'yc-tag-no-wrap' : 'yc-tag-wrap',
     ]"
     :style="{
-      background: COLOR_CLASS[color] ? '' : (COLOR_MAP[color] ?? color),
+      background,
       color: ['default', 'white'].includes(color) ? 'rgb(29, 33, 41)' : '',
     }"
+    @click="handleEvent('check', $event)"
   >
     <!-- icon -->
     <div v-if="$slots.icon" class="yc-tag-icon">
@@ -48,7 +49,7 @@
 </template>
 
 <script lang="ts" setup>
-import { toRefs, inject, ref, onBeforeUnmount, watch } from 'vue';
+import { toRefs, inject, ref, onBeforeUnmount, watch, computed } from 'vue';
 import { TagProps, TagEventType } from './type';
 import { SIZE_CLASS, COLOR_CLASS, COLOR_MAP } from './constants';
 import { isUndefined } from '@shared/utils/is';
@@ -56,6 +57,8 @@ import { OVERFLOW_LIST_PROVIDE_KEY } from '@shared/constants';
 import { ProvideType } from '@/components/OverflowList/type';
 import YcSpin from '@/components/Spin';
 import useControlValue from '@shared/hooks/useControlValue';
+import YcPreventFocus from '@shared/components/PreventFocus';
+import YcIconButton from '@shared/components/IconButton';
 defineOptions({
   name: 'Tag',
 });
@@ -87,6 +90,7 @@ const {
   defaultChecked,
   checkable,
   preventFocus,
+  color,
   tagIndex: _tagIndex,
 } = toRefs(props);
 // visible
@@ -101,6 +105,13 @@ const computedChecked = useControlValue<boolean>(
   defaultChecked.value,
   (val) => emits('update:checked', val)
 );
+// 背景色
+const background = computed(() => {
+  if (!computedChecked.value) return '';
+  return COLOR_CLASS[color.value]
+    ? ''
+    : (COLOR_MAP[color.value] ?? color.value);
+});
 // 用于折叠面板
 const { tagIndex, min } = initTagIndex();
 // 处理事件

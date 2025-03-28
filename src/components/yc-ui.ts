@@ -1,5 +1,4 @@
 import { App, Plugin } from 'vue';
-import GlobalComponents from '@shared/components';
 import Button, { ButtonGroup } from './Button';
 import Drawer from './Drawer';
 import Dropdown, {
@@ -81,7 +80,6 @@ export default {
   CheckboxGroup,
   RadioGroup,
   install: (app: App) => {
-    app.use(GlobalComponents);
     for (const key of Object.keys(components)) {
       app.use(components[key]);
     }

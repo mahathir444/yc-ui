@@ -67,6 +67,23 @@
         <yc-button>测试嵌套</yc-button>
       </yc-popconfirm>
     </div>
+    <div style="width: 300px">
+      tooltip
+      <yc-trigger>
+        <yc-button>popover</yc-button>
+        <template #content>
+          <yc-empty
+            style="
+              height: 100px;
+              width: 180px;
+              border: 1px solid rgb(229, 230, 235);
+              border-radius: 4px;
+              box-shadow: 0 4px 10px #0000001a;
+            "
+          />
+        </template>
+      </yc-trigger>
+    </div>
   </div>
 </template>
 

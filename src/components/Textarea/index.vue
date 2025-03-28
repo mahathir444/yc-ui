@@ -64,6 +64,8 @@ import {
 } from './type';
 import useLimitedInput from '@shared/hooks/useLimitedInput';
 import useTextareaHeight from '@shared/hooks/useTextareaHeight';
+import YcPreventFocus from '@shared/components/PreventFocus';
+import YcIconButton from '@shared/components/IconButton';
 defineOptions({
   name: 'Textarea',
 });

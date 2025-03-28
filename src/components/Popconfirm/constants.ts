@@ -1,6 +1,7 @@
-export const TYPE_CLASS = {
-  info: 'yc-popconfirm-info',
-  success: 'yc-popconfirm-success',
-  warning: 'yc-popconfirm-warning',
-  error: 'yc-popconfirm-error',
-};
+import { getComponentTypeMap } from '@shared/utils/compt';
+export const TYPE_CLASS = getComponentTypeMap('yc-popconfirm', [
+  'info',
+  'success',
+  'warning',
+  'error',
+]);

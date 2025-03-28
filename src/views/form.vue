@@ -88,7 +88,7 @@
       rate
       <yc-rate :count="5" allow-half allow-clear />
     </div>
-    <div style="width: 300px; height: 300px">
+    <div style="width: 300px">
       slider
       <yc-slider
         :marks="{
@@ -98,6 +98,10 @@
           90: '90km',
         }"
       />
+    </div>
+    <div style="width: 300px">
+      mention
+      <yc-mention :data="options" placeholder="mention" />
     </div>
   </div>
 </template>

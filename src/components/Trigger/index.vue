@@ -53,6 +53,7 @@ import { TriggerProps } from './type';
 import { findFirstLegitChild } from '@shared/utils/vue-vnode';
 import useTriggerVisible from '@shared/hooks/useTriggerVisible';
 import useTriggerPosition from '@shared/hooks/useTriggerPosition';
+import YcPreventFocus from '@shared/components/PreventFocus';
 defineOptions({
   name: 'Trigger',
   inheritAttrs: false,

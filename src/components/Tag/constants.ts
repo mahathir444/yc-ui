@@ -1,8 +1,10 @@
-export const SIZE_CLASS = {
-  small: 'yc-tag-size-small',
-  medium: 'yc-tag-size-medium',
-  large: 'yc-tag-size-large',
-};
+import { getComponentSizeMap } from '@shared/utils/compt';
+
+export const SIZE_CLASS = getComponentSizeMap('yc-tag', [
+  'small',
+  'medium',
+  'large',
+]);
 
 export const COLOR_CLASS: Record<string, string> = {
   red: 'yc-tag-color-red',

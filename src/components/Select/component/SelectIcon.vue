@@ -36,6 +36,8 @@
 
 <script lang="ts" setup>
 import { IconSearch, IconArrowRight } from '@shared/icons';
+import YcPreventFocus from '@shared/components/PreventFocus';
+import YcIconButton from '@shared/components/IconButton';
 defineProps<{
   loading: boolean;
   allowSearch: boolean;

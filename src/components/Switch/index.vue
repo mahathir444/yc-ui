@@ -1,15 +1,13 @@
 <template>
   <button
-    :class="{
-      'yc-switch': true,
-      'yc-switch-unchecked': !compuedChecked,
-      'yc-switch-checked': compuedChecked,
-      'yc-switch-loading': loading,
-      'yc-switch-disabled': disabled,
-      'yc-switch-type-line': type == 'line',
-      'yc-switch-size-small': size == 'small',
-      'yc-switch-size-medium': size == 'medium',
-    }"
+    :class="[
+      'yc-switch',
+      compuedChecked ? 'yc-switch-checked' : 'yc-switch-unchecked',
+      loading ? 'yc-switch-loading' : '',
+      disabled ? 'yc-switch-disabled' : '',
+      SHAPE_CLASS[type],
+      SIZE_CLASS[size],
+    ]"
     :aria-checked="compuedChecked"
     :style="switchCss"
     role="switch"
@@ -54,6 +52,7 @@
 <script lang="ts" setup>
 import { toRefs, computed, CSSProperties } from 'vue';
 import { SwitchProps, SwitchValue } from './type';
+import { SIZE_CLASS, SHAPE_CLASS } from './constants';
 import { SIZE_MAP } from '@shared/constants';
 import { isBoolean } from '@shared/utils/is';
 import useControlValue from '@shared/hooks/useControlValue';

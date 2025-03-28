@@ -88,6 +88,8 @@ import { nanoid } from 'nanoid';
 import { useElementSize } from '@vueuse/core';
 import useControlValue from '@shared/hooks/useControlValue';
 import TagOverflowList from './component/TagOverflowList.vue';
+import YcPreventFocus from '@shared/components/PreventFocus';
+import YcIconButton from '@shared/components/IconButton';
 defineOptions({
   name: 'InputTag',
 });

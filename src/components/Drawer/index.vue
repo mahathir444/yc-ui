@@ -85,6 +85,7 @@ import { DrawerProps } from './type';
 import { CloseType } from '@shared/type';
 import useDrawerClose from '@shared/hooks/useModalClose';
 import YcButton from '@/components/Button';
+import YcIconButton from '@shared/components/IconButton';
 defineOptions({
   name: 'Drawer',
 });

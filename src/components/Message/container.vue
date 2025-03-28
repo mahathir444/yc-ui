@@ -6,7 +6,7 @@
     tag="div"
     class="yc-message-container"
   >
-    <message
+    <yc-message
       v-for="item in messageList"
       :key="item.id"
       :duration="item.duration"
@@ -21,12 +21,12 @@
       <template #icon v-if="item.icon">
         <component :is="item.icon" />
       </template>
-    </message>
+    </yc-message>
   </transition-group>
 </template>
 
 <script setup lang="ts">
-import Message from './Message.vue';
+import YcMessage from './Message.vue';
 import { MessageContainerProps } from './type';
 defineProps<MessageContainerProps>();
 const emits = defineEmits(['close']);

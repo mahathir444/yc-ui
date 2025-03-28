@@ -103,6 +103,7 @@ import { CloseType } from '@shared/type';
 import useModalDraggable from '@shared/hooks/useModalDraggable';
 import useModalClose from '@shared/hooks/useModalClose';
 import YcButton from '@/components/Button';
+import YcIconButton from '@shared/components/IconButton';
 defineOptions({
   name: 'Modal',
 });

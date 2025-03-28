@@ -33,7 +33,12 @@ const router = createRouter({
         {
           path: 'popover',
           name: 'popover',
-          component: () => import('@/views/popover.vue'),
+          component: () => import('@/views/popup.vue'),
+        },
+        {
+          path: 'other',
+          name: 'other',
+          component: () => import('@/views/other.vue'),
         },
       ],
     },

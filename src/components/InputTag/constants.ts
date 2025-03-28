@@ -1,6 +1,3 @@
-export const SIZE_CLASS = {
-  mini: 'yc-input-tag-size-mini',
-  small: 'yc-input-tag-size-small',
-  medium: 'yc-input-tag-size-medium',
-  large: 'yc-input-tag-size-large',
-};
+import { getComponentSizeMap } from '@shared/utils/compt';
+
+export const SIZE_CLASS = getComponentSizeMap('yc-input-tag');

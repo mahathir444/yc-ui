@@ -17,7 +17,7 @@ defineOptions({
   name: 'Empty',
 });
 withDefaults(defineProps<EmptyProps>(), {
-  description: '',
+  description: '暂无数据',
   imgSrc: '',
 });
 </script>

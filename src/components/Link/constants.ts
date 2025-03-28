@@ -1,6 +1,3 @@
-export const STATUS_CLASS = {
-  warning: 'yc-link-status-warning',
-  success: 'yc-link-status-success',
-  danger: 'yc-link-status-danger',
-  normal: 'yc-link-status-normal',
-};
+import { getComponentStatusMap } from '@shared/utils/compt';
+
+export const STATUS_CLASS = getComponentStatusMap('yc-link');
