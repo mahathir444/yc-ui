@@ -21,7 +21,48 @@
       ></yc-input-number> -->
     </div>
     <div style="width: 300px; height: 300px">
-      <mention :data="['Bytedance', 'Bytedesign', 'Bytenumner']" />
+      <!-- <mention :data="options" />
+      <yc-auto-complete :data="options" /> -->
+      <yc-dropdown>
+        <yc-button>测试嵌套</yc-button>
+        <template #content>
+          <yc-dsubmenu>
+            分组1
+            <template #content>
+              <yc-dsubmenu>
+                分组2
+                <template #content>
+                  <yc-dsubmenu>
+                    分组3
+                    <template #content>
+                      <yc-dsubmenu>
+                        分组4
+                        <template #content>
+                          <yc-doption v-for="i in 6" :key="i" :value="i">
+                            选项{{ i }}
+                          </yc-doption>
+                        </template>
+                      </yc-dsubmenu>
+                      <yc-doption v-for="i in 6" :key="i" :value="i">
+                        选项{{ i }}
+                      </yc-doption>
+                    </template>
+                  </yc-dsubmenu>
+                  <yc-doption v-for="i in 6" :key="i" :value="i">
+                    选项{{ i }}
+                  </yc-doption>
+                </template>
+              </yc-dsubmenu>
+              <yc-doption v-for="i in 6" :key="i" :value="i">
+                选项{{ i }}
+              </yc-doption>
+            </template>
+          </yc-dsubmenu>
+          <yc-doption v-for="i in 6" :key="i" :value="i">
+            选项{{ i }}
+          </yc-doption>
+        </template>
+      </yc-dropdown>
     </div>
   </div>
 </template>
@@ -31,14 +72,12 @@ import { ref, watch } from 'vue';
 import OverflowList from '@/components/OverflowList/index.vue';
 import Mention from '@/components/Mention/index.vue';
 const value = ref(0);
-//
-const options = ref<any[]>([]);
-for (let i = 0; i < 20; i++) {
-  options.value.push({
-    label: '选项' + i,
-    value: i,
-  });
-}
+const options = ['Bytedance', 'Bytedesign', 'Bytenumner'].map((item) => {
+  return {
+    label: item,
+    value: item,
+  };
+});
 </script>
 
 <style lang="less" scoped>

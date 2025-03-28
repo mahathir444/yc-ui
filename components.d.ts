@@ -22,6 +22,7 @@ declare module 'vue' {
     Dropdown: typeof import('./src/components/Dropdown/Dropdown.vue')['default']
     DropdownButton: typeof import('./src/components/Dropdown/DropdownButton.vue')['default']
     Dsubmenu: typeof import('./src/components/Dropdown/Dsubmenu.vue')['default']
+    Dsubmenu1: typeof import('./src/components/Dropdown/Dsubmenu1.vue')['default']
     Empty: typeof import('./src/components/Empty/index.vue')['default']
     Icon: typeof import('./src/components/_shared/components/Icon/index.vue')['default']
     IconArrowRight: typeof import('./src/components/_shared/icons/IconArrowRight.vue')['default']

@@ -5,7 +5,7 @@
     viewBox="0 0 48 48"
     aria-hidden="true"
     focusable="false"
-    v-bind="$attrs"
+    v-bind="attrs"
   >
     <path d="m16 39.513 15.556-15.557L16 8.4"></path>
   </svg>

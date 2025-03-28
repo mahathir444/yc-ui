@@ -228,6 +228,7 @@ const emits = defineEmits<{
   (e: 'dropdownScroll'): void;
   (e: 'dropdownReachBottom'): void;
   (e: 'exceedLimit', value: SelectValue, ev?: MouseEvent): void;
+  (e: 'select', value: SelectValue): void;
 }>();
 const {
   modelValue,
@@ -330,6 +331,7 @@ const handleEvent = async (
   // 失焦
   else if (type == 'blur') {
     computedVisible.value = false;
+    computedInputValue.value = '';
   } else if (type == 'updateValue') {
     computedValue.value = (value as InputTagValue).map(
       (item) => (item as TagData).value

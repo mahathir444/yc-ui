@@ -12,7 +12,6 @@ export default (params: {
 }) => {
   const { props, emits, popupRef, triggerRef } = params;
   const {
-    isDropdown,
     trigger,
     popupVisible,
     defaultPopupVisible,
@@ -24,7 +23,10 @@ export default (params: {
     focusDelay,
     scrollToClose,
     scrollToCloseDistance,
+    autoSetPosition,
   } = toRefs(props as RequiredDeep<TriggerProps>);
+  // 处理事件
+  const { onMouseEnter, onMouseClick } = props;
   // 鼠标操作的位置
   const mouseX = ref<number>(0);
   const mouseY = ref<number>(0);
@@ -54,17 +56,17 @@ export default (params: {
     if (trigger.value != type) {
       return;
     }
-    const { pageX, pageY } = e;
-    mouseX.value = pageX;
-    mouseY.value = pageY;
+    if (!autoSetPosition.value) {
+      const { pageX, pageY } = e;
+      mouseX.value = pageX;
+      mouseY.value = pageY;
+    }
     computedVisible.value = clickToClose.value ? !computedVisible.value : true;
+    // 触发click事件
+    onMouseClick && onMouseClick();
   };
   // 鼠标进入
-  const handleMouseenter = (isTrigger: boolean) => {
-    // 处理dropdown嵌套
-    if (isDropdown.value) {
-      curHoverLevel.value = isTrigger ? level : curHoverLevel.value;
-    }
+  const handleMouseenter = () => {
     // 处理trigger嵌套
     if (isNested.value) {
       curHoverLevel.value = level;
@@ -78,6 +80,8 @@ export default (params: {
     }
     timeout.value = setTimeout(() => {
       computedVisible.value = true;
+      // 触发enter事件
+      onMouseEnter && onMouseEnter();
     }, mouseEnterDelay.value);
   };
   // 鼠标离开
@@ -91,7 +95,7 @@ export default (params: {
     }
     timeout.value = setTimeout(() => {
       // 处理不嵌套的情况
-      if (!isNested.value || isDropdown.value) {
+      if (!isNested.value) {
         computedVisible.value = false;
         return;
       }
@@ -143,14 +147,14 @@ export default (params: {
       (e) => {
         let isIngore = false;
         // 处理dropdown或者嵌套情况
-        if (isDropdown.value || isNested.value) {
+        if (isNested.value) {
           const { isGroup, level: _level } = isSameNestedGroup(
             (e.target ?? e) as HTMLElement
           );
           isIngore = isGroup;
-          if (isIngore && !isDropdown.value) {
-            computedVisible.value = level <= _level;
-          }
+          computedVisible.value = isIngore
+            ? level <= _level
+            : computedVisible.value;
         }
         // 处理正常逻辑
         if (!computedVisible.value || isIngore) {

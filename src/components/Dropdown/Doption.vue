@@ -7,7 +7,6 @@
     }"
     ref="doptionRef"
     @click="handleClick"
-    @mouseenter="handleMouseenter"
   >
     <div v-if="$slots.icon" class="yc-dropdown-option-icon">
       <slot name="icon" />
@@ -25,7 +24,6 @@
 import { ref, toRefs, inject } from 'vue';
 import { DoptionProps, ProvideType } from './type';
 import { DROPDOWN_PROVIDE_KEY, TRIGGER_PROVIDE_KEY } from '@shared/constants';
-import { ProvideType as TriggerProvideType } from '@/components/Trigger/type';
 defineOptions({
   name: 'Doption',
 });
@@ -37,16 +35,6 @@ const emits = defineEmits<{
   (e: 'click', ev: MouseEvent): void;
 }>();
 const { value, disabled, isSubmenu } = toRefs(props);
-// trigger传递的值
-const { level, curHoverLevel } = inject<TriggerProvideType>(
-  TRIGGER_PROVIDE_KEY,
-  {
-    level: -1,
-    curHoverLevel: ref(0),
-    groupIds: ref([]),
-    timeout: ref<NodeJS.Timeout>(),
-  }
-);
 // dropdown传递的值
 const {
   emits: _emits,
@@ -67,10 +55,6 @@ const handleClick = (ev: MouseEvent) => {
   _emits('select', value.value, ev);
   if (!hideOnSelect.value) return;
   hide();
-};
-// 鼠标进入的时候处理层级
-const handleMouseenter = () => {
-  curHoverLevel.value = level;
 };
 
 defineExpose({

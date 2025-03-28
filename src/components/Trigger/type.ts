@@ -33,10 +33,14 @@ export type TriggerProps = {
   alignPoint?: boolean;
   scrollToClose?: boolean;
   scrollToCloseDistance?: number;
-  // 是否需要
+  // 是否需要trasformOrigin
   needTransformOrigin?: boolean;
-  // 是否是dropdown
-  isDropdown?: boolean;
+  // 是否需要自由设置位置
+  autoSetPosition?: boolean;
+  // mouseEnter
+  onMouseEnter?: Fn;
+  // mouseClick
+  onMouseClick?: Fn;
 };
 
 export interface TriggerEmits {

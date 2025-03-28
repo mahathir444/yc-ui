@@ -4,16 +4,15 @@
     :options="data"
     :popup-container="popupContainer"
     :trigger-props="triggerProps"
-    :strict="strict"
     :virtual-list-props="vistualListProps"
     v-bind="$attrs"
-    is-auto-complete-mode
     @update:popup-visible="(v) => (popupVisible = v)"
     @search="(v) => $emit('search', v)"
     @dropdown-scroll="(ev) => $emit('dropdown-scroll', ev)"
+    @select="handleSelect"
     ref="selectRef"
   >
-    <template v-if="$slots.trigger" #trigger>
+    <template #trigger>
       <slot name="trigger">
         <yc-input
           v-model="computedValue"
@@ -60,7 +59,9 @@ const props = withDefaults(defineProps<AutoCompleteProps>(), {
   popupContainer: 'body',
   strict: false,
   filterOption: (inputValue: string, option: SelectOptionData) => {
-    return option?.label?.includes(inputValue);
+    const label = option?.label?.toLowerCase();
+    const value = inputValue.toLowerCase();
+    return label?.includes(value);
   },
   triggerProps: () => {
     return {};
@@ -75,7 +76,8 @@ const emits = defineEmits<{
   (e: 'clear', ev?: Event): void;
   (e: 'dropdown-scroll', ev?: Event): void;
 }>();
-const { modelValue, defaultValue, strict, data } = toRefs(props);
+const { modelValue, defaultValue, data } = toRefs(props);
+const { filterOption } = props;
 // selectRef
 const selectRef = ref<SelectInstance>();
 // visible
@@ -90,14 +92,19 @@ const computedValue = useControlValue<string>(
 );
 // 是否为空
 const hasOption = computed(() => {
-  const value = strict.value
-    ? computedValue.value
-    : computedValue.value.toLowerCase();
-  const result = data.value.filter((item) => {
-    const label = (item?.label ?? item) as string;
-    return (strict.value ? label : label.toLowerCase()).includes(value);
+  const inputValue = computedValue.value;
+  console.log(inputValue);
+  if (!inputValue) return false;
+  const result = !!data.value.filter((option) => {
+    return filterOption(inputValue, option);
   }).length;
-  return !!result;
+  if (result) {
+    popupVisible.value = true;
+  } else {
+    popupVisible.value = false;
+  }
+  console.log(result, popupVisible.value);
+  return result;
 });
 // 处理选择
 const handleSelect = (v: SelectValue) => {

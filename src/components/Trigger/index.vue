@@ -3,7 +3,7 @@
     :is="vNode"
     @click="handleClickEvent($event, 'click')"
     @contextmenu.prevent="handleClickEvent($event, 'contextMenu')"
-    @mouseenter="handleMouseenter(true)"
+    @mouseenter="handleMouseenter"
     @mouseleave="handleMouseleave"
     @focus="handleFocus"
     @blur="handleBlur"
@@ -26,7 +26,7 @@
         :class="['yc-trigger', $attrs.class]"
         :style="popupPosition"
         ref="popupRef"
-        @mouseenter="handleMouseenter(false)"
+        @mouseenter="handleMouseenter"
         @mouseleave="handleMouseleave"
       >
         <!-- content -->
@@ -95,6 +95,7 @@ const props = withDefaults(defineProps<TriggerProps>(), {
   alignPoint: false,
   needTransformOrigin: false,
   isDropdown: false,
+  autoSetPosition: false,
 });
 const emits = defineEmits<{
   (e: 'update:popupVisible', value: boolean): void;
@@ -166,6 +167,10 @@ defineExpose({
   },
   show() {
     computedVisible.value = true;
+  },
+  updatePosition(x: number, y: number) {
+    mouseX.value = x;
+    mouseY.value = y;
   },
 });
 </script>

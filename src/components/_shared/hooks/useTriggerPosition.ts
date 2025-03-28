@@ -29,6 +29,7 @@ export default (params: {
     autoFitPopupMinWidth,
     autoFitPopupWidth,
     needTransformOrigin,
+    autoSetPosition,
     arrowStyle: _arrowStyle,
     contentStyle: _contentStyle,
   } = toRefs(props as RequiredDeep<TriggerProps>);
@@ -57,11 +58,14 @@ export default (params: {
   const popupPosition = computed(() => {
     // 计算偏移量
     const { offsetX, offsetY } = calcOffset();
+    // 是否是自由设置位置，或者跟随鼠标位置
+    const isMousePosition =
+      alignPoint.value && ['click', 'contextMenu'].includes(trigger.value);
     // 如果跟随鼠标点击位置
-    if (alignPoint.value && ['click', 'contextMenu'].includes(trigger.value)) {
+    if (autoSetPosition.value || isMousePosition) {
       return {
         top: `${mouseY.value + offsetY}px`,
-        left: `${mouseX.value - popupWidth.value / 2 + offsetX}px`,
+        left: `${mouseX.value - (autoFitPosition.value ? 0 : popupWidth.value / 2) + offsetX}px`,
       };
     }
     let offsetTop = 0;

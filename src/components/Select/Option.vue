@@ -85,6 +85,7 @@ const modelValue = computed({
       if (limit.value > 0 && curValue.length == limit.value) {
         return emits('exceedLimit', value);
       }
+      emits('select', optionValue.value);
       computedValue.value = [...curValue, value];
     }
   },
@@ -93,6 +94,7 @@ const modelValue = computed({
 const handleSingle = () => {
   if (disabled.value || isUndefined(computedValue.value)) return;
   computedValue.value = optionValue.value;
+  emits('select', optionValue.value);
   blur();
 };
 </script>

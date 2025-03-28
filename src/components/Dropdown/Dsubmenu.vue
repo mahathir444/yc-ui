@@ -1,29 +1,29 @@
 <template>
-  <yc-doption
+  <yc-trigger
+    v-model:popup-visible="computedVisible"
+    :trigger="menuTrigger"
+    :position="menuPotision"
     :disabled="disabled"
-    is-submenu
-    value=""
-    ref="optionRef"
-    @click="handleClick"
-    @mouseenter="handleMouseenter"
-    @mouseleave="handleMouseleave($event)"
+    :mouse-enter-delay="150"
+    :mouse-leave-delay="150"
+    :show-arrow="false"
+    :popup-offset="4"
+    :on-mouse-enter="handleCalcStyle"
+    :on-mouse-click="handleCalcStyle"
+    auto-set-position
+    auto-fit-popup-min-width
+    ref="triggerRef"
+    v-bind="$attrs"
+    @popup-visible-change="(v) => $emit('popup-visible-change', v)"
   >
-    <slot />
-    <template #suffix>
-      <icon-arrow-right />
-    </template>
-  </yc-doption>
-  <teleport to="body">
-    <transition name="fade">
-      <div
-        v-if="computedVisible && !disabled"
-        class="yc-dropdown-submenu"
-        :data-group-id="groupId"
-        :style="contentStyle"
-        ref="contentRef"
-        @mouseenter="handleMouseenter"
-        @mouseleave="handleMouseleave($event)"
-      >
+    <yc-doption :disabled="disabled" is-submenu value="" ref="optionRef">
+      <slot />
+      <template #suffix>
+        <icon-arrow-right />
+      </template>
+    </yc-doption>
+    <template #content>
+      <div class="yc-dropdown">
         <yc-scrollbar style="max-height: 200px">
           <div class="yc-dropdown-list">
             <slot name="content" />
@@ -33,16 +33,17 @@
           <slot name="footer" />
         </div>
       </div>
-    </transition>
-  </teleport>
+    </template>
+  </yc-trigger>
 </template>
 
 <script lang="ts" setup>
-import { ref, computed, toRefs, CSSProperties, nextTick } from 'vue';
+import { ref, computed, toRefs, nextTick } from 'vue';
 import { DsubmenuProps } from './type';
 import { IconArrowRight } from '@shared/icons';
-import useTriggerNested from '@shared/hooks/useTriggerNested';
 import useControlValue from '@shared/hooks/useControlValue';
+import { DoptionInstance } from './index';
+import YcTrigger, { TriggerInstance } from '@/components/Trigger';
 import YcDoption from './Doption.vue';
 import YcScrollbar from '@/components/Scrollbar';
 
@@ -55,35 +56,18 @@ const props = withDefaults(defineProps<DsubmenuProps>(), {
   trigger: 'hover',
   position: 'rt',
   disabled: false,
-  mouseEnterDelay: 150,
-  mouseLeaveDelay: 150,
 });
 const emits = defineEmits<{
   (e: 'update:popupVisible', value: boolean): void;
   (e: 'popup-visible-change', value: boolean): void;
-  (e: 'show'): void;
-  (e: 'hide'): void;
 }>();
-const {
-  position,
-  defaultPopupVisible,
-  popupVisible,
-  trigger,
-  mouseEnterDelay,
-  mouseLeaveDelay,
-} = toRefs(props);
+const { position, defaultPopupVisible, popupVisible, trigger } = toRefs(props);
 // 受控的visible
 const computedVisible = useControlValue<boolean>(
   popupVisible,
   defaultPopupVisible.value,
   (val) => emits('update:popupVisible', val)
 );
-// contentStyle
-const contentStyle = ref<CSSProperties>({
-  left: 0,
-  top: 0,
-  width: 0,
-});
 // 位置
 const menuPotision = computed(() => {
   if (!['rt', 'lt'].includes(position.value)) {
@@ -99,16 +83,12 @@ const menuTrigger = computed(() => {
   return trigger.value;
 });
 // option的实例
-const optionRef = ref<InstanceType<typeof YcDoption>>();
-// content的实例
-const contentRef = ref<HTMLDivElement>();
-// 处理嵌套关闭
-const { curHoverLevel, groupId, timeout, isSameNestedGroup } = useTriggerNested(
-  menuTrigger.value,
-  () => (computedVisible.value = false)
-);
+const optionRef = ref<DoptionInstance>();
+// 触发器实例
+const triggerRef = ref<TriggerInstance>();
 // 处理计算style
-const handleCalcStyle = () => {
+const handleCalcStyle = async () => {
+  await nextTick();
   const dom = optionRef.value?.getRef();
   if (!dom) return;
   const {
@@ -117,52 +97,12 @@ const handleCalcStyle = () => {
     right: offsetRight,
     width,
   } = dom.getBoundingClientRect();
-  if (menuPotision.value == 'rt') {
-    contentStyle.value = {
-      left: `${offsetRight + 4}px`,
-      top: `${offsetTop - 5}px`,
-      minWidth: `${width}px`,
-    };
-  } else {
-    contentStyle.value = {
-      left: `${offsetLeft - width - 4}px`,
-      top: `${offsetTop - 5}px`,
-      minWidth: `${width}px`,
-    };
-  }
-};
-// 鼠标进入
-const handleMouseenter = async () => {
-  if (timeout.value) clearTimeout(timeout.value);
-  if (menuTrigger.value != 'hover' || computedVisible.value) return;
-  timeout.value = setTimeout(async () => {
-    computedVisible.value = true;
-    await nextTick();
-    handleCalcStyle();
-  }, mouseEnterDelay.value);
-};
-// 鼠标离开
-const handleMouseleave = (e: MouseEvent) => {
-  if (timeout.value) clearTimeout(timeout.value);
-  if (menuTrigger.value != 'hover' || !computedVisible.value) return;
-  timeout.value = setTimeout(() => {
-    const { isGroup } = isSameNestedGroup(e.relatedTarget as HTMLDivElement);
-    if (isGroup) {
-      computedVisible.value = false;
-    } else {
-      curHoverLevel.value = -1;
-    }
-  }, mouseLeaveDelay.value);
-};
-//  点击
-const handleClick = async () => {
-  if (menuTrigger.value != 'click') return;
-  computedVisible.value = !computedVisible.value;
-  await nextTick();
-  handleCalcStyle();
+  const x = menuPotision.value == 'rt' ? offsetRight : offsetLeft - width;
+  const y = offsetTop - 5;
+  triggerRef.value?.updatePosition(x, y);
 };
 </script>
 
 <style lang="less" scoped>
-@import './style/dsubmenu.less';
+@import './style/dropdown.less';
 </style>
