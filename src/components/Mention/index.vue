@@ -54,9 +54,10 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, toRefs, onMounted } from 'vue';
+import { ref, toRefs, onMounted, computed } from 'vue';
 import { MentionProps } from './type';
-import { isNull } from '@shared/utils/is';
+import { ObjectData } from '@shared/type';
+import { isNull, isArray } from '@shared/utils/is';
 import useControlValue from '@shared/hooks/useControlValue';
 import useCursor from '@shared/hooks/useCursor';
 import { default as YcSelect, SelectInstance } from '@/components/Select';
@@ -92,6 +93,7 @@ const {
   disabled,
   prefix,
   split,
+  data,
   type: mentionType,
 } = toRefs(props);
 //   控制值
@@ -110,13 +112,19 @@ const textareaRef = ref<TextareaInstance>();
 const selectRef = ref<SelectInstance>();
 // dom
 const inputDom = ref<HTMLInputElement | HTMLTextAreaElement>();
+// prefix+选择的匹配
+const prefixTexts = computed(() => {
+  return isArray(prefix.value)
+    ? prefix.value
+        .map((ch) => data.value.map((op) => ch + (op as ObjectData).value))
+        .flat(1)
+    : data.value.map((op) => prefix.value + (op as ObjectData).value);
+});
 // 记录光标位置
 const { recordCursor, getCursor } = useCursor(inputDom);
 // 是否匹配前缀
 const isMatchPrefix = (ch: string) => {
-  return Array.isArray(prefix.value)
-    ? prefix.value.includes(ch)
-    : prefix.value == ch;
+  return isArray(prefix.value) ? prefix.value.includes(ch) : prefix.value == ch;
 };
 // 获取光标位置
 const getCursorPostion = (cursor: number) => {
@@ -161,10 +169,20 @@ const handleEvent = async (
       computedValue.value += value as string;
       return;
     }
-    const curValue = computedValue.value;
-    const length = curValue.length - 1;
-    computedValue.value =
-      curValue.slice(0, length) + split.value + curValue.slice(length) + value;
+    const needSplit = prefixTexts.value.some((prefixText) =>
+      computedValue.value.includes(prefixText)
+    );
+    // 当前的分隔符
+    const curSplit = needSplit ? split.value : '';
+    // 之前的值
+    const preValue = computedValue.value.slice(
+      0,
+      computedValue.value.length - 1
+    );
+    // 现在的值
+    const curValue =
+      computedValue.value.slice(computedValue.value.length - 1) + value;
+    computedValue.value = preValue + curSplit + curValue;
   }
   // 聚焦
   else if (type == 'focus') {
