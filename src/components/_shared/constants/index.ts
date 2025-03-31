@@ -32,3 +32,4 @@ export const DROPDOWN_PROVIDE_KEY = 'dropdown-props';
 export const SCROLLBAR_PROVIDE_KEY = 'scrollbar-props';
 export const TRIGGER_PROVIDE_KEY = 'trigger-props';
 export const OVERFLOW_LIST_PROVIDE_KEY = 'overlist-props';
+export const SLIDER_PROVIDE_KEY = 'slider-props';

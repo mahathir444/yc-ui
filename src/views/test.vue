@@ -1,8 +1,7 @@
 <template>
   <div class="test">
-    <div style="width: 300px; height: 300px">
+    <div style="width: 500px; height: 300px">
       <yc-slider
-        v-model="value"
         show-input
         :marks="{
           10: '10km',
@@ -22,7 +21,7 @@
 <script lang="ts" setup>
 import { ref, watch } from 'vue';
 
-const value = ref(0);
+const value = ref([]);
 const options = ['Bytedance', 'Bytedesign', 'Bytenumner'].map((item) => {
   return {
     label: item,

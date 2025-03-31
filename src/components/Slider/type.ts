@@ -1,4 +1,7 @@
+import { Ref, WritableComputedRef } from 'vue';
 import { Direction } from '@shared/type';
+import { SelectOptions } from '../Select';
+
 export interface SliderProps {
   modelValue?: SliderValue;
   defaultValue?: SliderValue;
@@ -14,7 +17,7 @@ export interface SliderProps {
   showTooltip?: boolean;
 }
 
-export type SliderValue = number;
+export type SliderValue = number | number[];
 
 export interface PositionData {
   left: string;
@@ -28,4 +31,18 @@ export interface RangeData {
   maxLeft: number;
   minTop: number;
   maxTop: number;
+}
+
+// 内部使用
+export interface ProvideType {
+  step: Ref<number>;
+  min: Ref<number>;
+  max: Ref<number>;
+  showTooltip: Ref<boolean>;
+  disabled: Ref<boolean>;
+  direction: Ref<Direction>;
+  trackRef: Ref<HTMLDivElement | undefined>;
+  startValue: WritableComputedRef<number> | Ref<number>;
+  endValue: WritableComputedRef<number> | Ref<number>;
+  computedValue: WritableComputedRef<SliderValue> | Ref<SliderValue>;
 }

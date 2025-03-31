@@ -54,7 +54,6 @@ export default (params: {
     popupVisible,
     defaultPopupVisible.value,
     (val) => {
-      console.log('触发了popup改变');
       emits('update:popupVisible', val);
       emits('popup-visible-change', val);
     }

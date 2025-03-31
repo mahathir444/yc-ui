@@ -19,9 +19,8 @@
         'yc-slider-tick': type == 'ticks',
         'yc-slider-dot': type == 'dots',
         'yc-slider-mark': type == 'marks',
-        'yc-slider-dot-active': type == 'dots' && computedValue >= value * step,
-        'yc-slider-tick-active':
-          type == 'ticks' && computedValue >= value * step,
+        'yc-slider-dot-active': type == 'dots' && isInRange(value),
+        'yc-slider-tick-active': type == 'ticks' && isInRange(value),
       }"
       @click="$emit('labelClick', value)"
     >
@@ -31,20 +30,34 @@
 </template>
 
 <script lang="ts" setup>
-import { toRefs } from 'vue';
-import { Direction } from '@shared/type';
-import { SliderValue } from '../type';
+import { ref, toRefs, inject } from 'vue';
+import { ProvideType } from '../type';
+import { SLIDER_PROVIDE_KEY } from '@shared/constants';
+import { isNumber } from '@shared/utils/is';
 const props = defineProps<{
   type: 'dots' | 'marks' | 'ticks';
   data: Record<string, any>[];
-  direction: Direction;
-  computedValue: SliderValue;
-  step: number;
 }>();
 defineEmits<{
   (e: 'labelClick', value: number): void;
 }>();
-const { type, step } = toRefs(props);
+const { type } = toRefs(props);
+// 解构父级属性
+const { min, max, direction, step, computedValue } = inject<ProvideType>(
+  SLIDER_PROVIDE_KEY,
+  {
+    min: ref(0),
+    max: ref(0),
+    step: ref(0),
+    direction: ref('horizontal'),
+    disabled: ref(false),
+    showTooltip: ref(true),
+    trackRef: ref(),
+    startValue: ref(0),
+    endValue: ref(0),
+    computedValue: ref(0),
+  }
+);
 // 计算position
 const getPosition = (value: number) => {
   if (type.value == 'ticks') {
@@ -53,6 +66,27 @@ const getPosition = (value: number) => {
     return `calc(${value * step.value}% - 4px)`;
   } else {
     return `calc(${value * step.value}% - 7px)`;
+  }
+};
+// 是否在区间之内
+const isInRange = (value: number) => {
+  const curValue = value * step.value;
+  if (isNumber(computedValue.value)) {
+    return (
+      computedValue.value >= curValue &&
+      curValue >= min.value &&
+      curValue <= max.value
+    );
+  } else {
+    const startValue =
+      computedValue.value[0] <= computedValue.value[1]
+        ? computedValue.value[0]
+        : computedValue.value[1];
+    const endValue =
+      computedValue.value[0] > computedValue.value[1]
+        ? computedValue.value[0]
+        : computedValue.value[1];
+    return curValue >= startValue && curValue <= endValue;
   }
 };
 </script>

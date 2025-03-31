@@ -3,23 +3,34 @@ import { PositionData, RangeData } from '@/components/Slider';
 import { Direction } from '@shared/type';
 import { useDraggable, useEventListener } from '@vueuse/core';
 export default (params: {
+  computedValue: Ref<number>;
   trackRef: Ref<HTMLDivElement | undefined>;
   triggerRef: Ref<HTMLDivElement | undefined>;
-  computedValue: WritableComputedRef<number>;
-  direction: Ref<Direction>;
   max: Ref<number>;
   min: Ref<number>;
   step: Ref<number>;
+  disabled: Ref<boolean>;
+  direction: Ref<Direction>;
 }) => {
-  const { trackRef, triggerRef, computedValue, direction, max, min, step } =
-    params;
+  const {
+    trackRef,
+    triggerRef,
+    computedValue,
+    direction,
+    max,
+    min,
+    step,
+    disabled,
+  } = params;
   // 处理Button拖动
   const { x, y, isDragging } = useDraggable(triggerRef);
+  let oldX = x.value;
+  let oldY = y.value;
   // 水平情况下的距离
   const position = reactive<PositionData>({
-    top: '',
     bottom: '',
     left: '',
+    top: '',
     right: '',
   });
   // 范围
@@ -85,18 +96,24 @@ export default (params: {
   // 处理越界情况
   useEventListener('mousemove', () => {
     if (!isDragging.value) return;
+    if (disabled.value) {
+      y.value = oldY;
+      x.value = oldX;
+    }
     // 给出范围
     const { minTop, maxTop, minLeft, maxLeft } = moveRange;
     // 处理不同情况的拖动
     if (direction.value == 'vertical') {
       y.value = y.value > minTop ? minTop : y.value;
       y.value = y.value < maxTop ? maxTop : y.value;
+      oldY = y.value;
       const value = calcValueFromPosition(y.value);
       setPositionFromValue(value);
       computedValue.value = value;
     } else {
       x.value = x.value < minLeft ? minLeft : x.value;
       x.value = x.value > maxLeft ? maxLeft : x.value;
+      oldX = x.value;
       const value = calcValueFromPosition(x.value);
       setPositionFromValue(value);
       computedValue.value = value;
@@ -132,6 +149,8 @@ export default (params: {
     }
   );
   return {
+    x,
+    y,
     position,
     isDragging,
   };

@@ -4,36 +4,14 @@
       'yc-slider': true,
       'yc-slider-horizontal': direction == 'horizontal',
       'yc-slider-vertical': direction == 'vertical',
-      'yc-slider-show-input': direction == 'vertical' && showInput,
+      'yc-slider-disabled': disabled,
     }"
   >
     <div class="yc-slider-track" ref="trackRef">
       <!-- ticks -->
-      <yc-ticks
-        v-if="showTicks"
-        type="ticks"
-        :computed-value="computedValue"
-        :data="ticks"
-        :step="step"
-        :direction="direction"
-      />
-      <yc-ticks
-        v-if="marks.length"
-        type="dots"
-        :computed-value="computedValue"
-        :data="marks"
-        :step="step"
-        :direction="direction"
-      />
-      <yc-ticks
-        v-if="marks.length"
-        type="marks"
-        :computed-value="computedValue"
-        :data="marks"
-        :step="step"
-        :direction="direction"
-        @label-click="(v) => (computedValue = v)"
-      />
+      <yc-ticks v-if="showTicks" type="ticks" :data="ticks" />
+      <yc-ticks v-if="marks.length" type="dots" :data="marks" />
+      <yc-ticks v-if="marks.length" type="marks" :data="marks" />
       <!-- bar -->
       <div
         class="yc-slider-bar"
@@ -42,58 +20,64 @@
         :aria-disabled="disabled"
         :style="{
           top: direction == 'vertical' ? position.top : '',
+          bottom: direction == 'vertical' ? position.bottom : '',
+          left: direction == 'horizontal' ? position.left : '',
           right: direction == 'horizontal' ? position.right : '',
         }"
       ></div>
-      <!-- button -->
-      <yc-tooltip
-        :popup-visible="popupVisible || isDragging"
-        :disabled="!showTooltip"
-        :position="direction == 'vertical' ? 'right' : 'bottom'"
-        :content="computedValue + ''"
-        @update:popup-visible="(v) => (popupVisible = v)"
-      >
-        <div
-          class="yc-slider-btn"
-          ref="triggerRef"
-          :style="{
-            bottom: direction == 'vertical' ? position.bottom : '',
-            left: direction == 'horizontal' ? position.left : '',
-          }"
-        ></div>
-      </yc-tooltip>
+      <!-- start -->
+      <yc-slider-btn
+        v-model:x="x"
+        v-model:y="y"
+        v-model:position="sp"
+        type="start"
+      />
+      <!-- end  -->
+      <yc-slider-btn
+        v-if="range"
+        v-model:x="x1"
+        v-model:y="y1"
+        v-model:position="ep"
+        type="end"
+      />
     </div>
     <!-- input -->
-    <yc-input-number
-      v-if="showInput"
-      v-model="tempValue"
-      :min="min"
-      :max="max"
-      hide-button
-      text-center
-      @blur="computedValue = tempValue"
-      @press-enter="computedValue = tempValue"
-      style="width: 60px"
-    />
+    <div v-if="showInput" class="yc-slider-input">
+      <yc-input-number
+        v-model="tempStartValue"
+        :min="min"
+        :max="max"
+        :disabled="disabled"
+        hide-button
+        text-center
+        style="width: 60px"
+        @blur="startValue = tempStartValue"
+        @press-enter="startValue = tempStartValue"
+      />
+      <div v-if="range" class="yc-slider-input-divider"></div>
+      <yc-input-number
+        v-if="range"
+        v-model="tempEndValue"
+        :min="min"
+        :max="max"
+        :disabled="disabled"
+        hide-button
+        text-center
+        style="width: 60px"
+        @blur="endValue = tempEndValue"
+        @press-enter="endValue = tempEndValue"
+      />
+    </div>
   </div>
 </template>
 
 <script lang="ts" setup>
-import {
-  ref,
-  toRefs,
-  computed,
-  reactive,
-  nextTick,
-  watch,
-  watchEffect,
-} from 'vue';
-import { SliderProps, PositionData, RangeData, SliderValue } from './type';
-import { useDraggable, useEventListener } from '@vueuse/core';
-import useControlValue from '@shared/hooks/useControlValue';
-import useSliderDraggable from '@shared/hooks/useSliderDraggable';
+import { ref, toRefs, computed, provide } from 'vue';
+import { SliderProps, ProvideType, PositionData } from './type';
+import { SLIDER_PROVIDE_KEY } from '@shared/constants';
+import useSliderValue from '@shared/hooks/useSliderValue';
 import YcTicks from './component/Ticks.vue';
-import YcTooltip from '@/components/Tooltip';
+import YcSliderBtn from './component/SliderBtn.vue';
 import YcInputNumber from '@/components/InputNumber';
 defineOptions({
   name: 'Slider',
@@ -102,7 +86,7 @@ const props = withDefaults(defineProps<SliderProps>(), {
   modelValue: undefined,
   defaultValue: 0,
   step: 1,
-  min: 0,
+  min: 30,
   marks: () => {
     return {};
   },
@@ -111,6 +95,7 @@ const props = withDefaults(defineProps<SliderProps>(), {
   disabled: false,
   showTicks: false,
   showInput: false,
+  range: true,
   showTooltip: true,
 });
 const emits = defineEmits<{
@@ -119,61 +104,92 @@ const emits = defineEmits<{
   (e: 'hoverChange', value: number): void;
 }>();
 const {
-  direction,
   modelValue,
   defaultValue,
   step,
   min,
   max,
-  marks: _marks,
+  direction,
   disabled,
+  range,
+  showTooltip,
+  marks: _marks,
 } = toRefs(props);
-// 中间值
-const tempValue = ref<SliderValue>(0);
-// 控制值
-const computedValue = useControlValue<SliderValue>(
-  modelValue,
-  defaultValue.value,
-  (val) => {
-    tempValue.value = val;
-    emits('update:modelValue', val);
-  }
-);
-// 刻度线
-const ticks = computed(() => {
-  const result = [];
-  for (let i = 1; i <= Math.floor(100 / step.value) - 1; i++) {
-    result.push({
-      value: i,
-      label: i,
-    });
-  }
-  return result;
-});
-// 标注
-const marks = computed(() => {
-  return Object.entries(_marks.value).map(([key, value]) => {
-    return {
-      value: +key,
-      label: value,
-    };
-  });
-});
 // trackRef
 const trackRef = ref<HTMLDivElement>();
-// buttonRef
-const triggerRef = ref<HTMLDivElement>();
-// 可见性
-const popupVisible = ref<boolean>(false);
-// 拖动hook
-const { position, isDragging } = useSliderDraggable({
-  trackRef,
-  triggerRef,
+// 获取slider的值
+const {
   computedValue,
-  direction,
+  startValue,
+  endValue,
+  tempEndValue,
+  tempStartValue,
+  ticks,
+  marks,
+} = useSliderValue({
+  modelValue,
+  defaultValue,
   step,
+  range,
+  _marks,
+  emits,
+});
+// 提供值
+provide<ProvideType>(SLIDER_PROVIDE_KEY, {
   min,
   max,
+  step,
+  startValue,
+  endValue,
+  computedValue,
+  showTooltip,
+  disabled,
+  direction,
+  trackRef,
+});
+// 两个按钮的信息
+const x = ref(0);
+const y = ref(0);
+const sp = ref<PositionData>({
+  bottom: '',
+  left: '',
+  top: '',
+  right: '',
+});
+const x1 = ref(0);
+const y1 = ref(0);
+const ep = ref<PositionData>({
+  bottom: '',
+  left: '',
+  top: '',
+  right: '',
+});
+// 综合计算position
+const position = computed(() => {
+  const { value: startPosition } = sp;
+  const { value: endPosition } = ep;
+  return {
+    left: range.value
+      ? x.value < x1.value
+        ? startPosition.left
+        : endPosition.left
+      : min.value + '%',
+    right: range.value
+      ? x.value < x1.value
+        ? endPosition.right
+        : startPosition.right
+      : startPosition.right,
+    top: range.value
+      ? y.value < y1.value
+        ? endPosition.top
+        : startPosition.top
+      : startPosition.top,
+    bottom: range.value
+      ? y.value < y1.value
+        ? startPosition.bottom
+        : endPosition.bottom
+      : min.value + '%',
+  };
 });
 </script>
 
