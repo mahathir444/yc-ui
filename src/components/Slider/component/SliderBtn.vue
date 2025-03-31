@@ -19,7 +19,7 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, inject, watchEffect } from 'vue';
+import { ref, inject, watchEffect, onMounted, watch } from 'vue';
 import { SLIDER_PROVIDE_KEY } from '@shared/constants';
 import { ProvideType, PositionData } from '../type';
 import useSliderDraggable from '@shared/hooks/useSliderDraggable';
@@ -76,6 +76,14 @@ const { x, y, position, isDragging } = useSliderDraggable({
 watchEffect(() => {
   emits('update:x', x.value);
   emits('update:y', y.value);
+  emits('update:position', position);
+});
+onMounted(() => {
+  const { left, top } = trackRef.value!.getBoundingClientRect();
+  x.value = left;
+  y.value = top;
+  emits('update:x', left);
+  emits('update:y', top);
   emits('update:position', position);
 });
 // 暴露

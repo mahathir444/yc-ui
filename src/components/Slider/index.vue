@@ -29,7 +29,7 @@
       <yc-slider-btn
         v-model:x="x"
         v-model:y="y"
-        v-model:position="sp"
+        v-model:position="startPosition"
         type="start"
       />
       <!-- end  -->
@@ -37,7 +37,7 @@
         v-if="range"
         v-model:x="x1"
         v-model:y="y1"
-        v-model:position="ep"
+        v-model:position="endPosition"
         type="end"
       />
     </div>
@@ -91,7 +91,7 @@ const props = withDefaults(defineProps<SliderProps>(), {
     return {};
   },
   max: 100,
-  direction: 'horizontal',
+  direction: 'vertical',
   disabled: false,
   showTicks: false,
   showInput: false,
@@ -101,7 +101,6 @@ const props = withDefaults(defineProps<SliderProps>(), {
 const emits = defineEmits<{
   (e: 'update:modelValue', value: number): void;
   (e: 'change', value: number): void;
-  (e: 'hoverChange', value: number): void;
 }>();
 const {
   modelValue,
@@ -150,7 +149,7 @@ provide<ProvideType>(SLIDER_PROVIDE_KEY, {
 // 两个按钮的信息
 const x = ref(0);
 const y = ref(0);
-const sp = ref<PositionData>({
+const startPosition = ref<PositionData>({
   bottom: '',
   left: '',
   top: '',
@@ -158,7 +157,7 @@ const sp = ref<PositionData>({
 });
 const x1 = ref(0);
 const y1 = ref(0);
-const ep = ref<PositionData>({
+const endPosition = ref<PositionData>({
   bottom: '',
   left: '',
   top: '',
@@ -166,28 +165,25 @@ const ep = ref<PositionData>({
 });
 // 综合计算position
 const position = computed(() => {
-  const { value: startPosition } = sp;
-  const { value: endPosition } = ep;
+  const { left, right, top, bottom } = startPosition.value;
+  const {
+    left: left1,
+    right: right1,
+    top: top1,
+    bottom: bottom1,
+  } = endPosition.value;
+  const topVal = top.match(/\d+/g)?.[0] || 0;
+  const topVal1 = top1.match(/\d+/g)?.[0] || 0;
+  const bottomVal = bottom.match(/\d+/g)?.[0] || 0;
+  const bottomVal1 = bottom1.match(/\d+/g)?.[0] || 0;
   return {
-    left: range.value
-      ? x.value < x1.value
-        ? startPosition.left
-        : endPosition.left
-      : min.value + '%',
-    right: range.value
-      ? x.value < x1.value
-        ? endPosition.right
-        : startPosition.right
-      : startPosition.right,
-    top: range.value
-      ? y.value < y1.value
-        ? endPosition.top
-        : startPosition.top
-      : startPosition.top,
+    left: range.value ? (x.value < x1.value ? left : left1) : min.value + '%',
+    right: range.value ? (x.value < x1.value ? right1 : right) : right,
+    top: range.value ? (topVal <= topVal1 ? top : top1) : top,
     bottom: range.value
-      ? y.value < y1.value
-        ? startPosition.bottom
-        : endPosition.bottom
+      ? bottomVal <= bottomVal1
+        ? bottom
+        : bottom1
       : min.value + '%',
   };
 });
