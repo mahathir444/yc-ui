@@ -42,7 +42,7 @@ defineOptions({
 const props = withDefaults(defineProps<DropdownProps>(), {
   popupVisible: undefined,
   defaultPopupVisible: false,
-  trigger: 'hover',
+  trigger: 'click',
   position: 'bottom',
   popupContainer: 'body',
   hideOnSelect: true,

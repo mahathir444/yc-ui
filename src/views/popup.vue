@@ -8,9 +8,6 @@
           <yc-dsubmenu>
             分组1
             <template #content>
-              <yc-doption v-for="i in 6" :key="i" :value="i">
-                选项{{ i }}
-              </yc-doption>
               <yc-dsubmenu>
                 分组2
                 <template #content>
@@ -35,6 +32,9 @@
                   </yc-doption>
                 </template>
               </yc-dsubmenu>
+              <yc-doption v-for="i in 6" :key="i" :value="i">
+                选项{{ i }}
+              </yc-doption>
             </template>
           </yc-dsubmenu>
           <yc-doption v-for="i in 6" :key="i" :value="i">

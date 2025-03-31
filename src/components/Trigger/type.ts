@@ -75,5 +75,6 @@ export type ProvideType = {
   curHoverLevel: Ref<number>;
   groupIds: Ref<string[]>;
   timeout: Ref<NodeJS.Timeout | undefined>;
+  hoverTimer: Ref<NodeJS.Timeout | undefined>;
   hide?: Fn;
 };

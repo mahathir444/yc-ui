@@ -16,10 +16,12 @@ export default (trigger: TriggerType, hideCallback?: Fn) => {
     curHoverLevel,
     groupIds,
     timeout,
+    hoverTimer,
   } = inject<ProvideType>(TRIGGER_PROVIDE_KEY, {
     level: -1,
     curHoverLevel: ref(0),
     groupIds: ref([]),
+    hoverTimer: ref<NodeJS.Timeout>(),
     timeout: ref<NodeJS.Timeout>(),
   });
   // 设置level
@@ -28,6 +30,14 @@ export default (trigger: TriggerType, hideCallback?: Fn) => {
   groupIds.value[level] = groupId;
   // 是否嵌套
   const isNested = computed(() => groupIds.value.length > 1);
+  // 设置hoverLevel
+  const setHoverLevel = (delay: number) => {
+    // 处理trigger嵌套,以及多重触发的问题
+    if (hoverTimer.value) clearTimeout(hoverTimer.value);
+    hoverTimer.value = setTimeout(() => {
+      curHoverLevel.value = level;
+    }, delay);
+  };
   //   判断是否在一个嵌套组内
   const isSameNestedGroup = (el: HTMLElement) => {
     const dataId = el.getAttribute('data-group-id') as string;
@@ -63,6 +73,7 @@ export default (trigger: TriggerType, hideCallback?: Fn) => {
     level,
     curHoverLevel,
     groupIds,
+    hoverTimer,
     timeout,
   });
 
@@ -72,7 +83,9 @@ export default (trigger: TriggerType, hideCallback?: Fn) => {
     groupId,
     groupIds,
     timeout,
+    hoverTimer,
     isNested,
+    setHoverLevel,
     isSameNestedGroup,
   };
 };

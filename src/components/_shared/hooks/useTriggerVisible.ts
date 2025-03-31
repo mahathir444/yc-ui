@@ -1,5 +1,5 @@
 import { Ref, ref, toRefs, watchEffect } from 'vue';
-import { TriggerProps, TriggerEmits, TriggerType } from '@/components/Trigger';
+import { TriggerProps, TriggerEmits } from '@/components/Trigger';
 import { ObjectData, RequiredDeep } from '../type';
 import { onClickOutside } from '@vueuse/core';
 import useTriggerNested from './useTriggerNested';
@@ -41,6 +41,7 @@ export default (params: {
     curHoverLevel,
     timeout,
     groupId,
+    setHoverLevel,
     isSameNestedGroup,
   } = useTriggerNested(trigger.value, () => {
     computedVisible.value = false;
@@ -73,11 +74,10 @@ export default (params: {
   };
   // 鼠标进入
   const handleMouseenter = () => {
-    // 处理trigger嵌套
-    curHoverLevel.value = level;
-    if (trigger.value != 'hover' || computedVisible.value) return;
-    // 处理开启
+    setHoverLevel(mouseEnterDelay.value);
+    if (trigger.value != 'hover') return;
     if (timeout.value) clearTimeout(timeout.value);
+    // if (computedVisible.value) return;
     timeout.value = setTimeout(() => {
       computedVisible.value = true;
       // 触发enter事件
@@ -86,9 +86,9 @@ export default (params: {
   };
   // 鼠标离开
   const handleMouseleave = (e: MouseEvent) => {
-    if (trigger.value != 'hover' || !computedVisible.value) return;
-    // 处理关闭
+    if (trigger.value != 'hover') return;
     if (timeout.value) clearTimeout(timeout.value);
+    // if (!computedVisible.value) return;
     timeout.value = setTimeout(() => {
       // 处理不嵌套的情况
       if (!isNested.value) {
@@ -110,8 +110,9 @@ export default (params: {
   };
   // 聚焦
   const handleFocus = () => {
-    if (trigger.value != 'focus' || computedVisible.value) return;
+    if (trigger.value != 'focus') return;
     if (timeout.value) clearTimeout(timeout.value);
+    // if (computedVisible.value) return;
     timeout.value = setTimeout(() => {
       computedVisible.value = true;
       // 触发foucs事件
@@ -120,14 +121,9 @@ export default (params: {
   };
   // 失焦
   const handleBlur = () => {
-    if (
-      trigger.value != 'focus' ||
-      !blurToClose.value ||
-      !computedVisible.value
-    ) {
-      return;
-    }
+    if (trigger.value != 'focus' || !blurToClose.value) return;
     if (timeout.value) clearTimeout(timeout.value);
+    // if (!computedVisible.value) return
     computedVisible.value = false;
     onTriggerBlur?.();
   };
