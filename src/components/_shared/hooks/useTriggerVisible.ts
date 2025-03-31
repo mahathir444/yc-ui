@@ -27,7 +27,13 @@ export default (params: {
     autoSetPosition,
   } = toRefs(props as RequiredDeep<TriggerProps>);
   // 处理事件
-  const { onMouseenter, onMouseclick, onMouseleave, onBlur, onFocus } = props;
+  const {
+    onTriggerMouseclick,
+    onTriggerMouseenter,
+    onTriggerMouseleave,
+    onTriggerBlur,
+    onTriggerFocus,
+  } = props;
   // 处理嵌套
   const {
     isNested,
@@ -60,7 +66,7 @@ export default (params: {
     }
     computedVisible.value = clickToClose.value ? !computedVisible.value : true;
     // 触发click事件
-    onMouseclick?.();
+    onTriggerMouseclick?.();
   };
   // 鼠标进入
   const handleMouseenter = () => {
@@ -72,7 +78,7 @@ export default (params: {
     timeout.value = setTimeout(() => {
       computedVisible.value = true;
       // 触发enter事件
-      onMouseenter?.();
+      onTriggerMouseenter?.();
     }, mouseEnterDelay.value);
   };
   // 鼠标离开
@@ -96,7 +102,7 @@ export default (params: {
         !isGroup && (curHoverLevel.value = -1);
       }
       // 处理leave事件
-      onMouseleave?.();
+      onTriggerMouseleave?.();
     }, mouseLeaveDelay.value);
   };
   // 聚焦
@@ -106,7 +112,7 @@ export default (params: {
     timeout.value = setTimeout(() => {
       computedVisible.value = true;
       // 触发foucs事件
-      onFocus?.();
+      onTriggerFocus?.();
     }, focusDelay.value);
   };
   // 失焦
@@ -116,7 +122,7 @@ export default (params: {
     if (timeout.value) clearTimeout(timeout.value);
     if (disabledClose) return;
     computedVisible.value = false;
-    onBlur?.();
+    onTriggerBlur?.();
   };
   // 点击到contentRef外层关闭
   const handleClickOutsideClose = () => {

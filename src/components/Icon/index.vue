@@ -1,5 +1,6 @@
 <template>
   <div
+    v-if="!type"
     :class="{
       'yc-icon': true,
       'yc-icon-spin': spin,
@@ -18,6 +19,17 @@
       ></path>
     </svg>
   </div>
+  <svg
+    v-else
+    :class="{
+      'yc-icon': true,
+      'yc-icon-spin': spin,
+    }"
+    :style="style"
+    fill="currentColor"
+  >
+    <use :xlinkHref="`#${type}`" />
+  </svg>
 </template>
 
 <script lang="ts" setup>

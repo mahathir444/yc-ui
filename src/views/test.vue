@@ -1,5 +1,23 @@
 <template>
   <div class="test">
+    <div style="width: 300px">
+      select
+      <yc-select
+        allow-clear
+        allow-search
+        multiple
+        placeholder="请选择"
+        :max-tag-count="3"
+        :options="[
+          {
+            label: '分组1',
+            isGroup: true,
+            options,
+          },
+        ]"
+      >
+      </yc-select>
+    </div>
     <div style="width: 300px; height: 300px">
       <yc-slider
         v-model="value"
@@ -12,18 +30,16 @@
         }"
       />
     </div>
-    <div style="width: 300px">
+    <div style="width: 300px; font-size: 20px">
       mention
       <yc-mention :data="options" placeholder="mention" />
-      <yc-icon size="24" style="color: green">
-        <path d="m16 39.513 15.556-15.557L16 8.4"></path>
-      </yc-icon>
     </div>
   </div>
 </template>
 
 <script lang="ts" setup>
 import { ref, watch } from 'vue';
+
 const value = ref(0);
 const options = ['Bytedance', 'Bytedesign', 'Bytenumner'].map((item) => {
   return {
