@@ -21,13 +21,10 @@ npm i @vueuse/core dayjs nanoid
 ```ts
 import { createApp } from 'vue';
 import App from './App.vue';
-// 注入全局组件
-import GlobalComponents from '@shared/components';
 // 注入样式
 import "@shared/style"
 
 const app = createApp(App);
-app.use(GlobalComponents)
 app.mount('#app');
 
 ```

@@ -15,6 +15,9 @@
     <div style="width: 300px">
       mention
       <yc-mention :data="options" placeholder="mention" />
+      <yc-icon size="24" style="color: green">
+        <path d="m16 39.513 15.556-15.557L16 8.4"></path>
+      </yc-icon>
     </div>
   </div>
 </template>

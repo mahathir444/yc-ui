@@ -33,6 +33,7 @@ import Rate from './Rate';
 import Slider from './Slider';
 import OverflowList from './OverflowList';
 import Mention from './Mention';
+import Icon from './Icon';
 
 export const components: Record<string, Plugin> = {
   Button,
@@ -64,6 +65,7 @@ export const components: Record<string, Plugin> = {
   Slider,
   Mention,
   OverflowList,
+  Icon,
 };
 
 export default {
