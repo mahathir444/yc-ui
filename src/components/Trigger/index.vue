@@ -1,8 +1,8 @@
 <template>
   <component
     :is="vNode"
-    @click="handleClickEvent($event, 'click')"
-    @contextmenu.prevent="handleClickEvent($event, 'contextMenu')"
+    @click="handleClickEvent"
+    @contextmenu.prevent="handleClickEvent"
     @mouseenter="handleMouseenter"
     @mouseleave="handleMouseleave"
     @focus="handleFocus"

@@ -328,7 +328,6 @@ const handleEvent = async (
   }
   // 聚焦
   else if (type == 'focus') {
-    console.log('函数触发了');
     if (computedVisible.value) {
       return inputRef.value?.blur();
     }
@@ -338,7 +337,6 @@ const handleEvent = async (
   }
   // 失焦
   else if (type == 'blur') {
-    console.log('函数触发了');
     computedVisible.value = false;
     computedInputValue.value = '';
   } else if (type == 'updateValue') {
