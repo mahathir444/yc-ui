@@ -12,13 +12,6 @@
 
 <script lang="ts" setup>
 import { ref, watch } from 'vue';
-// import { Modal } from '@arco-design/web-vue';
-import Modal from '@/components/Modal';
-
-Modal.error({
-  title: '测试',
-  content: '11',
-});
 
 const value = ref([]);
 const options = ['Bytedance', 'Bytedesign', 'Bytenumner'].map((item) => {

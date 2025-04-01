@@ -38,8 +38,10 @@
               isDraggable ? 'yc-modal-draggable' : '',
               // 外被类名
               modalClass,
+              // 外面传入的类名
+              $attrs.class,
             ]"
-            :style="modalCss"
+            :style="style"
             ref="modalRef"
             @click.stop=""
           >
@@ -97,7 +99,7 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, toRefs, computed, CSSProperties } from 'vue';
+import { ref, toRefs, computed, CSSProperties, useAttrs } from 'vue';
 import { ModalProps } from './type';
 import { CloseType } from '@shared/type';
 import useModalDraggable from '@shared/hooks/useModalDraggable';
@@ -106,6 +108,7 @@ import YcButton from '@/components/Button';
 import YcIconButton from '@shared/components/IconButton';
 defineOptions({
   name: 'Modal',
+  inheritAttrs: false,
 });
 const props = withDefaults(defineProps<ModalProps>(), {
   visible: undefined,
@@ -180,6 +183,7 @@ const {
   popupContainer: _popupContainer,
 } = toRefs(props);
 const { onBeforeOk, onBeforeCancel } = props;
+const attrs = useAttrs();
 // 处理组件关闭开启
 const {
   outerVisible,
@@ -215,11 +219,12 @@ const { dragStyle, isDraggable } = useModalDraggable({
   modalRef,
 });
 // modalCss
-const modalCss = computed(() => {
+const style = computed(() => {
   return {
     width: fullscreen.value ? '100%' : width.value + 'px',
     ...dragStyle.value,
     ...modalStyle.value,
+    ...(attrs.style || {}),
   } as CSSProperties;
 });
 </script>

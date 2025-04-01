@@ -51,9 +51,7 @@
       </span>
     </template>
     <div class="yc-modal-body-content text-ellipsis">
-      <span>
-        <component :is="getSlotFunction(content)" />
-      </span>
+      <component :is="getSlotFunction(content)" />
     </div>
   </yc-modal>
 </template>
@@ -117,7 +115,7 @@ const visible = ref<boolean>(true);
   .yc-modal-header {
     .yc-modal-title {
       display: flex;
-      gap: 10px;
+      gap: 6px;
       .yc-modal-title-icon {
         display: flex;
         align-items: center;
@@ -131,21 +129,13 @@ const visible = ref<boolean>(true);
     }
   }
   .yc-modal-body {
-    padding: 0 !important;
     .yc-modal-body-content {
       width: 100%;
-      padding: 31.5px 30px 35.5px 30px;
-      display: flex;
-      align-items: center;
-      span {
-        width: 100%;
-        height: 26px;
-        line-height: 26px;
-        color: #474c59;
-        font-family: 'PingFang SC';
-        font-size: 16px;
-        font-weight: 400;
-      }
+      line-height: 26px;
+      color: #474c59;
+      font-family: 'PingFang SC';
+      font-size: 16px;
+      font-weight: 400;
     }
   }
 }

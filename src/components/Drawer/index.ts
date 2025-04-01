@@ -32,18 +32,15 @@ const Drawer = Object.assign(_Drawer, {
     const close = () => {
       render(null, drawerConfig.container as HTMLDivElement);
     };
-    const { onOk: handleOk, onCancel: handleCancel } = props;
-    // 使用 h 函数创建 VNode
+    const { onOk: _onOk, onCancel: _onCancel } = props;
     const vnode = h(_ServiceDrawer, {
       ...props,
       async onOk() {
-        if (!handleOk) return;
-        await handleOk();
+        await _onOk?.();
         close();
       },
       async onCancel() {
-        if (!handleCancel) return;
-        await handleCancel();
+        await _onCancel?.();
         close();
       },
     });

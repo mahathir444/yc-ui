@@ -23,7 +23,6 @@
     :hide-cancel="hideCancel"
     :on-before-cancel="onBeforeCancel"
     :on-before-ok="onBeforeOk"
-    class="yc-service-drawer"
     @close="onClose?.()"
     @open="onOpen?.()"
     @before-close="onBeforeClose?.()"
@@ -35,9 +34,7 @@
       <component :is="getSlotFunction(title)" />
     </template>
     <div class="yc-drawer-body-content">
-      <span>
-        <component :is="getSlotFunction(content)" />
-      </span>
+      <component :is="getSlotFunction(content)" />
     </div>
   </yc-drawer>
 </template>
@@ -84,22 +81,3 @@ withDefaults(defineProps<DrawerConfig>(), {
 // visible
 const visible = ref<boolean>(true);
 </script>
-
-<style lang="less">
-// .yc-service-modal {
-//   .yc-modal-body-content {
-//     width: 100%;
-//     padding: 31.5px 30px 35.5px 30px;
-//     display: flex;
-//     span {
-//       width: 100%;
-//       height: 26px;
-//       line-height: 26px;
-//       color: #474c59;
-//       font-family: 'PingFang SC';
-//       font-size: 16px;
-//       font-weight: 400;
-//     }
-//   }
-// }
-</style>

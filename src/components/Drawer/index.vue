@@ -28,8 +28,11 @@
       >
         <div
           v-show="innerVisible"
-          class="yc-drawer-container"
-          :style="drawerCss"
+          :class="['yc-drawer-container', $attrs.class]"
+          :style="{
+            ...drawerCss,
+            ...($attrs?.style || {}),
+          }"
         >
           <!-- header -->
           <slot name="header">
@@ -88,6 +91,7 @@ import YcButton from '@/components/Button';
 import YcIconButton from '@shared/components/IconButton';
 defineOptions({
   name: 'Drawer',
+  inheritAttrs: false,
 });
 const props = withDefaults(defineProps<DrawerProps>(), {
   visible: undefined,

@@ -19,7 +19,12 @@
     <slot />
     <template #content>
       <div class="yc-popconfirm-body">
-        <div :class="['yc-popconfirm-icon', TYPE_CLASS[type]]">
+        <div
+          :class="['yc-popconfirm-icon']"
+          :style="{
+            color: TYPE_ICON_COLOR_MAP[type],
+          }"
+        >
           <slot v-if="$slots.icon" name="icon" />
           <component v-else :is="TYPE_ICON_MAP[type]" />
         </div>
@@ -50,7 +55,7 @@
 import { ref, toRefs } from 'vue';
 import { TYPE_CLASS } from './constants';
 import { PopconfirmProps } from './type';
-import { TYPE_ICON_MAP } from '@shared/constants';
+import { TYPE_ICON_MAP, TYPE_ICON_COLOR_MAP } from '@shared/constants';
 import useOnBeforeClose from '@shared/hooks/useOnBeforeClose';
 import useControlValue from '@shared/hooks/useControlValue';
 import YcTrigger, { TriggerInstance } from '@/components/Trigger';
