@@ -8,9 +8,11 @@ export {}
 declare module 'vue' {
   export interface GlobalComponents {
     AButton: typeof import('@arco-design/web-vue')['Button']
+    ACheckbox: typeof import('@arco-design/web-vue')['Checkbox']
     ADrawer: typeof import('@arco-design/web-vue')['Drawer']
     AInput: typeof import('@arco-design/web-vue')['Input']
     AModal: typeof import('@arco-design/web-vue')['Modal']
+    ARadio: typeof import('@arco-design/web-vue')['Radio']
     ASelect: typeof import('@arco-design/web-vue')['Select']
     ATooltip: typeof import('@arco-design/web-vue')['Tooltip']
     AutoComplete: typeof import('./src/components/AutoComplete/index.vue')['default']

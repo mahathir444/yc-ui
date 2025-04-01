@@ -38,6 +38,8 @@
         </template>
         点击创建
       </cx-button>
+      <cx-checkbox />
+      <cx-radio />
     </div>
   </div>
 </template>
@@ -47,8 +49,10 @@ import { ref, watch } from 'vue';
 import CxInput from '@/teaching/Input';
 import CxSelect from '@/teaching/Select';
 import CxModal from '@/teaching/Modal';
-import CxDrawer from '@/teaching/Drawer/index.vue';
-import CxButton from '@/teaching/Button/index.vue';
+import CxDrawer from '@/teaching/Drawer';
+import CxButton from '@/teaching/Button';
+import CxCheckbox from '@/teaching/Checkbox';
+import CxRadio from '@/teaching/Radio';
 const value = ref('dsadsa');
 const visible = ref(false);
 const options = [
