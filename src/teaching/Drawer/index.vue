@@ -1,8 +1,8 @@
 <template>
-  <a-modal
+  <a-drawer
     v-bind="props"
     v-model:visible="computedVisible"
-    class="cx-modal"
+    class="cx-drawer"
     @cancel="(ev) => $emit('cancel', ev)"
     @ok="(ev) => $emit('ok', ev)"
     @open="$emit('open')"
@@ -18,26 +18,21 @@
         </cx-button>
       </slot>
     </template>
-  </a-modal>
+  </a-drawer>
 </template>
 
 <script lang="ts" setup>
 import { toRefs } from 'vue';
-import { ModalProps } from './type';
+import { DrawerProps } from './type';
 import useControlValue from '../_shared/hooks/useControlValue';
 import CxButton from '../Button';
-const props = withDefaults(defineProps<ModalProps>(), {
+const props = withDefaults(defineProps<DrawerProps>(), {
   visible: undefined,
   defaultVisible: false,
-  width: 520,
-  top: 100,
-  mask: true,
+  placement: 'right',
   title: '',
-  titleAlign: 'start',
-  alignCenter: true,
-  unmountOnClose: false,
+  mask: true,
   maskClosable: true,
-  hideCancel: false,
   closable: true,
   okText: '确认',
   cancelText: '取消',
@@ -48,26 +43,18 @@ const props = withDefaults(defineProps<ModalProps>(), {
   cancelButtonProps: () => {
     return {};
   },
-  footer: true,
-  renderToBody: true,
+  unmountOnClose: false,
+  width: 250,
+  height: 250,
   popupContainer: undefined,
-  maskStyle: () => {
-    return {};
-  },
-  modalClass: '',
-  modalStyle: () => {
+  drawerStyle: () => {
     return {};
   },
   escToClose: true,
-  draggable: false,
-  fullscreen: false,
-  maskAnimationName: undefined,
-  modalAnimationName: undefined,
-  bodyClass: '',
-  bodyStyle: () => {
-    return {};
-  },
-  hideTitle: false,
+  renderToBody: true,
+  header: true,
+  footer: true,
+  hideCancel: false,
   onBeforeCancel: () => {
     return true;
   },
@@ -96,54 +83,53 @@ const computedVisible = useControlValue<boolean>(
 </script>
 
 <style lang="less">
-.cx-modal {
-  .arco-modal-mask {
+.cx-drawer {
+  .arco-drawer-mask {
     background: rgba(0, 0, 0, 0.6);
   }
-  .arco-modal-wrapper {
-    .arco-modal {
-      border-radius: 16px;
-      background: #fff;
+  .arco-drawer {
+    border-top-left-radius: 16px;
+    border-bottom-left-radius: 16px;
+    background: #fff;
 
-      .arco-modal-header {
-        padding: 16px 24px 0;
-        border-bottom: 0;
-        .arco-modal-title {
-          color: #0d1014;
-          font-family: 'PingFang SC';
-          font-size: 15px;
-          font-weight: 500;
-        }
-        .arco-modal-close-btn {
-          margin-left: -10px;
-          .arco-icon-hover {
-            flex-shrink: 0;
-            width: 20px;
-            height: 20px;
-            background: url('../_shared/icons/close-circle.svg') no-repeat;
-            svg {
-              display: none;
-            }
-            &::before {
-              display: none;
-            }
+    .arco-drawer-header {
+      padding: 16px 24px;
+      border-bottom: 1px solid #f2f5fa;
+      .arco-drawer-title {
+        color: #0d1014;
+        font-family: 'PingFang SC';
+        font-size: 15px;
+        font-weight: 500;
+      }
+      .arco-drawer-close-btn {
+        margin-left: -10px;
+        .arco-icon-hover {
+          flex-shrink: 0;
+          width: 20px;
+          height: 20px;
+          background: url('../_shared/icons/close-circle.svg') no-repeat;
+          svg {
+            display: none;
+          }
+          &::before {
+            display: none;
           }
         }
       }
-      .arco-modal-body {
-        padding: 24px 24px 0 17px;
-        min-height: 268px;
-      }
-      .arco-modal-footer {
-        height: 64px;
-        width: 100%;
-        padding: 16px 24px;
-        border-top: 0;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        gap: 10px;
-      }
+    }
+    .arco-drawer-body {
+      padding: 24px 24px 0 17px;
+      min-height: 268px;
+    }
+    .arco-drawer-footer {
+      height: 64px;
+      width: 100%;
+      padding: 16px 24px;
+      border-bottom: 1px solid #f2f5fa;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 10px;
     }
   }
 }

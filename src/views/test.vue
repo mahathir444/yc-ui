@@ -25,6 +25,7 @@
     </div>
     <div style="width: 300px; font-size: 20px">
       <cx-modal v-model:visible="visible" title="啊啊" />
+      <cx-drawer v-model:visible="visible" title="啊啊" />
       <cx-button @click="visible = true" disabled type="primary">
         <template #icon>
           <icon-plus :stroke-width="6" />
@@ -46,6 +47,7 @@ import { ref, watch } from 'vue';
 import CxInput from '@/teaching/Input';
 import CxSelect from '@/teaching/Select';
 import CxModal from '@/teaching/Modal';
+import CxDrawer from '@/teaching/Drawer/index.vue';
 import CxButton from '@/teaching/Button/index.vue';
 const value = ref('dsadsa');
 const visible = ref(false);
