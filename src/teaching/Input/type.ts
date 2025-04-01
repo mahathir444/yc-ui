@@ -1,5 +1,4 @@
 import { ObjectData, Size } from '@shared/type';
-import { ButtonProps } from '@/components/Button/type';
 export interface InputProps {
   modelValue?: string;
   defaultValue?: string;

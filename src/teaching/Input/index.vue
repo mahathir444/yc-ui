@@ -99,7 +99,7 @@ const computedValue = useControlValue<string>(
     flex-shrink: 0;
     width: 12px;
     height: 12px;
-    background: url('../_shared/icons/close.svg') no-repeat;
+    background: url('../_shared/icons/close-fill.svg') no-repeat;
     svg {
       display: none;
     }
