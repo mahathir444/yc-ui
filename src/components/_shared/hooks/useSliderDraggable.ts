@@ -80,6 +80,8 @@ export default (params: {
       position.left = `calc(${distance}% -  ${btnWidth / 2}px)`;
       position.right = 100 - distance + '%';
     }
+    position.startDis = distance;
+    position.endDis = 100 - distance;
   };
   // 设置最初的位置
   const setOriginPosition = () => {
@@ -92,6 +94,8 @@ export default (params: {
     position.bottom = computedValue.value + '%';
     position.left = computedValue.value + '%';
     position.right = max.value + '%';
+    position.startDis = min.value;
+    position.endDis = max.value;
   };
   // 处理越界情况
   useEventListener('mousemove', () => {

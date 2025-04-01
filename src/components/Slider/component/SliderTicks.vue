@@ -33,7 +33,7 @@
 import { ref, toRefs, inject } from 'vue';
 import { ProvideType } from '../type';
 import { SLIDER_PROVIDE_KEY } from '@shared/constants';
-import { isNumber } from '@shared/utils/is';
+
 const props = defineProps<{
   type: 'dots' | 'marks' | 'ticks';
   data: Record<string, any>[];
@@ -43,21 +43,21 @@ defineEmits<{
 }>();
 const { type } = toRefs(props);
 // 解构父级属性
-const { min, max, direction, step, computedValue } = inject<ProvideType>(
-  SLIDER_PROVIDE_KEY,
-  {
+const { min, max, startValue, endValue, range, direction, step } =
+  inject<ProvideType>(SLIDER_PROVIDE_KEY, {
+    startValue: ref(0),
+    endValue: ref(0),
+    tempEndValue: ref(0),
+    tempStartValue: ref(0),
     min: ref(0),
     max: ref(0),
     step: ref(0),
+    range: ref(false),
     direction: ref('horizontal'),
     disabled: ref(false),
     showTooltip: ref(true),
     trackRef: ref(),
-    startValue: ref(0),
-    endValue: ref(0),
-    computedValue: ref(0),
-  }
-);
+  });
 // 计算position
 const getPosition = (value: number) => {
   if (type.value == 'ticks') {
@@ -71,22 +71,16 @@ const getPosition = (value: number) => {
 // 是否在区间之内
 const isInRange = (value: number) => {
   const curValue = value * step.value;
-  if (isNumber(computedValue.value)) {
+  if (!range.value) {
     return (
-      computedValue.value >= curValue &&
+      startValue.value >= curValue &&
       curValue >= min.value &&
       curValue <= max.value
     );
   } else {
-    const startValue =
-      computedValue.value[0] <= computedValue.value[1]
-        ? computedValue.value[0]
-        : computedValue.value[1];
-    const endValue =
-      computedValue.value[0] > computedValue.value[1]
-        ? computedValue.value[0]
-        : computedValue.value[1];
-    return curValue >= startValue && curValue <= endValue;
+    const minVal = Math.min(startValue.value, endValue.value);
+    const maxVal = Math.max(startValue.value, endValue.value);
+    return curValue >= minVal && curValue <= maxVal;
   }
 };
 </script>
@@ -125,6 +119,7 @@ const isInRange = (value: number) => {
     color: rgb(134, 144, 156);
     font-size: 14px;
     line-height: 1;
+    user-select: none;
   }
 }
 

@@ -12,26 +12,11 @@ export default (params: {
   range: Ref<boolean>;
   emits: Fn;
 }) => {
-  const {
-    range,
-    defaultValue: _defaultValue,
-    modelValue,
-    _marks,
-    step,
-    emits,
-  } = params;
-  // 默认值
-  const defaultValue = computed(() => {
-    if (range.value) {
-      return isArray(_defaultValue.value) ? _defaultValue.value : [0, 0];
-    } else {
-      return _defaultValue.value;
-    }
-  });
+  const { modelValue, defaultValue, range, _marks, step, emits } = params;
   // 控制值
   const computedValue = useControlValue<SliderValue>(
     modelValue,
-    defaultValue.value,
+    range.value && !isArray(defaultValue.value) ? [0, 0] : defaultValue.value,
     (val) => {
       emits('update:modelValue', val);
     }
@@ -51,7 +36,7 @@ export default (params: {
     },
   });
   // 中间开始值
-  const tempStartValue = ref<number>(0);
+  const tempStartValue = ref<number>(startValue.value);
   // 结束值
   const endValue = computed({
     get() {
@@ -67,7 +52,7 @@ export default (params: {
     },
   });
   // 中间结束值
-  const tempEndValue = ref<number>(0);
+  const tempEndValue = ref<number>(endValue.value);
   // 刻度线
   const ticks = computed(() => {
     const result = [];

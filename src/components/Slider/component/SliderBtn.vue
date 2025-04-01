@@ -27,12 +27,8 @@ import YcTooltip from '@/components/Tooltip';
 const props = defineProps<{
   type: 'start' | 'end';
   position: PositionData;
-  x: number;
-  y: number;
 }>();
 const emits = defineEmits<{
-  (e: 'update:x', value: number): void;
-  (e: 'update:y', value: number): void;
   (e: 'update:position', value: PositionData): void;
 }>();
 // 可见性
@@ -51,12 +47,14 @@ const {
   startValue,
   endValue,
 } = inject<ProvideType>(SLIDER_PROVIDE_KEY, {
+  startValue: ref(0),
+  endValue: ref(0),
+  tempEndValue: ref(0),
+  tempStartValue: ref(0),
+  range: ref(false),
   min: ref(0),
   max: ref(0),
   step: ref(0),
-  startValue: ref(0),
-  endValue: ref(0),
-  computedValue: ref(0),
   direction: ref('horizontal'),
   disabled: ref(false),
   showTooltip: ref(true),
@@ -74,16 +72,9 @@ const { x, y, position, isDragging } = useSliderDraggable({
   disabled,
 });
 watchEffect(() => {
-  emits('update:x', x.value);
-  emits('update:y', y.value);
   emits('update:position', position);
 });
 onMounted(() => {
-  const { left, top } = trackRef.value!.getBoundingClientRect();
-  x.value = left;
-  y.value = top;
-  emits('update:x', left);
-  emits('update:y', top);
   emits('update:position', position);
 });
 // 暴露

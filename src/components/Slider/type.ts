@@ -24,6 +24,8 @@ export interface PositionData {
   right: string;
   top: string;
   bottom: string;
+  startDis?: number;
+  endDis?: number;
 }
 
 export interface RangeData {
@@ -35,14 +37,16 @@ export interface RangeData {
 
 // 内部使用
 export interface ProvideType {
-  step: Ref<number>;
-  min: Ref<number>;
-  max: Ref<number>;
-  showTooltip: Ref<boolean>;
-  disabled: Ref<boolean>;
-  direction: Ref<Direction>;
-  trackRef: Ref<HTMLDivElement | undefined>;
   startValue: WritableComputedRef<number> | Ref<number>;
   endValue: WritableComputedRef<number> | Ref<number>;
-  computedValue: WritableComputedRef<SliderValue> | Ref<SliderValue>;
+  tempStartValue: Ref<number>;
+  tempEndValue: Ref<number>;
+  range: Ref<boolean>;
+  min: Ref<number>;
+  max: Ref<number>;
+  step: Ref<number>;
+  direction: Ref<Direction>;
+  showTooltip: Ref<boolean>;
+  disabled: Ref<boolean>;
+  trackRef: Ref<HTMLDivElement | undefined>;
 }
