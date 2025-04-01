@@ -1,0 +1,85 @@
+.yc-time-picker-box {
+  display: flex;
+  align-items: center;
+  height: fit-content;
+  padding: 4px 11px 4px 4px;
+  background-color: rgb(242, 243, 245);
+  overflow: hidden;
+  transition: all 0.1s cubic-bezier(0, 0, 1, 1);
+  border-radius: 2px;
+  border: 1px solid transparent;
+  &.focus {
+    background-color: rgb(255, 255, 255);
+    border-color: rgb(22, 93, 255);
+    box-shadow: 0 0 0 0 rgb(190, 218, 255);
+  }
+  &.time-range {
+    .yc-picker-input:focus {
+      background: rgb(242, 243, 245);
+    }
+  }
+  .yc-input-box {
+    flex: 1;
+    height: 100%;
+    .yc-picker-input {
+      height: 100%;
+      width: 100%;
+      padding-left: 8px;
+      outline: none;
+      border: none;
+      background: transparent;
+    }
+  }
+  .yc-picker-separator {
+    padding: 0 8px;
+  }
+}
+@itemHeight: 32px;
+.yc-picker-box {
+  height: 267px;
+  background-color: #fff;
+  border: 1px solid rgb(229, 230, 235);
+  border-radius: 4px;
+  box-shadow: 0 4px 10px #0000001a;
+  display: flex;
+  flex-direction: column;
+  .yc-picker-content {
+    flex: 1;
+    display: flex;
+    overflow: hidden;
+    .yc-time-col {
+      flex: 1;
+      flex-shrink: 0;
+      display: flex;
+      // flex-direction: column;
+      // align-items: center;
+      overflow: hidden;
+      &:nth-child(n + 2) {
+        border-left: 1px solid rgb(229, 230, 235);
+      }
+      .yc-time-list {
+        padding-bottom: calc(@itemHeight * 6);
+        .yc-time-item {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          width: 64px;
+          height: @itemHeight;
+          font-size: 14px;
+          padding: 4px 0;
+          cursor: pointer;
+          &:hover,&.active {
+            background: rgb(242, 243, 245);
+          }
+        }
+      }
+    }
+  }
+  .yc-picker-footer {
+    display: flex;
+    justify-content: space-between;
+    padding: 8px;
+    border-top: 1px solid rgb(229, 230, 235);
+    gap: 8px;
+  }
+}

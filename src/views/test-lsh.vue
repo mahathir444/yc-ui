@@ -2,133 +2,13 @@
 <template>
   <div class="lsh-box">
     <a-button @click="hanClick"> 点击测试 </a-button>
-    <div class="lsh-split">
-      <div class="lsh-split-right">
-        <div
-          :style="{
-            flex: 1,
-            minHeight: 0,
-          }"
-        >
-          <a-typography-paragraph
-            >We are building the future of content discovery and
-            creation.</a-typography-paragraph
-          >
-          <a-divider />
-          <a-typography-paragraph>
-            ByteDance's content platforms enable people to enjoy content powered
-            by AI technology. We inform, entertain, and inspire people across
-            language, culture and geography.
-          </a-typography-paragraph>
-          <a-divider>ByteDance</a-divider>
-          <a-typography-paragraph
-            >Yiming Zhang is the founder and CEO of
-            ByteDance.</a-typography-paragraph
-          >
-        </div>
-        <yc-resize-box
-          :directions="['top']"
-          component="div"
-          :style="{
-            background: 'rgb(255, 255, 255)',
-          }"
-        >
-          <a-typography-paragraph
-            >We are building the future of content discovery and
-            creation.</a-typography-paragraph
-          >
-          <a-divider />
-          <a-typography-paragraph>
-            ByteDance's content platforms enable people to enjoy content powered
-            by AI technology. We inform, entertain, and inspire people across
-            language, culture and geography.
-          </a-typography-paragraph>
-          <a-divider>ByteDance</a-divider>
-          <a-typography-paragraph
-            >Yiming Zhang is the founder and CEO of
-            ByteDance.</a-typography-paragraph
-          >
-        </yc-resize-box>
-      </div>
-      <yc-resize-box
-        :directions="['left']"
-        class="lsh-test-resize"
-        component="span"
-        :style="{
-          // width: '5%',
-          minWidth: '2%',
-          maxWidth: '10%',
-        }"
-      >
-        <a-typography-paragraph
-          >We are building the future of content discovery and
-          creation.</a-typography-paragraph
-        >
-        <a-divider />
-        <a-typography-paragraph>
-          ByteDance's content platforms enable people to enjoy content powered
-          by AI technology. We inform, entertain, and inspire people across
-          language, culture and geography.
-        </a-typography-paragraph>
-        <a-divider>ByteDance</a-divider>
-        <a-typography-paragraph
-          >Yiming Zhang is the founder and CEO of
-          ByteDance.</a-typography-paragraph
-        >
-      </yc-resize-box>
-    </div>
-    <yc-resize-box
-      :directions="['right', 'bottom']"
-      class="lsh-test-resize"
-      v-model:height="resizeBox.height"
-      v-model:width="resizeBox.width"
-      component="span"
-    >
-      <a-typography-paragraph
-        >We are building the future of content discovery and
-        creation.</a-typography-paragraph
-      >
-      <a-divider />
-      <a-typography-paragraph>
-        ByteDance's content platforms enable people to enjoy content powered by
-        AI technology. We inform, entertain, and inspire people across language,
-        culture and geography.
-      </a-typography-paragraph>
-      <a-divider>ByteDance</a-divider>
-      <a-typography-paragraph
-        >Yiming Zhang is the founder and CEO of
-        ByteDance.</a-typography-paragraph
-      >
-    </yc-resize-box>
-    <a-resize-box
-      :directions="['right', 'bottom']"
-      class="lsh-test-resize"
-      v-model:height="resizeBox.height"
-      v-model:width="resizeBox.width"
-      component="span"
-      :style="{
-        width: '5%',
-        minWidth: '2%',
-        maxWidth: '10%',
-      }"
-    >
-      <a-typography-paragraph
-        >We are building the future of content discovery and
-        creation.</a-typography-paragraph
-      >
-
-      <a-divider />
-      <a-typography-paragraph>
-        ByteDance's content platforms enable people to enjoy content powered by
-        AI technology. We inform, entertain, and inspire people across language,
-        culture and geography.
-      </a-typography-paragraph>
-      <a-divider>ByteDance</a-divider>
-      <a-typography-paragraph
-        >Yiming Zhang is the founder and CEO of
-        ByteDance.</a-typography-paragraph
-      >
-    </a-resize-box>
+    <ATimePicker v-bind="config" type="time"/>
+    <ATimePicker v-bind="config" v-model:model-value="v" @change="hanChange" @select="hanSelect"/>
+    <YcTimePicker v-bind="config" v-model:model-value="v" @change="hanChange" @select="hanSelect">
+      <template #suffix>
+        <SvgIcon icon="icon-search" />
+      </template>
+    </YcTimePicker>
   </div>
 </template>
 
@@ -140,13 +20,26 @@ import { messageType } from '@/components/Message/constants';
 import YcNotifi from '@/components/Notification/index.ts';
 import SvgIcon from '@/components/_components/SvgIcon/index.vue';
 import YcResizeBox from '@/components/ResizeBox/index.vue';
+import YcTimePicker from '@/components/TimePicker/index.vue'
 onMounted(() => {});
 const resizeBox = reactive({
   width: 0,
   height: 0,
 });
 let total = 0;
+const v = ref('');
+const config = {
+  format:"HH:mm:ss",
+  type:"time-range",
+  use12Hours:!true,
+}
 const hanClick = () => {};
+const hanChange = (...rest) =>{
+  console.log(rest)
+}
+const hanSelect = (...rest) =>{
+  console.log(rest)
+}
 </script>
 <style scoped lang="less">
 .lsh-box {
