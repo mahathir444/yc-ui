@@ -71,6 +71,7 @@ declare module 'vue' {
     Select: typeof import('./src/components/Select/Select.vue')['default']
     SelectDropdown: typeof import('./src/components/Select/component/SelectDropdown.vue')['default']
     SelectIcon: typeof import('./src/components/Select/component/SelectIcon.vue')['default']
+    ServiceDrawer: typeof import('./src/components/Drawer/component/ServiceDrawer.vue')['default']
     ServiceModal: typeof import('./src/components/Modal/component/ServiceModal.vue')['default']
     Slider: typeof import('./src/components/Slider/index.vue')['default']
     SliderBtn: typeof import('./src/components/Slider/component/SliderBtn.vue')['default']

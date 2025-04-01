@@ -1,6 +1,7 @@
 import { CSSProperties } from 'vue';
 import { ButtonProps } from '@/components/Button';
 import { OnBeforeCancel } from '@/components/Modal';
+import { RenderContent } from '../_shared/type';
 export interface DrawerProps {
   visible?: boolean;
   defaultVisible?: boolean;
@@ -28,4 +29,21 @@ export interface DrawerProps {
   onBeforeOk?: OnBeforeCancel;
 }
 
+export type DrawerConfig = Omit<DrawerProps, 'visible' | 'defaultVisible'> & {
+  content?: RenderContent;
+  title?: RenderContent;
+  onOk?: () => void | Promise<void>;
+  onCancel?: () => void | Promise<void>;
+  onOpen?: () => void;
+  onClose?: () => void;
+  onBeforeOpen?: () => void;
+  onBeforeClose?: () => void;
+};
+
 export type DrawerPlacement = 'right' | 'left' | 'top' | 'bottom';
+
+// 内部使用
+export type DrawerServiceData = {
+  id: string;
+  container: HTMLDivElement | null;
+};

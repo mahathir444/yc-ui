@@ -1,20 +1,59 @@
 <template>
   <yc-modal
     v-model:visible="visible"
-    :title="title"
     :width="width"
-    :render-to-body="false"
-    title-align="start"
-    class="yc-service-modal"
-    @close="onClose && onClose()"
-    @open="onOpen && onOpen()"
-    @before-close="onBeforeClose && onBeforeClose()"
-    @before-open="onBeforeOpen && onBeforeOpen()"
-    @ok="onOk && onOk()"
-    @cancel="onCancel && onCancel()"
+    :top="top"
+    :mask="mask"
+    :title="title"
+    :title-align="titleAlign"
+    :align-center="alignCenter"
+    :unmount-on-close="unmountOnClose"
+    :mask-closable="maskClosable"
+    :hide-cancel="hideCancel"
+    :closable="closable"
+    :ok-text="okText"
+    :cancel-text="cancelText"
+    :ok-loading="okLoading"
+    :ok-button-props="okButtonProps"
+    :cancel-button-props="cancelButtonProps"
+    :footer="footer"
+    :popup-container="popupContainer"
+    :mask-style="maskStyle"
+    :modal-style="modalStyle"
+    :esc-to-close="escToClose"
+    :draggable="draggable"
+    :fullscreen="fullscreen"
+    :body-style="bodyStyle"
+    :hide-title="hideTitle"
+    :on-before-cancel="onBeforeCancel"
+    :on-before-close="onBeforeClose"
+    :render-to-body="renderToBody"
+    :modal-class="'yc-service-modal'"
+    @close="onClose?.()"
+    @open="onOpen?.()"
+    @before-close="onBeforeClose?.()"
+    @before-open="onBeforeOpen?.()"
+    @ok="onOk?.()"
+    @cancel="onCancel?.()"
   >
-    <div class="yc-modal-body-content">
-      <span>{{ content }}</span>
+    <template #title>
+      <span
+        v-if="type"
+        class="yc-modal-title-icon"
+        :style="{
+          color: TYPE_ICON_COLOR_MAP[type],
+        }"
+      >
+        <component :is="TYPE_ICON_MAP[type]" />
+      </span>
+      <span class="yc-modal-title-content text-ellipsis">
+        <component :is="getSlotFunction(title)" />
+      </span>
+    </template>
+    <div class="yc-modal-body-content text-ellipsis">
+      <span>
+        <component :is="getSlotFunction(content)" />
+      </span>
     </div>
   </yc-modal>
 </template>
@@ -22,13 +61,15 @@
 <script lang="ts" setup>
 import { ref } from 'vue';
 import { ModalConfig } from '../type';
+import { getSlotFunction } from '@shared/utils/vue-utils';
+import { TYPE_ICON_MAP, TYPE_ICON_COLOR_MAP } from '@shared/constants';
 import YcModal from '../index.vue';
 withDefaults(defineProps<ModalConfig>(), {
-  width: 520,
+  width: 400,
   top: 100,
   mask: true,
   title: '',
-  titleAlign: 'center',
+  titleAlign: 'start',
   alignCenter: true,
   unmountOnClose: false,
   maskClosable: true,
@@ -44,7 +85,7 @@ withDefaults(defineProps<ModalConfig>(), {
     return {};
   },
   footer: true,
-  renderToBody: true,
+  renderToBody: false,
   popupContainer: undefined,
   maskStyle: () => {
     return {};
@@ -59,6 +100,12 @@ withDefaults(defineProps<ModalConfig>(), {
     return {};
   },
   hideTitle: false,
+  onBeforeCancel: () => {
+    return true;
+  },
+  onBeforeOk: () => {
+    return true;
+  },
   content: '',
 });
 // visible
@@ -67,18 +114,38 @@ const visible = ref<boolean>(true);
 
 <style lang="less">
 .yc-service-modal {
-  .yc-modal-body-content {
-    width: 100%;
-    padding: 31.5px 30px 35.5px 30px;
-    display: flex;
-    span {
+  .yc-modal-header {
+    .yc-modal-title {
+      display: flex;
+      gap: 10px;
+      .yc-modal-title-icon {
+        display: flex;
+        align-items: center;
+        font-size: 18px;
+      }
+      .yc-modal-title-content {
+        flex: 1;
+        flex-shrink: 0;
+        overflow: hidden;
+      }
+    }
+  }
+  .yc-modal-body {
+    padding: 0 !important;
+    .yc-modal-body-content {
       width: 100%;
-      height: 26px;
-      line-height: 26px;
-      color: #474c59;
-      font-family: 'PingFang SC';
-      font-size: 16px;
-      font-weight: 400;
+      padding: 31.5px 30px 35.5px 30px;
+      display: flex;
+      align-items: center;
+      span {
+        width: 100%;
+        height: 26px;
+        line-height: 26px;
+        color: #474c59;
+        font-family: 'PingFang SC';
+        font-size: 16px;
+        font-weight: 400;
+      }
     }
   }
 }

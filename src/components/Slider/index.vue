@@ -38,7 +38,7 @@
     <!-- input -->
     <div v-if="showInput" class="yc-slider-input">
       <yc-slider-input type="start" />
-      <div class="yc-slider-input-divider"></div>
+      <div v-if="range" class="yc-slider-input-divider"></div>
       <yc-slider-input v-if="range" type="end" />
     </div>
   </div>
@@ -52,7 +52,6 @@ import useSliderValue from '@shared/hooks/useSliderValue';
 import YcSliderTicks from './component/SliderTicks.vue';
 import YcSliderBtn from './component/SliderBtn.vue';
 import YcSliderInput from './component/SliderInput.vue';
-
 defineOptions({
   name: 'Slider',
 });
@@ -65,12 +64,15 @@ const props = withDefaults(defineProps<SliderProps>(), {
     return {};
   },
   max: 100,
-  direction: 'vertical',
+  direction: 'horizontal',
   disabled: false,
   showTicks: false,
   showInput: false,
-  range: true,
+  range: false,
   showTooltip: true,
+  formatTooltip: (val: number) => {
+    return val + '';
+  },
 });
 const emits = defineEmits<{
   (e: 'update:modelValue', value: number): void;
@@ -88,6 +90,7 @@ const {
   showTooltip,
   marks: _marks,
 } = toRefs(props);
+const { formatTooltip } = props;
 // trackRef
 const trackRef = ref<HTMLDivElement>();
 // 获取slider的值
@@ -161,6 +164,7 @@ provide<ProvideType>(SLIDER_PROVIDE_KEY, {
   disabled,
   direction,
   trackRef,
+  formatTooltip,
 });
 </script>
 

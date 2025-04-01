@@ -23,6 +23,14 @@ export const TYPE_ICON_MAP: Record<string, any> = {
   loading: IconLoading,
 };
 
+export const TYPE_ICON_COLOR_MAP: Record<string, string> = {
+  info: 'rgb(22, 93, 255)',
+  success: ' rgb(0, 180, 42)',
+  warning: 'rgb(255, 125, 0)',
+  error: 'rgb(245, 63, 63)',
+  loading: 'rgb(22, 93, 225)',
+};
+
 // provide-keys
 export const BUTTON_GROUP_PROVIDE_KEY = 'button-group-props';
 export const CHECKBOX_GROUP_PROVIDE_KEY = 'checkbox-group-props';

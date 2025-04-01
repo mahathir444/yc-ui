@@ -1,6 +1,5 @@
 import { Ref, WritableComputedRef } from 'vue';
 import { Direction } from '@shared/type';
-import { SelectOptions } from '../Select';
 
 export interface SliderProps {
   modelValue?: SliderValue;
@@ -15,9 +14,12 @@ export interface SliderProps {
   showInput?: boolean;
   range?: boolean;
   showTooltip?: boolean;
+  formatTooltip?: FormatTooltip;
 }
 
 export type SliderValue = number | number[];
+
+export type FormatTooltip = (value: number) => string;
 
 export interface PositionData {
   left: string;
@@ -49,4 +51,5 @@ export interface ProvideType {
   showTooltip: Ref<boolean>;
   disabled: Ref<boolean>;
   trackRef: Ref<HTMLDivElement | undefined>;
+  formatTooltip?: FormatTooltip;
 }

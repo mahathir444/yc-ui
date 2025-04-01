@@ -1,15 +1,7 @@
 <template>
   <div class="test">
     <div style="width: 500px; height: 300px">
-      <yc-slider
-        show-input
-        :marks="{
-          10: '10km',
-          30: '30km',
-          60: '60km',
-          90: '90km',
-        }"
-      />
+      <yc-slider show-input />
     </div>
     <div style="width: 300px; font-size: 20px">
       mention
@@ -20,6 +12,13 @@
 
 <script lang="ts" setup>
 import { ref, watch } from 'vue';
+// import { Modal } from '@arco-design/web-vue';
+import Modal from '@/components/Modal';
+
+Modal.error({
+  title: '测试',
+  content: '11',
+});
 
 const value = ref([]);
 const options = ['Bytedance', 'Bytedesign', 'Bytenumner'].map((item) => {

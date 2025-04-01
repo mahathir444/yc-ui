@@ -1,7 +1,7 @@
 import { App, h, render } from 'vue';
-import { ModalConfig, ModalServiceData } from './type';
+import { ModalConfig, ModalMethods, ModalServiceData } from './type';
 import { getComponentPrefix } from '@shared/utils/global-config';
-import ServiceModal from './component/ServiceModal.vue';
+import _ServiceModal from './component/ServiceModal.vue';
 import _Modal from './index.vue';
 
 export type ModalInstance = InstanceType<typeof _Modal>;
@@ -10,6 +10,8 @@ export type {
   ModalConfig,
   OnBeforeCancel,
   OnBeforeOk,
+  ModalType,
+  ModalMethod,
 } from './type';
 
 const Modal = Object.assign(_Modal, {
@@ -32,18 +34,15 @@ const Modal = Object.assign(_Modal, {
     const close = () => {
       render(null, modalConfig.container as HTMLDivElement);
     };
-    const { onOk: handleOk, onCancel: handleCancel } = props;
-    // 使用 h 函数创建 VNode
-    const vnode = h(ServiceModal, {
+    const { onOk: _onOk, onCancel: _onCancel } = props;
+    const vnode = h(_ServiceModal, {
       ...props,
       async onOk() {
-        if (!handleOk) return;
-        await handleOk();
+        await _onOk?.();
         close();
       },
       async onCancel() {
-        if (!handleCancel) return;
-        await handleCancel();
+        await _onCancel?.();
         close();
       },
     });
@@ -53,6 +52,19 @@ const Modal = Object.assign(_Modal, {
       close,
     };
   },
+  ...(Object.fromEntries(
+    ['info', 'warning', 'error', 'success'].map((type) => {
+      return [
+        type,
+        (props: ModalConfig) => {
+          return Modal.open({
+            ...props,
+            type,
+          });
+        },
+      ];
+    })
+  ) as ModalMethods),
 });
 
 declare module 'vue' {

@@ -4,7 +4,9 @@
     :popup-visible="popupVisible || isDragging"
     :disabled="!showTooltip"
     :position="direction == 'vertical' ? 'right' : 'bottom'"
-    :content="type == 'start' ? String(startValue) : String(endValue)"
+    :content="
+      formatTooltip ? formatTooltip(computedValue) : String(computedValue)
+    "
     @update:popup-visible="(v) => (popupVisible = v)"
   >
     <div
@@ -19,7 +21,7 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, inject, watchEffect, onMounted, watch } from 'vue';
+import { ref, inject, computed, watch, toRefs } from 'vue';
 import { SLIDER_PROVIDE_KEY } from '@shared/constants';
 import { ProvideType, PositionData } from '../type';
 import useSliderDraggable from '@shared/hooks/useSliderDraggable';
@@ -31,6 +33,7 @@ const props = defineProps<{
 const emits = defineEmits<{
   (e: 'update:position', value: PositionData): void;
 }>();
+const { type } = toRefs(props);
 // 可见性
 const popupVisible = ref<boolean>(false);
 // 触发dom
@@ -46,6 +49,7 @@ const {
   showTooltip,
   startValue,
   endValue,
+  formatTooltip,
 } = inject<ProvideType>(SLIDER_PROVIDE_KEY, {
   startValue: ref(0),
   endValue: ref(0),
@@ -60,32 +64,33 @@ const {
   showTooltip: ref(true),
   trackRef: ref(),
 });
+// 计算值
+const computedValue = computed({
+  get() {
+    return type.value == 'start' ? startValue.value : endValue.value;
+  },
+  set(val) {
+    if (type.value == 'start') {
+      startValue.value = val;
+    } else {
+      startValue.value = val;
+    }
+  },
+});
 // 拖动hook
-const { x, y, position, isDragging } = useSliderDraggable({
+const { position, isDragging } = useSliderDraggable({
   trackRef,
   triggerRef,
-  computedValue: props.type == 'start' ? startValue : endValue,
+  computedValue,
   direction,
   step,
   min,
   max,
   disabled,
 });
-watchEffect(() => {
+// 检测位置改变传递
+watch(position, () => {
   emits('update:position', position);
-});
-onMounted(() => {
-  emits('update:position', position);
-});
-// 暴露
-defineExpose({
-  getValue() {
-    return {
-      x,
-      y,
-      position,
-    };
-  },
 });
 </script>
 
