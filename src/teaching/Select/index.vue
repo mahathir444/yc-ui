@@ -22,7 +22,7 @@
     </template>
     <template v-if="$slots.prefix || prefixText" #prefix>
       <slot name="prefix">
-        <div class="cx-select-prefix">
+        <div class="cx-select-prefix-text">
           {{ prefixText }}
         </div>
       </slot>
@@ -131,7 +131,7 @@ const computedVisible = useControlValue<boolean>(
 </script>
 
 <style lang="less">
-.cx-select {
+.cx-select.arco-select-view-size-medium {
   padding: 0 9px 0 8px;
   border-radius: 8px;
   border: 1px solid #e1e5eb;
@@ -142,7 +142,7 @@ const computedVisible = useControlValue<boolean>(
   }
   .arco-select-view-prefix {
     padding-right: 16px;
-    .cx-select-prefix {
+    .cx-select-prefix-text {
       position: relative;
       color: #79828f;
       font-family: 'PingFang SC';
@@ -162,7 +162,6 @@ const computedVisible = useControlValue<boolean>(
       }
     }
   }
-
   .arco-select-view-input {
     caret-color: #0065ff;
     color: #474f59;

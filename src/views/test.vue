@@ -9,6 +9,7 @@
         allow-clear
         show-word-limit
         :max-length="1000"
+        prefix-text="姓名"
         placeholder="请输入"
       />
     </div>
@@ -24,17 +25,17 @@
     </div>
     <div style="width: 300px; font-size: 20px">
       <cx-modal v-model:visible="visible" title="啊啊" />
-      <cx-button @click="visible = true" type="primary">
+      <cx-button @click="visible = true" disabled type="primary">
         <template #icon>
           <icon-plus :stroke-width="6" />
         </template>
-        点击
+        点击创建
       </cx-button>
       <cx-button @click="visible = true" type="outline">
         <template #icon>
           <icon-plus :stroke-width="6" />
         </template>
-        点击
+        点击创建
       </cx-button>
     </div>
   </div>

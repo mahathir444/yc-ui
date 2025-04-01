@@ -10,8 +10,12 @@
     @blur="(e) => $emit('blur', e)"
     class="cx-input"
   >
-    <template v-if="$slots.prefix" #prefix>
-      <slot name="prefix" />
+    <template v-if="$slots.prefix || prefixText" #prefix>
+      <slot name="prefix">
+        <div class="cx-input-prefix-text">
+          {{ prefixText }}
+        </div>
+      </slot>
     </template>
     <template v-if="$slots.suffix" #prefix>
       <slot name="suffix" />
@@ -39,6 +43,7 @@ const props = withDefaults(defineProps<InputProps>(), {
   },
   wordLength: undefined,
   wordSlice: undefined,
+  prefixText: '',
 });
 const emits = defineEmits<{
   (e: 'update:modelValue', value: string): void;
@@ -95,6 +100,28 @@ const computedValue = useControlValue<string>(
     }
     &::before {
       display: none;
+    }
+  }
+  .arco-input-prefix {
+    padding-right: 16px;
+    .cx-input-prefix-text {
+      position: relative;
+      color: #79828f;
+      font-family: 'PingFang SC';
+      font-size: 14px;
+      font-weight: 400;
+      &::after {
+        display: block;
+        content: '';
+        z-index: 2;
+        position: absolute;
+        right: -8px;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 1px;
+        height: 12px;
+        background-color: #e1e5eb;
+      }
     }
   }
   .arco-input-suffix {

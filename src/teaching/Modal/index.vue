@@ -1,5 +1,13 @@
 <template>
   <a-modal v-bind="props" v-model:visible="computedVisible" class="cx-modal">
+    <!-- <template #footer>
+      <slot name="footer">
+        <cx-button type="outline" v-bind="cancelButtonProps"> 取消 </cx-button>
+        <cx-button type="primary" :loading="okLoading" v-bind="okButtonProps">
+          确认
+        </cx-button>
+      </slot>
+    </template> -->
   </a-modal>
 </template>
 
@@ -7,6 +15,7 @@
 import { ref, reactive, toRefs } from 'vue';
 import { ModalProps } from './type';
 import useControlValue from '../_shared/hooks/useControlValue';
+import CxButton from '../Button';
 const props = withDefaults(defineProps<ModalProps>(), {
   visible: undefined,
   defaultVisible: false,

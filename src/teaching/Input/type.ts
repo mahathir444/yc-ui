@@ -13,6 +13,7 @@ export interface InputProps {
   wordSlice?: WordSlice;
   showWordLimit?: boolean;
   inputAttrs?: ObjectData;
+  prefixText?: string;
 }
 
 export type WordSlice = (value: string, maxLength: number) => string;
