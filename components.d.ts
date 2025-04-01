@@ -7,6 +7,7 @@ export {}
 /* prettier-ignore */
 declare module 'vue' {
   export interface GlobalComponents {
+    AInput: typeof import('@arco-design/web-vue')['Input']
     AutoComplete: typeof import('./src/components/AutoComplete/index.vue')['default']
     Button: typeof import('./src/components/Button/Button.vue')['default']
     ButtonGroup: typeof import('./src/components/Button/ButtonGroup.vue')['default']
