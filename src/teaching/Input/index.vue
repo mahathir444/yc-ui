@@ -1,17 +1,7 @@
 <template>
   <a-input
+    v-bind="props"
     v-model="computedValue"
-    :size="size"
-    :allow-clear="allowClear"
-    :disabled="disabled"
-    :readonly="readonly"
-    :error="error"
-    :max-length="maxLength"
-    :show-word-limit="showWordLimit"
-    :placeholder="placeholder"
-    :input-attrs="inputAttrs"
-    :word-length="wordLength"
-    :word-slice="wordSlice"
     @input="(v, e) => $emit('input', v, e)"
     @change="(v, e) => $emit('change', v, e)"
     @press-enter="(e) => $emit('pressEnter', e)"
@@ -32,7 +22,7 @@
 <script lang="ts" setup>
 import { toRefs } from 'vue';
 import { InputProps } from './type';
-import useControlValue from '@shared/hooks/useControlValue';
+import useControlValue from '../_shared/hooks/useControlValue';
 const props = withDefaults(defineProps<InputProps>(), {
   modelValue: undefined,
   defaultValue: '',

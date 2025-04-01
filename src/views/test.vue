@@ -16,11 +16,26 @@
       <cx-select
         :options="options"
         :max-tag-count="2"
-        prefix-text="测试"
+        prefix-text="年级"
         multiple
         placeholder="请选择"
         allow-clear
       ></cx-select>
+    </div>
+    <div style="width: 300px; font-size: 20px">
+      <cx-modal v-model:visible="visible" title="啊啊" />
+      <cx-button @click="visible = true" type="primary">
+        <template #icon>
+          <icon-plus :stroke-width="6" />
+        </template>
+        点击
+      </cx-button>
+      <cx-button @click="visible = true" type="outline">
+        <template #icon>
+          <icon-plus :stroke-width="6" />
+        </template>
+        点击
+      </cx-button>
     </div>
   </div>
 </template>
@@ -29,7 +44,10 @@
 import { ref, watch } from 'vue';
 import CxInput from '@/teaching/Input';
 import CxSelect from '@/teaching/Select';
+import CxModal from '@/teaching/Modal';
+import CxButton from '@/teaching/Button/index.vue';
 const value = ref('dsadsa');
+const visible = ref(false);
 const options = [
   'Bytedance',
   'Bytedesign',

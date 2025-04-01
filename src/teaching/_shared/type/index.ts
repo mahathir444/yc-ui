@@ -16,3 +16,14 @@ export type Fn = (...args: any) => any;
 export type ObjectData = Record<string, any>;
 
 export type PopupContainer = string | HTMLElement;
+
+export type IconProps = {
+  rotate?: number;
+  spin?: boolean;
+  size?: number | number[];
+  color?: string;
+};
+
+export type RequiredDeep<T> = {
+  [P in keyof T]-?: T[P] extends object ? RequiredDeep<T[P]> : T[P];
+};

@@ -1,40 +1,25 @@
 <template>
   <a-select
+    v-bind="props"
     v-model="computedValue"
     v-model:input-value="computedInputValue"
     v-model:popup-visible="computedVisible"
-    :multiple="multiple"
-    :size="size"
-    :placeholder="placeholder"
-    :loading="loading"
-    :disabled="disabled"
-    :error="error"
-    :allow-clear="allowClear"
-    :allow-search="allowSearch"
-    :allow-create="allowCreate"
-    :max-tag-count="maxTagCount"
-    :popup-container="popupContainer"
-    :bordered="bordered"
-    :default-active-first-option="defaultActivefirstOption"
-    :unmount-on-close="unmountonClose"
-    :filter-option="filterOption"
-    :options="options"
-    :format-label="formatLabel"
-    :fallback-option="fallbackOption"
-    :show-extra-options="showExtraOptions"
-    :value-key="valueKey"
     :trigger-props="{
       ...triggerProps,
       contentClass: 'cx-select-popup-content',
     }"
-    :limit="limit"
-    :field-names="fieldNames"
-    :scrollbar="scrollbar"
-    :search-delay="searchDelay"
-    :show-footer-on-empty="showFooterOnEmpty"
-    :show-header-on-empty="showHeaderOnEmpty"
     class="cx-select"
+    @clear="(e) => $emit('clear', e)"
+    @remove="(v) => $emit('remove', v)"
+    @search="(v) => $emit('search', v)"
+    @dropdown-scroll="$emit('dropdownScroll')"
+    @dropdown-reach-bottom="$emit('dropdownReachBottom')"
+    @exceed-limit="(v, ev) => $emit('exceedLimit', v, ev)"
   >
+    <template #arrow-icon>
+      <icon-arrow-down v-if="!computedVisible" />
+      <icon-arrow-up v-else />
+    </template>
     <template v-if="$slots.prefix || prefixText" #prefix>
       <slot name="prefix">
         <div class="cx-select-prefix">
@@ -42,6 +27,7 @@
         </div>
       </slot>
     </template>
+
     <template v-if="$slots.suffix" #prefix>
       <slot name="suffix" />
     </template>
@@ -51,7 +37,8 @@
 <script lang="ts" setup>
 import { toRefs } from 'vue';
 import { SelectProps, SelectValue } from './type';
-import useControlValue from '@shared/hooks/useControlValue';
+import useControlValue from '../_shared/hooks/useControlValue';
+import { IconArrowDown, IconArrowUp } from '../_shared/components';
 const props = withDefaults(defineProps<SelectProps>(), {
   multiple: false,
   modelValue: undefined,
@@ -94,16 +81,16 @@ const props = withDefaults(defineProps<SelectProps>(), {
 const emits = defineEmits<{
   (e: 'update:modelValue', value: SelectValue): void;
   (e: 'update:inputValue', value: SelectValue): void;
+  (e: 'update:popupVisible', value: boolean): void;
   (e: 'change', value: SelectValue): void;
   (e: 'input-value-change', value: string): void;
-  (e: 'clear'): void;
-  (e: 'remove'): void;
-  (e: 'search', value: string): void;
-  (e: 'update:popupVisible', value: boolean): void;
   (e: 'popupVisibleChange', value: boolean): void;
+  (e: 'clear', ev?: Event): void;
+  (e: 'remove', removed?: SelectValue): void;
+  (e: 'search', value: string): void;
   (e: 'dropdownScroll'): void;
   (e: 'dropdownReachBottom'): void;
-  (e: 'exceedLimit', value: SelectValue, ev?: MouseEvent): void;
+  (e: 'exceedLimit', value?: SelectValue, ev?: Event): void;
 }>();
 
 const {
@@ -129,7 +116,7 @@ const computedInputValue = useControlValue<string>(
   defaultInputValue.value,
   (val) => {
     emits('update:inputValue', val);
-    emits('change', val);
+    emits('input-value-change', val);
   }
 );
 // visible
@@ -193,6 +180,7 @@ const computedVisible = useControlValue<boolean>(
       padding: 0 8px;
       border-radius: 4px;
       background: #f5f7fa;
+      border: none;
       .arco-tag-close-btn {
         flex-shrink: 0;
         width: 12px;
@@ -221,13 +209,7 @@ const computedVisible = useControlValue<boolean>(
       }
     }
     .arco-select-view-icon {
-      flex-shrink: 0;
-      width: 12px;
-      height: 12px;
-      background: url('../_shared/icons/arrow-down.svg') no-repeat;
-      svg {
-        display: none;
-      }
+      font-size: 12px;
     }
   }
   &.arco-select-view-focus {
