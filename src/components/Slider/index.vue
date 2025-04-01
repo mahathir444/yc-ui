@@ -172,19 +172,15 @@ const position = computed(() => {
     top: top1,
     bottom: bottom1,
   } = endPosition.value;
-  const topVal = top.match(/\d+/g)?.[0] || 0;
-  const topVal1 = top1.match(/\d+/g)?.[0] || 0;
-  const bottomVal = bottom.match(/\d+/g)?.[0] || 0;
-  const bottomVal1 = bottom1.match(/\d+/g)?.[0] || 0;
+  const t = +(top.match(/\d+/g)?.[0] || 0);
+  const t1 = +(top1.match(/\d+/g)?.[0] || 0);
+  const b = +(bottom.match(/\d+/g)?.[0] || 0);
+  const b1 = +(bottom1.match(/\d+/g)?.[0] || 0);
   return {
     left: range.value ? (x.value < x1.value ? left : left1) : min.value + '%',
     right: range.value ? (x.value < x1.value ? right1 : right) : right,
-    top: range.value ? (topVal <= topVal1 ? top : top1) : top,
-    bottom: range.value
-      ? bottomVal <= bottomVal1
-        ? bottom
-        : bottom1
-      : min.value + '%',
+    top: range.value ? (t < t1 ? top : top1) : top,
+    bottom: range.value ? (b < b1 ? bottom : bottom1) : min.value + '%',
   };
 });
 </script>
