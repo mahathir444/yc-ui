@@ -90,17 +90,17 @@
 import { ref, computed, toRefs, watch, VNodeRef } from 'vue';
 import { TimePickerProps, TimeType } from './type';
 import YcTrigger from '../Trigger/index.vue';
-import { SIZE_MAP } from '../_constants';
-import { isArray, isString, isUndefined } from '../_utils/is';
+import { SIZE_MAP } from '@shared/constants';
+import { isArray, isString, isUndefined } from '@shared/utils/is';
 import YcButton from '@/components/Button/Button.vue';
 import {
   generateTimeOptions,
   parseTimeStrByFormat,
   timeObjToStr,
-} from '../_utils/time';
+} from '@shared/utils/time';
 import YcScrollbar from '@/components/Scrollbar/Scrollbar.vue';
 import { useTemplateRefsList } from '@vueuse/core';
-import useControlValue from '../_hooks/useControlValue';
+import useControlValue from '@shared/hooks/useControlValue';
 import dayjs from 'dayjs';
 import isSameOrBefore from 'dayjs/plugin/isSameOrBefore'
 dayjs.extend(isSameOrBefore);
