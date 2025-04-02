@@ -3,7 +3,7 @@
     <div
       class="yc-color-picker-control-bar-handler"
       :style="{
-        color: color,
+        color: computedValue,
         left: `${x - range.min}px`,
       }"
       ref="btnRef"
@@ -12,15 +12,22 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, toRefs, onMounted } from 'vue';
+import { ref, inject } from 'vue';
+import { COLOR_PICKER_PICKER_KEY } from '@shared/constants';
+import { ProvideType } from '../type';
 import { sleep } from '@shared/utils/fn';
 import { useDraggable, useEventListener } from '@vueuse/core';
-defineProps<{
-  color: string;
-}>();
-const emits = defineEmits<{
-  (e: 'update:color', value: string): void;
-}>();
+import { GradientColorCalculator } from '@shared/utils/color';
+// 接受值
+const { computedValue, baseColor } = inject<ProvideType>(
+  COLOR_PICKER_PICKER_KEY,
+  {
+    computedValue: ref('#FF0000'),
+    baseColor: ref('#FF0000'),
+    opacity: ref(100),
+    format: ref('hex'),
+  }
+);
 // btnRef
 const btnRef = ref<HTMLDivElement>();
 // barRef
@@ -34,22 +41,16 @@ const range = ref<Record<string, number>>({
   btnWidth: 0,
   barWidth: 0,
 });
+const calculator = new GradientColorCalculator();
 // 处理拖动
 useEventListener('mousemove', () => {
   if (!isDragging.value) return;
-  const { min, max, barWidth, btnWidth } = range.value;
+  const { min, max, barWidth } = range.value;
   x.value = x.value < min ? min : x.value;
   x.value = x.value > max ? max : x.value;
-  const baseColor = { r: 255, g: 22, b: 22 };
-  const ratio = Math.max(
-    0,
-    Math.min(1, (x.value - min) / (barWidth - btnWidth))
-  );
-  // 动态调整颜色值
-  const newR = Math.round(baseColor.r * (1 - ratio)); // R 从 255 到 0
-  const newG = Math.round(baseColor.g + (255 - baseColor.g) * ratio); // G 从 22 到 255
-  const newB = Math.round(baseColor.b + (255 - baseColor.b) * ratio); // B 从 22 到 255
-  emits('update:color', `rgb(${newR},${newG},${newB})`);
+  const color = calculator.getColorAtPosition(x.value - min, barWidth);
+  computedValue.value = color;
+  baseColor.value = color;
 });
 // 初始化数据
 const initData = async () => {
@@ -68,7 +69,6 @@ const initData = async () => {
   };
   x.value = left;
 };
-
 initData();
 </script>
 

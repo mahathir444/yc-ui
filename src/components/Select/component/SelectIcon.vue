@@ -15,7 +15,8 @@
     <!-- default -->
     <yc-prevent-focus class="yc-select-suffix-icon">
       <slot name="arrow-icon">
-        <icon-arrow-right :rotate="popupVisible ? 270 : 90" />
+        <icon-arrow-down v-if="!popupVisible" />
+        <icon-arrow-up v-else />
       </slot>
     </yc-prevent-focus>
     <!-- search -->
@@ -35,7 +36,7 @@
 </template>
 
 <script lang="ts" setup>
-import { IconSearch, IconArrowRight } from '@shared/icons';
+import { IconSearch, IconArrowDown, IconArrowUp } from '@shared/icons';
 import YcPreventFocus from '@shared/components/PreventFocus';
 import YcIconButton from '@shared/components/IconButton';
 defineProps<{

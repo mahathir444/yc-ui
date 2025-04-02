@@ -2,6 +2,7 @@
   <div class="test">
     <div style="width: 300px">
       <yc-color-picker />
+      <!-- <color-picker /> -->
     </div>
     <!-- <div style="width: 300px">
       <yc-select
@@ -20,6 +21,7 @@
 
 <script lang="ts" setup>
 import { ref, watch } from 'vue';
+import { ColorPicker } from '@arco-design/web-vue';
 import YcColorPicker from '@/components/ColorPicker/index.vue';
 import YcSelect from '@/teaching-front/Select/index.vue';
 import YcInput from '@/teaching-front/Input/index.vue';

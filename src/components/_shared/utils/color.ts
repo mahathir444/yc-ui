@@ -1,215 +1,189 @@
-// https://github.com/scttcper/tinycolor
-export const hsvToRgb = (h: number, s: number, v: number) => {
-  const i = Math.floor(h * 6);
-  const f = h * 6 - i;
-  const p = v * (1 - s);
-  const q = v * (1 - f * s);
-  const t = v * (1 - (1 - f) * s);
-  const mod = i % 6;
-  const r = [v, q, p, p, t, v][mod];
-  const g = [t, v, v, q, p, p][mod];
-  const b = [p, p, t, v, v, q][mod];
+import tinycolor, { ColorInput, Instance } from 'tinycolor2';
 
-  return {
-    r: Math.round(r * 255),
-    g: Math.round(g * 255),
-    b: Math.round(b * 255),
-  };
-};
+// 定义颜色停止点类型
+interface ColorStop {
+  pos: number; // 位置 0-1
+  color: ColorInput;
+}
 
-export const rgbToHsv = (r: number, g: number, b: number) => {
-  r /= 255;
-  g /= 255;
-  b /= 255;
+interface ColorPanelOptions {
+  width: number;
+  height: number;
+  baseColor: string;
+  saturationRange?: [number, number]; // [min, max]
+  lightnessRange?: [number, number]; // [min, max]
+}
 
-  const max = Math.max(r, g, b);
-  const min = Math.min(r, g, b);
-  let h = 0;
-  const v = max;
-  const d = max - min;
-  const s = max === 0 ? 0 : d / max;
+export class GradientColorCalculator {
+  private colorStops: ColorStop[];
 
-  if (max === min) {
-    h = 0;
-  } else {
-    switch (max) {
-      case r:
-        h = (g - b) / d + (g < b ? 6 : 0);
-        break;
-      case g:
-        h = (b - r) / d + 2;
-        break;
-      case b:
-        h = (r - g) / d + 4;
-        break;
-      default:
-        break;
+  constructor() {
+    // 初始化渐变颜色停止点
+    this.colorStops = [
+      { pos: 0, color: '#f00' },
+      { pos: 0.17, color: '#ff0' },
+      { pos: 0.33, color: '#0f0' },
+      { pos: 0.5, color: '#0ff' },
+      { pos: 0.67, color: '#00f' },
+      { pos: 0.83, color: '#f0f' },
+      { pos: 1, color: '#f00' },
+    ];
+  }
+
+  /**
+   * 根据位置获取渐变颜色
+   * @param offsetX 当前位置距离左边的距离
+   * @param totalWidth 渐变条总宽度
+   * @returns 计算出的颜色值 (十六进制字符串)
+   */
+  public getColorAtPosition(offsetX: number, totalWidth: number): string {
+    // 计算当前位置在渐变中的比例 (0-1)
+    const position = this.clamp(offsetX / totalWidth, 0, 1);
+
+    // 找到相邻的两个颜色停止点
+    const { startStop, endStop } = this.findStops(position);
+
+    // 计算在两个停止点之间的比例
+    const range = endStop.pos - startStop.pos;
+    const ratio = range > 0 ? (position - startStop.pos) / range : 0;
+
+    // 使用tinycolor2混合颜色
+    const startColor = tinycolor(startStop.color);
+    const endColor = tinycolor(endStop.color);
+
+    // 返回混合后的颜色
+    return tinycolor.mix(startColor, endColor, ratio * 100).toHexString();
+  }
+
+  /**
+   * 查找包含指定位置的颜色停止点
+   * @param position 0-1之间的位置
+   * @returns 包含相邻停止点的对象
+   */
+  private findStops(position: number): {
+    startStop: ColorStop;
+    endStop: ColorStop;
+  } {
+    for (let i = 0; i < this.colorStops.length - 1; i++) {
+      if (
+        position >= this.colorStops[i].pos &&
+        position <= this.colorStops[i + 1].pos
+      ) {
+        return {
+          startStop: this.colorStops[i],
+          endStop: this.colorStops[i + 1],
+        };
+      }
     }
 
-    h /= 6;
-  }
-
-  return { h, s, v };
-};
-
-// <http://www.w3.org/TR/css3-values/#integers>
-const CSS_INTEGER = '[-\\+]?\\d+%?';
-
-// <http://www.w3.org/TR/css3-values/#number-value>
-const CSS_NUMBER = '[-\\+]?\\d*\\.\\d+%?';
-
-// Allow positive/negative integer/number.  Don't capture the either/or, just the entire outcome.
-const CSS_UNIT = `(?:${CSS_NUMBER})|(?:${CSS_INTEGER})`;
-
-// Actual matching.
-// Parentheses and commas are optional, but not required.
-// Whitespace can take the place of commas or opening paren
-const PERMISSIVE_MATCH3 = `[\\s|\\(]+(${CSS_UNIT})[,|\\s]+(${CSS_UNIT})[,|\\s]+(${CSS_UNIT})\\s*\\)?`;
-const PERMISSIVE_MATCH4 = `[\\s|\\(]+(${CSS_UNIT})[,|\\s]+(${CSS_UNIT})[,|\\s]+(${CSS_UNIT})[,|\\s]+(${CSS_UNIT})\\s*\\)?`;
-
-const matchers = {
-  rgb: new RegExp(`rgb${PERMISSIVE_MATCH3}`),
-  rgba: new RegExp(`rgba${PERMISSIVE_MATCH4}`),
-  hex3: /^#?([0-9a-fA-F]{1})([0-9a-fA-F]{1})([0-9a-fA-F]{1})$/,
-  hex6: /^#?([0-9a-fA-F]{2})([0-9a-fA-F]{2})([0-9a-fA-F]{2})$/,
-  hex4: /^#?([0-9a-fA-F]{1})([0-9a-fA-F]{1})([0-9a-fA-F]{1})([0-9a-fA-F]{1})$/,
-  hex8: /^#?([0-9a-fA-F]{2})([0-9a-fA-F]{2})([0-9a-fA-F]{2})([0-9a-fA-F]{2})$/,
-};
-
-export const parseIntFromHex = (val: string): number => {
-  return parseInt(val, 16);
-};
-
-export const convertHexToDecimal = (h: string): number => {
-  return parseIntFromHex(h) / 255;
-};
-
-export const formatInputToRgb = (
-  color: string
-): { r: number; g: number; b: number; a?: number } | false => {
-  let match = matchers.rgb.exec(color);
-  if (match) {
+    // 默认返回第一个和最后一个停止点（理论上不会执行到这里）
     return {
-      r: parseInt(match[1], 10),
-      g: parseInt(match[2], 10),
-      b: parseInt(match[3], 10),
+      startStop: this.colorStops[0],
+      endStop: this.colorStops[this.colorStops.length - 1],
     };
   }
 
-  match = matchers.rgba.exec(color);
-  if (match) {
+  /**
+   * 限制数值在最小最大值之间
+   * @param value 输入值
+   * @param min 最小值
+   * @param max 最大值
+   * @returns 限制后的值
+   */
+  private clamp(value: number, min: number, max: number): number {
+    return Math.min(Math.max(value, min), max);
+  }
+
+  /**
+   * 更新渐变颜色停止点
+   * @param stops 新的颜色停止点数组
+   */
+  public updateColorStops(stops: ColorStop[]): void {
+    // 验证停止点
+    if (stops.length < 2) {
+      throw new Error('至少需要两个颜色停止点');
+    }
+    if (stops[0].pos !== 0 || stops[stops.length - 1].pos !== 1) {
+      throw new Error('第一个停止点位置必须为0，最后一个必须为1');
+    }
+
+    this.colorStops = stops.sort((a, b) => a.pos - b.pos);
+  }
+}
+
+export class DynamicColorCalculator {
+  private width: number;
+  private height: number;
+  private baseColor: Instance;
+  private satRange: [number, number];
+  private lightRange: [number, number];
+
+  constructor(options: ColorPanelOptions) {
+    this.width = options.width;
+    this.height = options.height;
+    this.baseColor = tinycolor(options.baseColor);
+
+    // 设置默认饱和度范围 (0% - 100%)
+    this.satRange = options.saturationRange || [0, 1];
+
+    // 设置默认明度范围 (0% - 100%)
+    this.lightRange = options.lightnessRange || [0, 1];
+  }
+
+  /**
+   * 根据偏移量计算颜色
+   * @param offsetX 水平偏移 (0 - width)
+   * @param offsetY 垂直偏移 (0 - height)
+   * @returns 计算后的颜色 (十六进制字符串)
+   */
+  public calculateColor(offsetX: number, offsetY: number): string {
+    // 计算标准化位置 (0-1)
+    const xPercent = this.clamp(offsetX / this.width, 0, 1);
+    const yPercent = this.clamp(offsetY / this.height, 0, 1);
+    // 获取主色的HSL值
+    const hsl = this.baseColor.toHsl();
+    // 根据偏移量计算新HSL值
+    const newHsl = {
+      h: hsl.h, // 保持色相不变
+      s: this.mapRange(xPercent, ...this.satRange),
+      l: this.mapRange(1 - yPercent, ...this.lightRange), // Y轴反向
+      a: hsl.a, // 保持透明度
+    };
+    // 转换为HEX颜色
+    return tinycolor(newHsl).toHexString();
+  }
+
+  /**
+   * 将0-1的值映射到指定范围
+   */
+  private mapRange(value: number, min: number, max: number): number {
+    return min + (max - min) * value;
+  }
+
+  /**
+   * 限制数值范围
+   */
+  private clamp(value: number, min: number, max: number): number {
+    return Math.min(Math.max(value, min), max);
+  }
+
+  /**
+   * 更新主色
+   */
+  public updateBaseColor(newColor: string): void {
+    this.baseColor = tinycolor(newColor);
+  }
+
+  /**
+   * 获取当前配置
+   */
+  public getConfig() {
     return {
-      r: parseInt(match[1], 10),
-      g: parseInt(match[2], 10),
-      b: parseInt(match[3], 10),
-      a: parseFloat(match[4]),
+      baseColor: this.baseColor.toHexString(),
+      width: this.width,
+      height: this.height,
+      saturationRange: this.satRange,
+      lightnessRange: this.lightRange,
     };
   }
-
-  match = matchers.hex8.exec(color);
-  if (match) {
-    return {
-      r: parseIntFromHex(match[1]),
-      g: parseIntFromHex(match[2]),
-      b: parseIntFromHex(match[3]),
-      a: convertHexToDecimal(match[4]),
-    };
-  }
-
-  match = matchers.hex6.exec(color);
-  if (match) {
-    return {
-      r: parseIntFromHex(match[1]),
-      g: parseIntFromHex(match[2]),
-      b: parseIntFromHex(match[3]),
-    };
-  }
-
-  match = matchers.hex4.exec(color);
-  if (match) {
-    return {
-      r: parseIntFromHex(match[1] + match[1]),
-      g: parseIntFromHex(match[2] + match[2]),
-      b: parseIntFromHex(match[3] + match[3]),
-      a: convertHexToDecimal(match[4] + match[4]),
-    };
-  }
-
-  match = matchers.hex3.exec(color);
-  if (match) {
-    return {
-      r: parseIntFromHex(match[1] + match[1]),
-      g: parseIntFromHex(match[2] + match[2]),
-      b: parseIntFromHex(match[3] + match[3]),
-    };
-  }
-
-  return false;
-};
-
-export const formatInputToHSVA = (color: string) => {
-  const rgba = formatInputToRgb(color);
-  if (rgba) {
-    const hsv = rgbToHsv(rgba.r, rgba.g, rgba.b);
-    return {
-      ...hsv,
-      a: rgba.a ?? 1,
-    };
-  }
-  return {
-    h: 0,
-    s: 1,
-    v: 1,
-    a: 1,
-  };
-};
-
-export const hexToRgb = (color: string): any => {
-  color = color.trim().toLowerCase();
-  if (color.length === 0) {
-    return false;
-  }
-
-  let match = matchers.hex6.exec(color);
-  if (match) {
-    return {
-      r: parseIntFromHex(match[1]),
-      g: parseIntFromHex(match[2]),
-      b: parseIntFromHex(match[3]),
-    };
-  }
-
-  match = matchers.hex3.exec(color);
-  if (match) {
-    return {
-      r: parseIntFromHex(match[1] + match[1]),
-      g: parseIntFromHex(match[2] + match[2]),
-      b: parseIntFromHex(match[3] + match[3]),
-    };
-  }
-
-  return false;
-};
-
-export const rgbToHex = (r: number, g: number, b: number) => {
-  const hex = [
-    Math.round(r).toString(16).padStart(2, '0'),
-    Math.round(g).toString(16).padStart(2, '0'),
-    Math.round(b).toString(16).padStart(2, '0'),
-  ];
-
-  return hex.join('').toUpperCase();
-};
-
-export const rgbaToHex = (r: number, g: number, b: number, a: number) => {
-  const hex = [
-    Math.round(r).toString(16).padStart(2, '0'),
-    Math.round(g).toString(16).padStart(2, '0'),
-    Math.round(b).toString(16).padStart(2, '0'),
-    Math.round(a * 255)
-      .toString(16)
-      .padStart(2, '0'),
-  ];
-
-  return hex.join('').toUpperCase();
-};
+}

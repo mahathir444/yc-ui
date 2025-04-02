@@ -11,7 +11,7 @@
         class="yc-color-picker-control-bar-handler"
         ref="btnRef"
         :style="{
-          color: curColor,
+          color: computedValue,
           left: `${x - range.min}px`,
         }"
       ></div>
@@ -20,18 +20,22 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, toRefs } from 'vue';
+import { ref, inject } from 'vue';
+import { ProvideType } from '../type';
+import { COLOR_PICKER_PICKER_KEY } from '@shared/constants';
 import { sleep } from '@shared/utils/fn';
 import { useDraggable, useEventListener } from '@vueuse/core';
-const props = defineProps<{
-  baseColor: string;
-  curColor: string;
-  opacity: number;
-}>();
-const emits = defineEmits<{
-  (e: 'update:opacity', value: number): void;
-}>();
-const { opacity } = toRefs(props);
+import tinycolor from 'tinycolor2';
+// 接受值
+const { computedValue, baseColor, opacity, format } = inject<ProvideType>(
+  COLOR_PICKER_PICKER_KEY,
+  {
+    computedValue: ref('#FF0000'),
+    baseColor: ref('#FF0000'),
+    opacity: ref(100),
+    format: ref('hex'),
+  }
+);
 // btnRef
 const btnRef = ref<HTMLDivElement>();
 // barRef
@@ -49,8 +53,16 @@ useEventListener('mousemove', () => {
   const { min, max } = range.value;
   x.value = x.value < min ? min : x.value;
   x.value = x.value > max ? max : x.value;
-  const opacity = Math.floor(((x.value - min) / (max - min)) * 100);
-  emits('update:opacity', opacity);
+  opacity.value = Math.floor(((x.value - min) / (max - min)) * 100);
+  const a = +(opacity.value / 100).toFixed(2);
+  if (format.value == 'hex') {
+    const color = tinycolor(computedValue.value).setAlpha(a).toHex8String();
+    computedValue.value = color;
+    baseColor.value = color;
+  } else {
+    const color = tinycolor(computedValue.value).setAlpha(a).toRgbString();
+    computedValue.value = color;
+  }
 });
 // 初始化数据
 const initData = async () => {
@@ -67,7 +79,6 @@ const initData = async () => {
   };
   x.value = left + (opacity.value / 100) * (barWidth - btnWidth);
 };
-
 initData();
 </script>
 
