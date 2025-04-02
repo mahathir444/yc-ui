@@ -132,7 +132,8 @@ const {
   triggerRef,
 });
 // 初始化trigger地计算参数
-const { popupPosition, contentStyle, arrowStyle } = initTrigger();
+const { left, top, bottom, right, popupPosition, contentStyle, arrowStyle } =
+  initTrigger();
 // 初始化trigger
 function initTrigger() {
   if (!vNode.value) {
@@ -140,10 +141,14 @@ function initTrigger() {
       popupPosition: {},
       contentStyle: {},
       arrowStyle: {},
+      left: ref(0),
+      top: ref(0),
+      bottom: ref(0),
+      right: ref(0),
     };
   }
   // 计算wrapper与arrow的位置信息
-  const { left, top, popupPosition, contentStyle, arrowStyle } =
+  const { left, top, bottom, right, popupPosition, contentStyle, arrowStyle } =
     useTriggerPosition({
       props,
       popupRef,
@@ -159,6 +164,10 @@ function initTrigger() {
     popupPosition,
     contentStyle,
     arrowStyle,
+    left,
+    top,
+    bottom,
+    right,
   };
 }
 
@@ -172,6 +181,14 @@ defineExpose({
   updatePosition(x: number, y: number) {
     mouseX.value = x;
     mouseY.value = y;
+  },
+  getOffset() {
+    return {
+      left,
+      top,
+      bottom,
+      right,
+    };
   },
 });
 </script>

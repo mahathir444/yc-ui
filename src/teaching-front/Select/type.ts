@@ -1,4 +1,3 @@
-import { ObjectData } from '../_shared/type';
 import {
   SelectOptionData,
   SelectOptionGroup,
@@ -13,8 +12,8 @@ export type SelectProps = _SelectProps & {
 };
 
 export type SelectValue =
-  | (string | number | boolean | ObjectData)
-  | (string | number | boolean | ObjectData)[];
+  | (string | number | boolean | Record<string, any>)
+  | (string | number | boolean | Record<string, any>)[];
 
 export type FilterOption = (
   inputValue: string,

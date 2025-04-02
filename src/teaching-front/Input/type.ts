@@ -1,4 +1,4 @@
-import { ObjectData, Size } from '@shared/type';
+import { Size } from '@arco-design/web-vue';
 export interface InputProps {
   modelValue?: string;
   defaultValue?: string;
@@ -9,13 +9,9 @@ export interface InputProps {
   error?: boolean;
   placeholder?: string;
   maxLength?: number;
-  wordLength?: WordLength;
-  wordSlice?: WordSlice;
+  wordLength?: (value: string) => number;
+  wordSlice?: (value: string, maxLength: number) => string;
   showWordLimit?: boolean;
-  inputAttrs?: ObjectData;
+  inputAttrs?: Record<string, any>;
   prefixText?: string;
 }
-
-export type WordSlice = (value: string, maxLength: number) => string;
-
-export type WordLength = (value: string) => number;

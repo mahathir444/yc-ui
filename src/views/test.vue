@@ -1,56 +1,30 @@
 <template>
   <div class="test">
-    <div style="width: 500px; height: 300px">
-      <yc-slider show-input />
+    <div style="width: 300px">
+      <yc-color-picker />
     </div>
-    <div style="width: 300px; font-size: 20px">
-      <cx-input
-        v-model="value"
-        allow-clear
-        show-word-limit
-        :max-length="1000"
-        prefix-text="姓名"
-        placeholder="请输入"
+    <!-- <div style="width: 300px">
+      <yc-select
+        :options="options"
+        :max-tag-count="3"
+        prefix-text="年纪"
+        multiple
       />
     </div>
-    <div style="width: 300px; font-size: 20px">
-      <cx-select
-        :options="options"
-        :max-tag-count="2"
-        prefix-text="年级"
-        multiple
-        placeholder="请选择"
-        allow-clear
-      ></cx-select>
-    </div>
-    <div style="width: 300px; font-size: 20px">
-      <a-modal v-model:visible="visible" title="啊啊" />
-      <a-button @click="visible = true" type="secondary" status="warning">
-        <template #icon>
-          <icon-plus :stroke-width="6" />
-        </template>
-        点击创建
-      </a-button>
-      <a-button @click="visible = true" type="outline">
-        <template #icon>
-          <icon-plus :stroke-width="6" />
-        </template>
-        点击创建
-      </a-button>
-      <a-switch disabled />
-      <a-checkbox />
-      <a-radio />
-    </div>
+    <div style="width: 300px">
+      <yc-input prefix-text="年纪" :max-length="100" show-word-limit />
+      <a-button type="primary">测试</a-button>
+    </div> -->
   </div>
 </template>
 
 <script lang="ts" setup>
 import { ref, watch } from 'vue';
-import CxInput from '@/teaching/Input';
-import CxSelect from '@/teaching/Select';
+import YcColorPicker from '@/components/ColorPicker/index.vue';
+import YcSelect from '@/teaching-front/Select/index.vue';
+import YcInput from '@/teaching-front/Input/index.vue';
 
 const value = ref('dsadsa');
-const visible = ref(false);
 const options = [
   'Bytedance',
   'Bytedesign',

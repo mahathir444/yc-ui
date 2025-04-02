@@ -99,7 +99,7 @@ const {
   popupVisible,
   defaultPopupVisible,
 } = toRefs(props);
-// modelvALUE
+// modelValue
 const computedValue = useControlValue<SelectValue>(
   modelValue,
   defaultValue.value,

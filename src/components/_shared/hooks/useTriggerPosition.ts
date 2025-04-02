@@ -266,6 +266,8 @@ export default (params: {
   return {
     left,
     top,
+    bottom,
+    right,
     popupPosition,
     contentStyle,
     arrowStyle,
