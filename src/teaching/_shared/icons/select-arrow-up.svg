@@ -1,4 +1,3 @@
-<template>
   <svg
     xmlns="http://www.w3.org/2000/svg"
     width="12"
@@ -32,19 +31,3 @@
       </clipPath>
     </defs>
   </svg>
-</template>
-
-<script lang="ts" setup>
-import { IconProps } from '../type';
-import useIconStyle from '../hooks/useIconStyle';
-const props = withDefaults(defineProps<IconProps>(), {
-  spin: false,
-  rotate: undefined,
-  size: undefined,
-});
-const { attrs } = useIconStyle(props);
-</script>
-
-<style scoped>
-@import '../styles/icon.less';
-</style>

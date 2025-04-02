@@ -17,8 +17,7 @@
     @exceed-limit="(v, ev) => $emit('exceedLimit', v, ev)"
   >
     <template #arrow-icon>
-      <icon-arrow-down v-if="!computedVisible" />
-      <icon-arrow-up v-else />
+      <img :src="computedVisible ? IconArrowUp : IconArrowDown" />
     </template>
     <template v-if="$slots.prefix || prefixText" #prefix>
       <slot name="prefix">
@@ -27,7 +26,6 @@
         </div>
       </slot>
     </template>
-
     <template v-if="$slots.suffix" #prefix>
       <slot name="suffix" />
     </template>
@@ -38,7 +36,8 @@
 import { toRefs } from 'vue';
 import { SelectProps, SelectValue } from './type';
 import useControlValue from '../_shared/hooks/useControlValue';
-import { IconArrowDown, IconArrowUp } from '../_shared/components';
+import IconArrowDown from '../_shared/icons/select-arrow-down.svg';
+import IconArrowUp from '../_shared/icons/select-arrow-up.svg';
 const props = withDefaults(defineProps<SelectProps>(), {
   multiple: false,
   modelValue: undefined,
@@ -92,7 +91,6 @@ const emits = defineEmits<{
   (e: 'dropdownReachBottom'): void;
   (e: 'exceedLimit', value?: SelectValue, ev?: Event): void;
 }>();
-
 const {
   modelValue,
   defaultValue,
@@ -257,18 +255,6 @@ const computedVisible = useControlValue<boolean>(
             }
           }
         }
-      }
-    }
-  }
-}
-// 滚动条样式修改
-.arco-scrollbar {
-  .arco-scrollbar-track {
-    width: 12px;
-    .arco-scrollbar-thumb {
-      .arco-scrollbar-thumb-bar {
-        width: 6px;
-        background-color: #e1e5eb;
       }
     }
   }

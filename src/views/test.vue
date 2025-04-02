@@ -24,22 +24,22 @@
       ></cx-select>
     </div>
     <div style="width: 300px; font-size: 20px">
-      <cx-modal v-model:visible="visible" title="啊啊" />
-      <cx-drawer v-model:visible="visible" title="啊啊" />
-      <cx-button @click="visible = true" disabled type="primary">
+      <a-modal v-model:visible="visible" title="啊啊" />
+      <a-button @click="visible = true" type="secondary" status="warning">
         <template #icon>
           <icon-plus :stroke-width="6" />
         </template>
         点击创建
-      </cx-button>
-      <cx-button @click="visible = true" type="outline">
+      </a-button>
+      <a-button @click="visible = true" type="outline">
         <template #icon>
           <icon-plus :stroke-width="6" />
         </template>
         点击创建
-      </cx-button>
-      <cx-checkbox />
-      <cx-radio />
+      </a-button>
+      <a-switch disabled />
+      <a-checkbox />
+      <a-radio />
     </div>
   </div>
 </template>
@@ -48,11 +48,7 @@
 import { ref, watch } from 'vue';
 import CxInput from '@/teaching/Input';
 import CxSelect from '@/teaching/Select';
-import CxModal from '@/teaching/Modal';
-import CxDrawer from '@/teaching/Drawer';
-import CxButton from '@/teaching/Button';
-import CxCheckbox from '@/teaching/Checkbox';
-import CxRadio from '@/teaching/Radio';
+
 const value = ref('dsadsa');
 const visible = ref(false);
 const options = [

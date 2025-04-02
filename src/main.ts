@@ -1,11 +1,10 @@
 import { createApp } from 'vue';
 import App from './App.vue';
 import router from './router';
-import 'virtual:svg-icons-register';
 import ArcoIcon from '@arco-design/web-vue/es/icon';
 import YcUi from './components';
 import '@/components/index.less';
-import '../_storage';
+import '@/teaching/_shared/styles/global.less';
 
 const app = createApp(App);
 app.use(router);
