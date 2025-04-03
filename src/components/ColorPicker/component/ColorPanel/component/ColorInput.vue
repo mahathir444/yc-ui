@@ -76,8 +76,8 @@
 
 <script lang="ts" setup>
 import { ref, toRefs } from 'vue';
-import { ColorFormat } from '../type';
-import { FORMAT_OPTIONS } from '../constants';
+import { ColorFormat } from '@/components/ColorPicker/type';
+import { FORMAT_OPTIONS } from '@/components/ColorPicker/constants';
 import tinycolor from 'tinycolor2';
 import YcInputNumber from '@/components/InputNumber';
 const props = defineProps<{

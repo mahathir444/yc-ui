@@ -1,10 +1,11 @@
+import { Ref, WritableComputedRef } from 'vue';
 import { Size } from '@shared/type';
 import { TriggerProps } from '@/components/Trigger';
 
 export interface ColorPickerProps {
   modelValue?: string;
   defaultValue?: string;
-  format?: 'hex' | 'rgb';
+  format?: ColorFormat;
   size?: Size;
   showText?: boolean;
   showHistory?: boolean;
@@ -17,3 +18,17 @@ export interface ColorPickerProps {
   presetColors?: string[];
 }
 export type ColorFormat = 'hex' | 'rgb';
+
+export type ProvideType = {
+  computedColor: WritableComputedRef<string> | Ref<string>;
+  baseColor: Ref<string>;
+  alpha: Ref<number>;
+  format: WritableComputedRef<ColorFormat> | Ref<ColorFormat>;
+  popupVisible: Ref<boolean>;
+  showHistory: Ref<boolean>;
+  showPreset: Ref<boolean>;
+  disabled: Ref<boolean>;
+  disabledAlpha: Ref<boolean>;
+  historyColors: Ref<string[]>;
+  presetColors: Ref<string[]>;
+};

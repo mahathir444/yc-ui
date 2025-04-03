@@ -14,8 +14,8 @@
 
 <script lang="ts" setup>
 import { ref, watch, toRefs } from 'vue';
-import { sleep } from '@shared/utils/fn';
 import { useDraggable, useEventListener } from '@vueuse/core';
+import { sleep } from '@shared/utils/fn';
 import { GradientColorCalculator } from '@shared/utils/color';
 const props = defineProps<{
   color: string;

@@ -22,9 +22,9 @@
 
 <script lang="ts" setup>
 import { ref, watch, toRefs } from 'vue';
+import { useDraggable, useEventListener } from '@vueuse/core';
 import { DynamicColorCalculator } from '@shared/utils/color';
 import { sleep } from '@shared/utils/fn';
-import { useDraggable, useEventListener } from '@vueuse/core';
 const props = defineProps<{
   color: string;
   baseColor: string;

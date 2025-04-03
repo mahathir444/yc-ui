@@ -1,4 +1,7 @@
 import { SelectOptions } from '@/components/Select';
+import { getComponentSizeMap } from '@shared/utils/compt';
+
+export const SIZE_CLASS = getComponentSizeMap('yc-color-picker');
 
 export const PRESET_COLORS = [
   'rgb(0, 180, 42)',

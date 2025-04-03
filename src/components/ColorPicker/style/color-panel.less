@@ -1,0 +1,29 @@
+.yc-color-picker-panel {
+  overflow: hidden;
+  width: 260px;
+  background-color: #fff;
+  border-radius: 2px;
+  box-shadow: 0 8px 20px #0000001a;
+
+  .yc-color-picker-panel-control {
+    padding: 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    .yc-color-picker-control-wrapper {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+  }
+  .yc-color-picker-panel-colors {
+    padding: 12px;
+    border-top: 1px solid rgb(229, 230, 235);
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+}
+.yc-color-picker-panel-disabled {
+  cursor: not-allowed;
+}
