@@ -4,9 +4,6 @@
     :min="min"
     :max="max"
     :disabled="disabled"
-    hide-button
-    text-center
-    style="width: 60px"
     @blur="handleSet"
     @press-enter="handleSet"
   />
@@ -65,3 +62,17 @@ const handleSet = () => {
   }
 };
 </script>
+
+<style lang="less" scoped>
+.yc-input-number {
+  width: 60px;
+  &:deep(.yc-input-wrapper) {
+    .yc-input {
+      text-align: center;
+    }
+    .yc-input-suffix {
+      padding-left: 0;
+    }
+  }
+}
+</style>

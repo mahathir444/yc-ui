@@ -10,6 +10,7 @@
   .yc-input-suffix,
   .yc-input {
     flex-shrink: 0;
+    font-size: inherit;
   }
   .yc-input-prepend,
   .yc-input-append {
@@ -34,7 +35,6 @@
   }
   .yc-input-wrapper {
     flex: 1;
-    max-width: 100%;
     overflow: hidden;
     cursor: text;
     padding: 0 12px;
@@ -50,12 +50,25 @@
     font-weight: 400;
     display: flex;
     align-items: center;
+    .yc-input {
+      flex: 1;
+      max-width: 100%;
+      overflow: hidden;
+      cursor: inherit;
+      outline: none;
+      border: none;
+      border-radius: 0;
+      background-color: transparent;
+      color: inherit;
+      &::placeholder {
+        color: rgb(134, 144, 156);
+      }
+    }
 
     .yc-input-prefix,
     .yc-input-suffix {
       height: 100%;
       color: rgb(78, 89, 105);
-      font-size: 14px;
       display: flex;
       justify-content: center;
       align-items: center;
@@ -73,21 +86,6 @@
     .yc-input-clear-button {
       margin-left: 4px;
       visibility: hidden;
-    }
-    .yc-input {
-      flex: 1;
-      max-width: 100%;
-      overflow: hidden;
-      cursor: inherit;
-      outline: none;
-      border: none;
-      border-radius: 0;
-      background-color: transparent;
-      color: inherit;
-      font-size: inherit;
-      &::placeholder {
-        color: rgb(134, 144, 156);
-      }
     }
   }
 }
@@ -162,15 +160,6 @@
     }
   }
 }
-// text-center
-.yc-input-text-center {
-  .yc-input-wrapper {
-    .yc-input {
-      text-align: center;
-    }
-  }
-}
-
 //size
 .yc-input-size-mini {
   font-size: 12px;

@@ -34,6 +34,7 @@ import Slider from './Slider';
 import OverflowList from './OverflowList';
 import Mention from './Mention';
 import Icon from './Icon';
+import ColorPicker from './ColorPicker';
 
 export const components: Record<string, Plugin> = {
   Button,
@@ -66,6 +67,7 @@ export const components: Record<string, Plugin> = {
   Mention,
   OverflowList,
   Icon,
+  ColorPicker,
 };
 
 export default {

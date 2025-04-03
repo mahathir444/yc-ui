@@ -1,48 +1,48 @@
 <template>
   <div
     class="yc-color-picker-palette"
-    ref="paletteRef"
     :style="{
       backgroundColor: baseColor,
+      cursor: disabled ? 'not-allowed' : 'pointer',
+      opacity: disabled ? 0.8 : 1,
     }"
+    ref="paletteRef"
+    @click="handleClick"
   >
     <div
       class="yc-color-picker-handler"
-      ref="btnRef"
       :style="{
-        left: `${offsetX}px`,
-        top: `${offsetY}px`,
+        left: `${x - range.left}px`,
+        top: `${y - range.top}px`,
       }"
+      ref="btnRef"
     ></div>
   </div>
 </template>
 
 <script lang="ts" setup>
-import { ref, computed, inject, watch } from 'vue';
-import { ProvideType } from '../type';
-import {
-  DynamicColorCalculator,
-  AdvancedColorPicker,
-} from '@shared/utils/color';
-import { COLOR_PICKER_PICKER_KEY } from '@shared/constants';
+import { ref, watch, toRefs } from 'vue';
+import { DynamicColorCalculator } from '@shared/utils/color';
 import { sleep } from '@shared/utils/fn';
 import { useDraggable, useEventListener } from '@vueuse/core';
-// 接受值
-const { computedValue, baseColor, popupVisible } = inject<ProvideType>(
-  COLOR_PICKER_PICKER_KEY,
-  {
-    computedValue: ref('#FF0000'),
-    baseColor: ref('#FF0000'),
-    alpha: ref(100),
-    format: ref('hex'),
-    popupVisible: ref(false),
-  }
-);
+const props = defineProps<{
+  color: string;
+  baseColor: string;
+  popupVisible: boolean;
+  disabled: boolean;
+}>();
+const emits = defineEmits<{
+  (e: 'update:color', value: string): void;
+  (e: 'update:baseColor', value: string): void;
+}>();
+const { popupVisible, baseColor, disabled } = toRefs(props);
 // btn实例
 const btnRef = ref<HTMLDivElement>();
 const paletteRef = ref<HTMLDivElement>();
 // dragger
 const { x, y, isDragging } = useDraggable(btnRef);
+let oldX = 0;
+let oldY = 0;
 // 范围
 const range = ref<Record<string, number>>({
   minLeft: 0,
@@ -51,61 +51,75 @@ const range = ref<Record<string, number>>({
   maxTop: 0,
   paletteWidth: 0,
   paletteHeight: 0,
-  btnWidth: 0,
-  btnHeight: 0,
 });
-// x偏移量
-const offsetX = computed(() => x.value - range.value.minLeft);
-// y偏移量
-const offsetY = computed(() => y.value - range.value.minTop);
+// 处理点击
+const handleClick = (e: MouseEvent) => {
+  if (disabled.value) return;
+  x.value = e.pageX;
+  y.value = e.pageY;
+  setColor();
+};
+// 设置颜色
+const setColor = () => {
+  if (disabled.value) {
+    x.value = oldX;
+    y.value = oldY;
+    return;
+  }
+  const { minLeft, maxLeft, minTop, maxTop, paletteWidth, paletteHeight } =
+    range.value;
+  x.value = x.value <= minLeft ? minLeft : x.value;
+  x.value = x.value >= maxLeft ? maxLeft : x.value;
+  y.value = y.value <= minTop ? minTop : y.value;
+  y.value = y.value >= maxTop ? maxTop : y.value;
+  const calculator = new DynamicColorCalculator({
+    width: paletteWidth,
+    height: paletteHeight,
+    baseColor: baseColor.value,
+    saturationRange: [0.3, 1],
+    lightnessRange: [0.2, 0.9],
+  });
+  const color = calculator.calculateColor(x.value - minLeft, y.value - minTop);
+  emits('update:color', color);
+  oldX = x.value;
+  oldY = y.value;
+};
 // 处理hanler越界的问题
 useEventListener('mousemove', () => {
   if (!isDragging.value) return;
-  const { minLeft, maxLeft, minTop, maxTop, paletteWidth, paletteHeight } =
-    range.value;
-  x.value = x.value < minLeft ? minLeft : x.value;
-  x.value = x.value > maxLeft ? maxLeft : x.value;
-  y.value = y.value < minTop ? minTop : y.value;
-  y.value = y.value > maxTop ? maxTop : y.value;
-  const colorCalculator = new DynamicColorCalculator({
-    width: paletteWidth,
-    height: paletteHeight,
-    baseColor: baseColor.value, // 主色
-    saturationRange: [0.3, 1], // 饱和度变化范围 30%-100%
-    lightnessRange: [0.2, 0.9], // 明度变化范围 20%-90%
-  });
-  const color = colorCalculator.calculateColor(offsetX.value, offsetY.value);
-  computedValue.value = color;
+  setColor();
 });
-// 初始化数据
-const initData = async () => {
-  await sleep(0);
-  const {
-    left,
-    top,
-    height: paletteHeight,
-    width: paletteWidth,
-  } = paletteRef.value!.getBoundingClientRect();
-  const { width: btnWidth, height: btnHeight } =
-    btnRef.value!.getBoundingClientRect();
-  range.value = {
-    minLeft: left,
-    maxLeft: left + paletteWidth - btnWidth,
-    minTop: top,
-    maxTop: top + paletteHeight - btnHeight,
-    paletteHeight,
-    paletteWidth,
-    btnWidth,
-    btnHeight,
-  };
-  x.value = (paletteWidth - btnWidth) / 2 + left;
-  y.value = (paletteHeight - btnHeight) / 2 + top;
-  console.log(x.value, y.value);
-};
+// 检测visible
 watch(
-  popupVisible,
-  () => {
-    initData();
+  () => popupVisible.value,
+  async (val) => {
+    if (!val) return;
+    await sleep(0);
+    const {
+      left,
+      right,
+      bottom,
+      top,
+      height: paletteHeight,
+      width: paletteWidth,
+    } = paletteRef.value!.getBoundingClientRect();
+    const { width: btnWidth, height: btnHeight } =
+      btnRef.value!.getBoundingClientRect();
+    // 计算范围
+    range.value = {
+      left,
+      top,
+      minLeft: left - btnWidth / 2,
+      maxLeft: right - btnWidth / 2,
+      minTop: top - btnHeight / 2,
+      maxTop: bottom - btnHeight / 2,
+      paletteHeight,
+      paletteWidth,
+    };
+    x.value = (paletteWidth - btnWidth) / 2 + left;
+    y.value = (paletteHeight - btnHeight) / 2 + top;
+    oldX = x.value;
+    oldY = y.value;
   },
   {
     immediate: true,
@@ -115,9 +129,9 @@ watch(
 
 <style lang="less" scoped>
 .yc-color-picker-palette {
+  overflow: hidden;
   position: relative;
   cursor: pointer;
-  overflow: hidden;
   width: 100%;
   height: 178px;
   background-image: linear-gradient(0deg, #000000, transparent),

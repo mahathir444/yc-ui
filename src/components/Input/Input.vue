@@ -5,7 +5,6 @@
       isFocus ? 'yc-input-focus' : '',
       disabled ? 'yc-input-disabled' : 'yc-input-hoverable',
       error ? 'yc-input-error' : '',
-      textCenter ? 'yc-input-text-center' : '',
       $slots.prepend ? 'yc-input-has-prepend' : '',
       $slots.append ? 'yc-input-has-append' : '',
       SIZE_CLASS[size],
@@ -130,7 +129,6 @@ const props = withDefaults(defineProps<InputProps>(), {
   },
   type: 'text',
   showInput: false,
-  textCenter: false,
 });
 const emits = defineEmits<{
   (e: 'update:modelValue', value: string): void;

@@ -2,6 +2,15 @@
   width: 100%;
   display: inline-flex;
   align-items: center;
+  &:deep(.yc-input-outer) {
+    .yc-input-wrapper {
+      .yc-input {
+        &::placeholder {
+          color: rgb(29, 33, 41);
+        }
+      }
+    }
+  }
 }
 // 无边框
 .yc-select-no-border {
@@ -30,6 +39,15 @@
     }
     &:deep(.yc-select-search-icon) {
       display: block;
+    }
+  }
+  &:deep(.yc-input-outer) {
+    .yc-input-wrapper {
+      .yc-input {
+        &::placeholder {
+          color: rgb(134, 144, 156);
+        }
+      }
     }
   }
 }

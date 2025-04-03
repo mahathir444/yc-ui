@@ -8,7 +8,6 @@
     :size="size"
     :placeholder="placeholder"
     :input-attrs="inputAttrs"
-    :text-center="textCenter"
     class="yc-input-number"
     ref="inputRef"
     @clear="(ev) => $emit('clear', ev)"
@@ -96,7 +95,7 @@
 <script lang="ts" setup>
 import { ref, toRefs, computed } from 'vue';
 import { InputNumberProps, InputNumberValue } from './type';
-import { isUndefined, isNumber, isString } from '@shared/utils/is';
+import { isNumber, isString } from '@shared/utils/is';
 import YcMinus from './component/Minus.vue';
 import YcPlus from './component/Plus.vue';
 import useControlValue from '@shared/hooks/useControlValue';
@@ -121,7 +120,6 @@ const props = withDefaults(defineProps<InputNumberProps>(), {
   allowClear: false,
   modelEvent: 'change',
   readonly: false,
-  textCenter: false,
   inputAttrs: () => {
     return {};
   },

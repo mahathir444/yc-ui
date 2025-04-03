@@ -17,10 +17,9 @@ export interface InputProps {
   append?: string;
   prepend?: string;
   // input-password使用
-  type?: 'password' | 'text' | 'number' | 'digit';
+  type?: 'password' | 'text';
   //select使用
   showInput?: boolean;
-  textCenter?: boolean;
 }
 
 export interface InputPasswordProps {

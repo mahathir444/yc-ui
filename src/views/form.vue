@@ -91,6 +91,7 @@
     <div style="width: 300px">
       slider
       <yc-slider
+        show-input
         :marks="{
           10: '10km',
           30: '30km',

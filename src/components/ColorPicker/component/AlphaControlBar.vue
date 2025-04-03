@@ -6,13 +6,15 @@
         background: `linear-gradient(to right, rgba(0, 0, 0, 0), ${baseColor})`,
       }"
       ref="barRef"
+      @click="handleClick"
     >
       <div
         class="yc-color-picker-control-bar-handler"
         ref="btnRef"
         :style="{
-          color: computedValue,
+          color,
           left: `${x - range.min}px`,
+          cursor: disabled ? 'not-allowed' : 'pointer',
         }"
       ></div>
     </div>
@@ -20,68 +22,91 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, inject } from 'vue';
-import { ProvideType } from '../type';
-import { COLOR_PICKER_PICKER_KEY } from '@shared/constants';
+import { ref, watch, toRefs } from 'vue';
 import { sleep } from '@shared/utils/fn';
 import { useDraggable, useEventListener } from '@vueuse/core';
 import tinycolor from 'tinycolor2';
-// 接受值
-const { computedValue, baseColor, alpha, format } = inject<ProvideType>(
-  COLOR_PICKER_PICKER_KEY,
-  {
-    computedValue: ref('#FF0000'),
-    baseColor: ref('#FF0000'),
-    alpha: ref(100),
-    format: ref('hex'),
-    popupVisible: ref(false),
-  }
-);
+const props = defineProps<{
+  color: string;
+  baseColor: string;
+  alpha: number;
+  popupVisible: boolean;
+  disabled: boolean;
+}>();
+const emits = defineEmits<{
+  (e: 'update:color', value: string): void;
+  (e: 'update:alpha', value: number): void;
+}>();
+const { color, baseColor, popupVisible, disabled } = toRefs(props);
 // btnRef
 const btnRef = ref<HTMLDivElement>();
 // barRef
 const barRef = ref<HTMLDivElement>();
 // draggable hook
 const { x, isDragging } = useDraggable(btnRef);
+let oldX = 0;
 // 位移范围
 const range = ref<Record<string, number>>({
   min: 0,
   max: 0,
+  barWidth: 0,
 });
-// 处理拖动
-useEventListener('mousemove', () => {
-  if (!isDragging.value) return;
+// 设置位置
+const setPosition = (color: string) => {
+  const { min, barWidth } = range.value;
+  const a = tinycolor(color).getAlpha() * 100;
+  emits('update:alpha', a);
+  x.value = min + (a / 100) * barWidth;
+  oldX = x.value;
+};
+// 处理点击
+const handleClick = (e: MouseEvent) => {
+  if (disabled.value) return;
+  x.value = e.pageX;
+  setColor();
+};
+// 设置颜色
+const setColor = () => {
+  if (disabled.value) {
+    return (x.value = oldX);
+  }
   const { min, max } = range.value;
   x.value = x.value < min ? min : x.value;
   x.value = x.value > max ? max : x.value;
-  alpha.value = Math.floor(((x.value - min) / (max - min)) * 100);
-  const a = +(alpha.value / 100).toFixed(2);
-  if (format.value == 'hex') {
-    const color = tinycolor(computedValue.value).setAlpha(a).toHex8String();
-    computedValue.value = color;
-    baseColor.value = color;
-  } else {
-    const color = tinycolor(computedValue.value).setAlpha(a).toRgbString();
-    computedValue.value = color;
-  }
-});
-// 初始化数据
-const initData = async () => {
-  await sleep(0);
-  const {
-    left,
-    right,
-    width: barWidth,
-  } = barRef.value!.getBoundingClientRect();
-  const { width: btnWidth } = btnRef.value!.getBoundingClientRect();
-  range.value = {
-    min: left,
-    max: right - btnWidth,
-  };
-  alpha.value = tinycolor(computedValue.value).getAlpha();
-  x.value = left + (alpha.value / 100) * (barWidth - btnWidth);
+  const a = +((x.value - min) / (max - min)).toFixed(2);
+  const resultColor = tinycolor(color.value).setAlpha(a);
+  emits('update:alpha', a);
+  emits('update:color', resultColor.toRgbString());
+  oldX = x.value;
 };
-initData();
+// 处理拖动
+useEventListener('mousemove', () => {
+  if (!isDragging.value) return;
+  setColor();
+});
+// 见面测visible改变
+watch(
+  () => popupVisible.value,
+  async (val) => {
+    if (!val) return;
+    await sleep(0);
+    const { left, right } = barRef.value!.getBoundingClientRect();
+    const { width: btnWidth } = btnRef.value!.getBoundingClientRect();
+    range.value = {
+      min: left,
+      max: right - btnWidth,
+      barWidth: right - left - btnWidth,
+    };
+    setPosition(color.value);
+  },
+  {
+    immediate: true,
+  }
+);
+// 暴露方法
+defineExpose({
+  setPosition,
+});
 </script>
 
 <style lang="less" scoped>
@@ -111,6 +136,7 @@ initData();
       width: 16px;
       height: 16px;
       border-radius: 50%;
+      border: 1px solid rgb(229, 230, 235);
       &::before {
         display: block;
         content: '';

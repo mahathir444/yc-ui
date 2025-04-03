@@ -1,10 +1,11 @@
 <template>
-  <div class="yc-color-picker-control-bar" ref="barRef">
+  <div class="yc-color-picker-control-bar" ref="barRef" @click="handleClick">
     <div
       class="yc-color-picker-control-bar-handler"
       :style="{
-        color: computedValue,
+        color,
         left: `${x - range.min}px`,
+        cursor: disabled ? 'not-allowed' : 'pointer',
       }"
       ref="btnRef"
     ></div>
@@ -12,64 +13,88 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, inject, watch } from 'vue';
-import { COLOR_PICKER_PICKER_KEY } from '@shared/constants';
-import { ProvideType } from '../type';
+import { ref, watch, toRefs } from 'vue';
 import { sleep } from '@shared/utils/fn';
 import { useDraggable, useEventListener } from '@vueuse/core';
 import { GradientColorCalculator } from '@shared/utils/color';
-// 接受值
-const { computedValue, baseColor, popupVisible } = inject<ProvideType>(
-  COLOR_PICKER_PICKER_KEY,
-  {
-    computedValue: ref('#FF0000'),
-    baseColor: ref('#FF0000'),
-    alpha: ref(100),
-    format: ref('hex'),
-    popupVisible: ref(false),
-  }
-);
+const props = defineProps<{
+  color: string;
+  baseColor: string;
+  popupVisible: boolean;
+  disabled: boolean;
+}>();
+const emits = defineEmits<{
+  (e: 'update:color', value: string): void;
+  (e: 'update:baseColor', value: string): void;
+}>();
+const { color, popupVisible, disabled } = toRefs(props);
 // btnRef
 const btnRef = ref<HTMLDivElement>();
 // barRef
 const barRef = ref<HTMLDivElement>();
 // draggable hook
 const { x, isDragging } = useDraggable(btnRef);
+let oldX = 0;
 // 位移范围
 const range = ref<Record<string, number>>({
   min: 0,
   max: 0,
-  btnWidth: 0,
   barWidth: 0,
 });
 const calculator = new GradientColorCalculator();
-// 处理拖动
-useEventListener('mousemove', () => {
-  if (!isDragging.value) return;
+// 设置position
+const setPosition = (color: string) => {
+  const { barWidth, min } = range.value;
+  x.value = calculator.getPositionForColor(color, barWidth) + min;
+  oldX = x.value;
+};
+// 设置颜色
+const setColor = () => {
+  if (disabled.value) {
+    x.value = oldX;
+    return;
+  }
   const { min, max, barWidth } = range.value;
   x.value = x.value < min ? min : x.value;
   x.value = x.value > max ? max : x.value;
   const color = calculator.getColorAtPosition(x.value - min, barWidth);
-  computedValue.value = color;
-  baseColor.value = color;
+  emits('update:color', color);
+  emits('update:baseColor', color);
+  oldX = x.value;
+};
+// 处理点击
+const handleClick = (e: MouseEvent) => {
+  if (disabled.value) return;
+  x.value = e.pageX;
+  setColor();
+};
+// 处理拖动
+useEventListener('mousemove', () => {
+  if (!isDragging.value) return;
+  setColor();
 });
-watch(popupVisible, async () => {
-  if (!popupVisible.value) return;
-  await sleep(0);
-  const {
-    left,
-    right,
-    width: barWidth,
-  } = barRef.value!.getBoundingClientRect();
-  const { width: btnWidth } = btnRef.value!.getBoundingClientRect();
-  range.value = {
-    min: left,
-    max: right - btnWidth,
-    btnWidth,
-    barWidth,
-  };
-  x.value =
-    calculator.getPositionForColor(computedValue.value, barWidth) + left;
+// 检测visible
+watch(
+  () => popupVisible.value,
+  async (val) => {
+    if (!val) return;
+    await sleep(0);
+    const { left, right } = barRef.value!.getBoundingClientRect();
+    const { width: btnWidth } = btnRef.value!.getBoundingClientRect();
+    range.value = {
+      min: left,
+      max: right - btnWidth,
+      barWidth: right - left - btnWidth,
+    };
+    setPosition(color.value);
+  },
+  {
+    immediate: true,
+  }
+);
+// 暴露方法
+defineExpose({
+  setPosition,
 });
 </script>
 
@@ -99,6 +124,7 @@ watch(popupVisible, async () => {
     width: 16px;
     height: 16px;
     border-radius: 50%;
+    border: 1px solid rgb(229, 230, 235);
     &::before {
       display: block;
       content: '';

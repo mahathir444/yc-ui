@@ -2,31 +2,69 @@
   <yc-trigger
     v-model:popup-visible="popupVisible"
     :popup-offset="4"
-    :unmount-on-close="true"
     trigger="click"
     position="bl"
+    v-bind="triggerProps"
     @popupVisibleChange="(v: boolean) => $emit('popupVisibleChange', v)"
   >
-    <div class="yc-color-picker">
-      <div
-        class="yc-color-picker-preview"
-        :style="{
-          backgroundColor: computedValue,
-        }"
-      ></div>
-    </div>
+    <color-trigger :color="computedColor" :show-text="showText" />
     <template #content>
-      <div class="yc-color-picker-panel">
-        <color-palette />
+      <div
+        class="yc-color-picker-panel"
+        :class="{
+          'yc-color-picker-panel-disabled': disabled,
+        }"
+      >
+        <color-palette
+          v-model:color="computedColor"
+          :base-color="baseColor"
+          :popup-visible="popupVisible"
+          :disabled="disabled"
+        />
         <div class="yc-color-picker-panel-control">
           <div class="yc-color-picker-control-wrapper">
-            <div class="yc-color-picker-control-area">
-              <color-control-bar />
-              <opciaty-control-bar />
+            <div style="display: flex; flex-direction: column; gap: 12px">
+              <color-control-bar
+                v-model:color="computedColor"
+                v-model:base-color="baseColor"
+                :popup-visible="popupVisible"
+                :disabled="disabled"
+                ref="colorBarRef"
+              />
+              <alpha-control-bar
+                v-model:color="computedColor"
+                v-model:alpha="alpha"
+                :base-color="baseColor"
+                :popup-visible="popupVisible"
+                :disabled="disabled"
+                ref="alphaBarRef"
+              />
             </div>
-            <color-preview />
+            <color-preview :color="computedColor" />
           </div>
-          <color-input />
+          <color-input
+            v-model:color="computedColor"
+            v-model:base-color="baseColor"
+            v-model:alpha="alpha"
+            v-model:format="format"
+            :disabled="disabled"
+            :disabled-alpha="disabledAlpha"
+            @change="handleChange"
+          />
+        </div>
+        <div class="yc-color-picker-panel-colors">
+          <color-list
+            v-if="showHistory"
+            label="最近使用的颜色"
+            :colors="historyColors"
+            @color-click="handleColorClick"
+          />
+          <color-list
+            v-if="showPreset"
+            label="系统预设的颜色"
+            :colors="presetColors"
+            @color-click="handleColorClick"
+          />
         </div>
       </div>
     </template>
@@ -34,45 +72,60 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, toRefs, provide } from 'vue';
-import { ProvideType } from './type';
-import { Size } from '@shared/type';
-import { COLOR_PICKER_PICKER_KEY } from '@shared/constants';
+import { ref, toRefs } from 'vue';
+import { PRESET_COLORS } from './constants';
+import { ColorPickerProps } from './type';
 import useControlValue from '@shared/hooks/useControlValue';
 import tinycolor from 'tinycolor2';
+import AlphaControlBar from './component/AlphaControlBar.vue';
 import ColorControlBar from './component/ColorControlBar.vue';
 import ColorPreview from './component/ColorPreview.vue';
+import ColorTrigger from './component/ColorTrigger.vue';
 import ColorPalette from './component/ColorPalette.vue';
-import OpciatyControlBar from './component/OpacityControlBar.vue';
 import ColorInput from './component/ColorInput.vue';
+import ColorList from './component/ColorList.vue';
 import YcTrigger from '@/components/Trigger';
 defineOptions({
   name: 'ColorPicker',
 });
-const props = withDefaults(
-  defineProps<{
-    modelValue?: string;
-    defaultValue?: string;
-    format?: 'hex' | 'rgb';
-    size?: Size;
-  }>(),
-  {
-    modelValue: undefined,
-    defaultValue: '#FF0000',
-    format: 'hex',
-    size: 'medium',
-  }
-);
+const props = withDefaults(defineProps<ColorPickerProps>(), {
+  modelValue: undefined,
+  defaultValue: '#FF0000',
+  format: 'hex',
+  size: 'medium',
+  showText: false,
+  showHistory: false,
+  showPreset: true,
+  disabled: true,
+  disabledAlpha: false,
+  hideTrigger: false,
+  triggerProps: () => {
+    return {};
+  },
+  historyColors: () => [],
+  presetColors: () => PRESET_COLORS,
+});
 const emits = defineEmits<{
   (e: 'update:modelValue', value: string): void;
   (e: 'change', value: boolean): void;
   (e: 'popupVisibleChange', value: boolean): void;
 }>();
-const { modelValue, defaultValue, format: _format } = toRefs(props);
+const {
+  modelValue,
+  defaultValue,
+  format: _format,
+  showText,
+  disabled,
+} = toRefs(props);
+// 组件实例
+const colorBarRef = ref<InstanceType<typeof ColorControlBar>>();
+const alphaBarRef = ref<InstanceType<typeof AlphaControlBar>>();
 // 当前的format
 const format = useControlValue<string>(ref(undefined), _format.value);
+// 透明度
+const alpha = ref<number>(100);
 // 控制值
-const computedValue = useControlValue<string>(
+const computedColor = useControlValue<string>(
   modelValue,
   defaultValue.value,
   (val) => {
@@ -80,57 +133,43 @@ const computedValue = useControlValue<string>(
     emits('change', val);
   },
   (val) => {
+    const color = tinycolor(val);
+    const a = color.getAlpha();
+    if (a != alpha.value) {
+      alpha.value = a * 100;
+    }
     if (format.value == 'hex') {
-      if (!val.includes('rgb')) {
-        return val;
-      }
-      const color = tinycolor(val);
-      return color.toHex();
+      return a == 1 ? color.toHexString() : color.toHex8String();
     } else {
-      if (val.includes('rgb')) {
-        return val;
-      }
-      const color = tinycolor(val);
       return color.toRgbString();
     }
   }
 );
-// visible
-const popupVisible = ref<boolean>(false);
 // 基础颜色
-const baseColor = ref<string>(computedValue.value);
-// 透明度
-const alpha = ref<number>(100);
-// 提供数据
-provide<ProvideType>(COLOR_PICKER_PICKER_KEY, {
-  computedValue,
-  baseColor,
-  alpha,
-  format,
-  popupVisible,
-});
+const baseColor = ref<string>(computedColor.value);
+// visible
+const popupVisible = ref<boolean>(true);
+// 处理color点击
+const handleColorClick = (color: string) => {
+  if (disabled.value) return;
+  computedColor.value = color;
+  baseColor.value = color;
+  colorBarRef.value?.setPosition(color);
+  alphaBarRef.value?.setPosition(color);
+};
+// 处理改变
+const handleChange = (color: string, type: 'color' | 'alpha') => {
+  if (type == 'alpha') {
+    alphaBarRef.value?.setPosition(color);
+  } else {
+    colorBarRef.value?.setPosition(color);
+  }
+};
 </script>
 
 <style lang="less" scoped>
-.yc-color-picker {
-  cursor: pointer;
-  height: 32px;
-  width: 32px;
-  padding: 4px;
-  display: inline-flex;
-  align-items: center;
-  background-color: rgb(242, 243, 245);
-  border-radius: 2px;
-  &:hover {
-    background-color: rgb(229, 230, 235);
-  }
-  .yc-color-picker-preview {
-    width: 100%;
-    height: 100%;
-  }
-}
-
 .yc-color-picker-panel {
+  overflow: hidden;
   width: 260px;
   background-color: #fff;
   border-radius: 2px;
@@ -145,12 +184,17 @@ provide<ProvideType>(COLOR_PICKER_PICKER_KEY, {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      .yc-color-picker-control-area {
-        display: flex;
-        flex-direction: column;
-        gap: 12px;
-      }
     }
   }
+  .yc-color-picker-panel-colors {
+    padding: 12px;
+    border-top: 1px solid rgb(229, 230, 235);
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+}
+.yc-color-picker-panel-disabled {
+  cursor: not-allowed;
 }
 </style>

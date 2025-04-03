@@ -1,11 +1,9 @@
 import tinycolor, { ColorInput, Instance } from 'tinycolor2';
-
 // 定义颜色停止点类型
 interface ColorStop {
   pos: number; // 位置 0-1
   color: ColorInput;
 }
-
 interface ColorPanelOptions {
   width: number;
   height: number;
@@ -13,7 +11,7 @@ interface ColorPanelOptions {
   saturationRange?: [number, number]; // [min, max]
   lightnessRange?: [number, number]; // [min, max]
 }
-
+// 颜色控制条
 export class GradientColorCalculator {
   private colorStops: ColorStop[];
 
@@ -206,6 +204,18 @@ export class GradientColorCalculator {
   }
 }
 
+interface ColorPanelOptions {
+  width: number;
+  height: number;
+  baseColor: string;
+  saturationRange?: [number, number];
+  lightnessRange?: [number, number];
+}
+interface Point {
+  x: number;
+  y: number;
+}
+// 颜色面板
 export class DynamicColorCalculator {
   private width: number;
   private height: number;
@@ -217,20 +227,96 @@ export class DynamicColorCalculator {
     this.width = options.width;
     this.height = options.height;
     this.baseColor = tinycolor(options.baseColor);
-
-    // 设置默认饱和度范围 (0% - 100%)
     this.satRange = options.saturationRange || [0, 1];
-
-    // 设置默认明度范围 (0% - 100%)
     this.lightRange = options.lightnessRange || [0, 1];
   }
 
   /**
-   * 根据偏移量计算颜色
-   * @param offsetX 水平偏移 (0 - width)
-   * @param offsetY 垂直偏移 (0 - height)
-   * @returns 计算后的颜色 (十六进制字符串)
+   * 根据颜色反向计算 offsetX 和 offsetY
+   * @param color 目标颜色
+   * @returns 可能的坐标位置数组（可能有多个解）
    */
+  public getPositionsForColor(color: ColorInput): Point[] {
+    const target = tinycolor(color);
+    const targetHsl = target.toHsl();
+    const baseHsl = this.baseColor.toHsl();
+
+    // 由于色相固定，我们只需要处理饱和度和明度
+    const positions: Point[] = [];
+
+    // 计算饱和度对应的X位置
+    const xPercent = this.reverseMapRange(
+      targetHsl.s,
+      this.satRange[0],
+      this.satRange[1]
+    );
+
+    // 计算明度对应的Y位置（注意Y轴反向）
+    const yPercent =
+      1 -
+      this.reverseMapRange(targetHsl.l, this.lightRange[0], this.lightRange[1]);
+
+    // 返回计算结果
+    return [
+      {
+        x: this.clamp(xPercent * this.width, 0, this.width),
+        y: this.clamp(yPercent * this.height, 0, this.height),
+      },
+    ];
+  }
+
+  /**
+   * 反向映射范围值到0-1
+   */
+  private reverseMapRange(value: number, min: number, max: number): number {
+    if (max === min) return 0.5; // 避免除以零
+    return this.clamp((value - min) / (max - min), 0, 1);
+  }
+
+  /**
+   * 查找所有可能产生该颜色的位置（高精度搜索）
+   */
+  public findAllPositionsForColor(
+    color: ColorInput,
+    precision: number = 100
+  ): Point[] {
+    const target = tinycolor(color);
+    const positions: Point[] = [];
+    const stepX = this.width / precision;
+    const stepY = this.height / precision;
+
+    for (let x = 0; x <= precision; x++) {
+      for (let y = 0; y <= precision; y++) {
+        const offsetX = x * stepX;
+        const offsetY = y * stepY;
+        const sample = tinycolor(this.calculateColor(offsetX, offsetY));
+
+        if (this.colorsAreSimilar(target, sample, 5)) {
+          positions.push({ x: offsetX, y: offsetY });
+        }
+      }
+    }
+
+    return positions;
+  }
+
+  /**
+   * 判断两个颜色是否相似
+   */
+  private colorsAreSimilar(
+    a: Instance,
+    b: Instance,
+    threshold: number
+  ): boolean {
+    const deltaR = a.toRgb().r - b.toRgb().r;
+    const deltaG = a.toRgb().g - b.toRgb().g;
+    const deltaB = a.toRgb().b - b.toRgb().b;
+    return (
+      Math.sqrt(deltaR * deltaR + deltaG * deltaG + deltaB * deltaB) < threshold
+    );
+  }
+
+  // 保留原有的方法...
   public calculateColor(offsetX: number, offsetY: number): string {
     // 计算标准化位置 (0-1)
     const xPercent = this.clamp(offsetX / this.width, 0, 1);
@@ -248,30 +334,18 @@ export class DynamicColorCalculator {
     return tinycolor(newHsl).toHexString();
   }
 
-  /**
-   * 将0-1的值映射到指定范围
-   */
   private mapRange(value: number, min: number, max: number): number {
     return min + (max - min) * value;
   }
 
-  /**
-   * 限制数值范围
-   */
   private clamp(value: number, min: number, max: number): number {
     return Math.min(Math.max(value, min), max);
   }
 
-  /**
-   * 更新主色
-   */
   public updateBaseColor(newColor: string): void {
     this.baseColor = tinycolor(newColor);
   }
 
-  /**
-   * 获取当前配置
-   */
   public getConfig() {
     return {
       baseColor: this.baseColor.toHexString(),
@@ -280,241 +354,5 @@ export class DynamicColorCalculator {
       saturationRange: this.satRange,
       lightnessRange: this.lightRange,
     };
-  }
-}
-
-interface Point {
-  x: number;
-  y: number;
-}
-
-interface GradientStop {
-  pos: number;
-  color: ColorInput;
-}
-
-export class AdvancedColorPicker {
-  private width: number;
-  private height: number;
-  private baseColor: Instance;
-
-  // 渐变配置
-  private readonly verticalGradient: GradientStop[] = [
-    { pos: 0, color: '#000000' }, // 底部黑色
-    { pos: 1, color: 'transparent' }, // 顶部透明
-  ];
-
-  private readonly horizontalGradient: GradientStop[] = [
-    { pos: 0, color: '#ffffff' }, // 左侧白色
-    { pos: 1, color: 'rgba(255, 255, 255, 0)' }, // 右侧透明
-  ];
-
-  constructor(
-    width: number,
-    height: number,
-    baseColor: ColorInput = '#3498db'
-  ) {
-    this.width = width;
-    this.height = height;
-    this.baseColor = tinycolor(baseColor);
-  }
-
-  /**
-   * 获取指定位置的颜色
-   * @param offsetX 水平偏移 (0-width)
-   * @param offsetY 垂直偏移 (0-height)
-   * @returns 十六进制或RGBA颜色字符串
-   */
-  public getColorAtPosition(offsetX: number, offsetY: number): string {
-    const position = this.normalizePosition(offsetX, offsetY);
-    const adjustedBase = this.adjustBaseColor(position.x, position.y);
-    const verticalColor = this.getGradientColor(
-      this.verticalGradient,
-      position.y
-    );
-    const horizontalColor = this.getGradientColor(
-      this.horizontalGradient,
-      position.x
-    );
-
-    return this.blendThreeColors(adjustedBase, verticalColor, horizontalColor);
-  }
-
-  /**
-   * 标准化坐标位置
-   */
-  private normalizePosition(offsetX: number, offsetY: number): Point {
-    return {
-      x: this.clamp(offsetX / this.width, 0, 1),
-      y: this.clamp(offsetY / this.height, 0, 1),
-    };
-  }
-
-  /**
-   * 根据位置调整主色
-   */
-  private adjustBaseColor(xPos: number, yPos: number): Instance {
-    const hsl = this.baseColor.clone().toHsl();
-
-    // X轴控制饱和度变化
-    hsl.s = xPos;
-
-    // Y轴控制明度变化 (反向)
-    hsl.l = 1 - yPos;
-
-    // 对角线控制色相变化 (±30度)
-    const hueVariation = (xPos + yPos - 1) * 60; // -60到+60
-    hsl.h = (hsl.h + hueVariation + 360) % 360; // 确保在0-360范围内
-
-    return tinycolor(hsl);
-  }
-
-  /**
-   * 从渐变获取颜色
-   */
-  private getGradientColor(stops: GradientStop[], position: number): Instance {
-    const { startStop, endStop } = this.findStops(stops, position);
-    const range = endStop.pos - startStop.pos;
-    const ratio = range > 0 ? (position - startStop.pos) / range : 0;
-
-    return tinycolor.mix(
-      tinycolor(startStop.color),
-      tinycolor(endStop.color),
-      ratio * 100
-    );
-  }
-
-  /**
-   * 查找相邻的渐变停止点
-   */
-  private findStops(
-    stops: GradientStop[],
-    position: number
-  ): { startStop: GradientStop; endStop: GradientStop } {
-    for (let i = 0; i < stops.length - 1; i++) {
-      if (position >= stops[i].pos && position <= stops[i + 1].pos) {
-        return {
-          startStop: stops[i],
-          endStop: stops[i + 1],
-        };
-      }
-    }
-    return {
-      startStop: stops[0],
-      endStop: stops[stops.length - 1],
-    };
-  }
-
-  /**
-   * 三源颜色混合
-   */
-  private blendThreeColors(
-    base: Instance,
-    vertical: Instance,
-    horizontal: Instance
-  ): string {
-    // 1. 基础色与垂直渐变混合 (乘法)
-    const baseMixed = this.multiplyBlend(base, vertical);
-
-    // 2. 结果与水平渐变混合 (叠加)
-    const finalColor = this.overlayBlend(baseMixed, horizontal);
-
-    // 返回HEX8或RGBA格式
-    return finalColor.getAlpha() === 1
-      ? finalColor.toHexString()
-      : finalColor.toHex8String();
-  }
-
-  /**
-   * 乘法混合模式
-   */
-  private multiplyBlend(bottom: Instance, top: Instance): Instance {
-    const b = bottom.toRgb();
-    const t = top.toRgb();
-
-    return tinycolor({
-      r: (b.r * t.r) / 255,
-      g: (b.g * t.g) / 255,
-      b: (b.b * t.b) / 255,
-      a: 1 - (1 - b.a) * (1 - t.a),
-    });
-  }
-
-  /**
-   * 叠加混合模式
-   */
-  private overlayBlend(bottom: Instance, top: Instance): Instance {
-    const b = bottom.toRgb();
-    const t = top.toRgb();
-
-    const blendChannel = (b: number, t: number) => {
-      return b < 128
-        ? (2 * b * t) / 255
-        : 255 - (2 * (255 - b) * (255 - t)) / 255;
-    };
-
-    return tinycolor({
-      r: blendChannel(b.r, t.r),
-      g: blendChannel(b.g, t.g),
-      b: blendChannel(b.b, t.b),
-      a: 1 - (1 - b.a) * (1 - t.a),
-    });
-  }
-
-  /**
-   * 限制数值范围
-   */
-  private clamp(value: number, min: number, max: number): number {
-    return Math.min(Math.max(value, min), max);
-  }
-
-  /**
-   * 更新主色
-   */
-  public updateBaseColor(color: ColorInput): void {
-    this.baseColor = tinycolor(color);
-  }
-
-  /**
-   * 根据颜色查找可能的位置
-   */
-  public getPositionsForColor(
-    targetColor: ColorInput,
-    precision: number = 10
-  ): Point[] {
-    const target = tinycolor(targetColor);
-    const positions: Point[] = [];
-    const stepX = this.width / precision;
-    const stepY = this.height / precision;
-
-    for (let x = 0; x <= precision; x++) {
-      for (let y = 0; y <= precision; y++) {
-        const offsetX = x * stepX;
-        const offsetY = y * stepY;
-        const sample = tinycolor(this.getColorAtPosition(offsetX, offsetY));
-
-        if (this.colorsAreSimilar(target, sample, 5)) {
-          positions.push({ x: offsetX, y: offsetY });
-        }
-      }
-    }
-
-    return positions;
-  }
-
-  /**
-   * 判断颜色相似度
-   */
-  private colorsAreSimilar(
-    a: Instance,
-    b: Instance,
-    threshold: number
-  ): boolean {
-    const deltaR = a.toRgb().r - b.toRgb().r;
-    const deltaG = a.toRgb().g - b.toRgb().g;
-    const deltaB = a.toRgb().b - b.toRgb().b;
-    return (
-      Math.sqrt(deltaR * deltaR + deltaG * deltaG + deltaB * deltaB) < threshold
-    );
   }
 }
