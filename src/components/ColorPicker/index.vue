@@ -1,5 +1,12 @@
 <template>
-  <yc-trigger :popup-offset="4" trigger="click" position="bl">
+  <yc-trigger
+    v-model:popup-visible="popupVisible"
+    :popup-offset="4"
+    :unmount-on-close="true"
+    trigger="click"
+    position="bl"
+    @popupVisibleChange="(v: boolean) => $emit('popupVisibleChange', v)"
+  >
     <div class="yc-color-picker">
       <div
         class="yc-color-picker-preview"
@@ -39,7 +46,6 @@ import ColorPalette from './component/ColorPalette.vue';
 import OpciatyControlBar from './component/OpacityControlBar.vue';
 import ColorInput from './component/ColorInput.vue';
 import YcTrigger from '@/components/Trigger';
-
 defineOptions({
   name: 'ColorPicker',
 });
@@ -59,16 +65,19 @@ const props = withDefaults(
 );
 const emits = defineEmits<{
   (e: 'update:modelValue', value: string): void;
-  (e: 'change', value: boolean, ev: Event): void;
+  (e: 'change', value: boolean): void;
+  (e: 'popupVisibleChange', value: boolean): void;
 }>();
 const { modelValue, defaultValue, format: _format } = toRefs(props);
+// 当前的format
+const format = useControlValue<string>(ref(undefined), _format.value);
 // 控制值
 const computedValue = useControlValue<string>(
   modelValue,
   defaultValue.value,
   (val) => {
-    const color = format.value == 'rgb' ? val : `#${val}`;
-    emits('update:modelValue', color);
+    emits('update:modelValue', val);
+    emits('change', val);
   },
   (val) => {
     if (format.value == 'hex') {
@@ -86,18 +95,19 @@ const computedValue = useControlValue<string>(
     }
   }
 );
-// 当前的format
-const format = useControlValue<string>(ref(undefined), _format.value);
+// visible
+const popupVisible = ref<boolean>(false);
 // 基础颜色
 const baseColor = ref<string>(computedValue.value);
 // 透明度
-const opacity = ref<number>(100);
+const alpha = ref<number>(100);
 // 提供数据
 provide<ProvideType>(COLOR_PICKER_PICKER_KEY, {
   computedValue,
   baseColor,
-  opacity,
+  alpha,
   format,
+  popupVisible,
 });
 </script>
 

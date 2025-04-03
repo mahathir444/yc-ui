@@ -15,8 +15,9 @@ import { COLOR_PICKER_PICKER_KEY } from '@shared/constants';
 const { computedValue } = inject<ProvideType>(COLOR_PICKER_PICKER_KEY, {
   computedValue: ref('#FF0000'),
   baseColor: ref('#FF0000'),
-  opacity: ref(100),
+  alpha: ref(100),
   format: ref('hex'),
+  popupVisible: ref(false),
 });
 </script>
 

@@ -18,20 +18,24 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, computed, inject } from 'vue';
+import { ref, computed, inject, watch } from 'vue';
 import { ProvideType } from '../type';
-import { DynamicColorCalculator } from '@shared/utils/color';
+import {
+  DynamicColorCalculator,
+  AdvancedColorPicker,
+} from '@shared/utils/color';
 import { COLOR_PICKER_PICKER_KEY } from '@shared/constants';
 import { sleep } from '@shared/utils/fn';
 import { useDraggable, useEventListener } from '@vueuse/core';
 // 接受值
-const { computedValue, baseColor } = inject<ProvideType>(
+const { computedValue, baseColor, popupVisible } = inject<ProvideType>(
   COLOR_PICKER_PICKER_KEY,
   {
     computedValue: ref('#FF0000'),
     baseColor: ref('#FF0000'),
-    opacity: ref(100),
+    alpha: ref(100),
     format: ref('hex'),
+    popupVisible: ref(false),
   }
 );
 // btn实例
@@ -96,8 +100,17 @@ const initData = async () => {
   };
   x.value = (paletteWidth - btnWidth) / 2 + left;
   y.value = (paletteHeight - btnHeight) / 2 + top;
+  console.log(x.value, y.value);
 };
-initData();
+watch(
+  popupVisible,
+  () => {
+    initData();
+  },
+  {
+    immediate: true,
+  }
+);
 </script>
 
 <style lang="less" scoped>

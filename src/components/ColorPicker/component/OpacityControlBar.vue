@@ -27,13 +27,14 @@ import { sleep } from '@shared/utils/fn';
 import { useDraggable, useEventListener } from '@vueuse/core';
 import tinycolor from 'tinycolor2';
 // 接受值
-const { computedValue, baseColor, opacity, format } = inject<ProvideType>(
+const { computedValue, baseColor, alpha, format } = inject<ProvideType>(
   COLOR_PICKER_PICKER_KEY,
   {
     computedValue: ref('#FF0000'),
     baseColor: ref('#FF0000'),
-    opacity: ref(100),
+    alpha: ref(100),
     format: ref('hex'),
+    popupVisible: ref(false),
   }
 );
 // btnRef
@@ -53,8 +54,8 @@ useEventListener('mousemove', () => {
   const { min, max } = range.value;
   x.value = x.value < min ? min : x.value;
   x.value = x.value > max ? max : x.value;
-  opacity.value = Math.floor(((x.value - min) / (max - min)) * 100);
-  const a = +(opacity.value / 100).toFixed(2);
+  alpha.value = Math.floor(((x.value - min) / (max - min)) * 100);
+  const a = +(alpha.value / 100).toFixed(2);
   if (format.value == 'hex') {
     const color = tinycolor(computedValue.value).setAlpha(a).toHex8String();
     computedValue.value = color;
@@ -77,7 +78,8 @@ const initData = async () => {
     min: left,
     max: right - btnWidth,
   };
-  x.value = left + (opacity.value / 100) * (barWidth - btnWidth);
+  alpha.value = tinycolor(computedValue.value).getAlpha();
+  x.value = left + (alpha.value / 100) * (barWidth - btnWidth);
 };
 initData();
 </script>

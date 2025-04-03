@@ -12,20 +12,21 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, inject } from 'vue';
+import { ref, inject, watch } from 'vue';
 import { COLOR_PICKER_PICKER_KEY } from '@shared/constants';
 import { ProvideType } from '../type';
 import { sleep } from '@shared/utils/fn';
 import { useDraggable, useEventListener } from '@vueuse/core';
 import { GradientColorCalculator } from '@shared/utils/color';
 // 接受值
-const { computedValue, baseColor } = inject<ProvideType>(
+const { computedValue, baseColor, popupVisible } = inject<ProvideType>(
   COLOR_PICKER_PICKER_KEY,
   {
     computedValue: ref('#FF0000'),
     baseColor: ref('#FF0000'),
-    opacity: ref(100),
+    alpha: ref(100),
     format: ref('hex'),
+    popupVisible: ref(false),
   }
 );
 // btnRef
@@ -52,8 +53,8 @@ useEventListener('mousemove', () => {
   computedValue.value = color;
   baseColor.value = color;
 });
-// 初始化数据
-const initData = async () => {
+watch(popupVisible, async () => {
+  if (!popupVisible.value) return;
   await sleep(0);
   const {
     left,
@@ -67,9 +68,9 @@ const initData = async () => {
     btnWidth,
     barWidth,
   };
-  x.value = left;
-};
-initData();
+  x.value =
+    calculator.getPositionForColor(computedValue.value, barWidth) + left;
+});
 </script>
 
 <style lang="less" scoped>

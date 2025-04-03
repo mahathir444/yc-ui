@@ -64,15 +64,15 @@
         />
       </template>
       <yc-input-number
-        v-model="opacity"
+        v-model="alpha"
         :min="0"
         :max="100"
         size="mini"
         text-center
         hide-button
         class="opacity-input"
-        @blur="handleSet('opacity')"
-        @press-enter="handleSet('opacity')"
+        @blur="handleSet('alpha')"
+        @press-enter="handleSet('alpha')"
       >
         <template #suffix> % </template>
       </yc-input-number>
@@ -81,19 +81,20 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, inject, computed } from 'vue';
+import { ref, inject } from 'vue';
 import { ProvideType } from '../type';
 import { COLOR_PICKER_PICKER_KEY } from '@shared/constants';
 import tinycolor from 'tinycolor2';
 import YcInputNumber from '@/components/InputNumber';
 // 接受值
-const { computedValue, opacity, format, baseColor } = inject<ProvideType>(
+const { computedValue, alpha, format, baseColor } = inject<ProvideType>(
   COLOR_PICKER_PICKER_KEY,
   {
     computedValue: ref('#FF0000'),
     baseColor: ref('#FF0000'),
-    opacity: ref(100),
+    alpha: ref(100),
     format: ref('hex'),
+    popupVisible: ref(false),
   }
 );
 // hex
@@ -101,7 +102,7 @@ const hex = ref<string>(computedValue.value.replace('#', ''));
 // rgb对象
 const rgb = ref<Record<string, any>>(tinycolor(computedValue.value).toRgb());
 // 处理设置
-const handleSet = (type: 'hex' | 'rgb' | 'opacity') => {
+const handleSet = (type: 'hex' | 'rgb' | 'alpha') => {
   if (type == 'hex') {
     baseColor.value = hex.value;
     computedValue.value = hex.value;
@@ -110,7 +111,7 @@ const handleSet = (type: 'hex' | 'rgb' | 'opacity') => {
     computedValue.value = `rgb(${r},${g},${b})`;
     baseColor.value = `rgb(${r},${g},${b})`;
   } else {
-    const a = +(opacity.value / 100).toFixed(2);
+    const a = +(alpha.value / 100).toFixed(2);
     if (format.value == 'hex') {
       const color = tinycolor(computedValue.value).setAlpha(a).toHex8String();
       computedValue.value = color;
