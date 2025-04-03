@@ -129,24 +129,5 @@ defineExpose({
 </script>
 
 <style lang="less" scoped>
-.yc-color-picker-palette {
-  overflow: hidden;
-  position: relative;
-  cursor: pointer;
-  width: 100%;
-  height: 178px;
-  background-image: linear-gradient(0deg, #000000, transparent),
-    linear-gradient(90deg, #ffffff, rgba(255, 255, 255, 0));
-  border: 1px solid rgb(229, 230, 235);
-  border-bottom: 0;
-  .yc-color-picker-handler {
-    position: absolute;
-    width: 16px;
-    height: 16px;
-    border: 2px solid #fff;
-    border-radius: 50%;
-    background-color: transparent;
-    transform: translate(-50%, -50%);
-  }
-}
+@import '../style/color-palette.less';
 </style>

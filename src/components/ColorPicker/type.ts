@@ -19,6 +19,7 @@ export interface ColorPickerProps {
 }
 export type ColorFormat = 'hex' | 'rgb';
 
+// 内置类型
 export type ProvideType = {
   computedColor: WritableComputedRef<string> | Ref<string>;
   baseColor: Ref<string>;

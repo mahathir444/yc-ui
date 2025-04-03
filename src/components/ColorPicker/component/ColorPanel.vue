@@ -36,7 +36,12 @@
             />
           </div>
         </div>
-        <color-preview :color="computedColor" />
+        <div
+          class="yc-color-picker-preview"
+          :style="{
+            backgroundColor: computedColor,
+          }"
+        ></div>
       </div>
       <color-input
         v-model:color="computedColor"
@@ -69,11 +74,11 @@
 import { ref, inject } from 'vue';
 import { COLOR_PICKER_PROVIDE_KEY } from '@shared/constants';
 import { ProvideType } from '@/components/ColorPicker/type';
-import ColorPalette from './component/ColorPalette.vue';
-import ColorInput from './component/ColorInput.vue';
-import ColorList from './component/ColorList.vue';
-import ColorControlBar from './component/ColorControlBar.vue';
-import ColorPreview from './component/ColorPreview.vue';
+import ColorPalette from './ColorPalette.vue';
+import ColorInput from './ColorInput.vue';
+import ColorList from './ColorList.vue';
+import ColorControlBar from './ColorControlBar.vue';
+import ColorPreview from './ColorPreview.vue';
 const {
   computedColor,
   baseColor,
@@ -124,5 +129,5 @@ const handleChange = (color: string, type: 'color' | 'alpha') => {
 </script>
 
 <style lang="less" scoped>
-@import '@/components/ColorPicker/style/color-panel.less';
+@import '../style/color-panel.less';
 </style>

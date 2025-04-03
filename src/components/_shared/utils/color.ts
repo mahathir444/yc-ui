@@ -20,12 +20,7 @@ export class GradientColorCalculator {
     ];
   }
 
-  /**
-   * 根据颜色反向计算近似位置
-   * @param color 要查找的颜色值
-   * @param totalWidth 渐变条总宽度
-   * @returns 估算的offsetX位置
-   */
+  // 根据颜色反向计算近似位置
   public getPositionForColor(color: ColorInput, totalWidth: number): number {
     const targetColor = tinycolor(color);
     let minDistance = Infinity;
@@ -51,9 +46,7 @@ export class GradientColorCalculator {
     return bestPosition * totalWidth;
   }
 
-  /**
-   * 计算两个颜色之间的距离（简化版）
-   */
+  // 计算两个颜色之间的距离（简化版）
   private calculateColorDistance(
     color1: tinycolor.Instance,
     color2: tinycolor.Instance
@@ -69,9 +62,7 @@ export class GradientColorCalculator {
     );
   }
 
-  /**
-   * 更精确的颜色搜索算法（二分查找优化）
-   */
+  // 更精确的颜色搜索算法（二分查找优化）
   public getPrecisePositionForColor(
     color: ColorInput,
     totalWidth: number,
@@ -116,12 +107,7 @@ export class GradientColorCalculator {
     return bestPosition * totalWidth;
   }
 
-  /**
-   * 根据位置获取渐变颜色
-   * @param offsetX 当前位置距离左边的距离
-   * @param totalWidth 渐变条总宽度
-   * @returns 计算出的颜色值 (十六进制字符串)
-   */
+  // 根据位置获取渐变颜色
   public getColorAtPosition(offsetX: number, totalWidth: number): string {
     // 计算当前位置在渐变中的比例 (0-1)
     const position = this.clamp(offsetX / totalWidth, 0, 1);
@@ -141,11 +127,7 @@ export class GradientColorCalculator {
     return tinycolor.mix(startColor, endColor, ratio * 100).toHexString();
   }
 
-  /**
-   * 查找包含指定位置的颜色停止点
-   * @param position 0-1之间的位置
-   * @returns 包含相邻停止点的对象
-   */
+  // 查找包含指定位置的颜色停止点
   private findStops(position: number): {
     startStop: ColorStop;
     endStop: ColorStop;
@@ -169,21 +151,12 @@ export class GradientColorCalculator {
     };
   }
 
-  /**
-   * 限制数值在最小最大值之间
-   * @param value 输入值
-   * @param min 最小值
-   * @param max 最大值
-   * @returns 限制后的值
-   */
+  // 限制数值在最小最大值之间
   private clamp(value: number, min: number, max: number): number {
     return Math.min(Math.max(value, min), max);
   }
 
-  /**
-   * 更新渐变颜色停止点
-   * @param stops 新的颜色停止点数组
-   */
+  // 更新渐变颜色停止点
   public updateColorStops(stops: ColorStop[]): void {
     // 验证停止点
     if (stops.length < 2) {

@@ -10,7 +10,7 @@
     v-bind="triggerProps"
     @popupVisibleChange="(v: boolean) => $emit('popupVisibleChange', v)"
   >
-    <color-trigger :color="computedColor" :size="size" :show-text="showText" />
+    <color-preview :color="computedColor" :size="size" :show-text="showText" />
     <template #content>
       <color-panel />
     </template>
@@ -25,8 +25,8 @@ import { ColorPickerProps, ProvideType } from './type';
 import { parseColor } from '@shared/utils/color';
 import { COLOR_PICKER_PROVIDE_KEY } from '@shared/constants';
 import useControlValue from '@shared/hooks/useControlValue';
-import ColorPanel from './component/ColorPanel/index.vue';
-import ColorTrigger from './component/ColorTrigger.vue';
+import ColorPanel from './component/ColorPanel.vue';
+import ColorPreview from './component/ColorPreview.vue';
 import YcTrigger from '@/components/Trigger';
 defineOptions({
   name: 'ColorPicker',

@@ -5,7 +5,7 @@
         :model-value="format"
         :options="FORMAT_OPTIONS"
         :trigger-props="{
-          contentClass: 'format-popup-content',
+          contentClass: 'yc-color-picker-format-popup-content',
         }"
         size="mini"
         @change="(v) => $emit('update:format', v as ColorFormat)"
@@ -127,100 +127,14 @@ const handleSet = (type: 'hex' | 'rgb' | 'alpha') => {
 </script>
 
 <style lang="less" scoped>
-.yc-color-picker-input-wrapper {
-  display: flex;
-  align-items: center;
-  gap: 20px;
-  .yc-color-picker-format {
-    &:deep(.yc-select) {
-      .yc-input-outer {
-        width: 58px;
-        .yc-input-wrapper {
-          padding: 0 6px;
-          .yc-input {
-            width: 32px;
-          }
-          .yc-input-suffix {
-            padding-left: 0;
-          }
-        }
-      }
-    }
-  }
-
-  .yc-color-picker-color {
-    flex: 1;
-    overflow: hidden;
-    display: flex;
-    align-items: center;
-    &:deep(.yc-input-outer) {
-      &:first-child {
-        .yc-input-wrapper {
-          border-top-left-radius: 2px;
-          border-bottom-left-radius: 2px;
-        }
-      }
-      &:last-child {
-        .yc-input-wrapper {
-          border-top-right-radius: 2px;
-          border-bottom-right-radius: 2px;
-          border-right-color: transparent;
-        }
-      }
-      &.yc-input-focus {
-        .yc-input-wrapper {
-          border-radius: 2px;
-          border-right-color: #165dff;
-        }
-      }
-      &.yc-input-number {
-        .yc-input-wrapper {
-          .yc-input {
-            text-align: center;
-          }
-        }
-      }
-      &.yc-input-number,
-      &.hex-input {
-        flex-shrink: 0;
-        flex: 1;
-        overflow: hidden;
-      }
-      &.alpha-input {
-        flex: unset;
-        width: 52px;
-        .yc-input-wrapper {
-          .yc-input {
-            width: 28px;
-          }
-        }
-      }
-
-      .yc-input-wrapper {
-        border-radius: 0;
-        padding: 0 6px;
-        border-right-color: rgb(229, 230, 235);
-        .yc-input-suffix {
-          padding-left: 0;
-        }
-        .yc-input-prefix {
-          padding-right: 6px;
-        }
-      }
-    }
-  }
-}
+@import '../style/color-input.less';
 </style>
 
 <style lang="less">
-.format-popup-content {
-  .yc-select-dropdown-loading {
-    .yc-select-dropdown-list {
-      .yc-select-option {
-        font-size: 12px;
-        line-height: 24px;
-      }
-    }
+.yc-color-picker-format-popup-content {
+  .yc-select-option {
+    font-size: 12px;
+    line-height: 24px;
   }
 }
 </style>

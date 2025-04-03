@@ -104,6 +104,9 @@
       mention
       <yc-mention :data="options" placeholder="mention" />
     </div>
+    <div style="width: 300px">
+      <yc-color-picker show-text show-preset size="large" />
+    </div>
   </div>
 </template>
 
