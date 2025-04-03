@@ -10,25 +10,31 @@
       :base-color="baseColor"
       :popup-visible="popupVisible"
       :disabled="disabled"
+      ref="paletteRef"
     />
     <div class="yc-color-picker-panel-control">
       <div class="yc-color-picker-control-wrapper">
         <div style="display: flex; flex-direction: column; gap: 12px">
           <color-control-bar
+            mode="color"
             v-model:color="computedColor"
             v-model:base-color="baseColor"
             :popup-visible="popupVisible"
             :disabled="disabled"
             ref="colorBarRef"
+            @change="(v) => paletteRef?.setPosition(v)"
           />
-          <alpha-control-bar
-            v-model:color="computedColor"
-            v-model:alpha="alpha"
-            :base-color="baseColor"
-            :popup-visible="popupVisible"
-            :disabled="disabled"
-            ref="alphaBarRef"
-          />
+          <div class="yc-color-picker-control-bar-bg">
+            <color-control-bar
+              mode="alpha"
+              v-model:color="computedColor"
+              v-model:alpha="alpha"
+              :base-color="baseColor"
+              :popup-visible="popupVisible"
+              :disabled="disabled"
+              ref="alphaBarRef"
+            />
+          </div>
         </div>
         <color-preview :color="computedColor" />
       </div>
@@ -66,7 +72,6 @@ import { ProvideType } from '@/components/ColorPicker/type';
 import ColorPalette from './component/ColorPalette.vue';
 import ColorInput from './component/ColorInput.vue';
 import ColorList from './component/ColorList.vue';
-import AlphaControlBar from './component/AlphaControlBar.vue';
 import ColorControlBar from './component/ColorControlBar.vue';
 import ColorPreview from './component/ColorPreview.vue';
 const {
@@ -96,7 +101,8 @@ const {
 });
 // 组件实例
 const colorBarRef = ref<InstanceType<typeof ColorControlBar>>();
-const alphaBarRef = ref<InstanceType<typeof AlphaControlBar>>();
+const alphaBarRef = ref<InstanceType<typeof ColorControlBar>>();
+const paletteRef = ref<InstanceType<typeof ColorPalette>>();
 // 处理color点击
 const handleColorClick = (color: string) => {
   if (disabled.value) return;
@@ -104,6 +110,7 @@ const handleColorClick = (color: string) => {
   baseColor.value = color;
   colorBarRef.value?.setPosition(color);
   alphaBarRef.value?.setPosition(color);
+  paletteRef.value?.setPosition(color);
 };
 // 处理改变
 const handleChange = (color: string, type: 'color' | 'alpha') => {
@@ -111,6 +118,7 @@ const handleChange = (color: string, type: 'color' | 'alpha') => {
     alphaBarRef.value?.setPosition(color);
   } else {
     colorBarRef.value?.setPosition(color);
+    paletteRef.value?.setPosition(color);
   }
 };
 </script>

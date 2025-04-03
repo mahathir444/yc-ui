@@ -95,7 +95,6 @@ const props = withDefaults(defineProps<TriggerProps>(), {
   preventFocus: false,
   alignPoint: false,
   needTransformOrigin: false,
-  isDropdown: false,
   autoSetPosition: false,
 });
 const emits = defineEmits<{

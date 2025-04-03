@@ -76,9 +76,9 @@
 
 <script lang="ts" setup>
 import { ref, toRefs } from 'vue';
+import { parseColor } from '@shared/utils/color';
 import { ColorFormat } from '@/components/ColorPicker/type';
 import { FORMAT_OPTIONS } from '@/components/ColorPicker/constants';
-import tinycolor from 'tinycolor2';
 import YcInputNumber from '@/components/InputNumber';
 const props = defineProps<{
   color: string;
@@ -97,16 +97,16 @@ const emits = defineEmits<{
 }>();
 const { color, alpha: _alpha } = toRefs(props);
 // hex
-const hex = ref<string>(tinycolor(color.value).toHex());
+const hex = ref<string>(parseColor(color.value).toHex());
 // rgb对象
-const rgb = ref<Record<string, any>>(tinycolor(color.value).toRgb());
+const rgb = ref<Record<string, any>>(parseColor(color.value).toRgb());
 // alpha
 const alpha = ref<number>(_alpha.value);
 // 处理设置
 const handleSet = (type: 'hex' | 'rgb' | 'alpha') => {
   if (type == 'hex') {
-    const a = tinycolor(color.value).getAlpha();
-    const resultColor = tinycolor(hex.value).setAlpha(a).toHex8();
+    const a = parseColor(color.value).getAlpha();
+    const resultColor = parseColor(hex.value).setAlpha(a).toHex8();
     emits('update:color', resultColor);
     emits('update:baseColor', resultColor);
     emits('change', resultColor, 'color');
@@ -118,7 +118,7 @@ const handleSet = (type: 'hex' | 'rgb' | 'alpha') => {
     emits('change', resultColor, 'color');
   } else {
     const a = +(alpha.value / 100).toFixed(2);
-    const resultColor = tinycolor(color.value).setAlpha(a).toRgbString();
+    const resultColor = parseColor(color.value).setAlpha(a).toRgbString();
     emits('update:color', resultColor);
     emits('update:alpha', alpha.value);
     emits('change', resultColor, 'alpha');

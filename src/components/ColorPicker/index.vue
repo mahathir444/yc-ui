@@ -22,9 +22,9 @@
 import { ref, toRefs, provide } from 'vue';
 import { PRESET_COLORS } from './constants';
 import { ColorPickerProps, ProvideType } from './type';
+import { parseColor } from '@shared/utils/color';
 import { COLOR_PICKER_PROVIDE_KEY } from '@shared/constants';
 import useControlValue from '@shared/hooks/useControlValue';
-import tinycolor from 'tinycolor2';
 import ColorPanel from './component/ColorPanel/index.vue';
 import ColorTrigger from './component/ColorTrigger.vue';
 import YcTrigger from '@/components/Trigger';
@@ -78,7 +78,7 @@ const computedColor = useControlValue<string>(
     emits('change', val);
   },
   (val) => {
-    const color = tinycolor(val);
+    const color = parseColor(val);
     const a = color.getAlpha();
     if (a != alpha.value) {
       alpha.value = a * 100;
