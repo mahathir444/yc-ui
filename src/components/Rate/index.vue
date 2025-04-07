@@ -2,7 +2,6 @@
   <div
     :class="{
       'yc-rate': true,
-      'yc-rate-hoverable': !readonly && !disabled,
       'yc-rate-disabled': disabled,
     }"
   >

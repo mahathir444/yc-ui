@@ -8,6 +8,17 @@
   display: inline-flex;
   align-items: center;
   gap: 8px;
+  &:not(.yc-radio-disabled) {
+    &:hover .yc-icon-button {
+      &::before {
+        background-color: rgba(242, 243, 245);
+      }
+      .yc-radio-icon {
+        transition: border-color 0.1s cubic-bezier(0, 0, 1, 1);
+        border-color: rgb(201, 205, 212);
+      }
+    }
+  }
 
   .yc-radio-icon,
   .yc-radio-label {
@@ -65,6 +76,20 @@
     height: 14px;
     transition: all 0.1s cubic-bezier(0, 0, 1, 1);
   }
+  &:not(.yc-radio-disabled) {
+    &:hover {
+      background-color: #fff;
+      color: rgb(29, 33, 41);
+    }
+    &:hover::before {
+      opacity: 0;
+    }
+    &:hover + .yc-radio-button {
+      &::before {
+        opacity: 0;
+      }
+    }
+  }
   .yc-radio-button-content {
     display: block;
     padding: 0 12px;
@@ -81,34 +106,7 @@
     visibility: hidden;
   }
 }
-// hoverable
-.yc-radio-hoverable {
-  &.yc-radio {
-    &:hover .yc-icon-button {
-      &::before {
-        background-color: rgba(242, 243, 245);
-      }
-      .yc-radio-icon {
-        transition: border-color 0.1s cubic-bezier(0, 0, 1, 1);
-        border-color: rgb(201, 205, 212);
-      }
-    }
-  }
-  &.yc-radio-button {
-    &:hover {
-      background-color: #fff;
-      color: rgb(29, 33, 41);
-    }
-    &:hover::before {
-      opacity: 0;
-    }
-    &:hover + .yc-radio-button {
-      &::before {
-        opacity: 0;
-      }
-    }
-  }
-}
+
 // checked
 .yc-radio-checked {
   &.yc-radio {

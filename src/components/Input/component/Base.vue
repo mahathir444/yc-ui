@@ -89,7 +89,7 @@
 
 <script lang="ts" setup>
 import { ref, toRefs, computed, inject, watch } from 'vue';
-import { InputEvent, InputEventType, InputProps } from '../type';
+import { InputEvent, InputEventType, InputProps, InputEmits } from '../type';
 import { Size, RequiredDeep, Fn } from '@shared/type';
 import { SIZE_CLASS } from '../constants';
 import useControlValue from '@shared/hooks/useControlValue';
@@ -98,7 +98,7 @@ import { IconSearch, IconEyeOpen, IconEyeClose } from '@shared/icons';
 import YcPreventFocus from '@shared/components/PreventFocus';
 import YcIconButton from '@shared/components/IconButton';
 const props = inject('props', {}) as RequiredDeep<InputProps>;
-const emits = inject('emits', () => {}) as Fn;
+const emits = inject('emits', () => {}) as InputEmits;
 const {
   visibility,
   defaultVisibility,

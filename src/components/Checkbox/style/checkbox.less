@@ -7,6 +7,15 @@
   display: inline-flex;
   align-items: center;
   gap: 8px;
+  &:hover:not(.yc-checkbox-disabled) .yc-icon-button {
+    &::before {
+      background-color: rgba(242, 243, 245);
+    }
+    .yc-checkbox-icon {
+      transition: border-color 0.1s cubic-bezier(0, 0, 1, 1);
+      border-color: rgb(201, 205, 212);
+    }
+  }
 
   .yc-checkbox-target {
     position: absolute;
@@ -49,18 +58,7 @@
     color: rgb(29, 33, 41);
   }
 }
-// hoverable
-.yc-checkbox-hoverable {
-  &:hover .yc-icon-button {
-    &::before {
-      background-color: rgba(242, 243, 245);
-    }
-    .yc-checkbox-icon {
-      transition: border-color 0.1s cubic-bezier(0, 0, 1, 1);
-      border-color: rgb(201, 205, 212);
-    }
-  }
-}
+
 // 全选和半选
 .yc-checkbox-checked,
 .yc-checkbox-indeterminate {

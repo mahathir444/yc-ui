@@ -93,7 +93,7 @@ const computedColor = useControlValue<string>(
 // 基础颜色
 const baseColor = ref<string>(computedColor.value);
 // visible
-const popupVisible = ref<boolean>(true);
+const popupVisible = ref<boolean>(false);
 // 提供属性
 provide<ProvideType>(COLOR_PICKER_PROVIDE_KEY, {
   computedColor,

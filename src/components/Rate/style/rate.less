@@ -6,6 +6,17 @@
   display: inline-flex;
   align-items: center;
   gap: 8px;
+  &:not(.yc-rate-disabled) {
+    .yc-rate-character {
+      cursor: pointer;
+      &:hover {
+        transform: scale(1.2);
+      }
+    }
+    .yc-rate-character-scale {
+      transform: scale(1.2);
+    }
+  }
   .yc-rate-character {
     position: relative;
     color: rgb(229, 230, 235);
@@ -20,18 +31,7 @@
     }
   }
 }
-// hoverable
-.yc-rate-hoverable {
-  .yc-rate-character {
-    cursor: pointer;
-    &:hover {
-      transform: scale(1.2);
-    }
-  }
-  .yc-rate-character-scale {
-    transform: scale(1.2);
-  }
-}
+
 // disabled
 .yc-rate-disabled {
   cursor: not-allowed;

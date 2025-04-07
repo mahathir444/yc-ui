@@ -4,7 +4,6 @@
     :prevent-focus="preventFocus"
     :class="{
       'yc-checkbox': true,
-      'yc-checkbox-hoverable': !computedChecked && !disabled,
       'yc-checkbox-disabled': disabled,
       'yc-checkbox-checked': computedChecked && !indeterminate,
       'yc-checkbox-indeterminate': indeterminate && !computedChecked,

@@ -5,7 +5,6 @@
     :class="[
       SIZE_CLASS[size],
       type == 'radio' ? 'yc-radio' : 'yc-radio-button',
-      !computedChecked && !disabled ? 'yc-radio-hoverable' : '',
       disabled ? 'yc-radio-disabled' : '',
       computedChecked ? 'yc-radio-checked' : '',
     ]"
