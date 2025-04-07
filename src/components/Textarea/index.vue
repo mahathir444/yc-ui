@@ -106,7 +106,7 @@ const {
   showWordLimit,
   showClearBtn,
   curLength,
-  handleLimitedInput,
+  handleInput,
   handleComposition,
 } = useLimitedInput({
   props,
@@ -123,7 +123,7 @@ const handleEvent = async (type: TextareaEventType, e: TextareaEvent) => {
   }
   // 输入
   else if (type == 'input') {
-    handleLimitedInput(e);
+    handleInput(e);
   }
   // 清除
   else if (type == 'clear') {

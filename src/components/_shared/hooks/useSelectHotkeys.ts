@@ -1,5 +1,5 @@
 import { ComputedRef, ref, Ref, WritableComputedRef } from 'vue';
-import { useMagicKeys, whenever } from '@vueuse/core';
+import { onKeyStroke } from '@vueuse/core';
 import { SelectOptionData, SelectValue } from '@/components/Select';
 import { Fn, ObjectData } from '../type';
 
@@ -29,39 +29,37 @@ export default (params: {
       curIndex,
     };
   }
-  const keys = useMagicKeys();
-  whenever(keys.arrowup, () => {
+  onKeyStroke(['ArrowUp', 'ArrowDown', 'Enter'], (e) => {
     if (!computedVisible.value || !options.value.length) return;
-    curIndex.value--;
-    curIndex.value =
-      curIndex.value < 0 ? options.value.length - 1 : curIndex.value;
-  });
-  whenever(keys.arrowdown, () => {
-    if (!computedVisible.value || !options.value.length) return;
-    curIndex.value++;
-    curIndex.value =
-      curIndex.value >= options.value.length ? 0 : curIndex.value;
-  });
-  whenever(keys.enter, () => {
-    if (!computedVisible.value || !options.value.length || curIndex.value < 0)
-      return;
-    const value = options.value[curIndex.value].value;
-    if (multiple.value) {
-      const curValue = computedValue.value as ObjectData[];
-      const index = curValue.findIndex((item) => item == value);
-      if (index == -1) {
-        if (limit.value > 0 && curValue.length == limit.value) {
-          return emits('exceedLimit', value);
-        }
-        computedValue.value = [...curValue, value];
-      } else {
-        computedValue.value = curValue.filter((item) => item != value);
-      }
+    const { key } = e;
+    e.preventDefault();
+    if (key == 'ArrowUp') {
+      curIndex.value--;
+      curIndex.value =
+        curIndex.value < 0 ? options.value.length - 1 : curIndex.value;
+    } else if (key == 'ArrowDown') {
+      curIndex.value++;
+      curIndex.value =
+        curIndex.value >= options.value.length ? 0 : curIndex.value;
     } else {
-      computedValue.value = value;
-      blur();
+      const value = options.value[curIndex.value].value;
+      if (multiple.value) {
+        const curValue = computedValue.value as ObjectData[];
+        const index = curValue.findIndex((item) => item == value);
+        if (index == -1) {
+          if (limit.value > 0 && curValue.length == limit.value) {
+            return emits('exceedLimit', value);
+          }
+          computedValue.value = [...curValue, value];
+        } else {
+          computedValue.value = curValue.filter((item) => item != value);
+        }
+      } else {
+        computedValue.value = value;
+        blur();
+      }
+      emits('select', value);
     }
-    emits('select', value);
   });
   return {
     curIndex,

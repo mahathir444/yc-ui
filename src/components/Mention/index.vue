@@ -17,7 +17,7 @@
     ref="autoCompleteRef"
     v-bind="$attrs"
     @input="(v, ev) => handleEvent('input', ev, v)"
-    @select="(v) => handleEvent('blur', null, v)"
+    @select="(v) => handleEvent('select', null, v)"
     @focus="(ev) => handleEvent('focus', ev)"
     @blur="(ev) => handleEvent('blur', ev)"
   >
@@ -42,7 +42,7 @@ const props = withDefaults(defineProps<MentionProps>(), {
   defaultValue: '',
   data: () => [],
   prefix: '@',
-  split: '',
+  split: '--',
   type: 'textarea',
   disabled: false,
   allowClear: false,
@@ -108,6 +108,7 @@ const getCursorPostion = (cursor: number) => {
     y: bottom,
   };
 };
+
 // 处理事件
 const handleEvent = async (
   type: 'input' | 'select' | 'clear' | 'focus' | 'blur',
@@ -130,24 +131,24 @@ const handleEvent = async (
   // 选中
   else if (type == 'select') {
     popupVisible.value = false;
-    if (!split.value) {
-      computedValue.value += value as string;
-      return;
-    }
-    const needSplit = prefixTexts.value.some((prefixText) =>
-      computedValue.value.includes(prefixText)
-    );
-    // 当前的分隔符
-    const curSplit = needSplit ? split.value : '';
-    // 之前的值
-    const preValue = computedValue.value.slice(
-      0,
-      computedValue.value.length - 1
-    );
-    // 现在的值
-    const curValue =
-      computedValue.value.slice(computedValue.value.length - 1) + value;
-    computedValue.value = preValue + curSplit + curValue;
+    computedValue.value += value as string;
+    // if (!split.value) {
+    //   computedValue.value += value as string;
+    //   return;
+    // }
+    // const needSplit = prefixTexts.value.some((prefixText) =>
+    //   computedValue.value.includes(prefixText)
+    // );
+    // recordCursor();
+    // const cursor = getCursor() ?? computedValue.value.length - 1;
+    // // 当前的分隔符
+    // const curSplit = needSplit ? split.value : '';
+    // // 之前的值
+    // const preValue = computedValue.value.slice(0, cursor);
+    // // 现在的值
+    // const prefixCh = computedValue.value.slice(cursor, cursor + 1);
+    // const curValue = computedValue.value.slice(cursor + 1);
+    // computedValue.value = preValue + curSplit + prefixCh + value + curValue;
   }
   // 聚焦
   else if (type == 'focus') {

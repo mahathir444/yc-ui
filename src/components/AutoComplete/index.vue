@@ -12,35 +12,35 @@
   >
     <template #trigger>
       <slot name="trigger">
-        <yc-input
-          v-if="type == 'input'"
-          v-model="computedValue"
-          :disabled="disabled"
-          :allow-clear="allowClear"
-          class="yc-auto-complete"
-          ref="inputRef"
-          v-bind="$attrs"
-          @change="(v) => $emit('change', v)"
-          @input="(v, ev) => handleEvent('input', ev, v)"
-          @clear="(ev) => handleEvent('clear', ev)"
-          @focus="(ev) => handleEvent('focus', ev)"
-          @blur="(ev) => handleEvent('blur', ev)"
-        />
-        <yc-textarea
-          v-else
-          v-model="computedValue"
-          :disabled="disabled"
-          :allow-clear="allowClear"
-          enter-prevent
-          show-mirror
-          class="yc-auto-complete"
-          ref="inputRef"
-          v-bind="$attrs"
-          @input="(v, ev) => handleEvent('input', ev, v)"
-          @focus="(ev) => handleEvent('focus', ev)"
-          @blur="(ev) => handleEvent('blur', ev)"
-        >
-        </yc-textarea>
+        <div class="yc-auto-complete">
+          <yc-input
+            v-if="type == 'input'"
+            v-model="computedValue"
+            :disabled="disabled"
+            :allow-clear="allowClear"
+            ref="inputRef"
+            v-bind="$attrs"
+            @change="(v) => $emit('change', v)"
+            @input="(v, ev) => handleEvent('input', ev, v)"
+            @clear="(ev) => handleEvent('clear', ev)"
+            @focus="(ev) => handleEvent('focus', ev)"
+            @blur="(ev) => handleEvent('blur', ev)"
+          />
+          <yc-textarea
+            v-else
+            v-model="computedValue"
+            :disabled="disabled"
+            :allow-clear="allowClear"
+            enter-prevent
+            show-mirror
+            ref="inputRef"
+            v-bind="$attrs"
+            @input="(v, ev) => handleEvent('input', ev, v)"
+            @focus="(ev) => handleEvent('focus', ev)"
+            @blur="(ev) => handleEvent('blur', ev)"
+          >
+          </yc-textarea>
+        </div>
       </slot>
     </template>
     <template v-if="$slots.prefix" #prefix>
@@ -191,3 +191,7 @@ defineExpose({
   },
 });
 </script>
+
+<style>
+@import './style/auto-complete.less';
+</style>

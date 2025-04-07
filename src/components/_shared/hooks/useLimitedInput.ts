@@ -99,7 +99,7 @@ export default (params: {
     }
   };
   // 处理限制输入
-  const handleLimitedInput = async (e: Event) => {
+  const handleInput = async (e: Event) => {
     const { value } = e.target as HTMLInputElement;
     const { inputType } = e as InputEvent;
     // 中文合成退出
@@ -127,7 +127,7 @@ export default (params: {
     curLength,
     disabled,
     maxLength,
-    handleLimitedInput,
+    handleInput,
     handleComposition,
   };
 };

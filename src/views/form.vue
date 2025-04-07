@@ -32,7 +32,7 @@
     </div>
     <div style="width: 300px">
       auto-complete
-      <!-- <yc-auto-complete /> -->
+      <yc-auto-complete />
     </div>
     <div style="width: 300px">
       input
@@ -111,6 +111,7 @@
 
 <script lang="ts" setup>
 import { ref, watch, watchEffect } from 'vue';
+import YcAutoComplete from '@/components/AutoComplete';
 const value = ref([]);
 const value1 = ref([]);
 const options = ref<any[]>([]);

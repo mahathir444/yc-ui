@@ -100,7 +100,6 @@ import { RequiredDeep } from '@shared/type';
 import { SIZE_CLASS } from '../constants';
 import useControlValue from '@shared/hooks/useControlValue';
 import useLimitedInput from '@shared/hooks/useLimitedInput';
-
 import { IconSearch, IconEyeOpen, IconEyeClose } from '@shared/icons';
 import YcPreventFocus from '@shared/components/PreventFocus';
 import YcIconButton from '@shared/components/IconButton';
@@ -143,7 +142,7 @@ const {
   showWordLimit,
   showClearBtn,
   curLength,
-  handleLimitedInput,
+  handleInput,
   handleComposition,
 } = useLimitedInput({
   props,
@@ -158,7 +157,7 @@ const handleEvent = async (type: InputEventType, e: InputEvent) => {
   }
   // input
   else if (type == 'input') {
-    handleLimitedInput(e);
+    handleInput(e);
   }
   // clear
   else if (type == 'clear') {
