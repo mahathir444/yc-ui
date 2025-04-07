@@ -1,7 +1,7 @@
 <template>
   <!-- yc-input-outer -->
-  <!-- v-if="$slots.append || $slots.prepend" -->
   <div
+    v-if="$slots.append || $slots.prepend"
     :class="{
       'yc-input-outer': true,
       'yc-input-outer-disabled': disabled,
@@ -16,7 +16,7 @@
     </yc-prevent-focus>
     <!-- input-wrraper -->
     <base-input>
-      <template v-if="$slots.label" #label>
+      <template v-if="$slots.label && !showInput" #label>
         <slot name="label" />
       </template>
       <template v-if="$slots.prefix" #label>
@@ -47,8 +47,8 @@
     </yc-prevent-focus>
   </div>
   <!-- yc-input-wrapper"  -->
-  <!-- <base-input>
-    <template v-if="$slots.label" #label>
+  <base-input v-else>
+    <template v-if="$slots.label && !showInput" #label>
       <slot name="label" />
     </template>
     <template v-if="$slots.prefix" #label>
@@ -57,13 +57,13 @@
     <template v-if="$slots.suffix" #label>
       <slot name="suffix" />
     </template>
-  </base-input> -->
+  </base-input>
 </template>
 
 <script lang="ts" setup>
 import { ref, provide } from 'vue';
 import { InputProps } from './type';
-import BaseInput from './Base.vue';
+import BaseInput from './index.vue';
 import YcPreventFocus from '@shared/components/PreventFocus';
 defineOptions({
   name: 'Input',

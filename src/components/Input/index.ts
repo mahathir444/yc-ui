@@ -1,5 +1,5 @@
 import { App } from 'vue';
-import _Input from './Input.vue';
+import _Input from './index.vue';
 import { getComponentPrefix } from '@shared/utils/global-config';
 
 export type InputInstance = InstanceType<typeof _Input>;

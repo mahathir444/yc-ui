@@ -90,8 +90,6 @@ const { size, disabled, type, status, shape } = inject<ProvideType>(
 const btnClass = computed(() => {
   return [
     'yc-button',
-    // button是否hoverable
-    !disabled.value && !loading.value ? 'yc-button-hoverable' : '',
     // long
     long.value ? 'yc-button-long' : '',
     // loading

@@ -88,35 +88,70 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, inject, Ref, computed, toRefs } from 'vue';
+import { ref, toRefs, computed } from 'vue';
 import { InputEvent, InputEventType, InputProps } from './type';
-import { Fn, Size, RequiredDeep } from '@shared/type';
+import { Size } from '@shared/type';
 import { SIZE_CLASS } from './constants';
 import useControlValue from '@shared/hooks/useControlValue';
 import useLimitedInput from '@shared/hooks/useLimitedInput';
 import { IconSearch, IconEyeOpen, IconEyeClose } from '@shared/icons';
 import YcPreventFocus from '@shared/components/PreventFocus';
 import YcIconButton from '@shared/components/IconButton';
-const props = inject('props') as RequiredDeep<InputProps>;
-// 获取父级定义的emits
-const emits = inject<Fn>('emits', () => {});
-// 解构属性
-const {
-  visibility,
-  defaultVisibility,
-  error,
-  size,
-  showInput,
-  maxLength,
-  disabled,
-  placeholder,
-  readonly,
-  inputAttrs,
-  isPassword,
-  isSearch,
-  invisibleButton,
-  searchButton,
-} = toRefs(props);
+defineOptions({
+  name: 'Input',
+});
+const props = withDefaults(defineProps<InputProps>(), {
+  modelValue: undefined,
+  defaultValue: '',
+  size: 'medium',
+  allowClear: false,
+  disabled: false,
+  readonly: false,
+  error: false,
+  maxLength: undefined,
+  showWordLimit: false,
+  placeholder: '',
+  inputAttrs: () => {
+    return {};
+  },
+  prepend: '',
+  append: '',
+  wordLength: (value: string) => {
+    return value.length;
+  },
+  wordSlice: (value: string, maxLength: number) => {
+    return value.slice(0, maxLength);
+  },
+  // password
+  isPassword: false,
+  visibility: undefined,
+  defaultVisibility: false,
+  invisibleButton: true,
+  // search
+  isSearch: false,
+  searchButton: false,
+  loading: false,
+  buttonText: '',
+  buttonProps: () => {
+    return {};
+  },
+  // select
+  showInput: false,
+});
+const emits = defineEmits<{
+  (e: 'update:modelValue', value: string): void;
+  (e: 'update:visibility', value: boolean): void;
+  (e: 'input', value: string, ev: Event): void;
+  (e: 'change', value: string, ev: Event): void;
+  (e: 'pressEnter', ev: KeyboardEvent): void;
+  (e: 'keydown', ev: KeyboardEvent): void;
+  (e: 'clear', ev: MouseEvent): void;
+  (e: 'focus', ev: FocusEvent): void;
+  (e: 'blur', ev: FocusEvent): void;
+  (e: 'visibilityChange', value: boolean): void;
+  (e: 'search', value: string): void;
+}>();
+const { visibility, defaultVisibility } = toRefs(props);
 // 输入实例
 const inputRef = ref<HTMLInputElement>();
 // 非受控的vis
@@ -171,6 +206,7 @@ const handleEvent = async (type: InputEventType, e: InputEvent) => {
     emits('keydown', ev);
   }
 };
+// 暴露方法
 defineExpose({
   focus() {
     inputRef.value?.focus();

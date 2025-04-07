@@ -13,9 +13,23 @@
   font-weight: 400;
   display: inline-flex;
   align-items: center;
-
-  &:hover .yc-input-tag-clear-button {
+  &:hover:not(.yc-input-tag-disabled) .yc-input-tag-clear-button {
     visibility: visible;
+  }
+  &:hover:not(.yc-input-tag-disabled) {
+    border-color: transparent;
+    background-color: rgb(229, 230, 235);
+  }
+  &:focus-within:not(.yc-input-tag-disabled) {
+    background-color: #fff;
+    border-color: rgb(22, 93, 255);
+    box-shadow: 0 0 0 0 rgb(190, 218, 255);
+    &:deep(.yc-input-tag-inner) {
+      .yc-tag {
+        border-color: rgb(242, 243, 245) !important;
+        background-color: rgb(242, 243, 245) !important;
+      }
+    }
   }
   .yc-input-tag-prefix,
   .yc-input-tag-suffix {
@@ -75,24 +89,20 @@
     }
   }
 }
-
-// hoverable
-.yc-input-tag-hoverable {
-  &:hover {
+// error
+.yc-input-tag-error {
+  background-color: rgb(255, 236, 232);
+  &:hover:not(.yc-input-tag-disabled) {
     border-color: transparent;
-    background-color: rgb(229, 230, 235);
+    background-color: rgb(253, 205, 197);
   }
-  &:hover .yc-input-clear-button {
-    visibility: visible;
-  }
-  &.yc-input-error {
-    &:hover {
-      border-color: transparent;
-      background-color: rgb(253, 205, 197);
-    }
+  &:focus-within:not(.yc-input-tag-disabled) {
+    background-color: #fff;
+    border-color: rgb(245, 63, 63);
+    box-shadow: 0 0 0 0 rgb(253, 205, 197);
   }
 }
-// error focus no-value has suffix
+//no-value has suffix
 .yc-input-tag {
   // novalue
   &.yc-input-tag-no-value {
@@ -102,30 +112,9 @@
   &.yc-input-tag-has-suffix {
     padding-right: 12px;
   }
-  // focus
-  &.yc-input-tag-focus {
-    background-color: #fff;
-    border-color: rgb(22, 93, 255);
-    box-shadow: 0 0 0 0 rgb(190, 218, 255);
-    .yc-input-tag-inner {
-      .yc-tag {
-        border-color: rgb(242, 243, 245) !important;
-        background-color: rgb(242, 243, 245) !important;
-      }
-    }
-  }
-  // error
-  &.yc-input-tag-error {
-    background-color: rgb(255, 236, 232);
-    &.yc-input-tag-focus {
-      border-color: rgb(245, 63, 63);
-      box-shadow: 0 0 0 0 rgb(253, 205, 197);
-    }
-  }
 }
 // disabled
 .yc-input-tag-disabled {
-  cursor: not-allowed;
   cursor: not-allowed;
   border-color: transparent;
   background-color: rgb(242, 243, 245);
@@ -137,6 +126,7 @@
 }
 //size
 .yc-input-tag-size-mini {
+  min-height: 24px;
   font-size: 12px;
   padding: 0 4px;
   .yc-input-tag-inner {
@@ -150,8 +140,15 @@
   .yc-input-tag-inner {
     padding: 2px 0;
   }
+  &.yc-input-tag-size-small {
+    min-height: 28px;
+  }
+  &.yc-input-tag-size-medium {
+    min-height: 32px;
+  }
 }
 .yc-input-tag-size-large {
+  min-height: 36px;
   font-size: 14px;
   padding: 0 6px;
   .yc-input-tag-inner {

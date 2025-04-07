@@ -3,15 +3,11 @@
     :class="[
       'yc-input-tag',
       !computedValue.length ? 'yc-input-tag-no-value' : '',
-      disabled ? 'yc-input-tag-disabled' : 'yc-input-tag-hoverable',
+      disabled ? 'yc-input-tag-disabled' : '',
       error ? 'yc-input-tag-error' : '',
-      isFocus ? 'yc-input-tag-focus' : '',
       $slots.suffix || showClearBtn ? 'yc-input-tag-has-suffix' : '',
       SIZE_CLASS[size],
     ]"
-    :style="{
-      minHeight: `${SIZE_MAP[size]}px`,
-    }"
     @click="inputRef?.focus()"
   >
     <!-- prefix-icon -->
@@ -71,7 +67,7 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, computed, toRefs, provide } from 'vue';
+import { ref, computed, toRefs } from 'vue';
 import { SIZE_CLASS } from './constants';
 import {
   InputTagProps,
@@ -82,7 +78,6 @@ import {
   InputTagEventType,
 } from './type';
 import { ObjectData } from '@shared/type';
-import { SIZE_MAP } from '@shared/constants';
 import { isBoolean, isObject } from '@shared/utils/is';
 import { nanoid } from 'nanoid';
 import { useElementSize } from '@vueuse/core';

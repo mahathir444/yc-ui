@@ -8,6 +8,7 @@
           <icon-align-center />
         </template>
       </yc-input>
+      <yc-button loading> 测试 </yc-button>
     </div>
   </div>
 </template>

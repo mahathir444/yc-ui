@@ -4,8 +4,6 @@
       'yc-textarea-wrapper': true,
       'yc-textarea-disabled': disabled,
       'yc-textarea-error': error,
-      'yc-textarea-focus': isFocus,
-      'yc-textarea-hoverable': !disabled,
       'yc-textarea-auto-size': autoSize,
     }"
   >
@@ -102,8 +100,6 @@ const { autoSize } = toRefs(props);
 const inputRef = ref<HTMLTextAreaElement>();
 // div的ref
 const mirrorRef = ref<HTMLDivElement>();
-// 是否聚焦
-const isFocus = ref<boolean>(false);
 // 限制输入hooks
 const {
   computedValue,
@@ -123,7 +119,6 @@ const { style } = useTextareaHeight(mirrorRef, autoSize.value as ResizeRange);
 const handleEvent = async (type: TextareaEventType, e: TextareaEvent) => {
   // 聚焦
   if (['focus', 'blur', 'change'].includes(type)) {
-    isFocus.value = type == 'focus';
     emits(type as any, e as FocusEvent);
   }
   // 输入
