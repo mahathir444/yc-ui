@@ -15,14 +15,14 @@
       <slot name="prepend" />
     </yc-prevent-focus>
     <!-- input-wrraper -->
-    <base-input v-bind="props" v-else>
+    <base-input v-else ref="inputRef">
       <template v-if="$slots.label" #label>
         <slot name="label" />
       </template>
       <template v-if="$slots.prefix" #prefix>
         <slot name="prefix" />
       </template>
-      <template v-if="$slots.suffix" #suffix?>
+      <template v-if="$slots.suffix" #suffix>
         <slot name="suffix" />
       </template>
     </base-input>
@@ -47,14 +47,14 @@
     </yc-prevent-focus>
   </div>
   <!-- yc-input-wrapper"  -->
-  <base-input v-bind="props" v-else>
+  <base-input v-else ref="inputRef">
     <template v-if="$slots.label" #label>
       <slot name="label" />
     </template>
     <template v-if="$slots.prefix" #prefix>
       <slot name="prefix" />
     </template>
-    <template v-if="$slots.suffix" #suffix?>
+    <template v-if="$slots.suffix" #suffix>
       <slot name="suffix" />
     </template>
   </base-input>
@@ -82,8 +82,6 @@ const props = withDefaults(defineProps<InputProps>(), {
   inputAttrs: () => {
     return {};
   },
-  prepend: '',
-  append: '',
   wordLength: (value: string) => {
     return value.length;
   },

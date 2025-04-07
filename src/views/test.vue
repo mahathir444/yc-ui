@@ -1,14 +1,31 @@
 <template>
   <div class="test">
     <div style="width: 300px">
-      <yc-color-picker show-text show-preset size="large" />
+      <!-- <yc-color-picker show-text show-preset size="large" /> -->
       <yc-input allow-clear v-model="value" :max-length="100" show-word-limit>
         <!-- <template #prepend> rmb </template> -->
         <template #suffix>
           <icon-align-center />
         </template>
       </yc-input>
-      <yc-button loading> 测试 </yc-button>
+      <yc-button disabled> 测试 </yc-button>
+    </div>
+    <div style="width: 300px">
+      select
+      <yc-select
+        allow-clear
+        allow-search
+        placeholder="请选择"
+        :max-tag-count="3"
+        :options="[
+          {
+            label: '分组1',
+            isGroup: true,
+            options,
+          },
+        ]"
+      >
+      </yc-select>
     </div>
   </div>
 </template>

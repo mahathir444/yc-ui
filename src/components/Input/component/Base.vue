@@ -88,7 +88,7 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, toRefs, computed, inject } from 'vue';
+import { ref, toRefs, computed, inject, watch } from 'vue';
 import { InputEvent, InputEventType, InputProps } from '../type';
 import { Size, RequiredDeep, Fn } from '@shared/type';
 import { SIZE_CLASS } from '../constants';

@@ -15,8 +15,6 @@ export interface InputProps {
   wordSlice?: WordSlice;
   showWordLimit?: boolean;
   inputAttrs?: ObjectData;
-  append?: string;
-  prepend?: string;
   // password使用
   isPassword?: boolean;
   visibility?: boolean;
