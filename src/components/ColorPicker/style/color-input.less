@@ -4,7 +4,7 @@
   gap: 20px;
   .yc-color-picker-format {
     &:deep(.yc-select) {
-      .yc-input-outer {
+      .yc-input-wrapper {
         width: 58px;
         .yc-input-wrapper {
           padding: 0 6px;
@@ -24,26 +24,22 @@
     overflow: hidden;
     display: flex;
     align-items: center;
-    &:deep(.yc-input-outer) {
+    &:deep(.yc-input-wrapper) {
       &:first-child {
-        .yc-input-wrapper {
-          border-top-left-radius: 2px;
-          border-bottom-left-radius: 2px;
-        }
+        border-top-left-radius: 2px;
+        border-bottom-left-radius: 2px;
       }
       &:last-child {
-        .yc-input-wrapper {
-          border-top-right-radius: 2px;
-          border-bottom-right-radius: 2px;
-          border-right-color: transparent;
-        }
+        border-top-right-radius: 2px;
+        border-bottom-right-radius: 2px;
+        border-right-color: transparent;
       }
-      &.yc-input-focus {
-        .yc-input-wrapper {
-          border-radius: 2px;
-          border-right-color: #165dff;
-        }
-      }
+      // &.yc-input-focus {
+      //   .yc-input-wrapper {
+      //     border-radius: 2px;
+      //     border-right-color: #165dff;
+      //   }
+      // }
       &.yc-input-number {
         .yc-input-wrapper {
           .yc-input {

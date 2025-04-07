@@ -16,17 +16,21 @@ export interface InputProps {
   inputAttrs?: ObjectData;
   append?: string;
   prepend?: string;
-  // input-password使用
-  type?: 'password' | 'text';
+  type?: 'password' | 'search' | 'text';
+  // password使用
+  visibility?: boolean;
+  defaultVisibility?: boolean;
+  invisibleButton?: boolean;
+  // search使用
+  searchButton?: boolean;
+  loading?: boolean;
+  buttonText?: string;
+  buttonProps?: ButtonProps;
   //select使用
   showInput?: boolean;
 }
 
-export interface InputPasswordProps {
-  visibility?: boolean;
-  defaultVisibility?: boolean;
-  invisibleButton?: boolean;
-}
+export interface InputPasswordProps {}
 
 export interface InputSearchProps {
   searchButton?: boolean;

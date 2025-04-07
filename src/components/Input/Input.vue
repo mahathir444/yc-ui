@@ -1,27 +1,13 @@
 <template>
-  <div
-    :class="[
-      'yc-input-outer',
-      isFocus ? 'yc-input-focus' : '',
-      disabled ? 'yc-input-disabled' : 'yc-input-hoverable',
-      error ? 'yc-input-error' : '',
-      $slots.prepend ? 'yc-input-has-prepend' : '',
-      $slots.append ? 'yc-input-has-append' : '',
-      SIZE_CLASS[size],
-    ]"
-  >
-    <!-- prepend -->
-    <yc-prevent-focus v-if="$slots.prepend || prepend" class="yc-input-prepend">
-      <slot name="prepend">
-        {{ prepend }}
-      </slot>
-    </yc-prevent-focus>
-    <!-- yc-input-wrapper"  -->
+  <!-- yc-input-wrapper"  -->
+  <define-template>
     <div
-      class="yc-input-wrapper"
-      :style="{
-        height: `${SIZE_MAP[size]}px`,
-      }"
+      :class="[
+        'yc-input-wrapper',
+        disabled ? 'yc-input-disabled' : '',
+        error ? 'yc-input-error' : '',
+        SIZE_CLASS[size],
+      ]"
     >
       <!-- prefix-icon -->
       <yc-prevent-focus v-if="$slots.prefix" class="yc-input-prefix">
@@ -51,24 +37,21 @@
       <yc-prevent-focus
         v-if="$slots.label"
         v-show="!showInput"
-        :class="{
-          'yc-input': true,
-          'text-ellipsis': true,
-        }"
+        class="yc-input text-ellipsis"
       >
         <slot name="label" />
       </yc-prevent-focus>
-      <!-- clear-btn -->
-      <yc-icon-button
-        v-if="showClearBtn"
-        class="yc-input-clear-button"
-        @click="handleEvent('clear', $event)"
-      />
       <!-- suffix-icon -->
       <yc-prevent-focus
-        v-if="$slots.suffix || $slots.extra || showWordLimit"
+        v-if="$slots.suffix || $slots.extra || showWordLimit || showClearBtn"
         class="yc-input-suffix"
       >
+        <!-- clear-btn -->
+        <yc-icon-button
+          v-if="showClearBtn"
+          class="yc-input-clear-button"
+          @click="handleEvent('clear', $event)"
+        />
         <!-- word-limit -->
         <yc-prevent-focus
           v-if="showWordLimit"
@@ -79,26 +62,79 @@
           /
           {{ maxLength }}
         </yc-prevent-focus>
-        <!-- extra -->
-        <slot v-if="$slots.extra" name="extra" />
+        <!-- password -->
+        <yc-icon-button
+          v-if="type == 'password' && invisibleButton"
+          size="14px"
+          @click="computedVisibility = !computedVisibility"
+        >
+          <template #icon>
+            <icon-eye-open v-if="computedVisibility" />
+            <icon-eye-close v-else />
+          </template>
+        </yc-icon-button>
+        <!-- search -->
+        <yc-icon-button
+          v-if="type == 'search' && !searchButton"
+          font-size="14px"
+          @click="emits('search', computedValue)"
+        >
+          <template #icon>
+            <icon-search />
+          </template>
+        </yc-icon-button>
         <!-- suffix -->
         <slot name="suffix" />
       </yc-prevent-focus>
     </div>
+  </define-template>
+  <!-- yc-input-outer -->
+  <div
+    v-if="$slots.append || $slots.prepend"
+    :class="{
+      'yc-input-outer': true,
+      'yc-input-outer-disabled': disabled,
+      'yc-input-has-prepend': $slots.prepend,
+      'yc-input-has-append': $slots.append,
+      'yc-input-search-append ': type == 'search' && searchButton,
+    }"
+  >
+    <!-- prepend -->
+    <yc-prevent-focus v-if="$slots.prepend" class="yc-input-prepend">
+      <slot name="prepend" />
+    </yc-prevent-focus>
+    <!-- input-wrraper -->
+    <reuse-template />
     <!-- append -->
-    <yc-prevent-focus v-if="$slots.append || append" class="yc-input-append">
+    <yc-prevent-focus v-if="$slots.append" class="yc-input-append">
       <slot name="append">
-        {{ append }}
+        <yc-button
+          v-if="type == 'search' && searchButton"
+          :loading="loading"
+          type="primary"
+          v-bind="buttonProps"
+          @click="emits('search', computedValue)"
+        >
+          <template #icon>
+            <icon-search />
+          </template>
+          <template v-if="buttonText" #default>
+            {{ buttonText }}
+          </template>
+        </yc-button>
       </slot>
     </yc-prevent-focus>
   </div>
+  <reuse-template v-else />
 </template>
 
 <script lang="ts" setup>
-import { ref } from 'vue';
+import { ref, toRefs } from 'vue';
 import { SIZE_CLASS } from './constants';
 import { InputProps, InputEvent, InputEventType } from './type';
-import { SIZE_MAP } from '@shared/constants';
+import { createReusableTemplate } from '@vueuse/core';
+import { IconSearch, IconEyeOpen, IconEyeClose } from '@shared/icons';
+import useControlValue from '@shared/hooks/useControlValue';
 import useLimitedInput from '@shared/hooks/useLimitedInput';
 import YcPreventFocus from '@shared/components/PreventFocus';
 import YcIconButton from '@shared/components/IconButton';
@@ -128,10 +164,20 @@ const props = withDefaults(defineProps<InputProps>(), {
     return value.slice(0, maxLength);
   },
   type: 'text',
+  visibility: undefined,
+  defaultVisibility: false,
+  invisibleButton: true,
+  searchButton: false,
+  loading: false,
+  buttonText: '',
+  buttonProps: () => {
+    return {};
+  },
   showInput: false,
 });
 const emits = defineEmits<{
   (e: 'update:modelValue', value: string): void;
+  (e: 'update:visibility', value: boolean): void;
   (e: 'input', value: string, ev: Event): void;
   (e: 'change', value: string, ev: Event): void;
   (e: 'pressEnter', ev: KeyboardEvent): void;
@@ -139,11 +185,23 @@ const emits = defineEmits<{
   (e: 'clear', ev: MouseEvent): void;
   (e: 'focus', ev: FocusEvent): void;
   (e: 'blur', ev: FocusEvent): void;
+  (e: 'visibilityChange', value: boolean): void;
+  (e: 'search', value: string): void;
 }>();
+const { visibility, defaultVisibility } = toRefs(props);
+// 定义重用模板
+const [DefineTemplate, ReuseTemplate] = createReusableTemplate();
 // 输入实例
 const inputRef = ref<HTMLInputElement>();
-// 是否聚焦
-const isFocus = ref<boolean>(false);
+// 非受控的vis
+const computedVisibility = useControlValue<boolean>(
+  visibility,
+  defaultVisibility.value,
+  (val) => {
+    emits('update:visibility', val);
+    emits('visibilityChange', val);
+  }
+);
 // 限制输入hooks
 const {
   computedValue,
@@ -161,7 +219,6 @@ const {
 const handleEvent = async (type: InputEventType, e: InputEvent) => {
   // focus,blur,change
   if (['focus', 'blur', 'change'].includes(type)) {
-    isFocus.value = type == 'focus';
     emits(type as any, e as FocusEvent);
   }
   // input

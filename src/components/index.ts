@@ -40,10 +40,8 @@ export type {
   InputPasswordProps,
   InputSearchProps,
   InputInstance,
-  InputSearchInstance,
-  InputPasswordInstance,
 } from './Input';
-export { default as Input, InputSearch, InputPassword } from './Input';
+export { default as Input } from './Input';
 
 export type { LinkProps, LinkStatus, LinkInstance } from './Link';
 export { default as Link } from './Link';

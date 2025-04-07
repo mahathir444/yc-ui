@@ -7,7 +7,7 @@ import Dropdown, {
   Dgroup,
   Dsubmenu,
 } from './Dropdown';
-import Input, { InputSearch, InputPassword } from './Input';
+import Input from './Input';
 import Link from './Link';
 import Message from './Message';
 import Modal from './Modal';
@@ -77,8 +77,6 @@ export default {
   Doption,
   Dgroup,
   Dsubmenu,
-  InputSearch,
-  InputPassword,
   Option,
   Optgroup,
   CheckboxGroup,

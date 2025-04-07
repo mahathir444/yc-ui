@@ -1,14 +1,12 @@
+// yc-input-outer
 .yc-input-outer {
   width: 100%;
   display: inline-flex;
   align-items: center;
 
-  .yc-input-wrapper,
   .yc-input-prepend,
   .yc-input-append,
-  .yc-input-prefix,
-  .yc-input-suffix,
-  .yc-input {
+  .yc-input-wrapper {
     flex-shrink: 0;
     font-size: inherit;
   }
@@ -33,167 +31,167 @@
       border-bottom-right-radius: 2px;
     }
   }
-  .yc-input-wrapper {
-    flex: 1;
-    overflow: hidden;
-    cursor: text;
-    padding: 0 12px;
-    background-color: rgb(242, 243, 245);
-    border: 1px solid transparent;
-    border-radius: 2px;
-    transition:
-      color 0.1s cubic-bezier(0, 0, 1, 1),
-      border-color 0.1s cubic-bezier(0, 0, 1, 1),
-      background-color 0.1s cubic-bezier(0, 0, 1, 1);
-    color: rgb(29, 33, 41);
-    font-size: inherit;
-    font-weight: 400;
-    display: flex;
-    align-items: center;
-    .yc-input {
-      flex: 1;
-      max-width: 100%;
-      overflow: hidden;
-      cursor: inherit;
-      outline: none;
-      border: none;
-      border-radius: 0;
-      background-color: transparent;
-      color: inherit;
-      &::placeholder {
-        color: rgb(134, 144, 156);
-      }
-    }
-
-    .yc-input-prefix,
-    .yc-input-suffix {
-      height: 100%;
-      color: rgb(78, 89, 105);
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      .yc-input-word-limit {
-        color: rgb(134, 144, 156);
-        font-size: 12px;
-      }
-      &.yc-input-prefix {
-        padding-right: 12px;
-      }
-      &.yc-input-suffix {
-        padding-left: 12px;
-      }
-    }
-    .yc-input-clear-button {
-      margin-left: 4px;
-      visibility: hidden;
-    }
-  }
 }
-// slot
 .yc-input-has-prepend {
   .yc-input-wrapper {
     border-top-left-radius: 0;
     border-bottom-left-radius: 0;
+    flex: 1;
+    width: unset;
+    max-width: 100%;
+    overflow: hidden;
   }
 }
 .yc-input-has-append {
   .yc-input-wrapper {
     border-top-right-radius: 0;
     border-bottom-right-radius: 0;
+    flex: 1;
+    width: unset;
+    max-width: 100%;
+    overflow: hidden;
   }
 }
-// hoverable
-.yc-input-hoverable {
-  .yc-input-wrapper {
-    &:hover {
-      border-color: transparent;
-      background-color: rgb(229, 230, 235);
-    }
-    &:hover .yc-input-clear-button {
-      visibility: visible;
-    }
-  }
-  &.yc-input-error {
-    .yc-input-wrapper {
-      &:hover {
-        border-color: transparent;
-        background-color: rgb(253, 205, 197);
-      }
+.yc-input-search-append {
+  &:deep(.yc-input-append) {
+    padding: 0;
+    .yc-button {
+      border-top-left-radius: 0;
+      border-bottom-left-radius: 0;
     }
   }
 }
-// error focus
-.yc-input-outer {
-  // focus
-  &.yc-input-focus {
-    .yc-input-wrapper {
-      background-color: #fff;
-      border-color: rgb(22, 93, 255);
-      box-shadow: 0 0 0 0 rgb(190, 218, 255);
+.yc-input-outer-disabled {
+  cursor: not-allowed;
+}
+
+// yc-input-wrapper
+.yc-input-wrapper {
+  width: 100%;
+  overflow: hidden;
+  cursor: text;
+  padding: 0 12px;
+  background-color: rgb(242, 243, 245);
+  border: 1px solid transparent;
+  border-radius: 2px;
+  transition:
+    color 0.1s cubic-bezier(0, 0, 1, 1),
+    border-color 0.1s cubic-bezier(0, 0, 1, 1),
+    background-color 0.1s cubic-bezier(0, 0, 1, 1);
+  color: rgb(29, 33, 41);
+  font-size: inherit;
+  font-weight: 400;
+  display: flex;
+  align-items: center;
+  &:hover:not(.yc-input-disabled) {
+    border-color: transparent;
+    background-color: rgb(229, 230, 235);
+  }
+  &:hover:not(.yc-input-disabled) .yc-input-clear-button {
+    visibility: visible;
+  }
+  &:focus-within:not(.yc-input-disabled) {
+    background-color: #fff;
+    border-color: rgb(22, 93, 255);
+    box-shadow: 0 0 0 0 rgb(190, 218, 255);
+  }
+  .yc-input-prefix,
+  .yc-input-suffix,
+  .yc-input {
+    flex-shrink: 0;
+    color: inherit;
+  }
+  .yc-input-prefix,
+  .yc-input-suffix {
+    height: 100%;
+    color: rgb(78, 89, 105);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    .yc-input-word-limit {
+      margin: 0 6px;
+      color: rgb(134, 144, 156);
+      font-size: 12px;
+    }
+    .yc-input-clear-button {
+      visibility: hidden;
+    }
+    &.yc-input-prefix {
+      padding-right: 12px;
+    }
+    &.yc-input-suffix {
+      padding-left: 12px;
     }
   }
-  // error
-  &.yc-input-error {
-    .yc-input-wrapper {
-      background-color: rgb(255, 236, 232);
+  .yc-input {
+    flex: 1;
+    max-width: 100%;
+    overflow: hidden;
+    cursor: inherit;
+    outline: none;
+    border: none;
+    border-radius: 0;
+    background-color: transparent;
+    color: inherit;
+    &::placeholder {
+      color: rgb(134, 144, 156);
     }
-    &.yc-input-focus {
-      .yc-input-wrapper {
-        background: #fff;
-        border-color: rgb(245, 63, 63);
-        box-shadow: 0 0 0 0 rgb(253, 205, 197);
-      }
-    }
+  }
+}
+// error
+.yc-input-error {
+  background-color: rgb(255, 236, 232);
+  &:hover:not(.yc-input-disabled) {
+    border-color: transparent;
+    background-color: rgb(253, 205, 197);
+  }
+  &:focus-within:not(.yc-input-disabled) {
+    background: #fff;
+    border-color: rgb(245, 63, 63);
+    box-shadow: 0 0 0 0 rgb(253, 205, 197);
   }
 }
 // disabled
 .yc-input-disabled {
   cursor: not-allowed;
-  .yc-input-wrapper {
-    cursor: not-allowed;
-    border-color: transparent;
-    background-color: rgb(242, 243, 245);
-    color: rgb(201, 205, 212);
-    .yc-input-prefix,
-    .yc-input-suffix {
-      color: inherit;
-    }
+  border-color: transparent;
+  background-color: rgb(242, 243, 245);
+  color: rgb(201, 205, 212);
+  .yc-input-prefix,
+  .yc-input-suffix {
+    color: inherit;
   }
 }
 //size
 .yc-input-size-mini {
   font-size: 12px;
-  .yc-input-wrapper {
-    .yc-input {
-      padding: 1px 0;
-      line-height: 1.667;
-    }
+  height: 24px;
+  .yc-input {
+    padding: 1px 0;
+    line-height: 1.667;
   }
 }
 .yc-input-size-small {
   font-size: 14px;
-  .yc-input-wrapper {
-    .yc-input {
-      padding: 2px 0;
-      line-height: 1.5715;
-    }
+  height: 28px;
+  .yc-input {
+    padding: 2px 0;
+    line-height: 1.5715;
   }
 }
 .yc-input-size-medium {
   font-size: 14px;
-  .yc-input-wrapper {
-    .yc-input {
-      padding: 4px 0;
-      line-height: 1.5715;
-    }
+  height: 32px;
+  .yc-input {
+    padding: 4px 0;
+    line-height: 1.5715;
   }
 }
 .yc-input-size-large {
   font-size: 14px;
-  .yc-input-wrapper {
-    .yc-input {
-      padding: 6px 0;
-      line-height: 1.5715;
-    }
+  height: 36px;
+  .yc-input {
+    padding: 6px 0;
+    line-height: 1.5715;
   }
 }
