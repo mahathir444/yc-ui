@@ -2,13 +2,13 @@
 <template>
   <div class="lsh-box">
     <a-button @click="hanClick"> 点击测试 </a-button>
-    <ATimePicker v-bind="config" type="time"/>
-    <ATimePicker v-bind="config" v-model:model-value="v" @change="hanChange" @select="hanSelect"/>
+    <ATimePicker v-bind="config" type="time" />
+    <!-- <ATimePicker v-bind="config" v-model:model-value="v" @change="hanChange" @select="hanSelect"/>
     <YcTimePicker v-bind="config" v-model:model-value="v" @change="hanChange" @select="hanSelect">
       <template #suffix>
         <SvgIcon icon="icon-search" />
       </template>
-    </YcTimePicker>
+    </YcTimePicker> -->
   </div>
 </template>
 
@@ -19,7 +19,7 @@ import YcMessage from '@/components/Message/index.ts';
 import { messageType } from '@/components/Message/constants';
 import YcNotifi from '@/components/Notification/index.ts';
 import YcResizeBox from '@/components/ResizeBox/index.vue';
-import YcTimePicker from '@/components/TimePicker/index.vue'
+import YcTimePicker from '@/components/TimePicker/index.vue';
 onMounted(() => {});
 const resizeBox = reactive({
   width: 0,
@@ -28,17 +28,17 @@ const resizeBox = reactive({
 let total = 0;
 const v = ref('');
 const config = {
-  format:"HH:mm:ss",
-  type:"time-range",
-  use12Hours:!true,
-}
+  format: 'HH:mm:ss',
+  type: 'time-range',
+  use12Hours: !true,
+};
 const hanClick = () => {};
-const hanChange = (...rest) =>{
-  console.log(rest)
-}
-const hanSelect = (...rest) =>{
-  console.log(rest)
-}
+// const hanChange = (...rest) =>{
+//   console.log(rest)
+// }
+// const hanSelect = (...rest) =>{
+//   console.log(rest)
+// }
 </script>
 <style scoped lang="less">
 .lsh-box {

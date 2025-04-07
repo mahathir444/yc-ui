@@ -12,6 +12,7 @@
   }
   .yc-input-prepend,
   .yc-input-append {
+    height: 100%;
     padding: 0 12px;
     color: rgb(29, 33, 41);
     font-weight: 400;
@@ -33,23 +34,19 @@
   }
 }
 .yc-input-has-prepend {
+  overflow: hidden;
   .yc-input-wrapper {
     border-top-left-radius: 0;
     border-bottom-left-radius: 0;
     flex: 1;
-    width: unset;
-    // max-width: 100%;
-    overflow: hidden;
   }
 }
 .yc-input-has-append {
+  overflow: hidden;
   .yc-input-wrapper {
     border-top-right-radius: 0;
     border-bottom-right-radius: 0;
     flex: 1;
-    width: unset;
-    // max-width: 100%;
-    overflow: hidden;
   }
 }
 .yc-input-search-append {
@@ -68,7 +65,6 @@
 // yc-input-wrapper
 .yc-input-wrapper {
   width: 100%;
-  overflow: hidden;
   cursor: text;
   padding: 0 12px;
   background-color: rgb(242, 243, 245);
@@ -127,8 +123,6 @@
   }
   .yc-input {
     flex: 1;
-    max-width: 100%;
-    overflow: hidden;
     cursor: inherit;
     outline: none;
     border: none;

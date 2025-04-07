@@ -4,14 +4,19 @@
       'yc-input-wrapper',
       disabled ? 'yc-input-disabled' : '',
       error ? 'yc-input-error' : '',
-      SIZE_CLASS[size as Size],
+      SIZE_CLASS[size],
     ]"
   >
     <!-- prefix-icon -->
-    <yc-prevent-focus v-if="$slots.prefix" class="yc-input-prefix">
+    <yc-prevent-focus
+      v-if="$slots.prefix"
+      class="yc-input-prefix"
+      ref="prefixRef"
+    >
       <slot name="prefix" />
     </yc-prevent-focus>
     <!-- input -->
+    <!---->
     <input
       v-show="!$slots.label || ($slots.label && showInput)"
       v-model="computedValue"
@@ -43,6 +48,7 @@
     <yc-prevent-focus
       v-if="$slots.suffix || showWordLimit || showClearBtn"
       class="yc-input-suffix"
+      ref="suffixRef"
     >
       <!-- clear-btn -->
       <yc-icon-button
@@ -63,11 +69,11 @@
       <!-- password -->
       <yc-icon-button
         v-if="isPassword && invisibleButton"
-        size="14px"
+        font-size="14px"
         @click="computedVisibility = !computedVisibility"
       >
         <template #icon>
-          <icon-eye-open v-if="computedVisibility" />
+          <icon-eye-open v-if="!computedVisibility" />
           <icon-eye-close v-else />
         </template>
       </yc-icon-button>
@@ -88,12 +94,13 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, toRefs, computed, inject, watch } from 'vue';
+import { ref, toRefs, computed, inject, onMounted, useSlots } from 'vue';
 import { InputEvent, InputEventType, InputProps, InputEmits } from '../type';
-import { Size, RequiredDeep, Fn } from '@shared/type';
+import { RequiredDeep } from '@shared/type';
 import { SIZE_CLASS } from '../constants';
 import useControlValue from '@shared/hooks/useControlValue';
 import useLimitedInput from '@shared/hooks/useLimitedInput';
+
 import { IconSearch, IconEyeOpen, IconEyeClose } from '@shared/icons';
 import YcPreventFocus from '@shared/components/PreventFocus';
 import YcIconButton from '@shared/components/IconButton';
@@ -128,11 +135,7 @@ const computedVisibility = useControlValue<boolean>(
 );
 // 输入框类型
 const type = computed(() => {
-  if (!computedVisibility.value) {
-    return 'text';
-  } else {
-    return 'password';
-  }
+  return computedVisibility.value ? 'password' : 'text';
 });
 // 限制输入hooks
 const {

@@ -1,9 +1,9 @@
 <template>
   <div class="test">
     <div style="width: 300px">
-      <!-- <yc-color-picker show-text show-preset size="large" /> -->
+      <yc-color-picker show-text show-preset size="large" />
       <yc-input allow-clear v-model="value" :max-length="100" show-word-limit>
-        <!-- <template #prepend> rmb </template> -->
+        <template #prepend> rmb </template>
         <template #suffix>
           <icon-align-center />
         </template>

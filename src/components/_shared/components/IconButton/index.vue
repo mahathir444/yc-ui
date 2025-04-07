@@ -50,8 +50,8 @@ withDefaults(defineProps<IconButtonProps>(), {
     background: transparent;
     transition: background-color 0.1s cubic-bezier(0, 0, 1, 1);
   }
-  .yc-icon {
-    z-index: 10;
+  &:deep(.yc-icon) {
+    z-index: 1;
   }
 }
 </style>

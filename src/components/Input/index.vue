@@ -9,13 +9,16 @@
       'yc-input-has-append': $slots.append,
       'yc-input-search-append ': isSearch && searchButton,
     }"
+    :style="{
+      height: `${SIZE_MAP[size]}px`,
+    }"
   >
     <!-- prepend -->
     <yc-prevent-focus v-if="$slots.prepend" class="yc-input-prepend">
       <slot name="prepend" />
     </yc-prevent-focus>
     <!-- input-wrraper -->
-    <base-input v-else ref="inputRef">
+    <yc-input ref="inputRef">
       <template v-if="$slots.label" #label>
         <slot name="label" />
       </template>
@@ -25,7 +28,7 @@
       <template v-if="$slots.suffix" #suffix>
         <slot name="suffix" />
       </template>
-    </base-input>
+    </yc-input>
     <!-- append -->
     <yc-prevent-focus v-if="$slots.append" class="yc-input-append">
       <slot name="append" v-bind="props">
@@ -47,7 +50,7 @@
     </yc-prevent-focus>
   </div>
   <!-- yc-input-wrapper"  -->
-  <base-input v-else ref="inputRef">
+  <yc-input v-else ref="inputRef">
     <template v-if="$slots.label" #label>
       <slot name="label" />
     </template>
@@ -57,13 +60,14 @@
     <template v-if="$slots.suffix" #suffix>
       <slot name="suffix" />
     </template>
-  </base-input>
+  </yc-input>
 </template>
 
 <script lang="ts" setup>
 import { ref, provide } from 'vue';
 import { InputProps } from './type';
-import BaseInput from './component/Base.vue';
+import { SIZE_MAP } from '@shared/constants';
+import YcInput from './component/Input.vue';
 import YcPreventFocus from '@shared/components/PreventFocus';
 defineOptions({
   name: 'Input',
@@ -121,7 +125,7 @@ provide('props', props);
 // 注入emits
 provide('emits', emits);
 // 输入实例
-const inputRef = ref<InstanceType<typeof BaseInput>>();
+const inputRef = ref<InstanceType<typeof YcInput>>();
 // 暴露方法
 defineExpose({
   focus() {
