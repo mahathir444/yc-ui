@@ -13,6 +13,7 @@
     <template #trigger>
       <slot name="trigger">
         <yc-input
+          v-if="type == 'input'"
           v-model="computedValue"
           :disabled="disabled"
           :allow-clear="allowClear"
@@ -25,6 +26,21 @@
           @focus="(ev) => handleEvent('focus', ev)"
           @blur="(ev) => handleEvent('blur', ev)"
         />
+        <yc-textarea
+          v-else
+          v-model="computedValue"
+          :disabled="disabled"
+          :allow-clear="allowClear"
+          enter-prevent
+          show-mirror
+          class="yc-auto-complete"
+          ref="inputRef"
+          v-bind="$attrs"
+          @input="(v, ev) => handleEvent('input', ev, v)"
+          @focus="(ev) => handleEvent('focus', ev)"
+          @blur="(ev) => handleEvent('blur', ev)"
+        >
+        </yc-textarea>
       </slot>
     </template>
     <template v-if="$slots.prefix" #prefix>
@@ -45,9 +61,10 @@ import {
   default as YcSelect,
   SelectOptionData,
   SelectOptions,
+  SelectInstance,
 } from '@/components/Select';
+import YcTextarea, { TextareaInstance } from '@/components/Textarea';
 import YcInput, { InputInstance } from '@/components/Input';
-
 defineOptions({
   name: 'AutoComplete',
 });
@@ -65,6 +82,7 @@ const props = withDefaults(defineProps<AutoCompleteProps>(), {
   allowClear: true,
   isSelectSetValue: true,
   isSearch: true,
+  type: 'input',
 });
 const emits = defineEmits<{
   (e: 'update:modelValue', value: string): void;
@@ -75,13 +93,15 @@ const emits = defineEmits<{
   (e: 'select', value: string): void;
   (e: 'input', value: string, ev: Event): void;
   (e: 'blur', ev: FocusEvent): void;
-  (e: 'Focus', ev: FocusEvent): void;
+  (e: 'focus', ev: FocusEvent): void;
 }>();
 const { modelValue, defaultValue, data, strict, isSelectSetValue, isSearch } =
   toRefs(props);
 const { filterOption } = props;
 // inputRef
-const inputRef = ref<InputInstance>();
+const inputRef = ref<InputInstance | TextareaInstance>();
+// 选择ref
+const selectRef = ref<SelectInstance>();
 // visible
 const popupVisible = ref<boolean>(false);
 // 计算
@@ -139,7 +159,7 @@ const handleEvent = async (
   }
   // 聚焦
   else if (type == 'focus') {
-    emits('Focus', ev as FocusEvent);
+    emits('focus', ev as FocusEvent);
   }
   // 失焦
   else if (type == 'blur') {
@@ -162,6 +182,12 @@ defineExpose({
   },
   getInputRef() {
     return inputRef.value?.getInputRef();
+  },
+  getMirrorRef() {
+    return (inputRef.value as TextareaInstance)?.getMirrorRef();
+  },
+  updatePosition(x: number, y: number) {
+    selectRef.value?.getPopupRef()?.updatePosition(x, y);
   },
 });
 </script>

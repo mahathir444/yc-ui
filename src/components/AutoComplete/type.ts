@@ -4,6 +4,7 @@ import {
   VirtualListProps,
 } from '@/components/Select/type';
 import { PopupContainer, TriggerProps } from '@/components/Trigger/type';
+
 export interface AutoCompleteProps {
   modelValue?: string;
   defaultValue?: string;
@@ -18,4 +19,5 @@ export interface AutoCompleteProps {
   // 是否在选择时设置value
   isSelectSetValue?: boolean;
   isSearch?: boolean;
+  type?: 'textarea' | 'input';
 }

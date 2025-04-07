@@ -4,7 +4,7 @@
       'yc-input-wrapper',
       disabled ? 'yc-input-disabled' : '',
       error ? 'yc-input-error' : '',
-      SIZE_CLASS[size],
+      SIZE_CLASS[size as Size],
     ]"
   >
     <!-- prefix-icon -->
@@ -41,7 +41,7 @@
     </yc-prevent-focus>
     <!-- suffix-icon -->
     <yc-prevent-focus
-      v-if="$slots.suffix || $slots.extra || showWordLimit || showClearBtn"
+      v-if="$slots.suffix || showWordLimit || showClearBtn"
       class="yc-input-suffix"
     >
       <!-- clear-btn -->
@@ -62,7 +62,7 @@
       </yc-prevent-focus>
       <!-- password -->
       <yc-icon-button
-        v-if="type == 'password' && invisibleButton"
+        v-if="isPassword && invisibleButton"
         size="14px"
         @click="computedVisibility = !computedVisibility"
       >
@@ -73,7 +73,7 @@
       </yc-icon-button>
       <!-- search -->
       <yc-icon-button
-        v-if="type == 'search' && !searchButton"
+        v-if="isSearch && !searchButton"
         font-size="14px"
         @click="emits('search', computedValue)"
       >
@@ -88,29 +88,67 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, inject, Ref, WritableComputedRef } from 'vue';
-import { InputEvent, InputEventType } from './type';
-import { Fn } from '@shared/type';
-defineProps<{
-  invisibleButton: boolean;
-  searchButton: boolean;
-}>();
-const { computedValue, computedVisibility, emits } = inject<{
-  computedValue: Ref<string> | WritableComputedRef<string>;
-  computedVisibility: Ref<boolean> | WritableComputedRef<boolean>;
-  invisibleButton: Ref<boolean>;
-  searchButton: Ref<boolean>;
-  emits: Fn;
-}>('input-props', {
-  computedValue: ref(''),
-  computedVisibility: ref(false),
-  invisibleButton: ref(true),
-  searchButton: ref<true>,
-  emits: () => {},
-});
+import { ref, inject, Ref, computed, toRefs } from 'vue';
+import { InputEvent, InputEventType, InputProps } from './type';
+import { Fn, Size, RequiredDeep } from '@shared/type';
+import { SIZE_CLASS } from './constants';
+import useControlValue from '@shared/hooks/useControlValue';
+import useLimitedInput from '@shared/hooks/useLimitedInput';
+import { IconSearch, IconEyeOpen, IconEyeClose } from '@shared/icons';
+import YcPreventFocus from '@shared/components/PreventFocus';
+import YcIconButton from '@shared/components/IconButton';
+const props = inject('props') as RequiredDeep<InputProps>;
+// 获取父级定义的emits
+const emits = inject<Fn>('emits', () => {});
+// 解构属性
+const {
+  visibility,
+  defaultVisibility,
+  error,
+  size,
+  showInput,
+  maxLength,
+  disabled,
+  placeholder,
+  readonly,
+  inputAttrs,
+  isPassword,
+  isSearch,
+  invisibleButton,
+  searchButton,
+} = toRefs(props);
 // 输入实例
 const inputRef = ref<HTMLInputElement>();
-
+// 非受控的vis
+const computedVisibility = useControlValue<boolean>(
+  visibility,
+  defaultVisibility.value,
+  (val) => {
+    emits('update:visibility', val);
+    emits('visibilityChange', val);
+  }
+);
+// 输入框类型
+const type = computed(() => {
+  if (!computedVisibility.value) {
+    return 'text';
+  } else {
+    return 'password';
+  }
+});
+// 限制输入hooks
+const {
+  computedValue,
+  showWordLimit,
+  showClearBtn,
+  curLength,
+  handleLimitedInput,
+  handleComposition,
+} = useLimitedInput({
+  props,
+  emits,
+  inputRef,
+});
 // 处理输入，改变和清除
 const handleEvent = async (type: InputEventType, e: InputEvent) => {
   // focus,blur,change
@@ -133,6 +171,22 @@ const handleEvent = async (type: InputEventType, e: InputEvent) => {
     emits('keydown', ev);
   }
 };
+defineExpose({
+  focus() {
+    inputRef.value?.focus();
+  },
+  blur() {
+    inputRef.value?.blur();
+  },
+  getInputRef() {
+    return inputRef.value;
+  },
+  getInputValue() {
+    return computedValue.value;
+  },
+});
 </script>
 
-<style lang="less" scoped></style>
+<style lang="less" scoped>
+@import './style/input.less';
+</style>

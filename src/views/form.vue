@@ -5,7 +5,6 @@
       <yc-select
         allow-clear
         allow-search
-        multiple
         placeholder="请选择"
         :max-tag-count="3"
         :options="[
@@ -33,7 +32,7 @@
     </div>
     <div style="width: 300px">
       auto-complete
-      <yc-auto-complete />
+      <!-- <yc-auto-complete /> -->
     </div>
     <div style="width: 300px">
       input

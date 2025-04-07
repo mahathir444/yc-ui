@@ -3,14 +3,7 @@ import _Input from './Input.vue';
 import { getComponentPrefix } from '@shared/utils/global-config';
 
 export type InputInstance = InstanceType<typeof _Input>;
-export type {
-  InputPasswordProps,
-  InputProps,
-  InputSearchProps,
-  WordLength,
-  WordSlice,
-  InputEventType,
-} from './type';
+export type { InputProps, WordLength, WordSlice, InputEventType } from './type';
 
 const Input = Object.assign(_Input, {
   install: (app: App) => {

@@ -1,5 +1,6 @@
 import { ObjectData, Size } from '@shared/type';
 import { ButtonProps } from '@/components/Button/type';
+
 export interface InputProps {
   modelValue?: string;
   defaultValue?: string;
@@ -16,29 +17,19 @@ export interface InputProps {
   inputAttrs?: ObjectData;
   append?: string;
   prepend?: string;
-  type?: 'password' | 'search' | 'text';
   // password使用
+  isPassword?: boolean;
   visibility?: boolean;
   defaultVisibility?: boolean;
   invisibleButton?: boolean;
   // search使用
+  isSearch?: boolean;
   searchButton?: boolean;
   loading?: boolean;
   buttonText?: string;
   buttonProps?: ButtonProps;
   //select使用
   showInput?: boolean;
-}
-
-export interface InputPasswordProps {}
-
-export interface InputSearchProps {
-  searchButton?: boolean;
-  disabled?: boolean;
-  loading?: boolean;
-  size?: Size;
-  buttonText?: string;
-  buttonProps?: ButtonProps;
 }
 
 export type WordSlice = (value: string, maxLength: number) => string;

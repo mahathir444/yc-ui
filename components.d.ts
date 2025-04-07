@@ -17,6 +17,7 @@ declare module 'vue' {
     ASwitch: typeof import('@arco-design/web-vue')['Switch']
     ATree: typeof import('@arco-design/web-vue')['Tree']
     AutoComplete: typeof import('./src/components/AutoComplete/index.vue')['default']
+    Base: typeof import('./src/components/Input/Base.vue')['default']
     BaseInput: typeof import('./src/components/Input/BaseInput.vue')['default']
     Button: typeof import('./src/components/Button/Button.vue')['default']
     ButtonGroup: typeof import('./src/components/Button/ButtonGroup.vue')['default']
