@@ -31,6 +31,7 @@
           :max="255"
           :disabled="disabled"
           size="mini"
+          class="rgb-input"
           hide-button
           @blur="handleSet('rgb')"
           @press-enter="handleSet('rgb')"
@@ -41,6 +42,7 @@
           :max="255"
           :disabled="disabled"
           size="mini"
+          class="rgb-input"
           hide-button
           @blur="handleSet('rgb')"
           @press-enter="handleSet('rgb')"
@@ -50,6 +52,7 @@
           :min="0"
           :max="255"
           :disabled="disabled"
+          class="rgb-input"
           size="mini"
           hide-button
           @blur="handleSet('rgb')"
