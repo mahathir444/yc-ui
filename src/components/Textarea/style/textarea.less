@@ -17,18 +17,21 @@
   overflow: hidden;
   display: inline-flex;
   align-items: center;
-  &:hover:not(.yc-textarea-disabled) {
-    background-color: rgb(229, 230, 235);
-    border-color: transparent;
+  &:not(.yc-textarea-disabled) {
+    &:hover {
+      background-color: rgb(229, 230, 235);
+      border-color: transparent;
+    }
+    &:hover .yc-textarea-clear-button {
+      visibility: visible;
+    }
+    &:focus-within {
+      background-color: #fff;
+      border-color: rgb(22, 93, 255);
+      box-shadow: 0 0 0 0 rgb(190, 218, 255);
+    }
   }
-  &:hover:not(.yc-textarea-disabled) .yc-textarea-clear-button {
-    visibility: visible;
-  }
-  &:focus-within:not(.yc-textarea-disabled) {
-    background-color: #fff;
-    border-color: rgb(22, 93, 255);
-    box-shadow: 0 0 0 0 rgb(190, 218, 255);
-  }
+
   .yc-textarea-word-limit {
     position: absolute;
     right: 10px;
@@ -52,7 +55,6 @@
     min-height: 32px;
     color: inherit;
     outline: none;
-    // 保证样式的绝对一直
     background-color: transparent;
     border-width: 0;
     border-radius: 0;
@@ -89,14 +91,16 @@
 // error
 .yc-textarea-error {
   background-color: rgb(255, 236, 232);
-  &:hover:not(.yc-textarea-disabled) {
-    background-color: rgb(253, 205, 197);
-    border-color: transparent;
-  }
-  &:focus-within:not(.yc-textarea-disabled) {
-    background-color: #fff;
-    border-color: rgb(245, 63, 63);
-    box-shadow: 0 0 0 0 rgb(253, 205, 197);
+  &:not(.yc-textarea-disabled) {
+    &:hover {
+      background-color: rgb(253, 205, 197);
+      border-color: transparent;
+    }
+    &:focus-within {
+      background-color: #fff;
+      border-color: rgb(245, 63, 63);
+      box-shadow: 0 0 0 0 rgb(253, 205, 197);
+    }
   }
 }
 // disabled

@@ -83,17 +83,19 @@
   font-weight: 400;
   display: flex;
   align-items: center;
-  &:hover:not(.yc-input-disabled) {
-    border-color: transparent;
-    background-color: rgb(229, 230, 235);
-  }
-  &:hover:not(.yc-input-disabled) .yc-input-clear-button {
-    visibility: visible;
-  }
-  &:focus-within:not(.yc-input-disabled) {
-    background-color: #fff;
-    border-color: rgb(22, 93, 255);
-    box-shadow: 0 0 0 0 rgb(190, 218, 255);
+  &:not(.yc-input-disabled) {
+    &:hover {
+      border-color: transparent;
+      background-color: rgb(229, 230, 235);
+    }
+    &:hover .yc-input-clear-button {
+      visibility: visible;
+    }
+    &:focus-within {
+      background-color: #fff;
+      border-color: rgb(22, 93, 255);
+      box-shadow: 0 0 0 0 rgb(190, 218, 255);
+    }
   }
   .yc-input-prefix,
   .yc-input-suffix,
@@ -141,14 +143,16 @@
 // error
 .yc-input-error {
   background-color: rgb(255, 236, 232);
-  &:hover:not(.yc-input-disabled) {
-    border-color: transparent;
-    background-color: rgb(253, 205, 197);
-  }
-  &:focus-within:not(.yc-input-disabled) {
-    background: #fff;
-    border-color: rgb(245, 63, 63);
-    box-shadow: 0 0 0 0 rgb(253, 205, 197);
+  &:not(.yc-input-disabled) {
+    &:hover {
+      border-color: transparent;
+      background-color: rgb(253, 205, 197);
+    }
+    &:focus-within {
+      background: #fff;
+      border-color: rgb(245, 63, 63);
+      box-shadow: 0 0 0 0 rgb(253, 205, 197);
+    }
   }
 }
 // disabled

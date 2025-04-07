@@ -13,21 +13,23 @@
   font-weight: 400;
   display: inline-flex;
   align-items: center;
-  &:hover:not(.yc-input-tag-disabled) .yc-input-tag-clear-button {
-    visibility: visible;
-  }
-  &:hover:not(.yc-input-tag-disabled) {
-    border-color: transparent;
-    background-color: rgb(229, 230, 235);
-  }
-  &:focus-within:not(.yc-input-tag-disabled) {
-    background-color: #fff;
-    border-color: rgb(22, 93, 255);
-    box-shadow: 0 0 0 0 rgb(190, 218, 255);
-    &:deep(.yc-input-tag-inner) {
-      .yc-tag {
-        border-color: rgb(242, 243, 245) !important;
-        background-color: rgb(242, 243, 245) !important;
+  &:not(.yc-input-tag-disabled) {
+    &:hover.yc-input-tag-clear-button {
+      visibility: visible;
+    }
+    &:hover {
+      border-color: transparent;
+      background-color: rgb(229, 230, 235);
+    }
+    &:focus-within {
+      background-color: #fff;
+      border-color: rgb(22, 93, 255);
+      box-shadow: 0 0 0 0 rgb(190, 218, 255);
+      &:deep(.yc-input-tag-inner) {
+        .yc-tag {
+          border-color: rgb(242, 243, 245) !important;
+          background-color: rgb(242, 243, 245) !important;
+        }
       }
     }
   }
@@ -92,14 +94,16 @@
 // error
 .yc-input-tag-error {
   background-color: rgb(255, 236, 232);
-  &:hover:not(.yc-input-tag-disabled) {
-    border-color: transparent;
-    background-color: rgb(253, 205, 197);
-  }
-  &:focus-within:not(.yc-input-tag-disabled) {
-    background-color: #fff;
-    border-color: rgb(245, 63, 63);
-    box-shadow: 0 0 0 0 rgb(253, 205, 197);
+  &:not(.yc-input-tag-disabled) {
+    &:hover {
+      border-color: transparent;
+      background-color: rgb(253, 205, 197);
+    }
+    &:focus-within {
+      background-color: #fff;
+      border-color: rgb(245, 63, 63);
+      box-shadow: 0 0 0 0 rgb(253, 205, 197);
+    }
   }
 }
 //no-value has suffix
