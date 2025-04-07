@@ -35,12 +35,7 @@ export {
   Dsubmenu,
 } from './Dropdown';
 
-export type {
-  InputProps,
-  InputPasswordProps,
-  InputSearchProps,
-  InputInstance,
-} from './Input';
+export type { InputProps, InputInstance } from './Input';
 export { default as Input } from './Input';
 
 export type { LinkProps, LinkStatus, LinkInstance } from './Link';
