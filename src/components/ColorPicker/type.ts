@@ -1,5 +1,5 @@
 import { Ref, WritableComputedRef } from 'vue';
-import { Size } from '@shared/type';
+import { Size, Fn, RequiredDeep } from '@shared/type';
 import { TriggerProps } from '@/components/Trigger';
 
 export interface ColorPickerProps {
@@ -17,19 +17,22 @@ export interface ColorPickerProps {
   historyColors?: string[];
   presetColors?: string[];
 }
+
+export interface ColorPickerEmits {
+  (e: 'update:modelValue', value: string): void;
+  (e: 'change', value: boolean): void;
+  (e: 'popupVisibleChange', value: boolean): void;
+}
+
 export type ColorFormat = 'hex' | 'rgb';
 
 // 内置类型
 export type ProvideType = {
+  props: RequiredDeep<ColorPickerProps>;
+  emits: ColorPickerEmits;
+  popupVisible: Ref<boolean>;
   computedColor: WritableComputedRef<string> | Ref<string>;
   baseColor: Ref<string>;
-  alpha: Ref<number>;
   format: WritableComputedRef<ColorFormat> | Ref<ColorFormat>;
-  popupVisible: Ref<boolean>;
-  showHistory: Ref<boolean>;
-  showPreset: Ref<boolean>;
-  disabled: Ref<boolean>;
-  disabledAlpha: Ref<boolean>;
-  historyColors: Ref<string[]>;
-  presetColors: Ref<string[]>;
+  alpha: Ref<number>;
 };

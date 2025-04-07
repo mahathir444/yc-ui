@@ -71,39 +71,32 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, inject } from 'vue';
+import { ref, inject, toRefs } from 'vue';
 import { COLOR_PICKER_PROVIDE_KEY } from '@shared/constants';
-import { ProvideType } from '@/components/ColorPicker/type';
+import { ProvideType } from '../type';
 import ColorPalette from './ColorPalette.vue';
 import ColorInput from './ColorInput.vue';
 import ColorList from './ColorList.vue';
 import ColorControlBar from './ColorControlBar.vue';
-import ColorPreview from './ColorPreview.vue';
+// 注入值
+const { props, popupVisible, computedColor, baseColor, alpha, format } =
+  inject<ProvideType>(COLOR_PICKER_PROVIDE_KEY, {
+    props: {} as any,
+    emits: () => {},
+    popupVisible: ref(false),
+    computedColor: ref(''),
+    baseColor: ref(''),
+    alpha: ref(100),
+    format: ref('hex'),
+  });
 const {
-  computedColor,
-  baseColor,
-  alpha,
-  format,
   disabled,
   disabledAlpha,
-  showPreset,
-  presetColors,
   showHistory,
+  showPreset,
   historyColors,
-  popupVisible,
-} = inject<ProvideType>(COLOR_PICKER_PROVIDE_KEY, {
-  alpha: ref(0),
-  computedColor: ref(''),
-  baseColor: ref(''),
-  disabled: ref(false),
-  disabledAlpha: ref(false),
-  showPreset: ref(false),
-  showHistory: ref(false),
-  presetColors: ref([]),
-  historyColors: ref([]),
-  format: ref('hex'),
-  popupVisible: ref(false),
-});
+  presetColors,
+} = toRefs(props);
 // 组件实例
 const colorBarRef = ref<InstanceType<typeof ColorControlBar>>();
 const alphaBarRef = ref<InstanceType<typeof ColorControlBar>>();

@@ -53,18 +53,7 @@ const emits = defineEmits<{
   (e: 'change', value: boolean): void;
   (e: 'popupVisibleChange', value: boolean): void;
 }>();
-const {
-  modelValue,
-  defaultValue,
-  format: _format,
-  disabled,
-  disabledAlpha,
-  showText,
-  showHistory,
-  showPreset,
-  historyColors,
-  presetColors,
-} = toRefs(props);
+const { modelValue, defaultValue, format: _format } = toRefs(props);
 // 当前的format
 const format = useControlValue<string>(ref(undefined), _format.value);
 // 透明度
@@ -94,18 +83,13 @@ const computedColor = useControlValue<string>(
 const baseColor = ref<string>(computedColor.value);
 // visible
 const popupVisible = ref<boolean>(false);
-// 提供属性
-provide<ProvideType>(COLOR_PICKER_PROVIDE_KEY, {
+provide(COLOR_PICKER_PROVIDE_KEY, {
+  props,
+  emits,
+  popupVisible,
   computedColor,
   baseColor,
   alpha,
   format,
-  disabled,
-  disabledAlpha,
-  showPreset,
-  presetColors,
-  showHistory,
-  historyColors,
-  popupVisible,
 });
 </script>

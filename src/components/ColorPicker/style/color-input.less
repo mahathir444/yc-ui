@@ -2,31 +2,26 @@
   display: flex;
   align-items: center;
   gap: 20px;
-  .yc-color-picker-format {
-    &:deep(.yc-select) {
-      .yc-input-wrapper {
-        width: 58px;
-        padding: 0 6px;
-        .yc-input-suffix {
-          padding-left: 0;
-        }
-      }
+
+  &:deep(.yc-input-wrapper) {
+    padding: 0 6px;
+    .yc-input-suffix {
+      padding-left: 0;
     }
   }
-
+  .yc-color-picker-format {
+    &:deep(.yc-select) {
+      width: 58px;
+    }
+  }
   .yc-color-picker-color {
     flex: 1;
     overflow: hidden;
     display: flex;
     align-items: center;
     &:deep(.yc-input-wrapper) {
-      flex-shrink: 0;
       border-radius: 0;
-      padding: 0 6px;
       border-right-color: rgb(229, 230, 235);
-      .yc-input-suffix {
-        padding-left: 0;
-      }
       .yc-input-prefix {
         padding-right: 6px;
       }
