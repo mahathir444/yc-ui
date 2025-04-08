@@ -39,7 +39,7 @@ import { ScrollbarProps, ScrollbarProvide } from './type';
 import { DEFAULT_BAR_WIDTH, DEFAULT_TRACK_WIDTH, BAR_TYPE } from './constants';
 import { SCROLLBAR_PROVIDE_KEY } from '@shared/constants';
 import { useElementSize, useScroll } from '@vueuse/core';
-import YcTrack from './Track.vue';
+import YcTrack from './component/Track.vue';
 defineOptions({
   name: 'Scrollbar',
   inheritAttrs: false,

@@ -98,11 +98,11 @@ import {
   parseTimeStrByFormat,
   timeObjToStr,
 } from '@shared/utils/time';
-import YcScrollbar from '@/components/Scrollbar/Scrollbar.vue';
+import YcScrollbar from '@/components/Scrollbar/index.vue';
 import { useTemplateRefsList } from '@vueuse/core';
 import useControlValue from '@shared/hooks/useControlValue';
 import dayjs from 'dayjs';
-import isSameOrBefore from 'dayjs/plugin/isSameOrBefore'
+import isSameOrBefore from 'dayjs/plugin/isSameOrBefore';
 dayjs.extend(isSameOrBefore);
 const props = withDefaults(defineProps<TimePickerProps>(), {
   type: 'time-range',
@@ -229,12 +229,15 @@ const setNow = () => {
   handleSelect(res);
 };
 const confirm = () => {
-  cValue.value = props.type === 'time' ? showValue.value[0] : [...showValue.value].sort((a, b) => {
-      const dateA = dayjs(a, props.format);
-      const dateB = dayjs(b, props.format);
-      return dateA.isSameOrBefore(dateB) ? -1 : 1;
-    });
-    console.log(showValue.value)
+  cValue.value =
+    props.type === 'time'
+      ? showValue.value[0]
+      : [...showValue.value].sort((a, b) => {
+          const dateA = dayjs(a, props.format);
+          const dateB = dayjs(b, props.format);
+          return dateA.isSameOrBefore(dateB) ? -1 : 1;
+        });
+  console.log(showValue.value);
   cVisible.value = false;
   isEditing.value = false;
 };
@@ -246,7 +249,7 @@ const setScrollRef = (key: string, el: any) => {
   scrollRefs.value.set(key, el);
 };
 watch(
-  [() => activeIndex.value, () => inputValue.value,()=>cVisible.value],
+  [() => activeIndex.value, () => inputValue.value, () => cVisible.value],
   () => {
     // if(!cVisible.value)return
     Object.entries(inputValue.value[activeIndex.value]).forEach(
@@ -265,7 +268,7 @@ watch(
   }
 );
 const disabledConfirm = computed(() => {
-  return !showValue.value[activeIndex.value].length
+  return !showValue.value[activeIndex.value].length;
 });
 </script>
 <style scoped lang="less">

@@ -1,5 +1,5 @@
 import { App } from 'vue';
-import _Scrollbar from './Scrollbar.vue';
+import _Scrollbar from './index.vue';
 import { getComponentPrefix } from '@shared/utils/global-config';
 
 export type ScrollbarInstance = InstanceType<typeof _Scrollbar>;

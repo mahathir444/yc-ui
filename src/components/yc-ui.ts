@@ -76,6 +76,8 @@ export const components: Record<string, Plugin> = {
   Result,
 };
 
+console.log('components：', Object.keys(components).length + 2);
+
 export default {
   ...components,
   ButtonGroup,

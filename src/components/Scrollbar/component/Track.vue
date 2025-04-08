@@ -42,8 +42,8 @@
 <script lang="ts" setup>
 import { ref, toRefs, computed, inject } from 'vue';
 import { useDraggable, useEventListener } from '@vueuse/core';
-import { DEFAULT_BAR_WIDTH, DEFAULT_TRACK_WIDTH } from './constants';
-import { ScrollbarProvide } from './type';
+import { DEFAULT_BAR_WIDTH, DEFAULT_TRACK_WIDTH } from '../constants';
+import { ScrollbarProvide } from '../type';
 import { SCROLLBAR_PROVIDE_KEY } from '@shared/constants';
 import { Direction } from '@shared/type';
 
@@ -135,5 +135,5 @@ const handleClick = (e: MouseEvent) => {
 </script>
 
 <style lang="less" scoped>
-@import './style/track.less';
+@import '../style/track.less';
 </style>

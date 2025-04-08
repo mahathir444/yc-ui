@@ -1,28 +1,24 @@
 <template>
   <div class="test">
     <div style="width: 600px; display: flex">
-      <yc-result subtitle="This page isn’t working." title="404">
-        <template #extra>
-          <yc-button type="primary" style="margin-right: 8px"
-            >go back</yc-button
-          >
-          <yc-button>cancel</yc-button>
-        </template>
-      </yc-result>
-      <a-result subtitle="This page isn’t working." title="404" status="404">
-        <template #extra>
-          <yc-button type="primary" style="margin-right: 8px"
-            >go back</yc-button
-          >
-          <yc-button>cancel</yc-button>
-        </template>
-      </a-result>
+      <yc-space align="baseline" direction="vertical" size="large" wrap fill>
+        <yc-button>测试</yc-button>
+        <yc-button>测试</yc-button>
+        <yc-button>测试</yc-button>
+      </yc-space>
+      <!-- 4 8 16 24 -->
+      <a-space align="baseline" direction="vertical" size="large" wrap fill>
+        <yc-button>测试</yc-button>
+        <yc-button>测试</yc-button>
+        <yc-button>测试</yc-button>
+      </a-space>
     </div>
   </div>
 </template>
 
 <script lang="ts" setup>
 import { ref, watch } from 'vue';
+import YcSpace from '@/components/Space/index.vue';
 const value = ref('dsadsa');
 const options = [
   'Bytedance',
