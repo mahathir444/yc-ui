@@ -1,12 +1,13 @@
 <template>
   <yc-input
-    :model-value="<string>computedValue"
+    :model-value="computedValue"
     :allow-clear="allowClear"
     :disabled="disabled"
     :readonly="readonly"
     :error="error"
     :size="size"
     :placeholder="placeholder"
+    :max-length="Infinity"
     :input-attrs="inputAttrs"
     class="yc-input-number"
     ref="inputRef"
@@ -25,30 +26,34 @@
     <template v-if="$slots.suffix || (!hideButton && mode == 'embed')" #suffix>
       <slot name="suffix">
         <div class="yc-input-number-step">
-          <yc-minus
+          <yc-opera-btn
+            type="minus"
             :mode="mode"
             :computed-value="computedValue"
             :disabled="disabled"
             :min="min"
+            :max="min"
             :size="size"
-            @minus="handleStep('minus')"
+            @click="handleStep"
           >
             <template v-if="$slots.minus" #icon>
               <slot name="minus"> </slot>
             </template>
-          </yc-minus>
-          <yc-plus
+          </yc-opera-btn>
+          <yc-opera-btn
+            type="plus"
             :mode="mode"
             :computed-value="computedValue"
             :disabled="disabled"
+            :min="min"
             :max="max"
             :size="size"
-            @plus="handleStep('plus')"
+            @click="handleStep"
           >
             <template v-if="$slots.plus" #icon>
               <slot name="plus"> </slot>
             </template>
-          </yc-plus>
+          </yc-opera-btn>
         </div>
       </slot>
     </template>
@@ -58,35 +63,39 @@
       #prepend
     >
       <slot name="prepend">
-        <yc-minus
+        <yc-opera-btn
+          type="minus"
           :mode="mode"
           :computed-value="computedValue"
           :disabled="disabled"
           :min="min"
+          :max="max"
           :size="size"
-          @minus="handleStep('minus')"
+          @click="handleStep"
         >
           <template v-if="$slots.minus" #icon>
             <slot name="minus" />
           </template>
-        </yc-minus>
+        </yc-opera-btn>
       </slot>
     </template>
     <!-- append -->
     <template v-if="$slots.append || (!hideButton && mode == 'button')" #append>
       <slot name="append">
-        <yc-plus
+        <yc-opera-btn
+          type="plus"
           :mode="mode"
           :computed-value="computedValue"
           :disabled="disabled"
           :max="max"
+          :min="min"
           :size="size"
-          @plus="handleStep('plus')"
+          @click="handleStep"
         >
           <template v-if="$slots.plus" #icon>
             <slot name="plus" />
           </template>
-        </yc-plus>
+        </yc-opera-btn>
       </slot>
     </template>
   </yc-input>
@@ -96,11 +105,9 @@
 import { ref, toRefs, computed } from 'vue';
 import { InputNumberProps, InputNumberValue } from './type';
 import { isNumber, isString } from '@shared/utils/is';
-import YcMinus from './component/Minus.vue';
-import YcPlus from './component/Plus.vue';
+import YcOperaBtn from './component/OperaBtn.vue';
 import useControlValue from '@shared/hooks/useControlValue';
 import YcInput, { InputInstance } from '@/components/Input';
-
 defineOptions({
   name: 'InputNumber',
 });
@@ -179,6 +186,8 @@ function handlePrecision(value: InputNumberValue, type: 'number' | 'string') {
 }
 // 处理点击
 const handleStep = (type: 'minus' | 'plus') => {
+  console.log(type, 'type');
+
   let value =
     type == 'minus'
       ? +computedValue.value - step.value

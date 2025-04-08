@@ -4,6 +4,8 @@
     fill="none"
     xmlns="http://www.w3.org/2000/svg"
     stroke="currentColor"
+    aria-hidden="true"
+    focusable="false"
     v-bind="attrs"
   >
     <path d="M39.6 30.557 24.043 15 8.487 30.557"></path>

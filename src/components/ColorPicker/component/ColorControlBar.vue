@@ -1,6 +1,9 @@
 <template>
   <div
-    class="yc-color-picker-control-bar"
+    :class="{
+      'yc-color-picker-control-bar': true,
+      'yc-color-picker-control-bar-disabled': disabled,
+    }"
     :style="{
       background:
         mode == 'alpha'
@@ -15,7 +18,6 @@
       :style="{
         color,
         left: `${x - range.min}px`,
-        cursor: disabled ? 'not-allowed' : 'pointer',
       }"
       ref="btnRef"
     ></div>

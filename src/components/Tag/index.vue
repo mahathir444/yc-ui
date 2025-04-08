@@ -41,7 +41,7 @@
     <yc-spin
       v-if="loading"
       color="inherit"
-      size="inherit" "
+      size="inherit"
       class="yc-tag-loading-icon"
     />
   </yc-prevent-focus>

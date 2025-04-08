@@ -1,7 +1,7 @@
 <template>
   <yc-button
     :size="size"
-    :disabled="disabledPlus"
+    :disabled="disabledMinus"
     :class="{
       'yc-input-number-plus-embed': mode == 'embed',
     }"
@@ -9,12 +9,14 @@
       height: mode == 'embed' ? '11px' : '',
       width: mode == 'embed' ? '18px' : '',
     }"
-    @click="$emit('plus')"
+    @click="$emit('click', type)"
   >
     <template #icon>
       <slot name="icon">
-        <icon-arrow-right v-if="mode == 'embed'" :rotate="90" />
-        <icon-plus v-else />
+        <icon-arrow-up v-if="mode == 'embed' && type == 'minus'" />
+        <icon-arrow-down v-if="mode == 'embed' && type == 'plus'" />
+        <icon-minus v-else-if="mode == 'button' && type == 'minus'" />
+        <icon-plus v-else-if="mode == 'button' && type == 'plus'" />
       </slot>
     </template>
   </yc-button>
@@ -24,28 +26,31 @@
 import { computed, toRefs } from 'vue';
 import { Size } from '@shared/type';
 import { InputNumberMode, InputNumberValue } from '../type';
-import YcButton from '@/components/Button';
-import { IconPlus, IconArrowRight } from '@shared/icons';
+import { IconArrowDown, IconArrowUp, IconPlus, IconMinus } from '@shared/icons';
 const props = defineProps<{
   mode: InputNumberMode;
-  computedValue: InputNumberValue;
+  type: 'minus' | 'plus';
   disabled: boolean;
+  computedValue: InputNumberValue;
+  min: number;
   max: number;
   size: Size;
 }>();
 defineEmits<{
-  (e: 'plus'): void;
+  (e: 'click', type: 'minus' | 'plus'): void;
 }>();
-const { disabled, computedValue, max } = toRefs(props);
+const { disabled, computedValue, min, max, type } = toRefs(props);
 // 禁用递减
-const disabledPlus = computed(() => {
-  return disabled.value || +computedValue.value >= max.value;
+const disabledMinus = computed(() => {
+  if (disabled.value) return disabled.value;
+  return type.value == 'minus'
+    ? +computedValue.value <= min.value
+    : +computedValue.value >= max.value;
 });
 </script>
 
 <style lang="less" scoped>
 .yc-input-number-plus-embed {
-  height: 11px;
   &:deep(.yc-button-icon) {
     height: 10px;
     width: 10px;

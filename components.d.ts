@@ -74,6 +74,7 @@ declare module 'vue' {
     Minus: typeof import('./src/components/InputNumber/component/Minus.vue')['default']
     Modal: typeof import('./src/components/Modal/index.vue')['default']
     Notification: typeof import('./src/components/Notification/Notification.vue')['default']
+    OperaBtn: typeof import('./src/components/InputNumber/component/OperaBtn.vue')['default']
     Optgroup: typeof import('./src/components/Select/Optgroup.vue')['default']
     Option: typeof import('./src/components/Select/Option.vue')['default']
     OverflowList: typeof import('./src/components/OverflowList/index.vue')['default']

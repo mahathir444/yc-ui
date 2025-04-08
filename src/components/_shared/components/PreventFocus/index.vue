@@ -35,12 +35,12 @@ const props = withDefaults(
   defineProps<{
     preventFocus?: boolean;
     tag?: 'div' | 'label' | 'span';
-    fontSize: number | 'inherit';
+    fontSize?: number | 'inherit';
   }>(),
   {
     preventFocus: true,
+    fontSize: 'inherit',
     tag: 'div',
-    fontSize: 14,
   }
 );
 const { fontSize: _fontSize } = toRefs(props);

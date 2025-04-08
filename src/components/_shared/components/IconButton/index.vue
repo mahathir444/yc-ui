@@ -1,5 +1,5 @@
 <template>
-  <yc-prevent-focus class="yc-icon-button" :font-size="fontSize">
+  <yc-prevent-focus :font-size="fontSize" class="yc-icon-button">
     <slot name="icon">
       <icon-close />
     </slot>

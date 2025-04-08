@@ -19,7 +19,7 @@
     />
     <slot name="checkbox" :checked="computedChecked" :disabled="disabled">
       <yc-icon-button
-        hover-size="24px"
+        :hover-size="24"
         :hover-color="
           computedChecked || disabled ? 'transparent' : 'rgb(242, 243, 245)'
         "

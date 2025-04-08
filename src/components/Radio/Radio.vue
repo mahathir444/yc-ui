@@ -21,7 +21,7 @@
     <slot name="radio" :checked="computedChecked" :disabled="disabled">
       <template v-if="type == 'radio'">
         <yc-icon-button
-          hover-size="24px"
+          :hover-size="24"
           :hover-color="
             computedChecked || disabled ? 'transparent' : 'rgb(242, 243, 245)'
           "

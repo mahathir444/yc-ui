@@ -20,7 +20,7 @@
     <!-- password -->
     <yc-icon-button
       v-if="isPassword && invisibleButton"
-      font-size="14px"
+      :font-size="14"
       @click="$emit('visibilityChange', !computedVisibility)"
     >
       <template #icon>
@@ -31,7 +31,7 @@
     <!-- search -->
     <yc-icon-button
       v-if="isSearch && !searchButton"
-      font-size="14px"
+      :font-size="14"
       @click="$emit('search')"
     >
       <template #icon>
@@ -52,7 +52,7 @@ defineProps<{
   maxLength: number;
   showClearBtn: boolean;
   showWordLimit: boolean;
-  computedValue: boolean;
+  computedValue: string;
   computedVisibility: boolean;
   isSearch: boolean;
   searchButton: boolean;

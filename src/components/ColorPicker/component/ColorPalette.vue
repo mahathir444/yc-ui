@@ -1,10 +1,11 @@
 <template>
   <div
     class="yc-color-picker-palette"
+    :class="{
+      'yc-color-picker-palette-disabled': disabled,
+    }"
     :style="{
       backgroundColor: baseColor,
-      cursor: disabled ? 'not-allowed' : 'pointer',
-      opacity: disabled ? 0.8 : 1,
     }"
     ref="paletteRef"
     @click="handleClick"
