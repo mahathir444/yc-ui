@@ -5,10 +5,6 @@
     :class="{
       'yc-input-number-plus-embed': mode == 'embed',
     }"
-    :style="{
-      height: mode == 'embed' ? '11px' : '',
-      width: mode == 'embed' ? '18px' : '',
-    }"
     @click="$emit('click', type)"
   >
     <template #icon>
@@ -51,6 +47,8 @@ const disabledMinus = computed(() => {
 
 <style lang="less" scoped>
 .yc-input-number-plus-embed {
+  height: 11px;
+  width: 18px;
   &:deep(.yc-button-icon) {
     height: 10px;
     width: 10px;

@@ -99,6 +99,10 @@ const btnClass = computed(() => {
     loading.value ? 'yc-button-loading' : '',
     // disabled
     disabled.value ? 'yc-button-disabled' : '',
+    // only-icon
+    !slots.default ? 'yc-button-only-icon' : '',
+    // no-padding
+    !slots.default || shape.value == 'circle' ? 'yc-button-no-padding' : '',
     // size
     SIZE_CLASS[size.value],
     // type
@@ -109,10 +113,6 @@ const btnClass = computed(() => {
     SHAPE_CLASS[shape.value],
   ];
 });
-// button的样式
-const padding = computed(() =>
-  !slots.default || shape.value == 'circle' ? 0 : ''
-);
 const width = computed(() =>
   !slots.default || shape.value == 'circle'
     ? `${SIZE_MAP[size.value]}px`
@@ -138,6 +138,5 @@ const handleEvent = (type: ButtonEventType, e: ButtonEvent) => {
 .yc-button {
   width: v-bind(width);
   border-radius: v-bind(borderRadius);
-  // padding: v-bind(padding);
 }
 </style>

@@ -9,18 +9,12 @@
       SIZE_CLASS[size],
     ]"
     :aria-checked="compuedChecked"
-    :style="switchCss"
     role="switch"
     @focus="$emit('focus', $event)"
     @blur="$emit('blur', $event)"
     @click="handleClick"
   >
-    <span
-      class="yc-switch-handle"
-      :style="{
-        borderRadius: ['circle', 'line'].includes(type) ? '50%' : '2px',
-      }"
-    >
+    <span class="yc-switch-handle">
       <span class="yc-switch-handle-icon">
         <yc-spin v-if="loading" color="inherit" size="inherit" />
         <slot
@@ -58,12 +52,12 @@ const props = withDefaults(defineProps<SwitchProps>(), {
   defaultValue: false,
   disabled: false,
   loading: false,
-  type: 'circle',
+  type: 'line',
   size: 'medium',
   checkedValue: true,
   uncheckedValue: false,
-  checkedColor: '',
-  uncheckedColor: '',
+  checkedColor: 'rgba(22, 93, 255)',
+  uncheckedColor: 'rgb(201, 205, 212)',
   checkedText: '',
   uncheckedText: '',
   beforeChange: () => {
@@ -113,21 +107,10 @@ const showText = computed(() => {
     (showCheckedText || showUncheckedText)
   );
 });
-// switchCss
-const switchCss = computed(() => {
-  let backgroundColor;
-  if (checkedColor.value && compuedChecked.value) {
-    backgroundColor = checkedColor.value;
-  } else if (uncheckedColor.value && !compuedChecked.value) {
-    backgroundColor = uncheckedColor.value;
-  } else {
-    backgroundColor = '';
-  }
-  return {
-    backgroundColor,
-    borderRadius: type.value == 'round' ? '2px' : `${SIZE_MAP[size.value]}px`,
-  } as CSSProperties;
-});
+// switch样式
+const background = computed(() =>
+  compuedChecked.value ? checkedColor.value : uncheckedColor.value
+);
 // 处理beforeChange
 const handleBeforeChange = async (newValue: SwitchValue) => {
   let isChange = true;
@@ -162,4 +145,10 @@ const handleClick = async (e: Event) => {
 
 <style lang="less" scoped>
 @import './style/switch.less';
+.yc-switch {
+  background-color: v-bind(background);
+  &::after {
+    background-color: v-bind(background);
+  }
+}
 </style>
