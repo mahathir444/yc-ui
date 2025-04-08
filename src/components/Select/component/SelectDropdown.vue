@@ -62,11 +62,8 @@
 </template>
 
 <script lang="ts" setup>
-import { inject, ref, toRefs } from 'vue';
-import { SelectOptions, SelectProvide } from '../type';
-import { SELECT_PROVIDE_KEY } from '@shared/constants';
+import { SelectOptions } from '../type';
 import { ObjectData } from '@shared/type';
-import { useVirtualList } from '@vueuse/core';
 import YcOption from '../Option.vue';
 import YcOptgroup from '../Optgroup.vue';
 const props = defineProps<{
@@ -79,19 +76,10 @@ const props = defineProps<{
   showHeaderOnEmpty: boolean;
   showFooterOnEmpty: boolean;
 }>();
-// 解构父级provide的属性
-const { emits } = inject<SelectProvide>(SELECT_PROVIDE_KEY, {
-  computedValue: ref(undefined),
-  computedInputValue: ref(''),
-  multiple: ref(false),
-  limit: ref(0),
-  curIndex: ref(-1),
-  options: ref([]),
-  blur: () => {},
-  filterOption: () => true,
-  getValue: () => {},
-  emits: () => {},
-});
+const emits = defineEmits<{
+  (e: 'dropdownScroll'): void;
+  (e: 'dropdownReachBottom'): void;
+}>();
 // const { options } = toRefs(props);
 // 虚拟列表
 // const {

@@ -122,6 +122,8 @@
         :is-empty="isEmpty"
         :show-footer-on-empty="showFooterOnEmpty"
         :show-header-on-empty="showHeaderOnEmpty"
+        @dropdown-reach-bottom="$emit('dropdownReachBottom')"
+        @dropdown-scroll="$emit('dropdownScroll')"
       >
         <!-- loading -->
         <template v-if="$slots['loading-icon']" #loading-icon>

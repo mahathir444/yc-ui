@@ -1,4 +1,4 @@
-import { ObjectData, Size } from '@shared/type';
+import { ObjectData, Size, RequiredDeep } from '@shared/type';
 import { ButtonProps } from '@/components/Button/type';
 
 export interface InputProps {
@@ -49,6 +49,11 @@ export type WordSlice = (value: string, maxLength: number) => string;
 export type WordLength = (value: string) => number;
 
 // 内部使用
+export interface InputProvide {
+  props: InputProps;
+  emits: InputEmits;
+}
+
 export type InputEventType =
   | 'input'
   | 'change'

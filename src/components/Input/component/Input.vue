@@ -44,67 +44,44 @@
     >
       <slot name="label" />
     </yc-prevent-focus>
-    <!-- suffix-icon -->
-    <yc-prevent-focus
+    <!-- suffixIcon -->
+    <yc-suffix
       v-if="$slots.suffix || showWordLimit || showClearBtn"
-      class="yc-input-suffix"
-      ref="suffixRef"
+      :cur-length="curLength"
+      :max-length="maxLength"
+      :computed-value="computedValue"
+      :computed-visibility="computedVisibility"
+      :invisible-button="invisibleButton"
+      :is-password="isPassword"
+      :search-button="showClearBtn"
+      :is-search="isSearch"
+      :show-clear-btn="showClearBtn"
+      :show-word-limit="showWordLimit"
+      @clear="(ev) => handleEvent('clear', ev)"
+      @search="$emit('search', computedValue)"
+      @visibility-change="(v) => (computedVisibility = v)"
     >
-      <!-- clear-btn -->
-      <yc-icon-button
-        v-if="showClearBtn"
-        class="yc-input-clear-button"
-        @click="handleEvent('clear', $event)"
-      />
-      <!-- word-limit -->
-      <yc-prevent-focus
-        v-if="showWordLimit"
-        tag="span"
-        class="yc-input-word-limit"
-      >
-        {{ curLength }}
-        /
-        {{ maxLength }}
-      </yc-prevent-focus>
-      <!-- password -->
-      <yc-icon-button
-        v-if="isPassword && invisibleButton"
-        font-size="14px"
-        @click="computedVisibility = !computedVisibility"
-      >
-        <template #icon>
-          <icon-eye-open v-if="!computedVisibility" />
-          <icon-eye-close v-else />
-        </template>
-      </yc-icon-button>
-      <!-- search -->
-      <yc-icon-button
-        v-if="isSearch && !searchButton"
-        font-size="14px"
-        @click="emits('search', computedValue)"
-      >
-        <template #icon>
-          <icon-search />
-        </template>
-      </yc-icon-button>
-      <!-- suffix -->
-      <slot name="suffix" />
-    </yc-prevent-focus>
+      <template #suffix>
+        <slot name="suffix" />
+      </template>
+    </yc-suffix>
   </div>
 </template>
 
 <script lang="ts" setup>
-import { ref, toRefs, computed, inject, onMounted, useSlots } from 'vue';
-import { InputEvent, InputEventType, InputProps, InputEmits } from '../type';
+import { ref, toRefs, computed, inject } from 'vue';
+import { InputEvent, InputEventType, InputProps, InputProvide } from '../type';
+import { INPUT_PROVIDE_KEY } from '@shared/constants';
 import { RequiredDeep } from '@shared/type';
 import { SIZE_CLASS } from '../constants';
 import useControlValue from '@shared/hooks/useControlValue';
 import useLimitedInput from '@shared/hooks/useLimitedInput';
-import { IconSearch, IconEyeOpen, IconEyeClose } from '@shared/icons';
+import YcSuffix from './Suffix.vue';
 import YcPreventFocus from '@shared/components/PreventFocus';
-import YcIconButton from '@shared/components/IconButton';
-const props = inject('props', {}) as RequiredDeep<InputProps>;
-const emits = inject('emits', () => {}) as InputEmits;
+const { props, emits } = inject<InputProvide>(INPUT_PROVIDE_KEY, {
+  props: {} as any,
+  emits: () => {},
+});
 const {
   visibility,
   defaultVisibility,
@@ -118,9 +95,8 @@ const {
   maxLength,
   isSearch,
   isPassword,
-  searchButton,
   invisibleButton,
-} = toRefs(props);
+} = toRefs(props as RequiredDeep<InputProps>);
 // 输入实例
 const inputRef = ref<HTMLInputElement>();
 // 非受控的vis

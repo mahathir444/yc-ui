@@ -34,8 +34,8 @@
       <slot name="append" v-bind="props">
         <yc-button
           v-if="isSearch && searchButton"
-          :loading="loading"
           type="primary"
+          :loading="loading"
           v-bind="buttonProps"
           @click="emits('search', inputRef!.getInputValue())"
         >
@@ -65,8 +65,9 @@
 
 <script lang="ts" setup>
 import { ref, provide } from 'vue';
-import { InputProps } from './type';
+import { InputProps, InputEmits, InputProvide } from './type';
 import { SIZE_MAP } from '@shared/constants';
+import { INPUT_PROVIDE_KEY } from '@shared/constants';
 import YcInput from './component/Input.vue';
 import YcPreventFocus from '@shared/components/PreventFocus';
 defineOptions({
@@ -108,22 +109,11 @@ const props = withDefaults(defineProps<InputProps>(), {
   // select
   showInput: false,
 });
-const emits = defineEmits<{
-  (e: 'update:modelValue', value: string): void;
-  (e: 'update:visibility', value: boolean): void;
-  (e: 'input', value: string, ev: Event): void;
-  (e: 'change', value: string, ev: Event): void;
-  (e: 'visibilityChange', value: boolean): void;
-  (e: 'search', value: string): void;
-  (e: 'pressEnter', ev: KeyboardEvent): void;
-  (e: 'keydown', ev: KeyboardEvent): void;
-  (e: 'clear', ev: MouseEvent): void;
-  (e: 'focus', ev: FocusEvent): void;
-  (e: 'blur', ev: FocusEvent): void;
-}>();
-provide('props', props);
-// 注入emits
-provide('emits', emits);
+const emits = defineEmits<InputEmits>();
+provide<InputProvide>(INPUT_PROVIDE_KEY, {
+  props,
+  emits,
+});
 // 输入实例
 const inputRef = ref<InstanceType<typeof YcInput>>();
 // 暴露方法
