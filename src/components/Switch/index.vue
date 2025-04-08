@@ -37,10 +37,9 @@
 </template>
 
 <script lang="ts" setup>
-import { toRefs, computed, CSSProperties } from 'vue';
+import { toRefs, computed } from 'vue';
 import { SwitchProps, SwitchValue } from './type';
 import { SIZE_CLASS, SHAPE_CLASS } from './constants';
-import { SIZE_MAP } from '@shared/constants';
 import { isBoolean } from '@shared/utils/is';
 import useControlValue from '@shared/hooks/useControlValue';
 import YcSpin from '@/components/Spin';
@@ -144,11 +143,11 @@ const handleClick = async (e: Event) => {
 </script>
 
 <style lang="less" scoped>
-@import './style/switch.less';
 .yc-switch {
   background-color: v-bind(background);
   &::after {
     background-color: v-bind(background);
   }
 }
+@import './style/switch.less';
 </style>

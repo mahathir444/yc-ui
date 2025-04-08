@@ -102,7 +102,7 @@ const btnClass = computed(() => {
     // only-icon
     !slots.default ? 'yc-button-only-icon' : '',
     // no-padding
-    !slots.default || shape.value == 'circle' ? 'yc-button-no-padding' : '',
+    shape.value == 'circle' ? 'yc-button-no-padding' : '',
     // size
     SIZE_CLASS[size.value],
     // type
@@ -118,14 +118,6 @@ const width = computed(() =>
     ? `${SIZE_MAP[size.value]}px`
     : 'fit-content'
 );
-const borderRadius = computed(() => {
-  const borderRadiusMap = {
-    circle: '50%',
-    round: SIZE_MAP[size.value] / 2 + 'px',
-    square: '2px',
-  };
-  return borderRadiusMap[shape.value];
-});
 // 拦截事件
 const handleEvent = (type: ButtonEventType, e: ButtonEvent) => {
   if (disabled.value || loading.value) return;
@@ -137,6 +129,5 @@ const handleEvent = (type: ButtonEventType, e: ButtonEvent) => {
 @import './style/button.less';
 .yc-button {
   width: v-bind(width);
-  border-radius: v-bind(borderRadius);
 }
 </style>

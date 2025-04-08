@@ -1,14 +1,13 @@
 <template>
   <div class="test">
-    <div style="width: 600px; height: 10px; display: flex">
+    <div style="width: 600px; height: 30px; display: flex">
+      <a-divider direction="horizontal" :size="2" orientation="right">
+        text
+      </a-divider>
+      <yc-divider :size="2"></yc-divider>
+    </div>
+    <div style="width: 600px; height: 30px; display: flex">
       <!-- <a-divider direction="horizontal" :size="2"> text </a-divider> -->
-      <!-- <yc-divider direction="vertical" /> -->
-      <yc-button-group>
-        <yc-button> 测试 </yc-button>
-        <yc-button> 测试 </yc-button>
-        <yc-button> 测试 </yc-button>
-        <yc-button> 测试 </yc-button>
-      </yc-button-group>
     </div>
   </div>
 </template>
