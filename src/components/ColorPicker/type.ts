@@ -1,5 +1,5 @@
 import { Ref, WritableComputedRef } from 'vue';
-import { Size, RequiredDeep } from '@shared/type';
+import { Size } from '@shared/type';
 import { TriggerProps } from '@/components/Trigger';
 
 export interface ColorPickerProps {
@@ -28,7 +28,7 @@ export type ColorFormat = 'hex' | 'rgb';
 
 // 内置类型
 export type ColorPickerProvide = {
-  props: RequiredDeep<ColorPickerProps>;
+  props: ColorPickerProps;
   emits: ColorPickerEmits;
   popupVisible: Ref<boolean>;
   computedColor: WritableComputedRef<string> | Ref<string>;

@@ -49,7 +49,7 @@
 
 <script lang="ts" setup>
 import { ref, computed, useSlots } from 'vue';
-import { TriggerProps } from './type';
+import { TriggerProps, TriggerEmits } from './type';
 import { findFirstLegitChild } from '@shared/utils/vue-vnode';
 import useTriggerVisible from '@shared/hooks/useTriggerVisible';
 import useTriggerPosition from '@shared/hooks/useTriggerPosition';
@@ -97,12 +97,7 @@ const props = withDefaults(defineProps<TriggerProps>(), {
   needTransformOrigin: false,
   autoSetPosition: false,
 });
-const emits = defineEmits<{
-  (e: 'update:popupVisible', value: boolean): void;
-  (e: 'popup-visible-change', value: boolean): void;
-  (e: 'show'): void;
-  (e: 'hide'): void;
-}>();
+const emits = defineEmits<TriggerEmits>();
 // 弹出层的ref
 const popupRef = ref<HTMLDivElement>();
 // trigger的ref

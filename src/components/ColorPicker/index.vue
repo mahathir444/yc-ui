@@ -21,7 +21,7 @@
 <script lang="ts" setup>
 import { ref, toRefs, provide } from 'vue';
 import { PRESET_COLORS } from './constants';
-import { ColorPickerProps, ColorPickerProvide } from './type';
+import { ColorPickerProps, ColorPickerEmits, ColorPickerProvide } from './type';
 import { parseColor } from '@shared/utils/color';
 import { COLOR_PICKER_PROVIDE_KEY } from '@shared/constants';
 import useControlValue from '@shared/hooks/useControlValue';
@@ -48,11 +48,7 @@ const props = withDefaults(defineProps<ColorPickerProps>(), {
   historyColors: () => [],
   presetColors: () => PRESET_COLORS,
 });
-const emits = defineEmits<{
-  (e: 'update:modelValue', value: string): void;
-  (e: 'change', value: boolean): void;
-  (e: 'popupVisibleChange', value: boolean): void;
-}>();
+const emits = defineEmits<ColorPickerEmits>();
 const { modelValue, defaultValue, format: _format } = toRefs(props);
 // 当前的format
 const format = useControlValue<string>(ref(undefined), _format.value);
@@ -83,7 +79,8 @@ const computedColor = useControlValue<string>(
 const baseColor = ref<string>(computedColor.value);
 // visible
 const popupVisible = ref<boolean>(false);
-provide(COLOR_PICKER_PROVIDE_KEY, {
+// 提供属性
+provide<ColorPickerProvide>(COLOR_PICKER_PROVIDE_KEY, {
   props,
   emits,
   popupVisible,
