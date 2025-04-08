@@ -1,25 +1,20 @@
 <template>
   <div class="yc-result">
-    <div v-if="$slots.icon || status" class="yc-result-icon">
-      <div
-        :class="[
-          'yc-result-icon-tip',
-          ['403', '404', '500'].includes(status as string)
-            ? `yc-result-icon-custom`
-            : `yc-result-icon-${status}`,
-        ]"
-      >
+    <div
+      v-if="$slots.icon || status"
+      :class="['yc-result-icon', `yc-result-icon-${status}`]"
+      :style="{
+        color: RESULT_ICON_COLOR_MAP[status as string],
+      }"
+    >
+      <div :class="['yc-result-icon-tip']">
         <slot name="icon">
           <template v-if="status">
             <img
               v-if="['403', '404', '500'].includes(status)"
               :src="RESULT_ICON_MAP[status]"
             />
-            <component
-              v-else
-              :is="RESULT_ICON_MAP[status]"
-              :color="RESULT_ICON_COLOR_MAP[status]"
-            />
+            <component v-else :is="RESULT_ICON_MAP[status]" />
           </template>
         </slot>
       </div>

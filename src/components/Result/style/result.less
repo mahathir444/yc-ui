@@ -38,21 +38,30 @@
 // icon-type
 .yc-result {
   .yc-result-icon-info {
-    background-color: rgb(232, 243, 255);
+    .yc-result-icon-tip {
+      background-color: rgb(232, 243, 255);
+    }
   }
   .yc-result-icon-success {
-    background-color: rgb(232, 255, 234);
+    .yc-result-icon-tip {
+      background-color: rgb(232, 255, 234);
+    }
   }
   .yc-result-icon-warning {
-    background-color: rgb(255, 247, 232);
+    .yc-result-icon-tip {
+      background-color: rgb(255, 247, 232);
+    }
   }
   .yc-result-icon-error {
-    background-color: rgb(255, 236, 232);
+    .yc-result-icon-tip {
+      background-color: rgb(255, 236, 232);
+    }
   }
-
-  .yc-result-icon {
+  .yc-result-icon-403,
+  .yc-result-icon-404,
+  .yc-result-icon-500 {
     padding-top: 24px;
-    .yc-result-icon-custom {
+    .yc-result-icon-tip {
       width: 92px;
       height: 92px;
       line-height: 92px;

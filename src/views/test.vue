@@ -1,7 +1,7 @@
 <template>
   <div class="test">
     <div style="width: 600px; display: flex">
-      <yc-result subtitle="This page isn’t working." title="404" status="404">
+      <yc-result subtitle="This page isn’t working." title="404">
         <template #extra>
           <yc-button type="primary" style="margin-right: 8px"
             >go back</yc-button
