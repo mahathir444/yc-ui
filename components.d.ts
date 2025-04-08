@@ -7,7 +7,9 @@ export {}
 /* prettier-ignore */
 declare module 'vue' {
   export interface GlobalComponents {
+    AAlert: typeof import('@arco-design/web-vue')['Alert']
     ABackTop: typeof import('@arco-design/web-vue')['BackTop']
+    Alert: typeof import('./src/components/Alert/index.vue')['default']
     AutoComplete: typeof import('./src/components/AutoComplete/index.vue')['default']
     BackTop: typeof import('./src/components/BackTop/index.vue')['default']
     Button: typeof import('./src/components/Button/Button.vue')['default']

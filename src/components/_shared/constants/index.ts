@@ -21,6 +21,7 @@ export const TYPE_ICON_MAP: Record<string, any> = {
   error: IconError,
   info: IconInfo,
   loading: IconLoading,
+  normal: IconInfo,
 };
 
 export const TYPE_ICON_COLOR_MAP: Record<string, string> = {
@@ -29,6 +30,7 @@ export const TYPE_ICON_COLOR_MAP: Record<string, string> = {
   warning: 'rgb(255, 125, 0)',
   error: 'rgb(245, 63, 63)',
   loading: 'rgb(22, 93, 225)',
+  normal: 'rgb(201,205,212)',
 };
 
 // provide-keys

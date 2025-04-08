@@ -1,19 +1,25 @@
 <template>
   <div class="test">
-    <div class="wrapper">
-      <ul id="basic-demo">
-        <li v-for="(_, index) of Array(40)" :key="index">
-          This is the content
-        </li>
-      </ul>
-      <yc-back-top target-container="#basic-demo" />
+    <div style="width: 600px; display: flex">
+      <yc-alert title="测试" style="width: 300px" type="success">
+        哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈
+        <template #action>
+          <yc-button>测试</yc-button>
+        </template>
+      </yc-alert>
+      <a-alert title="测试" style="width: 300px" type="success" closable>
+        哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈
+        <template #action>
+          <yc-button>测试</yc-button>
+        </template>
+      </a-alert>
     </div>
   </div>
 </template>
 
 <script lang="ts" setup>
 import { ref, watch } from 'vue';
-import YcBackTop from '@/components/BackTop/index.vue';
+import YcAlert from '@/components/Alert/index.vue';
 const value = ref('dsadsa');
 const options = [
   'Bytedance',
