@@ -7,7 +7,9 @@ export {}
 /* prettier-ignore */
 declare module 'vue' {
   export interface GlobalComponents {
+    ABackTop: typeof import('@arco-design/web-vue')['BackTop']
     AutoComplete: typeof import('./src/components/AutoComplete/index.vue')['default']
+    BackTop: typeof import('./src/components/BackTop/index.vue')['default']
     Button: typeof import('./src/components/Button/Button.vue')['default']
     ButtonGroup: typeof import('./src/components/Button/ButtonGroup.vue')['default']
     Checkbox: typeof import('./src/components/Checkbox/Checkbox.vue')['default']
@@ -51,6 +53,7 @@ declare module 'vue' {
     IconSearch: typeof import('./src/components/_shared/icons/IconSearch.vue')['default']
     IconStar: typeof import('./src/components/_shared/icons/IconStar.vue')['default']
     IconSuccess: typeof import('./src/components/_shared/icons/IconSuccess.vue')['default']
+    IconToTop: typeof import('./src/components/_shared/icons/IconToTop.vue')['default']
     IconWarning: typeof import('./src/components/_shared/icons/IconWarning.vue')['default']
     Input: typeof import('./src/components/Input/index.vue')['default']
     InputNumber: typeof import('./src/components/InputNumber/index.vue')['default']

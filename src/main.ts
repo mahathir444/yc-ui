@@ -6,8 +6,6 @@ import '@arco-design/web-vue/dist/arco.css';
 // ycui
 import YcUi from './components';
 import '@/components/index.less';
-// teaching
-import '@/teaching-front/_shared/styles/global.less';
 const app = createApp(App);
 app.use(router);
 app.use(YcUi);

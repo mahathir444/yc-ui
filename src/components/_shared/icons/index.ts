@@ -20,3 +20,4 @@ export { default as IconFaceSmile } from './IconFaceSmile.vue';
 export { default as IconStar } from './IconStar.vue';
 export { default as IconSuccess } from './IconSuccess.vue';
 export { default as IconWarning } from './IconWarning.vue';
+export { default as IconToTop } from './IconToTop.vue';
