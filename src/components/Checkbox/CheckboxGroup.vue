@@ -30,7 +30,7 @@
 
 <script lang="ts" setup>
 import { toRefs, provide } from 'vue';
-import { CheckboxGroupProps, CheckboxValue, ProvideType } from './type';
+import { CheckboxGroupProps, CheckboxValue, CheckboxProvide } from './type';
 import { CHECKBOX_GROUP_PROVIDE_KEY } from '@shared/constants';
 import useControlValue from '@shared/hooks/useControlValue';
 import YcCheckbox from './Checkbox.vue';
@@ -59,7 +59,7 @@ const computedValue = useControlValue<CheckboxValue[]>(
   }
 );
 // 提供给子组件
-provide<ProvideType>(CHECKBOX_GROUP_PROVIDE_KEY, {
+provide<CheckboxProvide>(CHECKBOX_GROUP_PROVIDE_KEY, {
   computedValue,
   max,
   disabled,

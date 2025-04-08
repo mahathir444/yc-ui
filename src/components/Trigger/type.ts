@@ -70,7 +70,7 @@ export type TriggerType = 'hover' | 'click' | 'focus' | 'contextMenu';
 export type PopupContainer = string | HTMLElement;
 
 // 内部使用
-export type ProvideType = {
+export type TriggerProvide = {
   level: number;
   curHoverLevel: Ref<number>;
   groupIds: Ref<string[]>;

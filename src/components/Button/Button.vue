@@ -40,7 +40,12 @@
 
 <script lang="ts" setup>
 import { computed, toRefs, inject, useSlots, CSSProperties } from 'vue';
-import { ButtonProps, ProvideType, ButtonEvent, ButtonEventType } from './type';
+import {
+  ButtonProps,
+  ButtonProvide,
+  ButtonEvent,
+  ButtonEventType,
+} from './type';
 import { SIZE_CLASS, TYPE_CLASS, STATUS_CLASS, SHAPE_CLASS } from './constants';
 import { BUTTON_GROUP_PROVIDE_KEY, SIZE_MAP } from '@shared/constants';
 import YcSpin from '@/components/Spin';
@@ -76,7 +81,7 @@ const {
 } = toRefs(props);
 const slots = useSlots();
 // buttonGroup接收的属性
-const { size, disabled, type, status, shape } = inject<ProvideType>(
+const { size, disabled, type, status, shape } = inject<ButtonProvide>(
   BUTTON_GROUP_PROVIDE_KEY,
   {
     size: _size,

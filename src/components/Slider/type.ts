@@ -38,7 +38,7 @@ export interface RangeData {
 }
 
 // 内部使用
-export interface ProvideType {
+export interface SliderProvide {
   startValue: WritableComputedRef<number> | Ref<number>;
   endValue: WritableComputedRef<number> | Ref<number>;
   tempStartValue: Ref<number>;

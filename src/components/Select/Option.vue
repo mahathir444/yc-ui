@@ -34,7 +34,7 @@
 
 <script lang="ts" setup>
 import { ref, toRefs, inject, computed } from 'vue';
-import { OptionProps, SelectValue, ProvideType } from './type';
+import { OptionProps, SelectProvide } from './type';
 import { ObjectData } from '@shared/type';
 import { SELECT_PROVIDE_KEY } from '@shared/constants';
 import { isUndefined } from '@shared/utils/is';
@@ -60,7 +60,7 @@ const {
   filterOption,
   getValue,
   emits,
-} = inject<ProvideType>(SELECT_PROVIDE_KEY, {
+} = inject<SelectProvide>(SELECT_PROVIDE_KEY, {
   computedValue: ref(undefined),
   computedInputValue: ref(''),
   multiple: ref(false),

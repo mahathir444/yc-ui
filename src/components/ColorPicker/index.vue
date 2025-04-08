@@ -21,7 +21,7 @@
 <script lang="ts" setup>
 import { ref, toRefs, provide } from 'vue';
 import { PRESET_COLORS } from './constants';
-import { ColorPickerProps, ProvideType } from './type';
+import { ColorPickerProps, ColorPickerProvide } from './type';
 import { parseColor } from '@shared/utils/color';
 import { COLOR_PICKER_PROVIDE_KEY } from '@shared/constants';
 import useControlValue from '@shared/hooks/useControlValue';

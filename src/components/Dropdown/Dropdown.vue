@@ -29,7 +29,7 @@
 
 <script lang="ts" setup>
 import { provide, toRefs, computed } from 'vue';
-import { DropdownProps, DoptionValue, ProvideType } from './type';
+import { DropdownProps, DoptionValue, DropdownProvide } from './type';
 import { DROPDOWN_PROVIDE_KEY } from '@shared/constants';
 import { DROPDOWN_POSITION_MAP } from './constants';
 import useControlValue from '@shared/hooks/useControlValue';
@@ -73,7 +73,7 @@ const position = computed(() => {
   return DROPDOWN_POSITION_MAP[_position.value] || 'bottom';
 });
 // dropdown提供的值
-provide<ProvideType>(DROPDOWN_PROVIDE_KEY, {
+provide<DropdownProvide>(DROPDOWN_PROVIDE_KEY, {
   select: (value: DoptionValue, ev: MouseEvent) => {
     emits('select', value, ev);
     if (!hideOnSelect.value) return;

@@ -10,23 +10,6 @@
       </yc-input>
       <yc-button disabled> 测试 </yc-button>
     </div>
-    <div style="width: 300px">
-      select
-      <yc-select
-        allow-clear
-        allow-search
-        placeholder="请选择"
-        :max-tag-count="3"
-        :options="[
-          {
-            label: '分组1',
-            isGroup: true,
-            options,
-          },
-        ]"
-      >
-      </yc-select>
-    </div>
   </div>
 </template>
 

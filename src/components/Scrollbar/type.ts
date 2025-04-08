@@ -21,7 +21,7 @@ export interface ScrollbarSize {
 }
 
 // 内部使用
-export interface ProvideType {
+export interface ScrollbarProvide {
   curTop: Ref<number>;
   curLeft: Ref<number>;
   movableLeft: Ref<number> | ComputedRef<number>;

@@ -73,14 +73,14 @@
 <script lang="ts" setup>
 import { ref, inject, toRefs } from 'vue';
 import { COLOR_PICKER_PROVIDE_KEY } from '@shared/constants';
-import { ProvideType } from '../type';
+import { ColorPickerProvide } from '../type';
 import ColorPalette from './ColorPalette.vue';
 import ColorInput from './ColorInput.vue';
 import ColorList from './ColorList.vue';
 import ColorControlBar from './ColorControlBar.vue';
 // 注入值
 const { props, popupVisible, computedColor, baseColor, alpha, format } =
-  inject<ProvideType>(COLOR_PICKER_PROVIDE_KEY, {
+  inject<ColorPickerProvide>(COLOR_PICKER_PROVIDE_KEY, {
     props: {} as any,
     emits: () => {},
     popupVisible: ref(false),

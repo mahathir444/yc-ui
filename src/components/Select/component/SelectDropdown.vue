@@ -63,7 +63,7 @@
 
 <script lang="ts" setup>
 import { inject, ref, toRefs } from 'vue';
-import { SelectOptions, ProvideType } from '../type';
+import { SelectOptions, SelectProvide } from '../type';
 import { SELECT_PROVIDE_KEY } from '@shared/constants';
 import { ObjectData } from '@shared/type';
 import { useVirtualList } from '@vueuse/core';
@@ -80,7 +80,7 @@ const props = defineProps<{
   showFooterOnEmpty: boolean;
 }>();
 // 解构父级provide的属性
-const { emits } = inject<ProvideType>(SELECT_PROVIDE_KEY, {
+const { emits } = inject<SelectProvide>(SELECT_PROVIDE_KEY, {
   computedValue: ref(undefined),
   computedInputValue: ref(''),
   multiple: ref(false),

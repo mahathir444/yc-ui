@@ -32,7 +32,7 @@
 
 <script lang="ts" setup>
 import { toRefs, provide } from 'vue';
-import { RadioGroupProps, RadioValue, ProvideType } from './type';
+import { RadioGroupProps, RadioValue, RadioProvide } from './type';
 import { SIZE_CLASS } from './constants';
 import { RADIO_GROUP_PROVIDE_KEY } from '@shared/constants';
 import useControlValue from '@shared/hooks/useControlValue';
@@ -63,7 +63,7 @@ const computedValue = useControlValue<RadioValue>(
   }
 );
 // 提供给子组件
-provide<ProvideType>(RADIO_GROUP_PROVIDE_KEY, {
+provide<RadioProvide>(RADIO_GROUP_PROVIDE_KEY, {
   computedValue,
   type,
   disabled,

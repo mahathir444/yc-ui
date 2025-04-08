@@ -46,7 +46,7 @@
 
 <script lang="ts" setup>
 import { ref, toRefs, computed, provide } from 'vue';
-import { SliderProps, ProvideType, PositionData } from './type';
+import { SliderProps, SliderProvide, PositionData } from './type';
 import { SLIDER_PROVIDE_KEY } from '@shared/constants';
 import useSliderValue from '@shared/hooks/useSliderValue';
 import YcSliderTicks from './component/SliderTicks.vue';
@@ -151,7 +151,7 @@ const position = computed(() => {
   };
 });
 // 提供值
-provide<ProvideType>(SLIDER_PROVIDE_KEY, {
+provide<SliderProvide>(SLIDER_PROVIDE_KEY, {
   startValue,
   endValue,
   tempStartValue,

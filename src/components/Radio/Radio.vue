@@ -43,7 +43,7 @@
 
 <script lang="ts" setup>
 import { toRefs, inject, computed, ref } from 'vue';
-import { RadioProps, RadioValue, ProvideType } from './type';
+import { RadioProps, RadioValue, RadioProvide } from './type';
 import { SIZE_CLASS } from './constants';
 import { RADIO_GROUP_PROVIDE_KEY } from '@shared/constants';
 import { isUndefined } from '@shared/utils/is';
@@ -73,7 +73,7 @@ const {
   type: _type,
 } = toRefs(props);
 // 接收的值
-const { computedValue, disabled, type, size } = inject<ProvideType>(
+const { computedValue, disabled, type, size } = inject<RadioProvide>(
   RADIO_GROUP_PROVIDE_KEY,
   {
     computedValue: ref(undefined),

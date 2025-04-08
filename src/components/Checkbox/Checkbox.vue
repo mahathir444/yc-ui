@@ -39,7 +39,7 @@
 
 <script lang="ts" setup>
 import { toRefs, inject, computed, ref } from 'vue';
-import { CheckboxProps, ProvideType } from './type';
+import { CheckboxProps, CheckboxProvide } from './type';
 import { CHECKBOX_GROUP_PROVIDE_KEY } from '@shared/constants';
 import useControlValue from '@shared/hooks/useControlValue';
 import { IconCheck } from '@shared/icons';
@@ -72,7 +72,7 @@ const {
   computedValue,
   max,
   disabled: injectDisabled,
-} = inject<ProvideType>(CHECKBOX_GROUP_PROVIDE_KEY, {
+} = inject<CheckboxProvide>(CHECKBOX_GROUP_PROVIDE_KEY, {
   computedValue: ref(undefined),
   max: ref(undefined),
   disabled: _disabled,

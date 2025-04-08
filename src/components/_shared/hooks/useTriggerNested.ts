@@ -2,7 +2,7 @@ import { ref, provide, inject, watch, computed } from 'vue';
 import { nanoid } from 'nanoid';
 import { Fn } from '../type';
 import { TRIGGER_PROVIDE_KEY } from '../constants';
-import { ProvideType, TriggerType } from '@/components/Trigger/type';
+import { TriggerProvide, TriggerType } from '@/components/Trigger/type';
 export default (trigger: TriggerType, hideCallback?: Fn) => {
   // 组件标识，用于标识submenu是否处于一个嵌套中
   const groupId = nanoid(32);
@@ -17,7 +17,7 @@ export default (trigger: TriggerType, hideCallback?: Fn) => {
     groupIds,
     timeout,
     hoverTimer,
-  } = inject<ProvideType>(TRIGGER_PROVIDE_KEY, {
+  } = inject<TriggerProvide>(TRIGGER_PROVIDE_KEY, {
     level: -1,
     curHoverLevel: ref(0),
     groupIds: ref([]),
@@ -69,7 +69,7 @@ export default (trigger: TriggerType, hideCallback?: Fn) => {
     });
   }
   // trigger提供的值
-  provide<ProvideType>(TRIGGER_PROVIDE_KEY, {
+  provide<TriggerProvide>(TRIGGER_PROVIDE_KEY, {
     level,
     curHoverLevel,
     groupIds,

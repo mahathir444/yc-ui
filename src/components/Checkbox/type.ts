@@ -29,7 +29,7 @@ export interface CheckboxOption {
 export type CheckboxValue = string | number | boolean;
 
 // 内部使用
-export interface ProvideType {
+export interface CheckboxProvide {
   computedValue: WritableComputedRef<CheckboxValue[]> | Ref<undefined>;
   max: Ref<number | undefined>;
   disabled: Ref<boolean>;

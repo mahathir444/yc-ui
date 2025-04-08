@@ -25,7 +25,7 @@
 
 <script lang="ts" setup>
 import { ref, toRefs, provide } from 'vue';
-import { OverflowListProps, ProvideType } from './type';
+import { OverflowListProps, OverListProvide } from './type';
 import { OVERFLOW_LIST_PROVIDE_KEY } from '@shared/constants';
 defineOptions({
   name: 'OverflowList',
@@ -42,7 +42,7 @@ const { min } = toRefs(props);
 // 插槽内tag的总数
 const tagNumber = ref<number>(0);
 // 提供给tag
-provide<ProvideType>(OVERFLOW_LIST_PROVIDE_KEY, {
+provide<OverListProvide>(OVERFLOW_LIST_PROVIDE_KEY, {
   min,
   tagNumber,
 });

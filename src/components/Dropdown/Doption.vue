@@ -22,7 +22,7 @@
 
 <script lang="ts" setup>
 import { ref, toRefs, inject } from 'vue';
-import { DoptionProps, ProvideType } from './type';
+import { DoptionProps, DropdownProvide } from './type';
 import { DROPDOWN_PROVIDE_KEY, TRIGGER_PROVIDE_KEY } from '@shared/constants';
 defineOptions({
   name: 'Doption',
@@ -36,7 +36,7 @@ const emits = defineEmits<{
 }>();
 const { value: optionValue, disabled, isSubmenu } = toRefs(props);
 // dropdown传递的值
-const { select } = inject<ProvideType>(DROPDOWN_PROVIDE_KEY, {
+const { select } = inject<DropdownProvide>(DROPDOWN_PROVIDE_KEY, {
   select: () => {},
 });
 // 自身实例

@@ -8,7 +8,7 @@ export interface OverflowListProps {
   extraTagProps?: TagProps;
 }
 
-export interface ProvideType {
+export interface OverListProvide {
   min: Ref<number>;
   tagNumber: Ref<number>;
 }

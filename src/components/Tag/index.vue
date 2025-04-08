@@ -54,7 +54,7 @@ import { TagProps, TagEventType } from './type';
 import { SIZE_CLASS, COLOR_CLASS, COLOR_MAP } from './constants';
 import { isUndefined } from '@shared/utils/is';
 import { OVERFLOW_LIST_PROVIDE_KEY } from '@shared/constants';
-import { ProvideType } from '@/components/OverflowList/type';
+import { OverListProvide } from '@/components/OverflowList/type';
 import YcSpin from '@/components/Spin';
 import useControlValue from '@shared/hooks/useControlValue';
 import YcPreventFocus from '@shared/components/PreventFocus';
@@ -126,10 +126,13 @@ const handleEvent = (type: TagEventType, ev: MouseEvent) => {
 };
 // 初始化tagIndex
 function initTagIndex() {
-  const { tagNumber, min } = inject<ProvideType>(OVERFLOW_LIST_PROVIDE_KEY, {
-    min: ref(0),
-    tagNumber: ref(-1),
-  });
+  const { tagNumber, min } = inject<OverListProvide>(
+    OVERFLOW_LIST_PROVIDE_KEY,
+    {
+      min: ref(0),
+      tagNumber: ref(-1),
+    }
+  );
   if (!isUndefined(_tagIndex.value) || tagNumber.value == -1) {
     return {
       tagIndex: _tagIndex,

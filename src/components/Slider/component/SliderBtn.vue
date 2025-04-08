@@ -23,7 +23,7 @@
 <script lang="ts" setup>
 import { ref, inject, computed, watch, toRefs } from 'vue';
 import { SLIDER_PROVIDE_KEY } from '@shared/constants';
-import { ProvideType, PositionData } from '../type';
+import { SliderProvide, PositionData } from '../type';
 import useSliderDraggable from '@shared/hooks/useSliderDraggable';
 import YcTooltip from '@/components/Tooltip';
 const props = defineProps<{
@@ -50,7 +50,7 @@ const {
   startValue,
   endValue,
   formatTooltip,
-} = inject<ProvideType>(SLIDER_PROVIDE_KEY, {
+} = inject<SliderProvide>(SLIDER_PROVIDE_KEY, {
   startValue: ref(0),
   endValue: ref(0),
   tempEndValue: ref(0),

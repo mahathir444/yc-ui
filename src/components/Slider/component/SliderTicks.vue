@@ -31,7 +31,7 @@
 
 <script lang="ts" setup>
 import { ref, toRefs, inject } from 'vue';
-import { ProvideType } from '../type';
+import { SliderProvide } from '../type';
 import { SLIDER_PROVIDE_KEY } from '@shared/constants';
 
 const props = defineProps<{
@@ -44,7 +44,7 @@ defineEmits<{
 const { type } = toRefs(props);
 // 解构父级属性
 const { min, max, startValue, endValue, range, direction, step } =
-  inject<ProvideType>(SLIDER_PROVIDE_KEY, {
+  inject<SliderProvide>(SLIDER_PROVIDE_KEY, {
     startValue: ref(0),
     endValue: ref(0),
     tempEndValue: ref(0),

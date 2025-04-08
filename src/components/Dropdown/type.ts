@@ -45,6 +45,6 @@ export interface DropdownButtonProps {
 export type DoptionValue = string | number | boolean;
 
 // 内部使用
-export interface ProvideType {
+export interface DropdownProvide {
   select: Fn;
 }

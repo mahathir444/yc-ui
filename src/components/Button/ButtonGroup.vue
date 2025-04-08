@@ -12,7 +12,7 @@
 
 <script lang="ts" setup>
 import { toRefs, provide } from 'vue';
-import { ButtonGroupProps, ProvideType } from './type';
+import { ButtonGroupProps, ButtonProvide } from './type';
 import { GROUP_TYPE_CLASS, GROUP_STAUTS_CLASS } from './constants';
 import { BUTTON_GROUP_PROVIDE_KEY } from '@shared/constants';
 defineOptions({
@@ -26,7 +26,7 @@ const props = withDefaults(defineProps<ButtonGroupProps>(), {
   disabled: false,
 });
 const { type, status, size, shape, disabled } = toRefs(props);
-provide<ProvideType>(BUTTON_GROUP_PROVIDE_KEY, {
+provide<ButtonProvide>(BUTTON_GROUP_PROVIDE_KEY, {
   type,
   status,
   size,

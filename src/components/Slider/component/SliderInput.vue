@@ -11,7 +11,7 @@
 
 <script lang="ts" setup>
 import { ref, inject, toRefs, computed } from 'vue';
-import { ProvideType } from '../type';
+import { SliderProvide } from '../type';
 import { SLIDER_PROVIDE_KEY } from '@shared/constants';
 import YcInputNumber from '@/components/InputNumber';
 const props = defineProps<{
@@ -26,7 +26,7 @@ const {
   endValue,
   tempStartValue,
   tempEndValue,
-} = inject<ProvideType>(SLIDER_PROVIDE_KEY, {
+} = inject<SliderProvide>(SLIDER_PROVIDE_KEY, {
   startValue: ref(0),
   endValue: ref(0),
   tempEndValue: ref(0),

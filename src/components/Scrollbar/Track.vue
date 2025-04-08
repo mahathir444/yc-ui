@@ -43,7 +43,7 @@
 import { ref, toRefs, computed, inject } from 'vue';
 import { useDraggable, useEventListener } from '@vueuse/core';
 import { DEFAULT_BAR_WIDTH, DEFAULT_TRACK_WIDTH } from './constants';
-import { ProvideType } from './type';
+import { ScrollbarProvide } from './type';
 import { SCROLLBAR_PROVIDE_KEY } from '@shared/constants';
 import { Direction } from '@shared/type';
 
@@ -72,7 +72,7 @@ const {
   movableTop,
   curTop,
   curLeft,
-} = inject<ProvideType>(SCROLLBAR_PROVIDE_KEY, {
+} = inject<ScrollbarProvide>(SCROLLBAR_PROVIDE_KEY, {
   curTop: ref(0),
   curLeft: ref(0),
   movableLeft: ref(0),

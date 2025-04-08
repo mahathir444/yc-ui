@@ -91,7 +91,7 @@ export type VirtualListProps = {
 };
 
 // 内部使用
-export interface ProvideType {
+export interface SelectProvide {
   computedValue:
     | WritableComputedRef<SelectValue | SelectValue[]>
     | Ref<undefined>;

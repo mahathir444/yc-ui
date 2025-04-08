@@ -151,7 +151,7 @@ import {
   SelectProps,
   SelectValue,
   SelectOptionData,
-  ProvideType,
+  SelectProvide,
   SelectEventType,
 } from './type';
 import { ObjectData } from '@shared/type';
@@ -346,7 +346,7 @@ const handleEvent = async (
   }
 };
 // 提供值
-provide<ProvideType>(SELECT_PROVIDE_KEY, {
+provide<SelectProvide>(SELECT_PROVIDE_KEY, {
   computedValue,
   computedInputValue,
   limit,

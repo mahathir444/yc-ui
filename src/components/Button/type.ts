@@ -44,7 +44,7 @@ export type ButtonEventType =
   | 'mousedown'
   | 'mouseup';
 
-export interface ProvideType {
+export interface ButtonProvide {
   type: Ref<ButtonType>;
   status: Ref<ButtonStatus>;
   size: Ref<Size>;

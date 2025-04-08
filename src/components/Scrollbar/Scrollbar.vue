@@ -35,7 +35,7 @@
 
 <script lang="ts" setup>
 import { ref, computed, toRefs, provide, watch, CSSProperties } from 'vue';
-import { ScrollbarProps, ProvideType } from './type';
+import { ScrollbarProps, ScrollbarProvide } from './type';
 import { DEFAULT_BAR_WIDTH, DEFAULT_TRACK_WIDTH, BAR_TYPE } from './constants';
 import { SCROLLBAR_PROVIDE_KEY } from '@shared/constants';
 import { useElementSize, useScroll } from '@vueuse/core';
@@ -183,7 +183,7 @@ function initScrollbar() {
     return scrollWidth.value - thumbWidth.value - track;
   });
   // 提供数据
-  provide<ProvideType>(SCROLLBAR_PROVIDE_KEY, {
+  provide<ScrollbarProvide>(SCROLLBAR_PROVIDE_KEY, {
     curTop,
     curLeft,
     movableLeft,
