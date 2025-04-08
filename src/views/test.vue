@@ -1,14 +1,20 @@
 <template>
   <div class="test">
     <div style="width: 600px; display: flex">
-      <yc-space align="baseline" direction="vertical" size="large" wrap fill>
-        <yc-button>测试</yc-button>
+      <yc-space>
+        <template #split>
+          <a-divider direction="vertical" />
+        </template>
+        <yc-link>测试</yc-link>
         <yc-button>测试</yc-button>
         <yc-button>测试</yc-button>
       </yc-space>
       <!-- 4 8 16 24 -->
-      <a-space align="baseline" direction="vertical" size="large" wrap fill>
-        <yc-button>测试</yc-button>
+      <a-space>
+        <template #split>
+          <a-divider direction="vertical" />
+        </template>
+        <yc-link>测试</yc-link>
         <yc-button>测试</yc-button>
         <yc-button>测试</yc-button>
       </a-space>
@@ -18,7 +24,6 @@
 
 <script lang="ts" setup>
 import { ref, watch } from 'vue';
-import YcSpace from '@/components/Space/index.vue';
 const value = ref('dsadsa');
 const options = [
   'Bytedance',

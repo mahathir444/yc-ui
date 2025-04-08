@@ -9,6 +9,7 @@ declare module 'vue' {
   export interface GlobalComponents {
     AAlert: typeof import('@arco-design/web-vue')['Alert']
     ABackTop: typeof import('@arco-design/web-vue')['BackTop']
+    ADivider: typeof import('@arco-design/web-vue')['Divider']
     Alert: typeof import('./src/components/Alert/index.vue')['default']
     AResult: typeof import('@arco-design/web-vue')['Result']
     ASpace: typeof import('@arco-design/web-vue')['Space']

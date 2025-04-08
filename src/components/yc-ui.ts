@@ -38,6 +38,7 @@ import ColorPicker from './ColorPicker';
 import BackTop from './BackTop';
 import Alert from './Alert';
 import Result from './Result';
+import Space from './Space';
 
 export const components: Record<string, Plugin> = {
   Button,
@@ -74,6 +75,7 @@ export const components: Record<string, Plugin> = {
   BackTop,
   Alert,
   Result,
+  Space,
 };
 
 console.log('components：', Object.keys(components).length + 2);

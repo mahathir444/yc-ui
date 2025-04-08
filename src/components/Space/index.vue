@@ -12,7 +12,17 @@
       gap,
     }"
   >
-    <slot />
+    <template v-for="(node, index) in nodes" :key="index">
+      <div class="yc-space-item">
+        <component :is="node" />
+      </div>
+      <div
+        v-if="$slots.split && index < nodes!.length - 1"
+        class="yc-space-split"
+      >
+        <slot name="split" />
+      </div>
+    </template>
   </div>
 </template>
 
@@ -20,6 +30,9 @@
 import { toRefs, computed, useSlots } from 'vue';
 import { SpaceProps } from './type';
 import { isNumber } from '@shared/utils/is';
+defineOptions({
+  name: 'Space',
+});
 const props = withDefaults(defineProps<SpaceProps>(), {
   align: 'start',
   direction: 'horizontal',
@@ -28,6 +41,8 @@ const props = withDefaults(defineProps<SpaceProps>(), {
   fill: false,
 });
 const { size, align: alignItems } = toRefs(props);
+// slots
+const slots = useSlots();
 // 计算gap
 const gap = computed(() => {
   if (isNumber(size.value)) {
@@ -41,6 +56,8 @@ const gap = computed(() => {
   };
   return map[size.value] + 'px';
 });
+// node
+const nodes = computed(() => slots.default?.());
 </script>
 
 <style lang="less" scoped>
