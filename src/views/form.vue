@@ -5,6 +5,7 @@
       <yc-select
         allow-clear
         allow-search
+        multiple
         placeholder="请选择"
         :max-tag-count="3"
         :options="[

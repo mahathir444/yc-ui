@@ -1,5 +1,6 @@
 export interface IconButtonProps {
-  fontSize?: string;
+  color?: string;
+  fontSize?: number | 'inherit';
   hoverColor?: string;
-  hoverSize?: string;
+  hoverSize?: number;
 }

@@ -1,7 +1,8 @@
+import { Direction, Size } from '@shared/type';
 export interface SpaceProps {
   align?: 'start' | 'end' | 'center' | 'baseline';
-  direction?: 'vertical' | 'horizontal';
+  direction?: Direction;
   wrap?: boolean;
   fill?: boolean;
-  size?: 'mini' | 'small' | 'medium' | 'large' | number;
+  size?: Size | number;
 }

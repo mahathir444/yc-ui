@@ -3,9 +3,6 @@
     <div
       v-if="$slots.icon || status"
       :class="['yc-result-icon', `yc-result-icon-${status}`]"
-      :style="{
-        color: RESULT_ICON_COLOR_MAP[status as string],
-      }"
     >
       <div :class="['yc-result-icon-tip']">
         <slot name="icon">
@@ -39,18 +36,27 @@
 </template>
 
 <script lang="ts" setup>
+import { toRefs, computed } from 'vue';
 import { ResultProps } from './type';
 import { RESULT_ICON_COLOR_MAP, RESULT_ICON_MAP } from './constants';
 defineOptions({
   name: 'Result',
 });
-withDefaults(defineProps<ResultProps>(), {
+const props = withDefaults(defineProps<ResultProps>(), {
   status: 'info',
   title: '',
   subtitle: '',
 });
+const { status } = toRefs(props);
+// 图标的颜色
+const color = computed(() => RESULT_ICON_COLOR_MAP[status.value as string]);
 </script>
 
 <style lang="less" scoped>
 @import './style/result.less';
+.yc-result {
+  .yc-result-icon {
+    color: v-bind(color);
+  }
+}
 </style>

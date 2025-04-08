@@ -22,7 +22,7 @@
       }"
     >
       <span class="yc-switch-handle-icon">
-        <yc-spin v-if="loading" style="font-size: inherit; color: inherit" />
+        <yc-spin v-if="loading" color="inherit" size="inherit" />
         <slot
           v-else
           :name="compuedChecked ? 'checked-icon' : 'unchecked-icon'"
@@ -30,14 +30,7 @@
       </span>
     </span>
     <!-- placeholder -->
-    <span
-      v-if="showText"
-      :style="{
-        margin: compuedChecked ? '0 26px 0 8px' : '0 8px 0 26px',
-        visibility: 'hidden',
-        fontSize: '12px',
-      }"
-    >
+    <span v-if="showText" class="yc-switch-placeholder">
       {{ compuedChecked ? checkedText : uncheckedText }}
     </span>
     <!-- text -->
@@ -132,7 +125,6 @@ const switchCss = computed(() => {
   }
   return {
     backgroundColor,
-    cursor: disabled.value ? 'not-allowed' : 'pointer',
     borderRadius: type.value == 'round' ? '2px' : `${SIZE_MAP[size.value]}px`,
   } as CSSProperties;
 });

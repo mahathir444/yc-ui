@@ -3,7 +3,6 @@
     v-if="href"
     :href="href"
     :class="btnClass"
-    :style="btnStyle"
     v-bind="$attrs"
     @mousedown="handleEvent('mousedown', $event)"
     @mouseup="handleEvent('mouseup', $event)"
@@ -13,7 +12,7 @@
   >
     <span v-if="$slots.icon || loading" class="yc-button-icon">
       <slot v-if="!loading" name="icon" />
-      <yc-spin v-else style="color: inherit; font-size: inherit" />
+      <yc-spin v-else color="inherit" size="inherit" />
     </span>
     <slot />
   </a>
@@ -22,7 +21,6 @@
     :type="htmlType"
     :disabled="disabled"
     :class="btnClass"
-    :style="btnStyle"
     v-bind="$attrs"
     @mousedown="handleEvent('mousedown', $event)"
     @mouseup="handleEvent('mouseup', $event)"
@@ -32,7 +30,7 @@
   >
     <span v-if="$slots.icon || loading" class="yc-button-icon">
       <slot v-if="!loading" name="icon" />
-      <yc-spin v-else style="color: inherit; font-size: inherit" />
+      <yc-spin v-else color="inherit" size="inherit" />
     </span>
     <slot />
   </button>
@@ -112,20 +110,21 @@ const btnClass = computed(() => {
   ];
 });
 // button的样式
-const btnStyle = computed(() => {
+const padding = computed(() =>
+  !slots.default || shape.value == 'circle' ? 0 : ''
+);
+const width = computed(() =>
+  !slots.default || shape.value == 'circle'
+    ? `${SIZE_MAP[size.value]}px`
+    : 'fit-content'
+);
+const borderRadius = computed(() => {
   const borderRadiusMap = {
     circle: '50%',
     round: SIZE_MAP[size.value] / 2 + 'px',
     square: '2px',
   };
-  return {
-    padding: !slots.default || shape.value == 'circle' ? 0 : '',
-    width:
-      !slots.default || shape.value == 'circle'
-        ? `${SIZE_MAP[size.value]}px`
-        : 'fit-content',
-    borderRadius: borderRadiusMap[shape.value],
-  } as CSSProperties;
+  return borderRadiusMap[shape.value];
 });
 // 拦截事件
 const handleEvent = (type: ButtonEventType, e: ButtonEvent) => {
@@ -136,4 +135,9 @@ const handleEvent = (type: ButtonEventType, e: ButtonEvent) => {
 
 <style lang="less" scoped>
 @import './style/button.less';
+.yc-button {
+  width: v-bind(width);
+  border-radius: v-bind(borderRadius);
+  // padding: v-bind(padding);
+}
 </style>

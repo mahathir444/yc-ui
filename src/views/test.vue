@@ -1,23 +1,14 @@
 <template>
   <div class="test">
-    <div style="width: 600px; display: flex">
-      <yc-space>
-        <template #split>
-          <a-divider direction="vertical" />
-        </template>
-        <yc-link>测试</yc-link>
-        <yc-button>测试</yc-button>
-        <yc-button>测试</yc-button>
-      </yc-space>
-      <!-- 4 8 16 24 -->
-      <a-space>
-        <template #split>
-          <a-divider direction="vertical" />
-        </template>
-        <yc-link>测试</yc-link>
-        <yc-button>测试</yc-button>
-        <yc-button>测试</yc-button>
-      </a-space>
+    <div style="width: 600px; height: 10px; display: flex">
+      <!-- <a-divider direction="horizontal" :size="2"> text </a-divider> -->
+      <!-- <yc-divider direction="vertical" /> -->
+      <yc-button-group>
+        <yc-button> 测试 </yc-button>
+        <yc-button> 测试 </yc-button>
+        <yc-button> 测试 </yc-button>
+        <yc-button> 测试 </yc-button>
+      </yc-button-group>
     </div>
   </div>
 </template>

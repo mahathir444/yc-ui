@@ -3,8 +3,8 @@
   <yc-spin
     v-if="loading"
     :size="12"
+    color="inherit"
     prevent-focus
-    style="color: inherit"
     class="yc-select-loading-icon"
   >
     <template v-if="$slots['loading-icon']" #icon>
@@ -28,7 +28,7 @@
     <!-- clear -->
     <yc-icon-button
       v-if="showClearBtn"
-      style="color: inherit"
+      color="inherit"
       class="yc-select-clear-icon"
       @click="(ev) => $emit('clear', ev)"
     />
@@ -39,6 +39,7 @@
 import { IconSearch, IconArrowDown, IconArrowUp } from '@shared/icons';
 import YcPreventFocus from '@shared/components/PreventFocus';
 import YcIconButton from '@shared/components/IconButton';
+import YcSpin from '@/components/Spin';
 defineProps<{
   loading: boolean;
   allowSearch: boolean;

@@ -4,9 +4,6 @@
       v-if="!unmountOnClose || outerVisible"
       v-show="outerVisible"
       class="yc-modal-container"
-      :style="{
-        position,
-      }"
     >
       <!-- mask -->
       <transition :name="maskAnimationName" appear>
@@ -231,4 +228,7 @@ const style = computed(() => {
 
 <style lang="less" scoped>
 @import './style/modal.less';
+.yc-modal-container {
+  position: v-bind(position);
+}
 </style>

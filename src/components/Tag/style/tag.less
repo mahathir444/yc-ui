@@ -64,12 +64,18 @@
   line-height: 18px;
 }
 // color
-.yc-tag-custom-color {
+.yc-tag-custom-color,
+.yc-tag-preset-color {
   &.yc-tag-bordered {
     border-color: rgb(229, 230, 235);
   }
   &.yc-tag-checked {
     color: #fff;
+  }
+}
+.yc-tag-preset-color {
+  &.yc-tag-checked {
+    color: rgb(29, 33, 41);
   }
 }
 .yc-tag-color-red {

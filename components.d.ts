@@ -30,6 +30,7 @@ declare module 'vue' {
     ColorPreview: typeof import('./src/components/ColorPicker/component/ColorPreview.vue')['default']
     Container: typeof import('./src/components/Message/Container.vue')['default']
     Dgroup: typeof import('./src/components/Dropdown/Dgroup.vue')['default']
+    Divider: typeof import('./src/components/Divider/index.vue')['default']
     Doption: typeof import('./src/components/Dropdown/Doption.vue')['default']
     DotIcon: typeof import('./src/components/Spin/component/DotIcon.vue')['default']
     Drawer: typeof import('./src/components/Drawer/index.vue')['default']

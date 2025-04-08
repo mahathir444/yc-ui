@@ -45,8 +45,8 @@
           </template>
           <template #label>
             <span
-              :style="{
-                color: selectOptions?.[0]?.label ? '' : 'rgb(134, 144, 156)',
+              :class="{
+                'yc-input-placeholder': !selectOptions?.[0]?.label,
               }"
             >
               {{ selectOptions?.[0]?.label || placeholder }}

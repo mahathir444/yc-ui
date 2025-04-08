@@ -19,12 +19,7 @@
     <slot />
     <template #content>
       <div class="yc-popconfirm-body">
-        <div
-          :class="['yc-popconfirm-icon']"
-          :style="{
-            color: TYPE_ICON_COLOR_MAP[type],
-          }"
-        >
+        <div class="yc-popconfirm-icon">
           <slot v-if="$slots.icon" name="icon" />
           <component v-else :is="TYPE_ICON_MAP[type]" />
         </div>
@@ -52,8 +47,7 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, toRefs } from 'vue';
-import { TYPE_CLASS } from './constants';
+import { ref, toRefs, computed } from 'vue';
 import { PopconfirmProps } from './type';
 import { TYPE_ICON_MAP, TYPE_ICON_COLOR_MAP } from '@shared/constants';
 import useOnBeforeClose from '@shared/hooks/useOnBeforeClose';
@@ -96,7 +90,7 @@ const emits = defineEmits<{
   (e: 'ok'): void;
   (e: 'cancel'): void;
 }>();
-const { popupVisible, defaultPopupVisible } = toRefs(props);
+const { popupVisible, defaultPopupVisible, type } = toRefs(props);
 const { onBeforeOk, onBeforeCancel } = props;
 // 触发器实例
 const triggerRef = ref<TriggerInstance>();
@@ -109,6 +103,8 @@ const computedVisible = useControlValue<boolean>(
     emits('popup-visible-change', val);
   }
 );
+// 图标颜色
+const iconColor = computed(() => TYPE_ICON_COLOR_MAP[type.value]);
 // 处理确认
 const handleOk = () => {
   const isClose = useOnBeforeClose('confirmBtn', onBeforeOk, onBeforeCancel);
@@ -127,4 +123,9 @@ const handleCancel = () => {
 
 <style lang="less">
 @import './style/popconfirm.less';
+.yc-popconfirm-body {
+  .yc-popconfirm-icon {
+    color: v-bind(iconColor);
+  }
+}
 </style>

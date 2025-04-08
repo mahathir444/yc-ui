@@ -2,16 +2,14 @@
   <!-- yc-input-outer -->
   <div
     v-if="$slots.append || $slots.prepend"
-    :class="{
-      'yc-input-outer': true,
-      'yc-input-outer-disabled': disabled,
-      'yc-input-has-prepend': $slots.prepend,
-      'yc-input-has-append': $slots.append,
-      'yc-input-search-append ': isSearch && searchButton,
-    }"
-    :style="{
-      height: `${SIZE_MAP[size]}px`,
-    }"
+    :class="[
+      'yc-input-outer',
+      disabled ? 'yc-input-outer-disabled' : '',
+      $slots.prepend ? 'yc-input-has-prepend' : '',
+      $slots.append ? 'yc-input-has-append' : '',
+      isSearch && searchButton ? 'yc-input-search-append' : '',
+      SIZE_CLASS[size],
+    ]"
   >
     <!-- prepend -->
     <yc-prevent-focus v-if="$slots.prepend" class="yc-input-prepend">
@@ -66,7 +64,7 @@
 <script lang="ts" setup>
 import { ref, provide } from 'vue';
 import { InputProps, InputEmits, InputProvide } from './type';
-import { SIZE_MAP } from '@shared/constants';
+import { SIZE_CLASS } from './constants';
 import { INPUT_PROVIDE_KEY } from '@shared/constants';
 import YcInput from './component/Input.vue';
 import YcPreventFocus from '@shared/components/PreventFocus';

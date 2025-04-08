@@ -1,0 +1,20 @@
+import { App } from 'vue';
+import _Divider from './index.vue';
+import { getComponentPrefix } from '@shared/utils/global-config';
+
+export type DividerInstance = InstanceType<typeof _Divider>;
+export type { DividerProps } from './type';
+
+const Divider = Object.assign(_Divider, {
+  install: (app: App) => {
+    app.component(getComponentPrefix() + _Divider.name, _Divider);
+  },
+});
+
+declare module 'vue' {
+  export interface GlobalComponents {
+    YcDivider: typeof Divider;
+  }
+}
+
+export default Divider;

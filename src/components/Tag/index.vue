@@ -6,16 +6,14 @@
     :class="[
       'yc-tag',
       SIZE_CLASS[size],
-      COLOR_CLASS[color] ?? 'yc-tag-custom-color',
+      (COLOR_CLASS[color] ?? ['default', 'white'].includes(color))
+        ? 'yc-tag-preset-color'
+        : 'yc-tag-custom-color',
       loading ? 'yc-tag-loading' : '',
       bordered ? 'yc-tag-bordered' : '',
       computedChecked ? 'yc-tag-checked' : '',
       nowrap ? 'yc-tag-no-wrap' : 'yc-tag-wrap',
     ]"
-    :style="{
-      background,
-      color: ['default', 'white'].includes(color) ? 'rgb(29, 33, 41)' : '',
-    }"
     @click="handleEvent('check', $event)"
   >
     <!-- icon -->
@@ -29,9 +27,9 @@
     <!-- close -->
     <yc-icon-button
       v-if="closeable"
-      hover-size="16px"
+      :hover-size="16"
       hover-color="rgba(255, 255, 255, 0.2)"
-      style="color: inherit"
+      color="inherit"
       class="yc-tag-close-button"
       @click="handleEvent('close', $event)"
     >
@@ -42,7 +40,8 @@
     <!-- loading -->
     <yc-spin
       v-if="loading"
-      style="color: inherit; font-size: inherit"
+      color="inherit"
+      size="inherit" "
       class="yc-tag-loading-icon"
     />
   </yc-prevent-focus>
@@ -157,4 +156,7 @@ function initTagIndex() {
 
 <style lang="less" scoped>
 @import './style/tag.less';
+.yc-tag {
+  background: v-bind(background);
+}
 </style>

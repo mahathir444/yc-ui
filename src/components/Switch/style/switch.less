@@ -26,6 +26,11 @@
     position: absolute;
     font-size: 12px;
   }
+  .yc-switch-placeholder {
+    visibility: hidden;
+    font-size: 12px;
+    margin: 0 8px 0 26px;
+  }
 }
 // unchecked
 .yc-switch-unchecked {
@@ -56,6 +61,9 @@
     left: 8px;
     color: #fff;
   }
+  .yc-switch-placeholder {
+    margin: 0 26px 0 8px;
+  }
 }
 // loading disabled
 .yc-switch-loading,
@@ -84,6 +92,9 @@
       color: rgb(232, 243, 255);
     }
   }
+}
+.yc-switch-disabled {
+  cursor: not-allowed;
 }
 // size
 .yc-switch-size-small {

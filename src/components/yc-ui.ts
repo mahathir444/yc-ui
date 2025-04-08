@@ -39,6 +39,7 @@ import BackTop from './BackTop';
 import Alert from './Alert';
 import Result from './Result';
 import Space from './Space';
+import Divider from './Divider';
 
 export const components: Record<string, Plugin> = {
   Button,
@@ -76,6 +77,7 @@ export const components: Record<string, Plugin> = {
   Alert,
   Result,
   Space,
+  Divider,
 };
 
 console.log('components：', Object.keys(components).length + 2);

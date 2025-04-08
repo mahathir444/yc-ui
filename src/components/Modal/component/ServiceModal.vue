@@ -37,13 +37,7 @@
     @cancel="onCancel?.()"
   >
     <template #title>
-      <span
-        v-if="type"
-        class="yc-modal-title-icon"
-        :style="{
-          color: TYPE_ICON_COLOR_MAP[type],
-        }"
-      >
+      <span v-if="type" class="yc-modal-title-icon">
         <component :is="TYPE_ICON_MAP[type]" />
       </span>
       <span class="yc-modal-title-content text-ellipsis">
@@ -57,12 +51,12 @@
 </template>
 
 <script lang="ts" setup>
-import { ref } from 'vue';
+import { ref, computed, toRefs } from 'vue';
 import { ModalConfig } from '../type';
 import { getSlotFunction } from '@shared/utils/vue-utils';
 import { TYPE_ICON_MAP, TYPE_ICON_COLOR_MAP } from '@shared/constants';
 import YcModal from '../index.vue';
-withDefaults(defineProps<ModalConfig>(), {
+const props = withDefaults(defineProps<ModalConfig>(), {
   width: 400,
   top: 100,
   mask: true,
@@ -106,8 +100,11 @@ withDefaults(defineProps<ModalConfig>(), {
   },
   content: '',
 });
+const { type } = toRefs(props);
 // visible
 const visible = ref<boolean>(true);
+// icon的颜色
+const iconColor = computed(() => TYPE_ICON_COLOR_MAP[type.value as string]);
 </script>
 
 <style lang="less">
@@ -120,6 +117,7 @@ const visible = ref<boolean>(true);
         display: flex;
         align-items: center;
         font-size: 18px;
+        color: v-bind(iconColor);
       }
       .yc-modal-title-content {
         flex: 1;

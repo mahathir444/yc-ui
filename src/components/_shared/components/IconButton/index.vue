@@ -1,10 +1,5 @@
 <template>
-  <yc-prevent-focus
-    class="yc-icon-button"
-    :style="{
-      fontSize,
-    }"
-  >
+  <yc-prevent-focus class="yc-icon-button" :font-size="fontSize">
     <slot name="icon">
       <icon-close />
     </slot>
@@ -12,17 +7,21 @@
 </template>
 
 <script lang="ts" setup>
+import { toRefs, computed } from 'vue';
 import { IconButtonProps } from './type.ts';
 import { IconClose } from '@shared/icons';
 import YcPreventFocus from '@shared/components/PreventFocus';
 defineOptions({
   name: 'IconButton',
 });
-withDefaults(defineProps<IconButtonProps>(), {
-  fontSize: '12px',
+const props = withDefaults(defineProps<IconButtonProps>(), {
+  color: 'rgb(29, 33, 41)',
+  fontSize: 14,
   hoverColor: 'rgb(242, 243, 245)',
-  hoverSize: '20px',
+  hoverSize: 20,
 });
+const { color, hoverSize: _hoverSize } = toRefs(props);
+const hoverSize = computed(() => _hoverSize.value + 'px');
 </script>
 
 <style lang="less" scoped>
@@ -30,7 +29,7 @@ withDefaults(defineProps<IconButtonProps>(), {
   user-select: none;
   cursor: pointer;
   position: relative;
-  color: rgb(29, 33, 41);
+  color: v-bind(color);
   display: flex;
   justify-content: center;
   align-items: center;

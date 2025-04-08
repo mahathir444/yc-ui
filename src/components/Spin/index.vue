@@ -1,12 +1,10 @@
 <template>
   <yc-prevent-focus
     :prevent-focus="preventFocus"
+    :font-size="size"
     :class="{
       'yc-spin': true,
       'yc-spin-loading': loading,
-    }"
-    :style="{
-      fontSize: size + 'px',
     }"
   >
     <spin-icon
@@ -39,22 +37,32 @@
 </template>
 
 <script lang="ts" setup>
+import { toRefs } from 'vue';
 import { SpinProps } from './type';
 import SpinIcon from './component/SpinIcon.vue';
 import YcPreventFocus from '@shared/components/PreventFocus';
 defineOptions({
   name: 'Spin',
 });
-withDefaults(defineProps<SpinProps>(), {
+const props = withDefaults(defineProps<SpinProps>(), {
   size: 20,
   loading: false,
   dot: false,
   tip: '',
   hideIcon: false,
+  color: 'rgb(22, 93, 255)',
   preventFocus: false,
 });
+const { color } = toRefs(props);
 </script>
 
 <style lang="less" scoped>
 @import './style/spin.less';
+.yc-spin {
+  color: v-bind(color);
+
+  .yc-spin-tip {
+    color: v-bind(color);
+  }
+}
 </style>

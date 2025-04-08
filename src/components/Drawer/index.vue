@@ -4,9 +4,6 @@
       v-if="!unmountOnClose || outerVisible"
       v-show="outerVisible"
       class="yc-drawer-wrapper"
-      :style="{
-        position,
-      }"
     >
       <!-- mask -->
       <transition name="fade" appear>
@@ -192,4 +189,7 @@ const {
 
 <style lang="less" scoped>
 @import './style/drawer.less';
+.yc-drawer-wrapper {
+  position: v-bind(position);
+}
 </style>
