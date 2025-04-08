@@ -1,0 +1,20 @@
+import { App } from 'vue';
+import _Result from './index.vue';
+import { getComponentPrefix } from '@shared/utils/global-config';
+
+export type ResultInstance = InstanceType<typeof _Result>;
+export type { ResultProps } from './type';
+
+const Result = Object.assign(_Result, {
+  install: (app: App) => {
+    app.component(getComponentPrefix() + _Result.name, _Result);
+  },
+});
+
+declare module 'vue' {
+  export interface GlobalComponents {
+    YcResult: typeof Result;
+  }
+}
+
+export default Result;

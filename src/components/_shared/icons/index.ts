@@ -21,3 +21,4 @@ export { default as IconStar } from './IconStar.vue';
 export { default as IconSuccess } from './IconSuccess.vue';
 export { default as IconWarning } from './IconWarning.vue';
 export { default as IconToTop } from './IconToTop.vue';
+export { default as IconInfoLine } from './IconInfoLine.vue';

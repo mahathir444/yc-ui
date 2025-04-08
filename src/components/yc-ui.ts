@@ -36,6 +36,8 @@ import Mention from './Mention';
 import Icon from './Icon';
 import ColorPicker from './ColorPicker';
 import BackTop from './BackTop';
+import Alert from './Alert';
+import Result from './Result';
 
 export const components: Record<string, Plugin> = {
   Button,
@@ -70,6 +72,8 @@ export const components: Record<string, Plugin> = {
   Icon,
   ColorPicker,
   BackTop,
+  Alert,
+  Result,
 };
 
 export default {
