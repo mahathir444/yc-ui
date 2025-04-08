@@ -1,39 +1,21 @@
 <template>
   <div class="test">
     <div style="width: 600px; display: flex">
-      <yc-result
-        subtitle="This page isn’t working."
-        title="404"
-        status="success"
-      >
+      <yc-result subtitle="This page isn’t working." title="404" status="404">
         <template #extra>
           <yc-button type="primary" style="margin-right: 8px"
             >go back</yc-button
           >
           <yc-button>cancel</yc-button>
         </template>
-        <a-typography style="background: var(--color-fill-2); padding: 24px">
-          <a-typography-paragraph>Try:</a-typography-paragraph>
-          <ul>
-            <li>Checking the network cables, modem, and router</li>
-            <li>Reconnecting to Wi-Fi</li>
-          </ul>
-        </a-typography>
       </yc-result>
-      <a-result subtitle="This page isn’t working." title="404">
+      <a-result subtitle="This page isn’t working." title="404" status="404">
         <template #extra>
           <yc-button type="primary" style="margin-right: 8px"
             >go back</yc-button
           >
           <yc-button>cancel</yc-button>
         </template>
-        <a-typography style="background: var(--color-fill-2); padding: 24px">
-          <a-typography-paragraph>Try:</a-typography-paragraph>
-          <ul>
-            <li>Checking the network cables, modem, and router</li>
-            <li>Reconnecting to Wi-Fi</li>
-          </ul>
-        </a-typography>
       </a-result>
     </div>
   </div>
