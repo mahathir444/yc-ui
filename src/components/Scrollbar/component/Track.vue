@@ -1,24 +1,12 @@
 <template>
   <div
-    :class="`yc-scrollbar-track yc-scrollbar-track-direction-${direction}`"
-    :style="{
-      width: isVertical
-        ? `${scrollbarSize.verticalTrack || DEFAULT_TRACK_WIDTH}px`
-        : '',
-      height: isVertical
-        ? ''
-        : `${scrollbarSize.horizontalTrack || DEFAULT_TRACK_WIDTH}px`,
-    }"
+    :class="['yc-scrollbar-track', TRACK_DIRECTION_MAP[direction]]"
+    :style="trackStyle"
     @click.self="handleClick"
   >
     <div
-      :class="`yc-scrollbar-thumb yc-scrollbar-thumb-direction-${direction}`"
-      :style="{
-        height: isVertical ? `${thumbHeight}px` : '',
-        top: isVertical ? `${curTop}px` : '',
-        width: !isVertical ? `${thumbWidth}px` : '',
-        left: !isVertical ? `${curLeft}px` : '',
-      }"
+      :class="['yc-scrollbar-thumb', THUMB_DIRECTION_MAP[direction]]"
+      :style="thmubStyle"
       ref="dragRef"
     >
       <div
@@ -26,14 +14,7 @@
           'yc-scrollbar-thumb-bar': true,
           'is-dragging': isDragging,
         }"
-        :style="{
-          width: isVertical
-            ? `${scrollbarSize.verticalThumb || DEFAULT_BAR_WIDTH}px`
-            : '',
-          height: isVertical
-            ? ''
-            : `${scrollbarSize.horizontalThumb || DEFAULT_BAR_WIDTH}px`,
-        }"
+        :style="barStyle"
       ></div>
     </div>
   </div>
@@ -42,11 +23,15 @@
 <script lang="ts" setup>
 import { ref, toRefs, computed, inject } from 'vue';
 import { useDraggable, useEventListener } from '@vueuse/core';
-import { DEFAULT_BAR_WIDTH, DEFAULT_TRACK_WIDTH } from '../constants';
+import {
+  DEFAULT_BAR_WIDTH,
+  DEFAULT_TRACK_WIDTH,
+  TRACK_DIRECTION_MAP,
+  THUMB_DIRECTION_MAP,
+} from '../constants';
 import { ScrollbarProvide } from '../type';
 import { SCROLLBAR_PROVIDE_KEY } from '@shared/constants';
 import { Direction } from '@shared/type';
-
 const props = withDefaults(
   defineProps<{
     direction?: Direction;
@@ -86,6 +71,32 @@ const {
     horizontalThumb: DEFAULT_BAR_WIDTH,
   }),
   scrollRef: ref(),
+});
+// trackStyle
+const trackStyle = computed(() => {
+  const { verticalTrack, horizontalTrack } = scrollbarSize.value;
+  const width = `${verticalTrack || DEFAULT_TRACK_WIDTH}px`;
+  const height = `${horizontalTrack || DEFAULT_TRACK_WIDTH}px`;
+  return isVertical.value ? { width } : { height };
+});
+// thumbStyle
+const thmubStyle = computed(() => {
+  return isVertical.value
+    ? {
+        height: `${thumbHeight.value}px`,
+        top: `${curTop.value}px`,
+      }
+    : {
+        width: `${thumbWidth.value}px`,
+        left: `${curLeft.value}px`,
+      };
+});
+// barStyle
+const barStyle = computed(() => {
+  const { verticalThumb, horizontalThumb } = scrollbarSize.value;
+  const width = `${verticalThumb || DEFAULT_BAR_WIDTH}px`;
+  const height = `${horizontalThumb || DEFAULT_BAR_WIDTH}px`;
+  return isVertical.value ? { width } : { height };
 });
 // dargRef
 const dragRef = ref<HTMLDivElement>();

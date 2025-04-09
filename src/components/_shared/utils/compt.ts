@@ -1,43 +1,46 @@
+export const getComponentConstantsMap = (
+  name: string,
+  constants: string[],
+  split?: string
+) => {
+  return Object.fromEntries(
+    constants.map((v) => {
+      return [v, split ? `${name}-${split}-${v}` : `${name}-${v}`];
+    })
+  );
+};
+
 export const getComponentSizeMap = (
   name: string,
   size: string[] = ['mini', 'small', 'medium', 'large']
 ) => {
-  return Object.fromEntries(
-    size.map((v) => {
-      return [v, `${name}-size-${v}`];
-    })
-  );
+  return getComponentConstantsMap(name, size, 'size');
 };
 
 export const getComponentShapeMap = (
   name: string,
   shape: string[] = ['round', 'circle', 'square']
 ) => {
-  return Object.fromEntries(
-    shape.map((v) => {
-      return [v, `${name}-shape-${v}`];
-    })
-  );
+  return getComponentConstantsMap(name, shape, 'shape');
 };
 
 export const getComponentStatusMap = (
   name: string,
   status: string[] = ['warning', 'success', 'danger', 'normal']
 ) => {
-  return Object.fromEntries(
-    status.map((v) => {
-      return [v, `${name}-status-${v}`];
-    })
-  );
+  return getComponentConstantsMap(name, status, 'shape');
 };
 
 export const getComponentTypeMap = (
   name: string,
   type: string[] = ['primary', 'secondary', 'dashed', 'outline', 'text']
 ) => {
-  return Object.fromEntries(
-    type.map((v) => {
-      return [v, `${name}-${v}`];
-    })
-  );
+  return getComponentConstantsMap(name, type);
+};
+
+export const getComponentDirectionMap = (
+  name: string,
+  dirs: string[] = ['vertical', 'horizontal']
+) => {
+  return getComponentConstantsMap(name, dirs, 'direction');
 };

@@ -1,13 +1,5 @@
 <template>
-  <div
-    :class="{
-      'yc-slider-ticks': type == 'ticks',
-      'yc-slider-dots': type == 'dots',
-      'yc-slider-marks': type == 'marks',
-      'direction-vertical': direction == 'vertical',
-      'direction-horizontal': direction == 'horizontal',
-    }"
-  >
+  <div :class="[TICKS_TYPE_MAP[type], TICKS_DIRECTION_MAP[direction]]">
     <span
       v-for="{ label, value } in data"
       :key="value"
@@ -15,13 +7,11 @@
         left: direction == 'horizontal' ? getPosition(value) : '',
         bottom: direction == 'vertical' ? getPosition(value) : '',
       }"
-      :class="{
-        'yc-slider-tick': type == 'ticks',
-        'yc-slider-dot': type == 'dots',
-        'yc-slider-mark': type == 'marks',
-        'yc-slider-dot-active': type == 'dots' && isInRange(value),
-        'yc-slider-tick-active': type == 'ticks' && isInRange(value),
-      }"
+      :class="[
+        TICK_TYPE_MAP[type],
+        type == 'dots' && isInRange(value) ? 'yc-slider-dot-active' : '',
+        type == 'ticks' && isInRange(value) ? 'yc-slider-tick-active' : '',
+      ]"
       @click="$emit('labelClick', value)"
     >
       {{ type == 'marks' ? label : '' }}
@@ -32,6 +22,11 @@
 <script lang="ts" setup>
 import { ref, toRefs, inject } from 'vue';
 import { SliderProvide } from '../type';
+import {
+  TICK_TYPE_MAP,
+  TICKS_TYPE_MAP,
+  TICKS_DIRECTION_MAP,
+} from '../constants';
 import { SLIDER_PROVIDE_KEY } from '@shared/constants';
 
 const props = defineProps<{
@@ -127,7 +122,7 @@ const isInRange = (value: number) => {
 .yc-slider-ticks,
 .yc-slider-dots,
 .yc-slider-marks {
-  &.direction-horizontal {
+  &.yc-ticks-direction-horizontal {
     top: 50%;
     left: 0;
     right: 0;
@@ -151,7 +146,7 @@ const isInRange = (value: number) => {
 .yc-slider-ticks,
 .yc-slider-dots,
 .yc-slider-marks {
-  &.direction-vertical {
+  &.yc-ticks-direction-vertical {
     left: 50%;
     transform: translateX(-50%);
     top: 0;

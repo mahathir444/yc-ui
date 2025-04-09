@@ -1,11 +1,5 @@
 <template>
-  <div
-    :class="{
-      'yc-checkbox-group': true,
-      'yc-checkbox-group-direction-horizontal': direction == 'horizontal',
-      'yc-checkbox-group-direction-vertical': direction == 'vertical',
-    }"
-  >
+  <div :class="['yc-checkbox-group', DIRECTION_MAP[direction]]">
     <slot />
     <yc-checkbox
       v-for="item in options"
@@ -30,10 +24,12 @@
 
 <script lang="ts" setup>
 import { toRefs, provide } from 'vue';
+import { DIRECTION_MAP } from './constants';
 import { CheckboxGroupProps, CheckboxValue, CheckboxProvide } from './type';
 import { CHECKBOX_GROUP_PROVIDE_KEY } from '@shared/constants';
 import useControlValue from '@shared/hooks/useControlValue';
 import YcCheckbox from './Checkbox.vue';
+
 defineOptions({
   name: 'CheckboxGroup',
 });

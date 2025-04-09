@@ -1,11 +1,10 @@
 <template>
   <div
-    :class="{
-      'yc-slider': true,
-      'yc-slider-horizontal': direction == 'horizontal',
-      'yc-slider-vertical': direction == 'vertical',
-      'yc-slider-disabled': disabled,
-    }"
+    :class="[
+      'yc-slider',
+      SLIDER_DIRECTION_MAP[direction],
+      disabled ? 'yc-slider-disabled' : '',
+    ]"
   >
     <div class="yc-slider-track" ref="trackRef">
       <!-- ticks -->
@@ -47,6 +46,7 @@
 <script lang="ts" setup>
 import { ref, toRefs, computed, provide } from 'vue';
 import { SliderProps, SliderProvide, PositionData } from './type';
+import { SLIDER_DIRECTION_MAP } from './constants';
 import { SLIDER_PROVIDE_KEY } from '@shared/constants';
 import useSliderValue from '@shared/hooks/useSliderValue';
 import YcSliderTicks from './component/SliderTicks.vue';

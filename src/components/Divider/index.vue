@@ -1,20 +1,8 @@
 <template>
-  <div
-    class="yc-divider"
-    role="separator"
-    :class="{
-      'yc-divider-direction-horizontal': direction == 'horizontal',
-      'yc-divider-direction-vertical': direction == 'vertical',
-    }"
-  >
+  <div role="separator" :class="['yc-divider', DIRECTION_MAP[direction]]">
     <div
       v-if="$slots.default && direction != 'vertical'"
-      class="yc-divider-text"
-      :class="{
-        'yc-divider-text-left': orientation == 'left',
-        'yc-divider-text-center': orientation == 'center',
-        'yc-divider-text-right': orientation == 'right',
-      }"
+      :class="['yc-divider-text', POSITION_MAP[orientation]]"
     >
       <slot />
     </div>
@@ -23,6 +11,7 @@
 
 <script lang="ts" setup>
 import { toRefs, computed } from 'vue';
+import { DIRECTION_MAP, POSITION_MAP } from './constants';
 import { isUndefined } from '@shared/utils/is';
 import { DividerProps } from './type';
 defineOptions({

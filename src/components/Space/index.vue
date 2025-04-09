@@ -1,12 +1,11 @@
 <template>
   <div
-    class="yc-space"
-    :class="{
-      'yc-space-direction-vertical': direction == 'vertical',
-      'yc-space-direction-horizontal': direction == 'horizontal',
-      'yc-space-wrap': wrap,
-      'yc-space-fill': fill,
-    }"
+    :class="[
+      'yc-space',
+      DIRECTION_MAP[direction],
+      wrap ? 'yc-space-wrap' : '',
+      fill ? 'yc-space-fill' : '',
+    ]"
   >
     <template v-for="(node, index) in nodes" :key="index">
       <div class="yc-space-item">
@@ -25,6 +24,7 @@
 <script lang="ts" setup>
 import { toRefs, computed, useSlots } from 'vue';
 import { SpaceProps } from './type';
+import { DIRECTION_MAP } from './constants';
 import { isNumber } from '@shared/utils/is';
 defineOptions({
   name: 'Space',

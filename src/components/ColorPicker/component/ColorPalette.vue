@@ -1,7 +1,7 @@
 <template>
   <div
-    class="yc-color-picker-palette"
     :class="{
+      'yc-color-picker-palette': true,
       'yc-color-picker-palette-disabled': disabled,
     }"
     :style="{
