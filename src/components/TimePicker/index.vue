@@ -97,8 +97,8 @@
             </YcScrollbar>
           </div>
         </div>
-        <div class="yc-picker-footer-extra" v-if="$slots.extra" >
-          <slot name="extra"/>
+        <div class="yc-picker-footer-extra" v-if="$slots.extra">
+          <slot name="extra" />
         </div>
         <div class="yc-picker-footer">
           <YcButton size="mini" @click="setNow" :disabled="readonly">
@@ -280,7 +280,10 @@ const hanSelectItem = (key: string, val: string) => {
 const handleSelect = (time: Record<string, string | undefined>) => {
   if (props.readonly) return;
   inputValue.value[activeIndex.value] = time;
-  emit('select', inputValue.value.map((item) => timeObjToStr(item, props.format)));
+  emit(
+    'select',
+    inputValue.value.map((item) => timeObjToStr(item, props.format))
+  );
   isEditing.value = true;
 };
 const setNow = () => {
@@ -337,18 +340,26 @@ const hanClear = () => {
 };
 watch(
   [() => activeIndex.value, () => inputValue.value, () => cVisible.value],
-  () => {
-    // if(!cVisible.value)return
-    Object.entries(inputValue.value[activeIndex.value]).forEach(
-      ([k, v], index) => {
-        const dom = itemRefMap.value.get(`${k}_${v}`);
-        if (!dom) return;
-        scrollRefs.value.get(k)?.scrollTo?.({
-          top: dom.offsetTop || 0,
-          behavior: cVisible.value ? 'smooth' : 'auto',
-        });
-      }
-    );
+  async () => {
+    if (!cVisible.value) return;
+    await nextTick();
+    Object.entries(inputValue.value[activeIndex.value]).forEach(([k, v]) => {
+      const dom = itemRefMap.value.get(`${k}_${v}`);
+      if (!dom) return;
+      console.log(k, v);
+      if (!scrollRefs.value.get(k)) return;
+      new BTween({
+        from: { scroll: scrollRefs.value.get(k).scrollTop || 0 },
+        to: { scroll: dom.offsetTop || 0 },
+        duration: 200,
+        easing: 'quadOut',
+        onUpdate: (current: any) => {
+          scrollRefs.value.get(k)!.scrollTo?.({
+            top: current.scroll || 0,
+          });
+        },
+      }).start();
+    });
   },
   {
     deep: true,
