@@ -1,7 +1,8 @@
 import { App, Plugin } from 'vue';
 import Button, { ButtonGroup } from './Button';
 import Drawer from './Drawer';
-import Dropdown, {
+import {
+  default as Dropdown,
   DropdownButton,
   Doption,
   Dgroup,
@@ -21,9 +22,9 @@ import Tooltip from './Tooltip';
 import Trigger from './Trigger';
 import Spin from './Spin';
 import Tag from './Tag';
-import Select, { Option, Optgroup } from './Select';
+import { default as Select, Option, Optgroup } from './Select';
 import Empty from './Empty';
-import Checkbox, { CheckboxGroup } from './Checkbox';
+import { default as Checkbox, CheckboxGroup } from './Checkbox';
 import InputTag from './InputTag';
 import AutoComplete from './AutoComplete';
 import Radio, { RadioGroup } from './Radio';
@@ -40,7 +41,7 @@ import Alert from './Alert';
 import Result from './Result';
 import Space from './Space';
 import Divider from './Divider';
-import Skeleton, { SkeletonLine, SkeletonShape } from './Skeleton';
+import { default as Skeleton, SkeletonLine, SkeletonShape } from './Skeleton';
 import Affix from './Affix';
 
 export const components: Record<string, Plugin> = {
