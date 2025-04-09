@@ -46,14 +46,5 @@ const disabledMinus = computed(() => {
 </script>
 
 <style lang="less" scoped>
-.yc-input-number-plus-embed {
-  height: 11px;
-  width: 18px;
-  &:deep(.yc-button-icon) {
-    height: 10px;
-    width: 10px;
-    font-size: 10px;
-    margin: 0;
-  }
-}
+@import '../style/input-number.less';
 </style>

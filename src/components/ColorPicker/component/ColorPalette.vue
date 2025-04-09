@@ -1,9 +1,6 @@
 <template>
   <div
-    :class="{
-      'yc-color-picker-palette': true,
-      'yc-color-picker-palette-disabled': disabled,
-    }"
+    class="yc-color-picker-palette"
     :style="{
       backgroundColor: baseColor,
     }"
@@ -130,5 +127,5 @@ defineExpose({
 </script>
 
 <style lang="less" scoped>
-@import '../style/color-palette.less';
+@import '../style/color-panel.less';
 </style>

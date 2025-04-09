@@ -23,9 +23,5 @@ defineProps<{
 </script>
 
 <style lang="less" scoped>
-.yc-spin-icon {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
+@import '../style/spin.less';
 </style>

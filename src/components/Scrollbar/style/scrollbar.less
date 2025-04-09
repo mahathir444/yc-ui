@@ -3,7 +3,7 @@
   overflow: hidden;
 
   &:hover .yc-scrollbar-track {
-    &:deep(.yc-scrollbar-thumb-bar) {
+    .yc-scrollbar-thumb-bar {
       opacity: 1;
     }
   }
@@ -71,5 +71,60 @@
     flex: 1;
     flex-shrink: 0;
     height: 100%;
+  }
+}
+
+// track
+.yc-scrollbar-track {
+  position: absolute;
+
+  .yc-scrollbar-thumb {
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    .yc-scrollbar-thumb-bar {
+      user-select: none;
+      border-radius: 5px;
+      background-color: rgb(201, 205, 212);
+      opacity: 0;
+      transition: opacity 0.2s ease;
+      &:hover {
+        background-color: rgb(134, 144, 156);
+        opacity: 0.8;
+      }
+      &.is-dragging {
+        background-color: rgb(134, 144, 156);
+        opacity: 0.8;
+      }
+    }
+  }
+}
+// track-dir
+.yc-scrollbar-track-direction-vertical {
+  top: 0;
+  bottom: 0;
+  right: 0;
+  display: flex;
+  justify-content: center;
+}
+.yc-scrollbar-track-direction-horizontal {
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  align-items: center;
+}
+// thubm-dir
+.yc-scrollbar-thumb-direction-vertical {
+  width: 100%;
+  .yc-scrollbar-thumb-bar {
+    height: 100%;
+  }
+}
+.yc-scrollbar-thumb-direction-horizontal {
+  height: 100%;
+  .yc-scrollbar-thumb-bar {
+    width: 100%;
   }
 }

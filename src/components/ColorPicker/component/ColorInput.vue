@@ -130,7 +130,7 @@ const handleSet = (type: 'hex' | 'rgb' | 'alpha') => {
 </script>
 
 <style lang="less" scoped>
-@import '../style/color-input.less';
+@import '../style/color-panel.less';
 </style>
 
 <style lang="less">

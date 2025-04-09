@@ -23,5 +23,5 @@ defineProps<{
 </script>
 
 <style lang="less" scoped>
-@import '../style/color-preview.less';
+@import '../style/color-panel.less';
 </style>

@@ -1,9 +1,6 @@
 <template>
   <div
-    :class="{
-      'yc-color-picker-control-bar': true,
-      'yc-color-picker-control-bar-disabled': disabled,
-    }"
+    class="yc-color-picker-control-bar"
     :style="{
       background:
         mode == 'alpha'
@@ -127,5 +124,5 @@ defineExpose({
 </script>
 
 <style lang="less" scoped>
-@import '../style/color-control-bar.less';
+@import '../style/color-panel.less';
 </style>

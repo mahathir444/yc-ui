@@ -64,15 +64,5 @@ const handleSet = () => {
 </script>
 
 <style lang="less" scoped>
-.yc-input-number {
-  width: 65px;
-  &:deep(.yc-input-wrapper) {
-    .yc-input {
-      text-align: center;
-    }
-    .yc-input-suffix {
-      padding-left: 0;
-    }
-  }
-}
+@import '../style/slider.less';
 </style>
