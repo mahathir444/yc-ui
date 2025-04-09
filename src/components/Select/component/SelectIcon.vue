@@ -53,5 +53,10 @@ const emits = defineEmits<{
 </script>
 
 <style lang="less" scoped>
-@import '../style/select-icon.less';
+.yc-select-suffix-icon,
+.yc-select-search-icon {
+  font-size: 12px;
+  color: inherit;
+  flex-shrink: 0;
+}
 </style>

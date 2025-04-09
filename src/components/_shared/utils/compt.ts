@@ -31,13 +31,6 @@ export const getComponentStatusMap = (
   return getComponentConstantsMap(name, status, 'status');
 };
 
-export const getComponentTypeMap = (
-  name: string,
-  type: string[] = ['primary', 'secondary', 'dashed', 'outline', 'text']
-) => {
-  return getComponentConstantsMap(name, type);
-};
-
 export const getComponentDirectionMap = (
   name: string,
   dirs: string[] = ['vertical', 'horizontal']

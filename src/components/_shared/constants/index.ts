@@ -21,7 +21,6 @@ export const TYPE_ICON_MAP: Record<string, any> = {
   error: IconError,
   info: IconInfo,
   loading: IconLoading,
-  normal: IconInfo,
 };
 
 export const TYPE_ICON_COLOR_MAP: Record<string, string> = {

@@ -1,6 +1,6 @@
-import { getComponentTypeMap } from '@shared/utils/compt';
+import { getComponentConstantsMap } from '@shared/utils/compt';
 
-export const TYPE_CLASS = getComponentTypeMap('yc-alert', [
+export const TYPE_CLASS = getComponentConstantsMap('yc-alert', [
   'normal',
   'info',
   'success',
