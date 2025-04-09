@@ -113,3 +113,6 @@ export { default as Skeleton } from './Skeleton';
 
 export * from './Affix';
 export { default as Affix } from './Affix';
+
+export * from './TimePicker';
+export { default as TimePicker } from './TimePicker';

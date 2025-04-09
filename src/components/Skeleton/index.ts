@@ -7,11 +7,7 @@ import { getComponentPrefix } from '@shared/utils/global-config';
 export type SkeletonInstance = InstanceType<typeof _Skeleton>;
 export type SkeletonShapeInstance = InstanceType<typeof _SkeletonShape>;
 export type SkeletonLineInstance = InstanceType<typeof _SkeletonLine>;
-export type {
-  SkeletonProps,
-  SkeletonShapeProps,
-  SkeletonLineProps,
-} from './type';
+export * from './type';
 
 const Skeleton = Object.assign(_Skeleton, {
   shape: _SkeletonShape,

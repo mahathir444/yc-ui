@@ -7,18 +7,7 @@ import { getComponentPrefix } from '@shared/utils/global-config';
 export type SelectInstance = InstanceType<typeof _Select>;
 export type OptionInstance = InstanceType<typeof _Option>;
 export type OptgroupInstance = InstanceType<typeof _Optgroup>;
-export type {
-  SelectProps,
-  OptionProps,
-  OptgroupProps,
-  SelectValue,
-  SelectOptionData,
-  SelectOptionGroup,
-  SelectOptions,
-  FilterOption,
-  FallbackOption,
-  FormatLabel,
-} from './type';
+export * from './type';
 
 const Select = Object.assign(_Select, {
   option: _Option,

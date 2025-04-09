@@ -3,7 +3,7 @@ import _Popover from './index.vue';
 import { getComponentPrefix } from '@shared/utils/global-config';
 
 export type PopoverInstance = InstanceType<typeof _Popover>;
-export type { PopoverProps } from './type';
+export * from './type';
 
 const Popover = Object.assign(_Popover, {
   install: (app: App) => {

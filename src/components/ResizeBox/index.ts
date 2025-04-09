@@ -5,6 +5,7 @@ import { getComponentPrefix } from '@shared/utils/global-config';
 export type ResizeBoxInstance = InstanceType<typeof _ResizeBox>;
 
 export * from './type';
+
 const ResizeBox = Object.assign(_ResizeBox, {
   install: (app: App) => {
     app.component(getComponentPrefix() + _ResizeBox.name, _ResizeBox);

@@ -3,7 +3,7 @@ import _Result from './index.vue';
 import { getComponentPrefix } from '@shared/utils/global-config';
 
 export type ResultInstance = InstanceType<typeof _Result>;
-export type { ResultProps } from './type';
+export * from './type';
 
 const Result = Object.assign(_Result, {
   install: (app: App) => {

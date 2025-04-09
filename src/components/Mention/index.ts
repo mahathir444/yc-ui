@@ -4,6 +4,7 @@ import { getComponentPrefix } from '@shared/utils/global-config';
 
 export type MentionInstance = InstanceType<typeof _Mention>;
 export * from './type';
+
 const Mention = Object.assign(_Mention, {
   install: (app: App) => {
     app.component(getComponentPrefix() + _Mention.name, _Mention);

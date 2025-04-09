@@ -8,7 +8,7 @@ export type ButonGroupInstance = InstanceType<typeof _ButtonGroup>;
 export * from './type';
 
 const Button = Object.assign(_Button, {
-  buttongroup: _ButtonGroup,
+  group: _ButtonGroup,
   install: (app: App) => {
     app.component(getComponentPrefix() + _Button.name, _Button);
     app.component(getComponentPrefix() + _ButtonGroup.name, _ButtonGroup);
