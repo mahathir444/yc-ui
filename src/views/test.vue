@@ -22,7 +22,7 @@
               target="#main"
               target-container="#main"
             >
-              <yc-button type="primary" loading>测试</yc-button>
+              <yc-button disabled>测试</yc-button>
             </yc-affix>
           </div>
           <div style="width: 600px; display: flex">
