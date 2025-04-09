@@ -40,6 +40,7 @@ import Alert from './Alert';
 import Result from './Result';
 import Space from './Space';
 import Divider from './Divider';
+import Skeleton, { SkeletonLine, SkeletonShape } from './Skeleton';
 
 export const components: Record<string, Plugin> = {
   Button,
@@ -78,6 +79,7 @@ export const components: Record<string, Plugin> = {
   Result,
   Space,
   Divider,
+  Skeleton,
 };
 
 console.log('components：', Object.keys(components).length + 2);
@@ -93,6 +95,8 @@ export default {
   Optgroup,
   CheckboxGroup,
   RadioGroup,
+  SkeletonLine,
+  SkeletonShape,
   install: (app: App) => {
     for (const key of Object.keys(components)) {
       app.use(components[key]);

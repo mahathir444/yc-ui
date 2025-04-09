@@ -2,7 +2,6 @@
   display: inline-flex;
   .yc-space-split,
   .yc-space-item {
-    height: 100%;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -10,9 +9,17 @@
 }
 .yc-space-direction-horizontal {
   flex-direction: row;
+  .yc-space-item,
+  .yc-space-split {
+    height: 100%;
+  }
 }
 .yc-space-direction-vertical {
   flex-direction: column;
+  .yc-space-item,
+  .yc-space-split {
+    width: 100%;
+  }
 }
 .yc-space-wrap {
   flex-wrap: wrap;

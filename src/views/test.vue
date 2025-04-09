@@ -1,12 +1,17 @@
 <template>
   <div class="test">
-    <div style="width: 600px; height: 30px; display: flex">
-      <a-divider direction="horizontal" :size="2" orientation="right">
-        text
-      </a-divider>
+    <div style="width: 600px; display: flex">
+      <a-skeleton loading animation>
+        <a-skeleton-line :rows="3" />
+        <a-skeleton-shape />
+      </a-skeleton>
     </div>
-    <div style="width: 600px; height: 30px; display: flex">
-      <yc-divider :size="2"></yc-divider>
+    <div style="width: 600px; display: flex">
+      <yc-shape />
+      <yc-skeleton loading>
+        <yc-skeleton-line :rows="3" />
+        <yc-skeleton-shape />
+      </yc-skeleton>
     </div>
   </div>
 </template>
