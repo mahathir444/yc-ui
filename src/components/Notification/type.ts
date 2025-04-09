@@ -1,5 +1,8 @@
 import { ClassName, RenderContent } from '@shared/type';
-import { notificationPosition, notificationType } from './constants';
+import {
+  notificationPosition,
+  notificationType,
+} from '@shared/constants/notification';
 import { CSSProperties, RenderFunction } from 'vue';
 
 export interface NotificationProps {

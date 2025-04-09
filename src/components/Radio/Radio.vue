@@ -44,7 +44,7 @@
 <script lang="ts" setup>
 import { toRefs, inject, computed, ref } from 'vue';
 import { RadioProps, RadioValue, RadioProvide } from './type';
-import { SIZE_CLASS } from './constants';
+import { SIZE_CLASS } from '@shared/constants/radio';
 import { RADIO_GROUP_PROVIDE_KEY } from '@shared/constants';
 import { isUndefined } from '@shared/utils/is';
 import useControlValue from '@shared/hooks/useControlValue';

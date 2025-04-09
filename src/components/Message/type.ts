@@ -1,4 +1,4 @@
-import { messageType } from './constants';
+import { messageType } from '@shared/constants/message';
 import { VNode } from 'vue';
 
 export type MessageType = (typeof messageType)[number];

@@ -1,4 +1,4 @@
-import { TYPE_ICON_MAP, TYPE_ICON_COLOR_MAP } from '@shared/constants';
+import { TYPE_ICON_COLOR_MAP } from '@shared/constants';
 import { IconInfoLine, IconClose, IconCheck } from '@shared/icons';
 import Icon403 from '@shared/icons/Icon403.svg';
 import Icon404 from '@shared/icons/Icon404.svg';

@@ -50,7 +50,7 @@
 <script lang="ts" setup>
 import { toRefs, inject, ref, onBeforeUnmount, watch, computed } from 'vue';
 import { TagProps, TagEventType } from './type';
-import { SIZE_CLASS, COLOR_CLASS, COLOR_MAP } from './constants';
+import { SIZE_CLASS, COLOR_CLASS, COLOR_MAP } from '@shared/constants/tag';
 import { isUndefined } from '@shared/utils/is';
 import { OVERFLOW_LIST_PROVIDE_KEY } from '@shared/constants';
 import { OverListProvide } from '@/components/OverflowList/type';

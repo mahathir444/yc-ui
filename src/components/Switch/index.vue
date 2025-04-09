@@ -39,7 +39,7 @@
 <script lang="ts" setup>
 import { toRefs, computed } from 'vue';
 import { SwitchProps, SwitchValue } from './type';
-import { SIZE_CLASS, SHAPE_CLASS } from './constants';
+import { SIZE_CLASS, SHAPE_CLASS } from '@shared/constants/switch';
 import { isBoolean } from '@shared/utils/is';
 import useControlValue from '@shared/hooks/useControlValue';
 import YcSpin from '@/components/Spin';

@@ -20,7 +20,7 @@
 
 <script lang="ts" setup>
 import { ref, toRefs, provide } from 'vue';
-import { PRESET_COLORS } from './constants';
+import { PRESET_COLORS } from '@shared/constants/color-picker';
 import { ColorPickerProps, ColorPickerEmits, ColorPickerProvide } from './type';
 import { parseColor } from '@shared/utils/color';
 import { COLOR_PICKER_PROVIDE_KEY } from '@shared/constants';

@@ -44,8 +44,8 @@
 
 <script lang="ts" setup>
 import { ref } from 'vue';
-import { TYPE_CLASS } from './constants';
 import { AlertProps } from './type';
+import { TYPE_CLASS } from '@shared/constants/alert';
 import { TYPE_ICON_MAP, TYPE_ICON_COLOR_MAP } from '@shared/constants';
 import YcIconButton from '@shared/components/IconButton';
 defineOptions({

@@ -11,7 +11,7 @@
 
 <script lang="ts" setup>
 import { toRefs, computed } from 'vue';
-import { DIRECTION_MAP, POSITION_MAP } from './constants';
+import { DIRECTION_MAP, POSITION_MAP } from '@shared/constants/divider';
 import { isUndefined } from '@shared/utils/is';
 import { DividerProps } from './type';
 defineOptions({

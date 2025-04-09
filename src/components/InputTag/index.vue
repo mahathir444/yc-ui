@@ -68,7 +68,7 @@
 
 <script lang="ts" setup>
 import { ref, computed, toRefs } from 'vue';
-import { SIZE_CLASS } from './constants';
+import { SIZE_CLASS } from '@shared/constants/tag';
 import {
   InputTagProps,
   InputTagValue,

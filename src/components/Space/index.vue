@@ -24,7 +24,7 @@
 <script lang="ts" setup>
 import { toRefs, computed, useSlots } from 'vue';
 import { SpaceProps } from './type';
-import { DIRECTION_MAP } from './constants';
+import { DIRECTION_MAP } from '@shared/constants/space';
 import { isNumber } from '@shared/utils/is';
 defineOptions({
   name: 'Space',

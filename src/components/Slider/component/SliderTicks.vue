@@ -26,7 +26,7 @@ import {
   TICK_TYPE_MAP,
   TICKS_TYPE_MAP,
   TICKS_DIRECTION_MAP,
-} from '../constants';
+} from '@shared/constants/slider';
 import { SLIDER_PROVIDE_KEY } from '@shared/constants';
 
 const props = defineProps<{

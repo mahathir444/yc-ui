@@ -73,7 +73,7 @@ import { ref, toRefs, computed, inject } from 'vue';
 import { InputEvent, InputEventType, InputProps, InputProvide } from '../type';
 import { INPUT_PROVIDE_KEY } from '@shared/constants';
 import { RequiredDeep } from '@shared/type';
-import { SIZE_CLASS } from '../constants';
+import { SIZE_CLASS } from '@shared/constants/input';
 import useControlValue from '@shared/hooks/useControlValue';
 import useLimitedInput from '@shared/hooks/useLimitedInput';
 import YcSuffix from './Suffix.vue';

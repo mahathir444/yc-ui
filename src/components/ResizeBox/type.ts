@@ -1,4 +1,4 @@
-import { resizeBoxDirections } from './constants';
+import { resizeBoxDirections } from '@shared/constants/resize-box';
 
 export type DirectionType = (typeof resizeBoxDirections)[number];
 export interface ResizeBoxProps {

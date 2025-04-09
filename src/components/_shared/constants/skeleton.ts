@@ -1,9 +1,4 @@
-import {
-  getComponentStatusMap,
-  getComponentTypeMap,
-  getComponentShapeMap,
-  getComponentSizeMap,
-} from '@shared/utils/compt';
+import { getComponentShapeMap, getComponentSizeMap } from '@shared/utils/compt';
 // button
 export const SIZE_CLASS = getComponentSizeMap('yc-skeleton-shape', [
   'small',

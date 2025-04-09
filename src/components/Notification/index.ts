@@ -7,7 +7,11 @@ import {
   NotificationPosition,
   NotificationType,
 } from './type';
-import { config, notificationPosition, notificationType } from './constants';
+import {
+  config,
+  notificationPosition,
+  notificationType,
+} from '@shared/constants/notification';
 import { isString } from '@shared/utils/is';
 
 export type NotificationInstance = InstanceType<typeof _Notification>;

@@ -28,7 +28,7 @@ import {
   DEFAULT_TRACK_WIDTH,
   TRACK_DIRECTION_MAP,
   THUMB_DIRECTION_MAP,
-} from '../constants';
+} from '@shared/constants/scrollbar';
 import { ScrollbarProvide } from '../type';
 import { SCROLLBAR_PROVIDE_KEY } from '@shared/constants';
 import { Direction } from '@shared/type';

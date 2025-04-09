@@ -80,7 +80,7 @@
 
 <script lang="ts" setup>
 import { toRefs, computed, CSSProperties } from 'vue';
-import { DRAWER_POSTION_STYLE } from './constants';
+import { DRAWER_POSTION_STYLE } from '@shared/constants/drawer';
 import { DrawerProps } from './type';
 import { CloseType } from '@shared/type';
 import useDrawerClose from '@shared/hooks/useModalClose';

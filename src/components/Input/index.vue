@@ -64,7 +64,7 @@
 <script lang="ts" setup>
 import { ref, provide } from 'vue';
 import { InputProps, InputEmits, InputProvide } from './type';
-import { SIZE_CLASS } from './constants';
+import { SIZE_CLASS } from '@shared/constants/input';
 import { INPUT_PROVIDE_KEY } from '@shared/constants';
 import YcInput from './component/Input.vue';
 import YcPreventFocus from '@shared/components/PreventFocus';

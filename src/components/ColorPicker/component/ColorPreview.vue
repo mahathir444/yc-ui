@@ -13,7 +13,7 @@
 </template>
 
 <script lang="ts" setup>
-import { SIZE_CLASS } from '../constants';
+import { SIZE_CLASS } from '@shared/constants/color-picker';
 import { Size } from '@shared/type';
 defineProps<{
   color: string;

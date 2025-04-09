@@ -29,7 +29,7 @@
 <script lang="ts" setup>
 import { toRefs, computed } from 'vue';
 import { LinkProps, LinkEvent, LinkEventType } from './type';
-import { STATUS_CLASS } from './constants';
+import { STATUS_CLASS } from '@shared/constants/link';
 import YcSpin from '@/components/Spin';
 import { IconLink } from '@shared/icons';
 defineOptions({

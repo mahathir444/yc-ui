@@ -1,10 +1,7 @@
 import { getComponentTypeMap } from '@shared/utils/compt';
-// button
-
-export const TYPE_CLASS = getComponentTypeMap('yc-alert', [
-  'normal',
+export const TYPE_CLASS = getComponentTypeMap('yc-popconfirm', [
   'info',
   'success',
-  'error',
   'warning',
+  'error',
 ]);

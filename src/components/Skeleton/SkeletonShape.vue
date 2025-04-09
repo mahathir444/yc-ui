@@ -11,7 +11,7 @@
 
 <script lang="ts" setup>
 import { ref, inject } from 'vue';
-import { SIZE_CLASS, SHAPE_CLASS } from './constants';
+import { SIZE_CLASS, SHAPE_CLASS } from '@shared/constants/skeleton';
 import { SkeletonShapeProps, SkeletonProvide } from './type';
 import { SKELETON_PROVIDE_KEY } from '@shared/constants';
 defineOptions({

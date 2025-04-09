@@ -27,7 +27,7 @@
 <script lang="ts" setup>
 import { toRefs, provide } from 'vue';
 import { RadioGroupProps, RadioValue, RadioProvide } from './type';
-import { SIZE_CLASS, DIRECTION_MAP } from './constants';
+import { SIZE_CLASS, DIRECTION_MAP } from '@shared/constants/radio';
 import { RADIO_GROUP_PROVIDE_KEY } from '@shared/constants';
 import useControlValue from '@shared/hooks/useControlValue';
 import YcRadio from './Radio.vue';

@@ -44,8 +44,13 @@ import {
   ButtonEvent,
   ButtonEventType,
 } from './type';
-import { SIZE_CLASS, TYPE_CLASS, STATUS_CLASS, SHAPE_CLASS } from './constants';
-import { BUTTON_GROUP_PROVIDE_KEY, SIZE_MAP } from '@shared/constants';
+import {
+  SIZE_CLASS,
+  TYPE_CLASS,
+  STATUS_CLASS,
+  SHAPE_CLASS,
+} from '@shared/constants/button';
+import { BUTTON_GROUP_PROVIDE_KEY } from '@shared/constants';
 import YcSpin from '@/components/Spin';
 defineOptions({
   name: 'Button',
@@ -113,11 +118,6 @@ const btnClass = computed(() => {
     SHAPE_CLASS[shape.value],
   ];
 });
-const width = computed(() =>
-  !slots.default || shape.value == 'circle'
-    ? `${SIZE_MAP[size.value]}px`
-    : 'fit-content'
-);
 // 拦截事件
 const handleEvent = (type: ButtonEventType, e: ButtonEvent) => {
   if (disabled.value || loading.value) return;
@@ -127,7 +127,4 @@ const handleEvent = (type: ButtonEventType, e: ButtonEvent) => {
 
 <style lang="less" scoped>
 @import './style/button.less';
-.yc-button {
-  width: v-bind(width);
-}
 </style>

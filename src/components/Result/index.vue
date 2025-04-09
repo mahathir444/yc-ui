@@ -38,7 +38,10 @@
 <script lang="ts" setup>
 import { toRefs, computed } from 'vue';
 import { ResultProps } from './type';
-import { RESULT_ICON_COLOR_MAP, RESULT_ICON_MAP } from './constants';
+import {
+  RESULT_ICON_COLOR_MAP,
+  RESULT_ICON_MAP,
+} from '@shared/constants/result';
 defineOptions({
   name: 'Result',
 });

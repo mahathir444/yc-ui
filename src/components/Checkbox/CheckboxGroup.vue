@@ -24,7 +24,7 @@
 
 <script lang="ts" setup>
 import { toRefs, provide } from 'vue';
-import { DIRECTION_MAP } from './constants';
+import { DIRECTION_MAP } from '@shared/constants/checkbox';
 import { CheckboxGroupProps, CheckboxValue, CheckboxProvide } from './type';
 import { CHECKBOX_GROUP_PROVIDE_KEY } from '@shared/constants';
 import useControlValue from '@shared/hooks/useControlValue';
