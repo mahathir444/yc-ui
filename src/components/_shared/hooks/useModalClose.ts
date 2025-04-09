@@ -11,8 +11,6 @@ export default (params: {
   defaultVisible: Ref<boolean>;
   maskClosable: Ref<boolean>;
   escToClose: Ref<boolean>;
-  popupContainer: Ref<PopupContainer | undefined>;
-  renderToBody: Ref<boolean>;
   onBeforeOk: OnBeforeOk;
   onBeforeCancel: OnBeforeCancel;
   emits: Fn;
@@ -22,18 +20,10 @@ export default (params: {
     escToClose,
     visible,
     defaultVisible,
-    popupContainer: _popupContainer,
-    renderToBody,
     onBeforeCancel,
     onBeforeOk,
     emits,
   } = params;
-  // popupContainer
-  const popupContainer = computed(() => _popupContainer.value || 'body');
-  // position
-  const position = computed(() =>
-    _popupContainer.value || !renderToBody.value ? 'absolute' : 'fixed'
-  );
   // 外层visible，用于播放动画
   const outerVisible = ref<boolean>(false);
   // 内存visible，用于显示组件
@@ -92,8 +82,6 @@ export default (params: {
 
   return {
     closeType,
-    position,
-    popupContainer,
     outerVisible,
     innerVisible,
     handleClose,

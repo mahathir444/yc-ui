@@ -20,7 +20,7 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, toRefs, inject } from 'vue';
+import { ref, toRefs, inject, computed, CSSProperties } from 'vue';
 import { SliderProvide } from '../type';
 import { TICK_TYPE_MAP, TICKS_TYPE_MAP } from '@shared/constants/slider';
 import { SLIDER_PROVIDE_KEY } from '@shared/constants';

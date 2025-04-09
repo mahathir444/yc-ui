@@ -12,7 +12,7 @@
   >
     <span v-if="$slots.icon || loading" class="yc-button-icon">
       <slot v-if="!loading" name="icon" />
-      <yc-spin v-else color="inherit" size="inherit" />
+      <yc-spin />
     </span>
     <slot />
   </a>
@@ -30,7 +30,7 @@
   >
     <span v-if="$slots.icon || loading" class="yc-button-icon">
       <slot v-if="!loading" name="icon" />
-      <yc-spin v-else color="inherit" size="inherit" />
+      <yc-spin />
     </span>
     <slot />
   </button>

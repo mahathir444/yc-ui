@@ -1,9 +1,12 @@
 <template>
-  <teleport :to="popupContainer" :disabled="!renderToBody">
+  <teleport :to="popupContainer || 'body'" :disabled="!renderToBody">
     <div
       v-if="!unmountOnClose || outerVisible"
       v-show="outerVisible"
-      class="yc-drawer-wrapper"
+      :class="{
+        'yc-drawer-wrapper': true,
+        'yc-drawer-wrapper-position-absolute': popupContainer || !renderToBody,
+      }"
     >
       <!-- mask -->
       <transition name="fade" appear>
@@ -26,10 +29,7 @@
         <div
           v-show="innerVisible"
           :class="['yc-drawer-container', $attrs.class]"
-          :style="{
-            ...drawerCss,
-            ...($attrs?.style || {}),
-          }"
+          :style="drawerCss"
         >
           <!-- header -->
           <slot name="header">
@@ -79,7 +79,7 @@
 </template>
 
 <script lang="ts" setup>
-import { toRefs, computed, CSSProperties } from 'vue';
+import { toRefs, computed, CSSProperties, useAttrs } from 'vue';
 import { DRAWER_POSTION_STYLE } from '@shared/constants/drawer';
 import { DrawerProps } from './type';
 import { CloseType } from '@shared/type';
@@ -146,9 +146,10 @@ const {
   escToClose,
   drawerStyle,
   renderToBody,
-  popupContainer: _popupContainer,
+  popupContainer,
 } = toRefs(props);
 const { onBeforeOk, onBeforeCancel } = props;
+const attrs = useAttrs();
 // drawer绝对定位的left,top
 const drawerCss = computed(() => {
   return {
@@ -163,33 +164,22 @@ const drawerCss = computed(() => {
         : `100%`,
     // 传入样式
     ...drawerStyle.value,
+    ...(attrs.style || {}),
   } as CSSProperties;
 });
 // 处理组件关闭开启
-const {
-  outerVisible,
-  innerVisible,
-  closeType,
-  popupContainer,
-  position,
-  handleClose,
-  handleAfterLeave,
-} = useDrawerClose({
-  visible,
-  defaultVisible,
-  escToClose,
-  maskClosable,
-  popupContainer: _popupContainer,
-  renderToBody,
-  onBeforeCancel,
-  onBeforeOk,
-  emits,
-});
+const { outerVisible, innerVisible, closeType, handleClose, handleAfterLeave } =
+  useDrawerClose({
+    visible,
+    defaultVisible,
+    escToClose,
+    maskClosable,
+    onBeforeCancel,
+    onBeforeOk,
+    emits,
+  });
 </script>
 
 <style lang="less" scoped>
 @import './style/drawer.less';
-.yc-drawer-wrapper {
-  position: v-bind(position);
-}
 </style>

@@ -1,7 +1,7 @@
 <template>
   <div v-if="!hideIcon" class="yc-spin-icon">
     <slot name="icon">
-      <icon-loading spin v-if="!dot" name="loading" />
+      <icon-loading spin v-if="!dot" name="loading" :size="size" />
       <dot-icon v-else />
     </slot>
   </div>
@@ -18,6 +18,7 @@ import { IconLoading } from '@shared/icons';
 defineProps<{
   dot: boolean;
   tip: string;
+  size: number;
   hideIcon: boolean;
 }>();
 </script>

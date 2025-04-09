@@ -1,7 +1,7 @@
 <template>
   <div class="test">
     <div>
-      <yc-spin tip="Spin" />
+      <yc-spin tip="Spin" :size="50" />
     </div>
     <div>
       <yc-button type="primary">button</yc-button>

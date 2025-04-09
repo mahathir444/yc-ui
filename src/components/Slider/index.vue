@@ -17,17 +17,7 @@
         role="slider"
         tabindex="0"
         :aria-disabled="disabled"
-        :style="
-          direction == 'vertical'
-            ? {
-                top: position.top,
-                bottom: position.bottom,
-              }
-            : {
-                left: position.left,
-                right: position.right,
-              }
-        "
+        :style="position"
       ></div>
       <!-- start -->
       <yc-slider-btn v-model:position="startPosition" type="start" />
@@ -143,12 +133,15 @@ const position = computed(() => {
     startDis: startDis1 = 0,
     endDis: endDis1 = 0,
   } = endPosition.value;
-  return {
-    left: startDis < startDis1 ? left : left1,
-    right: startDis < startDis1 ? right1 : right,
-    top: endDis <= endDis1 ? top : top1,
-    bottom: startDis < startDis1 ? bottom : bottom1,
-  };
+  return direction.value == 'vertical'
+    ? {
+        top: endDis <= endDis1 ? top : top1,
+        bottom: startDis < startDis1 ? bottom : bottom1,
+      }
+    : {
+        left: startDis < startDis1 ? left : left1,
+        right: startDis < startDis1 ? right1 : right,
+      };
 });
 // 提供值
 provide<SliderProvide>(SLIDER_PROVIDE_KEY, {

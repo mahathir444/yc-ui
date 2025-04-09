@@ -26,40 +26,25 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, toRefs, computed } from 'vue';
-import { isNumber } from '@shared/utils/is';
+import { ref } from 'vue';
 defineOptions({
   name: 'PreventFocus',
 });
-const props = withDefaults(
+withDefaults(
   defineProps<{
     preventFocus?: boolean;
     tag?: 'div' | 'label' | 'span';
-    fontSize?: number | 'inherit';
   }>(),
   {
     preventFocus: true,
-    fontSize: 'inherit',
     tag: 'div',
   }
 );
-const { fontSize: _fontSize } = toRefs(props);
 // 计算htmlRef
 const htmlRef = ref<HTMLElement>();
-// 计算fontSize
-const fontSize = computed(() =>
-  isNumber(_fontSize.value) ? `${_fontSize.value}px` : _fontSize.value
-);
-
 defineExpose({
   getRef() {
     return htmlRef.value as HTMLElement;
   },
 });
 </script>
-
-<style lang="less">
-.yc-prevent-focus {
-  font-size: v-bind(fontSize);
-}
-</style>

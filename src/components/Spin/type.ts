@@ -1,9 +1,8 @@
 export interface SpinProps {
-  size?: number | 'inherit';
+  size?: number;
   loading?: boolean;
   dot?: boolean;
   tip?: string;
   hideIcon?: boolean;
-  color?: string;
   preventFocus?: boolean;
 }

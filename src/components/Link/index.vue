@@ -20,7 +20,7 @@
       <slot v-if="!loading" name="icon">
         <icon-link v-if="icon" />
       </slot>
-      <yc-spin v-else color="inherit" size="inherit" />
+      <yc-spin v-else />
     </span>
     <slot />
   </a>

@@ -29,7 +29,6 @@
       v-if="closeable"
       :hover-size="16"
       hover-color="rgba(255, 255, 255, 0.2)"
-      color="inherit"
       class="yc-tag-close-button"
       @click="handleEvent('close', $event)"
     >
@@ -38,12 +37,7 @@
       </template>
     </yc-icon-button>
     <!-- loading -->
-    <yc-spin
-      v-if="loading"
-      color="inherit"
-      size="inherit"
-      class="yc-tag-loading-icon"
-    />
+    <yc-spin v-if="loading" class="yc-tag-loading-icon" />
   </yc-prevent-focus>
 </template>
 

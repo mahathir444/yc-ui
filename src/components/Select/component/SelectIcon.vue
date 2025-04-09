@@ -3,7 +3,6 @@
   <yc-spin
     v-if="loading"
     :size="12"
-    color="inherit"
     prevent-focus
     class="yc-select-loading-icon"
   >
@@ -28,7 +27,6 @@
     <!-- clear -->
     <yc-icon-button
       v-if="showClearBtn"
-      color="inherit"
       class="yc-select-clear-icon"
       @click="(ev) => $emit('clear', ev)"
     />

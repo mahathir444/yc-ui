@@ -16,7 +16,7 @@
   >
     <span class="yc-switch-handle">
       <span class="yc-switch-handle-icon">
-        <yc-spin v-if="loading" color="inherit" size="inherit" />
+        <yc-spin v-if="loading" />
         <slot
           v-else
           :name="compuedChecked ? 'checked-icon' : 'unchecked-icon'"

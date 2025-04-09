@@ -11,7 +11,11 @@
               v-if="['403', '404', '500'].includes(status)"
               :src="RESULT_ICON_MAP[status]"
             />
-            <component v-else :is="RESULT_ICON_MAP[status]" />
+            <component
+              v-else
+              :is="RESULT_ICON_MAP[status]"
+              :color="TYPE_ICON_COLOR_MAP[status]"
+            />
           </template>
         </slot>
       </div>
@@ -38,10 +42,8 @@
 <script lang="ts" setup>
 import { toRefs, computed } from 'vue';
 import { ResultProps } from './type';
-import {
-  RESULT_ICON_COLOR_MAP,
-  RESULT_ICON_MAP,
-} from '@shared/constants/result';
+import { TYPE_ICON_COLOR_MAP } from '@shared/constants';
+import { RESULT_ICON_MAP } from '@shared/constants/result';
 defineOptions({
   name: 'Result',
 });
@@ -51,15 +53,8 @@ const props = withDefaults(defineProps<ResultProps>(), {
   subtitle: '',
 });
 const { status } = toRefs(props);
-// 图标的颜色
-const color = computed(() => RESULT_ICON_COLOR_MAP[status.value as string]);
 </script>
 
 <style lang="less" scoped>
 @import './style/result.less';
-.yc-result {
-  .yc-result-icon {
-    color: v-bind(color);
-  }
-}
 </style>

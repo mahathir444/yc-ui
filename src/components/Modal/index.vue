@@ -3,7 +3,10 @@
     <div
       v-if="!unmountOnClose || outerVisible"
       v-show="outerVisible"
-      class="yc-modal-container"
+      :class="{
+        'yc-modal-container': true,
+        'yc-modal-container-position-absolute': popupContainer || !renderToBody,
+      }"
     >
       <!-- mask -->
       <transition :name="maskAnimationName" appear>
@@ -177,30 +180,20 @@ const {
   fullscreen,
   draggable,
   renderToBody,
-  popupContainer: _popupContainer,
 } = toRefs(props);
 const { onBeforeOk, onBeforeCancel } = props;
 const attrs = useAttrs();
 // 处理组件关闭开启
-const {
-  outerVisible,
-  innerVisible,
-  closeType,
-  popupContainer,
-  position,
-  handleClose,
-  handleAfterLeave,
-} = useModalClose({
-  visible,
-  defaultVisible,
-  escToClose,
-  maskClosable,
-  popupContainer: _popupContainer,
-  renderToBody,
-  onBeforeOk,
-  onBeforeCancel,
-  emits,
-});
+const { outerVisible, innerVisible, closeType, handleClose, handleAfterLeave } =
+  useModalClose({
+    visible,
+    defaultVisible,
+    escToClose,
+    maskClosable,
+    onBeforeOk,
+    onBeforeCancel,
+    emits,
+  });
 // headerRef,用于拖拽
 const headerRef = ref<HTMLDivElement>();
 // modalRef,用于获取宽高处理越界问题
@@ -228,7 +221,4 @@ const style = computed(() => {
 
 <style lang="less" scoped>
 @import './style/modal.less';
-.yc-modal-container {
-  position: v-bind(position);
-}
 </style>

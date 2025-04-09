@@ -20,7 +20,7 @@
     <!-- password -->
     <yc-icon-button
       v-if="isPassword && invisibleButton"
-      :font-size="14"
+      :size="14"
       @click="$emit('visibilityChange', !computedVisibility)"
     >
       <template #icon>
@@ -31,7 +31,7 @@
     <!-- search -->
     <yc-icon-button
       v-if="isSearch && !searchButton"
-      :font-size="14"
+      :size="14"
       @click="$emit('search')"
     >
       <template #icon>

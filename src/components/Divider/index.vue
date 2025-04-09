@@ -42,8 +42,6 @@ const border = computed(
 <style lang="less" scoped>
 @import './style/divider.less';
 .yc-divider {
-  min-width: v-bind(size);
-  max-width: v-bind(size);
   margin: v-bind(margin);
   &.yc-divider-direction-horizontal {
     border-bottom: v-bind(border);

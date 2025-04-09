@@ -1,7 +1,7 @@
 <template>
-  <yc-prevent-focus :font-size="fontSize" class="yc-icon-button">
+  <yc-prevent-focus class="yc-icon-button">
     <slot name="icon">
-      <icon-close />
+      <icon-close :size="size" />
     </slot>
   </yc-prevent-focus>
 </template>
@@ -15,12 +15,11 @@ defineOptions({
   name: 'IconButton',
 });
 const props = withDefaults(defineProps<IconButtonProps>(), {
-  color: 'rgb(29, 33, 41)',
-  fontSize: 14,
+  size: 14,
   hoverColor: 'rgb(242, 243, 245)',
   hoverSize: 20,
 });
-const { color, hoverSize: _hoverSize } = toRefs(props);
+const { hoverSize: _hoverSize } = toRefs(props);
 const hoverSize = computed(() => _hoverSize.value + 'px');
 </script>
 
@@ -29,7 +28,7 @@ const hoverSize = computed(() => _hoverSize.value + 'px');
   user-select: none;
   cursor: pointer;
   position: relative;
-  color: v-bind(color);
+  color: rgb(29, 33, 41);
   display: flex;
   justify-content: center;
   align-items: center;
