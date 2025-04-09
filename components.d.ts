@@ -73,6 +73,7 @@ declare module 'vue' {
     IconSearch: typeof import('./src/components/_shared/icons/IconSearch.vue')['default']
     IconStar: typeof import('./src/components/_shared/icons/IconStar.vue')['default']
     IconSuccess: typeof import('./src/components/_shared/icons/IconSuccess.vue')['default']
+    IconTime: typeof import('./src/components/_shared/icons/IconTime.vue')['default']
     IconToTop: typeof import('./src/components/_shared/icons/IconToTop.vue')['default']
     IconWarning: typeof import('./src/components/_shared/icons/IconWarning.vue')['default']
     Input: typeof import('./src/components/Input/index.vue')['default']

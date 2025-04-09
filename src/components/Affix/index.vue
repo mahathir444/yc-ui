@@ -1,5 +1,5 @@
 <template>
-  <div ref="affixRef">
+  <div ref="wrapperRef">
     <div
       v-if="isFixed"
       :style="{
@@ -12,6 +12,7 @@
         'yc-affix': isFixed,
       }"
       :style="style"
+      ref="affixRef"
     >
       <slot />
     </div>
@@ -28,15 +29,15 @@ import {
   onBeforeUnmount,
 } from 'vue';
 import { AffixProps } from './type';
-import { useElementSize } from '@vueuse/core';
+import { useResizeObserver } from '@vueuse/core';
 import { isUndefined } from '@shared/utils/is';
 import { getElement } from '@shared/utils/dom';
-import { throttle } from '@shared/utils/fn';
+import { throttleByRaf } from '@shared/utils/fn';
 defineOptions({
   name: 'Affix',
 });
 const props = withDefaults(defineProps<AffixProps>(), {
-  offseTop: 0,
+  offsetTop: 0,
   offsetBottom: undefined,
   target: () => window,
   targetContainer: '',
@@ -44,7 +45,7 @@ const props = withDefaults(defineProps<AffixProps>(), {
 const {
   target: _target,
   targetContainer: _targetContainer,
-  offseTop,
+  offsetTop,
   offsetBottom,
 } = toRefs(props);
 // target
@@ -53,46 +54,52 @@ const target = ref<HTMLElement>();
 const targetContainer = ref<HTMLElement>();
 // affixRef
 const affixRef = ref<HTMLDivElement>();
-// 固定的位置
-const fixed = ref<number>(0);
+// wrapperRef
+const wrapperRef = ref<HTMLDivElement>();
 // 是否固定
 const isFixed = ref<boolean>(false);
 // 固定样式
-const style = computed<CSSProperties>(() => {
-  if (!isFixed.value) return {};
-  return {
-    position: 'fixed',
-    top: isUndefined(offsetBottom.value) ? `${fixed.value}px` : '',
-    bottom: !isUndefined(offsetBottom.value) ? `${fixed.value}px` : '',
-  };
-});
+const style = ref<CSSProperties>({});
 // 容器宽高
-const { width, height } = useElementSize(affixRef, undefined, {
-  box: 'border-box',
-});
-let timer: any = 0;
+const width = ref<number>(0);
+const height = ref<number>(0);
+// 监听改变
+useResizeObserver(
+  affixRef,
+  () => {
+    const { width: w, height: h } = affixRef.value!.getBoundingClientRect();
+    width.value = w;
+    height.value = h;
+    handleScroll();
+  },
+  {
+    box: 'border-box',
+  }
+);
 // 处理滚动
-const handleScroll = throttle(() => {
-  const { top: affixTop, bottom: affixBottom } =
-    affixRef.value!.getBoundingClientRect();
+const handleScroll = throttleByRaf(() => {
+  if (!target.value || !targetContainer.value || !wrapperRef.value) return;
+  const { top: wrapperTop, bottom: wrapperBottom } =
+    wrapperRef.value!.getBoundingClientRect();
   const { top: targetTop, bottom: targetBottom } =
     targetContainer.value!.getBoundingClientRect();
   isFixed.value = isUndefined(offsetBottom.value)
-    ? affixTop - targetTop <= offseTop.value
-    : affixBottom - targetBottom >= offsetBottom.value;
-  fixed.value = isUndefined(offsetBottom.value)
-    ? targetTop + offseTop.value
-    : offsetBottom.value;
-}, 10);
+    ? wrapperTop - targetTop <= offsetTop.value
+    : targetBottom - wrapperBottom <= offsetBottom.value;
+  if (isFixed.value) {
+    style.value = isUndefined(offsetBottom.value)
+      ? { position: 'fixed', top: `${targetTop + offsetTop.value}px` }
+      : { position: 'fixed', bottom: `${offsetBottom.value}px` };
+  } else {
+    style.value = {};
+  }
+});
 onMounted(() => {
   target.value = getElement(_target.value as string);
   targetContainer.value = getElement(_targetContainer.value);
-  if (!target.value || !targetContainer.value) return;
   target.value?.addEventListener('scroll', handleScroll);
-  target.value?.addEventListener('resize', handleScroll);
 });
 onBeforeUnmount(() => {
   target.value?.removeEventListener('scroll', handleScroll);
-  target.value?.addEventListener('resize', handleScroll);
 });
 </script>
