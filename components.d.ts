@@ -7,9 +7,16 @@ export {}
 /* prettier-ignore */
 declare module 'vue' {
   export interface GlobalComponents {
+    AAffix: typeof import('@arco-design/web-vue')['Affix']
     AAlert: typeof import('@arco-design/web-vue')['Alert']
     ABackTop: typeof import('@arco-design/web-vue')['BackTop']
     ADivider: typeof import('@arco-design/web-vue')['Divider']
+    Affix: typeof import('./src/components/Affix/index.vue')['default']
+    AHeader: typeof import('@arco-design/web-vue')['Header']
+    ALayout: typeof import('@arco-design/web-vue')['Layout']
+    ALayoutContent: typeof import('@arco-design/web-vue')['LayoutContent']
+    ALayoutHeader: typeof import('@arco-design/web-vue')['LayoutHeader']
+    ALayoutSider: typeof import('@arco-design/web-vue')['LayoutSider']
     Alert: typeof import('./src/components/Alert/index.vue')['default']
     AResult: typeof import('@arco-design/web-vue')['Result']
     ASkeleton: typeof import('@arco-design/web-vue')['Skeleton']

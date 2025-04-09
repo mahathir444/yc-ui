@@ -41,6 +41,7 @@ import Result from './Result';
 import Space from './Space';
 import Divider from './Divider';
 import Skeleton, { SkeletonLine, SkeletonShape } from './Skeleton';
+import Affix from './Affix';
 
 export const components: Record<string, Plugin> = {
   Button,
@@ -80,6 +81,7 @@ export const components: Record<string, Plugin> = {
   Space,
   Divider,
   Skeleton,
+  Affix,
 };
 
 console.log('components：', Object.keys(components).length + 2);

@@ -1,8 +1,8 @@
 import { Ref } from 'vue';
 
 export interface SkeletonProps {
-  animation: boolean;
-  loading: boolean;
+  animation?: boolean;
+  loading?: boolean;
 }
 
 export interface SkeletonLineProps {
