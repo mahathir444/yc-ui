@@ -8,14 +8,15 @@
         multiple
         placeholder="请选择"
         :max-tag-count="3"
-        :options="[
-          {
-            label: '分组1',
-            isGroup: true,
-            options,
-          },
-        ]"
       >
+        <yc-optgroup label="分组1">
+          <yc-option
+            v-for="item in options"
+            :key="item.value"
+            :value="item.value"
+            :label="item.label"
+          />
+        </yc-optgroup>
       </yc-select>
     </div>
     <div style="width: 300px">

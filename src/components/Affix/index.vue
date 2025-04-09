@@ -31,6 +31,7 @@ import { AffixProps } from './type';
 import { useElementSize } from '@vueuse/core';
 import { isUndefined } from '@shared/utils/is';
 import { getElement } from '@shared/utils/dom';
+import { throttle } from '@shared/utils/fn';
 defineOptions({
   name: 'Affix',
 });
@@ -69,8 +70,9 @@ const style = computed<CSSProperties>(() => {
 const { width, height } = useElementSize(affixRef, undefined, {
   box: 'border-box',
 });
+let timer: any = 0;
 // 处理滚动
-const handleScroll = () => {
+const handleScroll = throttle(() => {
   const { top: affixTop, bottom: affixBottom } =
     affixRef.value!.getBoundingClientRect();
   const { top: targetTop, bottom: targetBottom } =
@@ -81,14 +83,16 @@ const handleScroll = () => {
   fixed.value = isUndefined(offsetBottom.value)
     ? targetTop + offseTop.value
     : offsetBottom.value;
-};
+}, 10);
 onMounted(() => {
-  target.value = getElement(_target.value) as HTMLElement;
-  targetContainer.value = getElement(_targetContainer.value) as HTMLElement;
+  target.value = getElement(_target.value as string);
+  targetContainer.value = getElement(_targetContainer.value);
   if (!target.value || !targetContainer.value) return;
   target.value?.addEventListener('scroll', handleScroll);
+  target.value?.addEventListener('resize', handleScroll);
 });
 onBeforeUnmount(() => {
   target.value?.removeEventListener('scroll', handleScroll);
+  target.value?.addEventListener('resize', handleScroll);
 });
 </script>

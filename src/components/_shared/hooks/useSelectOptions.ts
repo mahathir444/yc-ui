@@ -6,6 +6,7 @@ import {
   onUpdated,
   useSlots,
   ComputedRef,
+  VNode,
 } from 'vue';
 import { nanoid } from 'nanoid';
 import {
@@ -13,9 +14,10 @@ import {
   SelectValue,
   SelectOptions,
   FallbackOption,
+  Optgroup,
+  Option,
 } from '@/components/Select';
 import { Fn, ObjectData } from '../type';
-import { flattedChildren } from '../utils/vue-vnode';
 import { isObject } from '../utils/is';
 export default (params: {
   fieldKey: ComputedRef<Record<string, string>>;
@@ -33,6 +35,8 @@ export default (params: {
     getValue,
     fallbackOption,
   } = params;
+  // 插槽的option无需处理
+  const slots = useSlots();
   // slot收集的options数组
   const slotOptions = ref<OptionProps[]>([]);
   // 扁平化的renderOption
@@ -93,14 +97,24 @@ export default (params: {
       ...fallbackOptions.value,
     ];
   });
+  // 是否是option
+  const isOption = (vnode: ObjectData) => vnode.type.name == Option.name;
+  // 是否是optgroup
+  const isOptgroup = (vnode: ObjectData) => vnode.type.name == Optgroup.name;
+  // 扁平化children
+  const flattedChildren = (vnode: ObjectData) => {
+    if (isOption(vnode)) return vnode;
+    const groupChildren = vnode.children.default?.() || [];
+    return (groupChildren as ObjectData[]).map((item) => item.children);
+  };
   // 获取选项的props
   const getOptions = () => {
-    // 插槽的option无需处理
-    const slots = useSlots();
-    const propsArray = flattedChildren(slots?.default?.() ?? []);
-    slotOptions.value = (propsArray as ObjectData[])
-      .filter((vnode) => vnode?.type?.name == 'Option' && vnode?.props)
-      .map((vnode) => vnode?.props as OptionProps);
+    slotOptions.value = (slots?.default?.() ?? [])
+      .filter((vnode) => isOption(vnode) || isOptgroup(vnode))
+      .map((vnode) => flattedChildren(vnode))
+      .flat(Infinity)
+      .filter((vnode) => vnode.props)
+      .map((vnode) => vnode.props);
   };
   onMounted(() => {
     getOptions();

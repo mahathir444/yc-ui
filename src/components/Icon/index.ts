@@ -1,7 +1,7 @@
 import { App, h } from 'vue';
 import _Icon from './index.vue';
 import { IconFontOptions } from './type';
-import { isServerRendering } from '@shared/utils/vue-utils';
+import { isServerRendering } from '@shared/utils/dom';
 import { getComponentPrefix } from '@shared/utils/global-config';
 
 export type IconInstance = InstanceType<typeof _Icon>;

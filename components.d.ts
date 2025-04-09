@@ -19,6 +19,7 @@ declare module 'vue' {
     ALayoutSider: typeof import('@arco-design/web-vue')['LayoutSider']
     Alert: typeof import('./src/components/Alert/index.vue')['default']
     AResult: typeof import('@arco-design/web-vue')['Result']
+    ASelect: typeof import('@arco-design/web-vue')['Select']
     ASkeleton: typeof import('@arco-design/web-vue')['Skeleton']
     ASkeletonLine: typeof import('@arco-design/web-vue')['SkeletonLine']
     ASkeletonShape: typeof import('@arco-design/web-vue')['SkeletonShape']
