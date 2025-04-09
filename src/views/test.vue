@@ -4,10 +4,9 @@
       <a-divider direction="horizontal" :size="2" orientation="right">
         text
       </a-divider>
-      <yc-divider :size="2"></yc-divider>
     </div>
     <div style="width: 600px; height: 30px; display: flex">
-      <!-- <a-divider direction="horizontal" :size="2"> text </a-divider> -->
+      <yc-divider :size="2"></yc-divider>
     </div>
   </div>
 </template>
