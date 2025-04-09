@@ -3,12 +3,29 @@
   <div class="lsh-box">
     <a-button @click="hanClick"> 点击测试 </a-button>
     <ATimePicker v-bind="config" type="time" />
-    <!-- <ATimePicker v-bind="config" v-model:model-value="v" @change="hanChange" @select="hanSelect"/>
-    <YcTimePicker v-bind="config" v-model:model-value="v" @change="hanChange" @select="hanSelect">
-      <template #suffix>
-        <SvgIcon icon="icon-search" />
+    <ATimePicker
+      v-bind="config"
+      v-model:model-value="v"
+      @change="hanChange"
+      @select="hanSelect"
+    >
+      <template #extra> 11 </template>
+    </ATimePicker>
+    <YcTimePicker
+      v-bind="config"
+      v-model:model-value="v"
+      @change="hanChange"
+      @select="hanSelect"
+    >
+      <template #extra> 11 </template>
+    </YcTimePicker>
+    <a-popover title="Title">
+      <a-button>Hover</a-button>
+      <template #content>
+        <p>Here is the text content</p>
+        <p>Here is the text content</p>
       </template>
-    </YcTimePicker> -->
+    </a-popover>
   </div>
 </template>
 
@@ -31,14 +48,30 @@ const config = {
   format: 'HH:mm:ss',
   type: 'time-range',
   use12Hours: !true,
+  // disableConfirm: true,
+  // disabledHours: () => [1, 2, 4, 14],
+  // disabledMinutes: (v) => {
+  //   return [];
+  // },
+  // disabledSeconds: () => [1, 2, 3, 4, 5, 6, 7, 10, 14, 60],
+  hideDisabledOptions: true,
+  // error:true,
+  // readonly:!true,
+  // disabled:true,
+  // step: {
+  //   hour: 2,
+  //   minute: 5,
+  //   second: 10,
+  // },
+  placeholder: ['测试', '测试'],
 };
 const hanClick = () => {};
-// const hanChange = (...rest) =>{
-//   console.log(rest)
-// }
-// const hanSelect = (...rest) =>{
-//   console.log(rest)
-// }
+const hanChange = (...rest) => {
+  console.log("change",rest);
+};
+const hanSelect = (...rest) => {
+  console.log("select",rest);
+};
 </script>
 <style scoped lang="less">
 .lsh-box {

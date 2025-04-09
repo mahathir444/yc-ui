@@ -262,6 +262,9 @@ defineExpose({
       top,
     });
   },
+  getScrollRef() {
+    return scrollRef.value;
+  },
 });
 </script>
 

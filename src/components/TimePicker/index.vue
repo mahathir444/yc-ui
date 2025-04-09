@@ -15,11 +15,13 @@
         'yc-time-picker-box': true,
         focus: cVisible,
         'time-range': type === 'time-range',
+        disabled,
+        error,
       }"
       :style="{
         height: SIZE_MAP[size] + 'px',
       }"
-      @click="hanClickBox"
+      @click="!disabled && hanClickBox()"
     >
       <div class="yc-input-box" @click="activeIndex = 0">
         <input
@@ -27,6 +29,9 @@
           class="yc-picker-input"
           :placeholder="computedPlaceHolder[0]"
           :value="showValue[0]"
+          @input="hanInput"
+          :disabled="disabled"
+          :readonly="readonly"
         />
       </div>
       <span v-if="type === 'time-range'" class="yc-picker-separator">-</span>
@@ -40,8 +45,29 @@
           class="yc-picker-input"
           :placeholder="computedPlaceHolder[1]"
           :value="showValue[1]"
+          @input="hanInput"
+          :disabled="disabled"
+          :readonly="readonly"
         />
       </div>
+      <YcPreventFocus
+        :class="{
+          'yc-picker-suffix': true,
+          allowClear: allowClear && !readonly && !disabled,
+        }"
+      >
+        <div class="yc-time-icon">
+          <slot name="suffix-icon">
+            <IconTime />
+          </slot>
+        </div>
+        <YcIconButton
+          fontSize="14px"
+          class="yc-close-icon"
+          @click="hanClear"
+          v-if="allowClear && !readonly && !disabled"
+        />
+      </YcPreventFocus>
     </div>
     <template #content>
       <div class="yc-picker-box">
@@ -57,26 +83,33 @@
                 <div
                   :class="{
                     'yc-time-item': true,
-                    active: inputValue[activeIndex][item.key] === t,
+                    active: inputValue[activeIndex][item.key] === t.value,
+                    disabled: t.disabled,
                   }"
                   v-for="t in item.options"
-                  :key="t"
-                  :ref="(el) => setItemRef(item.key, t, el)"
-                  @click="hanSelectItem(item.key, t)"
+                  :key="t.value"
+                  :ref="(el) => setItemRef(item.key, t.value, el)"
+                  @click="!t.disabled && hanSelectItem(item.key, t.value)"
                 >
-                  {{ t }}
+                  {{ t.value }}
                 </div>
               </div>
             </YcScrollbar>
           </div>
         </div>
+        <div class="yc-picker-footer-extra" v-if="$slots.extra" >
+          <slot name="extra"/>
+        </div>
         <div class="yc-picker-footer">
-          <YcButton size="mini" @click="setNow"> 此刻 </YcButton>
+          <YcButton size="mini" @click="setNow" :disabled="readonly">
+            此刻
+          </YcButton>
           <YcButton
             :disabled="disabledConfirm"
             type="primary"
             size="mini"
             @click="confirm"
+            v-if="!disableConfirm"
           >
             确定
           </YcButton>
@@ -87,7 +120,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed, toRefs, watch, VNodeRef } from 'vue';
+import { ref, computed, toRefs, watch, nextTick } from 'vue';
 import { TimePickerProps, TimeType } from './type';
 import YcTrigger from '../Trigger/index.vue';
 import { SIZE_MAP } from '@shared/constants';
@@ -102,7 +135,15 @@ import YcScrollbar from '@/components/Scrollbar/Scrollbar.vue';
 import { useTemplateRefsList } from '@vueuse/core';
 import useControlValue from '@shared/hooks/useControlValue';
 import dayjs from 'dayjs';
-import isSameOrBefore from 'dayjs/plugin/isSameOrBefore'
+import isSameOrBefore from 'dayjs/plugin/isSameOrBefore';
+import BTween from 'b-tween';
+import YcIconButton from '@shared/components/IconButton';
+import YcPreventFocus from '@shared/components/PreventFocus';
+import { IconClose, IconTime } from '@shared/icons';
+
+defineOptions({
+  name: 'TimePicker',
+});
 dayjs.extend(isSameOrBefore);
 const props = withDefaults(defineProps<TimePickerProps>(), {
   type: 'time-range',
@@ -114,6 +155,14 @@ const props = withDefaults(defineProps<TimePickerProps>(), {
   unmountOnClose: false,
   modelValue: undefined,
   defaultValue: undefined,
+  disableConfirm: false,
+  disabledHours: () => [],
+  disabledMinutes: () => [],
+  disabledSeconds: () => [],
+  disabled: false,
+  error: false,
+  allowClear: true,
+  readonly: false,
 });
 const emit = defineEmits<{
   (e: 'update:modelValue', value: TimePickerProps['modelValue']): void;
@@ -152,8 +201,20 @@ const computedPlaceHolder = computed(() => {
   }
   return props.placeholder;
 });
+
 const timeOptions = computed(() => {
-  return Object.entries(generateTimeOptions(props.format))
+  return Object.entries(
+    generateTimeOptions({
+      format: props.format,
+      disabledHours: props.disabledHours,
+      disabledMinutes: props.disabledMinutes,
+      disabledSeconds: props.disabledSeconds,
+      hideDisabledOptions: props.hideDisabledOptions,
+      step: props.step,
+      selectedHour: inputValue.value[activeIndex.value]?.hours,
+      selectedMinute: inputValue.value[activeIndex.value]?.minutes,
+    })
+  )
     .map(([k, v]) => {
       return {
         key: k,
@@ -193,28 +254,33 @@ const config = computed(() => {
   };
   if (!isString(props.format)) return res;
   return {
-    hasHours: props.format.includes('H'),
+    hasHours: props.format.includes('H') || props.format.includes('h'),
     hasMinutes: props.format.includes('m'),
     hasSeconds: props.format.includes('s'),
     hasMeridiems: props.format.includes('h'),
   };
 });
 const hanSelectItem = (key: string, val: string) => {
+  if (props.readonly) return;
   const res = inputValue.value[activeIndex.value];
-  if (Object.keys(res).length === 0) {
-    config.value.hasHours && (res['hours'] = '00');
+  const isVaild = timeObjToStr(res, props.format) !== '';
+  if (!isVaild) {
+    config.value.hasHours &&
+      (res['hours'] = config.value.hasMeridiems ? '12' : '00');
     config.value.hasMinutes && (res['minutes'] = '00');
     config.value.hasSeconds && (res['seconds'] = '00');
     config.value.hasMeridiems &&
       (res['meridiems'] = props.format.includes('A') ? 'AM' : 'am');
   }
-  console.log(res, key, val);
   res[key] = val;
   handleSelect(res);
+  //自动确认
+  // if (props.disableConfirm) confirm();
 };
 const handleSelect = (time: Record<string, string | undefined>) => {
+  if (props.readonly) return;
   inputValue.value[activeIndex.value] = time;
-  // emit('select', time);
+  emit('select', inputValue.value.map((item) => timeObjToStr(item, props.format)));
   isEditing.value = true;
 };
 const setNow = () => {
@@ -226,15 +292,30 @@ const setNow = () => {
     (res['minutes'] = String(now.getMinutes()).padStart(2, '0'));
   config.value.hasSeconds &&
     (res['seconds'] = String(now.getSeconds()).padStart(2, '0'));
+
+  if (config.value.hasMeridiems) {
+    const hours = now.getHours();
+    res['meridiems'] = hours >= 12 ? 'PM' : 'AM';
+    res['hours'] = String(hours % 12 || 12).padStart(2, '0'); // Convert to 12-hour format
+  }
   handleSelect(res);
 };
 const confirm = () => {
-  cValue.value = props.type === 'time' ? showValue.value[0] : [...showValue.value].sort((a, b) => {
-      const dateA = dayjs(a, props.format);
-      const dateB = dayjs(b, props.format);
-      return dateA.isSameOrBefore(dateB) ? -1 : 1;
-    });
-    console.log(showValue.value)
+  const emptyIndex = showValue.value.findIndex((i) => i.length === 0);
+  if (emptyIndex !== -1) {
+    inputRefs.value[emptyIndex]?.focus?.();
+    activeIndex.value = emptyIndex;
+    return;
+  }
+  inputRefs.value[activeIndex.value]?.blur?.();
+  cValue.value =
+    props.type === 'time'
+      ? showValue.value[0]
+      : [...showValue.value].sort((a, b) => {
+          const dateA = dayjs(a, props.format);
+          const dateB = dayjs(b, props.format);
+          return dateA.isSameOrBefore(dateB) ? -1 : 1;
+        });
   cVisible.value = false;
   isEditing.value = false;
 };
@@ -243,29 +324,52 @@ const setItemRef = (key: string, val: string, el: any) => {
   itemRefMap.value.set(str, el);
 };
 const setScrollRef = (key: string, el: any) => {
-  scrollRefs.value.set(key, el);
+  scrollRefs.value.set(key, el?.getScrollRef?.());
+};
+const hanInput = (e: any) => {
+  const res = parseTimeStrByFormat(e.target.value, props.format);
+  const isVaild =
+    Object.values(res).findIndex((i) => i === 'Invalid Date') === -1;
+  if (!isVaild) return;
+  handleSelect(res);
+};
+const hanClear = () => {
+  if (props.readonly) return;
+  const v = void 0;
+  cValue.value = props.type === 'time' ? v : [v, v];
+  inputValue.value = [{}, {}];
+  emit('clear');
+  // isEditing.value = false;
 };
 watch(
-  [() => activeIndex.value, () => inputValue.value,()=>cVisible.value],
-  () => {
-    // if(!cVisible.value)return
-    Object.entries(inputValue.value[activeIndex.value]).forEach(
-      ([k, v], index) => {
-        const dom = itemRefMap.value.get(`${k}_${v}`);
-        if (!dom) return;
-        scrollRefs.value.get(k)?.scrollTo?.({
-          top: dom.offsetTop || 0,
-          behavior: cVisible.value ? 'smooth' : 'auto',
-        });
-      }
-    );
+  [() => activeIndex.value, () => inputValue.value, () => cVisible.value],
+  async () => {
+    if (!cVisible.value) return;
+    await nextTick();
+    Object.entries(inputValue.value[activeIndex.value]).forEach(([k, v]) => {
+      const dom = itemRefMap.value.get(`${k}_${v}`);
+      if (!dom) return;
+      console.log(k, v);
+      if (!scrollRefs.value.get(k)) return;
+      new BTween({
+        from: { scroll: scrollRefs.value.get(k).scrollTop || 0 },
+        to: { scroll: dom.offsetTop || 0 },
+        duration: 200,
+        easing: 'quadOut',
+        onUpdate: (current: any) => {
+          scrollRefs.value.get(k)!.scrollTo?.({
+            top: current.scroll || 0,
+          });
+        },
+      }).start();
+    });
   },
   {
     deep: true,
   }
 );
 const disabledConfirm = computed(() => {
-  return !showValue.value[activeIndex.value].length
+  return !showValue.value[activeIndex.value]?.length;
 });
 </script>
 <style scoped lang="less">
