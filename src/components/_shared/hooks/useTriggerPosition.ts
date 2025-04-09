@@ -6,7 +6,7 @@ import {
   BORDER_RADIUS_MAP,
   TRANSLATE_MAP,
   TRANSFORM_ORIGIN_MAP,
-} from '@/components/Trigger/constants';
+} from '../constants/trigger';
 import { useElementBounding, useElementSize } from '@vueuse/core';
 
 export default (params: {

@@ -28,7 +28,7 @@ export const getComponentStatusMap = (
   name: string,
   status: string[] = ['warning', 'success', 'danger', 'normal']
 ) => {
-  return getComponentConstantsMap(name, status, 'shape');
+  return getComponentConstantsMap(name, status, 'status');
 };
 
 export const getComponentTypeMap = (

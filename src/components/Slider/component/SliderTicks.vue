@@ -8,7 +8,7 @@
         bottom: direction == 'vertical' ? getPosition(value) : '',
       }"
       :class="[
-        TICK_TYPE_MAP[type],
+        TICK_TYPE_MAP[type.replace('s', '')],
         type == 'dots' && isInRange(value) ? 'yc-slider-dot-active' : '',
         type == 'ticks' && isInRange(value) ? 'yc-slider-tick-active' : '',
       ]"

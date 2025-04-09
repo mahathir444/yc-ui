@@ -81,7 +81,7 @@
 import { ref, toRefs } from 'vue';
 import { parseColor } from '@shared/utils/color';
 import { ColorFormat } from '@/components/ColorPicker/type';
-import { FORMAT_OPTIONS } from '@/components/ColorPicker/constants';
+import { FORMAT_OPTIONS } from '@shared/constants/color-picker';
 import YcInputNumber from '@/components/InputNumber';
 const props = defineProps<{
   color: string;

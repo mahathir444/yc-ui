@@ -33,7 +33,7 @@
       <yc-button
         type="primary"
         @click="
-          Message.open({
+          Message.success({
             content: '成功了',
             duration: 10000000,
             closable: true,

@@ -26,14 +26,14 @@
             </yc-affix>
           </div>
           <div style="width: 600px; display: flex">
-            <yc-skeleton loading>
+            <yc-skeleton animation>
               <yc-skeleton-line :rows="3" />
               <yc-skeleton-shape />
             </yc-skeleton>
-            <a-skeleton loading animation>
+            <!-- <a-skeleton loading animation>
               <a-skeleton-line :rows="3" />
               <a-skeleton-shape />
-            </a-skeleton>
+            </a-skeleton> -->
           </div>
         </div>
       </a-layout-content>
