@@ -3,7 +3,7 @@ import _Divider from './index.vue';
 import { getComponentPrefix } from '@shared/utils/global-config';
 
 export type DividerInstance = InstanceType<typeof _Divider>;
-export type { DividerProps } from './type';
+export * from './type';
 
 const Divider = Object.assign(_Divider, {
   install: (app: App) => {

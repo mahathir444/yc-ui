@@ -3,7 +3,7 @@ import _Empty from './index.vue';
 import { getComponentPrefix } from '@shared/utils/global-config';
 
 export type EmptyInstance = InstanceType<typeof _Empty>;
-export type { EmptyProps } from './type';
+export * from './type';
 
 const Empty = Object.assign(_Empty, {
   install: (app: App) => {

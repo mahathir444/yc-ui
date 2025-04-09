@@ -6,12 +6,7 @@ import { config, messageType } from '@shared/constants/message';
 import { getComponentPrefix } from '@shared/utils/global-config';
 
 export type MessageInstance = InstanceType<typeof _Message>;
-export type {
-  MessageProps,
-  MessageConfig,
-  MessageList,
-  MessageContainerProps,
-} from './type';
+export * from './type';
 
 const messageList = ref<MessageList>([]);
 let id = 0;

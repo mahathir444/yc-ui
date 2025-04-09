@@ -1,5 +1,5 @@
 import { computed, ref, Ref } from 'vue';
-import { SliderValue } from '@/components/Slider/type';
+import { SliderValue } from '@/components/Slider';
 import { isArray } from '@shared/utils/is';
 import useControlValue from '@shared/hooks/useControlValue';
 import { Fn } from '../type';

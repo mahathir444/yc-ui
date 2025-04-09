@@ -1,10 +1,9 @@
 import { App } from 'vue';
 import _TimePicker from './index.vue';
-import { getComponentPrefix } from '@/components/_utils/global-config';
+import { getComponentPrefix } from '@shared/utils/global-config';
 
 export type DrawerInstance = InstanceType<typeof _TimePicker>;
-
-export type { } from './type';
+export * from './type';
 
 const TimePicker = Object.assign(_TimePicker, {
   install: (app: App) => {

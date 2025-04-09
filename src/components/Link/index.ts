@@ -3,8 +3,7 @@ import _Link from './index.vue';
 import { getComponentPrefix } from '@shared/utils/global-config';
 
 export type LinkInstance = InstanceType<typeof _Link>;
-
-export type { LinkProps, LinkStatus } from './type';
+export * from './type';
 
 const Link = Object.assign(_Link, {
   install: (app: App) => {

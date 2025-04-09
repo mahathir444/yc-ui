@@ -3,7 +3,7 @@ import _Rate from './index.vue';
 import { getComponentPrefix } from '@shared/utils/global-config';
 
 export type RateInstance = InstanceType<typeof _Rate>;
-export type { RateProps } from './type';
+export * from './type';
 
 const Rate = Object.assign(_Rate, {
   install: (app: App) => {

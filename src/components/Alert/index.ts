@@ -3,7 +3,7 @@ import _Alert from './index.vue';
 import { getComponentPrefix } from '@shared/utils/global-config';
 
 export type AlertInstance = InstanceType<typeof _Alert>;
-export type { AlertProps } from './type';
+export * from './type';
 
 const Alert = Object.assign(_Alert, {
   install: (app: App) => {

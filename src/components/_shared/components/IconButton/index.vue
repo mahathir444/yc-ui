@@ -8,7 +8,7 @@
 
 <script lang="ts" setup>
 import { toRefs, computed } from 'vue';
-import { IconButtonProps } from './type.ts';
+import { IconButtonProps } from './type';
 import { IconClose } from '@shared/icons';
 import YcPreventFocus from '@shared/components/PreventFocus';
 defineOptions({

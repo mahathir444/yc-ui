@@ -3,7 +3,7 @@ import _ColorPicker from './index.vue';
 import { getComponentPrefix } from '@shared/utils/global-config';
 
 export type ColorPickerInstance = InstanceType<typeof _ColorPicker>;
-export type { ColorPickerProps } from './type';
+export * from './type';
 
 const ColorPicker = Object.assign(_ColorPicker, {
   install: (app: App) => {

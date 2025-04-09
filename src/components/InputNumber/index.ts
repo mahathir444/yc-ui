@@ -3,12 +3,7 @@ import _InputNumber from './index.vue';
 import { getComponentPrefix } from '@shared/utils/global-config';
 
 export type InputNumberInstance = InstanceType<typeof _InputNumber>;
-export type {
-  InputNumberProps,
-  InputNumberValue,
-  InputNumberMode,
-  ModelEvent,
-} from './type';
+export * from './type';
 
 const InputNumber = Object.assign(_InputNumber, {
   install: (app: App) => {

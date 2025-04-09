@@ -5,14 +5,7 @@ import { getComponentPrefix } from '@shared/utils/global-config';
 
 export type RadioInstance = InstanceType<typeof _Radio>;
 export type RadioGroupInstance = InstanceType<typeof _RadioGroup>;
-export type {
-  RadioProps,
-  RadioGroupProps,
-  RadioOption,
-  RadioValue,
-  RadioType,
-} from './type';
-
+export * from './type';
 const Radio = Object.assign(_Radio, {
   group: _RadioGroup,
   install: (app: App) => {

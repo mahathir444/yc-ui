@@ -5,12 +5,7 @@ import _ServiceDrawer from './component/ServiceDrawer.vue';
 import { getComponentPrefix } from '@shared/utils/global-config';
 
 export type DrawerInstance = InstanceType<typeof _Drawer>;
-export type {
-  DrawerProps,
-  DrawerConfig,
-  DrawerPlacement,
-  DrawerServiceData,
-} from './type';
+export * from './type';
 
 const Drawer = Object.assign(_Drawer, {
   install: (app: App) => {

@@ -3,7 +3,7 @@ import _AutoComplete from './index.vue';
 import { getComponentPrefix } from '@shared/utils/global-config';
 
 export type AutoCompleteInstance = InstanceType<typeof _AutoComplete>;
-export type { AutoCompleteProps } from './type';
+export * from './type';
 
 const AutoComplete = Object.assign(_AutoComplete, {
   install: (app: App) => {

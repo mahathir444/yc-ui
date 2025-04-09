@@ -2,8 +2,8 @@ import {
   SelectOptions,
   FilterOption,
   VirtualListProps,
-} from '@/components/Select/type';
-import { PopupContainer, TriggerProps } from '@/components/Trigger/type';
+} from '@/components/Select';
+import { PopupContainer, TriggerProps } from '@/components/Trigger';
 
 export interface AutoCompleteProps {
   modelValue?: string;

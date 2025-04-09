@@ -3,13 +3,7 @@ import _InputTag from './index.vue';
 import { getComponentPrefix } from '@shared/utils/global-config';
 
 export type InputTagInstance = InstanceType<typeof _InputTag>;
-export type {
-  InputTagProps,
-  InputTagValue,
-  TagData,
-  InputRetainValue,
-  FormatTag,
-} from './type';
+export * from './type';
 
 const InputTag = Object.assign(_InputTag, {
   install: (app: App) => {

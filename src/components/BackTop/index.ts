@@ -3,7 +3,7 @@ import _BackTop from './index.vue';
 import { getComponentPrefix } from '@shared/utils/global-config';
 
 export type BackTopInstance = InstanceType<typeof _BackTop>;
-export type { BackTopProps } from './type';
+export * from './type';
 
 const BackTop = Object.assign(_BackTop, {
   install: (app: App) => {

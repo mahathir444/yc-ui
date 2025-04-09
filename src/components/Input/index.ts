@@ -3,7 +3,7 @@ import _Input from './index.vue';
 import { getComponentPrefix } from '@shared/utils/global-config';
 
 export type InputInstance = InstanceType<typeof _Input>;
-export type { InputProps, WordLength, WordSlice, InputEventType } from './type';
+export * from './type';
 
 const Input = Object.assign(_Input, {
   install: (app: App) => {

@@ -1,4 +1,4 @@
-import { WordLength, WordSlice } from '../Input/type';
+import { WordLength, WordSlice } from '../Input';
 export interface TextareaProps {
   modelValue?: string;
   defaultValue?: string;

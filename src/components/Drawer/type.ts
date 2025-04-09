@@ -1,7 +1,7 @@
 import { CSSProperties } from 'vue';
 import { ButtonProps } from '@/components/Button';
 import { OnBeforeCancel } from '@/components/Modal';
-import { RenderContent } from '../_shared/type';
+import { RenderContent } from '@shared/type';
 export interface DrawerProps {
   visible?: boolean;
   defaultVisible?: boolean;

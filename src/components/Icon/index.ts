@@ -5,7 +5,7 @@ import { isServerRendering } from '@shared/utils/dom';
 import { getComponentPrefix } from '@shared/utils/global-config';
 
 export type IconInstance = InstanceType<typeof _Icon>;
-export type { IconProps, IconFontOptions } from './type';
+export * from './type';
 
 const Icon = Object.assign(_Icon, {
   install: (app: App) => {

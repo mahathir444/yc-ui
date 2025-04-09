@@ -11,14 +11,7 @@ export type DoptionInstance = InstanceType<typeof _Doption>;
 export type DgroupInstance = InstanceType<typeof _Dgroup>;
 export type DropdownButtonInstance = InstanceType<typeof _Dropdown>;
 export type DsubmenuInstance = InstanceType<typeof _Dsubmenu>;
-export type {
-  DropdownProps,
-  DoptionProps,
-  DsubmenuProps,
-  DgroupProps,
-  DropdownButtonProps,
-  DoptionValue,
-} from './type';
+export * from './type';
 
 const Dropdown = Object.assign(_Dropdown, {
   option: _Doption,

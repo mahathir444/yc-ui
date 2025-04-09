@@ -1,4 +1,4 @@
-import { TriggerProps } from "../Trigger/type";
+import { TriggerProps } from '../Trigger';
 
 export interface TimePickerProps {
   type: 'time' | 'time-range';
@@ -20,7 +20,10 @@ export interface TimePickerProps {
   };
   disabledHours?: () => number[];
   disabledMinutes?: (selectedHour?: number) => number[];
-  disabledSeconds?: (selectedHour?: number, selectedMinute?: number) => number[];
+  disabledSeconds?: (
+    selectedHour?: number,
+    selectedMinute?: number
+  ) => number[];
   hideDisabledOptions?: boolean;
   disableConfirm?: boolean;
   position?: 'top' | 'tl' | 'tr' | 'bottom' | 'bl' | 'br';
@@ -30,4 +33,4 @@ export interface TimePickerProps {
   unmountOnClose?: boolean;
 }
 
-export type TimeType = 'hours'|'minutes'|'seconds'|'meridiems'
+export type TimeType = 'hours' | 'minutes' | 'seconds' | 'meridiems';

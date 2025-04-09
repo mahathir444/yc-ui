@@ -5,14 +5,7 @@ import { getComponentPrefix } from '@shared/utils/global-config';
 
 export type ButonInstance = InstanceType<typeof _Button>;
 export type ButonGroupInstance = InstanceType<typeof _ButtonGroup>;
-export type {
-  ButtonProps,
-  ButtonGroupProps,
-  ButtonHtmlType,
-  ButtonType,
-  ButtonStatus,
-  ButtonShape,
-} from './type';
+export * from './type';
 
 const Button = Object.assign(_Button, {
   buttongroup: _ButtonGroup,

@@ -1,32 +1,11 @@
 export { default } from './yc-ui';
-export type {
-  ButtonProps,
-  ButtonGroupProps,
-  ButtonHtmlType,
-  ButtonType,
-  ButtonStatus,
-  ButtonShape,
-  ButonInstance,
-  ButonGroupInstance,
-} from './Button';
+export * from './Button/type';
 export { default as Button, ButtonGroup } from './Button';
 
 export type { DrawerProps, DrawerPlacement, DrawerInstance } from './Drawer';
 export { default as Drawer } from './Drawer';
 
-export type {
-  DropdownProps,
-  DoptionProps,
-  DsubmenuProps,
-  DgroupProps,
-  DropdownButtonProps,
-  DoptionValue,
-  DropdownInstance,
-  DoptionInstance,
-  DgroupInstance,
-  DropdownButtonInstance,
-  DsubmenuInstance,
-} from './Dropdown';
+export * from './Dropdown/type';
 export {
   default as Dropdown,
   Doption,
@@ -35,159 +14,107 @@ export {
   Dsubmenu,
 } from './Dropdown';
 
-export type { InputProps, InputInstance } from './Input';
+export * from './Input/type';
 export { default as Input } from './Input';
 
-export type { LinkProps, LinkStatus, LinkInstance } from './Link';
+export * from './Link/type';
 export { default as Link } from './Link';
 
-export type {
-  MessageProps,
-  MessageConfig,
-  MessageList,
-  MessageContainerProps,
-  MessageInstance,
-} from './Message';
+export * from './Message/type';
 export { default as Message } from './Message';
 
-export type {
-  ModalProps,
-  ModalConfig,
-  ModalInstance,
-  OnBeforeOk,
-  OnBeforeCancel,
-} from './Modal';
+export * from './Modal/type';
 export { default as Modal } from './Modal';
 
-export type {
-  NotificationConfig,
-  NotificationPosition,
-  NotificationType,
-  NotificationInstance,
-} from './Notification';
+export * from './Notification/type';
 export { default as Notification } from './Notification';
 
-export type {
-  PopconfirmProps,
-  PopconfirmType,
-  PopconfirmInstance,
-} from './Popconfirm';
+export * from './Popconfirm/type';
 export { default as Popconfirm } from './Popconfirm';
 
-export type { PopoverProps, PopoverInstance } from './Popover';
+export * from './Popover/type';
 export { default as Popover } from './Popover';
 
-export type {
-  ResizeBoxProps,
-  DirectionType,
-  ResizeBoxInstance,
-} from './ResizeBox';
+export * from './ResizeBox/type';
 export { default as ResizeBox } from './ResizeBox';
 
-export type {
-  ScrollbarProps,
-  ScrollbarSize,
-  ScrollbarType,
-  TackType,
-  ScrollbarInstance,
-} from './Scrollbar';
+export * from './Scrollbar/type';
 export { default as Scrollbar } from './Scrollbar';
 
-export type {
-  TextareaProps,
-  TextareaResize,
-  TextareaInstance,
-} from './Textarea';
+export * from './Textarea/type';
 export { default as Textarea } from './Textarea';
 
-export type { TooltipProps, TooltipInstance } from './Tooltip';
+export * from './Tooltip/type';
 export { default as Tooltip } from './Tooltip';
 
-export type {
-  TriggerProps,
-  TriggerPostion,
-  TriggerType,
-  PopupContainer,
-  TriggerInstance,
-} from './Trigger';
+export * from './Trigger/type';
 export { default as Trigger } from './Trigger';
 
-export type { SpinProps, SpinInstance } from './Spin';
+export * from './Spin/type';
 export { default as Spin } from './Spin';
 
-export type { TagProps, TagSize, TagInstance } from './Tag';
+export * from './Tag/type';
 export { default as Tag } from './Tag';
 
-export type { EmptyProps, EmptyInstance } from './Empty';
+export * from './Empty/type';
 export { default as Empty } from './Empty';
 
-export type {
-  SelectProps,
-  OptionProps,
-  OptgroupProps,
-  SelectValue,
-  SelectOptionData,
-  SelectOptionGroup,
-  SelectOptions,
-  SelectInstance,
-  OptgroupInstance,
-  OptionInstance,
-} from './Select';
+export * from './Select/type';
 export { default as Select, Option, Optgroup } from './Select';
 
-export type {
-  CheckboxProps,
-  CheckboxGroupProps,
-  CheckboxValue,
-  CheckboxOption,
-  CheckboxInstance,
-  CheckboxGroupInstance,
-} from './Checkbox';
+export * from './Checkbox/type';
 export { default as Checkbox, CheckboxGroup } from './Checkbox';
 
-export type {
-  InputTagProps,
-  InputTagValue,
-  TagData,
-  InputRetainValue,
-  InputTagInstance,
-} from './InputTag';
+export * from './InputTag/type';
 export { default as InputTag } from './InputTag';
 
-export type { AutoCompleteProps, AutoCompleteInstance } from './AutoComplete';
+export * from './AutoComplete/type';
 export { default as AutoComplete } from './AutoComplete';
 
-export type {
-  RadioProps,
-  RadioGroupProps,
-  RadioOption,
-  RadioValue,
-  RadioType,
-  RadioInstance,
-  RadioGroupInstance,
-} from './Radio';
+export * from './Radio/type';
 export { default as Radio, RadioGroup } from './Radio';
 
-export type {
-  SwitchProps,
-  SwitchSize,
-  SwitchType,
-  SwitchValue,
-  SwitchInstance,
-} from './Switch';
+export * from './Switch/type';
 export { default as Switch } from './Switch';
 
-export type {
-  InputNumberProps,
-  InputNumberMode,
-  InputNumberValue,
-  ModelEvent,
-  InputNumberInstance,
-} from './InputNumber';
+export * from './InputNumber/type';
 export { default as InputNumber } from './InputNumber';
 
-export type { RateProps, RateInstance } from './Rate';
+export * from './Rate/type';
 export { default as Rate } from './Rate';
 
-export type { SliderProps, SliderInstance } from './Slider';
-export { default as Slider } from './Rate';
+export * from './Slider';
+export { default as Slider } from './Slider';
+
+export * from './Mention/type';
+export { default as Mention } from './Mention';
+
+export * from './OverflowList/type';
+export { default as OverflowList } from './OverflowList';
+
+export * from './Icon/type';
+export { default as Icon } from './Icon';
+
+export * from './ColorPicker/type';
+export { default as ColorPicker } from './ColorPicker';
+
+export * from './BackTop/type';
+export { default as BackTop } from './BackTop';
+
+export * from './Alert/type';
+export { default as Alert } from './Alert';
+
+export * from './Result/type';
+export { default as Result } from './Result';
+
+export * from './Space/type';
+export { default as Space } from './Space';
+
+export * from './Divider/type';
+export { default as Divider } from './Divider';
+
+export * from './Skeleton/type';
+export { default as Skeleton } from './Skeleton';
+
+export * from './Affix/type';
+export { default as Affix } from './Affix';

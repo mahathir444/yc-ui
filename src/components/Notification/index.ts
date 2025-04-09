@@ -15,11 +15,7 @@ import {
 import { isString } from '@shared/utils/is';
 
 export type NotificationInstance = InstanceType<typeof _Notification>;
-export type {
-  NotificationConfig,
-  NotificationPosition,
-  NotificationType,
-} from './type';
+export * from './type';
 
 const notifManager = notificationPosition.reduce(
   (result, item) => {

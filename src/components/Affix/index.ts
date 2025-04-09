@@ -3,7 +3,7 @@ import _Affix from './index.vue';
 import { getComponentPrefix } from '@shared/utils/global-config';
 
 export type AffixInstance = InstanceType<typeof _Affix>;
-export type { AffixProps } from './type';
+export * from './type';
 
 const Affix = Object.assign(_Affix, {
   install: (app: App) => {

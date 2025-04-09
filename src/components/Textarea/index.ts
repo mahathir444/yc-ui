@@ -3,7 +3,7 @@ import _Textarea from './index.vue';
 import { getComponentPrefix } from '@shared/utils/global-config';
 
 export type TextareaInstance = InstanceType<typeof _Textarea>;
-export type { TextareaProps, TextareaResize } from './type';
+export * from './type';
 
 const Textarea = Object.assign(_Textarea, {
   install: (app: App) => {

@@ -3,7 +3,7 @@ import {
   TriggerPostion,
   TriggerType,
   PopupContainer,
-} from '@/components/Trigger/type';
+} from '@/components/Trigger';
 
 export interface PopoverProps {
   popupVisible?: boolean;

@@ -3,7 +3,7 @@ import _OverflowList from './index.vue';
 import { getComponentPrefix } from '@shared/utils/global-config';
 
 export type OverflowListInstance = InstanceType<typeof _OverflowList>;
-export type { OverflowListProps } from './type';
+export * from './type';
 
 const OverflowList = Object.assign(_OverflowList, {
   install: (app: App) => {
