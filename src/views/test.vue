@@ -17,12 +17,12 @@
               <yc-button type="primary">测试</yc-button>
             </a-affix>
             <yc-affix
-              :offse-top="20"
+              :offset-top="20"
               :offset-bottom="20"
               target="#main"
               target-container="#main"
             >
-              <yc-button disabled>测试</yc-button>
+              <yc-button type="primary">测试</yc-button>
             </yc-affix>
           </div>
           <div style="width: 600px; display: flex">
@@ -30,12 +30,9 @@
               <yc-skeleton-line :rows="3" />
               <yc-skeleton-shape />
             </yc-skeleton>
-            <!-- <a-skeleton loading animation>
-              <a-skeleton-line :rows="3" />
-              <a-skeleton-shape />
-            </a-skeleton> -->
           </div>
         </div>
+        <div class="content1" id="content1"></div>
       </a-layout-content>
     </a-layout>
   </a-layout>
@@ -69,14 +66,20 @@ const options = [
     .main {
       overflow: auto;
     }
+    .content {
+      height: 300vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    }
+    .content1 {
+      height: 300vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    }
   }
-}
-
-.content {
-  height: 400vh;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
 }
 </style>

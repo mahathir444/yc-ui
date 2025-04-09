@@ -19,7 +19,7 @@
     <!---->
     <input
       v-show="!$slots.label || ($slots.label && showInput)"
-      v-model="computedValue"
+      :value="computedValue"
       :type="type"
       :disabled="disabled"
       :readonly="readonly"
@@ -89,10 +89,8 @@ const {
   disabled,
   readonly,
   showInput,
-  error,
   placeholder,
   size,
-  maxLength,
   isSearch,
   isPassword,
   invisibleButton,
@@ -118,6 +116,8 @@ const {
   showWordLimit,
   showClearBtn,
   curLength,
+  maxLength,
+  error,
   handleInput,
   handleComposition,
 } = useLimitedInput({

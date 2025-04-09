@@ -19,10 +19,22 @@ export default (params: {
     disabled,
     readonly,
     allowClear,
+    error: _error,
     showWordLimit: _showWordLimit,
-    maxLength,
+    maxLength: _maxLength,
   } = toRefs(props as RequiredDeep<TextareaProps | InputProps>);
   const { wordLength, wordSlice } = props;
+  console.log(_maxLength.value);
+  // 最大长度
+  const maxLength = computed(() =>
+    isNumber(_maxLength.value) ? _maxLength.value : _maxLength.value?.length
+  );
+  // 是否只报错
+  const maxLengthErrorOnly = computed(() =>
+    isNumber(_maxLength.value) ? false : _maxLength.value?.errorOnly
+  );
+  //error状态
+  const error = useControlValue(_error, false);
   // 受控值
   const computedValue = useControlValue<string>(
     modelValue,
@@ -55,35 +67,15 @@ export default (params: {
   const recordWordMaxLength = () => {
     if (curLength.value == maxLength.value) {
       wordLengthMax = computedValue.value.length;
-      console.log(wordLengthMax);
     }
-  };
-  // 计算wordMaxLength
-  const calcWordMaxLength = (value: string) => {
-    let str = '';
-    for (let ch of value) {
-      str = str + ch;
-      if (getValueLength(str) == maxLength.value) {
-        break;
-      }
-    }
-    return str.length;
   };
   // 获取value的长度
   function getValueLength(value: string) {
     if (isFunction(wordLength)) {
-      wordLength(value);
+      return wordLength(value);
     }
     return value?.length || 0;
   }
-  // 处理中文合成
-  const handleComposition = (e: CompositionEvent) => {
-    if (e.type === 'compositionend') {
-      isComposition.value = false;
-    } else {
-      isComposition.value = true;
-    }
-  };
   // 保持受控
   const keepControl = () => {
     recordCursor();
@@ -93,31 +85,57 @@ export default (params: {
     }
   };
   // 更新值
-  const updateValue = () => {
-    if (!isUndefined(maxLength.value) && curLength.value > maxLength.value) {
-      computedValue.value = wordSlice(computedValue.value, wordLengthMax);
+  const updateValue = (value: string, e: Event) => {
+    if (maxLength.value && getValueLength(value) > maxLength.value) {
+      if (!maxLengthErrorOnly.value) {
+        computedValue.value = wordSlice(value, wordLengthMax);
+      } else {
+        computedValue.value = value;
+        error.value = true;
+      }
+    } else {
+      computedValue.value = value;
     }
+    emits('input', value, e);
+    keepControl();
+  };
+  // 处理中文合成
+  const handleComposition = (e: CompositionEvent) => {
+    const { value, selectionStart, selectionEnd } =
+      e.target as HTMLInputElement;
+    isComposition.value = e.type !== 'compositionend';
+    if (isComposition.value) return;
+    if (
+      maxLength.value &&
+      !maxLengthErrorOnly.value &&
+      curLength.value >= maxLength.value &&
+      getValueLength(value) > maxLength.value &&
+      selectionStart === selectionEnd
+    ) {
+      return keepControl();
+    }
+    updateValue(value, e);
   };
   // 处理限制输入
   const handleInput = async (e: Event) => {
     const { value } = e.target as HTMLInputElement;
-    const { inputType } = e as InputEvent;
     // 中文合成退出
     if (isComposition.value) {
       return;
     }
-    if (
-      inputType == 'insertFromPaste' &&
-      !isUndefined(maxLength.value) &&
-      getValueLength(value) > maxLength.value
-    ) {
-      computedValue.value = wordSlice(value, calcWordMaxLength(value));
-      return;
-    }
     recordWordMaxLength();
-    updateValue();
-    emits('input', value, e);
-    keepControl();
+    // 处理输入情况
+    if (
+      maxLength.value &&
+      !maxLengthErrorOnly.value &&
+      curLength.value >= maxLength.value &&
+      getValueLength(value) > maxLength.value &&
+      (e as InputEvent).inputType === 'insertText'
+    ) {
+      return keepControl();
+    }
+    // 处理赋值情况
+    updateValue(value, e);
   };
 
   return {
@@ -125,6 +143,7 @@ export default (params: {
     showClearBtn,
     showWordLimit,
     curLength,
+    error,
     disabled,
     maxLength,
     handleInput,

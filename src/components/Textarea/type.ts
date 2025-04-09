@@ -1,11 +1,11 @@
-import { WordLength, WordSlice } from '../Input';
+import { WordLength, WordSlice, MaxLength } from '../Input';
 export interface TextareaProps {
   modelValue?: string;
   defaultValue?: string;
   placeholder?: string;
   disabled?: boolean;
   error?: boolean;
-  maxLength?: number;
+  maxLength?: MaxLength;
   showWordLimit?: boolean;
   allowClear?: boolean;
   readonly?: boolean;
