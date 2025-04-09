@@ -13,6 +13,7 @@ declare module 'vue' {
     ADivider: typeof import('@arco-design/web-vue')['Divider']
     Affix: typeof import('./src/components/Affix/index.vue')['default']
     AHeader: typeof import('@arco-design/web-vue')['Header']
+    AInput: typeof import('@arco-design/web-vue')['Input']
     ALayout: typeof import('@arco-design/web-vue')['Layout']
     ALayoutContent: typeof import('@arco-design/web-vue')['LayoutContent']
     ALayoutHeader: typeof import('@arco-design/web-vue')['LayoutHeader']

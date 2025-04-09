@@ -19,10 +19,22 @@ export default (params: {
     disabled,
     readonly,
     allowClear,
+    error: _error,
     showWordLimit: _showWordLimit,
-    maxLength,
+    maxLength: _maxLength,
   } = toRefs(props as RequiredDeep<TextareaProps | InputProps>);
   const { wordLength, wordSlice } = props;
+  console.log(_maxLength.value);
+  // 最大长度
+  const maxLength = computed(() =>
+    isNumber(_maxLength.value) ? _maxLength.value : _maxLength.value?.length
+  );
+  // 是否只报错
+  const maxLengthErrorOnly = computed(() =>
+    isNumber(_maxLength.value) ? false : _maxLength.value?.errorOnly
+  );
+  //error状态
+  const error = useControlValue(_error, false);
   // 受控值
   const computedValue = useControlValue<string>(
     modelValue,
@@ -55,13 +67,12 @@ export default (params: {
   const recordWordMaxLength = () => {
     if (curLength.value == maxLength.value) {
       wordLengthMax = computedValue.value.length;
-      console.log(wordLengthMax);
     }
   };
   // 获取value的长度
   function getValueLength(value: string) {
     if (isFunction(wordLength)) {
-      wordLength(value);
+      return wordLength(value);
     }
     return value?.length || 0;
   }
@@ -75,11 +86,13 @@ export default (params: {
   };
   // 更新值
   const updateValue = (value: string, e: Event) => {
-    if (
-      !isUndefined(maxLength.value) &&
-      getValueLength(value) > maxLength.value
-    ) {
-      computedValue.value = wordSlice(value, wordLengthMax);
+    if (maxLength.value && getValueLength(value) > maxLength.value) {
+      if (!maxLengthErrorOnly.value) {
+        computedValue.value = wordSlice(value, wordLengthMax);
+      } else {
+        computedValue.value = value;
+        error.value = true;
+      }
     } else {
       computedValue.value = value;
     }
@@ -90,11 +103,11 @@ export default (params: {
   const handleComposition = (e: CompositionEvent) => {
     const { value, selectionStart, selectionEnd } =
       e.target as HTMLInputElement;
-    isComposition.value = e.type != 'compositionend';
+    isComposition.value = e.type !== 'compositionend';
     if (isComposition.value) return;
     if (
       maxLength.value &&
-      // !maxLengthErrorOnly.value &&
+      !maxLengthErrorOnly.value &&
       curLength.value >= maxLength.value &&
       getValueLength(value) > maxLength.value &&
       selectionStart === selectionEnd
@@ -114,7 +127,7 @@ export default (params: {
     // 处理输入情况
     if (
       maxLength.value &&
-      // !maxLengthErrorOnly.value &&
+      !maxLengthErrorOnly.value &&
       curLength.value >= maxLength.value &&
       getValueLength(value) > maxLength.value &&
       (e as InputEvent).inputType === 'insertText'
@@ -130,6 +143,7 @@ export default (params: {
     showClearBtn,
     showWordLimit,
     curLength,
+    error,
     disabled,
     maxLength,
     handleInput,

@@ -78,7 +78,7 @@ const props = withDefaults(defineProps<InputProps>(), {
   allowClear: false,
   disabled: false,
   readonly: false,
-  error: false,
+  error: undefined,
   maxLength: undefined,
   showWordLimit: false,
   placeholder: '',

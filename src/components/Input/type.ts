@@ -10,7 +10,7 @@ export interface InputProps {
   readonly?: boolean;
   error?: boolean;
   placeholder?: string;
-  maxLength?: number;
+  maxLength?: MaxLength;
   wordLength?: WordLength;
   wordSlice?: WordSlice;
   showWordLimit?: boolean;
@@ -47,6 +47,8 @@ export type InputEmits = {
 export type WordSlice = (value: string, maxLength: number) => string;
 
 export type WordLength = (value: string) => number;
+
+export type MaxLength = number | { length: number; errorOnly?: boolean };
 
 // 内部使用
 export interface InputProvide {

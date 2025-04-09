@@ -17,7 +17,7 @@
     </div>
     <!-- textarea -->
     <textarea
-      v-model="computedValue"
+      :value="computedValue"
       :disabled="disabled"
       :readonly="readonly"
       :placeholder="placeholder"
@@ -73,7 +73,7 @@ const props = withDefaults(defineProps<TextareaProps>(), {
   placeholder: '',
   disabled: false,
   readonly: false,
-  error: false,
+  error: undefined,
   maxLength: undefined,
   showWordLimit: false,
   allowClear: false,
@@ -82,7 +82,7 @@ const props = withDefaults(defineProps<TextareaProps>(), {
     return value.length;
   },
   wordSlice: (value: string, maxLength: number) => {
-    return value.slice(0, maxLength + 1);
+    return value.slice(0, maxLength);
   },
   enterPrevent: false,
   showMirror: false,
@@ -102,6 +102,7 @@ const inputRef = ref<HTMLTextAreaElement>();
 const mirrorRef = ref<HTMLDivElement>();
 // 限制输入hooks
 const {
+  error,
   computedValue,
   showWordLimit,
   showClearBtn,
