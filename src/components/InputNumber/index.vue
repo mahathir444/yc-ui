@@ -217,6 +217,7 @@ const handleUpdateValue = (
 };
 // 处理输入
 const handleInput = (v: string, e: Event) => {
+  console.log(v, 'value');
   if (!v) {
     computedValue.value = v;
     return;

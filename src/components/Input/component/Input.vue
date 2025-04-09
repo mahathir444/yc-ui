@@ -19,7 +19,7 @@
     <!---->
     <input
       v-show="!$slots.label || ($slots.label && showInput)"
-      v-model="computedValue"
+      :value="computedValue"
       :type="type"
       :disabled="disabled"
       :readonly="readonly"

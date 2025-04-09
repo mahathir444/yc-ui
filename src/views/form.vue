@@ -40,7 +40,14 @@
       input
       <yc-input
         allow-clear
-        :max-length="15"
+        :max-length="8"
+        :word-length="(value) => value.length - 2"
+        :word-slice="(value, maxLength) => value.slice(1, maxLength + 1)"
+        show-word-limit
+      />
+      <yc-input
+        allow-clear
+        :max-length="8"
         :word-length="(value) => value.length - 2"
         :word-slice="(value, maxLength) => value.slice(1, maxLength + 1)"
         show-word-limit
