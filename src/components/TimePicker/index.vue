@@ -97,8 +97,8 @@
             </YcScrollbar>
           </div>
         </div>
-        <div class="yc-picker-footer-extra" v-if="$slots.extra" >
-          <slot name="extra"/>
+        <div class="yc-picker-footer-extra" v-if="$slots.extra">
+          <slot name="extra" />
         </div>
         <div class="yc-picker-footer">
           <YcButton size="mini" @click="setNow" :disabled="readonly">
@@ -280,7 +280,10 @@ const hanSelectItem = (key: string, val: string) => {
 const handleSelect = (time: Record<string, string | undefined>) => {
   if (props.readonly) return;
   inputValue.value[activeIndex.value] = time;
-  emit('select', inputValue.value.map((item) => timeObjToStr(item, props.format)));
+  emit(
+    'select',
+    inputValue.value.map((item) => timeObjToStr(item, props.format))
+  );
   isEditing.value = true;
 };
 const setNow = () => {
@@ -355,7 +358,7 @@ watch(
   }
 );
 const disabledConfirm = computed(() => {
-  return !showValue.value[activeIndex.value].length;
+  return !showValue.value[activeIndex.value]?.length;
 });
 </script>
 <style scoped lang="less">

@@ -43,6 +43,7 @@ import Space from './Space';
 import Divider from './Divider';
 import { default as Skeleton, SkeletonLine, SkeletonShape } from './Skeleton';
 import Affix from './Affix';
+import TimePicker from './TimePicker';
 
 export const components: Record<string, Plugin> = {
   Button,
@@ -83,6 +84,7 @@ export const components: Record<string, Plugin> = {
   Divider,
   Skeleton,
   Affix,
+  TimePicker,
 };
 
 console.log('components：', Object.keys(components).length + 2);

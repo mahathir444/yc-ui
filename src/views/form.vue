@@ -37,6 +37,10 @@
       <yc-auto-complete />
     </div>
     <div style="width: 300px">
+      time-picker
+      <yc-time-picker />
+    </div>
+    <div style="width: 300px">
       input
       <yc-input
         allow-clear

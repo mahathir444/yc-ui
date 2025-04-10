@@ -40,6 +40,7 @@
 
 <script lang="ts" setup>
 import { ref, watch } from 'vue';
+import { TableColumnData } from '@arco-design/web-vue';
 const value = ref('dsadsa');
 const options = [
   'Bytedance',

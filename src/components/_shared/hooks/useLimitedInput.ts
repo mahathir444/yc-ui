@@ -24,7 +24,8 @@ export default (params: {
     maxLength: _maxLength,
   } = toRefs(props as RequiredDeep<TextareaProps | InputProps>);
   const { wordLength, wordSlice } = props;
-  console.log(_maxLength.value);
+  // 初始化记录光标位置的hook
+  const { setCursor, recordCursor } = useCursor(inputRef);
   // 最大长度
   const maxLength = computed(() =>
     isNumber(_maxLength.value) ? _maxLength.value : _maxLength.value?.length
@@ -53,8 +54,6 @@ export default (params: {
       !readonly.value &&
       !!computedValue.value.length
   );
-  // 初始化记录光标位置的hook
-  const { setCursor, recordCursor } = useCursor(inputRef);
   // wordLeng下的maxLength
   let wordLengthMax = 0;
   //   当前显示的长度

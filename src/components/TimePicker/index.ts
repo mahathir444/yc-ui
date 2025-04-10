@@ -11,4 +11,10 @@ const TimePicker = Object.assign(_TimePicker, {
   },
 });
 
+declare module 'vue' {
+  export interface GlobalComponents {
+    YcTimePicker: typeof TimePicker;
+  }
+}
+
 export default TimePicker;
