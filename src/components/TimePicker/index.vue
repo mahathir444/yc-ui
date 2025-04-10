@@ -340,18 +340,26 @@ const hanClear = () => {
 };
 watch(
   [() => activeIndex.value, () => inputValue.value, () => cVisible.value],
-  () => {
-    // if(!cVisible.value)return
-    Object.entries(inputValue.value[activeIndex.value]).forEach(
-      ([k, v], index) => {
-        const dom = itemRefMap.value.get(`${k}_${v}`);
-        if (!dom) return;
-        scrollRefs.value.get(k)?.scrollTo?.({
-          top: dom.offsetTop || 0,
-          behavior: cVisible.value ? 'smooth' : 'auto',
-        });
-      }
-    );
+  async () => {
+    if (!cVisible.value) return;
+    await nextTick();
+    Object.entries(inputValue.value[activeIndex.value]).forEach(([k, v]) => {
+      const dom = itemRefMap.value.get(`${k}_${v}`);
+      if (!dom) return;
+      console.log(k, v);
+      if (!scrollRefs.value.get(k)) return;
+      new BTween({
+        from: { scroll: scrollRefs.value.get(k).scrollTop || 0 },
+        to: { scroll: dom.offsetTop || 0 },
+        duration: 200,
+        easing: 'quadOut',
+        onUpdate: (current: any) => {
+          scrollRefs.value.get(k)!.scrollTo?.({
+            top: current.scroll || 0,
+          });
+        },
+      }).start();
+    });
   },
   {
     deep: true,
