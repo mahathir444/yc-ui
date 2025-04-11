@@ -23,4 +23,4 @@ export { default as IconWarning } from './IconWarning.vue';
 export { default as IconToTop } from './IconToTop.vue';
 export { default as IconInfoLine } from './IconInfoLine.vue';
 export { default as IconTime } from './IconTime.vue';
-
+export { default as IconSeparator } from './IconSeparator.vue';

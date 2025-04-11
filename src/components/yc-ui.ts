@@ -44,6 +44,7 @@ import Divider from './Divider';
 import { default as Skeleton, SkeletonLine, SkeletonShape } from './Skeleton';
 import Affix from './Affix';
 import TimePicker from './TimePicker';
+import { default as Breadcrumb, BreadcrumbItem } from './Breadcrumb';
 
 export const components: Record<string, Plugin> = {
   Button,
@@ -85,6 +86,7 @@ export const components: Record<string, Plugin> = {
   Skeleton,
   Affix,
   TimePicker,
+  Breadcrumb,
 };
 
 console.log('components：', Object.keys(components).length + 2);
@@ -102,6 +104,7 @@ export default {
   RadioGroup,
   SkeletonLine,
   SkeletonShape,
+  BreadcrumbItem,
   install: (app: App) => {
     for (const key of Object.keys(components)) {
       app.use(components[key]);

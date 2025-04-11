@@ -7,32 +7,50 @@
       <a-layout-sider />
       <a-layout-content class="main" id="main">
         <div class="content" id="content">
-          <div style="width: 600px; display: flex">
-            <a-affix
-              :offset-top="20"
-              :offset-bottom="20"
-              target="#main"
-              target-container="#main"
-            >
-              <yc-button type="primary">测试</yc-button>
-            </a-affix>
-            <yc-affix
-              :offset-top="20"
-              :offset-bottom="20"
-              target="#main"
-              target-container="#main"
-            >
-              <yc-button type="primary">测试</yc-button>
-            </yc-affix>
-          </div>
-          <div style="width: 600px; display: flex">
-            <yc-skeleton animation>
-              <yc-skeleton-line :rows="3" />
-              <yc-skeleton-shape />
-            </yc-skeleton>
-          </div>
+          <yc-breadcrumb :max-count="3">
+            <template #more-icon>
+              <icon-alipay-circle />
+            </template>
+            <template #separator>
+              <icon-align-right />
+            </template>
+            <yc-breadcrumb-item>测试</yc-breadcrumb-item>
+            <yc-breadcrumb-item>测试1</yc-breadcrumb-item>
+            <yc-breadcrumb-item>测试2</yc-breadcrumb-item>
+            <yc-breadcrumb-item>测试3</yc-breadcrumb-item>
+            <yc-breadcrumb-item>测试4</yc-breadcrumb-item>
+            <yc-breadcrumb-item>测试5</yc-breadcrumb-item>
+          </yc-breadcrumb>
+          <yc-breadcrumb
+            :routes="[
+              {
+                label: '1',
+                path: '1',
+              },
+              {
+                label: '2',
+                path: '2',
+              },
+            ]"
+          >
+          </yc-breadcrumb>
+          <a-breadcrumb
+            :routes="[
+              {
+                label: '1',
+                path: '1',
+              },
+              {
+                label: '2',
+                path: '2',
+              },
+            ]"
+          >
+            <a-breadcrumb-item>测试</a-breadcrumb-item>
+            <a-breadcrumb-item>测试1</a-breadcrumb-item>
+            <a-breadcrumb-item>测试2</a-breadcrumb-item>
+          </a-breadcrumb>
         </div>
-        <div class="content1" id="content1"></div>
       </a-layout-content>
     </a-layout>
   </a-layout>
@@ -68,7 +86,8 @@ const options = [
       overflow: auto;
     }
     .content {
-      height: 300vh;
+      height: 100%;
+      // height: 300vh;
       display: flex;
       flex-direction: column;
       justify-content: center;
