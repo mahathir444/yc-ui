@@ -7,46 +7,37 @@
       <a-layout-sider />
       <a-layout-content class="main" id="main">
         <div class="content" id="content">
-          <a-breadcrumb
-            :routes="[
-              {
-                label: '1',
-                path: '1',
-              },
-              {
-                label: '2',
-                path: '2',
-              },
-            ]"
-          >
-            <a-breadcrumb-item>测试</a-breadcrumb-item>
-            <a-breadcrumb-item>测试1</a-breadcrumb-item>
-            <a-breadcrumb-item>测试2</a-breadcrumb-item>
-          </a-breadcrumb>
-          <yc-page-header title="ArcoDesign" subtitle="ArcoDesign Vue 2.0">
-            <template #breadcrumb>
-              <yc-breadcrumb>
-                <yc-breadcrumb-item>测试</yc-breadcrumb-item>
-                <yc-breadcrumb-item>测试1</yc-breadcrumb-item>
-                <yc-breadcrumb-item>测试2</yc-breadcrumb-item>
-                <yc-breadcrumb-item>测试3</yc-breadcrumb-item>
-                <yc-breadcrumb-item>测试4</yc-breadcrumb-item>
-                <yc-breadcrumb-item>测试5</yc-breadcrumb-item>
-              </yc-breadcrumb>
-            </template>
-          </yc-page-header>
-          <a-page-header title="ArcoDesign" subtitle="ArcoDesign Vue 2.0">
-            <template #breadcrumb>
-              <yc-breadcrumb>
-                <yc-breadcrumb-item>测试</yc-breadcrumb-item>
-                <yc-breadcrumb-item>测试1</yc-breadcrumb-item>
-                <yc-breadcrumb-item>测试2</yc-breadcrumb-item>
-                <yc-breadcrumb-item>测试3</yc-breadcrumb-item>
-                <yc-breadcrumb-item>测试4</yc-breadcrumb-item>
-                <yc-breadcrumb-item>测试5</yc-breadcrumb-item>
-              </yc-breadcrumb>
-            </template>
-          </a-page-header>
+          <a-row style="width: 100%" :gutter="100">
+            <a-col
+              :span="8"
+              :xs="{ offset: 1 }"
+              :sm="{ offset: 2 }"
+              :md="{ offset: 3 }"
+              :lg="{ offset: 4 }"
+              :xxl="{ offset: 5 }"
+            >
+              11
+            </a-col>
+            <a-col :span="8">22 </a-col>
+            <a-col :span="8">33 </a-col>
+            <a-col :span="8">44 </a-col>
+            <a-col :span="8">55 </a-col>
+            <!-- <a-col :span="8">bb </a-col> -->
+          </a-row>
+          <yc-row style="width: 100%" :gutter="100">
+            <yc-col
+              :span="8"
+              :xs="{ offset: 1 }"
+              :sm="{ offset: 2 }"
+              :md="{ offset: 3 }"
+              :lg="{ offset: 4 }"
+              :xl="{ offset: 5 }"
+              :xxl="{ offset: 6 }"
+            >
+              aa
+            </yc-col>
+            <yc-col :span="8">bb </yc-col>
+          </yc-row>
         </div>
       </a-layout-content>
     </a-layout>
@@ -56,6 +47,8 @@
 <script lang="ts" setup>
 import { ref, watch } from 'vue';
 import { TableColumnData } from '@arco-design/web-vue';
+import YcRow from '@/components/Grid/Row.vue';
+import YcCol from '@/components/Grid/Col.vue';
 const value = ref('dsadsa');
 const options = [
   'Bytedance',
@@ -89,6 +82,14 @@ const options = [
       flex-direction: column;
       justify-content: center;
       align-items: center;
+      .arco-col {
+        background: blue;
+        color: #fff;
+      }
+      .yc-col {
+        background: blue;
+        color: #fff;
+      }
     }
     .content1 {
       height: 300vh;

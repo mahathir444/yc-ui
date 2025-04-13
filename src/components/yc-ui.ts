@@ -46,6 +46,7 @@ import Affix from './Affix';
 import TimePicker from './TimePicker';
 import { default as Breadcrumb, BreadcrumbItem } from './Breadcrumb';
 import PageHeader from './PageHeader';
+import { default as Grid, Row, Col } from './Grid';
 
 export const components: Record<string, Plugin> = {
   Button,
@@ -89,6 +90,7 @@ export const components: Record<string, Plugin> = {
   TimePicker,
   Breadcrumb,
   PageHeader,
+  Grid,
 };
 
 console.log('components：', Object.keys(components).length + 2);
@@ -107,6 +109,8 @@ export default {
   SkeletonLine,
   SkeletonShape,
   BreadcrumbItem,
+  Col,
+  Row,
   install: (app: App) => {
     for (const key of Object.keys(components)) {
       app.use(components[key]);

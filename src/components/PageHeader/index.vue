@@ -30,7 +30,7 @@
         </div>
       </div>
     </div>
-    <div v-if="$slots.slot" class="yc-page-header-content">
+    <div v-if="$slots.default" class="yc-page-header-content">
       <slot />
     </div>
   </div>
@@ -55,49 +55,5 @@ defineEmits<{
 </script>
 
 <style lang="less" scoped>
-.yc-page-header {
-  padding: 16px 0px;
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-  .yc-page-header-wrapper {
-    padding: 0 20px 0 24px;
-    .yc-page-header-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      line-height: 28px;
-      .yc-page-header-main {
-        display: flex;
-        flex-wrap: wrap;
-        align-items: center;
-        .yc-icon-button {
-          margin-right: 12px;
-          color: rgb(78, 89, 105);
-          font-size: 14px;
-          &:deep(.yc-icon) {
-            transform: rotate(180deg);
-          }
-        }
-        .yc-page-header-title {
-          color: rgb(29, 33, 41);
-          font-weight: 600;
-          font-size: 20px;
-        }
-        .yc-page-header-subtitle {
-          color: rgb(134, 144, 156);
-          font-size: 14px;
-        }
-      }
-      .yc-page-header-extra {
-        overflow: hidden;
-        white-space: nowrap;
-      }
-    }
-  }
-  .yc-page-header-content {
-    padding: 20px 32px;
-    border-top: 1px solid rgb(229, 230, 235);
-  }
-}
+@import './style/page-header.less';
 </style>

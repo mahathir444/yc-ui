@@ -9,6 +9,8 @@ declare module 'vue' {
   export interface GlobalComponents {
     ABreadcrumb: typeof import('@arco-design/web-vue')['Breadcrumb']
     ABreadcrumbItem: typeof import('@arco-design/web-vue')['BreadcrumbItem']
+    AButton: typeof import('@arco-design/web-vue')['Button']
+    ACol: typeof import('@arco-design/web-vue')['Col']
     Affix: typeof import('./src/components/Affix/index.vue')['default']
     AInput: typeof import('@arco-design/web-vue')['Input']
     ALayout: typeof import('@arco-design/web-vue')['Layout']
@@ -17,6 +19,9 @@ declare module 'vue' {
     ALayoutSider: typeof import('@arco-design/web-vue')['LayoutSider']
     Alert: typeof import('./src/components/Alert/index.vue')['default']
     APageHeader: typeof import('@arco-design/web-vue')['PageHeader']
+    ARow: typeof import('@arco-design/web-vue')['Row']
+    ASpace: typeof import('@arco-design/web-vue')['Space']
+    ATag: typeof import('@arco-design/web-vue')['Tag']
     AutoComplete: typeof import('./src/components/AutoComplete/index.vue')['default']
     BackTop: typeof import('./src/components/BackTop/index.vue')['default']
     Breadcrumb: typeof import('./src/components/Breadcrumb/Breadcrumb.vue')['default']
@@ -25,6 +30,7 @@ declare module 'vue' {
     ButtonGroup: typeof import('./src/components/Button/ButtonGroup.vue')['default']
     Checkbox: typeof import('./src/components/Checkbox/Checkbox.vue')['default']
     CheckboxGroup: typeof import('./src/components/Checkbox/CheckboxGroup.vue')['default']
+    Col: typeof import('./src/components/Grid/Col.vue')['default']
     ColorControlBar: typeof import('./src/components/ColorPicker/component/ColorControlBar.vue')['default']
     ColorInput: typeof import('./src/components/ColorPicker/component/ColorInput.vue')['default']
     ColorList: typeof import('./src/components/ColorPicker/component/ColorList.vue')['default']
@@ -93,6 +99,7 @@ declare module 'vue' {
     Result: typeof import('./src/components/Result/index.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
+    Row: typeof import('./src/components/Grid/Row.vue')['default']
     Scrollbar: typeof import('./src/components/Scrollbar/index.vue')['default']
     Select: typeof import('./src/components/Select/Select.vue')['default']
     SelectDropdown: typeof import('./src/components/Select/component/SelectDropdown.vue')['default']
@@ -117,6 +124,7 @@ declare module 'vue' {
     TimePicker: typeof import('./src/components/TimePicker/index.vue')['default']
     Tooltip: typeof import('./src/components/Tooltip/index.vue')['default']
     Track: typeof import('./src/components/Scrollbar/component/Track.vue')['default']
+    Transfer: typeof import('./src/components/Transfer/index.vue')['default']
     Trigger: typeof import('./src/components/Trigger/index.vue')['default']
   }
 }
