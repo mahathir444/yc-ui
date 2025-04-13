@@ -16,6 +16,7 @@ declare module 'vue' {
     ALayoutHeader: typeof import('@arco-design/web-vue')['LayoutHeader']
     ALayoutSider: typeof import('@arco-design/web-vue')['LayoutSider']
     Alert: typeof import('./src/components/Alert/index.vue')['default']
+    APageHeader: typeof import('@arco-design/web-vue')['PageHeader']
     AutoComplete: typeof import('./src/components/AutoComplete/index.vue')['default']
     BackTop: typeof import('./src/components/BackTop/index.vue')['default']
     Breadcrumb: typeof import('./src/components/Breadcrumb/Breadcrumb.vue')['default']

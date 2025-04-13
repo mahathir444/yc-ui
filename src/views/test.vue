@@ -7,33 +7,6 @@
       <a-layout-sider />
       <a-layout-content class="main" id="main">
         <div class="content" id="content">
-          <yc-breadcrumb :max-count="3">
-            <template #more-icon>
-              <icon-alipay-circle />
-            </template>
-            <template #separator>
-              <icon-align-right />
-            </template>
-            <yc-breadcrumb-item>测试</yc-breadcrumb-item>
-            <yc-breadcrumb-item>测试1</yc-breadcrumb-item>
-            <yc-breadcrumb-item>测试2</yc-breadcrumb-item>
-            <yc-breadcrumb-item>测试3</yc-breadcrumb-item>
-            <yc-breadcrumb-item>测试4</yc-breadcrumb-item>
-            <yc-breadcrumb-item>测试5</yc-breadcrumb-item>
-          </yc-breadcrumb>
-          <yc-breadcrumb
-            :routes="[
-              {
-                label: '1',
-                path: '1',
-              },
-              {
-                label: '2',
-                path: '2',
-              },
-            ]"
-          >
-          </yc-breadcrumb>
           <a-breadcrumb
             :routes="[
               {
@@ -50,6 +23,30 @@
             <a-breadcrumb-item>测试1</a-breadcrumb-item>
             <a-breadcrumb-item>测试2</a-breadcrumb-item>
           </a-breadcrumb>
+          <yc-page-header title="ArcoDesign" subtitle="ArcoDesign Vue 2.0">
+            <template #breadcrumb>
+              <yc-breadcrumb>
+                <yc-breadcrumb-item>测试</yc-breadcrumb-item>
+                <yc-breadcrumb-item>测试1</yc-breadcrumb-item>
+                <yc-breadcrumb-item>测试2</yc-breadcrumb-item>
+                <yc-breadcrumb-item>测试3</yc-breadcrumb-item>
+                <yc-breadcrumb-item>测试4</yc-breadcrumb-item>
+                <yc-breadcrumb-item>测试5</yc-breadcrumb-item>
+              </yc-breadcrumb>
+            </template>
+          </yc-page-header>
+          <a-page-header title="ArcoDesign" subtitle="ArcoDesign Vue 2.0">
+            <template #breadcrumb>
+              <yc-breadcrumb>
+                <yc-breadcrumb-item>测试</yc-breadcrumb-item>
+                <yc-breadcrumb-item>测试1</yc-breadcrumb-item>
+                <yc-breadcrumb-item>测试2</yc-breadcrumb-item>
+                <yc-breadcrumb-item>测试3</yc-breadcrumb-item>
+                <yc-breadcrumb-item>测试4</yc-breadcrumb-item>
+                <yc-breadcrumb-item>测试5</yc-breadcrumb-item>
+              </yc-breadcrumb>
+            </template>
+          </a-page-header>
         </div>
       </a-layout-content>
     </a-layout>

@@ -1,8 +1,8 @@
 import { TriggerProps } from '../Trigger';
 
 export interface TimePickerProps {
-  type: 'time' | 'time-range';
-  modelValue: string | number | Date | Array<string | number | Date>;
+  type?: 'time' | 'time-range';
+  modelValue?: string | number | Date | Array<string | number | Date>;
   defaultValue?: string | number | Date | Array<string | number | Date>;
   disabled?: boolean;
   allowClear?: boolean;
