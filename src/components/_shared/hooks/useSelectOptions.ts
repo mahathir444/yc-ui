@@ -6,7 +6,6 @@ import {
   onUpdated,
   useSlots,
   ComputedRef,
-  VNode,
 } from 'vue';
 import { nanoid } from 'nanoid';
 import {
@@ -19,11 +18,14 @@ import {
 } from '@/components/Select';
 import { Fn, ObjectData } from '../type';
 import { isObject } from '../utils/is';
+import { TriggerInstance } from '@/components/Trigger';
+import { getTextContent } from '../utils/dom';
 export default (params: {
   fieldKey: ComputedRef<Record<string, string>>;
   selectValue: ComputedRef<ObjectData[]>;
   provideOptions: Ref<SelectOptions>;
   showExtraOptions: Ref<boolean>;
+  popupRef: Ref<TriggerInstance | undefined>;
   getValue: Fn;
   fallbackOption?: FallbackOption;
 }) => {
@@ -32,6 +34,7 @@ export default (params: {
     selectValue,
     provideOptions,
     showExtraOptions,
+    popupRef,
     getValue,
     fallbackOption,
   } = params;
@@ -89,13 +92,21 @@ export default (params: {
           };
     });
   });
+  // optionContent内容
+  const optionContent = ref<string[]>([]);
   // 所有的options
   const options = computed(() => {
-    return [
+    const result = [
       ...slotOptions.value,
       ...flattedRenderOption.value,
       ...fallbackOptions.value,
-    ];
+    ].map((item, index) => {
+      return {
+        ...item,
+        label: item.label ?? optionContent.value[index] ?? '',
+      };
+    });
+    return result;
   });
   // 是否是option
   const isOption = (vnode: ObjectData) => vnode.type.name == Option.name;
@@ -109,6 +120,15 @@ export default (params: {
   };
   // 获取选项的props
   const getOptions = () => {
+    // document;
+    const popupContainer = popupRef.value
+      ?.getPopupRef()
+      ?.getRef() as HTMLDivElement;
+    // 获取option的content
+    optionContent.value = Array.from(
+      popupContainer.querySelectorAll('.yc-select-option-content')
+    ).map((dom) => getTextContent(dom));
+    // 获取插槽
     slotOptions.value = (slots?.default?.() ?? [])
       .filter((vnode) => isOption(vnode) || isOptgroup(vnode))
       .map((vnode) => flattedChildren(vnode))

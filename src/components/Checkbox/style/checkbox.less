@@ -7,13 +7,14 @@
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  &:hover:not(.yc-checkbox-disabled) .yc-icon-button {
-    &::before {
-      background-color: rgba(242, 243, 245);
-    }
-    .yc-checkbox-icon {
-      transition: border-color 0.1s cubic-bezier(0, 0, 1, 1);
-      border-color: rgb(201, 205, 212);
+  &:not(.yc-checkbox-disabled):not(.yc-checkbox-checked) {
+    &:hover .yc-icon-button {
+      &::before {
+        background-color: rgba(242, 243, 245);
+      }
+      .yc-checkbox-icon {
+        border-color: rgb(201, 205, 212);
+      }
     }
   }
 
@@ -39,6 +40,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    transition: border-color 0.1s cubic-bezier(0, 0, 1, 1);
     &::after {
       content: '';
       position: absolute;

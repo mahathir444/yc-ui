@@ -1,5 +1,4 @@
 import { computed, Ref } from 'vue';
-import { nanoid } from 'nanoid';
 import { Fn, ObjectData } from '../type';
 import {
   SelectValue,
@@ -9,6 +8,7 @@ import {
 } from '@/components/Select';
 import useControlValue from './useControlValue';
 import useSelectOptions from './useSelectOptions';
+import { TriggerInstance } from '@/components/Trigger';
 
 export default (params: {
   popupVisible: Ref<boolean | undefined>;
@@ -21,6 +21,7 @@ export default (params: {
   multiple: Ref<boolean>;
   provideOptions: Ref<SelectOptions>;
   showExtraOptions: Ref<boolean>;
+  popupRef: Ref<TriggerInstance | undefined>;
   emits: Fn;
   getValue: Fn;
   fallbackOption?: FallbackOption;
@@ -37,6 +38,7 @@ export default (params: {
     fieldNames,
     showExtraOptions,
     provideOptions,
+    popupRef,
     formatLabel,
     fallbackOption,
     emits,
@@ -83,6 +85,7 @@ export default (params: {
   );
   // 获取选项的值
   const { options, renderOptions } = useSelectOptions({
+    popupRef,
     fieldKey,
     selectValue,
     showExtraOptions,

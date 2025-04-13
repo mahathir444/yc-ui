@@ -19,7 +19,7 @@
         @scroll="emits('dropdownScroll')"
         @reach-bottom="emits('dropdownReachBottom')"
       >
-        <div class="yc-select-dropdown-list">
+        <div class="yc-select-dropdown-list" ref="dropListRef">
           <!-- 默认插槽 -->
           <slot />
           <!-- 自己渲染的options -->
@@ -61,6 +61,7 @@
 </template>
 
 <script lang="ts" setup>
+import { ref } from 'vue';
 import { SelectOptions } from '../type';
 import { ObjectData } from '@shared/type';
 import YcOption from '../Option.vue';

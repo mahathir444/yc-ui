@@ -36,3 +36,29 @@ export const getElement = (
   }
   return target;
 };
+
+/**
+ * 提取 DOM 元素内所有文本内容
+ */
+export function getTextContent(
+  dom: HTMLElement | Node | null,
+  separator: string = ''
+): string {
+  const texts: string[] = [];
+  // 递归遍历节点
+  const walk = (node: Node): void => {
+    if (node.nodeType === Node.TEXT_NODE) {
+      const text = node.nodeValue?.trim() || '';
+      if (text) texts.push(text);
+      return;
+    }
+
+    if (node.nodeType === Node.ELEMENT_NODE) {
+      node.childNodes.forEach((child) => walk(child));
+    }
+  };
+  // 安全处理 null 或非元素节点
+  if (!dom || !(dom instanceof Node)) return '';
+  walk(dom);
+  return texts.join(separator);
+}

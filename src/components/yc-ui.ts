@@ -45,6 +45,7 @@ import { default as Skeleton, SkeletonLine, SkeletonShape } from './Skeleton';
 import Affix from './Affix';
 import TimePicker from './TimePicker';
 import { default as Breadcrumb, BreadcrumbItem } from './Breadcrumb';
+import PageHeader from './PageHeader';
 
 export const components: Record<string, Plugin> = {
   Button,
@@ -87,6 +88,7 @@ export const components: Record<string, Plugin> = {
   Affix,
   TimePicker,
   Breadcrumb,
+  PageHeader,
 };
 
 console.log('components：', Object.keys(components).length + 2);

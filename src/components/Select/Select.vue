@@ -191,7 +191,7 @@ const props = withDefaults(defineProps<SelectProps>(), {
   defaultPopupVisible: false,
   unmountOnClose: false,
   filterOption: (inputValue: string, option: SelectOptionData) => {
-    return option?.label?.includes(inputValue);
+    return !!option?.label?.includes(inputValue);
   },
   options: () => [],
   formatLabel: undefined,
@@ -282,6 +282,7 @@ const {
   provideOptions,
   fieldNames,
   showExtraOptions,
+  popupRef,
   fallbackOption,
   formatLabel,
   emits,

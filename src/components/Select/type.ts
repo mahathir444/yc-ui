@@ -46,8 +46,8 @@ export interface SelectProps {
 
 export interface OptionProps {
   id?: string;
-  label: string;
-  value: SelectValue;
+  label?: string;
+  value?: SelectValue;
   disabled?: boolean;
   tagProps?: TagProps;
 }
@@ -69,19 +69,20 @@ export type FallbackOption = (value: SelectValue) => SelectOptionData;
 
 export type FormatLabel = (data: SelectOptionData) => string;
 
-export type SelectOptionData = OptionProps | ObjectData;
+export type SelectOptionData = OptionProps;
 
 export type SelectOptionGroup = {
   id?: string;
-  label: string;
-  isGroup: true;
-  options: SelectOptionData[];
+  label?: string;
+  isGroup?: true;
+  options?: SelectOptionData[];
 };
 
-export type SelectOptions =
-  | SelectOptionData[]
-  | SelectOptionGroup[]
-  | ObjectData[];
+export type SelectOptions = (
+  | SelectOptionData
+  | SelectOptionGroup
+  | ObjectData
+)[];
 
 export type VirtualListProps = {
   height: number;

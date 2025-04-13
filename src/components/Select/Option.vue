@@ -16,7 +16,9 @@
       v-model="modelValue"
       class="yc-select-option-content"
     >
-      {{ label }}
+      <slot>
+        {{ label }}
+      </slot>
     </yc-checkbox>
     <!-- 单选 -->
     <div
@@ -24,7 +26,9 @@
       class="yc-select-option-content text-ellipsis"
       @click="handleSingle"
     >
-      {{ label }}
+      <slot>
+        {{ label }}
+      </slot>
     </div>
     <div v-if="$slots.suffix" class="yc-select-option-suffix">
       <slot name="suffix" />
@@ -38,6 +42,7 @@ import { OptionProps, SelectProvide } from './type';
 import { ObjectData } from '@shared/type';
 import { SELECT_PROVIDE_KEY } from '@shared/constants';
 import { isUndefined } from '@shared/utils/is';
+import { getTextContent } from '@shared/utils/dom';
 import YcCheckbox from '@/components/Checkbox';
 defineOptions({
   name: 'Option',

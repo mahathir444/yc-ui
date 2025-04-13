@@ -18,7 +18,7 @@
 
 <script lang="ts" setup>
 import { ref, toRefs, useSlots, provide } from 'vue';
-import { BreadcrumbProps } from './type';
+import { BreadcrumbProps, BreadcrumbProvide } from './type';
 import { BREADCRUMB_PROVIDE_KEY } from '@shared/constants';
 import { BreadcrumbItem as YcBreadcrumbItem } from './index';
 defineOptions({
@@ -38,7 +38,7 @@ const slots = useSlots();
 // 次序
 const index = ref<number>(-1);
 // 发放数据
-provide(BREADCRUMB_PROVIDE_KEY, {
+provide<BreadcrumbProvide>(BREADCRUMB_PROVIDE_KEY, {
   index,
   maxCount,
   separator,

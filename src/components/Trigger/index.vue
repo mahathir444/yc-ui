@@ -176,13 +176,8 @@ defineExpose({
     mouseX.value = x;
     mouseY.value = y;
   },
-  getOffset() {
-    return {
-      left,
-      top,
-      bottom,
-      right,
-    };
+  getPopupRef() {
+    return popupRef.value;
   },
 });
 </script>

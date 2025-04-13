@@ -61,7 +61,7 @@
 
 <script lang="ts" setup>
 import { ref, inject, computed, toRefs } from 'vue';
-import { BreadcrumbItemProps } from './type';
+import { BreadcrumbItemProps, BreadcrumbProvide } from './type';
 import {
   default as YcDropdown,
   Doption as YcDoption,
@@ -85,16 +85,16 @@ const props = withDefaults(defineProps<BreadcrumbItemProps>(), {
   path: '',
 });
 const { separator } = toRefs(props);
-// 接收index
+// 接收数据
 const {
   index,
   maxCount,
   separator: _separator,
   slots,
-} = inject(BREADCRUMB_PROVIDE_KEY, {
+} = inject<BreadcrumbProvide>(BREADCRUMB_PROVIDE_KEY, {
   index: ref(-1),
   maxCount: ref(0),
-  slots: {} as any,
+  slots: {},
   separator: ref(''),
 });
 // popupVisible
