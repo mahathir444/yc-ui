@@ -61,7 +61,6 @@ const { modelValue, defaultValue, selected, defaultSelected, data } =
 const dataMap = computed(() => {
   return Object.fromEntries(data.value.map((item) => [item.value, item]));
 });
-const computedValueMap = ref<Record<string, TransferItem>>({});
 // 计算的value
 const computedValue = useControlValue<string[]>(
   modelValue,
@@ -75,15 +74,22 @@ const computedValue = useControlValue<string[]>(
 const targetOptions = computed(() => {
   return (computedValue.value as string[]).map((item) => {
     const target = dataMap.value[item];
-    computedValueMap.value[item] = target;
     return target;
   });
 });
+// target
+const targetOptionMap = computed(() => {
+  return Object.fromEntries(
+    (computedValue.value as string[]).map((item) => {
+      return [item, item];
+    })
+  );
+});
 // 源options
 const sourceOptions = computed(() => {
-  return data.value.filter(
-    (item) => !computedValueMap.value[item.value as string]
-  );
+  return data.value.filter((item) => {
+    return !targetOptionMap.value[item.value as string];
+  });
 });
 // 选中的value
 const computedSelected = useControlValue<string[]>(
@@ -95,12 +101,12 @@ const computedSelected = useControlValue<string[]>(
 );
 const sourceChecked = computed(() => {
   return computedSelected.value.filter(
-    (item: string) => !computedValueMap.value[item]
+    (item: string) => !targetOptionMap.value[item]
   );
 });
 const targetChecked = computed(() => {
   return computedSelected.value.filter(
-    (item: string) => computedValueMap.value[item]
+    (item: string) => targetOptionMap.value[item]
   );
 });
 // 处理添加
