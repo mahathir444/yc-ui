@@ -7,24 +7,7 @@
       <a-layout-sider />
       <a-layout-content class="main" id="main">
         <div class="content" id="content">
-          <a-row style="width: 100%" :gutter="100">
-            <a-col
-              :span="8"
-              :xs="{ offset: 1 }"
-              :sm="{ offset: 2 }"
-              :md="{ offset: 3 }"
-              :lg="{ offset: 4 }"
-              :xxl="{ offset: 5 }"
-            >
-              11
-            </a-col>
-            <a-col :span="8">22 </a-col>
-            <a-col :span="8">33 </a-col>
-            <a-col :span="8">44 </a-col>
-            <a-col :span="8">55 </a-col>
-            <!-- <a-col :span="8">bb </a-col> -->
-          </a-row>
-          <yc-row style="width: 100%" :gutter="100">
+          <!-- <yc-row style="width: 100%" :gutter="100">
             <yc-col
               :span="8"
               :xs="{ offset: 1 }"
@@ -37,7 +20,8 @@
               aa
             </yc-col>
             <yc-col :span="8">bb </yc-col>
-          </yc-row>
+          </yc-row> -->
+          <yc-transfer :data="options" />
         </div>
       </a-layout-content>
     </a-layout>
@@ -46,24 +30,14 @@
 
 <script lang="ts" setup>
 import { ref, watch } from 'vue';
-import { TableColumnData } from '@arco-design/web-vue';
-import YcRow from '@/components/Grid/Row.vue';
-import YcCol from '@/components/Grid/Col.vue';
-const value = ref('dsadsa');
-const options = [
-  'Bytedance',
-  'Bytedesign',
-  'Bytenumner',
-  '1',
-  '2',
-  '3',
-  '4',
-].map((item) => {
-  return {
-    label: item,
-    value: item,
-  };
-});
+import YcTransfer from '@/components/Transfer/index.vue';
+const value = ['option1', 'option3', 'option5'];
+const options = Array(8)
+  .fill(undefined)
+  .map((_, index) => ({
+    value: `option${index + 1}`,
+    label: `Option ${index + 1}`,
+  }));
 </script>
 
 <style lang="less" scoped>
@@ -77,22 +51,6 @@ const options = [
     }
     .content {
       height: 100%;
-      // height: 300vh;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      .arco-col {
-        background: blue;
-        color: #fff;
-      }
-      .yc-col {
-        background: blue;
-        color: #fff;
-      }
-    }
-    .content1 {
-      height: 300vh;
       display: flex;
       flex-direction: column;
       justify-content: center;

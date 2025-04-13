@@ -15,7 +15,7 @@
 
 <script lang="ts" setup>
 import { ref, inject, toRefs, onBeforeUnmount, onMounted } from 'vue';
-import { ColProps, Flex, ResponsiveValue } from './type';
+import { ColProps, Flex, ResponsiveValue, GridProvide } from './type';
 import { isNumber } from '@shared/utils/is';
 import { GRID_PROVIDE_KEY } from '@shared/constants';
 import { MediaQueryManager } from '@shared/utils/dom';
@@ -43,10 +43,9 @@ const span = ref<number>(_span.value);
 const order = ref<number | undefined>(_order.value);
 const offset = ref<number>(_offset.value);
 const flex = ref<Flex | undefined>(_flex.value);
-const { gutter } = inject(GRID_PROVIDE_KEY, {
+const { gutter } = inject<GridProvide>(GRID_PROVIDE_KEY, {
   gutter: ref(0),
 });
-
 // 媒体查询管理器
 const mqm = new MediaQueryManager(
   {

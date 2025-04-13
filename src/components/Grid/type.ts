@@ -1,3 +1,5 @@
+import { Ref } from 'vue';
+
 export interface RowProps {
   gutter?: number;
   justify?: 'start' | 'center' | 'end' | 'space-around' | 'space-between';
@@ -22,3 +24,7 @@ export interface ColProps {
 export type Flex = number | string | 'initial' | 'auto' | 'none';
 
 export type ResponsiveValue = number | Record<string, any>;
+
+export type GridProvide = {
+  gutter: Ref<number>;
+};

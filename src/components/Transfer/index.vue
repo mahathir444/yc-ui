@@ -1,48 +1,139 @@
 <template>
   <div class="yc-transfer">
-    <div class="arco-transfer-view arco-transfer-view-source">
-      <div class="arco-transfer-view-header">
-        <span class="arco-transfer-view-header-title"
-          ><label class="arco-checkbox"
-            ><input
-              type="checkbox"
-              class="arco-checkbox-target"
-              value="false"
-            /><span class="arco-icon-hover arco-checkbox-icon-hover"
-              ><div class="arco-checkbox-icon"><!----></div></span
-            ><span class="arco-checkbox-label">Source</span></label
-          ></span
-        ><span class="arco-transfer-view-header-count">0 / 0</span>
-      </div>
-      <!--v-if-->
-      <div class="arco-transfer-view-body">
-        <div class="arco-empty arco-transfer-view-empty">
-          <div class="arco-empty-image">
-            <svg
-              viewBox="0 0 48 48"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-              stroke="currentColor"
-              class="arco-icon arco-icon-empty"
-              stroke-width="4"
-              stroke-linecap="butt"
-              stroke-linejoin="miter"
-            >
-              <path
-                d="M24 5v6m7 1 4-4m-18 4-4-4m28.5 22H28s-1 3-4 3-4-3-4-3H6.5M40 41H8a2 2 0 0 1-2-2v-8.46a2 2 0 0 1 .272-1.007l6.15-10.54A2 2 0 0 1 14.148 18H33.85a2 2 0 0 1 1.728.992l6.149 10.541A2 2 0 0 1 42 30.541V39a2 2 0 0 1-2 2Z"
-              ></path>
-            </svg>
-          </div>
-          <div class="arco-empty-description">暂无数据</div>
-        </div>
-      </div>
+    <TransferPanel v-model:selected="computedSelected" :data="sourceOptions" />
+    <div class="yc-transfer-operations">
+      <yc-button
+        :disabled="!sourceChecked.length"
+        shape="circle"
+        @click="handleAdd"
+      >
+        <template #icon>
+          <icon-arrow-right />
+        </template>
+      </yc-button>
+      <yc-button
+        :disabled="!targetChecked.length"
+        shape="circle"
+        @click="handleDel"
+      >
+        <template #icon>
+          <icon-arrow-right :rotate="180" />
+        </template>
+      </yc-button>
     </div>
+    <TransferPanel v-model:selected="computedSelected" :data="targetOptions" />
   </div>
 </template>
 
 <script lang="ts" setup>
-import { ref, reactive } from 'vue';
-import YcEmpty from "@/compoents/"
+import { ref, toRefs, computed, watch } from 'vue';
+import { TransferItem } from './type';
+import useControlValue from '@shared/hooks/useControlValue';
+import { IconArrowRight } from '@shared/icons';
+import TransferPanel from './TransferPanl.vue';
+import YcButton from '@/components/Button';
+const props = withDefaults(
+  defineProps<{
+    data?: TransferItem[];
+    modelValue?: string[];
+    defaultValue?: string[];
+    selected?: string[];
+    defaultSelected?: string[];
+    disabled?: boolean;
+  }>(),
+  {
+    data: () => [],
+    modelValue: undefined,
+    defaultValue: () => [],
+    selected: undefined,
+    defaultSelected: () => [],
+  }
+);
+const emits = defineEmits<{
+  (e: 'update:selected', value: string[]): void;
+  (e: 'update:modelValue', value: string[]): void;
+  (e: 'change', value: string[]): void;
+}>();
+
+const { modelValue, defaultValue, selected, defaultSelected, data } =
+  toRefs(props);
+// dataMap
+const dataMap = computed(() => {
+  return Object.fromEntries(data.value.map((item) => [item.value, item]));
+});
+const computedValueMap = ref<Record<string, TransferItem>>({});
+// 计算的value
+const computedValue = useControlValue<string[]>(
+  modelValue,
+  defaultValue.value,
+  (val) => {
+    emits('update:modelValue', val);
+    emits('change', val);
+  }
+);
+// 目标options
+const targetOptions = computed(() => {
+  return (computedValue.value as string[]).map((item) => {
+    const target = dataMap.value[item];
+    computedValueMap.value[item] = target;
+    return target;
+  });
+});
+// 源options
+const sourceOptions = computed(() => {
+  return data.value.filter(
+    (item) => !computedValueMap.value[item.value as string]
+  );
+});
+// 选中的value
+const computedSelected = useControlValue<string[]>(
+  selected,
+  defaultSelected.value,
+  (val) => {
+    emits('update:selected', val);
+  }
+);
+const sourceChecked = computed(() => {
+  return computedSelected.value.filter(
+    (item: string) => !computedValueMap.value[item]
+  );
+});
+const targetChecked = computed(() => {
+  return computedSelected.value.filter(
+    (item: string) => computedValueMap.value[item]
+  );
+});
+// 处理添加
+const handleAdd = () => {
+  const checked = [...sourceChecked.value];
+  computedValue.value = [...computedValue.value, ...sourceChecked.value];
+  computedSelected.value = computedSelected.value.filter(
+    (item: string) => !checked.includes(item)
+  );
+  console.log(computedValue.value, 'val');
+};
+// 处理删除
+const handleDel = () => {
+  const checked = [...targetChecked.value];
+  computedValue.value = computedValue.value.filter(
+    (item: string) => !checked.includes(item)
+  );
+  computedSelected.value = computedSelected.value.filter(
+    (item: string) => !checked.includes(item)
+  );
+};
 </script>
 
-<style lang="less" scoped></style>
+<style lang="less" scoped>
+.yc-transfer {
+  display: flex;
+  align-items: center;
+
+  .yc-transfer-operations {
+    padding: 0 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+}
+</style>

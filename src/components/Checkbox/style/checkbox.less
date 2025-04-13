@@ -7,7 +7,9 @@
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  &:not(.yc-checkbox-disabled):not(.yc-checkbox-checked) {
+  &:not(.yc-checkbox-disabled):not(.yc-checkbox-checked)&:not(
+      .yc-checkbox-indeterminate
+    ) {
     &:hover .yc-icon-button {
       &::before {
         background-color: rgba(242, 243, 245);

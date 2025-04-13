@@ -13,7 +13,7 @@
 
 <script lang="ts" setup>
 import { provide, toRefs } from 'vue';
-import { RowProps } from './type';
+import { RowProps, GridProvide } from './type';
 import { GRID_PROVIDE_KEY } from '@shared/constants';
 defineOptions({
   name: 'Row',
@@ -26,7 +26,7 @@ const props = withDefaults(defineProps<RowProps>(), {
   wrap: true,
 });
 const { gutter } = toRefs(props);
-provide(GRID_PROVIDE_KEY, {
+provide<GridProvide>(GRID_PROVIDE_KEY, {
   gutter,
 });
 </script>

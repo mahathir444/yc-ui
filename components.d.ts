@@ -48,6 +48,8 @@ declare module 'vue' {
     DropdownButton: typeof import('./src/components/Dropdown/DropdownButton.vue')['default']
     Dsubmenu: typeof import('./src/components/Dropdown/Dsubmenu.vue')['default']
     Empty: typeof import('./src/components/Empty/index.vue')['default']
+    Grid: typeof import('./src/components/Grid/Grid.vue')['default']
+    GridItem: typeof import('./src/components/Grid/GridItem.vue')['default']
     Icon: typeof import('./src/components/Icon/index.vue')['default']
     IconArrowDown: typeof import('./src/components/_shared/icons/IconArrowDown.vue')['default']
     IconArrowRight: typeof import('./src/components/_shared/icons/IconArrowRight.vue')['default']
@@ -125,6 +127,7 @@ declare module 'vue' {
     Tooltip: typeof import('./src/components/Tooltip/index.vue')['default']
     Track: typeof import('./src/components/Scrollbar/component/Track.vue')['default']
     Transfer: typeof import('./src/components/Transfer/index.vue')['default']
+    TransferPanl: typeof import('./src/components/Transfer/TransferPanl.vue')['default']
     Trigger: typeof import('./src/components/Trigger/index.vue')['default']
   }
 }
