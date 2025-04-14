@@ -71,9 +71,9 @@
                   {{ item.label }}
                 </yc-checkbox>
                 <template v-else>
-                  <s class="yc-transfer-list-item-content text-ellipsis">
+                  <span class="yc-transfer-list-item-content text-ellipsis">
                     {{ item.label }}
-                  </s>
+                  </span>
                   <yc-icon-button v-if="type == 'target'" :hover-size="20">
                     <icon-close />
                   </yc-icon-button>

@@ -149,7 +149,7 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, computed, toRefs, provide } from 'vue';
+import { ref, computed, toRefs, provide, useSlots } from 'vue';
 import {
   SelectProps,
   SelectValue,
@@ -219,11 +219,7 @@ const props = withDefaults(defineProps<SelectProps>(), {
   showFooterOnEmpty: false,
   tagNowrap: false,
   hotKeys: false,
-  virtualListProps: () => {
-    return {
-      threshold: 10,
-    };
-  },
+  virtualListProps: undefined,
 });
 const emits = defineEmits<{
   (e: 'update:modelValue', value: SelectValue): void;
@@ -260,6 +256,7 @@ const {
   valueKey,
   options: provideOptions,
   showExtraOptions,
+  virtualListProps,
   hotkeys,
 } = toRefs(props);
 const { filterOption, formatLabel, fallbackOption } = props;
@@ -346,7 +343,7 @@ const handleEvent = async (
   }
   // 失焦
   else if (type == 'blur') {
-    // computedVisible.value = false;
+    computedVisible.value = false;
     computedInputValue.value = '';
   } else if (type == 'updateValue') {
     computedValue.value = (value as InputTagValue).map(

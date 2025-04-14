@@ -130,11 +130,17 @@ export default (params: {
     ).map((dom) => getTextContent(dom));
     // 获取插槽
     slotOptions.value = (slots?.default?.() ?? [])
+      .map(
+        (vnode) =>
+          (vnode.shapeFlag == 16 ? vnode.children : vnode) as ObjectData[]
+      )
+      .flat(1)
       .filter((vnode) => isOption(vnode) || isOptgroup(vnode))
       .map((vnode) => flattedChildren(vnode))
       .flat(Infinity)
       .filter((vnode) => vnode.props)
       .map((vnode) => vnode.props);
+    console.log(slotOptions.value, 'slotOptions');
   };
   onMounted(() => {
     getOptions();

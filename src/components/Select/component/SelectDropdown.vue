@@ -15,7 +15,7 @@
       </div>
       <!-- list -->
       <yc-scrollbar
-        v-if="!scrollbar || !virtualListProps.itemHeight"
+        v-if="!scrollbar || !virtualListProps"
         class="yc-select-dropdown-list-wrapper"
         @scroll="emits('dropdownScroll')"
         @reach-bottom="emits('dropdownReachBottom')"
@@ -38,11 +38,7 @@
         v-bind="containerProps"
       >
         <div class="yc-select-dropdown-list" v-bind="wrapperProps">
-          <slot />
-          <render-options
-            :render-options="renderOptions"
-            :fieldKey="fieldKey"
-          />
+          <yc-option v-for="{ data } in list" :key="data.value" v-bind="data" />
           <slot v-if="isEmpty" name="empty">
             <yc-empty description="暂无数据" />
           </slot>
@@ -60,9 +56,8 @@
 </template>
 
 <script lang="ts" setup>
-import { toRefs, watch, ref } from 'vue';
+import { toRefs, watch } from 'vue';
 import { SelectOptions, VirtualListProps } from '../type';
-import { Fn } from '@shared/type';
 import { useVirtualList } from '@vueuse/core';
 import RenderOptions from './RenderOptions.vue';
 const props = defineProps<{
@@ -72,26 +67,31 @@ const props = defineProps<{
   loading: boolean;
   scrollbar: boolean;
   isEmpty: boolean;
-  virtualListProps: VirtualListProps;
   showHeaderOnEmpty: boolean;
   showFooterOnEmpty: boolean;
+  virtualListProps?: VirtualListProps;
 }>();
 const emits = defineEmits<{
   (e: 'dropdownScroll'): void;
   (e: 'dropdownReachBottom'): void;
 }>();
-const { options, virtualListProps } = toRefs(props);
+const { virtualListProps, options, renderOptions } = toRefs(props);
 // 初始化虚拟滚动
-const wrapperProps = ref<Record<string, any>>({});
-const containerProps = ref<Record<string, any>>({});
-let scrollTo: Fn;
+let wrapperProps = {};
+let containerProps = {};
+let list: any = {};
 watch(
   () => options.value.length,
-  (val) => {
-    console.log(val, virtualListProps.value);
-    // if (val <= 0 || !virtualListProps.value?.itemHeight) return;
+  async (val) => {
+    if (val <= 0 || !virtualListProps.value) {
+      return;
+    }
+    const threshold = virtualListProps?.value?.threshold as number;
+    if (val < threshold) {
+      return;
+    }
     const {
-      // list,
+      list: _list,
       containerProps: _containerProps,
       wrapperProps: _wrapperProps,
       scrollTo: _scrollTo,
@@ -99,13 +99,9 @@ watch(
       overscan: virtualListProps.value.overscan ?? 10,
       itemHeight: virtualListProps.value.itemHeight ?? 36,
     });
-    console.log(_containerProps, _wrapperProps, 'aa');
-    containerProps.value = _containerProps;
-    wrapperProps.value = _wrapperProps;
-    scrollTo = _scrollTo;
-  },
-  {
-    immediate: true,
+    list = _list;
+    containerProps = _containerProps;
+    wrapperProps = _wrapperProps;
   }
 );
 </script>

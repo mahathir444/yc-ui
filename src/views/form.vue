@@ -134,7 +134,7 @@ import YcAutoComplete from '@/components/AutoComplete';
 const value = ref([]);
 const value1 = ref([]);
 const options = ref<any[]>([]);
-for (let i = 0; i < 20; i++) {
+for (let i = 0; i < 200; i++) {
   options.value.push({
     label: '选项' + i,
     value: i,
