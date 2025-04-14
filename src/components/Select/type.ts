@@ -85,10 +85,9 @@ export type SelectOptions = (
 )[];
 
 export type VirtualListProps = {
-  height: number;
-  itemHeight: number;
+  itemHeight?: number;
+  overscan?: number;
   threshold?: number;
-  buffer?: number;
 };
 
 // 内部使用

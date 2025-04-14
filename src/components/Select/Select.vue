@@ -122,6 +122,7 @@
         :is-empty="isEmpty"
         :show-footer-on-empty="showFooterOnEmpty"
         :show-header-on-empty="showHeaderOnEmpty"
+        :virtual-list-props="virtualListProps"
         @dropdown-reach-bottom="$emit('dropdownReachBottom')"
         @dropdown-scroll="$emit('dropdownScroll')"
       >
@@ -218,6 +219,7 @@ const props = withDefaults(defineProps<SelectProps>(), {
   showFooterOnEmpty: false,
   tagNowrap: false,
   hotKeys: false,
+  virtualListProps: undefined,
 });
 const emits = defineEmits<{
   (e: 'update:modelValue', value: SelectValue): void;
@@ -340,7 +342,7 @@ const handleEvent = async (
   }
   // 失焦
   else if (type == 'blur') {
-    computedVisible.value = false;
+    // computedVisible.value = false;
     computedInputValue.value = '';
   } else if (type == 'updateValue') {
     computedValue.value = (value as InputTagValue).map(

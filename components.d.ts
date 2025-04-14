@@ -97,6 +97,7 @@ declare module 'vue' {
     Radio: typeof import('./src/components/Radio/Radio.vue')['default']
     RadioGroup: typeof import('./src/components/Radio/RadioGroup.vue')['default']
     Rate: typeof import('./src/components/Rate/index.vue')['default']
+    RenderOptions: typeof import('./src/components/Select/component/RenderOptions.vue')['default']
     ResizeBox: typeof import('./src/components/ResizeBox/index.vue')['default']
     Result: typeof import('./src/components/Result/index.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']

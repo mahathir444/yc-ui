@@ -42,7 +42,6 @@ import { OptionProps, SelectProvide } from './type';
 import { ObjectData } from '@shared/type';
 import { SELECT_PROVIDE_KEY } from '@shared/constants';
 import { isUndefined } from '@shared/utils/is';
-import { getTextContent } from '@shared/utils/dom';
 import YcCheckbox from '@/components/Checkbox';
 defineOptions({
   name: 'Option',
