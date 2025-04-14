@@ -23,6 +23,41 @@
           'yc-select-no-border': !bordered,
         }"
       >
+        <!-- 定义重用icon模板 -->
+        <icon-define>
+          <!-- loading -->
+          <yc-spin
+            v-if="loading"
+            :size="12"
+            prevent-focus
+            class="yc-select-loading-icon"
+          >
+            <template v-if="$slots['loading-icon']" #icon>
+              <slot name="loading-icon" />
+            </template>
+          </yc-spin>
+          <template v-else>
+            <!-- default -->
+            <yc-prevent-focus class="yc-select-suffix-icon">
+              <slot name="arrow-icon">
+                <icon-arrow-down v-if="!popupVisible" />
+                <icon-arrow-up v-else />
+              </slot>
+            </yc-prevent-focus>
+            <!-- search -->
+            <yc-prevent-focus v-if="allowSearch" class="yc-select-search-icon">
+              <slot name="search-icon">
+                <icon-search />
+              </slot>
+            </yc-prevent-focus>
+            <!-- clear -->
+            <yc-icon-button
+              v-if="showClearBtn"
+              class="yc-select-clear-icon"
+              @click="$emit('clear')"
+            />
+          </template>
+        </icon-define>
         <!-- single  -->
         <yc-input
           v-if="!multiple"
@@ -56,24 +91,7 @@
           </template>
           <!-- suffix -->
           <template #suffix>
-            <select-icon
-              :popup-visible="computedVisible"
-              :show-clear-btn="showClearBtn"
-              :allow-clear="allowClear"
-              :allow-search="allowSearch"
-              :loading="loading"
-              @clear="handleEvent('clear')"
-            >
-              <template v-if="$slots['loading-icon']" #loading-icon>
-                <slot name="loading-icon" />
-              </template>
-              <template v-if="$slots['search-icon']" #search-icon>
-                <slot name="search-icon" />
-              </template>
-              <template v-if="$slots['arrow-icon']" #arrow-icon>
-                <slot name="arrow-icon" />
-              </template>
-            </select-icon>
+            <icon-reuse />
           </template>
         </yc-input>
         <!-- multiple -->
@@ -103,65 +121,71 @@
           </template>
           <!-- suffix -->
           <template #suffix>
-            <select-icon
-              :popup-visible="computedVisible"
-              :show-clear-btn="showClearBtn"
-              :allow-clear="allowClear"
-              :allow-search="allowSearch"
-              :loading="loading"
-              @clear="handleEvent('clear')"
-            >
-              <template v-if="$slots['loading-icon']" #loading-icon>
-                <slot name="loading-icon" />
-              </template>
-              <template v-if="$slots['search-icon']" #search-icon>
-                <slot name="search-icon" />
-              </template>
-              <template v-if="$slots['arrow-icon']" #arrow-icon>
-                <slot name="arrow-icon" />
-              </template>
-            </select-icon>
+            <icon-reuse />
           </template>
         </yc-input-tag>
       </div>
     </slot>
     <!-- dropdown -->
     <template #content>
-      <select-dropdown
-        :render-options="renderOptions"
-        :field-key="fieldKey"
-        :loading="loading"
-        :scrollbar="scrollbar"
-        :is-empty="isEmpty"
-        :show-footer-on-empty="showFooterOnEmpty"
-        :show-header-on-empty="showHeaderOnEmpty"
-        :virtual-list-props="virtualListProps"
-        :computed-visible="computedVisible"
-        @dropdown-reach-bottom="$emit('dropdownReachBottom')"
-        @dropdown-scroll="$emit('dropdownScroll')"
-      >
-        <!-- loading -->
-        <template v-if="$slots['loading-icon']" #loading-icon>
+      <yc-spin :loading="loading" class="yc-select-dropdown-loading">
+        <template v-if="$slots['loading-icon']" #icon>
           <slot name="loading-icon" />
         </template>
-        <!-- header -->
-        <template v-if="$slots.header" #header>
-          <slot name="header" />
-        </template>
-        <!-- header -->
-        <template v-if="$slots.footer" #footer>
-          <slot name="footer" />
-        </template>
-        <!-- option -->
-        <template #option="{ data }">
-          <slot name="option" :data="data" />
-        </template>
-        <!-- empty -->
-        <template v-if="$slots.empty" #empty>
-          <slot name="empty" />
-        </template>
-        <slot />
-      </select-dropdown>
+        <!--dropdown -->
+        <div class="yc-select-dropdown">
+          <!-- header -->
+          <div
+            v-if="$slots.header && (showHeaderOnEmpty || !isEmpty)"
+            class="yc-select-dropdown-header"
+          >
+            <slot name="header" />
+          </div>
+          <!-- 虚拟列表 -->
+          <select-virtual-list
+            v-if="virtualListProps"
+            :render-options="renderOptions"
+            :is-empty="isEmpty"
+            :virtual-list-props="virtualListProps"
+            :computed-visible="computedVisible"
+            @dropdown-scroll="$emit('dropdownScroll')"
+            @dropdown-reach-bottom="$emit('dropdownReachBottom')"
+          >
+            <template v-if="$slots.option" #option="{ data }">
+              <slot name="option" :data="data" />
+            </template>
+            <template v-if="$slots.empty" #empty>
+              <slot name="empty" />
+            </template>
+          </select-virtual-list>
+          <!-- list -->
+          <select-list
+            v-else
+            :render-options="renderOptions"
+            :field-key="fieldKey"
+            :loading="loading"
+            :scrollbar="scrollbar"
+            :is-empty="isEmpty"
+            @dropdown-scroll="$emit('dropdownScroll')"
+            @dropdown-reach-bottom="$emit('dropdownReachBottom')"
+          >
+            <slot />
+            <template v-if="$slots.option" #option="{ data }">
+              <slot name="option" :data="data" />
+            </template>
+            <template v-if="$slots.empty" #empty>
+              <slot name="empty" />
+            </template>
+          </select-list>
+          <!-- footer -->
+          <div
+            v-if="$slots.footer && (showFooterOnEmpty || !isEmpty)"
+            class="yc-select-dropdown-footer"
+          >
+            <slot name="footer" />
+          </div>
+        </div>
+      </yc-spin>
     </template>
   </yc-trigger>
 </template>
@@ -180,11 +204,12 @@ import { SELECT_PROVIDE_KEY } from '@shared/constants';
 import { sleep } from '@shared/utils/fn';
 import useSelectHotkeys from '@shared/hooks/useSelectHotkeys';
 import useSeletValue from '@shared/hooks/useSeletValue';
-import SelectIcon from './component/SelectIcon.vue';
-import SelectDropdown from './component/SelectDropdown.vue';
+import SelectVirtualList from './component/SelectVirtualList.vue';
+import SelectList from './component//SelectList.vue';
 import YcInput, { InputInstance } from '@/components/Input';
 import YcInputTag, { TagData, InputTagValue } from '@/components/InputTag';
 import YcTrigger, { TriggerInstance } from '@/components/Trigger';
+import { createReusableTemplate } from '@vueuse/core';
 defineOptions({
   name: 'Select',
 });
@@ -282,6 +307,7 @@ const {
   hotkeys,
 } = toRefs(props);
 const { filterOption, formatLabel, fallbackOption } = props;
+const { reuse: IconReuse, define: IconDefine } = createReusableTemplate();
 // 输入实例
 const inputRef = ref<InputInstance>();
 // triggerRef
