@@ -12,6 +12,7 @@
         :virtual-list-props="{
           itemHeight: 36,
           buffer: 10,
+          threshold: 100,
         }"
       >
         <!-- <yc-option v-for="item in options" :value="item.value" v-bind="item" /> -->
