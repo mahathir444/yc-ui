@@ -84,10 +84,8 @@
     <div style="width: 300px">
       inputNumber
       <yc-input-number
-        :step="1.2"
-        :precision="1"
-        :min="2"
-        :max="13"
+        :formatter="formatter"
+        :parser="parser"
         placeholder="请输入"
       ></yc-input-number>
     </div>
@@ -140,6 +138,16 @@ for (let i = 0; i < 20; i++) {
     value: i,
   });
 }
+const formatter = (value: string) => {
+  const values = value.split('.');
+  values[0] = values[0].replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+
+  return values.join('.');
+};
+
+const parser = (value: string) => {
+  return value.replace(/,/g, '');
+};
 </script>
 
 <style lang="less" scoped>

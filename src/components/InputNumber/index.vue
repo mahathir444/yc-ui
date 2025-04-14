@@ -104,7 +104,7 @@
 <script lang="ts" setup>
 import { ref, toRefs, computed } from 'vue';
 import { InputNumberProps, InputNumberValue } from './type';
-import { isNumber, isString } from '@shared/utils/is';
+import { isNumber, isString, isFunction } from '@shared/utils/is';
 import YcOperaBtn from './component/OperaBtn.vue';
 import useControlValue from '@shared/hooks/useControlValue';
 import YcInput, { InputInstance } from '@/components/Input';
@@ -152,6 +152,7 @@ const {
   modelEvent,
   precision: _precision,
 } = toRefs(props);
+const { formatter, parser } = props;
 // 实例
 const inputRef = ref<InputInstance>();
 // 控制的值
@@ -165,15 +166,21 @@ const computedValue = useControlValue<InputNumberValue>(
     );
   },
   (val) => {
-    return isString(val) ? val : handlePrecision(val, 'string');
+    const value = isString(val) ? val : handlePrecision(val, 'string');
+    return formatter && isFunction(formatter)
+      ? formatter(value as string)
+      : value;
   }
 );
-
 // 精度
 const precision = computed(() => {
   const stepPrecision = String(step.value).match(/\.(\d+)/)?.[1]?.length ?? 0;
   return Math.max(...[stepPrecision, _precision.value]);
 });
+// 解析值的方法
+const parserValue = (v: string) => {
+  return parser && isFunction(parser) ? parser(v) : v;
+};
 // 处理精度问题
 function handlePrecision(value: InputNumberValue, type: 'number' | 'string') {
   // 处理过后的值
@@ -186,12 +193,9 @@ function handlePrecision(value: InputNumberValue, type: 'number' | 'string') {
 }
 // 处理点击
 const handleStep = (type: 'minus' | 'plus') => {
-  console.log(type, 'type');
-
+  const handleValue = +parserValue(computedValue.value);
   let value =
-    type == 'minus'
-      ? +computedValue.value - step.value
-      : +computedValue.value + step.value;
+    type == 'minus' ? handleValue - step.value : handleValue + step.value;
   value = value < min.value ? min.value : value;
   value = value > max.value ? max.value : value;
   // 处理精度
@@ -204,7 +208,7 @@ const handleUpdateValue = (
   e: FocusEvent | KeyboardEvent
 ) => {
   if (!computedValue.value) return;
-  let value = +computedValue.value;
+  let value = +parserValue(computedValue.value);
   value = value < min.value ? min.value : value;
   value = value > max.value ? max.value : value;
   // 处理精度
@@ -217,23 +221,23 @@ const handleUpdateValue = (
 };
 // 处理输入
 const handleInput = (v: string, e: Event) => {
-  console.log(v, 'value');
   if (!v) {
     computedValue.value = v;
     return;
   }
+  const handleValue = parserValue(v);
   // 只能输入数字、.、-
-  const isInValidNumber = !/^-?\d*\.?\d*$/.test(v);
+  const isInValidNumber = !/^-?\d*\.?\d*$/.test(handleValue);
   // 处理小数点只能一个
-  const isInValidPoint = (v.match(/\./g)?.length ?? 0) > 1;
+  const isInValidPoint = (handleValue.match(/\./g)?.length ?? 0) > 1;
   // 处理－号只能一个,且位置正确
-  const isInValidNegative = v.includes('-') && v[0] != '-';
+  const isInValidNegative = handleValue.includes('-') && handleValue[0] != '-';
   // 处理逻辑
   if (isInValidNumber || isInValidPoint || isInValidNegative) {
     return;
   }
-  computedValue.value = v;
-  emits('input', v, e);
+  computedValue.value = handleValue;
+  emits('input', handleValue, e);
 };
 // 暴漏方法
 defineExpose({

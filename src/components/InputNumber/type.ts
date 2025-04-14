@@ -1,6 +1,4 @@
-import { Fn, Size, ObjectData } from '@shared/type';
-// formatter?: Fn;
-// parser?: Fn;
+import { Size, ObjectData } from '@shared/type';
 export interface InputNumberProps {
   modelValue?: InputNumberValue;
   defaultValue?: InputNumberValue;
@@ -16,6 +14,8 @@ export interface InputNumberProps {
   size?: Size;
   allowClear?: boolean;
   modelEvent?: ModelEvent;
+  formatter?: (value: string) => string;
+  parser?: (value: string) => string;
   readonly?: boolean;
   inputAttrs?: ObjectData;
 }
