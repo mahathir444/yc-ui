@@ -20,6 +20,8 @@ import { Fn, ObjectData } from '../type';
 import { isObject } from '../utils/is';
 import { TriggerInstance } from '@/components/Trigger';
 import { getTextContent } from '../utils/dom';
+import { flattenAndFindOptions } from '../utils/vue-vnode';
+
 export default (params: {
   fieldKey: ComputedRef<Record<string, string>>;
   selectValue: ComputedRef<ObjectData[]>;
@@ -108,18 +110,9 @@ export default (params: {
     });
     return result;
   });
-  // 是否是option
-  const isOption = (vnode: ObjectData) => vnode.type.name == Option.name;
-  // 是否是optgroup
-  const isOptgroup = (vnode: ObjectData) => vnode.type.name == Optgroup.name;
-  // 扁平化children
-  const flattedChildren = (vnode: ObjectData) => {
-    if (isOption(vnode)) return vnode;
-    const groupChildren = vnode.children.default?.() || [];
-    return (groupChildren as ObjectData[]).map((item) => item.children);
-  };
   // 获取选项的props
   const getOptions = () => {
+    if (!slots.default) return;
     // document;
     const popupContainer = popupRef.value
       ?.getPopupRef()
@@ -129,15 +122,7 @@ export default (params: {
       popupContainer.querySelectorAll('.yc-select-option-content')
     ).map((dom) => getTextContent(dom));
     // 获取插槽
-    slotOptions.value = (slots?.default?.() ?? [])
-      .map(
-        (vnode) =>
-          (vnode.shapeFlag == 16 ? vnode.children : vnode) as ObjectData[]
-      )
-      .flat(1)
-      .filter((vnode) => isOption(vnode) || isOptgroup(vnode))
-      .map((vnode) => flattedChildren(vnode))
-      .flat(Infinity)
+    slotOptions.value = flattenAndFindOptions(slots?.default?.() ?? [])
       .filter((vnode) => vnode.props)
       .map((vnode) => vnode.props);
     console.log(slotOptions.value, 'slotOptions');

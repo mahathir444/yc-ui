@@ -1,6 +1,7 @@
 <template>
   <div
     v-show="filterOption(computedInputValue, props)"
+    :data-option-props="JSON.stringify(props)"
     :class="{
       'yc-select-option': true,
       'yc-select-option-active': options[curIndex]?.value == value,

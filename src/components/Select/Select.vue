@@ -114,7 +114,6 @@
     <!-- dropdown -->
     <template #content>
       <select-dropdown
-        :options="options"
         :render-options="renderOptions"
         :field-key="fieldKey"
         :loading="loading"
@@ -343,7 +342,7 @@ const handleEvent = async (
   }
   // 失焦
   else if (type == 'blur') {
-    computedVisible.value = false;
+    // computedVisible.value = false;
     computedInputValue.value = '';
   } else if (type == 'updateValue') {
     computedValue.value = (value as InputTagValue).map(

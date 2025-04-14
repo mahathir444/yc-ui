@@ -8,17 +8,15 @@
         multiple
         placeholder="请选择"
         :max-tag-count="3"
-        :virtual-list-props="{
-          itemHeight: 36,
-          threshold: 10,
-        }"
       >
-        <yc-option
-          v-for="item in options"
-          :key="item.value"
-          :value="item.value"
-          :label="item.label"
-        />
+        <yc-option v-for="item in options" :value="item.value" v-bind="item" />
+        <yc-optgroup label="分组1">
+          <yc-option
+            v-for="item in options"
+            :value="item.value"
+            v-bind="item"
+          />
+        </yc-optgroup>
       </yc-select>
     </div>
     <div style="width: 300px">
