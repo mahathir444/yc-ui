@@ -21,14 +21,7 @@
             </yc-col>
             <yc-col :span="8">bb </yc-col>
           </yc-row> -->
-          <yc-transfer :data="options" show-search one-way disabled />
-          <a-transfer
-            :data="options"
-            show-search
-            :show-select-all="false"
-            one-way
-            simple
-          />
+          <yc-transfer :data="options" show-search one-way />
         </div>
       </a-layout-content>
     </a-layout>

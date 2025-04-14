@@ -22,7 +22,7 @@
         <yc-icon-button
           v-else-if="type == 'target'"
           :hover-size="20"
-          @click="computedValue = []"
+          @click="handleClear"
         >
           <icon-delete />
         </yc-icon-button>
@@ -37,7 +37,7 @@
         @input="(v) => emits('search', v, type)"
       />
     </div>
-    <!--v-if-->
+    <!--body-->
     <div class="yc-transfer-view-body">
       <yc-empty v-if="!curData.length" />
       <yc-scrollbar v-else auto-fill>
@@ -63,7 +63,7 @@
                   v-if="(!oneWay || (oneWay && type == 'source')) && !simple"
                   :model-value="curSeleced.includes(item.value as string)"
                   :disabled="item.disabled || disabled"
-                  @update:model-value="
+                  @change="
                     (isSelected) =>
                       handleCheck(isSelected, item.value as string)
                   "
@@ -71,7 +71,9 @@
                   {{ item.label }}
                 </yc-checkbox>
                 <template v-else>
-                  <span>{{ item.label }}</span>
+                  <s class="yc-transfer-list-item-content text-ellipsis">
+                    {{ item.label }}
+                  </s>
                   <yc-icon-button v-if="type == 'target'" :hover-size="20">
                     <icon-close />
                   </yc-icon-button>
@@ -196,7 +198,7 @@ const handleCheck = (isSelected: boolean, value: string) => {
     : computedSelected.value.filter((v) => v != value);
   emits('selected', computedSelected.value);
 };
-// 处理清除数据
+// 处理点击数据
 const handleClick = (item: TransferItem) => {
   const { value } = item;
   if (disabled.value || item.disabled) return;
@@ -207,6 +209,11 @@ const handleClick = (item: TransferItem) => {
     type.value == 'source'
       ? [...computedValue.value, value as string]
       : computedValue.value.filter((v) => v != value);
+};
+// 处理清除数据
+const handleClear = () => {
+  if (disabled.value || !computedValue.value.length) return;
+  computedValue.value = [];
 };
 </script>
 

@@ -6,6 +6,7 @@
       'yc-transfer-has-search': showSearch,
     }"
   >
+    <!-- target -->
     <transfer-panel type="source">
       <template v-if="$slots.soruce" #default="{ selectedKeys, data }">
         <slot name="soruce" :data="selectedKeys" :selectedKeys="data" />
@@ -17,6 +18,7 @@
         <slot name="source-title" />
       </template>
     </transfer-panel>
+    <!-- operations -->
     <div v-if="!simple" class="yc-transfer-operations">
       <!-- to-target -->
       <yc-button
@@ -44,6 +46,7 @@
         </template>
       </yc-button>
     </div>
+    <!-- target -->
     <transfer-panel type="target">
       <template v-if="$slots.target" #default="{ selectedKeys, data }">
         <slot name="target" :data="selectedKeys" :selectedKeys="data" />

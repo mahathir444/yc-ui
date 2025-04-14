@@ -35,8 +35,13 @@
       height: calc(100% - 40px);
       .yc-scrollbar {
         height: 100%;
-        &:deep(.yc-scrollbar) {
+        width: 100%;
+        &:deep(.yc-scrollbar-container) {
           max-height: 100%;
+          width: 100%;
+          .yc-scrollbar-content {
+            width: 100%;
+          }
         }
       }
       .yc-transfer-list {
@@ -45,18 +50,25 @@
         flex-direction: column;
         .yc-transfer-list-item {
           flex-shrink: 0;
-          padding: 0 12px;
+          overflow: hidden;
           height: 36px;
+          max-width: 100%;
+          padding: 0 12px;
           font-size: 14px;
           color: rgb(29, 33, 41);
-          text-align: left;
           display: flex;
-          justify-content: space-between;
           align-items: center;
+          gap: 6px;
           transition: all 0.1s cubic-bezier(0, 0, 1, 1);
           &:hover {
             color: rgb(29, 33, 41);
             background-color: rgb(242, 243, 245);
+          }
+          .yc-checkbox {
+            flex: 1;
+          }
+          .yc-transfer-list-item-content {
+            flex: 1;
           }
           &.yc-transfer-list-item-disabled {
             color: rgb(201, 205, 212);

@@ -98,8 +98,9 @@ const disabled = computed(() => {
 const handleCollect = (e: Event) => {
   // 如果外面没有嵌套checkbox-group则执行收集就可以了
   if (!computedValue.value) {
-    _checked.value = (e.target as HTMLInputElement)?.checked;
-    return emits('change', _checked.value, e);
+    const checked = (e.target as HTMLInputElement)?.checked;
+    _checked.value = checked;
+    return emits('change', checked, e);
   }
   const { value } = checkboxValue;
   // true->false
