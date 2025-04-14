@@ -24,7 +24,17 @@
             :value="option[fieldKey.value]"
             :label="option[fieldKey.label]"
             :disabled="option[fieldKey.disabled]"
-          />
+          >
+            <slot name="option" :data="option">
+              <component
+                v-if="option[fieldKey.label].render"
+                :is="option[fieldKey.label].render"
+              />
+              <template v-else>
+                {{ option[fieldKey.label].label }}
+              </template>
+            </slot>
+          </yc-option>
         </template>
       </template>
       <slot v-if="isEmpty" name="empty">

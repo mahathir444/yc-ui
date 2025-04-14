@@ -44,13 +44,15 @@
             <slot name="prefix" />
           </template>
           <template #label>
-            <span
-              :class="{
-                'yc-input-placeholder': !selectOptions?.[0]?.label,
-              }"
-            >
-              {{ selectOptions?.[0]?.label || placeholder }}
-            </span>
+            <slot name="label" :data="selectOptions[0]">
+              <span
+                :class="{
+                  'yc-input-placeholder': !selectOptions?.[0]?.label,
+                }"
+              >
+                {{ selectOptions?.[0]?.label || placeholder }}
+              </span>
+            </slot>
           </template>
           <!-- suffix -->
           <template #suffix>
@@ -64,6 +66,12 @@
             >
               <template v-if="$slots['loading-icon']" #loading-icon>
                 <slot name="loading-icon" />
+              </template>
+              <template v-if="$slots['search-icon']" #search-icon>
+                <slot name="search-icon" />
+              </template>
+              <template v-if="$slots['arrow-icon']" #arrow-icon>
+                <slot name="arrow-icon" />
               </template>
             </select-icon>
           </template>
@@ -106,6 +114,12 @@
               <template v-if="$slots['loading-icon']" #loading-icon>
                 <slot name="loading-icon" />
               </template>
+              <template v-if="$slots['search-icon']" #search-icon>
+                <slot name="search-icon" />
+              </template>
+              <template v-if="$slots['arrow-icon']" #arrow-icon>
+                <slot name="arrow-icon" />
+              </template>
             </select-icon>
           </template>
         </yc-input-tag>
@@ -137,6 +151,10 @@
         <!-- header -->
         <template v-if="$slots.footer" #footer>
           <slot name="footer" />
+        </template>
+        <!-- option -->
+        <template #option="{ data }">
+          <slot name="option" :data="data" />
         </template>
         <!-- empty -->
         <template v-if="$slots.empty" #empty>

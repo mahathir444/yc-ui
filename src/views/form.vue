@@ -7,15 +7,11 @@
         allow-search
         multiple
         placeholder="请选择"
-        :max-tag-count="3"
         :options="options"
-        :virtual-list-props="{
-          itemHeight: 36,
-          buffer: 10,
-          threshold: 100,
-        }"
+        :max-tag-count="3"
       >
-        <!-- <yc-option v-for="item in options" :value="item.value" v-bind="item" /> -->
+        <!-- <a-option v-for="item in options" :value="item.value" v-bind="item">
+        </a-option> -->
       </yc-select>
     </div>
     <div style="width: 300px">
@@ -135,6 +131,7 @@ for (let i = 0; i < 30; i++) {
   options.value.push({
     label: '选项' + i,
     value: i,
+    render: () => '123',
   });
 }
 const formatter = (value: string) => {

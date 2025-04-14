@@ -23,6 +23,9 @@
         @dropdown-scroll="$emit('dropdownScroll')"
         @dropdown-reach-bottom="$emit('dropdownReachBottom')"
       >
+        <template v-if="$slots.option" #option="{ data }">
+          <slot name="option" :data="data" />
+        </template>
         <template v-if="$slots.empty" #empty>
           <slot name="empty" />
         </template>
@@ -39,6 +42,9 @@
         @dropdown-reach-bottom="$emit('dropdownReachBottom')"
       >
         <slot />
+        <template v-if="$slots.option" #option="{ data }">
+          <slot name="option" :data="data" />
+        </template>
         <template v-if="$slots.empty" #empty>
           <slot name="empty" />
         </template>

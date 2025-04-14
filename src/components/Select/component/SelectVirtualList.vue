@@ -11,14 +11,28 @@
         v-for="item in renderOptions"
         :key="(item as ObjectData).value"
         v-bind="item"
-      />
+      >
+        <slot name="option" :data="item">
+          <component v-if="item.render" :is="item.render" />
+          <template v-else>
+            {{ item.label }}
+          </template>
+        </slot>
+      </yc-option>
     </div>
     <div v-else class="yc-select-dropdown-list" v-bind="wrapperProps">
       <yc-option
         v-for="{ data } in list"
         :key="(data as ObjectData).value"
         v-bind="data"
-      />
+      >
+        <slot name="option" :data="data">
+          <component v-if="data.render" :is="data.render" />
+          <template v-else>
+            {{ data.label }}
+          </template>
+        </slot>
+      </yc-option>
     </div>
     <slot v-if="isEmpty" name="empty">
       <yc-empty description="暂无数据" />
@@ -27,12 +41,16 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, toRefs, watch, computed, CSSProperties } from 'vue';
+import { ref, toRefs, watch } from 'vue';
 import { ObjectData } from '@shared/type';
-import { Option as YcOption, OptionProps, VirtualListProps } from '../index';
+import {
+  Option as YcOption,
+  SelectOptionData,
+  VirtualListProps,
+} from '../index';
 import { useVirtualList, useScroll } from '@vueuse/core';
 const props = defineProps<{
-  renderOptions: OptionProps[];
+  renderOptions: SelectOptionData[];
   computedVisible: boolean;
   virtualListProps: VirtualListProps;
   isEmpty: boolean;

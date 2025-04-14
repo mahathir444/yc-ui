@@ -1,5 +1,5 @@
 import { WritableComputedRef, Ref } from 'vue';
-import { Fn, ObjectData, Size } from '@shared/type';
+import { Fn, ObjectData, RenderContent, Size } from '@shared/type';
 import { TriggerProps } from '../Trigger';
 import { PopupContainer } from '../Trigger/type';
 import { TagProps } from '../Tag';
@@ -69,7 +69,7 @@ export type FallbackOption = (value: SelectValue) => SelectOptionData;
 
 export type FormatLabel = (data: SelectOptionData) => string;
 
-export type SelectOptionData = OptionProps;
+export type SelectOptionData = { render?: RenderContent } & OptionProps;
 
 export type SelectOptionGroup = {
   id?: string;
