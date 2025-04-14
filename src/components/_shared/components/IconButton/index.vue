@@ -1,6 +1,6 @@
 <template>
   <yc-prevent-focus class="yc-icon-button">
-    <slot name="icon">
+    <slot>
       <icon-close :size="size" />
     </slot>
   </yc-prevent-focus>

@@ -23,10 +23,8 @@
       :size="14"
       @click="$emit('visibilityChange', !computedVisibility)"
     >
-      <template #icon>
-        <icon-eye-open v-if="!computedVisibility" />
-        <icon-eye-close v-else />
-      </template>
+      <icon-eye-open v-if="!computedVisibility" />
+      <icon-eye-close v-else />
     </yc-icon-button>
     <!-- search -->
     <yc-icon-button
@@ -34,9 +32,7 @@
       :size="14"
       @click="$emit('search')"
     >
-      <template #icon>
-        <icon-search />
-      </template>
+      <icon-search />
     </yc-icon-button>
     <!-- suffix -->
     <slot name="suffix" />
@@ -49,7 +45,7 @@ import YcPreventFocus from '@shared/components/PreventFocus';
 import YcIconButton from '@shared/components/IconButton';
 defineProps<{
   curLength: number;
-  maxLength: number;
+  maxLength?: number;
   showClearBtn: boolean;
   showWordLimit: boolean;
   computedValue: string;

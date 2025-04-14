@@ -22,6 +22,7 @@ declare module 'vue' {
     ARow: typeof import('@arco-design/web-vue')['Row']
     ASpace: typeof import('@arco-design/web-vue')['Space']
     ATag: typeof import('@arco-design/web-vue')['Tag']
+    ATransfer: typeof import('@arco-design/web-vue')['Transfer']
     AutoComplete: typeof import('./src/components/AutoComplete/index.vue')['default']
     BackTop: typeof import('./src/components/BackTop/index.vue')['default']
     Breadcrumb: typeof import('./src/components/Breadcrumb/Breadcrumb.vue')['default']
@@ -57,6 +58,7 @@ declare module 'vue' {
     IconButton: typeof import('./src/components/_shared/components/IconButton/index.vue')['default']
     IconCheck: typeof import('./src/components/_shared/icons/IconCheck.vue')['default']
     IconClose: typeof import('./src/components/_shared/icons/IconClose.vue')['default']
+    IconDelete: typeof import('./src/components/_shared/icons/IconDelete.vue')['default']
     IconDragDot: typeof import('./src/components/_shared/icons/IconDragDot.vue')['default']
     IconDragDotVertical: typeof import('./src/components/_shared/icons/IconDragDotVertical.vue')['default']
     IconEmpty: typeof import('./src/components/_shared/icons/IconEmpty.vue')['default']
@@ -91,6 +93,7 @@ declare module 'vue' {
     Option: typeof import('./src/components/Select/Option.vue')['default']
     OverflowList: typeof import('./src/components/OverflowList/index.vue')['default']
     PageHeader: typeof import('./src/components/PageHeader/index.vue')['default']
+    Panel: typeof import('./src/components/Transfer/component/Panel.vue')['default']
     Popconfirm: typeof import('./src/components/Popconfirm/index.vue')['default']
     Popover: typeof import('./src/components/Popover/index.vue')['default']
     PreventFocus: typeof import('./src/components/_shared/components/PreventFocus/index.vue')['default']
@@ -128,7 +131,7 @@ declare module 'vue' {
     Tooltip: typeof import('./src/components/Tooltip/index.vue')['default']
     Track: typeof import('./src/components/Scrollbar/component/Track.vue')['default']
     Transfer: typeof import('./src/components/Transfer/index.vue')['default']
-    TransferPanl: typeof import('./src/components/Transfer/TransferPanl.vue')['default']
+    TransferPanl: typeof import('./src/components/Transfer/component/TransferPanl.vue')['default']
     Trigger: typeof import('./src/components/Trigger/index.vue')['default']
   }
 }

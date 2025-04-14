@@ -10,16 +10,15 @@
         :max-tag-count="3"
         :virtual-list-props="{
           itemHeight: 36,
+          threshold: 10,
         }"
       >
-        <yc-optgroup label="分组1">
-          <yc-option
-            v-for="item in options"
-            :key="item.value"
-            :value="item.value"
-            :label="item.label"
-          />
-        </yc-optgroup>
+        <yc-option
+          v-for="item in options"
+          :key="item.value"
+          :value="item.value"
+          :label="item.label"
+        />
       </yc-select>
     </div>
     <div style="width: 300px">

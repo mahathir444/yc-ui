@@ -46,7 +46,9 @@
     </yc-prevent-focus>
     <!-- suffixIcon -->
     <yc-suffix
-      v-if="$slots.suffix || showWordLimit || showClearBtn"
+      v-if="
+        $slots.suffix || showWordLimit || showClearBtn || isSearch || isPassword
+      "
       :cur-length="curLength"
       :max-length="maxLength"
       :computed-value="computedValue"
@@ -61,7 +63,7 @@
       @search="$emit('search', computedValue)"
       @visibility-change="(v) => (computedVisibility = v)"
     >
-      <template #suffix>
+      <template v-if="$slots.suffix" #suffix>
         <slot name="suffix" />
       </template>
     </yc-suffix>

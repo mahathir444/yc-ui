@@ -15,13 +15,16 @@
       </div>
       <!-- list -->
       <yc-scrollbar
-        v-if="!scrollbar || !virtualListProps"
+        v-if="!scrollbar || !virtualListProps.itemHeight"
         class="yc-select-dropdown-list-wrapper"
         @scroll="emits('dropdownScroll')"
         @reach-bottom="emits('dropdownReachBottom')"
       >
         <div class="yc-select-dropdown-list">
           <slot />
+          <slot v-if="isEmpty" name="empty">
+            <yc-empty description="暂无数据" />
+          </slot>
           <render-options
             :render-options="renderOptions"
             :fieldKey="fieldKey"
@@ -57,7 +60,7 @@
 </template>
 
 <script lang="ts" setup>
-import { toRefs, watch } from 'vue';
+import { toRefs, watch, ref } from 'vue';
 import { SelectOptions, VirtualListProps } from '../type';
 import { Fn } from '@shared/type';
 import { useVirtualList } from '@vueuse/core';
@@ -69,7 +72,7 @@ const props = defineProps<{
   loading: boolean;
   scrollbar: boolean;
   isEmpty: boolean;
-  virtualListProps?: VirtualListProps;
+  virtualListProps: VirtualListProps;
   showHeaderOnEmpty: boolean;
   showFooterOnEmpty: boolean;
 }>();
@@ -79,13 +82,14 @@ const emits = defineEmits<{
 }>();
 const { options, virtualListProps } = toRefs(props);
 // 初始化虚拟滚动
-let wrapperProps: Record<string, any>;
-let containerProps: Record<string, any>;
+const wrapperProps = ref<Record<string, any>>({});
+const containerProps = ref<Record<string, any>>({});
 let scrollTo: Fn;
 watch(
   () => options.value.length,
   (val) => {
-    if (val <= 0 || !virtualListProps.value) return;
+    console.log(val, virtualListProps.value);
+    // if (val <= 0 || !virtualListProps.value?.itemHeight) return;
     const {
       // list,
       containerProps: _containerProps,
@@ -95,9 +99,13 @@ watch(
       overscan: virtualListProps.value.overscan ?? 10,
       itemHeight: virtualListProps.value.itemHeight ?? 36,
     });
-    containerProps = _containerProps;
-    wrapperProps = _wrapperProps;
+    console.log(_containerProps, _wrapperProps, 'aa');
+    containerProps.value = _containerProps;
+    wrapperProps.value = _wrapperProps;
     scrollTo = _scrollTo;
+  },
+  {
+    immediate: true,
   }
 );
 </script>

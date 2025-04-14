@@ -7,7 +7,6 @@
     :error="error"
     :size="size"
     :placeholder="placeholder"
-    :max-length="Infinity"
     :input-attrs="inputAttrs"
     class="yc-input-number"
     ref="inputRef"

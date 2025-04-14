@@ -6,7 +6,7 @@
       SIZE_CLASS[size],
       type == 'radio' ? 'yc-radio' : 'yc-radio-button',
       disabled ? 'yc-radio-disabled' : '',
-      computedChecked ? 'yc-radio-checked' : '',
+      computedChecked ? 'yc-radio-checked' : 'yc-radio-unchecked',
     ]"
   >
     <input
@@ -26,9 +26,7 @@
             computedChecked || disabled ? 'transparent' : 'rgb(242, 243, 245)'
           "
         >
-          <template #icon>
-            <span class="yc-radio-icon"> </span>
-          </template>
+          <span class="yc-radio-icon"> </span>
         </yc-icon-button>
         <span class="yc-radio-label text-ellipsis">
           <slot />

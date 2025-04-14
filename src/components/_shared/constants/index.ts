@@ -47,3 +47,4 @@ export const INPUT_PROVIDE_KEY = 'input-props';
 export const SKELETON_PROVIDE_KEY = 'skeleton-props';
 export const BREADCRUMB_PROVIDE_KEY = 'breadcrumb-props';
 export const GRID_PROVIDE_KEY = 'grid-props';
+export const TRANSFER_PROVIDE_KEY = 'transfer-props';

@@ -5,8 +5,9 @@
     :class="{
       'yc-checkbox': true,
       'yc-checkbox-disabled': disabled,
+      'yc-checkbox-unchecked': !computedChecked && !indeterminate,
       'yc-checkbox-checked': computedChecked && !indeterminate,
-      'yc-checkbox-indeterminate': indeterminate && !computedChecked,
+      'yc-checkbox-indeterminate': !computedChecked && indeterminate,
     }"
   >
     <input
@@ -24,11 +25,9 @@
           computedChecked || disabled ? 'transparent' : 'rgb(242, 243, 245)'
         "
       >
-        <template #icon>
-          <span class="yc-checkbox-icon">
-            <icon-check v-show="computedChecked" :size="[8, 10]" />
-          </span>
-        </template>
+        <span class="yc-checkbox-icon">
+          <icon-check v-show="computedChecked" :size="[8, 10]" />
+        </span>
       </yc-icon-button>
       <span class="yc-checkbox-label text-ellipsis">
         <slot />

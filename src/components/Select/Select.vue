@@ -219,7 +219,11 @@ const props = withDefaults(defineProps<SelectProps>(), {
   showFooterOnEmpty: false,
   tagNowrap: false,
   hotKeys: false,
-  virtualListProps: undefined,
+  virtualListProps: () => {
+    return {
+      threshold: 10,
+    };
+  },
 });
 const emits = defineEmits<{
   (e: 'update:modelValue', value: SelectValue): void;

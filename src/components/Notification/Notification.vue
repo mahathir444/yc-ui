@@ -24,9 +24,7 @@
       class="yc-close-btn"
       @click="emits('close')"
     >
-      <template #icon>
-        <slot v-if="$slots['close-icon']" name="close-icon"> </slot>
-      </template>
+      <slot v-if="$slots['close-icon']" name="close-icon"> </slot>
     </yc-icon-button>
   </div>
 </template>

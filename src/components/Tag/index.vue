@@ -32,9 +32,7 @@
       class="yc-tag-close-button"
       @click="handleEvent('close', $event)"
     >
-      <template v-if="$slots.closeIcon" #icon>
-        <slot name="closeIcon" />
-      </template>
+      <slot v-if="$slots.closeIcon" name="closeIcon" />
     </yc-icon-button>
     <!-- loading -->
     <yc-spin v-if="loading" class="yc-tag-loading-icon" />

@@ -7,11 +7,9 @@
       <div class="yc-page-header-header">
         <div class="yc-page-header-main">
           <yc-icon-button :hover-size="30" @click="$emit('back', $event)">
-            <template #icon>
-              <slot name="back-icon">
-                <icon-arrow-right />
-              </slot>
-            </template>
+            <slot name="back-icon">
+              <icon-arrow-right />
+            </slot>
           </yc-icon-button>
           <div class="yc-page-header-title text-ellipsis">
             <slot name="title">
