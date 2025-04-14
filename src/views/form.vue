@@ -8,15 +8,13 @@
         multiple
         placeholder="请选择"
         :max-tag-count="3"
+        :options="options"
+        :virtual-list-props="{
+          itemHeight: 36,
+          buffer: 10,
+        }"
       >
-        <yc-option v-for="item in options" :value="item.value" v-bind="item" />
-        <yc-optgroup label="分组1">
-          <yc-option
-            v-for="item in options"
-            :value="item.value"
-            v-bind="item"
-          />
-        </yc-optgroup>
+        <!-- <yc-option v-for="item in options" :value="item.value" v-bind="item" /> -->
       </yc-select>
     </div>
     <div style="width: 300px">
@@ -132,7 +130,7 @@ import YcAutoComplete from '@/components/AutoComplete';
 const value = ref([]);
 const value1 = ref([]);
 const options = ref<any[]>([]);
-for (let i = 0; i < 200; i++) {
+for (let i = 0; i < 30; i++) {
   options.value.push({
     label: '选项' + i,
     value: i,

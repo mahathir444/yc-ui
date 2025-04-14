@@ -122,10 +122,7 @@ export default (params: {
       popupContainer.querySelectorAll('.yc-select-option-content')
     ).map((dom) => getTextContent(dom));
     // 获取插槽
-    slotOptions.value = flattenAndFindOptions(slots?.default?.() ?? [])
-      .filter((vnode) => vnode.props)
-      .map((vnode) => vnode.props);
-    console.log(slotOptions.value, 'slotOptions');
+    slotOptions.value = flattenAndFindOptions(slots?.default?.() ?? []);
   };
   onMounted(() => {
     getOptions();

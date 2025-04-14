@@ -1,4 +1,4 @@
-import { Comment, Fragment, Text, h, VNode, VNodeArrayChildren } from 'vue';
+import { Comment, Fragment, Text, h, VNode } from 'vue';
 import { isFunction, isObject } from './is';
 import { Option } from '@/components/Select';
 import { ObjectData } from '../type';
@@ -48,11 +48,9 @@ export function flattenAndFindOptions(vnodes: VNode[]) {
     if (!nodes) return;
     const nodeArray = Array.isArray(nodes) ? nodes : [nodes];
     for (const node of nodeArray) {
-      console.log(node, 'node');
-      // 跳过非 VNode 元素（如字符串、数字等）
       if (!node || typeof node !== 'object') continue;
       if (isOption(node)) {
-        result.push(node);
+        node.props && result.push(node.props);
       } else if (Array.isArray(node.children)) {
         traverse(node.children);
       } else if (isObject(node.children) && !Array.isArray(node.children)) {

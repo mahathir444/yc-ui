@@ -19,6 +19,9 @@
         :render-options="renderOptions"
         :is-empty="isEmpty"
         :virtual-list-props="virtualListProps"
+        :computed-visible="computedVisible"
+        @dropdown-scroll="$emit('dropdownScroll')"
+        @dropdown-reach-bottom="$emit('dropdownReachBottom')"
       >
         <template v-if="$slots.empty" #empty>
           <slot name="empty" />
@@ -32,6 +35,8 @@
         :loading="loading"
         :scrollbar="scrollbar"
         :is-empty="isEmpty"
+        @dropdown-scroll="$emit('dropdownScroll')"
+        @dropdown-reach-bottom="$emit('dropdownReachBottom')"
       >
         <slot />
         <template v-if="$slots.empty" #empty>
@@ -61,7 +66,8 @@ defineProps<{
   isEmpty: boolean;
   showHeaderOnEmpty: boolean;
   showFooterOnEmpty: boolean;
-  virtualListProps?: VirtualListProps;
+  virtualListProps: VirtualListProps;
+  computedVisible: boolean;
 }>();
 const emits = defineEmits<{
   (e: 'dropdownScroll'): void;

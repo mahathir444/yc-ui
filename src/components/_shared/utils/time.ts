@@ -153,7 +153,6 @@ export function timeObjToStr(
   },
   format: string
 ): string {
-  console.log('timeObj', timeObj);
   let hour = timeObj.hours ? parseInt(timeObj.hours, 10) : undefined;
   let minute = timeObj.minutes ? parseInt(timeObj.minutes, 10) : undefined;
   let second = timeObj.seconds ? parseInt(timeObj.seconds, 10) : undefined;
