@@ -119,12 +119,14 @@ const { style } = useTextareaHeight(mirrorRef, autoSize.value as ResizeRange);
 // 处理输入，改变和清除
 const handleEvent = async (type: TextareaEventType, e: TextareaEvent) => {
   // 聚焦
-  if (['focus', 'blur', 'change'].includes(type)) {
+  if (['focus', 'blur'].includes(type)) {
     emits(type as any, e as FocusEvent);
   }
   // 输入
   else if (type == 'input') {
     handleInput(e);
+  } else if (type == 'change') {
+    emits('change', computedValue.value, e);
   }
   // 清除
   else if (type == 'clear') {

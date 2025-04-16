@@ -137,5 +137,6 @@ declare module 'vue' {
     Transfer: typeof import('./src/components/Transfer/index.vue')['default']
     TransferPanl: typeof import('./src/components/Transfer/component/TransferPanl.vue')['default']
     Trigger: typeof import('./src/components/Trigger/index.vue')['default']
+    VerificationCode: typeof import('./src/components/VerificationCode/index.vue')['default']
   }
 }

@@ -70,6 +70,9 @@ import useControlValue from '@shared/hooks/useControlValue';
 import { IconArrowRight } from '@shared/icons';
 import TransferPanel from './component/Panel.vue';
 import YcButton from '@/components/Button';
+defineOptions({
+  name: 'Transfer',
+});
 const props = withDefaults(defineProps<TransferProps>(), {
   data: () => [],
   modelValue: undefined,

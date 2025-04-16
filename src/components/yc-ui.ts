@@ -47,6 +47,8 @@ import TimePicker from './TimePicker';
 import { default as Breadcrumb, BreadcrumbItem } from './Breadcrumb';
 import PageHeader from './PageHeader';
 import { default as Grid, Row, Col } from './Grid';
+import Transfer from './Transfer';
+import VerificationCode from './VerificationCode';
 
 export const components: Record<string, Plugin> = {
   Button,
@@ -91,6 +93,8 @@ export const components: Record<string, Plugin> = {
   Breadcrumb,
   PageHeader,
   Grid,
+  Transfer,
+  VerificationCode,
 };
 
 console.log('components：', Object.keys(components).length + 2);

@@ -47,7 +47,11 @@
     <!-- suffixIcon -->
     <yc-suffix
       v-if="
-        $slots.suffix || showWordLimit || showClearBtn || isSearch || isPassword
+        $slots.suffix ||
+        showWordLimit ||
+        showClearBtn ||
+        (isSearch && showClearBtn) ||
+        (isPassword && invisibleButton)
       "
       :cur-length="curLength"
       :max-length="maxLength"
@@ -129,13 +133,17 @@ const {
 });
 // 处理输入，改变和清除
 const handleEvent = async (type: InputEventType, e: InputEvent) => {
-  // focus,blur,change
-  if (['focus', 'blur', 'change'].includes(type)) {
+  // focus,blur
+  if (['focus', 'blur'].includes(type)) {
     emits(type as any, e as FocusEvent);
   }
   // input
   else if (type == 'input') {
     handleInput(e);
+  }
+  // change
+  else if (type == 'change') {
+    emits('change', computedValue.value, e);
   }
   // clear
   else if (type == 'clear') {
@@ -145,8 +153,9 @@ const handleEvent = async (type: InputEventType, e: InputEvent) => {
   //enter
   else if (type == 'keydown') {
     const ev = e as KeyboardEvent;
-    ev.keyCode == 13 && emits('pressEnter', ev);
     emits('keydown', ev);
+    if (ev.keyCode != 13) return;
+    emits('pressEnter', ev);
   }
 };
 // 暴露方法

@@ -21,7 +21,8 @@
             </yc-col>
             <yc-col :span="8">bb </yc-col>
           </yc-row> -->
-          <yc-transfer :data="options" show-search one-way />
+
+          <yc-verification-code />
         </div>
       </a-layout-content>
     </a-layout>
@@ -30,7 +31,6 @@
 
 <script lang="ts" setup>
 import { ref, watch } from 'vue';
-import YcTransfer from '@/components/Transfer/index.vue';
 const value = ['option1', 'option3', 'option5'];
 const options = Array(8)
   .fill(undefined)

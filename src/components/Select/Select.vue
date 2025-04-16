@@ -209,6 +209,8 @@ import SelectList from './component//SelectList.vue';
 import YcInput, { InputInstance } from '@/components/Input';
 import YcInputTag, { TagData, InputTagValue } from '@/components/InputTag';
 import YcTrigger, { TriggerInstance } from '@/components/Trigger';
+import YcIconButton from '@shared/components/IconButton';
+import YcPreventFocus from '@shared/components/PreventFocus';
 import { createReusableTemplate } from '@vueuse/core';
 defineOptions({
   name: 'Select',

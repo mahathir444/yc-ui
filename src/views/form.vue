@@ -120,7 +120,12 @@
       <yc-mention :data="options" placeholder="mention" />
     </div>
     <div style="width: 300px">
+      colorPicker
       <yc-color-picker show-text show-preset size="large" />
+    </div>
+    <div>
+      transfer
+      <yc-transfer :data="options" show-search one-way />
     </div>
   </div>
 </template>
