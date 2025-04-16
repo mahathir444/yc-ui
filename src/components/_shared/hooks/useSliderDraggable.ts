@@ -1,7 +1,7 @@
 import { reactive, Ref, watch, nextTick } from 'vue';
 import { PositionData, RangeData } from '@/components/Slider';
 import { Direction } from '@shared/type';
-import { useDraggable, useEventListener, useElementSize } from '@vueuse/core';
+import { useDraggable, useEventListener, debouncedWatch } from '@vueuse/core';
 export default (params: {
   computedValue: Ref<number>;
   trackRef: Ref<HTMLDivElement | undefined>;
@@ -81,7 +81,6 @@ export default (params: {
       position.right = 100 - distance;
       position.transform = `translate(calc(${(computedValue.value / 100) * sliderWidth}px - 50%),-50%)`;
     }
-    console.log(position.transform, 'transform');
   };
   // 处理越界情况
   useEventListener('mousemove', () => {
@@ -130,7 +129,7 @@ export default (params: {
     }
   );
   // 检测computedValue的改变重置位置
-  watch(
+  debouncedWatch(
     computedValue,
     async (v) => {
       if (isDragging.value) {
@@ -140,12 +139,12 @@ export default (params: {
       setPositionFromValue(v);
     },
     {
+      debounce: 50,
       immediate: true,
     }
   );
   return {
-    x,
-    y,
+    isDragging,
     position,
   };
 };

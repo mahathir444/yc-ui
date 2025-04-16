@@ -15,6 +15,7 @@
 </template>
 
 <script lang="ts" setup>
+import { ref, VNode, onMounted, onUpdated } from 'vue';
 import { toRefs, useSlots, computed } from 'vue';
 import { OverflowListProps } from './type';
 import { ObjectData } from '@shared/type';
@@ -33,11 +34,20 @@ const slots = useSlots();
 // gap
 const gap = computed(() => `${margin.value}px`);
 // tags
-const tags = computed(() => {
+const tags = ref<VNode[]>([]);
+// 计算tag
+const calcTags = () => {
   const nodes = slots.default?.()?.[0]?.children as ObjectData[];
   return (nodes || []).filter((node) => {
     return node.type.name == YcTag.name;
-  });
+  }) as VNode[];
+};
+
+onMounted(() => {
+  tags.value = calcTags();
+});
+onUpdated(() => {
+  tags.value = calcTags();
 });
 </script>
 

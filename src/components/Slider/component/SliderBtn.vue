@@ -13,8 +13,6 @@
       class="yc-slider-btn"
       ref="triggerRef"
       :style="{
-        // bottom: direction == 'vertical' ? position.bottom : '',
-        // left: direction == 'horizontal' ? position.left : '',
         transform: position.transform,
       }"
     ></div>

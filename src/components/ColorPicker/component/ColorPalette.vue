@@ -10,7 +10,7 @@
     <div
       class="yc-color-picker-handler"
       :style="{
-        transform: `translate(calc(${x * range.paletteWidth}px - 50%),calc(${y * 178}px - 50%))`,
+        transform: `translate(calc(${x * width}px - 50%),calc(${y * height}px - 50%))`,
       }"
       ref="btnRef"
     ></div>
@@ -19,7 +19,11 @@
 
 <script lang="ts" setup>
 import { ref, watch, toRefs, computed } from 'vue';
-import { useDraggable, useEventListener } from '@vueuse/core';
+import {
+  useDraggable,
+  useEventListener,
+  useElementBounding,
+} from '@vueuse/core';
 import { sleep } from '@shared/utils';
 import { parseColor } from '@shared/utils';
 const props = defineProps<{
@@ -39,19 +43,14 @@ const btnRef = ref<HTMLDivElement>();
 const paletteRef = ref<HTMLDivElement>();
 // dragger
 const { x, y, isDragging } = useDraggable(btnRef);
+// plate的宽高
+const { width, height, top, left } = useElementBounding(paletteRef);
 // hsv
 const hsv = computed(() => {
   return parseColor(baseColor.value).toHsv();
 });
 let oldX = 0;
 let oldY = 0;
-// 范围
-const range = ref<Record<string, number>>({
-  left: 0,
-  top: 0,
-  paletteWidth: 0,
-  paletteHeight: 0,
-});
 // 处理点击
 const handleClick = (e: MouseEvent) => {
   if (disabled.value) return;
@@ -66,11 +65,10 @@ const setColor = () => {
     y.value = oldY;
     return;
   }
-  const { left, top, paletteWidth, paletteHeight } = range.value;
-  x.value = (x.value - left) / paletteWidth;
+  x.value = (x.value - left.value) / width.value;
   x.value = x.value < 0 ? 0 : x.value;
   x.value = x.value > 1 ? 1 : x.value;
-  y.value = (y.value - top) / paletteHeight;
+  y.value = (y.value - top.value) / height.value;
   y.value = y.value < 0 ? 0 : y.value;
   y.value = y.value > 1 ? 1 : y.value;
   const color = parseColor({
@@ -93,20 +91,6 @@ watch(
   async (val) => {
     if (!val) return;
     await sleep(0);
-    const {
-      left,
-      top,
-      height: paletteHeight,
-      width: paletteWidth,
-    } = paletteRef.value!.getBoundingClientRect();
-    console.log(paletteHeight, paletteWidth, 'plate');
-    // 计算范围
-    range.value = {
-      left,
-      top,
-      paletteHeight,
-      paletteWidth,
-    };
     x.value = hsv.value.s;
     y.value = 1 - hsv.value.v;
     oldX = x.value;
