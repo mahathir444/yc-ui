@@ -24,6 +24,13 @@
 
           <yc-verification-code />
           <a-verification-code @finish="handleFinish" />
+          <a-cascader
+            :options="classOptions"
+            multiple
+            placeholder="请选择"
+            :max-tag-count="1"
+            tag-nowrap
+          />
         </div>
       </a-layout-content>
     </a-layout>
@@ -33,6 +40,18 @@
 <script lang="ts" setup>
 import { ref, watch } from 'vue';
 const value = ['option1', 'option3', 'option5'];
+const classOptions = new Array(3).fill(1).map((_, i) => {
+  return {
+    label: `高${i + 1}`,
+    value: 'g' + i,
+    children: new Array(3).fill(1).map((_, v) => {
+      return {
+        label: `高${i + 1}-${v + 1}班`,
+        value: `c${i}-${v}`,
+      };
+    }),
+  };
+});
 const options = Array(8)
   .fill(undefined)
   .map((_, index) => ({

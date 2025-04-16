@@ -15,10 +15,7 @@
       :style="{
         // bottom: direction == 'vertical' ? position.bottom : '',
         // left: direction == 'horizontal' ? position.left : '',
-        transform:
-          direction == 'horizontal'
-            ? `translate(calc(${(position.left * trackWidth) / 100}px - 50%),-50%)`
-            : `translate(-50%,calc(${(position.bottom * trackHeight) / 100}px - 50%))`,
+        transform: position.transform,
       }"
     ></div>
   </yc-tooltip>
@@ -77,12 +74,12 @@ const computedValue = computed({
     if (type.value == 'start') {
       startValue.value = val;
     } else {
-      startValue.value = val;
+      endValue.value = val;
     }
   },
 });
 // 拖动hook
-const { position, isDragging, trackHeight, trackWidth } = useSliderDraggable({
+const { position, isDragging } = useSliderDraggable({
   trackRef,
   triggerRef,
   computedValue,

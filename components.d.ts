@@ -10,6 +10,7 @@ declare module 'vue' {
     ABreadcrumb: typeof import('@arco-design/web-vue')['Breadcrumb']
     ABreadcrumbItem: typeof import('@arco-design/web-vue')['BreadcrumbItem']
     AButton: typeof import('@arco-design/web-vue')['Button']
+    ACascader: typeof import('@arco-design/web-vue')['Cascader']
     ACol: typeof import('@arco-design/web-vue')['Col']
     Affix: typeof import('./src/components/Affix/index.vue')['default']
     AInput: typeof import('@arco-design/web-vue')['Input']

@@ -109,7 +109,6 @@ const endPosition = ref<PositionData>({
 // 综合计算position
 const position = computed(() => {
   const { left, right, top, bottom } = startPosition.value;
-  console.log(startPosition.value);
   if (!range.value) {
     return {
       left: min.value + '%',
@@ -126,12 +125,12 @@ const position = computed(() => {
   } = endPosition.value;
   return direction.value == 'vertical'
     ? {
-        top: `${top < top1 ? top1 : top}%`,
+        top: `${top < top1 ? top : top1}%`,
         bottom: `${bottom < bottom1 ? bottom : bottom1}%`,
       }
     : {
         left: `${left < left1 ? left : left1}%`,
-        right: `${right < right1 ? right1 : right}$`,
+        right: `${right < right1 ? right : right1}%`,
       };
 });
 // 提供值

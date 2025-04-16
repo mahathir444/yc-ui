@@ -26,6 +26,7 @@ export interface PositionData {
   right: number;
   top: number;
   bottom: number;
+  transform?: string;
 }
 
 export interface RangeData {

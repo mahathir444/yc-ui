@@ -22,11 +22,6 @@ export default (params: {
     step,
     disabled,
   } = params;
-  const { width: trackWidth, height: trackHeight } = useElementSize(
-    trackRef,
-    undefined,
-    { box: 'border-box' }
-  );
   // 处理Button拖动
   const { x, y, isDragging } = useDraggable(triggerRef);
   let oldX = x.value;
@@ -75,25 +70,18 @@ export default (params: {
   };
   // 设置位置
   const setPositionFromValue = (distance: number) => {
+    const { width: sliderWidth, height: sliderHeight } =
+      trackRef.value!.getBoundingClientRect();
     if (direction.value == 'vertical') {
       position.top = 100 - distance;
       position.bottom = distance;
+      position.transform = `translate(-50%,calc(${-(computedValue.value / 100) * sliderHeight}px + 50%))`;
     } else {
       position.left = distance;
       position.right = 100 - distance;
+      position.transform = `translate(calc(${(computedValue.value / 100) * sliderWidth}px - 50%),-50%)`;
     }
-  };
-  // 设置最初的位置
-  const setOriginPosition = () => {
-    if (computedValue.value > max.value) {
-      computedValue.value = max.value;
-    } else if (computedValue.value < min.value) {
-      computedValue.value = min.value;
-    }
-    position.top = max.value;
-    position.bottom = computedValue.value;
-    position.left = computedValue.value;
-    position.right = max.value;
+    console.log(position.transform, 'transform');
   };
   // 处理越界情况
   useEventListener('mousemove', () => {
@@ -104,22 +92,21 @@ export default (params: {
     }
     // 给出范围
     const { minTop, maxTop, minLeft, maxLeft } = moveRange;
+    let value;
     // 处理不同情况的拖动
     if (direction.value == 'vertical') {
       y.value = y.value > minTop ? minTop : y.value;
       y.value = y.value < maxTop ? maxTop : y.value;
       oldY = y.value;
-      const value = calcValueFromPosition(y.value);
-      setPositionFromValue(value);
-      computedValue.value = value;
+      value = calcValueFromPosition(y.value);
     } else {
       x.value = x.value < minLeft ? minLeft : x.value;
       x.value = x.value > maxLeft ? maxLeft : x.value;
       oldX = x.value;
-      const value = calcValueFromPosition(x.value);
-      setPositionFromValue(value);
-      computedValue.value = value;
+      value = calcValueFromPosition(x.value);
     }
+    setPositionFromValue(value);
+    computedValue.value = value;
   });
   // 检测min,max计算范围
   watch(
@@ -130,7 +117,13 @@ export default (params: {
       moveRange.maxTop = calcPositionFromValue(max.value);
       moveRange.minLeft = calcPositionFromValue(min.value);
       moveRange.maxLeft = calcPositionFromValue(max.value);
-      setOriginPosition();
+      if (computedValue.value > max.value) {
+        computedValue.value = max.value;
+      } else if (computedValue.value < min.value) {
+        computedValue.value = min.value;
+      }
+      position.bottom = computedValue.value;
+      position.left = computedValue.value;
     },
     {
       immediate: true,
@@ -154,8 +147,5 @@ export default (params: {
     x,
     y,
     position,
-    isDragging,
-    trackWidth,
-    trackHeight,
   };
 };
