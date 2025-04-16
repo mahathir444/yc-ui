@@ -16,9 +16,9 @@
 <script lang="ts" setup>
 import { ref, inject, toRefs, onBeforeUnmount, onMounted } from 'vue';
 import { ColProps, Flex, ResponsiveValue, GridProvide } from './type';
-import { isNumber } from '@shared/utils/is';
+import { isNumber } from '@shared/utils';
 import { GRID_PROVIDE_KEY } from '@shared/constants';
-import { MediaQueryManager } from '@shared/utils/dom';
+import { MediaQueryManager } from '@shared/utils';
 defineOptions({
   name: 'Col',
 });

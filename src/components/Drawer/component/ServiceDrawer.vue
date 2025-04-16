@@ -42,7 +42,7 @@
 <script lang="ts" setup>
 import { ref } from 'vue';
 import { DrawerConfig } from '../type';
-import { getSlotFunction } from '@shared/utils/vue-utils';
+import { getSlotFunction } from '@shared/utils';
 import YcDrawer from '../index.vue';
 withDefaults(defineProps<DrawerConfig>(), {
   placement: 'right',

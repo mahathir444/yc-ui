@@ -1,7 +1,7 @@
-import { messageType } from '@shared/constants/message';
+import { MESSAGE_TYPE } from '@shared/constants/message';
 import { VNode } from 'vue';
 
-export type MessageType = (typeof messageType)[number];
+export type MessageType = (typeof MESSAGE_TYPE)[number];
 
 export interface MessageProps {
   content?: string;

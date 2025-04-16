@@ -30,8 +30,7 @@
 <script lang="ts" setup>
 import { provide, toRefs, computed } from 'vue';
 import { DropdownProps, DoptionValue, DropdownProvide } from './type';
-import { DROPDOWN_PROVIDE_KEY } from '@shared/constants';
-import { DROPDOWN_POSITION_MAP } from '@shared/constants/dropdown';
+import { DROPDOWN_PROVIDE_KEY, DROPDOWN_POSITION_MAP } from '@shared/constants';
 import useControlValue from '@shared/hooks/useControlValue';
 import YcTrigger from '@/components/Trigger';
 import YcScrollbar from '@/components/Scrollbar';

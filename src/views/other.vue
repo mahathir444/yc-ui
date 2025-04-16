@@ -22,8 +22,6 @@
     </div>
     <div>
       <yc-tag loading checkable closeable> tag</yc-tag>
-      <yc-tag color="white" loading checkable closeable> tag</yc-tag>
-      <a-tag checkable bordered>哈哈</a-tag>
     </div>
     <div>
       overflowlist

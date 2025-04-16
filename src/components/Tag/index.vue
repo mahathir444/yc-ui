@@ -4,9 +4,9 @@
     :prevent-focus="preventFocus"
     :class="[
       'yc-tag',
-      SIZE_CLASS[size],
-      COLOR_CLASS[color],
-      COLOR_CLASS[color] ? 'yc-tag-preset-color' : 'yc-tag-custom-color',
+      TAG_SIZE_CLASS[size],
+      TAG_COLOR_CLASS[color],
+      TAG_COLOR_CLASS[color] ? 'yc-tag-preset-color' : 'yc-tag-custom-color',
       loading ? 'yc-tag-loading' : '',
       bordered ? 'yc-tag-bordered' : '',
       computedChecked ? 'yc-tag-checked' : '',
@@ -26,6 +26,7 @@
     <yc-icon-button
       v-if="closeable"
       :hover-size="16"
+      :size="12"
       hover-color="rgba(255, 255, 255, 0.2)"
       class="yc-tag-close-button"
       @click="handleEvent('close', $event)"
@@ -33,14 +34,14 @@
       <slot v-if="$slots.closeIcon" name="closeIcon" />
     </yc-icon-button>
     <!-- loading -->
-    <yc-spin v-if="loading" :size="14" class="yc-tag-loading-icon" />
+    <yc-spin v-if="loading" :size="12" class="yc-tag-loading-icon" />
   </yc-prevent-focus>
 </template>
 
 <script lang="ts" setup>
 import { toRefs, computed } from 'vue';
 import { TagProps, TagEventType } from './type';
-import { SIZE_CLASS, COLOR_CLASS } from '@shared/constants/tag';
+import { TAG_SIZE_CLASS, TAG_COLOR_CLASS } from '@shared/constants';
 import YcSpin from '@/components/Spin';
 import useControlValue from '@shared/hooks/useControlValue';
 import YcPreventFocus from '@shared/components/PreventFocus';
@@ -93,7 +94,7 @@ const computedChecked = useControlValue<boolean>(
 );
 // 背景色
 const background = computed(() => {
-  return COLOR_CLASS[color.value] ? '#fff' : color.value;
+  return TAG_COLOR_CLASS[color.value] ? '#fff' : color.value;
 });
 // 处理事件
 const handleEvent = (type: TagEventType, ev: MouseEvent) => {

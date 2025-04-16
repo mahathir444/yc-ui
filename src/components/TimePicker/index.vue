@@ -124,13 +124,13 @@ import { ref, computed, toRefs, watch, nextTick } from 'vue';
 import { TimePickerProps, TimeType } from './type';
 import YcTrigger from '../Trigger/index.vue';
 import { SIZE_MAP } from '@shared/constants';
-import { isArray, isString, isUndefined } from '@shared/utils/is';
+import { isArray, isString, isUndefined } from '@shared/utils';
 import YcButton from '@/components/Button/Button.vue';
 import {
   generateTimeOptions,
   parseTimeStrByFormat,
   timeObjToStr,
-} from '@shared/utils/time';
+} from '@shared/utils';
 import YcScrollbar from '@/components/Scrollbar/index.vue';
 import { useTemplateRefsList } from '@vueuse/core';
 import useControlValue from '@shared/hooks/useControlValue';

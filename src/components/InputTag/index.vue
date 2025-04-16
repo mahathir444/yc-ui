@@ -6,7 +6,7 @@
       disabled ? 'yc-input-tag-disabled' : '',
       error ? 'yc-input-tag-error' : '',
       $slots.suffix || showClearBtn ? 'yc-input-tag-has-suffix' : '',
-      SIZE_CLASS[size],
+      INPUT_TAG_SIZE_CLASS[size],
     ]"
     @click="inputRef?.focus()"
   >
@@ -68,7 +68,7 @@
 
 <script lang="ts" setup>
 import { ref, computed, toRefs } from 'vue';
-import { SIZE_CLASS } from '@shared/constants/input-tag';
+import { INPUT_TAG_SIZE_CLASS } from '@shared/constants';
 import {
   InputTagProps,
   InputTagValue,
@@ -78,7 +78,7 @@ import {
   InputTagEventType,
 } from './type';
 import { ObjectData } from '@shared/type';
-import { isBoolean, isObject } from '@shared/utils/is';
+import { isBoolean, isObject } from '@shared/utils';
 import { nanoid } from 'nanoid';
 import { useElementSize } from '@vueuse/core';
 import useControlValue from '@shared/hooks/useControlValue';

@@ -1,6 +1,6 @@
 import { App } from 'vue';
 import _Divider from './index.vue';
-import { getComponentPrefix } from '@shared/utils/global-config';
+import { getComponentPrefix } from '@shared/utils';
 
 export type DividerInstance = InstanceType<typeof _Divider>;
 export * from './type';

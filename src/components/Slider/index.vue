@@ -36,8 +36,7 @@
 <script lang="ts" setup>
 import { ref, toRefs, computed, provide } from 'vue';
 import { SliderProps, SliderProvide, PositionData } from './type';
-import { SLIDER_DIRECTION_MAP } from '@shared/constants/slider';
-import { SLIDER_PROVIDE_KEY } from '@shared/constants';
+import { SLIDER_PROVIDE_KEY, SLIDER_DIRECTION_MAP } from '@shared/constants';
 import useSliderValue from '@shared/hooks/useSliderValue';
 import YcSliderTicks from './component/SliderTicks.vue';
 import YcSliderBtn from './component/SliderBtn.vue';

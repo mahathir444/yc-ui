@@ -1,6 +1,6 @@
 import { App } from 'vue';
 import _IconButton from './index.vue';
-import { getComponentPrefix } from '@shared/utils/global-config';
+import { getComponentPrefix } from '@shared/utils';
 
 export type IconButtonInstance = InstanceType<typeof _IconButton>;
 export type { IconButtonProps } from './type';

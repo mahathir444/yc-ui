@@ -1,7 +1,7 @@
 import { App } from 'vue';
 import _Checkbox from './Checkbox.vue';
 import _CheckboxGroup from './CheckboxGroup.vue';
-import { getComponentPrefix } from '@shared/utils/global-config';
+import { getComponentPrefix } from '@shared/utils';
 
 export type CheckboxInstance = InstanceType<typeof _Checkbox>;
 export type CheckboxGroupInstance = InstanceType<typeof _CheckboxGroup>;

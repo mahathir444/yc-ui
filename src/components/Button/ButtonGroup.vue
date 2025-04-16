@@ -2,8 +2,8 @@
   <div
     :class="[
       'yc-button-group',
-      GROUP_TYPE_CLASS[type],
-      GROUP_STAUTS_CLASS[status],
+      BUTTON_GROUP_SHAPE_CLASS[type],
+      BUTTON_GROUP_STAUTS_CLASS[status],
     ]"
   >
     <slot />
@@ -13,8 +13,11 @@
 <script lang="ts" setup>
 import { toRefs, provide } from 'vue';
 import { ButtonGroupProps, ButtonProvide } from './type';
-import { GROUP_TYPE_CLASS, GROUP_STAUTS_CLASS } from '@shared/constants/button';
-import { BUTTON_GROUP_PROVIDE_KEY } from '@shared/constants';
+import {
+  BUTTON_GROUP_PROVIDE_KEY,
+  BUTTON_GROUP_SHAPE_CLASS,
+  BUTTON_GROUP_STAUTS_CLASS,
+} from '@shared/constants';
 defineOptions({
   name: 'ButtonGroup',
 });

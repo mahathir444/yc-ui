@@ -1,5 +1,5 @@
 <template>
-  <teleport :to="popupContainer" :disabled="!renderToBody">
+  <teleport :to="popupContainer || 'body'" :disabled="!renderToBody">
     <div
       v-if="!unmountOnClose || outerVisible"
       v-show="outerVisible"

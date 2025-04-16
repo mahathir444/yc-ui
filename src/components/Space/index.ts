@@ -1,6 +1,6 @@
 import { App } from 'vue';
 import _Space from './index.vue';
-import { getComponentPrefix } from '@shared/utils/global-config';
+import { getComponentPrefix } from '@shared/utils';
 
 export type SpaceInstance = InstanceType<typeof _Space>;
 export * from './type';

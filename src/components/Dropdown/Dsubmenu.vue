@@ -40,10 +40,7 @@
 import { ref, computed, toRefs, nextTick } from 'vue';
 import { IconArrowRight } from '@shared/icons';
 import useControlValue from '@shared/hooks/useControlValue';
-import {
-  DSUBMENU_POSITION_MAP,
-  DSUBMENU_TRIGGER_MAP,
-} from '@shared/constants/dropdown';
+import { DSUBMENU_POSITION_MAP, DSUBMENU_TRIGGER_MAP } from '@shared/constants';
 import { DsubmenuProps, DoptionInstance, Doption as YcDoption } from './index';
 import YcTrigger, { TriggerInstance } from '@/components/Trigger';
 import YcScrollbar from '@/components/Scrollbar';

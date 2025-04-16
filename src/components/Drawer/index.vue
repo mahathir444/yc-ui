@@ -3,10 +3,13 @@
     <div
       v-if="!unmountOnClose || outerVisible"
       v-show="outerVisible"
-      :class="{
-        'yc-drawer-wrapper': true,
-        'yc-drawer-wrapper-position-absolute': popupContainer || !renderToBody,
-      }"
+      :class="[
+        'yc-drawer-wrapper',
+        popupContainer || !renderToBody
+          ? 'yc-drawer-wrapper-position-absolute'
+          : '',
+        DRAWER_PLACEMENT_MAP[placement],
+      ]"
     >
       <!-- mask -->
       <transition name="fade" appear>
@@ -80,7 +83,7 @@
 
 <script lang="ts" setup>
 import { toRefs, computed, CSSProperties, useAttrs } from 'vue';
-import { DRAWER_POSTION_STYLE } from '@shared/constants/drawer';
+import { DRAWER_PLACEMENT_MAP } from '@shared/constants';
 import { DrawerProps } from './type';
 import { CloseType } from '@shared/type';
 import useDrawerClose from '@shared/hooks/useModalClose';
@@ -153,7 +156,6 @@ const attrs = useAttrs();
 // drawer绝对定位的left,top
 const drawerCss = computed(() => {
   return {
-    ...DRAWER_POSTION_STYLE[placement.value],
     height:
       placement.value == 'left' || placement.value == 'right'
         ? '100%'

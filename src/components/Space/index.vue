@@ -2,7 +2,7 @@
   <div
     :class="[
       'yc-space',
-      DIRECTION_MAP[direction],
+      SPACE_DIRECTION_MAP[direction],
       wrap ? 'yc-space-wrap' : '',
       fill ? 'yc-space-fill' : '',
     ]"
@@ -24,8 +24,8 @@
 <script lang="ts" setup>
 import { toRefs, computed, useSlots } from 'vue';
 import { SpaceProps } from './type';
-import { DIRECTION_MAP } from '@shared/constants/space';
-import { isNumber } from '@shared/utils/is';
+import { SPACE_DIRECTION_MAP } from '@shared/constants';
+import { isNumber } from '@shared/utils';
 defineOptions({
   name: 'Space',
 });

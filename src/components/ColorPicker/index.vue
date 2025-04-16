@@ -20,9 +20,9 @@
 
 <script lang="ts" setup>
 import { ref, toRefs, provide } from 'vue';
-import { PRESET_COLORS } from '@shared/constants/color-picker';
+import { PRESET_COLORS } from '@shared/constants';
 import { ColorPickerProps, ColorPickerEmits, ColorPickerProvide } from './type';
-import { parseColor } from '@shared/utils/color';
+import { parseColor } from '@shared/utils';
 import { COLOR_PICKER_PROVIDE_KEY } from '@shared/constants';
 import useControlValue from '@shared/hooks/useControlValue';
 import ColorPanel from './component/ColorPanel.vue';

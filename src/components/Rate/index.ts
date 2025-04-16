@@ -1,6 +1,6 @@
 import { App } from 'vue';
 import _Rate from './index.vue';
-import { getComponentPrefix } from '@shared/utils/global-config';
+import { getComponentPrefix } from '@shared/utils';
 
 export type RateInstance = InstanceType<typeof _Rate>;
 export * from './type';

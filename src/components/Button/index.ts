@@ -1,7 +1,7 @@
 import { App } from 'vue';
 import _Button from './Button.vue';
 import _ButtonGroup from './ButtonGroup.vue';
-import { getComponentPrefix } from '@shared/utils/global-config';
+import { getComponentPrefix } from '@shared/utils';
 
 export type ButonInstance = InstanceType<typeof _Button>;
 export type ButonGroupInstance = InstanceType<typeof _ButtonGroup>;

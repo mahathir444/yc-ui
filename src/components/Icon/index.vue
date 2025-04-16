@@ -35,7 +35,7 @@
 <script lang="ts" setup>
 import { computed, toRefs, CSSProperties } from 'vue';
 import { IconProps } from './type';
-import { isUndefined, isString, isNumber } from '@shared/utils/is';
+import { isUndefined, isString, isNumber } from '@shared/utils';
 defineOptions({
   name: 'Icon',
 });

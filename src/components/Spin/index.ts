@@ -1,6 +1,6 @@
 import { App } from 'vue';
 import _Spin from './index.vue';
-import { getComponentPrefix } from '@shared/utils/global-config';
+import { getComponentPrefix } from '@shared/utils';
 
 export type SpinInstance = InstanceType<typeof _Spin>;
 export * from './type';

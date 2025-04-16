@@ -38,12 +38,12 @@
 
 <script setup lang="ts">
 import { computed } from 'vue';
-import { getSlotFunction } from '@shared/utils/vue-utils';
+import { getSlotFunction } from '@shared/utils';
 import YcNotification from './Notification.vue';
-import { NotificationConfig, NotificationPosition } from './type';
+import { NotificationConfig, NOTIFICATION_POSITION } from './type';
 const props = defineProps<{
   notificationList: NotificationConfig[];
-  position: NotificationPosition;
+  position: NOTIFICATION_POSITION;
 }>();
 const emits = defineEmits(['close']);
 defineOptions({

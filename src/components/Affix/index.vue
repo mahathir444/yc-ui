@@ -30,9 +30,9 @@ import {
 } from 'vue';
 import { AffixProps } from './type';
 import { useResizeObserver } from '@vueuse/core';
-import { isUndefined } from '@shared/utils/is';
-import { getElement } from '@shared/utils/dom';
-import { throttleByRaf } from '@shared/utils/fn';
+import { isUndefined } from '@shared/utils';
+import { getElement } from '@shared/utils';
+import { throttleByRaf } from '@shared/utils';
 defineOptions({
   name: 'Affix',
 });

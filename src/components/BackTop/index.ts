@@ -1,6 +1,6 @@
 import { App } from 'vue';
 import _BackTop from './index.vue';
-import { getComponentPrefix } from '@shared/utils/global-config';
+import { getComponentPrefix } from '@shared/utils';
 
 export type BackTopInstance = InstanceType<typeof _BackTop>;
 export * from './type';

@@ -1,7 +1,7 @@
 import { App } from 'vue';
 import _Breadcrumb from './Breadcrumb.vue';
 import _BreadcrumbItem from './BreadcrumbItem.vue';
-import { getComponentPrefix } from '@shared/utils/global-config';
+import { getComponentPrefix } from '@shared/utils';
 
 export type ButonInstance = InstanceType<typeof _Breadcrumb>;
 export type ButonItemInstance = InstanceType<typeof _BreadcrumbItem>;

@@ -79,9 +79,9 @@
 
 <script lang="ts" setup>
 import { ref, toRefs } from 'vue';
-import { parseColor } from '@shared/utils/color';
+import { parseColor } from '@shared/utils';
 import { ColorFormat } from '@/components/ColorPicker/type';
-import { FORMAT_OPTIONS } from '@shared/constants/color-picker';
+import { FORMAT_OPTIONS } from '@shared/constants';
 import YcInputNumber from '@/components/InputNumber';
 const props = defineProps<{
   color: string;

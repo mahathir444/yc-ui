@@ -1,7 +1,7 @@
 import { App } from 'vue';
 import _Col from './Col.vue';
 import _Row from './Col.vue';
-import { getComponentPrefix } from '@shared/utils/global-config';
+import { getComponentPrefix } from '@shared/utils';
 
 export type RowInstance = InstanceType<typeof _Row>;
 export type ColInstance = InstanceType<typeof _Col>;

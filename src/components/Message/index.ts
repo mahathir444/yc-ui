@@ -2,14 +2,18 @@ import { App, render, ref, createVNode, reactive } from 'vue';
 import _Message from './Message.vue';
 import _MessageContainer from './Container.vue';
 import { MessageConfig, MessageList, MessageType } from './type';
-import { config, messageType } from '@shared/constants/message';
-import { getComponentPrefix } from '@shared/utils/global-config';
+import { MESSAGE_TYPE } from '@shared/constants';
+import { getComponentPrefix } from '@shared/utils';
 
 export type MessageInstance = InstanceType<typeof _Message>;
 export * from './type';
 
 const messageList = ref<MessageList>([]);
 let id = 0;
+
+const config = {
+  containerId: 'ycServiceMessageContainer',
+};
 
 const onClose = async (id: string) => {
   const targetItem = messageList.value.find((item) => item.id === id);
@@ -53,7 +57,7 @@ const openMessage = (type: MessageType, config: MessageConfig) => {
   };
 };
 
-const messageMethod = messageType.reduce(
+const messageMethod = MESSAGE_TYPE.reduce(
   (acc, type) => {
     acc[type] = (config: MessageConfig) => openMessage(type, config);
     return acc;

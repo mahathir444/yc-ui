@@ -23,15 +23,16 @@
 <script lang="ts" setup>
 import { ref, toRefs, computed, inject } from 'vue';
 import { useDraggable, useEventListener } from '@vueuse/core';
+import { ScrollbarProvide } from '../type';
+import { Direction } from '@shared/type';
 import {
-  DEFAULT_BAR_WIDTH,
-  DEFAULT_TRACK_WIDTH,
+  SCROLLBAR_PROVIDE_KEY,
   TRACK_DIRECTION_MAP,
   THUMB_DIRECTION_MAP,
-} from '@shared/constants/scrollbar';
-import { ScrollbarProvide } from '../type';
-import { SCROLLBAR_PROVIDE_KEY } from '@shared/constants';
-import { Direction } from '@shared/type';
+  DEFAULT_BAR_WIDTH,
+  DEFAULT_TRACK_WIDTH,
+} from '@shared/constants';
+
 const props = withDefaults(
   defineProps<{
     direction?: Direction;

@@ -33,7 +33,7 @@
 import { ref, onMounted, h, reactive } from 'vue';
 import { Message, Notification } from '@arco-design/web-vue';
 import YcMessage from '@/components/Message/index.ts';
-import { messageType } from '@/components/Message/constants';
+import { MESSAGE_TYPE } from '@/components/Message/constants';
 import YcNotifi from '@/components/Notification/index.ts';
 import YcResizeBox from '@/components/ResizeBox/index.vue';
 import YcTimePicker from '@/components/TimePicker/index.vue';
@@ -67,10 +67,10 @@ const config = {
 };
 const hanClick = () => {};
 const hanChange = (...rest) => {
-  console.log("change",rest);
+  console.log('change', rest);
 };
 const hanSelect = (...rest) => {
-  console.log("select",rest);
+  console.log('select', rest);
 };
 </script>
 <style scoped lang="less">

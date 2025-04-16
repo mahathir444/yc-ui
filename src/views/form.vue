@@ -11,17 +11,6 @@
         :max-tag-count="3"
       >
       </yc-select>
-      <a-select
-        allow-clear
-        allow-search
-        multiple
-        placeholder="请选择"
-        :options="options"
-        :max-tag-count="3"
-      >
-      </a-select>
-      <a-tag :checkable="true" bordered> 测试 </a-tag>
-      <yc-tag :checkable="true" bordered color="blue"> 测试 </yc-tag>
     </div>
     <div style="width: 300px">
       input-tag
@@ -47,16 +36,6 @@
     <div style="width: 300px">
       input
       <yc-input
-        allow-clear
-        :max-length="{
-          length: 8,
-          errorOnly: true,
-        }"
-        :word-length="(value) => value.length - 2"
-        :word-slice="(value, maxLength) => value.slice(1, maxLength + 1)"
-        show-word-limit
-      />
-      <a-input
         allow-clear
         :max-length="{
           length: 8,

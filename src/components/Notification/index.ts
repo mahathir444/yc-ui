@@ -1,23 +1,23 @@
 import { App, render, ref, createVNode, reactive, Ref } from 'vue';
-import { getComponentPrefix } from '@shared/utils/global-config';
+import { getComponentPrefix } from '@shared/utils';
 import _Notification from './Notification.vue';
 import _NotificationContainer from './Container.vue';
 import {
   NotificationConfig,
-  NotificationPosition,
+  NOTIFICATION_POSITION,
   NotificationType,
 } from './type';
-import {
-  config,
-  notificationPosition,
-  notificationType,
-} from '@shared/constants/notification';
-import { isString } from '@shared/utils/is';
+import { NOTIFICATION_POSITION, NOFITICATION_TYPE } from '@shared/constants';
+import { isString } from '@shared/utils';
 
 export type NotificationInstance = InstanceType<typeof _Notification>;
 export * from './type';
 
-const notifManager = notificationPosition.reduce(
+const config = {
+  containerId: 'ycServiceNotificationContainer',
+};
+
+const notifManager = NOTIFICATION_POSITION.reduce(
   (result, item) => {
     const list = ref<NotificationConfig[]>([]);
     result[item] = {
@@ -27,14 +27,14 @@ const notifManager = notificationPosition.reduce(
     return result;
   },
   {} as Record<
-    NotificationPosition,
+    NOTIFICATION_POSITION,
     {
       id: number;
       list: Ref<NotificationConfig[]>;
     }
   >
 );
-const onClose = async (id: string, pos: NotificationPosition) => {
+const onClose = async (id: string, pos: NOTIFICATION_POSITION) => {
   const targetItem = notifManager[pos].list.value.find(
     (item) => item.id === id
   );
@@ -44,7 +44,7 @@ const onClose = async (id: string, pos: NotificationPosition) => {
   notifManager[pos].list.value.splice(i, 1);
 };
 
-const createDiv = (pos: NotificationPosition) => {
+const createDiv = (pos: NOTIFICATION_POSITION) => {
   const id = config.containerId + '_' + pos;
   if (!document.getElementById(id)) {
     const listContainer = document.createElement('div');
@@ -82,7 +82,7 @@ const add = (type: NotificationType, config: NotificationConfig) => {
   };
 };
 
-const notificationMethod = notificationType.reduce(
+const notificationMethod = NOFITICATION_TYPE.reduce(
   (acc, type) => {
     acc[type] = (config: string | NotificationConfig) => {
       const calcCofig = isString(config) ? { content: config } : config;
@@ -102,9 +102,9 @@ const Message = Object.assign(_Notification, {
   install: (app: App) => {
     app.component(getComponentPrefix() + _Notification.name, _Notification);
   },
-  clear: (pos?: NotificationPosition | undefined) => {
+  clear: (pos?: NOTIFICATION_POSITION | undefined) => {
     if (!pos) {
-      notificationPosition.forEach((item) => {
+      NOTIFICATION_POSITION.forEach((item) => {
         notifManager[item].list.value.splice(0);
       });
       return;

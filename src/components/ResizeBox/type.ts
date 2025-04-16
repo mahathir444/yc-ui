@@ -1,6 +1,7 @@
-import { resizeBoxDirections } from '@shared/constants/resize-box';
+import { RESIZE_BOX_POSITION_MAP } from '@shared/constants';
 
-export type DirectionType = (typeof resizeBoxDirections)[number];
+export type DirectionType = (typeof RESIZE_BOX_POSITION_MAP)[number];
+
 export interface ResizeBoxProps {
   directions?: DirectionType[];
   width?: number;

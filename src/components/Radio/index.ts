@@ -1,7 +1,7 @@
 import { App } from 'vue';
 import _Radio from './Radio.vue';
 import _RadioGroup from './RadioGroup.vue';
-import { getComponentPrefix } from '@shared/utils/global-config';
+import { getComponentPrefix } from '@shared/utils';
 
 export type RadioInstance = InstanceType<typeof _Radio>;
 export type RadioGroupInstance = InstanceType<typeof _RadioGroup>;

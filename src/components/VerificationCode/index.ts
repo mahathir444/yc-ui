@@ -1,6 +1,6 @@
 import { App } from 'vue';
 import _VerificationCode from './index.vue';
-import { getComponentPrefix } from '@shared/utils/global-config';
+import { getComponentPrefix } from '@shared/utils';
 
 export type VerificationCodeInstance = InstanceType<typeof _VerificationCode>;
 export * from './type';

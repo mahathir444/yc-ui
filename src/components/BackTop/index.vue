@@ -18,7 +18,7 @@
 import { ref, toRefs, onMounted, onBeforeUnmount } from 'vue';
 import { BackTopProps } from './type';
 import { IconToTop } from '@shared/icons';
-import { getElement } from '@shared/utils/dom';
+import { getElement } from '@shared/utils';
 import BTween from 'b-tween';
 import YcButton from '@/components/Button';
 

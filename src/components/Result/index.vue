@@ -43,7 +43,7 @@
 import { toRefs, computed } from 'vue';
 import { ResultProps } from './type';
 import { TYPE_ICON_COLOR_MAP } from '@shared/constants';
-import { RESULT_ICON_MAP } from '@shared/constants/result';
+import { RESULT_ICON_MAP } from '@shared/constants';
 defineOptions({
   name: 'Result',
 });

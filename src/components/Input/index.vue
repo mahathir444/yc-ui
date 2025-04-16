@@ -8,7 +8,7 @@
       $slots.prepend ? 'yc-input-has-prepend' : '',
       $slots.append ? 'yc-input-has-append' : '',
       isSearch && searchButton ? 'yc-input-search-append' : '',
-      SIZE_CLASS[size],
+      INPUT_OUTER_SIZE_CLASS[size],
     ]"
   >
     <!-- prepend -->
@@ -64,7 +64,7 @@
 <script lang="ts" setup>
 import { ref, provide } from 'vue';
 import { InputProps, InputEmits, InputProvide } from './type';
-import { SIZE_CLASS } from '@shared/constants/input';
+import { INPUT_OUTER_SIZE_CLASS } from '@shared/constants';
 import { INPUT_PROVIDE_KEY } from '@shared/constants';
 import YcInput from './component/Input.vue';
 import YcPreventFocus from '@shared/components/PreventFocus';

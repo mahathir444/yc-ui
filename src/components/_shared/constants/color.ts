@@ -1,7 +1,28 @@
+import { getComponentConstantsMap } from '../utils/compt';
 import { SelectOptions } from '@/components/Select';
-import { getComponentSizeMap } from '@shared/utils/compt';
 
-export const SIZE_CLASS = getComponentSizeMap('yc-color-picker');
+export const TAG_COLOR_CLASS = getComponentConstantsMap(
+  'yc-tag',
+  [
+    'default',
+    'red',
+    'orangered',
+    'orange',
+    'gold',
+    'lime',
+    'green',
+    'cyan',
+    'blue',
+    'arcoblue',
+    'purple',
+    'pinkpurple',
+    'magent',
+    'gray',
+    'white',
+    'default',
+  ],
+  'color'
+);
 
 export const PRESET_COLORS = [
   '#00B42A',

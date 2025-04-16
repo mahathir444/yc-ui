@@ -1,6 +1,6 @@
 import { App } from 'vue';
 import _InputTag from './index.vue';
-import { getComponentPrefix } from '@shared/utils/global-config';
+import { getComponentPrefix } from '@shared/utils';
 
 export type InputTagInstance = InstanceType<typeof _InputTag>;
 export * from './type';

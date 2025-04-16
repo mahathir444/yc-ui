@@ -1,6 +1,6 @@
 import { App } from 'vue';
 import _ResizeBox from './index.vue';
-import { getComponentPrefix } from '@shared/utils/global-config';
+import { getComponentPrefix } from '@shared/utils';
 
 export type ResizeBoxInstance = InstanceType<typeof _ResizeBox>;
 

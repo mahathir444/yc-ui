@@ -37,7 +37,7 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, toRefs, inject, useSlots, CSSProperties } from 'vue';
+import { computed, toRefs, inject, useSlots } from 'vue';
 import {
   ButtonProps,
   ButtonProvide,
@@ -45,11 +45,11 @@ import {
   ButtonEventType,
 } from './type';
 import {
-  SIZE_CLASS,
-  TYPE_CLASS,
-  STATUS_CLASS,
-  SHAPE_CLASS,
-} from '@shared/constants/button';
+  BUTTON_SIZE_CLASS,
+  BUTTON_SHAPE_CLASS,
+  BUTTON_TYPE_CLASS,
+  BUTTON_STATUS_CLASS,
+} from '@shared/constants';
 import { BUTTON_GROUP_PROVIDE_KEY } from '@shared/constants';
 import YcSpin from '@/components/Spin';
 defineOptions({
@@ -109,13 +109,13 @@ const btnClass = computed(() => {
     // no-padding
     shape.value == 'circle' ? 'yc-button-no-padding' : '',
     // size
-    SIZE_CLASS[size.value],
+    BUTTON_SIZE_CLASS[size.value],
     // type
-    TYPE_CLASS[type.value],
+    BUTTON_TYPE_CLASS[type.value],
     // status
-    STATUS_CLASS[status.value],
+    BUTTON_STATUS_CLASS[status.value],
     // shape
-    SHAPE_CLASS[shape.value],
+    BUTTON_SHAPE_CLASS[shape.value],
   ];
 });
 // 拦截事件

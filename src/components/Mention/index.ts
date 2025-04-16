@@ -1,6 +1,6 @@
 import { App } from 'vue';
 import _Mention from './index.vue';
-import { getComponentPrefix } from '@shared/utils/global-config';
+import { getComponentPrefix } from '@shared/utils';
 
 export type MentionInstance = InstanceType<typeof _Mention>;
 export * from './type';

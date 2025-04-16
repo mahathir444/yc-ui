@@ -1,5 +1,5 @@
 <template>
-  <div :class="['yc-color-picker', SIZE_CLASS[size]]">
+  <div :class="['yc-color-picker', COLOR_PICKER_SIZE_CLASS[size]]">
     <div
       class="yc-color-picker-preview"
       :style="{
@@ -13,7 +13,7 @@
 </template>
 
 <script lang="ts" setup>
-import { SIZE_CLASS } from '@shared/constants/color-picker';
+import { COLOR_PICKER_SIZE_CLASS } from '@shared/constants';
 import { Size } from '@shared/type';
 defineProps<{
   color: string;

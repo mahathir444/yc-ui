@@ -103,7 +103,7 @@
 <script lang="ts" setup>
 import { ref, toRefs, computed } from 'vue';
 import { InputNumberProps, InputNumberValue } from './type';
-import { isNumber, isString, isFunction } from '@shared/utils/is';
+import { isNumber, isString, isFunction } from '@shared/utils';
 import YcOperaBtn from './component/OperaBtn.vue';
 import useControlValue from '@shared/hooks/useControlValue';
 import YcInput, { InputInstance } from '@/components/Input';

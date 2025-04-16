@@ -2,7 +2,7 @@ import { App } from 'vue';
 import _Skeleton from './Skeleton.vue';
 import _SkeletonShape from './SkeletonShape.vue';
 import _SkeletonLine from './SkeletonLine.vue';
-import { getComponentPrefix } from '@shared/utils/global-config';
+import { getComponentPrefix } from '@shared/utils';
 
 export type SkeletonInstance = InstanceType<typeof _Skeleton>;
 export type SkeletonShapeInstance = InstanceType<typeof _SkeletonShape>;

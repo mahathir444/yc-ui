@@ -5,10 +5,4 @@ export interface OverflowListProps {
   min?: number;
   margin?: number;
   from?: 'start' | 'end';
-  extraTagProps?: TagProps;
-}
-
-export interface OverListProvide {
-  min: Ref<number>;
-  tagNumber: Ref<number>;
 }

@@ -201,7 +201,7 @@ import {
 } from './type';
 import { ObjectData } from '@shared/type';
 import { SELECT_PROVIDE_KEY } from '@shared/constants';
-import { sleep } from '@shared/utils/fn';
+import { sleep } from '@shared/utils';
 import useSelectHotkeys from '@shared/hooks/useSelectHotkeys';
 import useSeletValue from '@shared/hooks/useSeletValue';
 import SelectVirtualList from './component/SelectVirtualList.vue';

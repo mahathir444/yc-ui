@@ -1,47 +1,43 @@
 <template>
   <div class="yc-overflow-list">
-    <yc-tag
-      v-if="min > 0 && tagNumber > min && from == 'start'"
-      :tag-index="0"
-      v-bind="extraTagProps"
-    >
-      +{{ tagNumber - min }}
+    <yc-tag v-if="min > 0 && tags.length > min && from == 'start'">
+      +{{ tags.length - min }}
     </yc-tag>
-    <slot />
-    <yc-tag
-      v-if="min > 0 && tagNumber > min && from == 'end'"
-      :tag-index="0"
-      v-bind="extraTagProps"
-    >
-      +{{ tagNumber - min }}
+    <component
+      v-for="(node, index) in tags.slice(0, min)"
+      :key="index"
+      :is="node"
+    />
+    <yc-tag v-if="min > 0 && tags.length > min && from == 'end'">
+      +{{ tags.length - min }}
     </yc-tag>
   </div>
 </template>
 
 <script lang="ts" setup>
-import { ref, toRefs, provide, computed } from 'vue';
-import { OverflowListProps, OverListProvide } from './type';
-import { OVERFLOW_LIST_PROVIDE_KEY } from '@shared/constants';
+import { toRefs, useSlots, computed } from 'vue';
+import { OverflowListProps } from './type';
+import { ObjectData } from '@shared/type';
+import YcTag from '@/components/Tag';
 defineOptions({
   name: 'OverflowList',
 });
 const props = withDefaults(defineProps<OverflowListProps>(), {
-  min: 9,
+  min: 0,
   margin: 8,
   from: 'end',
-  extraTagProps: () => {
-    return {};
-  },
 });
 const { min, margin } = toRefs(props);
-// 插槽内tag的总数
-const tagNumber = ref<number>(0);
+// 插槽
+const slots = useSlots();
 // gap
 const gap = computed(() => `${margin.value}px`);
-// 提供给tag
-provide<OverListProvide>(OVERFLOW_LIST_PROVIDE_KEY, {
-  min,
-  tagNumber,
+// tags
+const tags = computed(() => {
+  const nodes = slots.default?.()?.[0]?.children as ObjectData[];
+  return (nodes || []).filter((node) => {
+    return node.type.name == YcTag.name;
+  });
 });
 </script>
 

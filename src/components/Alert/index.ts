@@ -1,6 +1,6 @@
 import { App } from 'vue';
 import _Alert from './index.vue';
-import { getComponentPrefix } from '@shared/utils/global-config';
+import { getComponentPrefix } from '@shared/utils';
 
 export type AlertInstance = InstanceType<typeof _Alert>;
 export * from './type';

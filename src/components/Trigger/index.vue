@@ -25,7 +25,7 @@
         :data-group-level="level"
         :class="[
           'yc-trigger',
-          POSITION_MAP[position],
+          TRIGGER_POSITION_MAP[position],
           needTransformOrigin ? 'yc-trigger-transform-origin' : '',
           $attrs.class,
         ]"
@@ -55,8 +55,8 @@
 <script lang="ts" setup>
 import { ref, computed, useSlots } from 'vue';
 import { TriggerProps, TriggerEmits } from './type';
-import { POSITION_MAP } from '@shared/constants/trigger';
-import { findFirstLegitChild } from '@shared/utils/vue-vnode';
+import { TRIGGER_POSITION_MAP } from '@shared/constants';
+import { findFirstLegitChild } from '@shared/utils';
 import useTriggerVisible from '@shared/hooks/useTriggerVisible';
 import useTriggerPosition from '@shared/hooks/useTriggerPosition';
 import YcPreventFocus from '@shared/components/PreventFocus';

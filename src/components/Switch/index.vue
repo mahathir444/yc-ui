@@ -5,8 +5,8 @@
       compuedChecked ? 'yc-switch-checked' : 'yc-switch-unchecked',
       loading ? 'yc-switch-loading' : '',
       disabled ? 'yc-switch-disabled' : '',
-      SHAPE_CLASS[type],
-      SIZE_CLASS[size],
+      SWITCH_SHAPE_CLASS[type],
+      SWITCH_SIZE_CLASS[size],
     ]"
     :aria-checked="compuedChecked"
     role="switch"
@@ -39,8 +39,8 @@
 <script lang="ts" setup>
 import { toRefs, computed } from 'vue';
 import { SwitchProps, SwitchValue } from './type';
-import { SIZE_CLASS, SHAPE_CLASS } from '@shared/constants/switch';
-import { isBoolean } from '@shared/utils/is';
+import { SWITCH_SIZE_CLASS, SWITCH_SHAPE_CLASS } from '@shared/constants';
+import { isBoolean } from '@shared/utils';
 import useControlValue from '@shared/hooks/useControlValue';
 import YcSpin from '@/components/Spin';
 defineOptions({

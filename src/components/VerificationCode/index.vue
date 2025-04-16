@@ -1,5 +1,5 @@
 <template>
-  <div :class="['yc-verification-code', SIZE_CLASS[size]]">
+  <div :class="['yc-verification-code', VERIFICATION_CODE_SIZE_CLASS[size]]">
     <!--  -->
     <yc-input
       v-for="(v, i) in length"
@@ -25,8 +25,8 @@
 import { ref, toRefs, computed } from 'vue';
 import { VerificationCodeProps } from './type';
 import useControlValue from '@shared/hooks/useControlValue';
-import { SIZE_CLASS } from '@shared/constants/verification-code';
-import { sleep } from '@shared/utils/fn';
+import { VERIFICATION_CODE_SIZE_CLASS } from '@shared/constants';
+import { sleep } from '@shared/utils';
 import { nanoid } from 'nanoid';
 import YcInput, { InputInstance } from '@/components/Input';
 defineOptions({
