@@ -1,13 +1,11 @@
 <template>
-  <a-layout class="container">
-    <a-layout-header
-      style="background-color: rgb(242, 243, 245); height: 50px"
-    />
+  <!-- <a-layout class="container">
+    <a-layout-header style="height: 60px" />
     <a-layout class="wrapper">
       <a-layout-sider />
-      <a-layout-content class="main" id="main">
+      <a-layout-content class="main">
         <div class="content" id="content">
-          <!-- <yc-row style="width: 100%" :gutter="100">
+          <yc-row style="width: 100%" :gutter="100">
             <yc-col
               :span="8"
               :xs="{ offset: 1 }"
@@ -20,7 +18,7 @@
               aa
             </yc-col>
             <yc-col :span="8">bb </yc-col>
-          </yc-row> -->
+          </yc-row>
 
           <yc-verification-code />
           <a-verification-code @finish="handleFinish" />
@@ -34,7 +32,12 @@
         </div>
       </a-layout-content>
     </a-layout>
-  </a-layout>
+  </a-layout> -->
+  <yc-layout>
+    <yc-header> </yc-header>
+    <yc-content></yc-content>
+    <yc-footer></yc-footer>
+  </yc-layout>
 </template>
 
 <script lang="ts" setup>
@@ -80,5 +83,17 @@ const handleFinish = () => {
       align-items: center;
     }
   }
+}
+
+.yc-layout-header {
+  background-color: aqua;
+  height: 60px;
+}
+.yc-layout-content {
+  background-color: blue;
+}
+.yc-layout-footer {
+  background-color: black;
+  height: 60px;
 }
 </style>

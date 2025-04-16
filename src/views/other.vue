@@ -26,8 +26,10 @@
     <div>
       overflowlist
       <yc-overflow-list :min="6">
-        <yc-tag v-for="i in 10" :key="i">测试{{ i }}</yc-tag></yc-overflow-list
-      >
+        <yc-tag v-for="i in value" :key="i">测试{{ i }}</yc-tag>
+      </yc-overflow-list>
+      <a-button @click="value--">点击减1</a-button>
+      <a-button @click="value++">点击加1</a-button>
     </div>
     <div>
       <yc-button
@@ -65,7 +67,7 @@
 import { ref, watch, watchEffect } from 'vue';
 import Message from '@/components/Message';
 import Notification from '@/components/Notification';
-const value = ref([]);
+const value = ref(10);
 const value1 = ref([]);
 const visible = ref(false);
 const options = ref<any[]>([]);

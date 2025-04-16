@@ -49,6 +49,7 @@ import PageHeader from './PageHeader';
 import { default as Grid, Row, Col } from './Grid';
 import Transfer from './Transfer';
 import VerificationCode from './VerificationCode';
+import { default as Layout } from './Layout';
 
 export const components: Record<string, Plugin> = {
   Button,
@@ -95,6 +96,7 @@ export const components: Record<string, Plugin> = {
   Grid,
   Transfer,
   VerificationCode,
+  Layout,
 };
 
 console.log('components：', Object.keys(components).length + 2);
