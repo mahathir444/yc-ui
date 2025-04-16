@@ -23,6 +23,7 @@
           </yc-row> -->
 
           <yc-verification-code />
+          <a-verification-code @finish="handleFinish" />
         </div>
       </a-layout-content>
     </a-layout>
@@ -38,6 +39,9 @@ const options = Array(8)
     value: `option${index + 1}`,
     label: `Option ${index + 1}`,
   }));
+const handleFinish = () => {
+  console.log('finish');
+};
 </script>
 
 <style lang="less" scoped>
