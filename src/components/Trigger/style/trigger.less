@@ -9,3 +9,111 @@
     background-color: #fff;
   }
 }
+
+// arrow
+.yc-trigger {
+  &.yc-trigger-position-top,
+  &.yc-trigger-position-tl,
+  &.yc-trigger-position-tr {
+    .yc-trigger-arrow {
+      transform: translate(-50%, 50%) rotate(45deg);
+      border-bottom-right-radius: 2px;
+      border-top: none;
+      border-left: none;
+    }
+  }
+  &.yc-trigger-position-bottom,
+  &.yc-trigger-position-bl,
+  &.yc-trigger-position-br {
+    .yc-trigger-arrow {
+      transform: translate(-50%, -50%) rotate(45deg);
+      border-top-left-radius: 2px;
+      border-bottom: none;
+      border-right: none;
+    }
+  }
+  &.yc-trigger-position-left,
+  &.yc-trigger-position-lt,
+  &.yc-trigger-position-lb {
+    .yc-trigger-arrow {
+      transform: translate(50%, -50%) rotate(45deg);
+      border-top-right-radius: 2px;
+      border-bottom: none;
+      border-left: none;
+    }
+  }
+  &.yc-trigger-position-right,
+  &.yc-trigger-position-rt,
+  &.yc-trigger-position-rb {
+    .yc-trigger-arrow {
+      transform: translate(-50%, -50%) rotate(45deg);
+      border-bottom-left-radius: 2px;
+      border-top: none;
+      border-right: none;
+    }
+  }
+}
+
+// transform-origin
+.yc-trigger-transform-origin {
+  &.yc-trigger-position-top {
+    .yc-trigger-content {
+      transform-origin: 50% 100%;
+    }
+  }
+  &.yc-trigger-position-tl {
+    .yc-trigger-content {
+      transform-origin: 0 100%;
+    }
+  }
+  &.yc-trigger-position-tr {
+    .yc-trigger-content {
+      transform-origin: 100% 100%;
+    }
+  }
+  &.yc-trigger-position-bottom {
+    .yc-trigger-content {
+      transform-origin: 50% 0;
+    }
+  }
+  &.yc-trigger-position-bl {
+    .yc-trigger-content {
+      transform-origin: 0 0;
+    }
+  }
+  &.yc-trigger-position-br {
+    .yc-trigger-content {
+      transform-origin: 100% 0;
+    }
+  }
+  &.yc-trigger-position-right {
+    .yc-trigger-content {
+      transform-origin: 0 0;
+    }
+  }
+  &.yc-trigger-position-rt {
+    .yc-trigger-content {
+      transform-origin: 0 50%;
+    }
+  }
+  &.yc-trigger-position-rb {
+    .yc-trigger-content {
+      transform-origin: 0 100%;
+    }
+  }
+  &.yc-trigger-position-left {
+    .yc-trigger-content {
+      transform-origin: 100% 50%;
+    }
+  }
+  &.yc-trigger-position-lt {
+    .yc-trigger-content {
+      transform-origin: 100% 0;
+    }
+  }
+  &.yc-trigger-position-lb {
+    .yc-trigger-content {
+      transform-origin: 100% 100%;
+    }
+  }
+}

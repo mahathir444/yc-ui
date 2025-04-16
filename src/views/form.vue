@@ -6,17 +6,22 @@
         allow-clear
         allow-search
         multiple
-        :loading="true"
         placeholder="请选择"
         :options="options"
         :max-tag-count="3"
       >
-        <!-- <a-option v-for="item in options" :value="item.value" v-bind="item">
-        </a-option> -->
-        <template #loading-icon>
-          <icon-align-center />
-        </template>
       </yc-select>
+      <a-select
+        allow-clear
+        allow-search
+        multiple
+        placeholder="请选择"
+        :options="options"
+        :max-tag-count="3"
+      >
+      </a-select>
+      <a-tag :checkable="true" bordered> 测试 </a-tag>
+      <yc-tag :checkable="true" bordered color="blue"> 测试 </yc-tag>
     </div>
     <div style="width: 300px">
       input-tag

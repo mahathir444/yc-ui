@@ -27,7 +27,7 @@
       box-shadow: 0 0 0 0 rgb(190, 218, 255);
       &:deep(.yc-input-tag-inner) {
         .yc-tag {
-          border-color: rgb(242, 243, 245);
+          border-color: transparent;
           background-color: rgb(242, 243, 245);
         }
       }
@@ -74,8 +74,11 @@
     align-items: center;
     flex-wrap: wrap;
     gap: 2px 4px;
-    .yc-select-value-tag {
+    &:deep(.yc-tag) {
       max-width: 100%;
+      &:hover {
+        background-color: #fff;
+      }
     }
     .yc-input-tag-input {
       max-width: 100%;

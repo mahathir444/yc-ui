@@ -1,12 +1,6 @@
 import { computed, CSSProperties, Ref, ref, toRefs } from 'vue';
 import { TriggerPostion, TriggerProps } from '@/components/Trigger';
 import { ObjectData, RequiredDeep } from '../type';
-import {
-  BORDER_MAP,
-  BORDER_RADIUS_MAP,
-  TRANSLATE_MAP,
-  TRANSFORM_ORIGIN_MAP,
-} from '../constants/trigger';
 import { useElementBounding, useElementSize } from '@vueuse/core';
 
 export default (params: {
@@ -28,7 +22,6 @@ export default (params: {
     autoFitPosition,
     autoFitPopupMinWidth,
     autoFitPopupWidth,
-    needTransformOrigin,
     autoSetPosition,
     arrowStyle: _arrowStyle,
     contentStyle: _contentStyle,
@@ -151,9 +144,6 @@ export default (params: {
       ..._contentStyle.value,
       width: autoFitPopupWidth.value ? `${triggerWidth.value}px` : '',
       minWidth: autoFitPopupMinWidth.value ? `${triggerWidth.value}px` : '',
-      transformOrigin: needTransformOrigin.value
-        ? TRANSFORM_ORIGIN_MAP[curPosition.value]
-        : '',
     } as CSSProperties;
   });
   // arrowStyle
@@ -191,9 +181,6 @@ export default (params: {
     return {
       ..._arrowStyle.value,
       ...inset,
-      ...BORDER_MAP[curPosition.value],
-      ...BORDER_RADIUS_MAP[curPosition.value],
-      transform: `${TRANSLATE_MAP[curPosition.value]} rotate(45deg)`,
     } as CSSProperties;
   });
   // 计算偏移量

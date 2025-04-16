@@ -1,14 +1,12 @@
 <template>
   <yc-prevent-focus
-    v-if="computedVisible && (min <= 0 || tagIndex < min)"
     tag="label"
     :prevent-focus="preventFocus"
     :class="[
       'yc-tag',
       SIZE_CLASS[size],
-      (COLOR_CLASS[color] ?? ['default', 'white'].includes(color))
-        ? 'yc-tag-preset-color'
-        : 'yc-tag-custom-color',
+      COLOR_CLASS[color],
+      COLOR_CLASS[color] ? 'yc-tag-preset-color' : 'yc-tag-custom-color',
       loading ? 'yc-tag-loading' : '',
       bordered ? 'yc-tag-bordered' : '',
       computedChecked ? 'yc-tag-checked' : '',
@@ -35,17 +33,14 @@
       <slot v-if="$slots.closeIcon" name="closeIcon" />
     </yc-icon-button>
     <!-- loading -->
-    <yc-spin v-if="loading" class="yc-tag-loading-icon" />
+    <yc-spin v-if="loading" :size="14" class="yc-tag-loading-icon" />
   </yc-prevent-focus>
 </template>
 
 <script lang="ts" setup>
-import { toRefs, inject, ref, onBeforeUnmount, watch, computed } from 'vue';
+import { toRefs, computed } from 'vue';
 import { TagProps, TagEventType } from './type';
-import { SIZE_CLASS, COLOR_CLASS, COLOR_MAP } from '@shared/constants/tag';
-import { isUndefined } from '@shared/utils/is';
-import { OVERFLOW_LIST_PROVIDE_KEY } from '@shared/constants';
-import { OverListProvide } from '@/components/OverflowList/type';
+import { SIZE_CLASS, COLOR_CLASS } from '@shared/constants/tag';
 import YcSpin from '@/components/Spin';
 import useControlValue from '@shared/hooks/useControlValue';
 import YcPreventFocus from '@shared/components/PreventFocus';
@@ -98,13 +93,8 @@ const computedChecked = useControlValue<boolean>(
 );
 // 背景色
 const background = computed(() => {
-  if (!computedChecked.value) return '';
-  return COLOR_CLASS[color.value]
-    ? ''
-    : (COLOR_MAP[color.value] ?? color.value);
+  return COLOR_CLASS[color.value] ? '#fff' : color.value;
 });
-// 用于折叠面板
-const { tagIndex, min } = initTagIndex();
 // 处理事件
 const handleEvent = (type: TagEventType, ev: MouseEvent) => {
   if (type == 'close') {
@@ -115,35 +105,6 @@ const handleEvent = (type: TagEventType, ev: MouseEvent) => {
     emits('check', computedChecked.value, ev);
   }
 };
-// 初始化tagIndex
-function initTagIndex() {
-  const { tagNumber, min } = inject<OverListProvide>(
-    OVERFLOW_LIST_PROVIDE_KEY,
-    {
-      min: ref(0),
-      tagNumber: ref(-1),
-    }
-  );
-  if (!isUndefined(_tagIndex.value) || tagNumber.value == -1) {
-    return {
-      tagIndex: _tagIndex,
-      min,
-    };
-  }
-  const tagIndex = ref<number>(tagNumber.value++);
-  onBeforeUnmount(() => {
-    tagNumber.value--;
-  });
-  watch(tagNumber, (newVal, oldVal) => {
-    if (newVal < oldVal && tagNumber.value > newVal) {
-      tagIndex.value--;
-    }
-  });
-  return {
-    tagIndex,
-    min,
-  };
-}
 </script>
 
 <style lang="less" scoped>

@@ -1,0 +1,44 @@
+.yc-verification-code {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  .yc-input-wrapper {
+    padding: 0;
+    &:deep(.yc-input) {
+      text-align: center;
+    }
+  }
+  .yc-input-disabled-write {
+    opacity: 1;
+    cursor: text;
+    &:hover {
+      background-color: rgb(229, 230, 235);
+    }
+    &:focus-within {
+      border-color: transparent;
+    }
+  }
+}
+// size
+.yc-verification-code-size-mini {
+  .yc-input-wrapper {
+    width: 24px;
+  }
+}
+.yc-verification-code-size-small {
+  .yc-input-wrapper {
+    width: 28px;
+  }
+}
+.yc-verification-code-size-medium {
+  .yc-input-wrapper {
+    width: 32px;
+  }
+}
+.yc-verification-code-size-large {
+  .yc-input-wrapper {
+    width: 36px;
+  }
+}

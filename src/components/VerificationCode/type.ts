@@ -1,3 +1,4 @@
+import { VNode } from 'vue';
 import { Fn, Size } from '../_shared/type';
 
 export interface VerificationCodeProps {
@@ -9,6 +10,10 @@ export interface VerificationCodeProps {
   masked?: boolean;
   readonly?: boolean;
   error?: boolean;
-  separator?: Fn;
-  formatter?: Fn;
+  separator?: (index: number, character: string) => VNode;
+  formatter?: (
+    inputValue: string,
+    index: number,
+    value: string
+  ) => string | boolean;
 }

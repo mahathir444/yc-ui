@@ -7,8 +7,7 @@
       :bordered="item?.[fieldKey.tagProps]?.bordered ?? true"
       :nowrap="item?.[fieldKey.tagProps]?.nowrap ?? tagNowrap"
       :size="size == 'mini' ? 'small' : size"
-      class="yc-select-value-tag"
-      color="white"
+      :checked="false"
       prevent-focus
       @close="(ev) => $emit('close', ev, item.id)"
     >
@@ -16,12 +15,11 @@
     </yc-tag>
     <yc-tag
       v-if="maxTagCount > 0 && computedValue.length > maxTagCount"
+      key="yc-select-value-tag"
       :size="size == 'mini' ? 'small' : size"
       :nowrap="tagNowrap"
-      key="yc-select-value-tag"
-      class="yc-select-value-tag"
+      :checked="false"
       bordered
-      color="white"
       prevent-focus
     >
       +{{ curList.hideList.length }}...

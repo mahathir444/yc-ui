@@ -1,28 +1,22 @@
 <template>
   <div :class="['yc-verification-code', SIZE_CLASS[size]]">
+    <!--  -->
     <yc-input
-      v-for="(v, i) in lengthArray"
+      v-for="(v, i) in length"
       :key="v"
-      v-model="computedValue[i]"
+      :model-value="inputValue[i]"
       :size="size"
       :disabled="disabled"
       :error="error"
       :invisible-button="false"
-      :max-length="1"
-      :word-slice="(val) => val[val.length - 1]"
-      :input-attrs="{
-        type: masked ? 'password' : 'text',
-      }"
-      :ref="(el) => (inputRef[i] = el as InputInstance)"
-      :readonly="readonly || (i != curIndex && !computedValue[i])"
-      :class="{
-        'yc-input-disabled-write': i != curIndex && !computedValue[i],
-      }"
+      :visibility="masked"
+      :readonly="readonly || !isWritable(i)"
+      :class="{ 'yc-input-disabled-write': !isWritable(i) }"
+      :ref="(el) => (inputList[i] = el as InputInstance)"
       @click="handleClick(i)"
       @mousedown="handleMousedown($event, i)"
-      @focus="curIndex = i"
       @input="(v, ev) => handleInput(v, ev, i)"
-      @change="$emit('change', computedValue.join(''))"
+      @change="$emit('change', computedValue)"
     />
   </div>
 </template>
@@ -46,7 +40,9 @@ const props = withDefaults(defineProps<VerificationCodeProps>(), {
   disabled: false,
   readonly: false,
   error: false,
-  marked: false,
+  marked: true,
+  formatter: undefined,
+  separator: undefined,
 });
 const emits = defineEmits<{
   (e: 'update:modelValue', value: string): void;
@@ -54,97 +50,66 @@ const emits = defineEmits<{
   (e: 'change', value: string): void;
   (e: 'finish', value: string): void;
 }>();
-const { modelValue, defaultValue, length } = toRefs(props);
+const { modelValue, defaultValue, length: _length } = toRefs(props);
 // 受控值
 const computedValue = useControlValue<string>(
   modelValue,
   defaultValue.value,
   (val) => {
-    const inputValue = val.join('');
-    if (val.length == length.value) {
-      emits('finish', inputValue);
+    if (val.length == _length.value) {
+      emits('finish', val);
     }
-    emits('update:modelValue', inputValue);
-  },
-  (val) => {
-    return [...val].concat(new Array(length.value - val.length).fill(''));
+    emits('update:modelValue', val);
   }
 );
-// 输入实例
-const inputRef = ref<InputInstance[]>([]);
 // lengthArray
-const lengthArray = computed(() =>
-  new Array(length.value).fill('').map(() => nanoid())
+const length = computed(() =>
+  new Array(_length.value).fill('').map(() => nanoid())
 );
-// 当前的索引
-const curIndex = ref<number>(0);
+// 输入值
+const inputValue = computed(() => {
+  const base = [...computedValue.value];
+  for (let i = base.length; i < _length.value; i++) {
+    base[i] = '';
+  }
+  return base;
+});
+// 输入实例
+const inputList = ref<InputInstance[]>([]);
+// 是否可写
+const isWritable = (i: number) => {
+  for (let k = 1; k < i; k++) {
+    if (!inputValue.value[k]) return false;
+  }
+  return true;
+};
 // 处理输入
 const handleInput = async (v: string, ev: Event, i: number) => {
-  emits('input', computedValue.value.join(''), ev, i);
-  if (v && curIndex.value < length.value - 1) {
-    inputRef.value[curIndex.value].blur();
-    curIndex.value++;
+  computedValue.value =
+    computedValue.value.slice(0, i) +
+    (v ? v.at(v.length - 1) : ' ') +
+    computedValue.value.slice(i + 1);
+  emits('input', computedValue.value, ev, i);
+  if (v && !inputValue.value[i + 1] && i < _length.value - 1) {
+    inputList.value[i].blur();
     await sleep(0);
-    inputRef.value[curIndex.value].focus();
+    inputList.value[i + 1].focus();
   }
+};
+// 处理mosuedown
+const handleMousedown = (e: MouseEvent, i: number) => {
+  if (isWritable(i)) return;
+  e.preventDefault();
 };
 // 处理点击
 const handleClick = async (i: number) => {
-  if (computedValue.value[i] || !i) return;
-  const index = (computedValue.value as string[]).findIndex((item) => !item);
+  if (isWritable(i)) return;
+  const index = inputValue.value.findIndex((item) => !item);
   await sleep(0);
-  inputRef.value[index]?.focus();
-};
-const handleMousedown = (e: MouseEvent, i: number) => {
-  if (curIndex.value != i && !computedValue.value[i]) {
-    e.preventDefault();
-  }
+  inputList.value[index]?.focus();
 };
 </script>
 
 <style lang="less" scoped>
-.yc-verification-code {
-  width: 100%;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-
-  .yc-input-wrapper {
-    padding: 0;
-    &:deep(.yc-input) {
-      text-align: center;
-    }
-  }
-  .yc-input-disabled-write {
-    opacity: 1;
-    cursor: text;
-    &:hover {
-      background-color: rgb(229, 230, 235);
-    }
-    &:focus-within {
-      border-color: transparent;
-    }
-  }
-}
-// size
-.yc-verification-code-size-mini {
-  .yc-input-wrapper {
-    width: 24px;
-  }
-}
-.yc-verification-code-size-small {
-  .yc-input-wrapper {
-    width: 28px;
-  }
-}
-.yc-verification-code-size-medium {
-  .yc-input-wrapper {
-    width: 32px;
-  }
-}
-.yc-verification-code-size-large {
-  .yc-input-wrapper {
-    width: 36px;
-  }
-}
+@import './style/verification-code.less';
 </style>

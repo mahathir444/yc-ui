@@ -4,7 +4,6 @@
   border: 1px solid transparent;
   border-radius: 2px;
   font-weight: 500;
-  color: rgb(29, 33, 41);
   display: inline-flex;
   align-items: center;
 
@@ -24,6 +23,7 @@
     flex-shrink: 0;
   }
 }
+// wrap
 .yc-tag-wrap {
   height: fit-content;
   white-space: pre-wrap;
@@ -65,134 +65,198 @@
   line-height: 18px;
 }
 // color
-.yc-tag-custom-color,
-.yc-tag-preset-color {
-  &.yc-tag-bordered {
-    border-color: rgb(229, 230, 235);
-  }
-  &.yc-tag-checked {
-    color: #fff;
-  }
-}
-.yc-tag-preset-color {
+.yc-tag-color-default {
   &.yc-tag-checked {
     color: rgb(29, 33, 41);
+    background-color: rgb(242, 243, 245);
+    &:hover {
+      border-color: transparent;
+      background-color: rgb(229, 230, 235);
+    }
+    &.yc-tag-bordered {
+      border-color: rgb(229, 230, 235);
+    }
   }
 }
 .yc-tag-color-red {
-  &.yc-tag-bordered {
-    border-color: rgb(229, 230, 235);
-  }
   &.yc-tag-checked {
     color: rgb(245, 63, 63);
     background-color: rgb(255, 236, 232);
+    &:hover {
+      border-color: transparent;
+      background-color: rgb(229, 230, 235);
+    }
+    &.yc-tag-bordered {
+      border-color: rgb(245, 63, 63);
+    }
   }
 }
 .yc-tag-color-orangered {
-  &.yc-tag-bordered {
-    border-color: rgb(247, 114, 52);
-  }
   &.yc-tag-checked {
     color: rgb(247, 114, 52);
     background-color: rgb(255, 243, 232);
+    &:hover {
+      border-color: transparent;
+      background-color: rgb(229, 230, 235);
+    }
+    &.yc-tag-bordered {
+      border-color: rgb(247, 114, 52);
+    }
   }
 }
 .yc-tag-color-orange {
-  &.yc-tag-bordered {
-    border-color: rgb(255, 125, 0);
-  }
   &.yc-tag-checked {
     color: rgb(255, 125, 0);
     background-color: rgb(255, 247, 232);
+    &:hover {
+      border-color: transparent;
+      background-color: rgb(229, 230, 235);
+    }
+    &.yc-tag-bordered {
+      border-color: rgb(255, 125, 0);
+    }
   }
 }
 .yc-tag-color-gold {
-  &.yc-tag-bordered {
-    border-color: rgb(247, 186, 30);
-  }
   &.yc-tag-checked {
     color: rgb(247, 186, 30);
     background-color: rgb(255, 252, 232);
+    &:hover {
+      border-color: transparent;
+      background-color: rgb(229, 230, 235);
+    }
+    &.yc-tag-bordered {
+      border-color: rgb(247, 186, 30);
+    }
   }
 }
 .yc-tag-color-lime {
-  &.yc-tag-bordered {
-    border-color: rgb(159, 219, 29);
-  }
   &.yc-tag-checked {
     color: rgb(159, 219, 29);
     background-color: rgb(252, 255, 232);
+    &:hover {
+      border-color: transparent;
+      background-color: rgb(229, 230, 235);
+    }
+    &.yc-tag-bordered {
+      border-color: rgb(159, 219, 29);
+    }
   }
 }
 .yc-tag-color-green {
-  &.yc-tag-bordered {
-    border-color: rgb(0, 180, 134);
-  }
   &.yc-tag-checked {
     color: rgb(0, 180, 134);
     background-color: rgb(232, 255, 234);
+    &:hover {
+      border-color: transparent;
+      background-color: rgb(229, 230, 235);
+    }
+    &.yc-tag-bordered {
+      border-color: rgb(0, 180, 134);
+    }
   }
 }
 .yc-tag-color-cyan {
-  &.yc-tag-bordered {
-    border-color: rgb(20, 201, 201);
-  }
   &.yc-tag-checked {
     color: rgb(20, 201, 201);
     background-color: rgb(232, 255, 251);
+    &:hover {
+      border-color: transparent;
+      background-color: rgb(229, 230, 235);
+    }
+    &.yc-tag-bordered {
+      border-color: rgb(20, 201, 201);
+    }
   }
 }
 .yc-tag-color-blue {
-  &.yc-tag-bordered {
-    border-color: rgb(52, 145, 250);
-  }
   &.yc-tag-checked {
     color: rgb(52, 145, 250);
     background-color: rgb(232, 247, 255);
+    &:hover {
+      border-color: transparent;
+      background-color: rgb(229, 230, 235);
+    }
+    &.yc-tag-bordered {
+      border-color: rgb(52, 145, 250);
+    }
   }
 }
 .yc-tag-color-arcoblue {
-  &.yc-tag-bordered {
-    border-color: rgb(22, 93, 255);
-  }
   &.yc-tag-checked {
     color: rgb(22, 93, 255);
     background-color: rgb(232, 243, 255);
+    &:hover {
+      border-color: transparent;
+      background-color: rgb(229, 230, 235);
+    }
+    &.yc-tag-bordered {
+      border-color: rgb(22, 93, 255);
+    }
   }
 }
 .yc-tag-color-purple {
-  &.yc-tag-bordered {
-    border-color: rgb(144, 46, 209);
-  }
   &.yc-tag-checked {
     color: rgb(144, 46, 209);
     background-color: rgb(245, 232, 255);
+    &:hover {
+      border-color: transparent;
+      background-color: rgb(229, 230, 235);
+    }
+    &.yc-tag-bordered {
+      border-color: rgb(144, 46, 209);
+    }
   }
 }
 .yc-tag-color-pinkpurple {
-  &.yc-tag-bordered {
-    border-color: rgb(217, 26, 217);
-  }
   &.yc-tag-checked {
     color: rgb(217, 26, 217);
     background-color: rgb(255, 232, 251);
+    &:hover {
+      border-color: transparent;
+      background-color: rgb(229, 230, 235);
+    }
+    &.yc-tag-bordered {
+      border-color: rgb(217, 26, 217);
+    }
   }
 }
 .yc-tag-color-magenta {
-  &.yc-tag-bordered {
-    border-color: rgb(245, 49, 157);
-  }
   &.yc-tag-checked {
     color: rgb(245, 49, 157);
     background-color: rgb(255, 232, 241);
+    &:hover {
+      border-color: transparent;
+      background-color: rgb(229, 230, 235);
+    }
+    &.yc-tag-bordered {
+      border-color: rgb(245, 49, 157);
+    }
   }
 }
 .yc-tag-color-gray {
-  &.yc-tag-bordered {
-    border-color: rgb(134, 144, 156);
-  }
   &.yc-tag-checked {
     color: rgb(134, 144, 156);
     background-color: rgb(242, 243, 245);
+    &:hover {
+      border-color: transparent;
+      background-color: rgb(229, 230, 235);
+    }
+    &.yc-tag-bordered {
+      border-color: rgb(134, 144, 156);
+    }
   }
+}
+.yc-tag-preset-color {
+  color: rgb(29, 33, 41);
+  background-color: #fff;
+  &:hover {
+    background-color: rgb(242, 243, 245);
+  }
+  &.yc-tag-bordered {
+    border-color: rgb(229, 230, 235);
+  }
+}
+.yc-tag-custom-color {
+  color: #fff;
 }
