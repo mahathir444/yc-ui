@@ -13,8 +13,12 @@
       class="yc-slider-btn"
       ref="triggerRef"
       :style="{
-        bottom: direction == 'vertical' ? position.bottom : '',
-        left: direction == 'horizontal' ? position.left : '',
+        // bottom: direction == 'vertical' ? position.bottom : '',
+        // left: direction == 'horizontal' ? position.left : '',
+        transform:
+          direction == 'horizontal'
+            ? `translate(calc(${(position.left * trackWidth) / 100}px - 50%),-50%)`
+            : `translate(-50%,calc(${(position.bottom * trackHeight) / 100}px - 50%))`,
       }"
     ></div>
   </yc-tooltip>
@@ -78,7 +82,7 @@ const computedValue = computed({
   },
 });
 // 拖动hook
-const { position, isDragging } = useSliderDraggable({
+const { position, isDragging, trackHeight, trackWidth } = useSliderDraggable({
   trackRef,
   triggerRef,
   computedValue,

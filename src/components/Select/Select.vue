@@ -143,7 +143,7 @@
           </div>
           <!-- 虚拟列表 -->
           <select-virtual-list
-            v-if="virtualListProps"
+            v-if="virtualListProps.itemHeight"
             :render-options="renderOptions"
             :is-empty="isEmpty"
             :virtual-list-props="virtualListProps"
@@ -393,7 +393,7 @@ const handleEvent = async (
   }
   // 失焦
   else if (type == 'blur') {
-    computedVisible.value = false;
+    // computedVisible.value = false;
     computedInputValue.value = '';
   } else if (type == 'updateValue') {
     computedValue.value = (value as InputTagValue).map(

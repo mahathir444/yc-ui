@@ -1,7 +1,7 @@
 <template>
   <div
     :class="['yc-scrollbar-track', TRACK_DIRECTION_MAP[direction]]"
-    :style="trackStyle"
+    ref="trackRef"
     @click.self="handleClick"
   >
     <div
@@ -14,7 +14,6 @@
           'yc-scrollbar-thumb-bar': true,
           'is-dragging': isDragging,
         }"
-        :style="barStyle"
       ></div>
     </div>
   </div>
@@ -22,17 +21,18 @@
 
 <script lang="ts" setup>
 import { ref, toRefs, computed, inject } from 'vue';
-import { useDraggable, useEventListener } from '@vueuse/core';
+import {
+  useDraggable,
+  useResizeObserver,
+  useEventListener,
+} from '@vueuse/core';
 import { ScrollbarProvide } from '../type';
 import { Direction } from '@shared/type';
 import {
   SCROLLBAR_PROVIDE_KEY,
   TRACK_DIRECTION_MAP,
   THUMB_DIRECTION_MAP,
-  DEFAULT_BAR_WIDTH,
-  DEFAULT_TRACK_WIDTH,
 } from '@shared/constants';
-
 const props = withDefaults(
   defineProps<{
     direction?: Direction;
@@ -43,14 +43,11 @@ const props = withDefaults(
 );
 const emits = defineEmits<{
   (e: 'drag', isVertical: boolean, value: number): void;
-  (e: 'resize', width: number, height: number): void;
+  (e: 'resize', val: number): void;
 }>();
 const { direction } = toRefs(props);
-// 是否是垂直
-const isVertical = computed(() => direction.value == 'vertical');
 // 接受值
 const {
-  scrollbarSize,
   scrollRef,
   thumbHeight,
   thumbWidth,
@@ -65,39 +62,27 @@ const {
   movableTop: ref(0),
   thumbHeight: ref(0),
   thumbWidth: ref(0),
-  scrollbarSize: ref({
-    verticalTrack: DEFAULT_TRACK_WIDTH,
-    verticalThumb: DEFAULT_BAR_WIDTH,
-    horizontalTrack: DEFAULT_TRACK_WIDTH,
-    horizontalThumb: DEFAULT_BAR_WIDTH,
-  }),
   scrollRef: ref(),
 });
-// trackStyle
-const trackStyle = computed(() => {
-  const { verticalTrack, horizontalTrack } = scrollbarSize.value;
-  const width = `${verticalTrack || DEFAULT_TRACK_WIDTH}px`;
-  const height = `${horizontalTrack || DEFAULT_TRACK_WIDTH}px`;
-  return isVertical.value ? { width } : { height };
-});
+// 是否是垂直
+const isVertical = computed(() => direction.value == 'vertical');
 // thumbStyle
 const thmubStyle = computed(() => {
   return isVertical.value
     ? {
         height: `${thumbHeight.value}px`,
-        top: `${curTop.value}px`,
+        transform: `translateY(${curTop.value}px)`,
       }
     : {
         width: `${thumbWidth.value}px`,
-        left: `${curLeft.value}px`,
+        transform: `translateX(${curLeft.value}px)`,
       };
 });
-// barStyle
-const barStyle = computed(() => {
-  const { verticalThumb, horizontalThumb } = scrollbarSize.value;
-  const width = `${verticalThumb || DEFAULT_BAR_WIDTH}px`;
-  const height = `${horizontalThumb || DEFAULT_BAR_WIDTH}px`;
-  return isVertical.value ? { width } : { height };
+// 获取轨道的宽度
+const trackRef = ref<HTMLDivElement>();
+useResizeObserver(trackRef, () => {
+  const { width, height } = trackRef.value!.getBoundingClientRect();
+  emits('resize', isVertical.value ? width : height);
 });
 // dargRef
 const dragRef = ref<HTMLDivElement>();

@@ -1,7 +1,7 @@
-import { reactive, Ref, WritableComputedRef, watch, nextTick } from 'vue';
+import { reactive, Ref, watch, nextTick } from 'vue';
 import { PositionData, RangeData } from '@/components/Slider';
 import { Direction } from '@shared/type';
-import { useDraggable, useEventListener } from '@vueuse/core';
+import { useDraggable, useEventListener, useElementSize } from '@vueuse/core';
 export default (params: {
   computedValue: Ref<number>;
   trackRef: Ref<HTMLDivElement | undefined>;
@@ -22,16 +22,21 @@ export default (params: {
     step,
     disabled,
   } = params;
+  const { width: trackWidth, height: trackHeight } = useElementSize(
+    trackRef,
+    undefined,
+    { box: 'border-box' }
+  );
   // 处理Button拖动
   const { x, y, isDragging } = useDraggable(triggerRef);
   let oldX = x.value;
   let oldY = y.value;
   // 水平情况下的距离
   const position = reactive<PositionData>({
-    bottom: '',
-    left: '',
-    top: '',
-    right: '',
+    bottom: 0,
+    left: 0,
+    top: 0,
+    right: 0,
   });
   // 范围
   const moveRange = reactive<RangeData>({
@@ -70,18 +75,13 @@ export default (params: {
   };
   // 设置位置
   const setPositionFromValue = (distance: number) => {
-    // button的宽度
-    const { offsetHeight: btnHeight, offsetWidth: btnWidth } =
-      triggerRef.value!;
     if (direction.value == 'vertical') {
-      position.top = 100 - distance + '%';
-      position.bottom = `calc(${distance}% - ${btnHeight / 2}px)`;
+      position.top = 100 - distance;
+      position.bottom = distance;
     } else {
-      position.left = `calc(${distance}% -  ${btnWidth / 2}px)`;
-      position.right = 100 - distance + '%';
+      position.left = distance;
+      position.right = 100 - distance;
     }
-    position.startDis = distance;
-    position.endDis = 100 - distance;
   };
   // 设置最初的位置
   const setOriginPosition = () => {
@@ -90,12 +90,10 @@ export default (params: {
     } else if (computedValue.value < min.value) {
       computedValue.value = min.value;
     }
-    position.top = max.value + '%';
-    position.bottom = computedValue.value + '%';
-    position.left = computedValue.value + '%';
-    position.right = max.value + '%';
-    position.startDis = min.value;
-    position.endDis = max.value;
+    position.top = max.value;
+    position.bottom = computedValue.value;
+    position.left = computedValue.value;
+    position.right = max.value;
   };
   // 处理越界情况
   useEventListener('mousemove', () => {
@@ -157,5 +155,7 @@ export default (params: {
     y,
     position,
     isDragging,
+    trackWidth,
+    trackHeight,
   };
 };

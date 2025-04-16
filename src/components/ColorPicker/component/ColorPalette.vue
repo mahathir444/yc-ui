@@ -10,8 +10,7 @@
     <div
       class="yc-color-picker-handler"
       :style="{
-        top: `${y * 100}%`,
-        left: `${x * 100}%`,
+        transform: `translate(calc(${x * range.paletteWidth}px - 50%),calc(${y * 178}px - 50%))`,
       }"
       ref="btnRef"
     ></div>
@@ -100,6 +99,7 @@ watch(
       height: paletteHeight,
       width: paletteWidth,
     } = paletteRef.value!.getBoundingClientRect();
+    console.log(paletteHeight, paletteWidth, 'plate');
     // 计算范围
     range.value = {
       left,

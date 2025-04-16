@@ -94,33 +94,27 @@ const { startValue, endValue, tempEndValue, tempStartValue, ticks, marks } =
   });
 // 开始按钮的位置
 const startPosition = ref<PositionData>({
-  bottom: '',
-  left: '',
-  top: '',
-  right: '',
+  bottom: 0,
+  left: 0,
+  top: 0,
+  right: 0,
 });
 // 结束按钮的位置
 const endPosition = ref<PositionData>({
-  bottom: '',
-  left: '',
-  top: '',
-  right: '',
+  bottom: 0,
+  left: 0,
+  top: 0,
+  right: 0,
 });
 // 综合计算position
 const position = computed(() => {
-  const {
-    left,
-    right,
-    top,
-    bottom,
-    startDis = 0,
-    endDis = 0,
-  } = startPosition.value;
+  const { left, right, top, bottom } = startPosition.value;
+  console.log(startPosition.value);
   if (!range.value) {
     return {
       left: min.value + '%',
-      right,
-      top,
+      right: right + '%',
+      top: top + '%',
       bottom: min.value + '%',
     };
   }
@@ -129,17 +123,15 @@ const position = computed(() => {
     right: right1,
     top: top1,
     bottom: bottom1,
-    startDis: startDis1 = 0,
-    endDis: endDis1 = 0,
   } = endPosition.value;
   return direction.value == 'vertical'
     ? {
-        top: endDis <= endDis1 ? top : top1,
-        bottom: startDis < startDis1 ? bottom : bottom1,
+        top: `${top < top1 ? top1 : top}%`,
+        bottom: `${bottom < bottom1 ? bottom : bottom1}%`,
       }
     : {
-        left: startDis < startDis1 ? left : left1,
-        right: startDis < startDis1 ? right1 : right,
+        left: `${left < left1 ? left : left1}%`,
+        right: `${right < right1 ? right1 : right}$`,
       };
 });
 // 提供值

@@ -14,7 +14,7 @@
       class="yc-color-picker-control-bar-handler"
       :style="{
         color,
-        left: `${x - range.min}px`,
+        transform: `translate(calc(${x - range.min}px - 50%),-50%)`,
       }"
       ref="btnRef"
     ></div>

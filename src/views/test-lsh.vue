@@ -2,23 +2,7 @@
 <template>
   <div class="lsh-box">
     <a-button @click="hanClick"> 点击测试 </a-button>
-    <ATimePicker v-bind="config" type="time" />
-    <ATimePicker
-      v-bind="config"
-      v-model:model-value="v"
-      @change="hanChange"
-      @select="hanSelect"
-    >
-      <template #extra> 11 </template>
-    </ATimePicker>
-    <YcTimePicker
-      v-bind="config"
-      v-model:model-value="v"
-      @change="hanChange"
-      @select="hanSelect"
-    >
-      <template #extra> 11 </template>
-    </YcTimePicker>
+
     <a-popover title="Title">
       <a-button>Hover</a-button>
       <template #content>
@@ -33,7 +17,6 @@
 import { ref, onMounted, h, reactive } from 'vue';
 import { Message, Notification } from '@arco-design/web-vue';
 import YcMessage from '@/components/Message/index.ts';
-import { MESSAGE_TYPE } from '@/components/Message/constants';
 import YcNotifi from '@/components/Notification/index.ts';
 import YcResizeBox from '@/components/ResizeBox/index.vue';
 import YcTimePicker from '@/components/TimePicker/index.vue';
@@ -66,12 +49,6 @@ const config = {
   placeholder: ['测试', '测试'],
 };
 const hanClick = () => {};
-const hanChange = (...rest) => {
-  console.log('change', rest);
-};
-const hanSelect = (...rest) => {
-  console.log('select', rest);
-};
 </script>
 <style scoped lang="less">
 .lsh-box {

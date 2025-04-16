@@ -22,12 +22,10 @@ export type SliderValue = number | number[];
 export type FormatTooltip = (value: number) => string;
 
 export interface PositionData {
-  left: string;
-  right: string;
-  top: string;
-  bottom: string;
-  startDis?: number;
-  endDis?: number;
+  left: number;
+  right: number;
+  top: number;
+  bottom: number;
 }
 
 export interface RangeData {

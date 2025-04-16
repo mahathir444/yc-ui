@@ -6,19 +6,11 @@ export interface ScrollbarProps {
   outerClass?: string;
   outerStyle?: CSSProperties;
   autoFill?: boolean;
-  scrollbarSize?: ScrollbarSize;
 }
 
 export type TackType = 'track' | 'embed';
 
 export type ScrollbarType = 'virtual' | 'real';
-
-export interface ScrollbarSize {
-  verticalTrack?: number;
-  verticalThumb?: number;
-  horizontalTrack?: number;
-  horizontalThumb?: number;
-}
 
 // 内部使用
 export interface ScrollbarProvide {
@@ -28,6 +20,5 @@ export interface ScrollbarProvide {
   movableTop: Ref<number> | ComputedRef<number>;
   thumbHeight: Ref<number> | ComputedRef<number>;
   thumbWidth: Ref<number> | ComputedRef<number>;
-  scrollbarSize: Ref<ScrollbarSize>;
   scrollRef: Ref<HTMLDivElement | undefined>;
 }

@@ -23,12 +23,18 @@
       </div>
     </div>
     <!-- 纵向滚动条 -->
-    <yc-track v-if="hasVerticalBar" direction="vertical" @drag="handleDrag" />
+    <yc-track
+      v-if="hasVerticalBar"
+      direction="vertical"
+      @drag="handleDrag"
+      @resize="(val) => (trackWidth = val)"
+    />
     <!-- 横向滚动条 -->
     <yc-track
       v-if="hashorizontalBar"
       direction="horizontal"
       @drag="handleDrag"
+      @resize="(val) => (trackHeight = val)"
     />
   </div>
 </template>
@@ -36,12 +42,7 @@
 <script lang="ts" setup>
 import { ref, computed, toRefs, provide, watch, CSSProperties } from 'vue';
 import { ScrollbarProps, ScrollbarProvide } from './type';
-import {
-  DEFAULT_BAR_WIDTH,
-  DEFAULT_TRACK_WIDTH,
-  BAR_TYPE,
-} from '@shared/constants/scrollbar';
-import { SCROLLBAR_PROVIDE_KEY } from '@shared/constants';
+import { SCROLLBAR_PROVIDE_KEY, BAR_TYPE } from '@shared/constants';
 import { useElementSize, useScroll } from '@vueuse/core';
 import YcTrack from './component/Track.vue';
 defineOptions({
@@ -56,25 +57,20 @@ const props = withDefaults(defineProps<ScrollbarProps>(), {
     return {};
   },
   autoFill: false,
-  scrollbarSize: () => {
-    return {
-      verticalTrack: DEFAULT_TRACK_WIDTH,
-      verticalThumb: DEFAULT_BAR_WIDTH,
-      horizontalTrack: DEFAULT_TRACK_WIDTH,
-      horizontalThumb: DEFAULT_BAR_WIDTH,
-    };
-  },
 });
 const emits = defineEmits<{
   (e: 'scroll', left: number, top: number): void;
   (e: 'reachBottom'): void;
   (e: 'reachRight'): void;
 }>();
-const { type, scrollbarType, scrollbarSize } = toRefs(props);
+const { type, scrollbarType } = toRefs(props);
 // contentRef
 const contentRef = ref<HTMLElement>();
 // scrollRef
 const scrollRef = ref<HTMLDivElement>();
+// 轨道的信息
+const trackWidth = ref<number>(0);
+const trackHeight = ref<number>(0);
 // 滚动状态
 const { arrivedState } = useScroll(scrollRef);
 // 判断是否触底
@@ -173,17 +169,13 @@ function initScrollbar() {
   // 可移动的top
   const movableTop = computed(() => {
     // 横向track的宽度
-    const track = hashorizontalBar.value
-      ? scrollbarSize.value?.horizontalTrack || DEFAULT_TRACK_WIDTH
-      : 0;
+    const track = hashorizontalBar.value ? trackHeight.value : 0;
     return scrollHeight.value - thumbHeight.value - track;
   });
   // 可移动的left
   const movableLeft = computed(() => {
     // 纵向track的宽度
-    const track = hasVerticalBar.value
-      ? scrollbarSize.value?.verticalTrack || DEFAULT_TRACK_WIDTH
-      : 0;
+    const track = hasVerticalBar.value ? trackWidth.value : 0;
     return scrollWidth.value - thumbWidth.value - track;
   });
   // 提供数据
@@ -194,7 +186,6 @@ function initScrollbar() {
     movableTop,
     thumbHeight,
     thumbWidth,
-    scrollbarSize,
     scrollRef,
   });
   return {
