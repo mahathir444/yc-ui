@@ -2,8 +2,6 @@ export * from './color';
 export * from './compt';
 export * from './dom';
 export * from './fn';
-export * from './global-config';
-export * from './is';
 export * from './is';
 export * from './time';
 export * from './vue-utils';

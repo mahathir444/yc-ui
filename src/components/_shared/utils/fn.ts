@@ -7,24 +7,22 @@ export const sleep = (ms: number) => {
   });
 };
 
-const raf = window.requestAnimationFrame;
-const caf = window.cancelAnimationFrame;
-
+// 节流
 export function throttleByRaf(cb: (...args: any[]) => void) {
   let timer = 0;
 
   const throttle = (...args: any[]): void => {
     if (timer) {
-      caf(timer);
+      window.cancelAnimationFrame(timer);
     }
-    timer = raf(() => {
+    timer = window.requestAnimationFrame(() => {
       cb(...args);
       timer = 0;
     });
   };
 
   throttle.cancel = () => {
-    caf(timer);
+    window.cancelAnimationFrame(timer);
     timer = 0;
   };
 
