@@ -1,7 +1,7 @@
-import { toRefs, inject, ref } from 'vue';
-import { useControlValue } from './index';
+import { toRefs, inject, ref, isReactive } from 'vue';
 import { CONFIG_PROVIDER_PROVIDE_KEY } from '../constants';
 import { ConfigProviderProvide } from '@/components/ConfigProvider';
+import { isUndefined } from '../utils';
 
 export default (props: Record<string, any> = {}) => {
   // 接收值
@@ -20,21 +20,58 @@ export default (props: Record<string, any> = {}) => {
     exchangeTime: ref(true),
     popupContainer: ref('body'),
   });
-  // 接收属性
-  const {
-    zIndex = ref(),
-    size = ref(),
-    updateAtScroll = ref(),
-    scrollToClose = ref(),
-    exchangeTime = ref(),
-    popupContainer = ref(),
-  } = toRefs(props);
+  let size;
+  let zIndex;
+  let updateAtScroll;
+  let scrollToClose;
+  let popupContainer;
+  let exchangeTime;
+  if (isReactive(props)) {
+    // 接收属性
+    const {
+      zIndex: _zIndex,
+      size: _size,
+      updateAtScroll: _updateAtScroll,
+      scrollToClose: _scrollToClose,
+      exchangeTime: _exchangeTime,
+      popupContainer: _popupContainer,
+    } = toRefs(props);
+    zIndex = _zIndex;
+    size = _size;
+    updateAtScroll = _updateAtScroll;
+    scrollToClose = _scrollToClose;
+    exchangeTime = _exchangeTime;
+    popupContainer = _popupContainer;
+  } else {
+    const {
+      zIndex: _zIndex,
+      size: _size,
+      updateAtScroll: _updateAtScroll,
+      scrollToClose: _scrollToClose,
+      exchangeTime: _exchangeTime,
+      popupContainer: _popupContainer,
+    } = props;
+    zIndex = ref(_zIndex);
+    size = ref(_size);
+    updateAtScroll = ref(_updateAtScroll);
+    scrollToClose = ref(_scrollToClose);
+    popupContainer = ref(_popupContainer);
+    exchangeTime = ref(_exchangeTime);
+  }
   return {
-    zIndex: useControlValue(zIndex, _zIndex.value),
-    size: useControlValue(size, _size.value),
-    updateAtScroll: useControlValue(updateAtScroll, _updateAtScroll.value),
-    scrollToClose: useControlValue(scrollToClose, _scrollToClose.value),
-    exchangeTime: useControlValue(exchangeTime, _exchangeTime.value),
-    popupContainer: useControlValue(popupContainer, _popupContainer.value),
+    zIndex: _zIndex,
+    size: !isUndefined(size?.value) ? size : _size,
+    updateAtScroll: !isUndefined(updateAtScroll?.value)
+      ? updateAtScroll
+      : _updateAtScroll,
+    scrollToClose: !isUndefined(scrollToClose?.value)
+      ? updateAtScroll
+      : _updateAtScroll,
+    popupContainer: !isUndefined(popupContainer?.value)
+      ? popupContainer
+      : _popupContainer,
+    exchangeTime: !isUndefined(exchangeTime?.value)
+      ? exchangeTime
+      : _exchangeTime,
   };
 };

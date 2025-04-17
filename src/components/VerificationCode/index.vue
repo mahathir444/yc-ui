@@ -36,7 +36,7 @@ const props = withDefaults(defineProps<VerificationCodeProps>(), {
   modelValue: undefined,
   defaultValue: '',
   length: 6,
-  size: 'large',
+  size: undefined,
   disabled: false,
   readonly: false,
   error: false,

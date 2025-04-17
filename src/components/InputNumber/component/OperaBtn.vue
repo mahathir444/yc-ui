@@ -30,7 +30,7 @@ const props = defineProps<{
   computedValue: InputNumberValue;
   min: number;
   max: number;
-  size: Size;
+  size?: Size;
 }>();
 defineEmits<{
   (e: 'click', type: 'minus' | 'plus'): void;

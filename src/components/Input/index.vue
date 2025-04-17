@@ -74,7 +74,7 @@ defineOptions({
 const props = withDefaults(defineProps<InputProps>(), {
   modelValue: undefined,
   defaultValue: '',
-  size: 'medium',
+  size: undefined,
   allowClear: false,
   disabled: false,
   readonly: false,

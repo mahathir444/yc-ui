@@ -103,6 +103,7 @@ const {
   isPassword,
   invisibleButton,
 } = toRefs(props as RequiredDeep<InputProps>);
+// 获取全局属性
 const { size } = useConfigProvder(props);
 // 输入实例
 const inputRef = ref<HTMLInputElement>();

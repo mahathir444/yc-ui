@@ -219,7 +219,7 @@ const props = withDefaults(defineProps<SelectProps>(), {
   defaultValue: '',
   inputValue: undefined,
   defaultInputValue: '',
-  size: 'medium',
+  size: undefined,
   placeholder: '',
   loading: false,
   disabled: false,

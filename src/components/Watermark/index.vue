@@ -8,6 +8,9 @@
 import { onMounted, ref, watch, nextTick } from 'vue';
 type WatermarkType = 'text' | 'image';
 type RepeatMode = 'repeat' | 'repeat-x' | 'repeat-y' | 'no-repeat';
+defineOptions({
+  name: 'Watermark',
+});
 const props = defineProps({
   // 水印类型：文字或图片
   type: {
