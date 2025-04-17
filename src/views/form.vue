@@ -87,7 +87,7 @@
       rate
       <yc-rate :count="5" allow-half allow-clear />
     </div>
-    <div style="height: 500px; width: 500px">
+    <div style="width: 500px">
       slider
       <yc-slider
         show-input

@@ -1,6 +1,6 @@
 <template>
   <div class="yc-breadcrumb">
-    <slot />
+    <slot v-if="!routes.length" />
     <!-- routes渲染 -->
     <template v-for="route in routes" :key="route.path">
       <slot name="item-render" :route="route" :routes="routes">

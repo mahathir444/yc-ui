@@ -143,12 +143,11 @@
           </div>
           <!-- 虚拟列表 -->
           <select-virtual-list
-            v-if="virtualListProps.itemHeight"
+            v-if="virtualListProps"
             :render-options="renderOptions"
             :is-empty="isEmpty"
             :virtual-list-props="virtualListProps"
             :field-key="fieldKey"
-            :computed-visible="computedVisible"
             @dropdown-scroll="$emit('dropdownScroll')"
             @dropdown-reach-bottom="$emit('dropdownReachBottom')"
           >
@@ -265,11 +264,7 @@ const props = withDefaults(defineProps<SelectProps>(), {
   showFooterOnEmpty: false,
   tagNowrap: false,
   hotKeys: false,
-  virtualListProps: () => {
-    return {
-      buffer: 10,
-    };
-  },
+  virtualListProps: undefined,
 });
 const emits = defineEmits<{
   (e: 'update:modelValue', value: SelectValue): void;

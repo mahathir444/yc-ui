@@ -44,7 +44,6 @@ import { Option as YcOption, VirtualListProps } from '../index';
 import { useVirtualList, useScroll } from '@vueuse/core';
 const props = defineProps<{
   renderOptions: ObjectData[];
-  computedVisible: boolean;
   virtualListProps: VirtualListProps;
   fieldKey: Record<string, string>;
   isEmpty: boolean;

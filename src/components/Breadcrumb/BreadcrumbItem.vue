@@ -26,13 +26,15 @@
         </div>
       </div>
       <template #content>
-        <yc-doption
-          v-for="item in droplist"
-          :key="item.path"
-          :value="item.path"
-        >
-          {{ item.label }}
-        </yc-doption>
+        <slot name="droplist">
+          <yc-doption
+            v-for="item in droplist"
+            :key="item.path"
+            :value="item.path"
+          >
+            {{ item.label }}
+          </yc-doption>
+        </slot>
       </template>
     </yc-dropdown>
     <!-- 分隔符 -->
