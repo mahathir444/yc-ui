@@ -83,7 +83,7 @@ const props = withDefaults(defineProps<PopconfirmProps>(), {
   arrowStyle: () => {
     return {};
   },
-  popupContainer: 'body',
+  popupContainer: undefined,
   onBeforeOk: () => true,
   onBeforeCancel: () => true,
 });

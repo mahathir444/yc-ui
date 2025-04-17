@@ -19,6 +19,7 @@ import { ref, toRefs, onMounted, onBeforeUnmount } from 'vue';
 import { BackTopProps } from './type';
 import { IconToTop } from '@shared/icons';
 import { getElement } from '@shared/utils';
+import { useConfigProvder } from '@shared/hooks';
 import BTween from 'b-tween';
 import YcButton from '@/components/Button';
 
@@ -31,6 +32,8 @@ const props = withDefaults(defineProps<BackTopProps>(), {
   duration: 200,
 });
 const { targetContainer: _targetContainer, easeing, duration } = toRefs(props);
+// 接收configProvier的属性
+const { zIndex } = useConfigProvder(props);
 // 当前的滚动
 const curScroll = ref<number>(0);
 // 目标
@@ -63,4 +66,7 @@ onBeforeUnmount(() => {
 
 <style lang="less" scoped>
 @import './style/back-top.less';
+.yc-back-top {
+  z-index: v-bind(zIndex);
+}
 </style>

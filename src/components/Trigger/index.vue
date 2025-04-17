@@ -57,7 +57,11 @@ import { ref, computed, useSlots } from 'vue';
 import { TriggerProps, TriggerEmits } from './type';
 import { TRIGGER_POSITION_MAP } from '@shared/constants';
 import { findFirstLegitChild } from '@shared/utils';
-import { useTriggerVisible, useTriggerPosition } from '@shared/hooks';
+import {
+  useTriggerVisible,
+  useTriggerPosition,
+  useConfigProvder,
+} from '@shared/hooks';
 import { YcPreventFocus } from '@shared/components';
 defineOptions({
   name: 'Trigger',
@@ -91,11 +95,11 @@ const props = withDefaults(defineProps<TriggerProps>(), {
   focusDelay: 0,
   autoFitPopupWidth: false,
   autoFitPopupMinWidth: false,
-  popupContainer: 'body',
+  popupContainer: undefined,
   renderToBody: true,
   autoFitPosition: true,
-  updateAtScroll: true,
-  scrollToClose: false,
+  updateAtScroll: undefined,
+  scrollToClose: undefined,
   scrollToCloseDistance: 0.1,
   preventFocus: false,
   alignPoint: false,
@@ -103,6 +107,8 @@ const props = withDefaults(defineProps<TriggerProps>(), {
   autoSetPosition: false,
 });
 const emits = defineEmits<TriggerEmits>();
+// 接收属性
+const { zIndex, popupContainer } = useConfigProvder(props);
 // 弹出层的ref
 const popupRef = ref<HTMLDivElement>();
 // trigger的ref
@@ -142,7 +148,7 @@ function initTrigger() {
     };
   }
   // 计算wrapper与arrow的位置信息
-  const { left, top, bottom, right, popupPosition, contentStyle, arrowStyle } =
+  const { left, top, popupPosition, contentStyle, arrowStyle } =
     useTriggerPosition({
       props,
       popupRef,
@@ -160,7 +166,6 @@ function initTrigger() {
     arrowStyle,
   };
 }
-
 defineExpose({
   hide() {
     computedVisible.value = false;
@@ -180,4 +185,7 @@ defineExpose({
 
 <style lang="less" scoped>
 @import './style/trigger.less';
+.yc-trigger {
+  z-index: v-bind(zIndex);
+}
 </style>

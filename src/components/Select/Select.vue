@@ -228,7 +228,7 @@ const props = withDefaults(defineProps<SelectProps>(), {
   allowSearch: false,
   allowCreate: false,
   maxTagCount: 0,
-  popupContainer: 'body',
+  popupContainer: undefined,
   bordered: true,
   defaultActivefirstOption: false,
   popupVisible: undefined,

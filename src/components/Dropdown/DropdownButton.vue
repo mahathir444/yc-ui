@@ -42,7 +42,7 @@ withDefaults(defineProps<DropdownButtonProps>(), {
   defaultPopupVisible: false,
   trigger: 'click',
   position: 'br',
-  popupContainer: 'body',
+  popupContainer: undefined,
   disabled: false,
   type: 'secondary',
   size: 'medium',

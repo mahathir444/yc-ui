@@ -2,6 +2,7 @@ import { computed, CSSProperties, Ref, ref, toRefs } from 'vue';
 import { TriggerPostion, TriggerProps } from '@/components/Trigger';
 import { ObjectData, RequiredDeep } from '../type';
 import { useElementBounding, useElementSize } from '@vueuse/core';
+import { useConfigProvder } from './index';
 
 export default (params: {
   props: ObjectData;
@@ -18,7 +19,6 @@ export default (params: {
     alignPoint,
     popupTranslate,
     popupOffset,
-    updateAtScroll,
     autoFitPosition,
     autoFitPopupMinWidth,
     autoFitPopupWidth,
@@ -26,6 +26,8 @@ export default (params: {
     arrowStyle: _arrowStyle,
     contentStyle: _contentStyle,
   } = toRefs(props as RequiredDeep<TriggerProps>);
+  // 接收provider传入的属性
+  const { updateAtScroll } = useConfigProvder(props);
   // 动态计算当前的位置
   const curPosition = ref<TriggerPostion>(position.value);
   // 获取trigger元素bounding

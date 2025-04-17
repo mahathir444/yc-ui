@@ -43,7 +43,7 @@ const props = withDefaults(defineProps<DropdownProps>(), {
   defaultPopupVisible: false,
   trigger: 'hover',
   position: 'bottom',
-  popupContainer: 'body',
+  popupContainer: undefined,
   hideOnSelect: true,
 });
 const emits = defineEmits<{

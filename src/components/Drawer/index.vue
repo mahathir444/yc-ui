@@ -1,5 +1,5 @@
 <template>
-  <teleport :to="popupContainer || 'body'" :disabled="!renderToBody">
+  <teleport :to="popupContainer" :disabled="!renderToBody">
     <div
       v-if="!unmountOnClose || outerVisible"
       v-show="outerVisible"
@@ -86,7 +86,11 @@ import { toRefs, computed, CSSProperties, useAttrs } from 'vue';
 import { DRAWER_PLACEMENT_MAP } from '@shared/constants';
 import { DrawerProps } from './type';
 import { CloseType } from '@shared/type';
-import { useModalClose as useDrawerClose } from '@shared/hooks';
+import {
+  useModalClose as useDrawerClose,
+  useConfigProvder,
+  useControlValue,
+} from '@shared/hooks';
 import YcButton from '@/components/Button';
 import { YcIconButton } from '@shared/components';
 defineOptions({
@@ -149,10 +153,12 @@ const {
   escToClose,
   drawerStyle,
   renderToBody,
-  popupContainer,
 } = toRefs(props);
 const { onBeforeOk, onBeforeCancel } = props;
+// attrs
 const attrs = useAttrs();
+// 接收configProvider
+const { popupContainer, zIndex } = useConfigProvder(props);
 // drawer绝对定位的left,top
 const drawerCss = computed(() => {
   return {
@@ -184,4 +190,7 @@ const { outerVisible, innerVisible, closeType, handleClose, handleAfterLeave } =
 
 <style lang="less" scoped>
 @import './style/drawer.less';
+.yc-drawer-wrapper {
+  z-index: v-bind(zIndex);
+}
 </style>

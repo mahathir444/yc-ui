@@ -1,5 +1,5 @@
 <template>
-  <teleport :to="popupContainer || 'body'" :disabled="!renderToBody">
+  <teleport :to="popupContainer" :disabled="!renderToBody">
     <div
       v-if="!unmountOnClose || outerVisible"
       v-show="outerVisible"
@@ -102,7 +102,12 @@
 import { ref, toRefs, computed, CSSProperties, useAttrs } from 'vue';
 import { ModalProps } from './type';
 import { CloseType } from '@shared/type';
-import { useModalClose, useModalDraggable } from '@shared/hooks';
+import {
+  useModalClose,
+  useModalDraggable,
+  useConfigProvder,
+  useControlValue,
+} from '@shared/hooks';
 import YcButton from '@/components/Button';
 import { YcIconButton } from '@shared/components';
 defineOptions({
@@ -182,6 +187,8 @@ const {
 } = toRefs(props);
 const { onBeforeOk, onBeforeCancel } = props;
 const attrs = useAttrs();
+// 接收属性
+const { popupContainer, zIndex } = useConfigProvder(props);
 // 处理组件关闭开启
 const { outerVisible, innerVisible, closeType, handleClose, handleAfterLeave } =
   useModalClose({
@@ -220,4 +227,7 @@ const style = computed(() => {
 
 <style lang="less" scoped>
 @import './style/modal.less';
+.yc-modal-container {
+  z-index: v-bind(zIndex);
+}
 </style>

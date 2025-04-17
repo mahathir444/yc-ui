@@ -54,7 +54,7 @@ const props = withDefaults(defineProps<PopoverProps>(), {
   arrowStyle: () => {
     return {};
   },
-  popupContainer: 'body',
+  popupContainer: undefined,
 });
 const emits = defineEmits<{
   (e: 'update:popupVisible', value: boolean): void;

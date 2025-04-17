@@ -14,3 +14,4 @@ export { default as useTextareaHeight } from './useTextareaHeight';
 export { default as useTriggerNested } from './useTriggerNested';
 export { default as useTriggerPosition } from './useTriggerPosition';
 export { default as useTriggerVisible } from './useTriggerVisible';
+export { default as useConfigProvder } from './useConfigProvder';

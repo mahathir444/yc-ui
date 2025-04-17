@@ -73,7 +73,7 @@ const props = withDefaults(defineProps<AutoCompleteProps>(), {
   defaultValue: '',
   disabled: false,
   data: () => [],
-  popupContainer: 'body',
+  popupContainer: undefined,
   strict: false,
   filterOption: undefined,
   triggerProps: () => {

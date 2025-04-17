@@ -2,8 +2,7 @@ import { Ref, ref, toRefs, watchEffect } from 'vue';
 import { TriggerProps, TriggerEmits } from '@/components/Trigger';
 import { ObjectData, RequiredDeep } from '../type';
 import { onClickOutside } from '@vueuse/core';
-import useTriggerNested from './useTriggerNested';
-import useControlValue from './useControlValue';
+import { useControlValue, useTriggerNested, useConfigProvder } from './index';
 export default (params: {
   props: ObjectData;
   emits: TriggerEmits;
@@ -22,10 +21,11 @@ export default (params: {
     mouseEnterDelay,
     mouseLeaveDelay,
     focusDelay,
-    scrollToClose,
     scrollToCloseDistance,
     autoSetPosition,
   } = toRefs(props as RequiredDeep<TriggerProps>);
+  // 接收全局属性
+  const { scrollToClose } = useConfigProvder();
   // 处理事件
   const {
     onTriggerMouseclick,
