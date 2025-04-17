@@ -1,5 +1,5 @@
 <template>
-  <div
+  <aside
     class="yc-layout-sider"
     :class="{
       'yc-layout-sider-light': theme == 'light',
@@ -20,7 +20,7 @@
         />
       </yc-icon-button>
     </slot>
-  </div>
+  </aside>
 </template>
 
 <script lang="ts" setup>
@@ -95,29 +95,5 @@ onMounted(() => {
 </script>
 
 <style lang="less" scoped>
-.yc-layout-sider {
-  position: relative;
-  transition: width 0.2s cubic-bezier(0.34, 0.69, 0.1, 1);
-  .yc-collapse-button {
-    position: absolute;
-    left: 50%;
-    transform: translateX(-50%);
-    bottom: 17px;
-    color: inherit;
-  }
-}
-.yc-layout-sider-light {
-  background: #fff;
-  box-shadow: 0 2px 5px #00000014;
-  color: rgb(29, 33, 41);
-}
-.yc-layout-sider-dark {
-  background-color: #232324;
-  color: #fff;
-  .yc-collapse-button {
-    &:hover::before {
-      background-color: rgba(255, 255, 255, 0.2);
-    }
-  }
-}
+@import './style/layout.less';
 </style>

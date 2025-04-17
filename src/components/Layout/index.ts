@@ -16,7 +16,11 @@ const Layout = Object.assign(_Layout, {
   },
 });
 
-export { _Sider as Sider };
+export {
+  _Sider as LayoutSider,
+  _Footer as LayoutFooter,
+  _Content as LayoutContent,
+};
 
 declare module 'vue' {
   export interface GlobalComponents {

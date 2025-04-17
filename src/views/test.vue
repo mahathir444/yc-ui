@@ -1,111 +1,56 @@
 <template>
-  <a-layout class="container">
-    <a-layout-header style="height: 60px" />
-    <a-layout class="wrapper">
-      <a-layout-sider
-        collapsible
-        breakpoint="lg"
-        :reverse-arrow="true"
-        theme="dark"
-      >
-      </a-layout-sider>
-      <a-layout-content class="main">
-        <div class="content" id="content">
-          <yc-row style="width: 100%" :gutter="100">
-            <yc-col
-              :span="8"
-              :xs="{ offset: 1 }"
-              :sm="{ offset: 2 }"
-              :md="{ offset: 3 }"
-              :lg="{ offset: 4 }"
-              :xl="{ offset: 5 }"
-              :xxl="{ offset: 6 }"
-            >
-              aa
-            </yc-col>
-            <yc-col :span="8">bb </yc-col>
-          </yc-row>
-
-          <yc-verification-code />
-          <a-verification-code @finish="handleFinish" />
-          <a-cascader
-            :options="classOptions"
-            multiple
-            placeholder="请选择"
-            :max-tag-count="1"
-            tag-nowrap
-          />
-        </div>
-      </a-layout-content>
-    </a-layout>
-  </a-layout>
-  <yc-layout>
-    <yc-layout-header> </yc-layout-header>
-    <yc-layout>
-      <yc-layout-sider
-        collapsible
-        breakpoint="lg"
-        theme="dark"
-      ></yc-layout-sider>
-      <yc-layout-content></yc-layout-content>
+  <yc-layout class="container">
+    <yc-layout-sider collapsible theme="dark"></yc-layout-sider>
+    <yc-layout class="main">
+      <yc-layout-header class="header"> </yc-layout-header>
+      <yc-layout-content>
+        <yc-watermark text="李银超" color="black" :font-size="20" grayscale>
+          <div
+            style="
+              height: 100%;
+              display: flex;
+              justify-content: center;
+              align-items: center;
+            "
+          >
+            <h2>受保护的内容区域</h2>
+            <p>这里的内容会被添加水印保护</p>
+            <p>支持文字和图片两种水印类型</p>
+            <p>可以调整各种水印参数</p>
+          </div>
+        </yc-watermark>
+      </yc-layout-content>
     </yc-layout>
   </yc-layout>
 </template>
 
 <script lang="ts" setup>
 import { ref, watch } from 'vue';
-const value = ['option1', 'option3', 'option5'];
-const classOptions = new Array(3).fill(1).map((_, i) => {
-  return {
-    label: `高${i + 1}`,
-    value: 'g' + i,
-    children: new Array(3).fill(1).map((_, v) => {
-      return {
-        label: `高${i + 1}-${v + 1}班`,
-        value: `c${i}-${v}`,
-      };
-    }),
-  };
-});
 const options = Array(8)
   .fill(undefined)
   .map((_, index) => ({
     value: `option${index + 1}`,
     label: `Option ${index + 1}`,
   }));
-const handleFinish = () => {
-  console.log('finish');
-};
 </script>
 
 <style lang="less" scoped>
 .container {
   height: 100%;
 
-  .wrapper {
-    height: calc(100% - 50px);
-    .main {
-      overflow: auto;
+  .main {
+    overflow: auto;
+    .header {
+      height: 60px;
+      border-bottom: 1px solid rgb(229, 230, 235);
     }
     .content {
-      height: 100%;
+      height: calc(100% - 60px);
       display: flex;
       flex-direction: column;
       justify-content: center;
       align-items: center;
     }
   }
-}
-
-.yc-layout-header {
-  background-color: aqua;
-  height: 60px;
-}
-.yc-layout-content {
-  background-color: blue;
-}
-.yc-layout-footer {
-  background-color: black;
-  height: 60px;
 }
 </style>

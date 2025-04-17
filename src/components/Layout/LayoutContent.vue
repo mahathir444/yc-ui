@@ -11,7 +11,5 @@ defineOptions({
 </script>
 
 <style lang="less" scoped>
-.yc-layout-content {
-  flex: 1;
-}
+@import './style/layout.less';
 </style>

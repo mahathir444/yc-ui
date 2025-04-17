@@ -46,10 +46,16 @@ import Affix from './Affix';
 import TimePicker from './TimePicker';
 import { default as Breadcrumb, BreadcrumbItem } from './Breadcrumb';
 import PageHeader from './PageHeader';
-import { default as Grid, Row, Col } from './Grid';
+import { default as Grid, GridRow, GridCol } from './Grid';
 import Transfer from './Transfer';
 import VerificationCode from './VerificationCode';
-import { default as Layout } from './Layout';
+import {
+  default as Layout,
+  LayoutContent,
+  LayoutFooter,
+  LayoutSider,
+} from './Layout';
+import Watermark from './Watermark';
 
 export const components: Record<string, Plugin> = {
   Button,
@@ -97,6 +103,7 @@ export const components: Record<string, Plugin> = {
   Transfer,
   VerificationCode,
   Layout,
+  Watermark,
 };
 
 console.log('components：', Object.keys(components).length + 2);
@@ -115,8 +122,11 @@ export default {
   SkeletonLine,
   SkeletonShape,
   BreadcrumbItem,
-  Col,
-  Row,
+  GridCol,
+  GridRow,
+  LayoutFooter,
+  LayoutSider,
+  LayoutContent,
   install: (app: App) => {
     for (const key of Object.keys(components)) {
       app.use(components[key]);

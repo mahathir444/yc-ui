@@ -152,5 +152,6 @@ declare module 'vue' {
     TransferPanl: typeof import('./src/components/Transfer/component/TransferPanl.vue')['default']
     Trigger: typeof import('./src/components/Trigger/index.vue')['default']
     VerificationCode: typeof import('./src/components/VerificationCode/index.vue')['default']
+    Watermark: typeof import('./src/components/Watermark/index.vue')['default']
   }
 }

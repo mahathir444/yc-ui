@@ -1,5 +1,5 @@
 <template>
-  <div></div>
+  <div class="yc-grid-item"></div>
 </template>
 
 <script lang="ts" setup>
