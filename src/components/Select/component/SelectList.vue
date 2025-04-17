@@ -14,25 +14,23 @@
               v-for="v in option.options"
               :key="v[fieldKey.value]"
               :value="v[fieldKey.value]"
-              :label="v[fieldKey.label]"
               :disabled="v[fieldKey.disabled]"
-            />
+              :tag-props="v[fieldKey.tagProps]"
+            >
+              <slot name="option" :data="v">
+                <component :is="getRender(v)" />
+              </slot>
+            </yc-option>
           </yc-optgroup>
         </template>
         <template v-else>
           <yc-option
             :value="option[fieldKey.value]"
-            :label="option[fieldKey.label]"
             :disabled="option[fieldKey.disabled]"
+            :tag-props="option[fieldKey.tagProps]"
           >
             <slot name="option" :data="option">
-              <component
-                v-if="option[fieldKey.label].render"
-                :is="option[fieldKey.label].render"
-              />
-              <template v-else>
-                {{ option[fieldKey.label].label }}
-              </template>
+              <component :is="getRender(option)" />
             </slot>
           </yc-option>
         </template>
@@ -45,11 +43,13 @@
 </template>
 
 <script lang="ts" setup>
+import { toRefs } from 'vue';
 import { ObjectData } from '@shared/type';
+import { getSlotFunction } from '@shared/utils';
 import YcEmpty from '@/components/Empty';
 import YcOption from '../Option.vue';
 import YcOptgroup from '../Optgroup.vue';
-defineProps<{
+const props = defineProps<{
   renderOptions: ObjectData[];
   fieldKey: Record<string, string>;
   scrollbar: boolean;
@@ -59,6 +59,12 @@ const emits = defineEmits<{
   (e: 'dropdownScroll'): void;
   (e: 'dropdownReachBottom'): void;
 }>();
+const { fieldKey } = toRefs(props);
+// 渲染
+const getRender = (option: ObjectData) => {
+  const { render, label } = fieldKey.value;
+  return option[render] ?? getSlotFunction(option[label]);
+};
 </script>
 
 <style lang="less" scoped>

@@ -127,7 +127,6 @@ for (let i = 0; i < 30; i++) {
   options.value.push({
     label: '选项' + i,
     value: i,
-    render: () => '123',
   });
 }
 const formatter = (value: string) => {

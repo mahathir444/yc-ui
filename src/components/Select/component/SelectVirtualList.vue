@@ -8,29 +8,25 @@
       class="yc-select-dropdown-list"
     >
       <yc-option
-        v-for="item in renderOptions"
-        :key="(item as ObjectData).value"
-        v-bind="item"
+        v-for="v in renderOptions"
+        :key="v[fieldKey.value]"
+        :value="v[fieldKey.value]"
+        :disabled="v[fieldKey.disabled]"
       >
-        <slot name="option" :data="item">
-          <component v-if="item.render" :is="item.render" />
-          <template v-else>
-            {{ item.label }}
-          </template>
+        <slot name="option" :data="v">
+          <component :is="getRender(v)" />
         </slot>
       </yc-option>
     </div>
     <div v-else class="yc-select-dropdown-list" v-bind="wrapperProps">
       <yc-option
-        v-for="{ data } in list"
-        :key="(data as ObjectData).value"
-        v-bind="data"
+        v-for="{ data: v } in list"
+        :key="v[fieldKey.value]"
+        :value="v[fieldKey.value]"
+        :disabled="v[fieldKey.disabled]"
       >
-        <slot name="option" :data="data">
-          <component v-if="data.render" :is="data.render" />
-          <template v-else>
-            {{ data.label }}
-          </template>
+        <slot name="option" :data="v">
+          <component :is="getRender(v)" />
         </slot>
       </yc-option>
     </div>
@@ -43,23 +39,21 @@
 <script lang="ts" setup>
 import { ref, toRefs, watch } from 'vue';
 import { ObjectData } from '@shared/type';
-import {
-  Option as YcOption,
-  SelectOptionData,
-  VirtualListProps,
-} from '../index';
+import { getSlotFunction } from '@shared/utils';
+import { Option as YcOption, VirtualListProps } from '../index';
 import { useVirtualList, useScroll } from '@vueuse/core';
 const props = defineProps<{
-  renderOptions: SelectOptionData[];
+  renderOptions: ObjectData[];
   computedVisible: boolean;
   virtualListProps: VirtualListProps;
+  fieldKey: Record<string, string>;
   isEmpty: boolean;
 }>();
 const emits = defineEmits<{
   (e: 'dropdownScroll'): void;
   (e: 'dropdownReachBottom'): void;
 }>();
-const { renderOptions, virtualListProps } = toRefs(props);
+const { renderOptions, virtualListProps, fieldKey } = toRefs(props);
 // 滚动ref
 const scrollRef = ref<HTMLDivElement>();
 // 初始化虚拟滚动
@@ -75,6 +69,11 @@ watch(arrivedState, () => {
     emits('dropdownReachBottom');
   }
 });
+// 渲染
+const getRender = (option: ObjectData) => {
+  const { render, label } = fieldKey.value;
+  return option[render] ?? getSlotFunction(option[label]);
+};
 </script>
 
 <style lang="less" scoped>

@@ -77,6 +77,7 @@ export default (params: {
       value: fieldNames.value['value'] ?? 'value',
       disabled: fieldNames.value['disabled'] ?? 'disabled',
       tagProps: fieldNames.value['tagProps'] ?? 'tagProps',
+      render: fieldNames.value['render'] ?? 'render',
     };
   });
   // 选中的value
