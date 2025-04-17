@@ -1,4 +1,9 @@
 import { ResponsiveValue } from '@shared/type';
+
+export interface LayoutProps {
+  hasSider?: boolean;
+}
+
 export interface LayoutSiderProps {
   theme?: 'dark' | 'light';
   collapsed?: boolean;

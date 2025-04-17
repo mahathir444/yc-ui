@@ -10,7 +10,11 @@
     }"
   >
     <slot v-if="!hideTrigger" name="trigger" :collapsed="computedCollapsed">
-      <yc-icon-button class="yc-collapse-button" @click="handleCollapse">
+      <yc-icon-button
+        :hover-size="24"
+        class="yc-collapse-button"
+        @click="handleCollapse"
+      >
         <icon-arrow-right
           :rotate="computedCollapsed && !reverseArrow ? 0 : 180"
         />
@@ -98,11 +102,22 @@ onMounted(() => {
     position: absolute;
     left: 50%;
     transform: translateX(-50%);
-    bottom: 10px;
+    bottom: 17px;
+    color: inherit;
   }
 }
 .yc-layout-sider-light {
   background: #fff;
   box-shadow: 0 2px 5px #00000014;
+  color: rgb(29, 33, 41);
+}
+.yc-layout-sider-dark {
+  background-color: #232324;
+  color: #fff;
+  .yc-collapse-button {
+    &:hover::before {
+      background-color: rgba(255, 255, 255, 0.2);
+    }
+  }
 }
 </style>

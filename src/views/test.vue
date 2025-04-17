@@ -2,7 +2,12 @@
   <a-layout class="container">
     <a-layout-header style="height: 60px" />
     <a-layout class="wrapper">
-      <a-layout-sider collapsible breakpoint="lg" :reverse-arrow="true">
+      <a-layout-sider
+        collapsible
+        breakpoint="lg"
+        :reverse-arrow="true"
+        theme="dark"
+      >
       </a-layout-sider>
       <a-layout-content class="main">
         <div class="content" id="content">
@@ -37,7 +42,11 @@
   <yc-layout>
     <yc-layout-header> </yc-layout-header>
     <yc-layout>
-      <yc-layout-sider collapsible breakpoint="lg"></yc-layout-sider>
+      <yc-layout-sider
+        collapsible
+        breakpoint="lg"
+        theme="dark"
+      ></yc-layout-sider>
       <yc-layout-content></yc-layout-content>
     </yc-layout>
   </yc-layout>
