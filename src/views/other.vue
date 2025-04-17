@@ -25,9 +25,9 @@
     </div>
     <div>
       overflowlist
-      <yc-overflow-list :min="6">
+      <!-- <yc-overflow-list :min="6">
         <yc-tag v-for="i in value" :key="i">测试{{ i }}</yc-tag>
-      </yc-overflow-list>
+      </yc-overflow-list> -->
       <a-button @click="value--">点击减1</a-button>
       <a-button @click="value++">点击加1</a-button>
     </div>

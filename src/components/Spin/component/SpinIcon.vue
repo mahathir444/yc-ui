@@ -1,7 +1,7 @@
 <template>
   <div v-if="!hideIcon" class="yc-spin-icon">
     <slot name="icon">
-      <icon-loading spin v-if="!dot" name="loading" :size="size" />
+      <icon-loading v-if="!dot" name="loading" :size="size" />
       <dot-icon v-else />
     </slot>
   </div>

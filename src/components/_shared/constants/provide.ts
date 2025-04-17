@@ -13,3 +13,5 @@ export const SKELETON_PROVIDE_KEY = 'skeleton-props';
 export const BREADCRUMB_PROVIDE_KEY = 'breadcrumb-props';
 export const GRID_PROVIDE_KEY = 'grid-props';
 export const TRANSFER_PROVIDE_KEY = 'transfer-props';
+export const LAYOUT_PROVIDE_KEY = 'layout-props';
+export const CONFIG_PROVIDER_PROVIDE_KEY = 'config-props';

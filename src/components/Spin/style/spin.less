@@ -5,6 +5,7 @@
   height: fit-content;
 
   .yc-spin-icon {
+    animation: spin 1s infinite cubic-bezier(0, 0, 1, 1);
     display: flex;
     justify-content: center;
     align-items: center;
@@ -68,6 +69,16 @@
 .yc-spin-loading {
   .yc-spin-mask {
     display: flex;
+  }
+}
+
+// 旋转
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
   }
 }
 

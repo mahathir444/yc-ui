@@ -25,10 +25,10 @@
 
 <script lang="ts" setup>
 import { ref, onMounted, inject, toRefs } from 'vue';
-import { LayoutSiderProps } from './type';
+import { LayoutSiderProps, LayoutProvide } from './type';
 import { useControlValue } from '@shared/hooks';
 import { MediaQueryManager } from '@shared/utils';
-import { RESPONSIVE_NUMBER_MAP } from '@shared/constants';
+import { RESPONSIVE_NUMBER_MAP, LAYOUT_PROVIDE_KEY } from '@shared/constants';
 import { YcIconButton } from '@shared/components';
 import { IconArrowRight } from '@shared/icons';
 defineOptions({
@@ -69,7 +69,7 @@ const computedCollapsed = useControlValue<boolean>(
 // 媒体查询器
 const mqm = new MediaQueryManager();
 // 注入数据
-const { curLevel, hasSider } = inject('layout-props', {
+const { curLevel, hasSider } = inject<LayoutProvide>(LAYOUT_PROVIDE_KEY, {
   curLevel: ref(0),
   hasSider: ref(false),
 });
@@ -79,7 +79,6 @@ const handleCollapse = () => {
   curType.value = 'clickTrigger';
   computedCollapsed.value = !computedCollapsed.value;
 };
-
 onMounted(() => {
   if (hasSider.value) return;
   hasSider.value = true;

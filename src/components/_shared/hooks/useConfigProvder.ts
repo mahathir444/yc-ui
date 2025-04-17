@@ -1,35 +1,16 @@
-import { ConfigProviderProps } from '@/components/ConfigProvider/type';
-import { RequiredDeep } from '@shared/type';
-import { toRefs, provide, inject, ref, Ref } from 'vue';
+import { toRefs, inject, ref } from 'vue';
 import { useControlValue } from './index';
+import { CONFIG_PROVIDER_PROVIDE_KEY } from '../constants';
+import { ConfigProviderProvide } from '@/components/ConfigProvider';
 
 export default (props: Record<string, any> = {}) => {
-  const ProvideConfig = (props: ConfigProviderProps) => {
-    const {
-      zIndex,
-      size,
-      updateAtScroll,
-      scrollToClose,
-      exchangeTime,
-      popupContainer,
-    } = toRefs(props as RequiredDeep<ConfigProviderProps>);
-    provide('global-props', {
-      zIndex,
-      size,
-      updateAtScroll,
-      scrollToClose,
-      exchangeTime,
-      popupContainer,
-    });
-  };
-
   const {
-    zIndex = ref(undefined),
-    size = ref(undefined),
-    updateAtScroll = ref(undefined),
-    scrollToClose = ref(undefined),
-    exchangeTime = ref(undefined),
-    popupContainer = ref(undefined),
+    zIndex = ref(),
+    size = ref(),
+    updateAtScroll = ref(),
+    scrollToClose = ref(),
+    exchangeTime = ref(),
+    popupContainer = ref(),
   } = toRefs(props);
   const {
     zIndex: _zIndex,
@@ -38,7 +19,7 @@ export default (props: Record<string, any> = {}) => {
     scrollToClose: _scrollToClose,
     exchangeTime: _exchangeTime,
     popupContainer: _popupContainer,
-  } = inject('global-props', {
+  } = inject<ConfigProviderProvide>(CONFIG_PROVIDER_PROVIDE_KEY, {
     zIndex: ref(1001),
     size: ref('medium'),
     updateAtScroll: ref(false),
@@ -47,7 +28,6 @@ export default (props: Record<string, any> = {}) => {
     popupContainer: ref('body'),
   });
   return {
-    ProvideConfig,
     zIndex: useControlValue(zIndex, _zIndex.value),
     size: useControlValue(size, _size.value),
     updateAtScroll: useControlValue(updateAtScroll, _updateAtScroll.value),

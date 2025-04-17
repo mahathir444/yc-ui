@@ -9,7 +9,11 @@
         placeholder="请选择"
         :options="options"
         :max-tag-count="3"
+        loading
       >
+        <template #loading-icon>
+          <icon-alipay-circle />
+        </template>
       </yc-select>
     </div>
     <div style="width: 300px">

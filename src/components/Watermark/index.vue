@@ -4,8 +4,8 @@
   </div>
 </template>
 
-<script lang="ts">
-import { defineComponent, onMounted, ref, watch, nextTick } from 'vue';
+<script setup lang="ts">
+import { onMounted, ref, watch, nextTick } from 'vue';
 type WatermarkType = 'text' | 'image';
 type RepeatMode = 'repeat' | 'repeat-x' | 'repeat-y' | 'no-repeat';
 const props = defineProps({

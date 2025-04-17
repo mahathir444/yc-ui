@@ -82,14 +82,13 @@
 </template>
 
 <script lang="ts" setup>
-import { toRefs, computed, CSSProperties, useAttrs } from 'vue';
+import { toRefs, computed, CSSProperties, useAttrs, ref } from 'vue';
 import { DRAWER_PLACEMENT_MAP } from '@shared/constants';
 import { DrawerProps } from './type';
 import { CloseType } from '@shared/type';
 import {
   useModalClose as useDrawerClose,
   useConfigProvder,
-  useControlValue,
 } from '@shared/hooks';
 import YcButton from '@/components/Button';
 import { YcIconButton } from '@shared/components';

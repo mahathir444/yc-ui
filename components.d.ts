@@ -44,6 +44,7 @@ declare module 'vue' {
     ColorPicker: typeof import('./src/components/ColorPicker/index.vue')['default']
     ColorPreview: typeof import('./src/components/ColorPicker/component/ColorPreview.vue')['default']
     Components: typeof import('./src/components/_shared/components/index.vue')['default']
+    ConfigProvider: typeof import('./src/components/ConfigProvider/index.vue')['default']
     Container: typeof import('./src/components/Message/Container.vue')['default']
     Content: typeof import('./src/components/Layout/Content.vue')['default']
     Dgroup: typeof import('./src/components/Dropdown/Dgroup.vue')['default']

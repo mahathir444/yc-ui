@@ -11,8 +11,9 @@
 
 <script lang="ts" setup>
 import { ref, provide, toRefs, computed } from 'vue';
-import { LayoutProps } from './type';
+import { LayoutProps, LayoutProvide } from './type';
 import { isUndefined } from '@shared/utils';
+import { LAYOUT_PROVIDE_KEY } from '@shared/constants';
 defineOptions({
   name: 'Layout',
 });
@@ -29,7 +30,7 @@ const computedHasSider = computed(() => {
   if (!isUndefined(_hasSider.value)) return _hasSider.value;
   return curLevel.value == 1 && hasSider.value;
 });
-provide('layout-props', {
+provide<LayoutProvide>(LAYOUT_PROVIDE_KEY, {
   hasSider,
   curLevel,
 });

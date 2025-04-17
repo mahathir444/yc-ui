@@ -1,5 +1,7 @@
 <template>
-  <router-view />
+  <yc-config-provider :z-index="3000">
+    <router-view />
+  </yc-config-provider>
 </template>
 
 <style lang="less">

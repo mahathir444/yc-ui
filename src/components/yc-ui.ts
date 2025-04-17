@@ -55,6 +55,7 @@ import {
   LayoutFooter,
   LayoutSider,
 } from './Layout';
+import ConfigProvider from './ConfigProvider';
 import Watermark from './Watermark';
 
 export const components: Record<string, Plugin> = {
@@ -104,6 +105,7 @@ export const components: Record<string, Plugin> = {
   VerificationCode,
   Layout,
   Watermark,
+  ConfigProvider,
 };
 
 console.log('components：', Object.keys(components).length + 2);
