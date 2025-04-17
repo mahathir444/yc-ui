@@ -1,6 +1,6 @@
 import { ref, Ref, computed, CSSProperties, watch } from 'vue';
 import { useDraggable, useEventListener } from '@vueuse/core';
-import { sleep } from '../utils/fn';
+import { sleep } from '../utils';
 
 export default (params: {
   draggable: Ref<boolean>;

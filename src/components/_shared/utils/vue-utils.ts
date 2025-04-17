@@ -1,7 +1,6 @@
 import { RenderContent } from '../type';
 import { Comment, Fragment, Text, h, VNode } from 'vue';
 import { isFunction, isObject } from './is';
-import { Option } from '@/components/Select';
 import { ObjectData } from '../type';
 
 // 获取renderFunction
@@ -49,21 +48,27 @@ export function findFirstLegitChild(node: VNode[] | undefined): VNode | null {
   return null;
 }
 
-// 查找select中所有的option和option-group
-export function flattenAndFindOptions(vnodes: VNode[]) {
+// 扁平化插槽components
+export function findComponentsFromVnodes(
+  vnodes: VNode[],
+  componentName: string
+) {
   const result: ObjectData[] = [];
   // 是否是option
-  const isOption = (vnode: ObjectData) => vnode?.type?.name == Option.name;
   const traverse = (nodes: ObjectData | ObjectData[]) => {
     if (!nodes) return;
-    const nodeArray = Array.isArray(nodes) ? nodes : [nodes];
-    for (const node of nodeArray) {
-      if (!node || typeof node !== 'object') continue;
-      if (isOption(node)) {
-        node.props && result.push(node.props);
-      } else if (Array.isArray(node.children)) {
+    const nodeList = Array.isArray(nodes) ? nodes : [nodes];
+    for (const node of nodeList) {
+      if (!node || !isObject(node)) continue;
+      if ((node.type as ObjectData)?.name == componentName) {
+        result.push(node);
+      }
+      // 处理children
+      else if (Array.isArray(node.children)) {
         traverse(node.children);
-      } else if (isObject(node.children) && !Array.isArray(node.children)) {
+      }
+      // 处理child是渲染函数的情况
+      else if (isObject(node.children) && !Array.isArray(node.children)) {
         for (let key of Object.keys(node.children)) {
           if (!isFunction(node.children[key])) continue;
           traverse(node.children[key]?.() || []);

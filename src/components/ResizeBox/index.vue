@@ -41,7 +41,7 @@
 import { ref, onMounted, computed, watch, toRefs } from 'vue';
 import { ResizeBoxProps, DirectionType } from './type';
 import { useResizeObserver, useEventListener } from '@vueuse/core';
-import useControlValue from '@shared/hooks/useControlValue';
+import { useControlValue } from '@shared/hooks';
 import { IconDragDot, IconDragDotVertical } from '@shared/icons';
 defineOptions({
   name: 'ResizeBox',

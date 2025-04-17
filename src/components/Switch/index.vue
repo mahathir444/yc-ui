@@ -41,7 +41,7 @@ import { toRefs, computed } from 'vue';
 import { SwitchProps, SwitchValue } from './type';
 import { SWITCH_SIZE_CLASS, SWITCH_SHAPE_CLASS } from '@shared/constants';
 import { isBoolean } from '@shared/utils';
-import useControlValue from '@shared/hooks/useControlValue';
+import { useControlValue } from '@shared/hooks';
 import YcSpin from '@/components/Spin';
 defineOptions({
   name: 'Switch',

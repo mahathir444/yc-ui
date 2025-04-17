@@ -26,7 +26,7 @@
 <script lang="ts" setup>
 import { toRefs, computed, CSSProperties } from 'vue';
 import { TooltipProps } from './type';
-import useControlValue from '@shared/hooks/useControlValue';
+import { useControlValue } from '@shared/hooks';
 import YcTrigger from '@/components/Trigger';
 defineOptions({
   name: 'Tooltip',

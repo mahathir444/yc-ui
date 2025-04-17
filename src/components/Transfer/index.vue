@@ -66,7 +66,7 @@
 import { toRefs, computed, provide } from 'vue';
 import { TransferProps, TransferProvide } from './type';
 import { TRANSFER_PROVIDE_KEY } from '@shared/constants';
-import useControlValue from '@shared/hooks/useControlValue';
+import { useControlValue } from '@shared/hooks';
 import { IconArrowRight } from '@shared/icons';
 import TransferPanel from './component/Panel.vue';
 import YcButton from '@/components/Button';

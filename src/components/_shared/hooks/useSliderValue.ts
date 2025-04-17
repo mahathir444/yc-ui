@@ -1,8 +1,8 @@
 import { computed, ref, Ref } from 'vue';
+import { Fn } from '../type';
 import { SliderValue } from '@/components/Slider';
 import { isArray } from '@shared/utils';
-import useControlValue from '@shared/hooks/useControlValue';
-import { Fn } from '../type';
+import { useControlValue } from '@shared/hooks';
 
 export default (params: {
   modelValue: Ref<SliderValue | undefined>;

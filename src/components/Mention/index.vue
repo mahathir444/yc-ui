@@ -29,8 +29,7 @@ import { ref, toRefs, onMounted, computed } from 'vue';
 import { MentionProps } from './type';
 import { ObjectData } from '@shared/type';
 import { isNull, isArray } from '@shared/utils';
-import useControlValue from '@shared/hooks/useControlValue';
-import useCursor from '@shared/hooks/useCursor';
+import { useControlValue, useCursor } from '@shared/hooks';
 import YcAutoComplete, {
   AutoCompleteInstance,
 } from '@/components/AutoComplete';

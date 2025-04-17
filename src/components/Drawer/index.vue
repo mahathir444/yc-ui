@@ -86,9 +86,9 @@ import { toRefs, computed, CSSProperties, useAttrs } from 'vue';
 import { DRAWER_PLACEMENT_MAP } from '@shared/constants';
 import { DrawerProps } from './type';
 import { CloseType } from '@shared/type';
-import useDrawerClose from '@shared/hooks/useModalClose';
+import { useModalClose as useDrawerClose } from '@shared/hooks';
 import YcButton from '@/components/Button';
-import YcIconButton from '@shared/components/IconButton';
+import { YcIconButton } from '@shared/components';
 defineOptions({
   name: 'Drawer',
   inheritAttrs: false,

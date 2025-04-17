@@ -41,8 +41,7 @@
 
 <script lang="ts" setup>
 import { IconSearch, IconEyeOpen, IconEyeClose } from '@shared/icons';
-import YcPreventFocus from '@shared/components/PreventFocus';
-import YcIconButton from '@shared/components/IconButton';
+import { YcPreventFocus, YcIconButton } from '@shared/components';
 defineProps<{
   curLength: number;
   maxLength?: number;

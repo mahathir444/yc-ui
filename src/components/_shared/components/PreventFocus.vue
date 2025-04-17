@@ -27,14 +27,19 @@
 
 <script lang="ts" setup>
 import { ref } from 'vue';
-import { PreventFocusProps } from './type';
 defineOptions({
   name: 'PreventFocus',
 });
-withDefaults(defineProps<PreventFocusProps>(), {
-  preventFocus: true,
-  tag: 'div',
-});
+withDefaults(
+  defineProps<{
+    preventFocus?: boolean;
+    tag?: 'div' | 'label' | 'span';
+  }>(),
+  {
+    preventFocus: true,
+    tag: 'div',
+  }
+);
 // 计算htmlRef
 const htmlRef = ref<HTMLElement>();
 defineExpose({

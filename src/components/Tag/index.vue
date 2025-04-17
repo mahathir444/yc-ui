@@ -43,9 +43,9 @@ import { toRefs, computed } from 'vue';
 import { TagProps, TagEventType } from './type';
 import { TAG_SIZE_CLASS, TAG_COLOR_CLASS } from '@shared/constants';
 import YcSpin from '@/components/Spin';
-import useControlValue from '@shared/hooks/useControlValue';
-import YcPreventFocus from '@shared/components/PreventFocus';
-import YcIconButton from '@shared/components/IconButton';
+import { useControlValue } from '@shared/hooks';
+import { YcPreventFocus, YcIconButton } from '@shared/components';
+
 defineOptions({
   name: 'Tag',
 });

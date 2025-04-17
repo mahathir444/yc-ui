@@ -30,7 +30,7 @@ import { RadioGroupProps, RadioValue, RadioProvide } from './type';
 import { RADIO_SIZE_CLASS } from '@shared/constants';
 import { RADIO_DIRECTION_MAP } from '@shared/constants';
 import { RADIO_GROUP_PROVIDE_KEY } from '@shared/constants';
-import useControlValue from '@shared/hooks/useControlValue';
+import { useControlValue } from '@shared/hooks';
 import YcRadio from './Radio.vue';
 defineOptions({
   name: 'RadioGroup',

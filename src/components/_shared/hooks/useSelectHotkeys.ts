@@ -55,7 +55,7 @@ export default (params: {
           computedValue.value = curValue.filter((item) => item != value);
         }
       } else {
-        computedValue.value = value;
+        computedValue.value = value as string;
         blur();
       }
       emits('select', value);

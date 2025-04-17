@@ -1,5 +1,5 @@
 <template>
-  <div></div>
+  <sider class="yc-layout-sider"></sider>
 </template>
 
 <script lang="ts" setup>

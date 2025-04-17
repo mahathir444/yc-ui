@@ -1,7 +1,6 @@
-import { ref, Ref, computed, watch } from 'vue';
+import { ref, Ref, watch } from 'vue';
 import { CloseType, Fn } from '../type';
 import { OnBeforeCancel, OnBeforeOk } from '@/components/Modal/type';
-import { PopupContainer } from '@/components/Trigger';
 import { useMagicKeys, whenever } from '@vueuse/core';
 import useControlValue from './useControlValue';
 import useOnBeforeClose from './useOnBeforeClose';

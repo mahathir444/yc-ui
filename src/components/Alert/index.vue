@@ -48,7 +48,7 @@ import {
   TYPE_ICON_COLOR_MAP,
   ALERT_TYPE_CLASS,
 } from '@shared/constants';
-import YcIconButton from '@shared/components/IconButton';
+import { YcIconButton } from '@shared/components';
 defineOptions({
   name: 'alert',
 });

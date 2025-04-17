@@ -81,10 +81,9 @@ import { ObjectData } from '@shared/type';
 import { isBoolean, isObject } from '@shared/utils';
 import { nanoid } from 'nanoid';
 import { useElementSize } from '@vueuse/core';
-import useControlValue from '@shared/hooks/useControlValue';
+import { useControlValue } from '@shared/hooks';
 import TagOverflowList from './component/TagOverflowList.vue';
-import YcPreventFocus from '@shared/components/PreventFocus';
-import YcIconButton from '@shared/components/IconButton';
+import { YcPreventFocus, YcIconButton } from '@shared/components';
 defineOptions({
   name: 'InputTag',
 });

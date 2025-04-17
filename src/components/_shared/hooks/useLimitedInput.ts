@@ -1,9 +1,9 @@
 import { computed, Ref, ref, toRefs } from 'vue';
 import { Fn, ObjectData, RequiredDeep } from '../type';
-import { isFunction, isNumber, isUndefined } from '../utils/is';
-import { InputProps } from '@/components/Input';
+import { isFunction, isNumber } from '../utils';
 import useControlValue from './useControlValue';
 import useCursor from './useCursor';
+import { InputProps } from '@/components/Input';
 import { TextareaProps } from '@/components/Textarea';
 
 export default (params: {

@@ -38,7 +38,7 @@
 import { PageHeaderProp } from './type';
 import { IconArrowRight } from '@shared/icons';
 import YcDivider from '@/components/Divider';
-import YcIconButton from '@shared/components/IconButton';
+import { YcIconButton } from '@shared/components';
 defineOptions({
   name: 'PageHeader',
 });

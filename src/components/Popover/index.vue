@@ -35,7 +35,7 @@
 import { toRefs } from 'vue';
 import { PopoverProps } from './type';
 import YcTrigger from '@/components/Trigger';
-import useControlValue from '@shared/hooks/useControlValue';
+import { useControlValue } from '@shared/hooks';
 defineOptions({
   name: 'Popover',
 });

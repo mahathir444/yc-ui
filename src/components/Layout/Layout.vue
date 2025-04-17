@@ -10,9 +10,7 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, computed, toRefs, useSlots, VNode } from 'vue';
-import { Sider } from './index';
-import { ObjectData } from '@shared/type';
+import { toRefs } from 'vue';
 defineOptions({
   name: 'Layout',
 });
@@ -25,17 +23,6 @@ const props = withDefaults(
   }
 );
 const { hasSider: _hasSider } = toRefs(props);
-const slots = useSlots();
-const hasSider = computed(() => {
-  console.log(slots.default?.());
-  const nodes = slots.default?.() as ObjectData[];
-  const result = (nodes || []).filter((node) => {
-    return node.type.name == Sider.name;
-  }) as VNode[];
-  console.log(result);
-
-  return result;
-});
 </script>
 
 <style lang="less" scoped>

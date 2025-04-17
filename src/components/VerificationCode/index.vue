@@ -24,7 +24,7 @@
 <script lang="ts" setup>
 import { ref, toRefs, computed } from 'vue';
 import { VerificationCodeProps } from './type';
-import useControlValue from '@shared/hooks/useControlValue';
+import { useControlValue } from '@shared/hooks';
 import { VERIFICATION_CODE_SIZE_CLASS } from '@shared/constants';
 import { sleep } from '@shared/utils';
 import { nanoid } from 'nanoid';

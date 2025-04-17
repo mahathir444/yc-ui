@@ -24,7 +24,7 @@ import { PRESET_COLORS } from '@shared/constants';
 import { ColorPickerProps, ColorPickerEmits, ColorPickerProvide } from './type';
 import { parseColor } from '@shared/utils';
 import { COLOR_PICKER_PROVIDE_KEY } from '@shared/constants';
-import useControlValue from '@shared/hooks/useControlValue';
+import { useControlValue } from '@shared/hooks';
 import ColorPanel from './component/ColorPanel.vue';
 import ColorPreview from './component/ColorPreview.vue';
 import YcTrigger from '@/components/Trigger';

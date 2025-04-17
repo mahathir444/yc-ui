@@ -133,13 +133,12 @@ import {
 } from '@shared/utils';
 import YcScrollbar from '@/components/Scrollbar/index.vue';
 import { useTemplateRefsList } from '@vueuse/core';
-import useControlValue from '@shared/hooks/useControlValue';
+import { useControlValue } from '@shared/hooks';
 import dayjs from 'dayjs';
 import isSameOrBefore from 'dayjs/plugin/isSameOrBefore';
 import BTween from 'b-tween';
-import YcIconButton from '@shared/components/IconButton';
-import YcPreventFocus from '@shared/components/PreventFocus';
-import { IconClose, IconTime } from '@shared/icons';
+import { YcIconButton, YcPreventFocus } from '@shared/components';
+import { IconTime } from '@shared/icons';
 
 defineOptions({
   name: 'TimePicker',

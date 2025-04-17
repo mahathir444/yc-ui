@@ -56,7 +56,7 @@
 import { ref, toRefs } from 'vue';
 import { AutoCompleteProps } from './type';
 import { sleep } from '@shared/utils';
-import useControlValue from '@shared/hooks/useControlValue';
+import { useControlValue } from '@shared/hooks';
 import {
   default as YcSelect,
   SelectOptionData,
@@ -116,7 +116,9 @@ const computedValue = useControlValue<string>(
 const curOptions = ref<SelectOptions>(data.value);
 // 默认过滤函数
 const defaultFilter = (inputValue: string, option: SelectOptionData) => {
-  const label = strict.value ? option.label : option.label.toLowerCase();
+  const label = strict.value
+    ? option.label
+    : (option.label as string).toLowerCase();
   const value = strict.value ? inputValue : inputValue.toLowerCase();
   return label?.includes(value);
 };

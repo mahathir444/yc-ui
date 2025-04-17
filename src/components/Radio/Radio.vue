@@ -45,9 +45,8 @@ import { RadioProps, RadioValue, RadioProvide } from './type';
 import { RADIO_SIZE_CLASS } from '@shared/constants';
 import { RADIO_GROUP_PROVIDE_KEY } from '@shared/constants';
 import { isUndefined } from '@shared/utils';
-import useControlValue from '@shared/hooks/useControlValue';
-import YcPreventFocus from '@shared/components/PreventFocus';
-import YcIconButton from '@shared/components/IconButton';
+import { useControlValue } from '@shared/hooks';
+import { YcPreventFocus, YcIconButton } from '@shared/components';
 defineOptions({
   name: 'Radio',
 });

@@ -29,7 +29,7 @@ import {
   CHECKBOX_GROUP_PROVIDE_KEY,
   CHECKBOX_DIRECTION_MAP,
 } from '@shared/constants';
-import useControlValue from '@shared/hooks/useControlValue';
+import { useControlValue } from '@shared/hooks';
 import YcCheckbox from './Checkbox.vue';
 
 defineOptions({

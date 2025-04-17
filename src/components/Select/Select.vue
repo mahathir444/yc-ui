@@ -202,15 +202,13 @@ import {
 import { ObjectData } from '@shared/type';
 import { SELECT_PROVIDE_KEY } from '@shared/constants';
 import { sleep } from '@shared/utils';
-import useSelectHotkeys from '@shared/hooks/useSelectHotkeys';
-import useSeletValue from '@shared/hooks/useSeletValue';
+import { useSelectHotkeys, useSeletValue } from '@shared/hooks';
 import SelectVirtualList from './component/SelectVirtualList.vue';
 import SelectList from './component//SelectList.vue';
 import YcInput, { InputInstance } from '@/components/Input';
 import YcInputTag, { TagData, InputTagValue } from '@/components/InputTag';
 import YcTrigger, { TriggerInstance } from '@/components/Trigger';
-import YcIconButton from '@shared/components/IconButton';
-import YcPreventFocus from '@shared/components/PreventFocus';
+import { YcIconButton, YcPreventFocus } from '@shared/components';
 import { createReusableTemplate } from '@vueuse/core';
 defineOptions({
   name: 'Select',

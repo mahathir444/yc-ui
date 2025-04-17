@@ -102,10 +102,9 @@
 import { ref, toRefs, computed, CSSProperties, useAttrs } from 'vue';
 import { ModalProps } from './type';
 import { CloseType } from '@shared/type';
-import useModalDraggable from '@shared/hooks/useModalDraggable';
-import useModalClose from '@shared/hooks/useModalClose';
+import { useModalClose, useModalDraggable } from '@shared/hooks';
 import YcButton from '@/components/Button';
-import YcIconButton from '@shared/components/IconButton';
+import { YcIconButton } from '@shared/components';
 defineOptions({
   name: 'Modal',
   inheritAttrs: false,

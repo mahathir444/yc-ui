@@ -8,17 +8,23 @@
 
 <script lang="ts" setup>
 import { toRefs, computed } from 'vue';
-import { IconButtonProps } from './type';
 import { IconClose } from '@shared/icons';
-import YcPreventFocus from '@shared/components/PreventFocus';
+import YcPreventFocus from './PreventFocus.vue';
 defineOptions({
   name: 'IconButton',
 });
-const props = withDefaults(defineProps<IconButtonProps>(), {
-  size: 14,
-  hoverColor: 'rgb(242, 243, 245)',
-  hoverSize: 20,
-});
+const props = withDefaults(
+  defineProps<{
+    size?: number;
+    hoverColor?: string;
+    hoverSize?: number;
+  }>(),
+  {
+    size: 14,
+    hoverColor: 'rgb(242, 243, 245)',
+    hoverSize: 20,
+  }
+);
 const { hoverSize: _hoverSize } = toRefs(props);
 const hoverSize = computed(() => _hoverSize.value + 'px');
 </script>

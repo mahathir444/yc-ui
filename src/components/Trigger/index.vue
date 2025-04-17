@@ -57,9 +57,8 @@ import { ref, computed, useSlots } from 'vue';
 import { TriggerProps, TriggerEmits } from './type';
 import { TRIGGER_POSITION_MAP } from '@shared/constants';
 import { findFirstLegitChild } from '@shared/utils';
-import useTriggerVisible from '@shared/hooks/useTriggerVisible';
-import useTriggerPosition from '@shared/hooks/useTriggerPosition';
-import YcPreventFocus from '@shared/components/PreventFocus';
+import { useTriggerVisible, useTriggerPosition } from '@shared/hooks';
+import { YcPreventFocus } from '@shared/components';
 defineOptions({
   name: 'Trigger',
   inheritAttrs: false,

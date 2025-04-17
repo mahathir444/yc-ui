@@ -95,7 +95,7 @@ import { TRANSFER_PROVIDE_KEY } from '@shared/constants';
 import YcEmpty from '@/components/Empty';
 import YcCheckbox from '@/components/Checkbox';
 import YcScrollbar from '@/components/Scrollbar';
-import YcIconButton from '@shared/components/IconButton';
+import { YcIconButton } from '@shared/components';
 import YcInput from '@/components/Input';
 const props = defineProps<{
   type: 'source' | 'target';

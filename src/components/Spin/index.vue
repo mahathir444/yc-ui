@@ -39,7 +39,7 @@
 <script lang="ts" setup>
 import { SpinProps } from './type';
 import SpinIcon from './component/SpinIcon.vue';
-import YcPreventFocus from '@shared/components/PreventFocus';
+import { YcPreventFocus } from '@shared/components';
 defineOptions({
   name: 'Spin',
 });

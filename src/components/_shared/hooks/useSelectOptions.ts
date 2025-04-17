@@ -14,9 +14,10 @@ import {
   SelectValue,
   SelectOptions,
   FallbackOption,
+  Option,
 } from '@/components/Select';
 import { TriggerInstance } from '@/components/Trigger';
-import { getTextContent, flattenAndFindOptions, isObject } from '../utils';
+import { getTextContent, findComponentsFromVnodes, isObject } from '../utils';
 
 export default (params: {
   fieldKey: ComputedRef<Record<string, string>>;
@@ -109,16 +110,22 @@ export default (params: {
   // 获取选项的props
   const getOptions = () => {
     if (!slots.default) return;
-    // document;
+    // 获取option的content
     const popupContainer = popupRef.value
       ?.getPopupRef()
       ?.getRef() as HTMLDivElement;
-    // 获取option的content
-    optionContent.value = Array.from(
-      popupContainer.querySelectorAll('.yc-select-option-content')
-    ).map((dom) => getTextContent(dom));
-    // 获取插槽
-    slotOptions.value = flattenAndFindOptions(slots?.default?.() ?? []);
+    const optionDoms = popupContainer.querySelectorAll(
+      '.yc-select-option-content'
+    );
+    optionContent.value = [...optionDoms].map((dom) => getTextContent(dom));
+    // 获取插槽的props
+    const nodes = findComponentsFromVnodes(
+      slots?.default?.() ?? [],
+      Option.name
+    );
+    slotOptions.value = nodes
+      .filter((item) => item.props)
+      .map((item) => item.props);
   };
   onMounted(() => {
     getOptions();
