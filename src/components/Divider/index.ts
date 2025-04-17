@@ -1,7 +1,5 @@
 import { App } from 'vue';
 import _Divider from './index.vue';
-('Yc');
-
 export type DividerInstance = InstanceType<typeof _Divider>;
 export * from './type';
 

@@ -1,7 +1,5 @@
 import { App } from 'vue';
 import _Link from './index.vue';
-('Yc');
-
 export type LinkInstance = InstanceType<typeof _Link>;
 export * from './type';
 

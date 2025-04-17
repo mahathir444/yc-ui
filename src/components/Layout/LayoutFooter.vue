@@ -1,17 +1,15 @@
 <template>
-  <main class="yc-layout-content">
+  <footer class="yc-layout-footer">
     <slot />
-  </main>
+  </footer>
 </template>
 
 <script lang="ts" setup>
 defineOptions({
-  name: 'Content',
+  name: 'LayoutFooter',
 });
 </script>
 
 <style lang="less" scoped>
-.yc-layout-content {
-  flex: 1;
-}
+@import './style/layout.less';
 </style>

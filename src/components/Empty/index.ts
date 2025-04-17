@@ -1,7 +1,5 @@
 import { App } from 'vue';
 import _Empty from './index.vue';
-('Yc');
-
 export type EmptyInstance = InstanceType<typeof _Empty>;
 export * from './type';
 

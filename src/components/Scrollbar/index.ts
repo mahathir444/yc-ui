@@ -1,7 +1,5 @@
 import { App } from 'vue';
 import _Scrollbar from './index.vue';
-('Yc');
-
 export type ScrollbarInstance = InstanceType<typeof _Scrollbar>;
 export * from './type';
 

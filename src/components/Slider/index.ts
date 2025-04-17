@@ -1,7 +1,5 @@
 import { App } from 'vue';
 import _Slider from './index.vue';
-('Yc');
-
 export type SliderInstance = InstanceType<typeof _Slider>;
 export * from './type';
 

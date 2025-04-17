@@ -1,7 +1,5 @@
 import { App } from 'vue';
 import _Tooltip from './index.vue';
-('Yc');
-
 export type TooltipInstance = InstanceType<typeof _Tooltip>;
 export * from './type';
 

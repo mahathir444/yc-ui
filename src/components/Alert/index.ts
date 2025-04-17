@@ -1,7 +1,5 @@
 import { App } from 'vue';
 import _Alert from './index.vue';
-('Yc');
-
 export type AlertInstance = InstanceType<typeof _Alert>;
 export * from './type';
 

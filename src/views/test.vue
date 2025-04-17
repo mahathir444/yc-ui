@@ -1,8 +1,9 @@
 <template>
-  <!-- <a-layout class="container">
+  <a-layout class="container">
     <a-layout-header style="height: 60px" />
     <a-layout class="wrapper">
-      <a-layout-sider />
+      <a-layout-sider collapsible breakpoint="lg" :reverse-arrow="true">
+      </a-layout-sider>
       <a-layout-content class="main">
         <div class="content" id="content">
           <yc-row style="width: 100%" :gutter="100">
@@ -32,11 +33,13 @@
         </div>
       </a-layout-content>
     </a-layout>
-  </a-layout> -->
+  </a-layout>
   <yc-layout>
-    <yc-header> </yc-header>
-    <yc-content></yc-content>
-    <yc-footer></yc-footer>
+    <yc-layout-header> </yc-layout-header>
+    <yc-layout>
+      <yc-layout-sider collapsible breakpoint="lg"></yc-layout-sider>
+      <yc-layout-content></yc-layout-content>
+    </yc-layout>
   </yc-layout>
 </template>
 

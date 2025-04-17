@@ -1,7 +1,5 @@
 import { App } from 'vue';
 import _Tag from './index.vue';
-('Yc');
-
 export type TagInstance = InstanceType<typeof _Tag>;
 export * from './type';
 const Tag = Object.assign(_Tag, {

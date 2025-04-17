@@ -2,8 +2,6 @@ import { App } from 'vue';
 import _Select from './Select.vue';
 import _Option from './Option.vue';
 import _Optgroup from './Optgroup.vue';
-('Yc');
-
 export type SelectInstance = InstanceType<typeof _Select>;
 export type OptionInstance = InstanceType<typeof _Option>;
 export type OptgroupInstance = InstanceType<typeof _Optgroup>;

@@ -1,7 +1,5 @@
 import { App } from 'vue';
 import _VerificationCode from './index.vue';
-('Yc');
-
 export type VerificationCodeInstance = InstanceType<typeof _VerificationCode>;
 export * from './type';
 

@@ -1,7 +1,5 @@
 import { App } from 'vue';
 import _ResizeBox from './index.vue';
-('Yc');
-
 export type ResizeBoxInstance = InstanceType<typeof _ResizeBox>;
 
 export * from './type';

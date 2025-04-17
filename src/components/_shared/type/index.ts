@@ -23,6 +23,8 @@ export type Fn = (...args: any) => any;
 
 export type ObjectData = Record<string, any>;
 
+export type ResponsiveValue = 'xxl' | 'xl' | 'lg' | 'md' | 'sm' | 'xs';
+
 export type IconProps = {
   strokeWidth?: number;
   strokeLinecap?: 'butt' | 'round' | 'square';

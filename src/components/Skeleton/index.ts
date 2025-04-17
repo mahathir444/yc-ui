@@ -2,8 +2,6 @@ import { App } from 'vue';
 import _Skeleton from './Skeleton.vue';
 import _SkeletonShape from './SkeletonShape.vue';
 import _SkeletonLine from './SkeletonLine.vue';
-('Yc');
-
 export type SkeletonInstance = InstanceType<typeof _Skeleton>;
 export type SkeletonShapeInstance = InstanceType<typeof _SkeletonShape>;
 export type SkeletonLineInstance = InstanceType<typeof _SkeletonLine>;

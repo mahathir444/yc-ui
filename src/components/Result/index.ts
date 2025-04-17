@@ -1,7 +1,5 @@
 import { App } from 'vue';
 import _Result from './index.vue';
-('Yc');
-
 export type ResultInstance = InstanceType<typeof _Result>;
 export * from './type';
 

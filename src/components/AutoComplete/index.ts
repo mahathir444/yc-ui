@@ -1,7 +1,5 @@
 import { App } from 'vue';
 import _AutoComplete from './index.vue';
-('Yc');
-
 export type AutoCompleteInstance = InstanceType<typeof _AutoComplete>;
 export * from './type';
 

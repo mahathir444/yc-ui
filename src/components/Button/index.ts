@@ -1,8 +1,6 @@
 import { App } from 'vue';
 import _Button from './Button.vue';
 import _ButtonGroup from './ButtonGroup.vue';
-('Yc');
-
 export type ButonInstance = InstanceType<typeof _Button>;
 export type ButonGroupInstance = InstanceType<typeof _ButtonGroup>;
 export * from './type';

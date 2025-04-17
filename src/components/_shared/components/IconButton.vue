@@ -10,9 +10,6 @@
 import { toRefs, computed } from 'vue';
 import { IconClose } from '@shared/icons';
 import YcPreventFocus from './PreventFocus.vue';
-defineOptions({
-  name: 'IconButton',
-});
 const props = withDefaults(
   defineProps<{
     size?: number;

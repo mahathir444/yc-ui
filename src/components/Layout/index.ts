@@ -1,11 +1,9 @@
 import { App } from 'vue';
 import _Layout from './Layout.vue';
-import _Header from './Header.vue';
-import _Footer from './Footer.vue';
-import _Content from './Content.vue';
-import _Sider from './Sider.vue';
-('Yc');
-
+import _Header from './LayoutHeader.vue';
+import _Footer from './LayoutFooter.vue';
+import _Content from './LayoutContent.vue';
+import _Sider from './LayoutSider.vue';
 export type LayoutInstance = InstanceType<typeof _Layout>;
 
 const Layout = Object.assign(_Layout, {
@@ -23,10 +21,10 @@ export { _Sider as Sider };
 declare module 'vue' {
   export interface GlobalComponents {
     YcLayout: typeof _Layout;
-    YcHeader: typeof _Header;
-    YcFooter: typeof _Footer;
-    YcContent: typeof _Content;
-    YcSider: typeof _Sider;
+    YcLayoutHeader: typeof _Header;
+    YcLayoutFooter: typeof _Footer;
+    YcLayoutContent: typeof _Content;
+    YcLayoutSider: typeof _Sider;
   }
 }
 

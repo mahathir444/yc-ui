@@ -1,6 +1,5 @@
 import { App } from 'vue';
 import _Switch from './index.vue';
-('Yc');
 export type SwitchInstance = InstanceType<typeof _Switch>;
 export * from './type';
 

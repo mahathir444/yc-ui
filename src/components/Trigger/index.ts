@@ -1,7 +1,5 @@
 import { App } from 'vue';
 import _Trigger from './index.vue';
-('Yc');
-
 export type TriggerInstance = InstanceType<typeof _Trigger>;
 export * from './type';
 

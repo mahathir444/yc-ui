@@ -1,4 +1,6 @@
-import { isString, isObject } from './is';
+import { isString } from './is';
+import { RESPONSIVE_VALUE_MAP } from '../constants';
+import { ResponsiveValue } from '../type';
 
 // 是否是服务端渲染
 export const isServerRendering = (() => {
@@ -63,30 +65,25 @@ export function getTextContent(
   return texts.join(separator);
 }
 
-type BreakpointName = string;
-type MediaQueryString = string;
 type MediaQueryHandler = (
-  name: BreakpointName,
+  name: ResponsiveValue,
   isActive: boolean,
-  currentBreakpoint: BreakpointName | null
+  currentBreakpoint: ResponsiveValue | null
 ) => void;
 interface MediaQueryEntry {
   mq: MediaQueryList;
   active: boolean;
 }
-interface MediaQueryManagerOptions {
-  debounceTime?: number;
-}
-
 export class MediaQueryManager {
-  private queries: Record<BreakpointName, MediaQueryEntry>;
+  private queries: Record<string, MediaQueryEntry>;
   private handlers: MediaQueryHandler[];
-  private currentBreakpoint: BreakpointName | null;
-  private debouncedCheck: () => void;
+  private currentBreakpoint: ResponsiveValue | null;
+  private throttledCheck: () => void;
+  private lastExecutionTime: number = 0;
 
   constructor(
-    queries: Record<BreakpointName, MediaQueryString>,
-    options: MediaQueryManagerOptions = {}
+    queries: Record<ResponsiveValue, string> = RESPONSIVE_VALUE_MAP,
+    throttleTime = 16
   ) {
     this.queries = {};
     this.handlers = [];
@@ -102,35 +99,34 @@ export class MediaQueryManager {
 
     // 初始检查
     this.checkAll();
+    this.throttledCheck = this.throttle(this.checkAll.bind(this), throttleTime);
 
-    // 添加防抖监听
-    const { debounceTime = 100 } = options;
-    this.debouncedCheck = this.debounce(this.checkAll.bind(this), debounceTime);
     Object.values(this.queries).forEach(({ mq }) => {
-      mq.addEventListener('change', this.debouncedCheck);
+      mq.addEventListener('change', this.throttledCheck);
     });
   }
 
-  private debounce(fn: Function, delay: number): () => void {
-    let timer: number;
+  private throttle(fn: Function, delay: number): () => void {
     return () => {
-      clearTimeout(timer);
-      timer = window.setTimeout(() => fn(), delay);
+      const now = Date.now();
+      if (now - this.lastExecutionTime >= delay) {
+        fn();
+        this.lastExecutionTime = now;
+      }
     };
   }
 
   private checkAll(): void {
     let activeFound = false;
-
     Object.entries(this.queries).forEach(([name, { mq, active }]) => {
       const isActive = mq.matches;
       if (isActive !== active) {
         this.queries[name].active = isActive;
-        this.notifyHandlers(name, isActive);
+        this.notifyHandlers(name as ResponsiveValue, isActive);
       }
 
       if (isActive && !activeFound) {
-        this.currentBreakpoint = name;
+        this.currentBreakpoint = name as ResponsiveValue;
         activeFound = true;
       }
     });
@@ -142,36 +138,34 @@ export class MediaQueryManager {
 
   public addHandler(handler: MediaQueryHandler): () => void {
     this.handlers.push(handler);
-
     // 立即通知当前状态
     Object.entries(this.queries).forEach(([name, { active }]) => {
       if (active) {
-        handler(name, true, this.currentBreakpoint);
+        handler(name as ResponsiveValue, true, this.currentBreakpoint);
       }
     });
-
     return () => {
       this.handlers = this.handlers.filter((h) => h !== handler);
     };
   }
 
-  private notifyHandlers(name: BreakpointName, isActive: boolean): void {
+  private notifyHandlers(name: ResponsiveValue, isActive: boolean): void {
     this.handlers.forEach((handler) => {
       handler(name, isActive, this.currentBreakpoint);
     });
   }
 
-  public getCurrentBreakpoint(): BreakpointName | null {
+  public getCurrentBreakpoint(): ResponsiveValue | null {
     return this.currentBreakpoint;
   }
 
-  public isActive(name: BreakpointName): boolean {
+  public isActive(name: ResponsiveValue): boolean {
     return this.queries[name]?.active ?? false;
   }
 
   public destroy(): void {
     Object.values(this.queries).forEach(({ mq }) => {
-      mq.removeEventListener('change', this.debouncedCheck);
+      mq.removeEventListener('change', this.throttledCheck);
     });
     this.handlers = [];
   }

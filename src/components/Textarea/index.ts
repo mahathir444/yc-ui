@@ -1,7 +1,5 @@
 import { App } from 'vue';
 import _Textarea from './index.vue';
-('Yc');
-
 export type TextareaInstance = InstanceType<typeof _Textarea>;
 export * from './type';
 

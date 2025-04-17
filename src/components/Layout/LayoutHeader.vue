@@ -6,6 +6,10 @@
 
 <script lang="ts" setup>
 defineOptions({
-  name: 'Header',
+  name: 'LayoutHeader',
 });
 </script>
+
+<style lang="less" scoped>
+@import './style/layout.less';
+</style>

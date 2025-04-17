@@ -1,6 +1,5 @@
 import { App, h, render } from 'vue';
 import { ModalConfig, ModalMethods, ModalServiceData } from './type';
-('Yc');
 import _ServiceModal from './component/ServiceModal.vue';
 import _Modal from './index.vue';
 

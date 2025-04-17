@@ -1,7 +1,5 @@
 import { App } from 'vue';
 import _Space from './index.vue';
-('Yc');
-
 export type SpaceInstance = InstanceType<typeof _Space>;
 export * from './type';
 

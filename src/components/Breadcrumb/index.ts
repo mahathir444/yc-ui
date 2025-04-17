@@ -1,8 +1,6 @@
 import { App } from 'vue';
 import _Breadcrumb from './Breadcrumb.vue';
 import _BreadcrumbItem from './BreadcrumbItem.vue';
-('Yc');
-
 export type ButonInstance = InstanceType<typeof _Breadcrumb>;
 export type ButonItemInstance = InstanceType<typeof _BreadcrumbItem>;
 export * from './type';

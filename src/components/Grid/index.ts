@@ -1,15 +1,14 @@
 import { App } from 'vue';
-import _Col from './Col.vue';
-import _Row from './Col.vue';
-('Yc');
-
+import _Col from './GridCol.vue';
+import _Row from './GridRow.vue';
+import _Grid from './Grid.vue';
 export type RowInstance = InstanceType<typeof _Row>;
 export type ColInstance = InstanceType<typeof _Col>;
 export * from './type';
 
-const Grid = Object.assign(_Row, {
+const Grid = Object.assign(_Grid, {
   install: (app: App) => {
-    // app.component('Yc' + _Row.name, _Row);
+    app.component('Yc' + _Row.name, _Row);
     app.component('Yc' + _Col.name, _Col);
   },
 });

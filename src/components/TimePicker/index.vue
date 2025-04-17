@@ -332,7 +332,7 @@ const hanInput = (e: any) => {
 const hanClear = () => {
   if (props.readonly) return;
   const v = void 0;
-  cValue.value = props.type === 'time' ? v : [v, v];
+  cValue.value = props.type === 'time' ? v : ([v, v] as any);
   inputValue.value = [{}, {}];
   emit('clear');
   // isEditing.value = false;

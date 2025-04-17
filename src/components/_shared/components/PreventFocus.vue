@@ -27,9 +27,6 @@
 
 <script lang="ts" setup>
 import { ref } from 'vue';
-defineOptions({
-  name: 'PreventFocus',
-});
 withDefaults(
   defineProps<{
     preventFocus?: boolean;

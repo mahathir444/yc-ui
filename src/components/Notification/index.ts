@@ -1,5 +1,4 @@
 import { App, render, ref, createVNode, reactive, Ref } from 'vue';
-('Yc');
 import _Notification from './Notification.vue';
 import _NotificationContainer from './Container.vue';
 import {

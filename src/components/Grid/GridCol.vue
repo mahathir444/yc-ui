@@ -47,17 +47,7 @@ const { gutter } = inject<GridProvide>(GRID_PROVIDE_KEY, {
   gutter: ref(0),
 });
 // 媒体查询管理器
-const mqm = new MediaQueryManager(
-  {
-    xs: '(max-width: 0)',
-    sm: '(min-width: 576px)',
-    md: '(min-width: 768px)',
-    lg: '(min-width: 992px)',
-    xl: '(min-width: 1200px)',
-    xxl: '(min-width: 1600px)',
-  },
-  { debounceTime: 60 }
-);
+const mqm = new MediaQueryManager();
 // 获取属性
 const getAttr = (value: ResponsiveValue | undefined, attr: string) => {
   return ((value as any)?.[attr] ?? value) as number;

@@ -3,8 +3,6 @@ import _Message from './Message.vue';
 import _MessageContainer from './Container.vue';
 import { MessageConfig, MessageList, MessageType } from './type';
 import { MESSAGE_TYPE } from '@shared/constants';
-('Yc');
-
 export type MessageInstance = InstanceType<typeof _Message>;
 export * from './type';
 

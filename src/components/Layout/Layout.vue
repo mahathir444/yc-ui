@@ -1,7 +1,7 @@
 <template>
   <section
-    class="yc-layout"
     :class="{
+      'yc-layout': true,
       'yc-layout-has-sider': hasSider,
     }"
   >
@@ -10,7 +10,7 @@
 </template>
 
 <script lang="ts" setup>
-import { toRefs } from 'vue';
+import { ref, provide, toRefs, watch } from 'vue';
 defineOptions({
   name: 'Layout',
 });
@@ -23,13 +23,20 @@ const props = withDefaults(
   }
 );
 const { hasSider: _hasSider } = toRefs(props);
+// 是否有sider
+const hasSider = ref<boolean>(false);
+// 当前的level
+const curLevel = ref<boolean>(false);
+provide('layout-props', {
+  hasSider,
+  curLevel,
+});
+
+watch(hasSider, () => {
+  console.log(curLevel, hasSider);
+});
 </script>
 
 <style lang="less" scoped>
-.yc-layout {
-  width: 100%;
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-}
+@import './style/layout.less';
 </style>

@@ -1,7 +1,5 @@
 import { App } from 'vue';
 import _Rate from './index.vue';
-('Yc');
-
 export type RateInstance = InstanceType<typeof _Rate>;
 export * from './type';
 
