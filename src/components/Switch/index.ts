@@ -1,12 +1,12 @@
 import { App } from 'vue';
 import _Switch from './index.vue';
-import { getComponentPrefix } from '@shared/utils';
+('Yc');
 export type SwitchInstance = InstanceType<typeof _Switch>;
 export * from './type';
 
 const Switch = Object.assign(_Switch, {
   install: (app: App) => {
-    app.component(getComponentPrefix() + _Switch.name, _Switch);
+    app.component('Yc' + _Switch.name, _Switch);
   },
 });
 

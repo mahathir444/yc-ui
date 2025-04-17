@@ -1,13 +1,13 @@
 import { App } from 'vue';
 import _Transfer from './index.vue';
-import { getComponentPrefix } from '@shared/utils';
+('Yc');
 
 export type TransferInstance = InstanceType<typeof _Transfer>;
 export * from './type';
 
 const Transfer = Object.assign(_Transfer, {
   install: (app: App) => {
-    app.component(getComponentPrefix() + _Transfer.name, _Transfer);
+    app.component('Yc' + _Transfer.name, _Transfer);
   },
 });
 

@@ -1,7 +1,7 @@
 import { App } from 'vue';
 import _Col from './Col.vue';
 import _Row from './Col.vue';
-import { getComponentPrefix } from '@shared/utils';
+('Yc');
 
 export type RowInstance = InstanceType<typeof _Row>;
 export type ColInstance = InstanceType<typeof _Col>;
@@ -9,8 +9,8 @@ export * from './type';
 
 const Grid = Object.assign(_Row, {
   install: (app: App) => {
-    // app.component(getComponentPrefix() + _Row.name, _Row);
-    app.component(getComponentPrefix() + _Col.name, _Col);
+    // app.component('Yc' + _Row.name, _Row);
+    app.component('Yc' + _Col.name, _Col);
   },
 });
 

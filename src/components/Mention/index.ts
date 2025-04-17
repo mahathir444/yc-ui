@@ -1,13 +1,13 @@
 import { App } from 'vue';
 import _Mention from './index.vue';
-import { getComponentPrefix } from '@shared/utils';
+('Yc');
 
 export type MentionInstance = InstanceType<typeof _Mention>;
 export * from './type';
 
 const Mention = Object.assign(_Mention, {
   install: (app: App) => {
-    app.component(getComponentPrefix() + _Mention.name, _Mention);
+    app.component('Yc' + _Mention.name, _Mention);
   },
 });
 

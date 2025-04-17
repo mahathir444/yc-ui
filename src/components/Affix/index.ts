@@ -1,13 +1,13 @@
 import { App } from 'vue';
 import _Affix from './index.vue';
-import { getComponentPrefix } from '@shared/utils';
+('Yc');
 
 export type AffixInstance = InstanceType<typeof _Affix>;
 export * from './type';
 
 const Affix = Object.assign(_Affix, {
   install: (app: App) => {
-    app.component(getComponentPrefix() + _Affix.name, _Affix);
+    app.component('Yc' + _Affix.name, _Affix);
   },
 });
 

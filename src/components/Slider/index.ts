@@ -1,13 +1,13 @@
 import { App } from 'vue';
 import _Slider from './index.vue';
-import { getComponentPrefix } from '@shared/utils';
+('Yc');
 
 export type SliderInstance = InstanceType<typeof _Slider>;
 export * from './type';
 
 const Slider = Object.assign(_Slider, {
   install: (app: App) => {
-    app.component(getComponentPrefix() + _Slider.name, _Slider);
+    app.component('Yc' + _Slider.name, _Slider);
   },
 });
 

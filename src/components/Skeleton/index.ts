@@ -2,7 +2,7 @@ import { App } from 'vue';
 import _Skeleton from './Skeleton.vue';
 import _SkeletonShape from './SkeletonShape.vue';
 import _SkeletonLine from './SkeletonLine.vue';
-import { getComponentPrefix } from '@shared/utils';
+('Yc');
 
 export type SkeletonInstance = InstanceType<typeof _Skeleton>;
 export type SkeletonShapeInstance = InstanceType<typeof _SkeletonShape>;
@@ -13,9 +13,9 @@ const Skeleton = Object.assign(_Skeleton, {
   shape: _SkeletonShape,
   line: _SkeletonLine,
   install: (app: App) => {
-    app.component(getComponentPrefix() + _Skeleton.name, _Skeleton);
-    app.component(getComponentPrefix() + _SkeletonShape.name, _SkeletonShape);
-    app.component(getComponentPrefix() + _SkeletonLine.name, _SkeletonLine);
+    app.component('Yc' + _Skeleton.name, _Skeleton);
+    app.component('Yc' + _SkeletonShape.name, _SkeletonShape);
+    app.component('Yc' + _SkeletonLine.name, _SkeletonLine);
   },
 });
 export { _SkeletonShape as SkeletonShape, _SkeletonLine as SkeletonLine };

@@ -4,7 +4,7 @@ import _Doption from './Doption.vue';
 import _Dgroup from './Dgroup.vue';
 import _DropdownButton from './DropdownButton.vue';
 import _Dsubmenu from './Dsubmenu.vue';
-import { getComponentPrefix } from '@shared/utils';
+('Yc');
 
 export type DropdownInstance = InstanceType<typeof _Dropdown>;
 export type DoptionInstance = InstanceType<typeof _Doption>;
@@ -19,11 +19,11 @@ const Dropdown = Object.assign(_Dropdown, {
   button: _DropdownButton,
   submenu: _Dsubmenu,
   install: (app: App) => {
-    app.component(getComponentPrefix() + _Dropdown.name, _Dropdown);
-    app.component(getComponentPrefix() + _Doption.name, _Doption);
-    app.component(getComponentPrefix() + _Dgroup.name, _Dgroup);
-    app.component(getComponentPrefix() + _DropdownButton.name, _DropdownButton);
-    app.component(getComponentPrefix() + _Dsubmenu.name, _Dsubmenu);
+    app.component('Yc' + _Dropdown.name, _Dropdown);
+    app.component('Yc' + _Doption.name, _Doption);
+    app.component('Yc' + _Dgroup.name, _Dgroup);
+    app.component('Yc' + _DropdownButton.name, _DropdownButton);
+    app.component('Yc' + _Dsubmenu.name, _Dsubmenu);
   },
 });
 export {

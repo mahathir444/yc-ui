@@ -1,12 +1,12 @@
 import { App } from 'vue';
 import _Tag from './index.vue';
-import { getComponentPrefix } from '@shared/utils';
+('Yc');
 
 export type TagInstance = InstanceType<typeof _Tag>;
 export * from './type';
 const Tag = Object.assign(_Tag, {
   install: (app: App) => {
-    app.component(getComponentPrefix() + _Tag.name, _Tag);
+    app.component('Yc' + _Tag.name, _Tag);
   },
 });
 

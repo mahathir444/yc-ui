@@ -4,17 +4,17 @@ import _Header from './Header.vue';
 import _Footer from './Footer.vue';
 import _Content from './Content.vue';
 import _Sider from './Sider.vue';
-import { getComponentPrefix } from '@shared/utils';
+('Yc');
 
 export type LayoutInstance = InstanceType<typeof _Layout>;
 
 const Layout = Object.assign(_Layout, {
   install: (app: App) => {
-    app.component(getComponentPrefix() + _Layout.name, _Layout);
-    app.component(getComponentPrefix() + _Header.name, _Header);
-    app.component(getComponentPrefix() + _Footer.name, _Footer);
-    app.component(getComponentPrefix() + _Content.name, _Content);
-    app.component(getComponentPrefix() + _Sider.name, _Sider);
+    app.component('Yc' + _Layout.name, _Layout);
+    app.component('Yc' + _Header.name, _Header);
+    app.component('Yc' + _Footer.name, _Footer);
+    app.component('Yc' + _Content.name, _Content);
+    app.component('Yc' + _Sider.name, _Sider);
   },
 });
 

@@ -2,14 +2,14 @@ import { App, render, h } from 'vue';
 import { DrawerConfig, DrawerServiceData } from './type';
 import _Drawer from './index.vue';
 import _ServiceDrawer from './component/ServiceDrawer.vue';
-import { getComponentPrefix } from '@shared/utils';
+('Yc');
 
 export type DrawerInstance = InstanceType<typeof _Drawer>;
 export * from './type';
 
 const Drawer = Object.assign(_Drawer, {
   install: (app: App) => {
-    app.component(getComponentPrefix() + _Drawer.name, _Drawer);
+    app.component('Yc' + _Drawer.name, _Drawer);
   },
   drawerConfig: {
     id: 'ycServiceDrawerContainer',

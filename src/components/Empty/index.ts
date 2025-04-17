@@ -1,13 +1,13 @@
 import { App } from 'vue';
 import _Empty from './index.vue';
-import { getComponentPrefix } from '@shared/utils';
+('Yc');
 
 export type EmptyInstance = InstanceType<typeof _Empty>;
 export * from './type';
 
 const Empty = Object.assign(_Empty, {
   install: (app: App) => {
-    app.component(getComponentPrefix() + _Empty.name, _Empty);
+    app.component('Yc' + _Empty.name, _Empty);
   },
 });
 

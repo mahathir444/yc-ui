@@ -1,13 +1,13 @@
 import { App } from 'vue';
 import _Divider from './index.vue';
-import { getComponentPrefix } from '@shared/utils';
+('Yc');
 
 export type DividerInstance = InstanceType<typeof _Divider>;
 export * from './type';
 
 const Divider = Object.assign(_Divider, {
   install: (app: App) => {
-    app.component(getComponentPrefix() + _Divider.name, _Divider);
+    app.component('Yc' + _Divider.name, _Divider);
   },
 });
 

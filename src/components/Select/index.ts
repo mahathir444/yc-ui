@@ -2,7 +2,7 @@ import { App } from 'vue';
 import _Select from './Select.vue';
 import _Option from './Option.vue';
 import _Optgroup from './Optgroup.vue';
-import { getComponentPrefix } from '@shared/utils';
+('Yc');
 
 export type SelectInstance = InstanceType<typeof _Select>;
 export type OptionInstance = InstanceType<typeof _Option>;
@@ -13,9 +13,9 @@ const Select = Object.assign(_Select, {
   option: _Option,
   group: _Optgroup,
   install: (app: App) => {
-    app.component(getComponentPrefix() + _Select.name, _Select);
-    app.component(getComponentPrefix() + _Option.name, _Option);
-    app.component(getComponentPrefix() + _Optgroup.name, _Optgroup);
+    app.component('Yc' + _Select.name, _Select);
+    app.component('Yc' + _Option.name, _Option);
+    app.component('Yc' + _Optgroup.name, _Optgroup);
   },
 });
 export { _Option as Option, _Optgroup as Optgroup };

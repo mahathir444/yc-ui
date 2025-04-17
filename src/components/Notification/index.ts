@@ -1,5 +1,5 @@
 import { App, render, ref, createVNode, reactive, Ref } from 'vue';
-import { getComponentPrefix } from '@shared/utils';
+('Yc');
 import _Notification from './Notification.vue';
 import _NotificationContainer from './Container.vue';
 import {
@@ -100,7 +100,7 @@ const notificationMethod = NOFITICATION_TYPE.reduce(
 
 const Message = Object.assign(_Notification, {
   install: (app: App) => {
-    app.component(getComponentPrefix() + _Notification.name, _Notification);
+    app.component('Yc' + _Notification.name, _Notification);
   },
   clear: (pos?: NOTIFICATION_POSITION | undefined) => {
     if (!pos) {

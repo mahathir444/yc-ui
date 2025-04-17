@@ -1,13 +1,13 @@
 import { App } from 'vue';
 import _Spin from './index.vue';
-import { getComponentPrefix } from '@shared/utils';
+('Yc');
 
 export type SpinInstance = InstanceType<typeof _Spin>;
 export * from './type';
 
 const Spin = Object.assign(_Spin, {
   install: (app: App) => {
-    app.component(getComponentPrefix() + _Spin.name, _Spin);
+    app.component('Yc' + _Spin.name, _Spin);
   },
 });
 

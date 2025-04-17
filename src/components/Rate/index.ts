@@ -1,13 +1,13 @@
 import { App } from 'vue';
 import _Rate from './index.vue';
-import { getComponentPrefix } from '@shared/utils';
+('Yc');
 
 export type RateInstance = InstanceType<typeof _Rate>;
 export * from './type';
 
 const Rate = Object.assign(_Rate, {
   install: (app: App) => {
-    app.component(getComponentPrefix() + _Rate.name, _Rate);
+    app.component('Yc' + _Rate.name, _Rate);
   },
 });
 

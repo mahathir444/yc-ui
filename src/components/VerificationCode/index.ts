@@ -1,16 +1,13 @@
 import { App } from 'vue';
 import _VerificationCode from './index.vue';
-import { getComponentPrefix } from '@shared/utils';
+('Yc');
 
 export type VerificationCodeInstance = InstanceType<typeof _VerificationCode>;
 export * from './type';
 
 const VerificationCode = Object.assign(_VerificationCode, {
   install: (app: App) => {
-    app.component(
-      getComponentPrefix() + _VerificationCode.name,
-      _VerificationCode
-    );
+    app.component('Yc' + _VerificationCode.name, _VerificationCode);
   },
 });
 

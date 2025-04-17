@@ -1,13 +1,13 @@
 import { App } from 'vue';
 import _BackTop from './index.vue';
-import { getComponentPrefix } from '@shared/utils';
+('Yc');
 
 export type BackTopInstance = InstanceType<typeof _BackTop>;
 export * from './type';
 
 const BackTop = Object.assign(_BackTop, {
   install: (app: App) => {
-    app.component(getComponentPrefix() + _BackTop.name, _BackTop);
+    app.component('Yc' + _BackTop.name, _BackTop);
   },
 });
 

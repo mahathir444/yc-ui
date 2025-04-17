@@ -1,13 +1,13 @@
 import { App } from 'vue';
 import _OverflowList from './index.vue';
-import { getComponentPrefix } from '@shared/utils';
+('Yc');
 
 export type OverflowListInstance = InstanceType<typeof _OverflowList>;
 export * from './type';
 
 const OverflowList = Object.assign(_OverflowList, {
   install: (app: App) => {
-    app.component(getComponentPrefix() + _OverflowList.name, _OverflowList);
+    app.component('Yc' + _OverflowList.name, _OverflowList);
   },
 });
 

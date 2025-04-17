@@ -3,7 +3,7 @@ import _Message from './Message.vue';
 import _MessageContainer from './Container.vue';
 import { MessageConfig, MessageList, MessageType } from './type';
 import { MESSAGE_TYPE } from '@shared/constants';
-import { getComponentPrefix } from '@shared/utils';
+('Yc');
 
 export type MessageInstance = InstanceType<typeof _Message>;
 export * from './type';
@@ -72,7 +72,7 @@ const messageMethod = MESSAGE_TYPE.reduce(
 
 const Message = Object.assign(_Message, {
   install: (app: App) => {
-    app.component(getComponentPrefix() + _Message.name, _Message);
+    app.component('Yc' + _Message.name, _Message);
   },
   clear: () => {
     messageList.value.splice(0);

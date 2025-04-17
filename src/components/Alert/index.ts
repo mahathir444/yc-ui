@@ -1,13 +1,13 @@
 import { App } from 'vue';
 import _Alert from './index.vue';
-import { getComponentPrefix } from '@shared/utils';
+('Yc');
 
 export type AlertInstance = InstanceType<typeof _Alert>;
 export * from './type';
 
 const Alert = Object.assign(_Alert, {
   install: (app: App) => {
-    app.component(getComponentPrefix() + _Alert.name, _Alert);
+    app.component('Yc' + _Alert.name, _Alert);
   },
 });
 

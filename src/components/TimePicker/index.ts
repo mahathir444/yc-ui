@@ -1,13 +1,13 @@
 import { App } from 'vue';
 import _TimePicker from './index.vue';
-import { getComponentPrefix } from '@shared/utils';
+('Yc');
 
 export type TimePickerInstance = InstanceType<typeof _TimePicker>;
 export * from './type';
 
 const TimePicker = Object.assign(_TimePicker, {
   install: (app: App) => {
-    app.component(getComponentPrefix() + _TimePicker.name, _TimePicker);
+    app.component('Yc' + _TimePicker.name, _TimePicker);
   },
 });
 

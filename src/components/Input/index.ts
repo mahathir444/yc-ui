@@ -1,13 +1,13 @@
 import { App } from 'vue';
 import _Input from './index.vue';
-import { getComponentPrefix } from '@shared/utils';
+('Yc');
 
 export type InputInstance = InstanceType<typeof _Input>;
 export * from './type';
 
 const Input = Object.assign(_Input, {
   install: (app: App) => {
-    app.component(getComponentPrefix() + _Input.name, _Input);
+    app.component('Yc' + _Input.name, _Input);
   },
 });
 

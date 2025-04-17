@@ -1,7 +1,7 @@
 import { App } from 'vue';
 import _Breadcrumb from './Breadcrumb.vue';
 import _BreadcrumbItem from './BreadcrumbItem.vue';
-import { getComponentPrefix } from '@shared/utils';
+('Yc');
 
 export type ButonInstance = InstanceType<typeof _Breadcrumb>;
 export type ButonItemInstance = InstanceType<typeof _BreadcrumbItem>;
@@ -10,8 +10,8 @@ export * from './type';
 const Breadcrumb = Object.assign(_Breadcrumb, {
   Item: _BreadcrumbItem,
   install: (app: App) => {
-    app.component(getComponentPrefix() + _Breadcrumb.name, _Breadcrumb);
-    app.component(getComponentPrefix() + _BreadcrumbItem.name, _BreadcrumbItem);
+    app.component('Yc' + _Breadcrumb.name, _Breadcrumb);
+    app.component('Yc' + _BreadcrumbItem.name, _BreadcrumbItem);
   },
 });
 export { _BreadcrumbItem as BreadcrumbItem };

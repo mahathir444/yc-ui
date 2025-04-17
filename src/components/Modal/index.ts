@@ -1,6 +1,6 @@
 import { App, h, render } from 'vue';
 import { ModalConfig, ModalMethods, ModalServiceData } from './type';
-import { getComponentPrefix } from '@shared/utils';
+('Yc');
 import _ServiceModal from './component/ServiceModal.vue';
 import _Modal from './index.vue';
 
@@ -13,7 +13,7 @@ const Modal = Object.assign(_Modal, {
     container: null,
   },
   install: (app: App) => {
-    app.component(getComponentPrefix() + _Modal.name, _Modal);
+    app.component('Yc' + _Modal.name, _Modal);
   },
   open(props: ModalConfig) {
     const modalConfig = this.modalConfig as ModalServiceData;
