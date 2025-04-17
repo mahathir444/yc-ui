@@ -11,14 +11,9 @@
       <div class="yc-breadcrumb-item">
         <!-- 第二个breaditem用于显示图标 -->
         <template v-if="maxCount && curIndex == 1">
-          <template v-if="iconSlot">
-            <component
-              v-for="(node, index) in iconSlot"
-              :key="index"
-              :is="node"
-            />
-          </template>
-          <icon-more v-else />
+          <slot name="more-icon">
+            <icon-more />
+          </slot>
         </template>
         <a v-else-if="path" :href="`#${path}`">
           <slot />
@@ -43,14 +38,7 @@
     <!-- 分隔符 -->
     <span v-if="curIndex != index" class="yc-breadcrumb-item-separator">
       <slot name="separator">
-        <template v-if="separatorSlot">
-          <component
-            v-for="(node, index) in separatorSlot"
-            :key="index"
-            :is="node"
-          />
-        </template>
-        <template v-else-if="computedSeparator">
+        <template v-if="computedSeparator">
           {{ computedSeparator }}
         </template>
         <icon-separator v-else />
@@ -90,11 +78,9 @@ const {
   index,
   maxCount,
   separator: _separator,
-  slots,
 } = inject<BreadcrumbProvide>(BREADCRUMB_PROVIDE_KEY, {
   index: ref(-1),
   maxCount: ref(0),
-  slots: {},
   separator: ref(''),
 });
 // popupVisible
@@ -105,9 +91,6 @@ const curIndex = ref<number>(++index.value);
 const computedSeparator = computed(() => {
   return separator.value ? separator.value : _separator.value;
 });
-// 父级icon
-const iconSlot = slots['more-icon']?.();
-const separatorSlot = slots['separator']?.();
 </script>
 
 <style lang="less" scoped>

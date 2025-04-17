@@ -2,14 +2,16 @@
   <div class="yc-breadcrumb">
     <slot />
     <!-- routes渲染 -->
-    <template v-for="(route, index) in routes" :key="route.path">
+    <template v-for="route in routes" :key="route.path">
       <slot name="item-render" :route="route" :routes="routes">
-        <yc-breadcrumb-item
-          :path="route.path"
-          :droplist="route.children"
-          :is-last="index == routes.length - 1"
-        >
+        <yc-breadcrumb-item :path="route.path" :droplist="route.children">
           {{ route.label }}
+          <template v-if="$slots.separator" #separator>
+            <slot name="separator" />
+          </template>
+          <template v-if="$slots['more-icon']" #more-icon>
+            <slot name="more-icon" />
+          </template>
         </yc-breadcrumb-item>
       </slot>
     </template>
@@ -17,7 +19,7 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, toRefs, useSlots, provide } from 'vue';
+import { ref, toRefs, provide } from 'vue';
 import { BreadcrumbProps, BreadcrumbProvide } from './type';
 import { BREADCRUMB_PROVIDE_KEY } from '@shared/constants';
 import { BreadcrumbItem as YcBreadcrumbItem } from './index';
@@ -33,8 +35,6 @@ const props = withDefaults(defineProps<BreadcrumbProps>(), {
   },
 });
 const { maxCount, separator } = toRefs(props);
-// 插槽
-const slots = useSlots();
 // 次序
 const index = ref<number>(-1);
 // 发放数据
@@ -42,7 +42,6 @@ provide<BreadcrumbProvide>(BREADCRUMB_PROVIDE_KEY, {
   index,
   maxCount,
   separator,
-  slots,
 });
 </script>
 

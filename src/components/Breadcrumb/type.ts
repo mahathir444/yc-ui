@@ -24,5 +24,4 @@ export interface BreadcrumbProvide {
   index: Ref<number>;
   maxCount: Ref<number>;
   separator: Ref<string | number>;
-  slots: any;
 }
