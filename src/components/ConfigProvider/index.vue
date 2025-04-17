@@ -11,7 +11,7 @@ defineOptions({
 });
 const props = withDefaults(defineProps<ConfigProviderProps>(), {
   zIndex: 1001,
-  size: 'medium',
+  size: undefined,
   popupContainer: 'body',
   updateAtScroll: true,
   scrollToClose: false,

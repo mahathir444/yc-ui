@@ -49,8 +49,9 @@ import {
   BUTTON_SHAPE_CLASS,
   BUTTON_TYPE_CLASS,
   BUTTON_STATUS_CLASS,
+  BUTTON_GROUP_PROVIDE_KEY,
 } from '@shared/constants';
-import { BUTTON_GROUP_PROVIDE_KEY } from '@shared/constants';
+import { useConfigProvder } from '@shared/hooks';
 import YcSpin from '@/components/Spin';
 defineOptions({
   name: 'Button',
@@ -58,7 +59,7 @@ defineOptions({
 const props = withDefaults(defineProps<ButtonProps>(), {
   type: 'secondary',
   status: 'normal',
-  size: 'medium',
+  size: undefined,
   shape: 'square',
   disabled: false,
   loading: false,
@@ -75,7 +76,6 @@ const emits = defineEmits<{
 }>();
 const {
   loading,
-  size: _size,
   disabled: _disabled,
   type: _type,
   status: _status,
@@ -83,6 +83,8 @@ const {
   long,
 } = toRefs(props);
 const slots = useSlots();
+// 获取全局配置
+const { size: _size } = useConfigProvder(props);
 // buttonGroup接收的属性
 const { size, disabled, type, status, shape } = inject<ButtonProvide>(
   BUTTON_GROUP_PROVIDE_KEY,

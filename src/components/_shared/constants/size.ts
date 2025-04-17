@@ -1,6 +1,6 @@
 import { getComponentSizeMap } from '../utils/compt';
 
-export const SIZE_MAP = {
+export const SIZE_MAP: Record<string, number> = {
   mini: 24,
   small: 28,
   medium: 32,
@@ -19,6 +19,10 @@ export const INPUT_OUTER_SIZE_CLASS = getComponentSizeMap('yc-input-outer');
 
 export const RADIO_SIZE_CLASS = getComponentSizeMap('yc-radio-button');
 
+export const VERIFICATION_CODE_SIZE_CLASS = getComponentSizeMap(
+  'yc-verification-code'
+);
+
 export const SKELETON_SHAPE_SIZE_CLASS = getComponentSizeMap(
   'yc-skeleton-shape',
   ['small', 'medium', 'large']
@@ -34,7 +38,3 @@ export const TAG_SIZE_CLASS = getComponentSizeMap('yc-tag', [
   'medium',
   'large',
 ]);
-
-export const VERIFICATION_CODE_SIZE_CLASS = getComponentSizeMap(
-  'yc-verification-code'
-);

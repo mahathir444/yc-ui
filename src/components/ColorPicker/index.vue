@@ -24,7 +24,7 @@ import { PRESET_COLORS } from '@shared/constants';
 import { ColorPickerProps, ColorPickerEmits, ColorPickerProvide } from './type';
 import { parseColor } from '@shared/utils';
 import { COLOR_PICKER_PROVIDE_KEY } from '@shared/constants';
-import { useControlValue } from '@shared/hooks';
+import { useControlValue, useConfigProvder } from '@shared/hooks';
 import ColorPanel from './component/ColorPanel.vue';
 import ColorPreview from './component/ColorPreview.vue';
 import YcTrigger from '@/components/Trigger';
@@ -35,7 +35,7 @@ const props = withDefaults(defineProps<ColorPickerProps>(), {
   modelValue: undefined,
   defaultValue: '#FF0000',
   format: 'hex',
-  size: 'medium',
+  size: undefined,
   showText: false,
   showHistory: false,
   showPreset: false,
@@ -50,6 +50,8 @@ const props = withDefaults(defineProps<ColorPickerProps>(), {
 });
 const emits = defineEmits<ColorPickerEmits>();
 const { modelValue, defaultValue, format: _format } = toRefs(props);
+// 获取全局配置
+const { size } = useConfigProvder(props);
 // 当前的format
 const format = useControlValue<string>(ref(undefined), _format.value);
 // 透明度

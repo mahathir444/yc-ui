@@ -81,7 +81,7 @@ import { ObjectData } from '@shared/type';
 import { isBoolean, isObject } from '@shared/utils';
 import { nanoid } from 'nanoid';
 import { useElementSize } from '@vueuse/core';
-import { useControlValue } from '@shared/hooks';
+import { useControlValue, useConfigProvder } from '@shared/hooks';
 import TagOverflowList from './component/TagOverflowList.vue';
 import { YcPreventFocus, YcIconButton } from '@shared/components';
 defineOptions({
@@ -97,7 +97,7 @@ const props = withDefaults(defineProps<InputTagProps>(), {
   error: false,
   readonly: false,
   allowClear: false,
-  size: 'medium',
+  size: undefined,
   maxTagCount: 5,
   retainInputValue: false,
   formatLabel: undefined,
@@ -130,7 +130,6 @@ const {
   defaultValue,
   inputValue,
   defaultInputValue,
-  size,
   allowClear,
   disabled,
   readonly,
@@ -141,6 +140,8 @@ const {
   fieldNames,
   tagNowrap,
 } = toRefs(props);
+// 获取全局配置
+const { size } = useConfigProvder(props);
 // 输入实例
 const inputRef = ref<HTMLInputElement>();
 // div的ref

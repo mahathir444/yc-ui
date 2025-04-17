@@ -45,7 +45,7 @@ withDefaults(defineProps<DropdownButtonProps>(), {
   popupContainer: undefined,
   disabled: false,
   type: 'secondary',
-  size: 'medium',
+  size: undefined,
   buttonProps: () => {
     return {};
   },

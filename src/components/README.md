@@ -5,3 +5,5 @@
 4. OverFlowList
 5. VerificationCode separator formatter
 6. breadcrumb customurl
+7. configProvider prefix-cls locale
+8. LayoutSider resize-directions

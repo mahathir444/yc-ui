@@ -3,8 +3,8 @@ import _Notification from './Notification.vue';
 import _NotificationContainer from './Container.vue';
 import {
   NotificationConfig,
-  NOTIFICATION_POSITION,
   NotificationType,
+  NotificationPosition,
 } from './type';
 import { NOTIFICATION_POSITION, NOFITICATION_TYPE } from '@shared/constants';
 import { isString } from '@shared/utils';
@@ -26,14 +26,14 @@ const notifManager = NOTIFICATION_POSITION.reduce(
     return result;
   },
   {} as Record<
-    NOTIFICATION_POSITION,
+    NotificationPosition,
     {
       id: number;
       list: Ref<NotificationConfig[]>;
     }
   >
 );
-const onClose = async (id: string, pos: NOTIFICATION_POSITION) => {
+const onClose = async (id: string, pos: NotificationPosition) => {
   const targetItem = notifManager[pos].list.value.find(
     (item) => item.id === id
   );
@@ -43,7 +43,7 @@ const onClose = async (id: string, pos: NOTIFICATION_POSITION) => {
   notifManager[pos].list.value.splice(i, 1);
 };
 
-const createDiv = (pos: NOTIFICATION_POSITION) => {
+const createDiv = (pos: NotificationPosition) => {
   const id = config.containerId + '_' + pos;
   if (!document.getElementById(id)) {
     const listContainer = document.createElement('div');
@@ -101,7 +101,7 @@ const Message = Object.assign(_Notification, {
   install: (app: App) => {
     app.component('Yc' + _Notification.name, _Notification);
   },
-  clear: (pos?: NOTIFICATION_POSITION | undefined) => {
+  clear: (pos?: NotificationPosition | undefined) => {
     if (!pos) {
       NOTIFICATION_POSITION.forEach((item) => {
         notifManager[item].list.value.splice(0);

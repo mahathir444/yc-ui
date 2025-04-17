@@ -80,7 +80,11 @@ import { InputEvent, InputEventType, InputProps, InputProvide } from '../type';
 import { INPUT_PROVIDE_KEY } from '@shared/constants';
 import { RequiredDeep } from '@shared/type';
 import { INPUT_SIZE_CLASS } from '@shared/constants';
-import { useControlValue, useLimitedInput } from '@shared/hooks';
+import {
+  useControlValue,
+  useLimitedInput,
+  useConfigProvder,
+} from '@shared/hooks';
 import YcSuffix from './Suffix.vue';
 import { YcPreventFocus } from '@shared/components';
 const { props, emits } = inject<InputProvide>(INPUT_PROVIDE_KEY, {
@@ -95,11 +99,11 @@ const {
   readonly,
   showInput,
   placeholder,
-  size,
   isSearch,
   isPassword,
   invisibleButton,
 } = toRefs(props as RequiredDeep<InputProps>);
+const { size } = useConfigProvder(props);
 // 输入实例
 const inputRef = ref<HTMLInputElement>();
 // 非受控的vis

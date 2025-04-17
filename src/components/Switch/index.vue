@@ -6,7 +6,7 @@
       loading ? 'yc-switch-loading' : '',
       disabled ? 'yc-switch-disabled' : '',
       SWITCH_SHAPE_CLASS[type],
-      SWITCH_SIZE_CLASS[size],
+      SWITCH_SIZE_CLASS[size] ?? SWITCH_SIZE_CLASS['medium'],
     ]"
     :aria-checked="compuedChecked"
     role="switch"
@@ -41,7 +41,7 @@ import { toRefs, computed } from 'vue';
 import { SwitchProps, SwitchValue } from './type';
 import { SWITCH_SIZE_CLASS, SWITCH_SHAPE_CLASS } from '@shared/constants';
 import { isBoolean } from '@shared/utils';
-import { useControlValue } from '@shared/hooks';
+import { useControlValue, useConfigProvder } from '@shared/hooks';
 import YcSpin from '@/components/Spin';
 defineOptions({
   name: 'Switch',
@@ -52,7 +52,7 @@ const props = withDefaults(defineProps<SwitchProps>(), {
   disabled: false,
   loading: false,
   type: 'line',
-  size: 'medium',
+  size: undefined,
   checkedValue: true,
   uncheckedValue: false,
   checkedColor: 'rgba(22, 93, 255)',
@@ -77,13 +77,14 @@ const {
   loading,
   disabled,
   type,
-  size,
   checkedText,
   uncheckedText,
   checkedColor,
   uncheckedColor,
 } = toRefs(props);
 const { beforeChange } = props;
+// 获取全局配置
+const { size } = useConfigProvder(props);
 // 计算值
 const computedValue = useControlValue<SwitchValue>(
   modelValue,

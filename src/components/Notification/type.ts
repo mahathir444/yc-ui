@@ -27,4 +27,4 @@ export interface NotificationReturn {
   close: () => void;
 }
 export type NotificationType = (typeof NOFITICATION_TYPE)[number];
-export type NOTIFICATION_POSITION = (typeof NOTIFICATION_POSITION)[number];
+export type NotificationPosition = (typeof NOTIFICATION_POSITION)[number];

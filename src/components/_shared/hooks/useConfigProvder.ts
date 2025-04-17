@@ -4,14 +4,7 @@ import { CONFIG_PROVIDER_PROVIDE_KEY } from '../constants';
 import { ConfigProviderProvide } from '@/components/ConfigProvider';
 
 export default (props: Record<string, any> = {}) => {
-  const {
-    zIndex = ref(),
-    size = ref(),
-    updateAtScroll = ref(),
-    scrollToClose = ref(),
-    exchangeTime = ref(),
-    popupContainer = ref(),
-  } = toRefs(props);
+  // 接收值
   const {
     zIndex: _zIndex,
     size: _size,
@@ -27,6 +20,15 @@ export default (props: Record<string, any> = {}) => {
     exchangeTime: ref(true),
     popupContainer: ref('body'),
   });
+  // 接收属性
+  const {
+    zIndex = ref(),
+    size = ref(),
+    updateAtScroll = ref(),
+    scrollToClose = ref(),
+    exchangeTime = ref(),
+    popupContainer = ref(),
+  } = toRefs(props);
   return {
     zIndex: useControlValue(zIndex, _zIndex.value),
     size: useControlValue(size, _size.value),

@@ -4,7 +4,7 @@
     :prevent-focus="preventFocus"
     :class="[
       'yc-tag',
-      TAG_SIZE_CLASS[size],
+      TAG_SIZE_CLASS[size] ?? TAG_SIZE_CLASS['medium'],
       TAG_COLOR_CLASS[color],
       TAG_COLOR_CLASS[color] ? 'yc-tag-preset-color' : 'yc-tag-custom-color',
       loading ? 'yc-tag-loading' : '',
@@ -43,7 +43,7 @@ import { toRefs, computed } from 'vue';
 import { TagProps, TagEventType } from './type';
 import { TAG_SIZE_CLASS, TAG_COLOR_CLASS } from '@shared/constants';
 import YcSpin from '@/components/Spin';
-import { useControlValue } from '@shared/hooks';
+import { useControlValue, useConfigProvder } from '@shared/hooks';
 import { YcPreventFocus, YcIconButton } from '@shared/components';
 
 defineOptions({
@@ -51,7 +51,7 @@ defineOptions({
 });
 const props = withDefaults(defineProps<TagProps>(), {
   color: 'default',
-  size: 'medium',
+  size: undefined,
   bordered: false,
   loading: false,
   closeable: false,
@@ -80,6 +80,8 @@ const {
   color,
   tagIndex: _tagIndex,
 } = toRefs(props);
+// 获取全局配置
+const { size } = useConfigProvder(props);
 // visible
 const computedVisible = useControlValue<boolean>(
   visible,

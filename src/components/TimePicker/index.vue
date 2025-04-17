@@ -139,14 +139,14 @@ import isSameOrBefore from 'dayjs/plugin/isSameOrBefore';
 import BTween from 'b-tween';
 import { YcIconButton, YcPreventFocus } from '@shared/components';
 import { IconTime } from '@shared/icons';
-
+import { useConfigProvder } from '@shared/hooks';
 defineOptions({
   name: 'TimePicker',
 });
 dayjs.extend(isSameOrBefore);
 const props = withDefaults(defineProps<TimePickerProps>(), {
   type: 'time-range',
-  size: 'medium',
+  size: undefined,
   format: 'HH:mm:ss',
   defaultPopupVisible: false,
   popupVisible: undefined,
@@ -173,6 +173,8 @@ const emit = defineEmits<{
 }>();
 const { defaultValue, modelValue, popupVisible, defaultPopupVisible } =
   toRefs(props);
+// 获取全局配置
+const { size, exchangeTime } = useConfigProvder(props);
 const activeIndex = ref(0);
 const inputRefs = useTemplateRefsList<HTMLDivElement>();
 const scrollRefs = ref(new Map());

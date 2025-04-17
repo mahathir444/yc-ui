@@ -122,7 +122,7 @@ const props = withDefaults(defineProps<InputNumberProps>(), {
   min: -Infinity,
   placeholder: '',
   hideButton: false,
-  size: 'medium',
+  size: undefined,
   allowClear: false,
   modelEvent: 'change',
   readonly: false,
