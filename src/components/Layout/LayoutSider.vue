@@ -1,5 +1,5 @@
 <template>
-  <aside
+  <div
     class="yc-layout-sider"
     :class="{
       'yc-layout-sider-light': theme == 'light',
@@ -16,7 +16,7 @@
         />
       </yc-icon-button>
     </slot>
-  </aside>
+  </div>
 </template>
 
 <script lang="ts" setup>

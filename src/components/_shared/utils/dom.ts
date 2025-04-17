@@ -15,6 +15,7 @@ const NOOP = () => {
   return undefined;
 };
 
+// 查询
 export const querySelector = (
   selectors: string,
   container?: Document | HTMLElement
@@ -39,9 +40,7 @@ export const getElement = (
   return target;
 };
 
-/**
- * 提取 DOM 元素内所有文本内容
- */
+// 提取 DOM 元素内所有文本内容
 export function getTextContent(
   dom: HTMLElement | Node | null,
   separator: string = ''
@@ -65,6 +64,7 @@ export function getTextContent(
   return texts.join(separator);
 }
 
+// 媒体查询器
 type MediaQueryHandler = (
   name: ResponsiveValue,
   isActive: boolean,
@@ -83,7 +83,7 @@ export class MediaQueryManager {
 
   constructor(
     queries: Record<ResponsiveValue, string> = RESPONSIVE_VALUE_MAP,
-    throttleTime = 16
+    throttleTime = 50
   ) {
     this.queries = {};
     this.handlers = [];
@@ -96,11 +96,9 @@ export class MediaQueryManager {
         active: false,
       };
     });
-
     // 初始检查
     this.checkAll();
     this.throttledCheck = this.throttle(this.checkAll.bind(this), throttleTime);
-
     Object.values(this.queries).forEach(({ mq }) => {
       mq.addEventListener('change', this.throttledCheck);
     });
@@ -117,6 +115,7 @@ export class MediaQueryManager {
   }
 
   private checkAll(): void {
+    console.log('触发了媒体查询');
     let activeFound = false;
     Object.entries(this.queries).forEach(([name, { mq, active }]) => {
       const isActive = mq.matches;
