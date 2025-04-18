@@ -18,6 +18,34 @@
             <div>ResponsiveValue</div>
           </yc-col>
         </yc-row>
+        <a-grid
+          :cols="{ xs: 1, sm: 2, md: 3, lg: 4, xl: 5, xxl: 6 }"
+          :colGap="12"
+          :rowGap="16"
+          class="grid-demo-grid"
+        >
+          <a-grid-item class="demo-item">item</a-grid-item>
+          <a-grid-item class="demo-item">item</a-grid-item>
+          <a-grid-item class="demo-item">item</a-grid-item>
+          <a-grid-item class="demo-item">item</a-grid-item>
+          <a-grid-item class="demo-item">item</a-grid-item>
+          <a-grid-item class="demo-item">item</a-grid-item>
+          <a-grid-item class="demo-item" suffix> suffix </a-grid-item>
+        </a-grid>
+        <yc-grid
+          :cols="{ xs: 1, sm: 2, md: 3, lg: 4, xl: 5, xxl: 6 }"
+          :colGap="12"
+          :rowGap="16"
+          class="grid-demo-grid"
+        >
+          <yc-grid-item class="demo-item">item</yc-grid-item>
+          <yc-grid-item class="demo-item">item</yc-grid-item>
+          <yc-grid-item class="demo-item">item</yc-grid-item>
+          <yc-grid-item class="demo-item">item</yc-grid-item>
+          <yc-grid-item class="demo-item">item</yc-grid-item>
+          <yc-grid-item class="demo-item">item</yc-grid-item>
+          <yc-grid-item class="demo-item" suffix> suffix </yc-grid-item>
+        </yc-grid>
         <!-- <yc-watermark text="李银超" color="black" :font-size="20" grayscale>
           <div
             style="
@@ -70,40 +98,17 @@ const options = Array(8)
 </style>
 
 <style lang="less">
-.grid-demo {
-  width: 100%;
-  background-color: (rgb(242, 243, 245));
-  margin-bottom: 40px;
-}
-.grid-demo:last-child {
-  margin-bottom: 0px;
-}
-.grid-demo .yc-col {
+.grid-demo-grid .demo-item,
+.grid-demo-grid .demo-suffix {
   height: 48px;
   line-height: 48px;
-  color: #fff;
+  color: var(--color-white);
   text-align: center;
 }
-.grid-demo .yc-col:nth-of-type(1) {
-  height: 90px;
-  line-height: 90px;
+.grid-demo-grid .demo-item:nth-child(2n) {
+  background-color: rgba(var(--arcoblue-6), 0.9);
 }
-.grid-demo .yc-col:nth-of-type(2) {
-  height: 48px;
-  line-height: 48px;
-}
-.grid-demo .yc-col:nth-of-type(3) {
-  height: 120px;
-  line-height: 120px;
-}
-.grid-demo .yc-col:nth-of-type(4) {
-  height: 60px;
-  line-height: 60px;
-}
-.grid-demo .yc-col:nth-child(2n) {
-  background-color: blue;
-}
-.grid-demo .yc-col:nth-child(2n + 1) {
-  background-color: pink;
+.grid-demo-grid .demo-item:nth-child(2n + 1) {
+  background-color: var(--color-primary-light-4);
 }
 </style>

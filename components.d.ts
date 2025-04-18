@@ -13,6 +13,8 @@ declare module 'vue' {
     ACascader: typeof import('@arco-design/web-vue')['Cascader']
     ACol: typeof import('@arco-design/web-vue')['Col']
     Affix: typeof import('./src/components/Affix/index.vue')['default']
+    AGrid: typeof import('@arco-design/web-vue')['Grid']
+    AGridItem: typeof import('@arco-design/web-vue')['GridItem']
     AInput: typeof import('@arco-design/web-vue')['Input']
     ALayout: typeof import('@arco-design/web-vue')['Layout']
     ALayoutContent: typeof import('@arco-design/web-vue')['LayoutContent']

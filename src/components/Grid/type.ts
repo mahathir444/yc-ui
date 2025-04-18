@@ -1,4 +1,18 @@
-import { Ref } from 'vue';
+import { ComputedRef, Ref } from 'vue';
+
+export interface GridProps {
+  cols?: number | ResponsiveValue;
+  rowGap?: number | ResponsiveValue;
+  colGap?: number | ResponsiveValue;
+  collapsed?: boolean;
+  collapsedRows?: number;
+}
+
+export interface GridItemProps {
+  span?: number | ResponsiveValue;
+  offset?: number | ResponsiveValue;
+  suffix?: boolean;
+}
 
 export interface RowProps {
   gutter?: number | ResponsiveValue;
@@ -29,5 +43,8 @@ export type BreakpointName = 'xxl' | 'xl' | 'lg' | 'md' | 'sm' | 'xs';
 export type Flex = number | string | 'initial' | 'auto' | 'none';
 
 export type GridProvide = {
-  gutter: Ref<number | ResponsiveValue>;
+  breakpoint: Ref<BreakpointName>;
+  gutter?: Ref<number> | ComputedRef<number>;
+  cols?: Ref<number> | ComputedRef<number>;
+  colGap?: Ref<number> | ComputedRef<number>;
 };

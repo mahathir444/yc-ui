@@ -27,8 +27,8 @@
 import { ref, onMounted, inject, toRefs } from 'vue';
 import { LayoutSiderProps, LayoutProvide } from './type';
 import { useControlValue } from '@shared/hooks';
-import { MediaQueryManager } from '@shared/utils';
-import { RESPONSIVE_NUMBER_MAP, LAYOUT_PROVIDE_KEY } from '@shared/constants';
+import { mediaQueryHandler } from '@shared/utils';
+import { LAYOUT_PROVIDE_KEY } from '@shared/constants';
 import { YcIconButton } from '@shared/components';
 import { IconArrowRight } from '@shared/icons';
 defineOptions({
@@ -66,8 +66,6 @@ const computedCollapsed = useControlValue<boolean>(
     emits('collapse', val, curType.value);
   }
 );
-// 媒体查询器
-const mqm = new MediaQueryManager();
 // 注入数据
 const { curLevel, hasSider } = inject<LayoutProvide>(LAYOUT_PROVIDE_KEY, {
   curLevel: ref(0),
@@ -79,17 +77,16 @@ const handleCollapse = () => {
   curType.value = 'clickTrigger';
   computedCollapsed.value = !computedCollapsed.value;
 };
+mediaQueryHandler((_, order, i) => {
+  if (!collapsible.value || !breakpoint.value) return;
+  curType.value = 'responsive';
+  computedCollapsed.value = i <= order[breakpoint.value];
+  emits('breakpoint', computedCollapsed.value);
+});
 onMounted(() => {
   if (hasSider.value) return;
   hasSider.value = true;
   curLevel.value++;
-  mqm.addHandler((name) => {
-    if (!collapsible.value || !breakpoint.value) return;
-    curType.value = 'responsive';
-    computedCollapsed.value =
-      RESPONSIVE_NUMBER_MAP[name] <= RESPONSIVE_NUMBER_MAP[breakpoint.value];
-    emits('breakpoint', computedCollapsed.value);
-  });
 });
 </script>
 

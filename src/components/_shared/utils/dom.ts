@@ -1,7 +1,7 @@
 import { isString } from './is';
-import { RESPONSIVE_VALUE_MAP } from '../constants';
 import { BreakpointName } from '@/components/Grid';
-
+import { useMediaQuery } from '@vueuse/core';
+import { watch, Ref } from 'vue';
 // 是否是服务端渲染
 export const isServerRendering = (() => {
   try {
@@ -64,107 +64,43 @@ export function getTextContent(
   return texts.join(separator);
 }
 
-// 媒体查询器
-type MediaQueryHandler = (
-  name: BreakpointName,
-  isActive: boolean,
-  currentBreakpoint: BreakpointName | null
-) => void;
-interface MediaQueryEntry {
-  mq: MediaQueryList;
-  active: boolean;
-}
-export class MediaQueryManager {
-  private queries: Record<string, MediaQueryEntry>;
-  private handlers: MediaQueryHandler[];
-  private currentBreakpoint: BreakpointName | null;
-  private throttledCheck: () => void;
-  private lastExecutionTime: number = 0;
+// 获取媒体查询队列
+const getMedicaQueryQuerues = () => {
+  return {
+    xs: '(min-width: 0)',
+    sm: '(min-width: 576px)',
+    md: '(min-width: 768px)',
+    lg: '(min-width: 992px)',
+    xl: '(min-width: 1200px)',
+    xxl: '(min-width: 1600px)',
+  };
+};
 
-  constructor(
-    queries: Record<BreakpointName, string> = RESPONSIVE_VALUE_MAP,
-    throttleTime = 50
-  ) {
-    this.queries = {};
-    this.handlers = [];
-    this.currentBreakpoint = null;
-
-    // 初始化查询
-    Object.entries(queries).forEach(([name, query]) => {
-      this.queries[name] = {
-        mq: window.matchMedia(query),
-        active: false,
-      };
-    });
-    // 初始检查
-    this.checkAll();
-    this.throttledCheck = this.throttle(this.checkAll.bind(this), throttleTime);
-    Object.values(this.queries).forEach(({ mq }) => {
-      mq.addEventListener('change', this.throttledCheck);
-    });
-  }
-
-  private throttle(fn: Function, delay: number): () => void {
-    return () => {
-      const now = Date.now();
-      if (now - this.lastExecutionTime >= delay) {
-        fn();
-        this.lastExecutionTime = now;
-      }
-    };
-  }
-
-  private checkAll(): void {
-    let activeFound = false;
-    Object.entries(this.queries).forEach(([name, { mq, active }]) => {
-      const isActive = mq.matches;
-      if (isActive !== active) {
-        this.queries[name].active = isActive;
-        this.notifyHandlers(name as BreakpointName, isActive);
-      }
-
-      if (isActive && !activeFound) {
-        this.currentBreakpoint = name as BreakpointName;
-        activeFound = true;
-      }
-    });
-
-    if (!activeFound) {
-      this.currentBreakpoint = null;
+// 媒体查询
+export const mediaQueryHandler = (
+  onBreakpoint: (
+    breakpoint: BreakpointName,
+    order: Record<string, number>,
+    index: number
+  ) => void,
+  queries: Record<string, string> = getMedicaQueryQuerues()
+) => {
+  const breakpoints: string[] = [];
+  const order: Record<string, number> = {};
+  const matches: Ref<boolean>[] = [];
+  Object.keys(queries).forEach((key, i) => {
+    breakpoints.push(key);
+    order[key] = i;
+    matches.push(useMediaQuery(queries[key]));
+  });
+  watch(
+    matches,
+    (val) => {
+      const i = val.lastIndexOf(true);
+      onBreakpoint(breakpoints[i] as BreakpointName, order, i);
+    },
+    {
+      immediate: true,
     }
-  }
-
-  public addHandler(handler: MediaQueryHandler): () => void {
-    this.handlers.push(handler);
-    // 立即通知当前状态
-    Object.entries(this.queries).forEach(([name, { active }]) => {
-      if (active) {
-        handler(name as BreakpointName, true, this.currentBreakpoint);
-      }
-    });
-    return () => {
-      this.handlers = this.handlers.filter((h) => h !== handler);
-    };
-  }
-
-  private notifyHandlers(name: BreakpointName, isActive: boolean): void {
-    this.handlers.forEach((handler) => {
-      handler(name, isActive, this.currentBreakpoint);
-    });
-  }
-
-  public getCurrentBreakpoint(): BreakpointName | null {
-    return this.currentBreakpoint;
-  }
-
-  public isActive(name: BreakpointName): boolean {
-    return this.queries[name]?.active ?? false;
-  }
-
-  public destroy(): void {
-    Object.values(this.queries).forEach(({ mq }) => {
-      mq.removeEventListener('change', this.throttledCheck);
-    });
-    this.handlers = [];
-  }
-}
+  );
+};
