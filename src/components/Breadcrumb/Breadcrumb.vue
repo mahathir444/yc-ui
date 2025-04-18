@@ -2,9 +2,21 @@
   <div class="yc-breadcrumb">
     <slot v-if="!routes.length" />
     <!-- routes渲染 -->
-    <template v-for="route in routes" :key="route.path">
-      <slot name="item-render" :route="route" :routes="routes">
-        <yc-breadcrumb-item :path="route.path" :droplist="route.children">
+    <template v-for="(route, index) in routes" :key="route.path">
+      <slot
+        name="item-render"
+        :route="route"
+        :routes="routes"
+        :paths="getPaths(index)"
+      >
+        <yc-breadcrumb-item
+          :path="
+            index == routes.length - 1
+              ? route.path
+              : (customUrl?.(getPaths(index)) ?? route.path)
+          "
+          :droplist="route.children"
+        >
           {{ route.label }}
           <template v-if="$slots.separator" #separator>
             <slot name="separator" />
@@ -32,9 +44,15 @@ const props = withDefaults(defineProps<BreadcrumbProps>(), {
   separator: '',
   customUrl: undefined,
 });
-const { maxCount, separator } = toRefs(props);
+const { maxCount, separator, routes } = toRefs(props);
 // 次序
 const index = ref<number>(-1);
+
+const getPaths = (index: number) => {
+  return routes.value
+    .slice(0, index + 1)
+    .map((item) => item.path?.replace(/\//g, '')) as string[];
+};
 // 发放数据
 provide<BreadcrumbProvide>(BREADCRUMB_PROVIDE_KEY, {
   index,

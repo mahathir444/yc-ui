@@ -59,15 +59,6 @@
           "
         >
         </yc-verification-code> -->
-        <a-breadcrumb
-          :routes="routes"
-          :customUrl="
-            (val) => {
-              console.log(val, 'routes');
-              return val.join('/');
-            }
-          "
-        />
         <a-button @click="index += 10">点击加10</a-button>
         <div
           style="
@@ -121,6 +112,10 @@ const routes = [
   {
     path: '/news',
     label: 'News',
+  },
+  {
+    path: '/news1',
+    label: 'News1',
   },
 ];
 </script>
