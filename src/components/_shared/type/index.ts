@@ -4,8 +4,6 @@ export type Size = 'mini' | 'small' | 'medium' | 'large';
 
 export type Direction = 'vertical' | 'horizontal';
 
-export type ResponsiveValue = 'xxl' | 'xl' | 'lg' | 'md' | 'sm' | 'xs';
-
 export type ClassName =
   | string
   | Record<string, boolean>

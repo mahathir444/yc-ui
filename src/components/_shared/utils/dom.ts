@@ -1,6 +1,6 @@
 import { isString } from './is';
 import { RESPONSIVE_VALUE_MAP } from '../constants';
-import { ResponsiveValue } from '../type';
+import { BreakpointName } from '@/components/Grid';
 
 // 是否是服务端渲染
 export const isServerRendering = (() => {
@@ -66,9 +66,9 @@ export function getTextContent(
 
 // 媒体查询器
 type MediaQueryHandler = (
-  name: ResponsiveValue,
+  name: BreakpointName,
   isActive: boolean,
-  currentBreakpoint: ResponsiveValue | null
+  currentBreakpoint: BreakpointName | null
 ) => void;
 interface MediaQueryEntry {
   mq: MediaQueryList;
@@ -77,12 +77,12 @@ interface MediaQueryEntry {
 export class MediaQueryManager {
   private queries: Record<string, MediaQueryEntry>;
   private handlers: MediaQueryHandler[];
-  private currentBreakpoint: ResponsiveValue | null;
+  private currentBreakpoint: BreakpointName | null;
   private throttledCheck: () => void;
   private lastExecutionTime: number = 0;
 
   constructor(
-    queries: Record<ResponsiveValue, string> = RESPONSIVE_VALUE_MAP,
+    queries: Record<BreakpointName, string> = RESPONSIVE_VALUE_MAP,
     throttleTime = 50
   ) {
     this.queries = {};
@@ -115,17 +115,16 @@ export class MediaQueryManager {
   }
 
   private checkAll(): void {
-    console.log('触发了媒体查询');
     let activeFound = false;
     Object.entries(this.queries).forEach(([name, { mq, active }]) => {
       const isActive = mq.matches;
       if (isActive !== active) {
         this.queries[name].active = isActive;
-        this.notifyHandlers(name as ResponsiveValue, isActive);
+        this.notifyHandlers(name as BreakpointName, isActive);
       }
 
       if (isActive && !activeFound) {
-        this.currentBreakpoint = name as ResponsiveValue;
+        this.currentBreakpoint = name as BreakpointName;
         activeFound = true;
       }
     });
@@ -140,7 +139,7 @@ export class MediaQueryManager {
     // 立即通知当前状态
     Object.entries(this.queries).forEach(([name, { active }]) => {
       if (active) {
-        handler(name as ResponsiveValue, true, this.currentBreakpoint);
+        handler(name as BreakpointName, true, this.currentBreakpoint);
       }
     });
     return () => {
@@ -148,17 +147,17 @@ export class MediaQueryManager {
     };
   }
 
-  private notifyHandlers(name: ResponsiveValue, isActive: boolean): void {
+  private notifyHandlers(name: BreakpointName, isActive: boolean): void {
     this.handlers.forEach((handler) => {
       handler(name, isActive, this.currentBreakpoint);
     });
   }
 
-  public getCurrentBreakpoint(): ResponsiveValue | null {
+  public getCurrentBreakpoint(): BreakpointName | null {
     return this.currentBreakpoint;
   }
 
-  public isActive(name: ResponsiveValue): boolean {
+  public isActive(name: BreakpointName): boolean {
     return this.queries[name]?.active ?? false;
   }
 

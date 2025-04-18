@@ -1,7 +1,7 @@
 import { Ref } from 'vue';
 
 export interface RowProps {
-  gutter?: number;
+  gutter?: number | ResponsiveValue;
   justify?: 'start' | 'center' | 'end' | 'space-around' | 'space-between';
   align?: 'start' | 'center' | 'end' | 'stretch';
   div?: boolean;
@@ -9,22 +9,25 @@ export interface RowProps {
 }
 
 export interface ColProps {
-  span?: number;
-  offset?: number;
-  order?: number;
-  flex?: number | string | 'initial' | 'auto' | 'none';
-  xs?: ResponsiveValue;
-  sm?: ResponsiveValue;
-  md?: ResponsiveValue;
-  lg?: ResponsiveValue;
-  xl?: ResponsiveValue;
-  xxl?: ResponsiveValue;
+  span?: number | ResponsiveValue;
+  offset?: number | ResponsiveValue;
+  order?: number | ResponsiveValue;
+  flex?: Flex | ResponsiveValue;
 }
+
+export type ResponsiveValue<T = number | string> = {
+  xs?: T;
+  sm?: T;
+  md?: T;
+  lg?: T;
+  xl?: T;
+  xxl?: T;
+};
+
+export type BreakpointName = 'xxl' | 'xl' | 'lg' | 'md' | 'sm' | 'xs';
 
 export type Flex = number | string | 'initial' | 'auto' | 'none';
 
-export type ResponsiveValue = number | Record<string, any>;
-
 export type GridProvide = {
-  gutter: Ref<number>;
+  gutter: Ref<number | ResponsiveValue>;
 };

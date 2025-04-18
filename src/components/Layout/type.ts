@@ -1,5 +1,5 @@
 import { Ref } from 'vue';
-import { ResponsiveValue } from '@shared/type';
+import { BreakpointName } from '@/components/Grid';
 
 export interface LayoutProps {
   hasSider?: boolean;
@@ -13,7 +13,7 @@ export interface LayoutSiderProps {
   width?: number;
   collapsedWidth?: number;
   reverseArrow?: boolean;
-  breakpoint?: ResponsiveValue;
+  breakpoint?: BreakpointName;
   hideTrigger?: boolean;
 }
 

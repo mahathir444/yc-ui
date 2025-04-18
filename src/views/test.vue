@@ -4,7 +4,21 @@
     <yc-layout class="main">
       <yc-layout-header class="header"> </yc-layout-header>
       <yc-layout-content>
-        <yc-watermark text="李银超" color="black" :font-size="20" grayscale>
+        <yc-row class="grid-demo" align="start">
+          <yc-col
+            :span="{
+              xs: 4,
+              sm: 8,
+              md: 12,
+              lg: 16,
+              xl: 20,
+              xxl: 24,
+            }"
+          >
+            <div>ResponsiveValue</div>
+          </yc-col>
+        </yc-row>
+        <!-- <yc-watermark text="李银超" color="black" :font-size="20" grayscale>
           <div
             style="
               height: 100%;
@@ -18,7 +32,7 @@
             <p>支持文字和图片两种水印类型</p>
             <p>可以调整各种水印参数</p>
           </div>
-        </yc-watermark>
+        </yc-watermark> -->
       </yc-layout-content>
     </yc-layout>
   </yc-layout>
@@ -52,5 +66,44 @@ const options = Array(8)
       align-items: center;
     }
   }
+}
+</style>
+
+<style lang="less">
+.grid-demo {
+  width: 100%;
+  background-color: (rgb(242, 243, 245));
+  margin-bottom: 40px;
+}
+.grid-demo:last-child {
+  margin-bottom: 0px;
+}
+.grid-demo .yc-col {
+  height: 48px;
+  line-height: 48px;
+  color: #fff;
+  text-align: center;
+}
+.grid-demo .yc-col:nth-of-type(1) {
+  height: 90px;
+  line-height: 90px;
+}
+.grid-demo .yc-col:nth-of-type(2) {
+  height: 48px;
+  line-height: 48px;
+}
+.grid-demo .yc-col:nth-of-type(3) {
+  height: 120px;
+  line-height: 120px;
+}
+.grid-demo .yc-col:nth-of-type(4) {
+  height: 60px;
+  line-height: 60px;
+}
+.grid-demo .yc-col:nth-child(2n) {
+  background-color: blue;
+}
+.grid-demo .yc-col:nth-child(2n + 1) {
+  background-color: pink;
 }
 </style>
