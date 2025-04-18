@@ -4,34 +4,8 @@
     <yc-layout class="main">
       <yc-layout-header class="header"> </yc-layout-header>
       <yc-layout-content>
-        <yc-row class="grid-demo" align="start">
-          <yc-col
-            :span="{
-              xs: 4,
-              sm: 8,
-              md: 12,
-              lg: 16,
-              xl: 20,
-              xxl: 24,
-            }"
-          >
-            <div>ResponsiveValue</div>
-          </yc-col>
-        </yc-row>
-        <a-grid
-          :cols="{ xs: 1, sm: 2, md: 3, lg: 4, xl: 5, xxl: 6 }"
-          :colGap="12"
-          :rowGap="16"
-          class="grid-demo-grid"
-        >
-          <a-grid-item class="demo-item">item</a-grid-item>
-          <a-grid-item class="demo-item">item</a-grid-item>
-          <a-grid-item class="demo-item">item</a-grid-item>
-          <a-grid-item class="demo-item">item</a-grid-item>
-          <a-grid-item class="demo-item">item</a-grid-item>
-          <a-grid-item class="demo-item">item</a-grid-item>
-          <a-grid-item class="demo-item" suffix> suffix </a-grid-item>
-        </a-grid>
+        <a-tag color="gray" checkable>测是的撒</a-tag>
+        <yc-tag color="gray" checkable>测是的撒</yc-tag>
         <yc-grid
           :cols="{ xs: 1, sm: 2, md: 3, lg: 4, xl: 5, xxl: 6 }"
           :colGap="12"

@@ -1,9 +1,7 @@
 ## 待实现的功能：
 1. Mention split
-2. tag 各个color的hover效果
-3. GridItem和Grid
-4. OverFlowList
-5. VerificationCode separator formatter
-6. breadcrumb customurl
-7. configProvider prefix-cls locale
-8. LayoutSider resize-directions
+2. OverFlowList
+3. VerificationCode separator formatter
+4. breadcrumb customurl
+5. configProvider prefix-cls locale
+6. LayoutSider resize-directions
