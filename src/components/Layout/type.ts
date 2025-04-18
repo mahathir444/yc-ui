@@ -15,6 +15,7 @@ export interface LayoutSiderProps {
   reverseArrow?: boolean;
   breakpoint?: BreakpointName;
   hideTrigger?: boolean;
+  resizeDirections?: Array<'left' | 'right' | 'top' | 'bottom'>;
 }
 
 export interface LayoutProvide {

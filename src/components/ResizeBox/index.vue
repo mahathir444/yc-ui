@@ -20,16 +20,16 @@
       ]"
       :id="`direction-${item}`"
       :ref="(el) => setRef(item, el)"
-      @mousedown.prevent=""
+      @mousedown="(e) => hanClickTrigger(item, e)"
     >
       <slot name="resize-trigger" :direction="item">
         <div class="yc-resizebox-trigger-icon-wrapper">
           <slot name="resize-trigger-icon" :direction="item">
             <icon-drag-dot-vertical
               v-if="getDir(item) === 'vertical'"
-              :size="12"
+              :size="6"
             />
-            <icon-drag-dot v-else :size="12" />
+            <icon-drag-dot v-else :size="6" />
           </slot>
         </div>
       </slot>
@@ -202,5 +202,52 @@ onMounted(() => {
 });
 </script>
 <style scoped lang="less">
-@import './style/resize-box.less';
+.yc-resizebox {
+  width: 100%;
+  position: relative;
+  overflow: hidden;
+  &.no-select {
+    user-select: none;
+  }
+  .yc-resizebox-trigger {
+    position: absolute;
+    width: fit-content;
+    .yc-resizebox-trigger-icon-wrapper {
+      background-color: rgb(229, 230, 235);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    &.direction-vertical {
+      height: 100%;
+      cursor: col-resize;
+      .yc-resizebox-trigger-icon-wrapper {
+        height: 100%;
+      }
+    }
+    &.direction-horizontal {
+      width: 100%;
+      cursor: row-resize;
+      .yc-resizebox-trigger-icon-wrapper {
+        width: 100%;
+      }
+    }
+    &.yc-resizebox-direction-top {
+      top: 0;
+      left: unset;
+    }
+    &.yc-resizebox-direction-bottom {
+      bottom: 0;
+      left: unset;
+    }
+    &.yc-resizebox-direction-left {
+      left: 0;
+      top: 0;
+    }
+    &.yc-resizebox-direction-right {
+      right: 0;
+      top: 0;
+    }
+  }
+}
 </style>

@@ -1,14 +1,43 @@
 <template>
-  <aside
-    class="yc-layout-sider"
-    :class="{
-      'yc-layout-sider-light': theme == 'light',
-      'yc-layout-sider-dark': theme == 'dark',
-    }"
+  <!-- 伸缩杆 -->
+  <yc-resize-box
+    v-if="resizeDirections.length"
+    v-model:width="width"
+    :class="[
+      'yc-layout-sider',
+      theme == 'light' ? 'yc-layout-sider-light' : 'yc-layout-sider-dark',
+    ]"
     :style="{
-      width: `${!computedCollapsed ? width : collapsedWidth}px`,
+      minWidth: `${collapsedWidth}px`,
     }"
   >
+    <slot />
+    <slot v-if="!hideTrigger" name="trigger" :collapsed="computedCollapsed">
+      <yc-icon-button
+        :hover-size="24"
+        class="yc-collapse-button"
+        @click="handleCollapse"
+      >
+        <icon-arrow-right
+          :rotate="computedCollapsed && !reverseArrow ? 0 : 180"
+        />
+      </yc-icon-button>
+    </slot>
+  </yc-resize-box>
+
+  <!-- 默认元素 -->
+  <aside
+    v-else
+    :class="[
+      'yc-layout-sider',
+      'yc-layout-sider-translation',
+      theme == 'light' ? 'yc-layout-sider-light' : 'yc-layout-sider-dark',
+    ]"
+    :style="{
+      width: width + 'px',
+    }"
+  >
+    <slot />
     <slot v-if="!hideTrigger" name="trigger" :collapsed="computedCollapsed">
       <yc-icon-button
         :hover-size="24"
@@ -31,6 +60,7 @@ import { mediaQueryHandler } from '@shared/utils';
 import { LAYOUT_PROVIDE_KEY } from '@shared/constants';
 import { YcIconButton } from '@shared/components';
 import { IconArrowRight } from '@shared/icons';
+import YcResizeBox from '@/components/ResizeBox';
 defineOptions({
   name: 'LayoutSider',
 });
@@ -44,6 +74,9 @@ const props = withDefaults(defineProps<LayoutSiderProps>(), {
   reverseArrow: false,
   breakpoint: undefined,
   hideTrigger: false,
+  resizeDirections: () => {
+    return [];
+  },
 });
 const emits = defineEmits<{
   (e: 'update:collapsed', collapsed: boolean): void;
@@ -54,16 +87,22 @@ const emits = defineEmits<{
   ): void;
   (e: 'breakpoint', collapsed: boolean): void;
 }>();
-const { collapsed, defaultCollapsed, collapsible, breakpoint } = toRefs(props);
-// 当前的type
-const curType = ref<'clickTrigger' | 'responsive'>('clickTrigger');
+const {
+  collapsed,
+  defaultCollapsed,
+  collapsible,
+  breakpoint,
+  width: _width,
+  collapsedWidth,
+} = toRefs(props);
+// 宽度
+const width = useControlValue<number>(ref(), _width.value);
 // 受控的收缩
 const computedCollapsed = useControlValue<boolean>(
   collapsed,
   defaultCollapsed.value,
   (val) => {
     emits('update:collapsed', val);
-    emits('collapse', val, curType.value);
   }
 );
 // 注入数据
@@ -74,15 +113,19 @@ const { curLevel, hasSider } = inject<LayoutProvide>(LAYOUT_PROVIDE_KEY, {
 // 处理点击收缩
 const handleCollapse = () => {
   if (!collapsible.value) return;
-  curType.value = 'clickTrigger';
   computedCollapsed.value = !computedCollapsed.value;
+  width.value = computedCollapsed.value ? collapsedWidth.value : _width.value;
+  emits('collapse', computedCollapsed.value, 'clickTrigger');
 };
+// 处理媒体查询搜索
 mediaQueryHandler((_, order, i) => {
   if (!collapsible.value || !breakpoint.value) return;
-  curType.value = 'responsive';
   computedCollapsed.value = i <= order[breakpoint.value];
+  width.value = computedCollapsed.value ? collapsedWidth.value : _width.value;
+  emits('collapse', computedCollapsed.value, 'responsive');
   emits('breakpoint', computedCollapsed.value);
 });
+// 处理层级关系
 onMounted(() => {
   if (hasSider.value) return;
   hasSider.value = true;

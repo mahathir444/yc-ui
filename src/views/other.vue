@@ -25,11 +25,22 @@
     </div>
     <div>
       overflowlist
-      <!-- <yc-overflow-list :min="6">
-        <yc-tag v-for="i in value" :key="i">测试{{ i }}</yc-tag>
-      </yc-overflow-list> -->
-      <a-button @click="value--">点击减1</a-button>
-      <a-button @click="value++">点击加1</a-button>
+      <yc-overflow-list
+        :min="2"
+        :style="{
+          width: width + 'px',
+        }"
+      >
+        <yc-tag v-for="i in options" :key="i.value">{{ i.label }}</yc-tag>
+      </yc-overflow-list>
+    </div>
+    <div>
+      <a-slider
+        v-model="width"
+        :min="300"
+        :max="1200"
+        style="width: 500px"
+      ></a-slider>
     </div>
     <div>
       <yc-button
@@ -64,14 +75,13 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, watch, watchEffect } from 'vue';
+import { ref } from 'vue';
 import Message from '@/components/Message';
 import Notification from '@/components/Notification';
-const value = ref(10);
-const value1 = ref([]);
 const visible = ref(false);
+const width = ref(300);
 const options = ref<any[]>([]);
-for (let i = 0; i < 20; i++) {
+for (let i = 0; i < 100; i++) {
   options.value.push({
     label: '选项' + i,
     value: i,

@@ -1,6 +1,10 @@
 <template>
   <yc-layout class="container">
-    <yc-layout-sider collapsible theme="dark"></yc-layout-sider>
+    <yc-layout-sider
+      collapsible
+      theme="dark"
+      :resize-directions="['right']"
+    ></yc-layout-sider>
     <yc-layout class="main">
       <yc-layout-header class="header"> </yc-layout-header>
       <yc-layout-content>
@@ -62,7 +66,7 @@
         <a-button @click="index += 10">点击加10</a-button>
         <div
           style="
-            height: 500px;
+            max-height: 500px;
             display: flex;
             flex-direction: column;
             overflow: hidden;

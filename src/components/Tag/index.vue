@@ -12,6 +12,7 @@
       computedChecked ? 'yc-tag-checked' : '',
       nowrap ? 'yc-tag-no-wrap' : 'yc-tag-wrap',
     ]"
+    ref="tagRef"
     @click="handleEvent('check', $event)"
   >
     <!-- icon -->
@@ -39,7 +40,7 @@
 </template>
 
 <script lang="ts" setup>
-import { toRefs, computed } from 'vue';
+import { toRefs, computed, ref } from 'vue';
 import { TagProps, TagEventType } from './type';
 import { TAG_SIZE_CLASS, TAG_COLOR_CLASS } from '@shared/constants';
 import YcSpin from '@/components/Spin';
@@ -82,6 +83,8 @@ const {
 } = toRefs(props);
 // 获取全局配置
 const { size } = useConfigProvder(props);
+// tagRef
+const tagRef = ref<InstanceType<typeof YcPreventFocus>>();
 // visible
 const computedVisible = useControlValue<boolean>(
   visible,
@@ -108,6 +111,12 @@ const handleEvent = (type: TagEventType, ev: MouseEvent) => {
     emits('check', computedChecked.value, ev);
   }
 };
+
+defineExpose({
+  getRef() {
+    return tagRef.value!.getRef() as HTMLLabelElement;
+  },
+});
 </script>
 
 <style lang="less" scoped>
