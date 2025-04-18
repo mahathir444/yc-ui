@@ -8,7 +8,7 @@
   >
     <div class="overflow-list-hidden">
       <component
-        v-for="(node, index) in tags.slice(0, max)"
+        v-for="(node, index) in tags"
         :key="index"
         :is="node"
         :style="{
@@ -19,15 +19,15 @@
     </div>
     <component
       v-for="(node, index) in tags"
-      v-show="index <= max"
+      v-show="index < max"
       :key="index"
       :is="node"
       :style="{
         marginRight: `${margin}px`,
       }"
     />
-    <yc-tag v-show="max < tags.length && from == 'end'">
-      +{{ tags.length - max }}
+    <yc-tag v-if="max < tags.length && from == 'end'">
+      +{{ tags.length - max }}...
     </yc-tag>
   </div>
 </template>
@@ -70,18 +70,15 @@ debouncedWatch(
   async () => {
     await sleep(0);
     let maxCount = 0;
-    let totalWidth = tagRef.value[tagRef.value.length - 1].getRef().offsetWidth;
-    console.log(totalWidth, 'total');
+    let totalWidth = 63;
     for (let tag of tagRef.value) {
-      console.log(totalWidth, width.value, 'totalWidth');
       if (totalWidth > width.value) {
+        maxCount--;
         break;
       }
-      totalWidth += tag.getRef().offsetWidth + margin.value;
+      totalWidth += tag?.getRef()?.offsetWidth + margin.value;
       maxCount++;
     }
-    console.log(width.value, 'listWidth');
-    console.log(maxCount, '展示的最大数量是');
     max.value = maxCount > min.value ? maxCount : min.value;
   },
   {
@@ -92,10 +89,4 @@ debouncedWatch(
 
 <style lang="less">
 @import './style/overflow-list.less';
-.overflow-list-hidden {
-  position: absolute;
-  visibility: hidden;
-  left: 0;
-  top: 0;
-}
 </style>
