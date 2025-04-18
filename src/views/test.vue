@@ -4,7 +4,7 @@
     <yc-layout class="main">
       <yc-layout-header class="header"> </yc-layout-header>
       <yc-layout-content>
-        <a-tag color="gray" checkable>测是的撒</a-tag>
+        <!-- <a-tag color="gray" checkable>测是的撒</a-tag>
         <yc-tag color="gray" checkable>测是的撒</yc-tag>
         <yc-grid
           :cols="{ xs: 1, sm: 2, md: 3, lg: 4, xl: 5, xxl: 6 }"
@@ -19,7 +19,7 @@
           <yc-grid-item class="demo-item">item</yc-grid-item>
           <yc-grid-item class="demo-item">item</yc-grid-item>
           <yc-grid-item class="demo-item" suffix> suffix </yc-grid-item>
-        </yc-grid>
+        </yc-grid> -->
         <!-- <yc-watermark text="李银超" color="black" :font-size="20" grayscale>
           <div
             style="
@@ -35,6 +35,66 @@
             <p>可以调整各种水印参数</p>
           </div>
         </yc-watermark> -->
+        <!-- <a-verification-code
+          :formatter="
+            (v, i, value) => {
+              console.log(v, i, value);
+
+              return v + i + value;
+            }
+          "
+          @change="
+            (v) => {
+              console.log(v);
+            }
+          "
+        >
+        </a-verification-code>
+        <yc-verification-code
+          :formatter="
+            (v, i, value) => {
+              console.log(v, i, value);
+              return v + i + value;
+            }
+          "
+        >
+        </yc-verification-code> -->
+        <a-breadcrumb
+          :routes="routes"
+          :customUrl="
+            (val) => {
+              console.log(val, 'routes');
+              return val.join('/');
+            }
+          "
+        />
+        <a-button @click="index += 10">点击加10</a-button>
+        <div
+          style="
+            height: 500px;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+          "
+        >
+          <div style="flex: 1; overflow: hidden">
+            <yc-scrollbar
+              :outer-style="{
+                flex: 1,
+              }"
+              auto-fill
+              style="overflow: auto; max-height: 100%"
+            >
+              <div
+                v-for="i in index"
+                :key="i"
+                style="height: 40px; background-color: aqua"
+              >
+                {{ i }}
+              </div>
+            </yc-scrollbar>
+          </div>
+        </div>
       </yc-layout-content>
     </yc-layout>
   </yc-layout>
@@ -42,12 +102,27 @@
 
 <script lang="ts" setup>
 import { ref, watch } from 'vue';
+const index = ref(1);
 const options = Array(8)
   .fill(undefined)
   .map((_, index) => ({
     value: `option${index + 1}`,
     label: `Option ${index + 1}`,
   }));
+const routes = [
+  {
+    path: '/',
+    label: 'Home',
+  },
+  {
+    path: '/channel',
+    label: 'Channel',
+  },
+  {
+    path: '/news',
+    label: 'News',
+  },
+];
 </script>
 
 <style lang="less" scoped>

@@ -1,6 +1,8 @@
 <template>
   <div
-    class="yc-row"
+    :class="{
+      'yc-row': !div,
+    }"
     :style="{
       justifyContent: justify,
       alignItems: align,
@@ -26,7 +28,7 @@ const props = withDefaults(defineProps<RowProps>(), {
   div: false,
   wrap: true,
 });
-const { gutter: _gutter } = toRefs(props);
+const { gutter: _gutter, div } = toRefs(props);
 // 断点
 const breakpoint = ref<BreakpointName>('xxl');
 // gutter
@@ -44,6 +46,7 @@ mediaQueryHandler((name) => {
 provide<GridProvide>(GRID_PROVIDE_KEY, {
   gutter,
   breakpoint,
+  div,
 });
 </script>
 

@@ -30,9 +30,7 @@ const props = withDefaults(defineProps<BreadcrumbProps>(), {
   maxCount: 0,
   routes: () => [],
   separator: '',
-  customUrl: (_path: string[]) => {
-    return '';
-  },
+  customUrl: undefined,
 });
 const { maxCount, separator } = toRefs(props);
 // 次序

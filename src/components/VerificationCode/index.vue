@@ -1,30 +1,33 @@
 <template>
   <div :class="['yc-verification-code', VERIFICATION_CODE_SIZE_CLASS[size]]">
-    <!--  -->
-    <yc-input
-      v-for="(v, i) in length"
-      :key="v"
-      :model-value="inputValue[i]"
-      :size="size"
-      :disabled="disabled"
-      :error="error"
-      :invisible-button="false"
-      :visibility="masked"
-      :readonly="readonly || !isWritable(i)"
-      :class="{ 'yc-input-disabled-write': !isWritable(i) }"
-      :ref="(el) => (inputList[i] = el as InputInstance)"
-      @click="handleClick(i)"
-      @mousedown="handleMousedown($event, i)"
-      @input="(v, ev) => handleInput(v, ev, i)"
-      @change="$emit('change', computedValue)"
-    />
+    <template v-for="(v, i) in length" :key="v">
+      <yc-input
+        :model-value="inputValue[i]"
+        :size="size"
+        :disabled="disabled"
+        :error="error"
+        :invisible-button="false"
+        :visibility="masked"
+        :readonly="readonly || !isWritable(i)"
+        :class="{ 'yc-input-disabled-write': !isWritable(i) }"
+        :ref="(el) => (inputList[i] = el as InputInstance)"
+        @click="handleClick(i)"
+        @mousedown="handleMousedown($event, i)"
+        @input="(v, ev) => handleInput(v, ev, i)"
+        @change="$emit('change', computedValue)"
+      />
+      <component
+        v-if="separator?.(i, inputValue[i])"
+        :is="separator(i, inputValue[i])"
+      />
+    </template>
   </div>
 </template>
 
 <script lang="ts" setup>
 import { ref, toRefs, computed } from 'vue';
 import { VerificationCodeProps } from './type';
-import { useControlValue } from '@shared/hooks';
+import { useControlValue, useConfigProvder } from '@shared/hooks';
 import { VERIFICATION_CODE_SIZE_CLASS } from '@shared/constants';
 import { sleep } from '@shared/utils';
 import { nanoid } from 'nanoid';
@@ -51,6 +54,9 @@ const emits = defineEmits<{
   (e: 'finish', value: string): void;
 }>();
 const { modelValue, defaultValue, length: _length } = toRefs(props);
+const { formatter } = props;
+// 接收传入的属性
+const { size } = useConfigProvder(props);
 // 受控值
 const computedValue = useControlValue<string>(
   modelValue,
@@ -85,11 +91,13 @@ const isWritable = (i: number) => {
 };
 // 处理输入
 const handleInput = async (v: string, ev: Event, i: number) => {
+  // 处理字符串
+  const value = (v ? v.at(v.length - 1) : ' ') as string;
+  // 触发事件
+  emits('input', value, ev, i);
+  // 拼接字符串
   computedValue.value =
-    computedValue.value.slice(0, i) +
-    (v ? v.at(v.length - 1) : ' ') +
-    computedValue.value.slice(i + 1);
-  emits('input', computedValue.value, ev, i);
+    computedValue.value.slice(0, i) + value + computedValue.value.slice(i + 1);
   if (v && !inputValue.value[i + 1] && i < _length.value - 1) {
     inputList.value[i].blur();
     await sleep(0);

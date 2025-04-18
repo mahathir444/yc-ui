@@ -1,9 +1,11 @@
 <template>
   <div
-    class="yc-col"
+    :class="{
+      'yc-col': div,
+    }"
     :style="{
-      padding: `0 ${gutter! / 2}px 0 ${gutter! / 2}px`,
       width: `calc((100% / 24) * ${span})`,
+      padding: `0 ${gutter! / 2}px 0 ${gutter! / 2}px`,
       marginLeft: `calc((100% / 24) * ${offset})`,
       order,
       flex,
@@ -32,9 +34,10 @@ const {
   flex: _flex,
 } = toRefs(props);
 // 接收注入属性
-const { gutter, breakpoint } = inject<GridProvide>(GRID_PROVIDE_KEY, {
+const { gutter, breakpoint, div } = inject<GridProvide>(GRID_PROVIDE_KEY, {
   gutter: ref(0),
   breakpoint: ref('xs'),
+  div: ref(false),
 });
 // span
 const span = computed(() => {

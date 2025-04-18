@@ -1,11 +1,12 @@
 <template>
   <div class="yc-skeleton">
-    <slot />
+    <slot v-if="loading" />
+    <slot v-else name="content" />
   </div>
 </template>
 
 <script lang="ts" setup>
-import { provide, toRefs, computed } from 'vue';
+import { provide, toRefs } from 'vue';
 import { SkeletonProps, SkeletonProvide } from './type';
 import { SKELETON_PROVIDE_KEY } from '@shared/constants';
 defineOptions({

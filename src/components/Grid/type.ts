@@ -44,6 +44,7 @@ export type Flex = number | string | 'initial' | 'auto' | 'none';
 
 export type GridProvide = {
   breakpoint: Ref<BreakpointName>;
+  div?: Ref<boolean>;
   gutter?: Ref<number> | ComputedRef<number>;
   cols?: Ref<number> | ComputedRef<number>;
   colGap?: Ref<number> | ComputedRef<number>;
