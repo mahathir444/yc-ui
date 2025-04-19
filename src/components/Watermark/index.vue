@@ -1,6 +1,6 @@
 <template>
   <div class="yc-watermark" ref="containerRef">
-    <slot></slot>
+    <slot />
   </div>
 </template>
 
@@ -38,11 +38,23 @@ const props = withDefaults(defineProps<WatermarkProps>(), {
   staggered: true,
   antiTamper: true,
 });
-const { width, height, alpha, image, grayscale, rotate } = toRefs(props);
+const {
+  width,
+  height,
+  alpha,
+  image,
+  grayscale,
+  rotate,
+  repeat,
+  staggered,
+  antiTamper,
+  zIndex,
+} = toRefs(props);
 const containerRef = ref<HTMLDivElement>();
 const ratio = window.devicePixelRatio || 1;
 const watermarkMap = ref(new Map<HTMLDivElement, HTMLDivElement>());
-// Text content and style related
+// 文字样式
+const color = computed(() => props.font?.color as string);
 const fontSize = computed(() => props.font?.fontSize ?? 16);
 const fontWeight = computed(() => props.font?.fontWeight ?? 'normal');
 const fontStyle = computed(() => props.font?.fontStyle ?? 'normal');
@@ -51,9 +63,7 @@ const textAlign = computed(() => props.font?.textAlign ?? 'center');
 const contents = computed(() =>
   isArray(props.content) ? props.content : [props.content]
 );
-const color = computed(() => props.font?.color as string);
-
-// Watermark position related
+// 水印样式
 const gapX = computed(() => props.gap?.[0] ?? 90);
 const gapY = computed(() => props.gap?.[1] ?? 90);
 const gapXCenter = computed(() => gapX.value / 2);
@@ -72,11 +82,11 @@ const markStyle = computed(() => {
     pointerEvents: 'none',
     backgroundRepeat: props.repeat ? 'repeat' : 'no-repeat',
     backgroundPosition: `${left > 0 ? 0 : left}px ${top > 0 ? 0 : top}px`,
-    zIndex: props.zIndex ?? 6,
+    zIndex: zIndex.value ?? 6,
   } as CSSProperties;
 });
-const isStaggered = computed(() => props.repeat && props.staggered);
-
+const isStaggered = computed(() => staggered.value && repeat.value);
+// 添加水印
 const appendWatermark = (base64: string, width: number) => {
   if (containerRef.value) {
     const watermarkEle = watermarkMap.value.get(containerRef.value);
@@ -100,7 +110,7 @@ const appendWatermark = (base64: string, width: number) => {
     watermarkMap.value.set(containerRef.value, newWatermarkEle);
   }
 };
-
+// 获取marksize
 const getMarkSize = (ctx: CanvasRenderingContext2D) => {
   let defaultWidth = 120;
   let defaultHeight = 28;
@@ -113,7 +123,7 @@ const getMarkSize = (ctx: CanvasRenderingContext2D) => {
   }
   return [width.value ?? defaultWidth, height.value ?? defaultHeight] as const;
 };
-
+// 渲染水印
 const renderWatermark = () => {
   const canvas = document.createElement('canvas');
   const ctx = canvas.getContext('2d');
@@ -181,12 +191,13 @@ const renderWatermark = () => {
     drawImage();
   }
 };
-
-const isWatermarkEle = (ele: any) =>
-  Array.from(watermarkMap.value.values()).includes(ele);
-
+// 是否是水印
+const isWatermarkEle = (ele: any) => {
+  return Array.from(watermarkMap.value.values()).includes(ele);
+};
+// 处理元素改变
 const handleMutations = (mutations: MutationRecord[]) => {
-  if (!props.antiTamper) return;
+  if (!antiTamper.value) return;
   for (const mutation of mutations) {
     const isRemoved = Array.from(mutation.removedNodes).some((node) =>
       isWatermarkEle(node)
@@ -201,6 +212,8 @@ const handleMutations = (mutations: MutationRecord[]) => {
   }
 };
 
+watch(props, renderWatermark, { deep: true, flush: 'post' });
+
 onMounted(() => {
   renderWatermark();
   useMutationObserver(containerRef.value, handleMutations, {
@@ -210,8 +223,6 @@ onMounted(() => {
     subtree: true,
   });
 });
-
-watch(props, renderWatermark, { deep: true, flush: 'post' });
 </script>
 
 <style scoped>
