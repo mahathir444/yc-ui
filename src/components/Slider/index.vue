@@ -110,12 +110,15 @@ const endPosition = ref<PositionData>({
 const position = computed(() => {
   const { left, right, top, bottom } = startPosition.value;
   if (!range.value) {
-    return {
-      left: min.value + '%',
-      right: right + '%',
-      top: top + '%',
-      bottom: min.value + '%',
-    };
+    return direction.value == 'vertical'
+      ? {
+          top: top + '%',
+          bottom: handleRangeValue(min.value) + '%',
+        }
+      : {
+          left: handleRangeValue(min.value) + '%',
+          right: right + '%',
+        };
   }
   const {
     left: left1,
@@ -133,6 +136,11 @@ const position = computed(() => {
         right: `${right < right1 ? right : right1}%`,
       };
 });
+// 处理值的问题
+function handleRangeValue(value: number) {
+  const maxValue = max.value <= 100 ? 100 : max.value;
+  return (value * 100) / maxValue;
+}
 // 提供值
 provide<SliderProvide>(SLIDER_PROVIDE_KEY, {
   startValue,
@@ -148,6 +156,7 @@ provide<SliderProvide>(SLIDER_PROVIDE_KEY, {
   direction,
   trackRef,
   formatTooltip,
+  handleRangeValue,
 });
 </script>
 

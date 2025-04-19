@@ -1,6 +1,6 @@
 import { reactive, Ref, watch, nextTick, computed } from 'vue';
 import { PositionData, RangeData } from '@/components/Slider';
-import { Direction } from '@shared/type';
+import { Direction, Fn } from '@shared/type';
 import { useDraggable, useEventListener, debouncedWatch } from '@vueuse/core';
 export default (params: {
   computedValue: Ref<number>;
@@ -26,7 +26,8 @@ export default (params: {
   const { x, y, isDragging } = useDraggable(triggerRef);
   let oldX = x.value;
   let oldY = y.value;
-  // const rangeValue;
+  // 最大值
+  const maxValue = computed(() => (max.value <= 100 ? 100 : max.value));
   // 水平情况下的距离
   const position = reactive<PositionData>({
     bottom: 0,
@@ -49,14 +50,13 @@ export default (params: {
       width: sliderWidth,
       height: sliderHeight,
     } = trackRef.value!.getBoundingClientRect();
-    // const range = max.value - min.value;
     // 计算比例
     const rate =
       direction.value == 'vertical'
-        ? ((sliderBottom - distance) / sliderHeight) * 100
-        : ((distance - sliderLeft) / sliderWidth) * 100;
+        ? ((sliderBottom - distance) / sliderHeight) * maxValue.value
+        : ((distance - sliderLeft) / sliderWidth) * maxValue.value;
     // 处理步长
-    return +(rate / step.value).toFixed(0) * step.value;
+    return Math.floor(rate / step.value) * step.value;
   };
   // 计算position
   const calcPositionFromValue = (distance: number) => {
@@ -66,22 +66,30 @@ export default (params: {
       width: sliderWidth,
       height: sliderHeight,
     } = trackRef.value!.getBoundingClientRect();
+    // 处理步长
+    distance = Math.floor(distance / step.value) * step.value;
+    // 计算值
     return direction.value == 'vertical'
-      ? sliderBottom - (distance / 100) * sliderHeight
-      : (distance / 100) * sliderWidth + sliderLeft;
+      ? sliderBottom - (distance / maxValue.value) * sliderHeight
+      : (distance / maxValue.value) * sliderWidth + sliderLeft;
   };
   // 设置位置
   const setPositionFromValue = (distance: number) => {
     const { width: sliderWidth, height: sliderHeight } =
       trackRef.value!.getBoundingClientRect();
+    // 处理比例问题
+    distance = (distance / maxValue.value) * 100;
+    // 计算偏移位置
+    const translateY = (computedValue.value / maxValue.value) * sliderHeight;
+    const translateX = (computedValue.value / maxValue.value) * sliderWidth;
     if (direction.value == 'vertical') {
       position.top = 100 - distance;
       position.bottom = distance;
-      position.transform = `translate(-50%,calc(${-(computedValue.value / 100) * sliderHeight}px + 50%))`;
+      position.transform = `translate(-50%,calc(${-translateY}px + 50%))`;
     } else {
       position.left = distance;
       position.right = 100 - distance;
-      position.transform = `translate(calc(${(computedValue.value / 100) * sliderWidth}px - 50%),-50%)`;
+      position.transform = `translate(calc(${translateX}px - 50%),-50%)`;
     }
   };
   // 处理越界情况

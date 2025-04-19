@@ -65,8 +65,8 @@ export const components: Record<string, Plugin> = {
   Input,
   Link,
   Message,
-  Modal,
   Notification,
+  Modal,
   Popconfirm,
   Popover,
   ResizeBox,
@@ -108,7 +108,7 @@ export const components: Record<string, Plugin> = {
   ConfigProvider,
 };
 
-console.log('components：', Object.keys(components).length + 2);
+console.log('components：', Object.keys(components).length);
 
 export default {
   ...components,

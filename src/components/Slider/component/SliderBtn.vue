@@ -62,6 +62,7 @@ const {
   disabled: ref(false),
   showTooltip: ref(true),
   trackRef: ref(),
+  handleRangeValue: () => {},
 });
 // 计算值
 const computedValue = computed({

@@ -1,5 +1,5 @@
 import { Ref, WritableComputedRef } from 'vue';
-import { Direction } from '@shared/type';
+import { Direction, Fn } from '@shared/type';
 
 export interface SliderProps {
   modelValue?: SliderValue;
@@ -51,4 +51,5 @@ export interface SliderProvide {
   disabled: Ref<boolean>;
   trackRef: Ref<HTMLDivElement | undefined>;
   formatTooltip?: FormatTooltip;
+  handleRangeValue: Fn;
 }

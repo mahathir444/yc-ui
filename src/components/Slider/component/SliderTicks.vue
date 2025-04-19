@@ -37,43 +37,52 @@ defineEmits<{
 }>();
 const { type } = toRefs(props);
 // 解构父级属性
-const { min, max, startValue, endValue, range, direction, step } =
-  inject<SliderProvide>(SLIDER_PROVIDE_KEY, {
-    startValue: ref(0),
-    endValue: ref(0),
-    tempEndValue: ref(0),
-    tempStartValue: ref(0),
-    min: ref(0),
-    max: ref(0),
-    step: ref(0),
-    range: ref(false),
-    direction: ref('horizontal'),
-    disabled: ref(false),
-    showTooltip: ref(true),
-    trackRef: ref(),
-  });
+const {
+  min,
+  max,
+  startValue,
+  endValue,
+  range,
+  direction,
+  step,
+  handleRangeValue,
+} = inject<SliderProvide>(SLIDER_PROVIDE_KEY, {
+  startValue: ref(0),
+  endValue: ref(0),
+  tempEndValue: ref(0),
+  tempStartValue: ref(0),
+  min: ref(0),
+  max: ref(0),
+  step: ref(0),
+  range: ref(false),
+  direction: ref('horizontal'),
+  disabled: ref(false),
+  showTooltip: ref(true),
+  trackRef: ref(),
+  handleRangeValue: () => {},
+});
 // 计算position
 const getPosition = (value: number) => {
+  const curValue = handleRangeValue(value);
+  console.log(curValue, 'position');
   if (type.value == 'ticks') {
-    return `calc(${value * step.value}% - 0.5px)`;
+    return `calc(${curValue}% - 0.5px)`;
   } else if (type.value == 'dots') {
-    return `calc(${value * step.value}% - 4px)`;
+    return `calc(${curValue}% - 4px)`;
   } else {
-    return `calc(${value * step.value}% - 7px)`;
+    return `calc(${curValue}% - 7px)`;
   }
 };
 // 是否在区间之内
 const isInRange = (value: number) => {
-  const curValue = value * step.value;
+  const curValue = handleRangeValue(value);
+  const start = handleRangeValue(startValue.value);
+  const end = handleRangeValue(endValue.value);
   if (!range.value) {
-    return (
-      startValue.value >= curValue &&
-      curValue >= min.value &&
-      curValue <= max.value
-    );
+    return start >= curValue && curValue >= min.value && curValue <= max.value;
   } else {
-    const minVal = Math.min(startValue.value, endValue.value);
-    const maxVal = Math.max(startValue.value, endValue.value);
+    const minVal = Math.min(start, end);
+    const maxVal = Math.max(start, end);
     return curValue >= minVal && curValue <= maxVal;
   }
 };
