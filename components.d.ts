@@ -33,6 +33,7 @@ declare module 'vue' {
     ATransfer: typeof import('@arco-design/web-vue')['Transfer']
     AutoComplete: typeof import('./src/components/AutoComplete/index.vue')['default']
     AVerificationCode: typeof import('@arco-design/web-vue')['VerificationCode']
+    AWatermark: typeof import('@arco-design/web-vue')['Watermark']
     BackTop: typeof import('./src/components/BackTop/index.vue')['default']
     Breadcrumb: typeof import('./src/components/Breadcrumb/Breadcrumb.vue')['default']
     BreadcrumbItem: typeof import('./src/components/Breadcrumb/BreadcrumbItem.vue')['default']

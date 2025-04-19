@@ -8,26 +8,11 @@
     <yc-layout class="main">
       <yc-layout-header class="header"> </yc-layout-header>
       <yc-layout-content>
-        <!-- <a-tag color="gray" checkable>测是的撒</a-tag>
-        <yc-tag color="gray" checkable>测是的撒</yc-tag>
-        <yc-grid
-          :cols="{ xs: 1, sm: 2, md: 3, lg: 4, xl: 5, xxl: 6 }"
-          :colGap="12"
-          :rowGap="16"
-          class="grid-demo-grid"
-        >
-          <yc-grid-item class="demo-item">item</yc-grid-item>
-          <yc-grid-item class="demo-item">item</yc-grid-item>
-          <yc-grid-item class="demo-item">item</yc-grid-item>
-          <yc-grid-item class="demo-item">item</yc-grid-item>
-          <yc-grid-item class="demo-item">item</yc-grid-item>
-          <yc-grid-item class="demo-item">item</yc-grid-item>
-          <yc-grid-item class="demo-item" suffix> suffix </yc-grid-item>
-        </yc-grid> -->
-        <!-- <yc-watermark text="李银超" color="black" :font-size="20" grayscale>
+        <yc-watermark content="李银超" grayscale>
           <div
             style="
-              height: 100%;
+              width: 500px;
+              height: 500px;
               display: flex;
               justify-content: center;
               align-items: center;
@@ -38,58 +23,23 @@
             <p>支持文字和图片两种水印类型</p>
             <p>可以调整各种水印参数</p>
           </div>
-        </yc-watermark> -->
-        <!-- <a-verification-code
-          :formatter="
-            (v, i, value) => {
-              console.log(v, i, value);
-
-              return v + i + value;
-            }
-          "
-          @change="
-            (v) => {
-              console.log(v);
-            }
-          "
-        >
-        </a-verification-code>
-        <yc-verification-code
-          :formatter="
-            (v, i, value) => {
-              console.log(v, i, value);
-              return v + i + value;
-            }
-          "
-        >
-        </yc-verification-code> -->
-        <a-button @click="index += 10">点击加10</a-button>
-        <div
-          style="
-            max-height: 500px;
-            display: flex;
-            flex-direction: column;
-            overflow: hidden;
-          "
-        >
-          <div style="flex: 1; overflow: hidden">
-            <yc-scrollbar
-              :outer-style="{
-                flex: 1,
-              }"
-              auto-fill
-              style="overflow: auto; max-height: 100%"
-            >
-              <div
-                v-for="i in index"
-                :key="i"
-                style="height: 40px; background-color: aqua"
-              >
-                {{ i }}
-              </div>
-            </yc-scrollbar>
+        </yc-watermark>
+        <a-watermark content="李银超" grayscale>
+          <div
+            style="
+              width: 500px;
+              height: 500px;
+              display: flex;
+              justify-content: center;
+              align-items: center;
+            "
+          >
+            <h2>受保护的内容区域</h2>
+            <p>这里的内容会被添加水印保护</p>
+            <p>支持文字和图片两种水印类型</p>
+            <p>可以调整各种水印参数</p>
           </div>
-        </div>
+        </a-watermark>
       </yc-layout-content>
     </yc-layout>
   </yc-layout>
