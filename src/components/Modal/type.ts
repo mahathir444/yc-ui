@@ -2,7 +2,6 @@ import { CSSProperties } from 'vue';
 import { ButtonProps } from '@/components/Button/type';
 import { RenderContent } from '../_shared/type';
 
-// simple
 export interface ModalProps {
   visible?: boolean;
   defaultVisible?: boolean;
@@ -35,6 +34,7 @@ export interface ModalProps {
   bodyClass?: string;
   bodyStyle?: CSSProperties;
   hideTitle?: boolean;
+  simple?: boolean;
   onBeforeCancel?: OnBeforeCancel;
   onBeforeOk?: OnBeforeOk;
 }

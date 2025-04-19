@@ -26,6 +26,7 @@ export default (params: {
   const { x, y, isDragging } = useDraggable(triggerRef);
   let oldX = x.value;
   let oldY = y.value;
+  // const rangeValue;
   // 水平情况下的距离
   const position = reactive<PositionData>({
     bottom: 0,

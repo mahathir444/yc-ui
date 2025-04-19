@@ -70,6 +70,17 @@
       >
         Notification
       </yc-button>
+      <a-modal :visible="true" simple title="测试"> aaa </a-modal>
+      <yc-modal
+        :default-visible="true"
+        simple
+        title="测试"
+        :top="150"
+        :align-center="false"
+        :mask="false"
+      >
+        aaa
+      </yc-modal>
     </div>
   </div>
 </template>

@@ -5,7 +5,8 @@
       v-show="outerVisible"
       :class="{
         'yc-modal-container': true,
-        'yc-modal-container-position-absolute': popupContainer || !renderToBody,
+        'yc-modal-position-absolute': popupContainer || !renderToBody,
+        'yc-modal-simple': simple,
       }"
     >
       <!-- mask -->
@@ -62,7 +63,7 @@
               </div>
               <!-- close-btn -->
               <yc-icon-button
-                v-if="closable"
+                v-if="closable && !simple"
                 class="yc-modal-close-button"
                 @click="handleClose('closeBtn')"
               />
@@ -106,7 +107,6 @@ import {
   useModalClose,
   useModalDraggable,
   useConfigProvder,
-  useControlValue,
 } from '@shared/hooks';
 import YcButton from '@/components/Button';
 import { YcIconButton } from '@shared/components';
@@ -117,7 +117,7 @@ defineOptions({
 const props = withDefaults(defineProps<ModalProps>(), {
   visible: undefined,
   defaultVisible: false,
-  width: 520,
+  width: 400,
   top: 100,
   mask: true,
   title: '',
@@ -156,6 +156,7 @@ const props = withDefaults(defineProps<ModalProps>(), {
     return {};
   },
   hideTitle: false,
+  simple: false,
   onBeforeCancel: () => {
     return true;
   },

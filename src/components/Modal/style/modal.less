@@ -81,6 +81,29 @@
   }
 }
 
-.yc-modal-container-position-absolute {
+.yc-modal-position-absolute {
   position: absolute;
+}
+
+.yc-modal-simple {
+  .yc-modal-wrapper {
+    .yc-modal {
+      width: 400px;
+      padding: 24px 32px 32px;
+      .yc-modal-header,
+      .yc-modal-footer,
+      .yc-modal-body {
+        height: unset;
+        padding: 0;
+        border: none;
+        &.yc-modal-header {
+          margin-bottom: 24px;
+        }
+        &.yc-modal-footer {
+          margin-top: 24px;
+          justify-content: center;
+        }
+      }
+    }
+  }
 }
