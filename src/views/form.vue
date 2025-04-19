@@ -108,7 +108,7 @@
     </div>
     <div style="width: 300px">
       mention
-      <yc-mention :data="options" placeholder="mention" />
+      <yc-mention :data="options" prefix="@" placeholder="mention" />
     </div>
     <div style="width: 300px">
       colorPicker

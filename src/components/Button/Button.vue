@@ -59,7 +59,7 @@ defineOptions({
 const props = withDefaults(defineProps<ButtonProps>(), {
   type: 'secondary',
   status: 'normal',
-  size: undefined,
+  size: void 0,
   shape: 'square',
   disabled: false,
   loading: false,

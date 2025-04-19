@@ -115,7 +115,7 @@ defineOptions({
   inheritAttrs: false,
 });
 const props = withDefaults(defineProps<ModalProps>(), {
-  visible: undefined,
+  visible: void 0,
   defaultVisible: false,
   width: 400,
   top: 100,
@@ -138,7 +138,7 @@ const props = withDefaults(defineProps<ModalProps>(), {
   },
   footer: true,
   renderToBody: true,
-  popupContainer: undefined,
+  popupContainer: void 0,
   maskStyle: () => {
     return {};
   },

@@ -32,7 +32,7 @@ defineOptions({
   name: 'Tooltip',
 });
 const props = withDefaults(defineProps<TooltipProps>(), {
-  popupVisible: undefined,
+  popupVisible: void 0,
   defaultPopupVisible: false,
   content: '',
   position: 'bottom',
@@ -46,7 +46,7 @@ const props = withDefaults(defineProps<TooltipProps>(), {
   arrowStyle: () => {
     return {};
   },
-  popupContainer: undefined,
+  popupContainer: void 0,
 });
 const emits = defineEmits<{
   (e: 'update:popupVisible', value: boolean): void;

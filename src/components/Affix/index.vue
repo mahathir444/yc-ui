@@ -38,7 +38,7 @@ defineOptions({
 });
 const props = withDefaults(defineProps<AffixProps>(), {
   offsetTop: 0,
-  offsetBottom: undefined,
+  offsetBottom: void 0,
   target: () => window,
   targetContainer: '',
 });

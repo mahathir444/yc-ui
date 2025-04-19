@@ -215,11 +215,11 @@ defineOptions({
 });
 const props = withDefaults(defineProps<SelectProps>(), {
   multiple: false,
-  modelValue: undefined,
+  modelValue: void 0,
   defaultValue: '',
-  inputValue: undefined,
+  inputValue: void 0,
   defaultInputValue: '',
-  size: undefined,
+  size: void 0,
   placeholder: '',
   loading: false,
   disabled: false,
@@ -228,18 +228,18 @@ const props = withDefaults(defineProps<SelectProps>(), {
   allowSearch: false,
   allowCreate: false,
   maxTagCount: 0,
-  popupContainer: undefined,
+  popupContainer: void 0,
   bordered: true,
   defaultActivefirstOption: false,
-  popupVisible: undefined,
+  popupVisible: void 0,
   defaultPopupVisible: false,
   unmountOnClose: false,
   filterOption: (inputValue: string, option: SelectOptionData) => {
     return !!option?.label?.includes(inputValue);
   },
   options: () => [],
-  formatLabel: undefined,
-  fallbackOption: undefined,
+  formatLabel: void 0,
+  fallbackOption: void 0,
   showExtraOptions: true,
   valueKey: '',
   triggerProps: () => {
@@ -262,7 +262,7 @@ const props = withDefaults(defineProps<SelectProps>(), {
   showFooterOnEmpty: false,
   tagNowrap: false,
   hotKeys: false,
-  virtualListProps: undefined,
+  virtualListProps: void 0,
 });
 const emits = defineEmits<{
   (e: 'update:modelValue', value: SelectValue): void;

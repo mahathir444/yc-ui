@@ -40,7 +40,7 @@ defineOptions({
   name: 'Popover',
 });
 const props = withDefaults(defineProps<PopoverProps>(), {
-  popupVisible: undefined,
+  popupVisible: void 0,
   defaultPopupVisible: false,
   title: '',
   content: '',
@@ -54,7 +54,7 @@ const props = withDefaults(defineProps<PopoverProps>(), {
   arrowStyle: () => {
     return {};
   },
-  popupContainer: undefined,
+  popupContainer: void 0,
 });
 const emits = defineEmits<{
   (e: 'update:popupVisible', value: boolean): void;

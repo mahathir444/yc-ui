@@ -68,7 +68,7 @@ defineOptions({
   inheritAttrs: false,
 });
 const props = withDefaults(defineProps<TriggerProps>(), {
-  popupVisible: undefined,
+  popupVisible: void 0,
   defaultPopupVisible: false,
   trigger: 'hover',
   position: 'bottom',
@@ -95,11 +95,11 @@ const props = withDefaults(defineProps<TriggerProps>(), {
   focusDelay: 0,
   autoFitPopupWidth: false,
   autoFitPopupMinWidth: false,
-  popupContainer: undefined,
+  popupContainer: void 0,
   renderToBody: true,
   autoFitPosition: true,
-  updateAtScroll: undefined,
-  scrollToClose: undefined,
+  updateAtScroll: void 0,
+  scrollToClose: void 0,
   scrollToCloseDistance: 0.1,
   preventFocus: false,
   alignPoint: false,

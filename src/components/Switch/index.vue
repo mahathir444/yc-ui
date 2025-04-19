@@ -47,12 +47,12 @@ defineOptions({
   name: 'Switch',
 });
 const props = withDefaults(defineProps<SwitchProps>(), {
-  modelValue: undefined,
+  modelValue: void 0,
   defaultValue: false,
   disabled: false,
   loading: false,
   type: 'line',
-  size: undefined,
+  size: void 0,
   checkedValue: true,
   uncheckedValue: false,
   checkedColor: 'rgba(22, 93, 255)',

@@ -66,13 +66,13 @@ defineOptions({
   name: 'Textarea',
 });
 const props = withDefaults(defineProps<TextareaProps>(), {
-  modelValue: undefined,
+  modelValue: void 0,
   defaultValue: '',
   placeholder: '',
   disabled: false,
   readonly: false,
-  error: undefined,
-  maxLength: undefined,
+  error: void 0,
+  maxLength: void 0,
   showWordLimit: false,
   allowClear: false,
   autoSize: false,

@@ -25,7 +25,7 @@ const props = withDefaults(defineProps<DividerProps>(), {
   orientation: 'left',
   type: 'solid',
   size: 1,
-  margin: undefined,
+  margin: void 0,
 });
 const { size, margin: _margin, direction, type } = toRefs(props);
 const margin = computed(() => {

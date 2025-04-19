@@ -62,7 +62,7 @@ withDefaults(defineProps<DrawerConfig>(), {
   unmountOnClose: false,
   width: 250,
   height: 250,
-  popupContainer: undefined,
+  popupContainer: void 0,
   drawerStyle: () => {
     return {};
   },

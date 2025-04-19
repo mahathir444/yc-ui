@@ -111,7 +111,7 @@ defineOptions({
   name: 'InputNumber',
 });
 const props = withDefaults(defineProps<InputNumberProps>(), {
-  modelValue: undefined,
+  modelValue: void 0,
   defaultValue: '',
   mode: 'embed',
   precision: 0,
@@ -122,7 +122,7 @@ const props = withDefaults(defineProps<InputNumberProps>(), {
   min: -Infinity,
   placeholder: '',
   hideButton: false,
-  size: undefined,
+  size: void 0,
   allowClear: false,
   modelEvent: 'change',
   readonly: false,

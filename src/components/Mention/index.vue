@@ -37,11 +37,11 @@ defineOptions({
   name: 'Mention',
 });
 const props = withDefaults(defineProps<MentionProps>(), {
-  modelValue: undefined,
+  modelValue: void 0,
   defaultValue: '',
   data: () => [],
   prefix: '@',
-  split: '--',
+  split: '',
   type: 'textarea',
   disabled: false,
   allowClear: false,
@@ -93,6 +93,7 @@ const isMatchPrefix = (ch: string) => {
 // 获取光标位置
 const getCursorPostion = (cursor: number) => {
   const el = autoCompleteRef.value!.getMirrorRef();
+  console.log(el);
   // 创建一个临时的范围对象
   const range = document.createRange();
   // 获取文本节点（纯文本div只有一个文本节点）

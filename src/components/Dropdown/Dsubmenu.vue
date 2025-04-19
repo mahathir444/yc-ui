@@ -48,7 +48,7 @@ defineOptions({
   name: 'Dsubmenu',
 });
 const props = withDefaults(defineProps<DsubmenuProps>(), {
-  popupVisible: undefined,
+  popupVisible: void 0,
   defaultPopupVisible: false,
   trigger: 'hover',
   position: 'rt',

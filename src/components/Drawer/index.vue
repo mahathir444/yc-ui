@@ -97,7 +97,7 @@ defineOptions({
   inheritAttrs: false,
 });
 const props = withDefaults(defineProps<DrawerProps>(), {
-  visible: undefined,
+  visible: void 0,
   defaultVisible: false,
   placement: 'right',
   title: '',
@@ -116,7 +116,7 @@ const props = withDefaults(defineProps<DrawerProps>(), {
   unmountOnClose: false,
   width: 250,
   height: 250,
-  popupContainer: undefined,
+  popupContainer: void 0,
   drawerStyle: () => {
     return {};
   },

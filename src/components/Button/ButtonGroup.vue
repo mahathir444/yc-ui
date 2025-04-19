@@ -25,7 +25,7 @@ defineOptions({
 const props = withDefaults(defineProps<ButtonGroupProps>(), {
   type: 'secondary',
   status: 'normal',
-  size: undefined,
+  size: void 0,
   shape: 'square',
   disabled: false,
 });

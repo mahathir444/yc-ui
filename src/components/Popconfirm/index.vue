@@ -63,7 +63,7 @@ defineOptions({
 const props = withDefaults(defineProps<PopconfirmProps>(), {
   content: '',
   position: 'bottom',
-  popupVisible: undefined,
+  popupVisible: void 0,
   defaultPopupVisible: false,
   type: 'info',
   okText: '确定',
@@ -83,7 +83,7 @@ const props = withDefaults(defineProps<PopconfirmProps>(), {
   arrowStyle: () => {
     return {};
   },
-  popupContainer: undefined,
+  popupContainer: void 0,
   onBeforeOk: () => true,
   onBeforeCancel: () => true,
 });

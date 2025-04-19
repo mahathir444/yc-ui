@@ -38,14 +38,14 @@ defineOptions({
   name: 'DropdownButton',
 });
 withDefaults(defineProps<DropdownButtonProps>(), {
-  popupVisible: undefined,
+  popupVisible: void 0,
   defaultPopupVisible: false,
   trigger: 'click',
   position: 'br',
-  popupContainer: undefined,
+  popupContainer: void 0,
   disabled: false,
   type: 'secondary',
-  size: undefined,
+  size: void 0,
   buttonProps: () => {
     return {};
   },

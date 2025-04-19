@@ -18,7 +18,7 @@ defineOptions({
   name: 'Layout',
 });
 const props = withDefaults(defineProps<LayoutProps>(), {
-  hasSider: undefined,
+  hasSider: void 0,
 });
 const { hasSider: _hasSider } = toRefs(props);
 // 是否有sider

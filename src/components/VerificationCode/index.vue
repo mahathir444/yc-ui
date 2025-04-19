@@ -36,16 +36,16 @@ defineOptions({
   name: 'VerificationCode',
 });
 const props = withDefaults(defineProps<VerificationCodeProps>(), {
-  modelValue: undefined,
+  modelValue: void 0,
   defaultValue: '',
   length: 6,
-  size: undefined,
+  size: void 0,
   disabled: false,
   readonly: false,
   error: false,
   marked: true,
-  formatter: undefined,
-  separator: undefined,
+  formatter: void 0,
+  separator: void 0,
 });
 const emits = defineEmits<{
   (e: 'update:modelValue', value: string): void;

@@ -32,10 +32,10 @@ defineOptions({
   name: 'ColorPicker',
 });
 const props = withDefaults(defineProps<ColorPickerProps>(), {
-  modelValue: undefined,
+  modelValue: void 0,
   defaultValue: '#FF0000',
   format: 'hex',
-  size: undefined,
+  size: void 0,
   showText: false,
   showHistory: false,
   showPreset: false,

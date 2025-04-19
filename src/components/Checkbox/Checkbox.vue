@@ -48,7 +48,7 @@ defineOptions({
   name: 'Checkbox',
 });
 const props = withDefaults(defineProps<CheckboxProps>(), {
-  modelValue: undefined,
+  modelValue: void 0,
   defaultChecked: false,
   disabled: false,
   value: '',

@@ -61,7 +61,7 @@ defineOptions({
 });
 const props = withDefaults(defineProps<RateProps>(), {
   count: 5,
-  modelValue: undefined,
+  modelValue: void 0,
   defaultValue: 0,
   allowHalf: false,
   grading: false,

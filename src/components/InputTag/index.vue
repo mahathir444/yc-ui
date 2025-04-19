@@ -88,19 +88,19 @@ defineOptions({
   name: 'InputTag',
 });
 const props = withDefaults(defineProps<InputTagProps>(), {
-  modelValue: undefined,
+  modelValue: void 0,
   defaultValue: () => [],
-  inputValue: undefined,
+  inputValue: void 0,
   defaultInputValue: '',
   placeholder: '',
   disabled: false,
   error: false,
   readonly: false,
   allowClear: false,
-  size: undefined,
+  size: void 0,
   maxTagCount: 5,
   retainInputValue: false,
-  formatLabel: undefined,
+  formatLabel: void 0,
   uniqueValue: false,
   tagNowrap: false,
   fieldNames: () => {
