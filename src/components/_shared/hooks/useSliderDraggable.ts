@@ -1,4 +1,4 @@
-import { reactive, Ref, watch, nextTick } from 'vue';
+import { reactive, Ref, watch, nextTick, computed } from 'vue';
 import { PositionData, RangeData } from '@/components/Slider';
 import { Direction } from '@shared/type';
 import { useDraggable, useEventListener, debouncedWatch } from '@vueuse/core';
@@ -48,6 +48,7 @@ export default (params: {
       width: sliderWidth,
       height: sliderHeight,
     } = trackRef.value!.getBoundingClientRect();
+    // const range = max.value - min.value;
     // 计算比例
     const rate =
       direction.value == 'vertical'
