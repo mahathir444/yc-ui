@@ -64,7 +64,6 @@ const {
 // 计算position
 const getPosition = (value: number) => {
   const curValue = handleRangeValue(value);
-  console.log(curValue, 'position');
   if (type.value == 'ticks') {
     return `calc(${curValue}% - 0.5px)`;
   } else if (type.value == 'dots') {
@@ -78,8 +77,10 @@ const isInRange = (value: number) => {
   const curValue = handleRangeValue(value);
   const start = handleRangeValue(startValue.value);
   const end = handleRangeValue(endValue.value);
+  const rangeMin = handleRangeValue(min.value);
+  const rangeMax = handleRangeValue(min.value);
   if (!range.value) {
-    return start >= curValue && curValue >= min.value && curValue <= max.value;
+    return start >= curValue && curValue >= rangeMin && curValue <= rangeMax;
   } else {
     const minVal = Math.min(start, end);
     const maxVal = Math.max(start, end);
