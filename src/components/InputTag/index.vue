@@ -74,8 +74,7 @@ import {
   InputTagValue,
   TagData,
   InputRetainValue,
-  InputTagEvent,
-  InputTagEventType,
+  InputTagEmits,
 } from './type';
 import { ObjectData } from '@shared/type';
 import { isBoolean, isObject } from '@shared/utils';
@@ -114,17 +113,7 @@ const props = withDefaults(defineProps<InputTagProps>(), {
   },
   allowCreate: true,
 });
-const emits = defineEmits<{
-  (e: 'update:modelValue', value: InputTagValue): void;
-  (e: 'update:inputValue', value: string): void;
-  (e: 'input', value: string): void;
-  (e: 'inputValueChange', value: string, ev: Event): void;
-  (e: 'remove', ev: MouseEvent | KeyboardEvent): void;
-  (e: 'clear', ev: MouseEvent): void;
-  (e: 'focus', ev: FocusEvent): void;
-  (e: 'blur', ev: FocusEvent): void;
-  (e: 'pressEnter', ev: KeyboardEvent): void;
-}>();
+const emits = defineEmits<InputTagEmits>();
 const {
   modelValue,
   defaultValue,
@@ -205,66 +194,72 @@ const clearInputValue = () => {
   computedInputValue.value = '';
 };
 // 处理inputTag的事件
-const handleEvent = (
-  type: InputTagEventType,
-  e: InputTagEvent,
-  id?: string
-) => {
+const handleEvent = (type: string, e: Event, id?: string) => {
   const inputVal = computedInputValue.value?.trim();
-  // blur
-  if (['input', 'inputValueChange'].includes(type)) {
-    const { value } = e.target as HTMLInputElement;
-    emits(type as any, value, e as Event);
-  }
-  // focus
-  else if (['blur', 'focus'].includes(type)) {
-    isFocus.value = type == 'focus';
-    emits(type as any, e as FocusEvent);
-    if (!isFocus.value) {
-      clearInputValue();
-    }
-  }
-  // enter
-  else if (type == 'pressEnter') {
-    const { label, value, id } = fieldKey.value;
-    const isUnique =
-      !uniqueValue.value ||
-      (uniqueValue.value &&
-        !computedValue.value.find(
-          (item: ObjectData) => (item?.[value] ?? item) == inputVal
-        ));
+  switch (type) {
+    case 'input':
+    case 'inputValueChange':
+      {
+        const { value } = e.target as HTMLInputElement;
+        emits(type as keyof InputTagEmits, value, e as Event);
+      }
+      break;
+    case 'focus':
+    case 'blur':
+      {
+        isFocus.value = type == 'focus';
+        emits(type as keyof InputTagEmits, e as FocusEvent);
+        if (!isFocus.value) {
+          clearInputValue();
+        }
+      }
+      break;
+    case 'pressEnter':
+      {
+        const { label, value, id } = fieldKey.value;
+        const isUnique =
+          !uniqueValue.value ||
+          (uniqueValue.value &&
+            !computedValue.value.find(
+              (item: ObjectData) => (item?.[value] ?? item) == inputVal
+            ));
 
-    if (!inputVal || !allowCreate.value || !isUnique) {
-      return;
-    }
-    const tagData: ObjectData = {};
-    tagData[id] = nanoid();
-    tagData[label] = computedInputValue.value;
-    tagData[value] = computedInputValue.value;
-    computedValue.value = [...computedValue.value, tagData];
-    emits('pressEnter', e as KeyboardEvent);
-    clearInputValue();
-  }
-  // close
-  else if (type == 'close') {
-    computedValue.value = (computedValue.value as TagData[]).filter(
-      (_, index) => computedValue.value[index].id != id
-    );
-    emits('remove', e as MouseEvent);
-  }
-  // del
-  else if (type == 'remove') {
-    if (inputVal || !computedValue.value?.length) return;
-    computedValue.value = computedValue.value.slice(
-      0,
-      computedValue.value.length - 1
-    );
-    emits('remove', e as MouseEvent);
-  }
-  // clear
-  else if (type == 'clear') {
-    computedValue.value = [];
-    emits('clear', e as MouseEvent);
+        if (!inputVal || !allowCreate.value || !isUnique) {
+          return;
+        }
+        const tagData: ObjectData = {};
+        tagData[id] = nanoid();
+        tagData[label] = computedInputValue.value;
+        tagData[value] = computedInputValue.value;
+        computedValue.value = [...computedValue.value, tagData];
+        emits('pressEnter', e as KeyboardEvent);
+        clearInputValue();
+      }
+      break;
+    case 'close':
+      {
+        computedValue.value = (computedValue.value as TagData[]).filter(
+          (_, index) => computedValue.value[index].id != id
+        );
+        emits('remove', e as MouseEvent);
+      }
+      break;
+    case 'remove':
+      {
+        if (inputVal || !computedValue.value?.length) return;
+        computedValue.value = computedValue.value.slice(
+          0,
+          computedValue.value.length - 1
+        );
+        emits('remove', e as MouseEvent);
+      }
+      break;
+    case 'clear':
+      {
+        computedValue.value = [];
+        emits('clear', e as MouseEvent);
+      }
+      break;
   }
 };
 // 暴露方法

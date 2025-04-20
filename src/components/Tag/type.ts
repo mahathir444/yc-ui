@@ -16,6 +16,3 @@ export interface TagProps {
 }
 
 export type TagSize = 'small' | 'medium' | 'large';
-
-//  内部使用
-export type TagEventType = 'close' | 'check';

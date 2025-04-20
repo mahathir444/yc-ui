@@ -13,8 +13,8 @@
     :style="outerStyle"
   >
     <div
-      :style="<CSSProperties>$attrs.style"
       class="yc-scrollbar-container"
+      :style="style"
       ref="scrollRef"
       @scroll="handleScroll"
     >
@@ -54,6 +54,9 @@ const props = withDefaults(defineProps<ScrollbarProps>(), {
   scrollbarType: 'virtual',
   outerClass: '',
   outerStyle: () => {
+    return {};
+  },
+  style: () => {
     return {};
   },
   autoFill: false,

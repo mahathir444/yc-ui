@@ -55,13 +55,3 @@ export interface InputProvide {
   props: InputProps;
   emits: InputEmits;
 }
-
-export type InputEventType =
-  | 'input'
-  | 'change'
-  | 'clear'
-  | 'focus'
-  | 'blur'
-  | 'keydown';
-
-export type InputEvent = Event | MouseEvent | FocusEvent;

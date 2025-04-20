@@ -54,12 +54,7 @@
 
 <script lang="ts" setup>
 import { ref, toRefs } from 'vue';
-import {
-  TextareaProps,
-  ResizeRange,
-  TextareaEvent,
-  TextareaEventType,
-} from './type';
+import { TextareaProps, ResizeRange } from './type';
 import { useLimitedInput, useTextareaHeight } from '@shared/hooks';
 import { YcPreventFocus, YcIconButton } from '@shared/components';
 defineOptions({
@@ -115,21 +110,30 @@ const {
 // 计算textare高度
 const { style } = useTextareaHeight(mirrorRef, autoSize.value as ResizeRange);
 // 处理输入，改变和清除
-const handleEvent = async (type: TextareaEventType, e: TextareaEvent) => {
-  // 聚焦
-  if (['focus', 'blur'].includes(type)) {
-    emits(type as any, e as FocusEvent);
-  }
-  // 输入
-  else if (type == 'input') {
-    handleInput(e);
-  } else if (type == 'change') {
-    emits('change', computedValue.value, e);
-  }
-  // 清除
-  else if (type == 'clear') {
-    computedValue.value = '';
-    emits('clear', e as MouseEvent);
+const handleEvent = async (type: string, e: Event) => {
+  switch (type) {
+    case 'focus':
+    case 'blur':
+      {
+        emits(type as any, e as FocusEvent);
+      }
+      break;
+    case 'input':
+      {
+        handleInput(e);
+      }
+      break;
+    case 'change':
+      {
+        emits('change', computedValue.value, e);
+      }
+      break;
+    case 'clear':
+      {
+        computedValue.value = '';
+        emits('clear', e as MouseEvent);
+      }
+      break;
   }
 };
 // 暴露方法

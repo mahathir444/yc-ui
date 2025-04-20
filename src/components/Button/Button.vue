@@ -38,12 +38,7 @@
 
 <script lang="ts" setup>
 import { computed, toRefs, inject, useSlots } from 'vue';
-import {
-  ButtonProps,
-  ButtonProvide,
-  ButtonEvent,
-  ButtonEventType,
-} from './type';
+import { ButtonProps, ButtonEmits, ButtonProvide } from './type';
 import {
   BUTTON_SIZE_CLASS,
   BUTTON_SHAPE_CLASS,
@@ -67,13 +62,7 @@ const props = withDefaults(defineProps<ButtonProps>(), {
   htmlType: 'button',
   href: '',
 });
-const emits = defineEmits<{
-  (e: 'mousedown', event: MouseEvent): void;
-  (e: 'mouseup', event: MouseEvent): void;
-  (e: 'click', event: MouseEvent): void;
-  (e: 'dblclick', event: MouseEvent): void;
-  (e: 'contextmenu', event: MouseEvent): void;
-}>();
+const emits = defineEmits<ButtonEmits>();
 const {
   loading,
   disabled: _disabled,
@@ -121,9 +110,9 @@ const btnClass = computed(() => {
   ];
 });
 // 拦截事件
-const handleEvent = (type: ButtonEventType, e: ButtonEvent) => {
+const handleEvent = (type: string, e: MouseEvent) => {
   if (disabled.value || loading.value) return;
-  emits(type as any, e);
+  emits(type as keyof ButtonEmits, e);
 };
 </script>
 

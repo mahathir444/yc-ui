@@ -28,7 +28,7 @@
 
 <script lang="ts" setup>
 import { toRefs, computed } from 'vue';
-import { LinkProps, LinkEvent, LinkEventType } from './type';
+import { LinkProps } from './type';
 import { LINK_STATUS_CLASS } from '@shared/constants';
 import YcSpin from '@/components/Spin';
 import { IconLink } from '@shared/icons';
@@ -55,7 +55,10 @@ const resultHref = computed(() => {
   return href.value || 'javascript:void(0)';
 });
 // 拦截事件
-const handleEvent = (type: LinkEventType, e: LinkEvent) => {
+const handleEvent = (
+  type: 'click' | 'dblclick' | 'contextmenu',
+  e: MouseEvent
+) => {
   if (disabled.value || loading.value) return;
   emits(type as any, e);
 };

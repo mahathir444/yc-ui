@@ -60,14 +60,11 @@ export type SelectValue =
   | (string | number | boolean | ObjectData)
   | (string | number | boolean | ObjectData)[];
 
-export type FilterOption = (
-  inputValue: string,
-  option: SelectOptionData
-) => boolean;
-
-export type FallbackOption = (value: SelectValue) => SelectOptionData;
-
-export type FormatLabel = (data: SelectOptionData) => string;
+export type VirtualListProps = {
+  itemHeight?: number;
+  buffer?: number;
+  threshold?: number;
+};
 
 export type SelectOptionData = { render?: RenderContent } & OptionProps;
 
@@ -84,11 +81,14 @@ export type SelectOptions = (
   | ObjectData
 )[];
 
-export type VirtualListProps = {
-  itemHeight?: number;
-  buffer?: number;
-  threshold?: number;
-};
+export type FilterOption = (
+  inputValue: string,
+  option: SelectOptionData
+) => boolean;
+
+export type FallbackOption = (value: SelectValue) => SelectOptionData;
+
+export type FormatLabel = (data: SelectOptionData) => string;
 
 // 内部使用
 export interface SelectProvide {
@@ -105,11 +105,3 @@ export interface SelectProvide {
   getValue: Fn;
   emits: Fn;
 }
-
-export type SelectEventType =
-  | 'clear'
-  | 'search'
-  | 'updateValue'
-  | 'blur'
-  | 'focus'
-  | 'click';

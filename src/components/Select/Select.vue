@@ -197,7 +197,6 @@ import {
   SelectValue,
   SelectOptionData,
   SelectProvide,
-  SelectEventType,
 } from './type';
 import { ObjectData } from '@shared/type';
 import { SELECT_PROVIDE_KEY } from '@shared/constants';
@@ -363,7 +362,7 @@ function blur() {
 }
 // 处理事件
 const handleEvent = async (
-  type: SelectEventType,
+  type: 'clear' | 'search' | 'updateValue' | 'blur' | 'focus' | 'click',
   value: string | InputTagValue = ''
 ) => {
   // 清除

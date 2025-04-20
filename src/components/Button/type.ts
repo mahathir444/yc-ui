@@ -21,6 +21,14 @@ export interface ButtonGroupProps {
   disabled?: boolean;
 }
 
+export type ButtonEmits = {
+  (e: 'mousedown', event: MouseEvent): void;
+  (e: 'mouseup', event: MouseEvent): void;
+  (e: 'click', event: MouseEvent): void;
+  (e: 'dblclick', event: MouseEvent): void;
+  (e: 'contextmenu', event: MouseEvent): void;
+};
+
 export type ButtonStatus = 'normal' | 'warning' | 'success' | 'danger';
 
 export type ButtonShape = 'square' | 'circle' | 'round';
@@ -33,16 +41,6 @@ export type ButtonType =
   | 'text';
 
 export type ButtonHtmlType = 'button' | 'reset' | 'submit';
-
-// 内部使用
-export type ButtonEvent = MouseEvent;
-
-export type ButtonEventType =
-  | 'click'
-  | 'dblclick'
-  | 'contextmenu'
-  | 'mousedown'
-  | 'mouseup';
 
 export interface ButtonProvide {
   type: Ref<ButtonType>;

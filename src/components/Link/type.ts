@@ -9,8 +9,3 @@ export interface LinkProps {
 }
 
 export type LinkStatus = 'normal' | 'warning' | 'success' | 'danger';
-
-// 内部使用
-export type LinkEvent = MouseEvent;
-
-export type LinkEventType = 'click' | 'dblclick' | 'contextmenu';

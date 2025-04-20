@@ -1,4 +1,3 @@
-import { Ref, WritableComputedRef } from 'vue';
 import { ObjectData, Size } from '@shared/type';
 import { TagProps } from '@/components/Tag';
 
@@ -22,6 +21,18 @@ export interface InputTagProps {
   allowCreate?: boolean;
 }
 
+export interface InputTagEmits {
+  (e: 'update:modelValue', value: InputTagValue): void;
+  (e: 'update:inputValue', value: string): void;
+  (e: 'input', value: string): void;
+  (e: 'inputValueChange', value: string, ev: Event): void;
+  (e: 'remove', ev: MouseEvent | KeyboardEvent): void;
+  (e: 'clear', ev: MouseEvent): void;
+  (e: 'focus', ev: FocusEvent): void;
+  (e: 'blur', ev: FocusEvent): void;
+  (e: 'pressEnter', ev: KeyboardEvent): void;
+}
+
 export type TagData =
   | {
       id?: string;
@@ -37,16 +48,3 @@ export type InputTagValue = (string | number | TagData)[];
 export type InputRetainValue = { create?: boolean; blur?: boolean };
 
 export type FormatTag = (data: TagData) => string;
-
-// 内部使用
-export type InputTagEventType =
-  | 'pressEnter'
-  | 'input'
-  | 'inputValueChange'
-  | 'remove'
-  | 'clear'
-  | 'close'
-  | 'focus'
-  | 'blur';
-
-export type InputTagEvent = Event | MouseEvent | KeyboardEvent | FocusEvent;

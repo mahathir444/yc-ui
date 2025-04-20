@@ -76,7 +76,7 @@
 
 <script lang="ts" setup>
 import { ref, toRefs, computed, inject } from 'vue';
-import { InputEvent, InputEventType, InputProps, InputProvide } from '../type';
+import { InputProps, InputProvide } from '../type';
 import { INPUT_PROVIDE_KEY } from '@shared/constants';
 import { RequiredDeep } from '@shared/type';
 import { INPUT_SIZE_CLASS } from '@shared/constants';
@@ -136,7 +136,10 @@ const {
   inputRef,
 });
 // 处理输入，改变和清除
-const handleEvent = async (type: InputEventType, e: InputEvent) => {
+const handleEvent = async (
+  type: 'input' | 'change' | 'clear' | 'focus' | 'blur' | 'keydown',
+  e: Event | MouseEvent | FocusEvent
+) => {
   // focus,blur
   if (['focus', 'blur'].includes(type)) {
     emits(type as any, e as FocusEvent);

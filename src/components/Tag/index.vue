@@ -41,7 +41,7 @@
 
 <script lang="ts" setup>
 import { toRefs, computed, ref } from 'vue';
-import { TagProps, TagEventType } from './type';
+import { TagProps } from './type';
 import { TAG_SIZE_CLASS, TAG_COLOR_CLASS } from '@shared/constants';
 import YcSpin from '@/components/Spin';
 import { useControlValue, useConfigProvder } from '@shared/hooks';
@@ -102,7 +102,7 @@ const background = computed(() => {
   return TAG_COLOR_CLASS[color.value] ? '#fff' : color.value;
 });
 // 处理事件
-const handleEvent = (type: TagEventType, ev: MouseEvent) => {
+const handleEvent = (type: 'close' | 'check', ev: MouseEvent) => {
   if (type == 'close') {
     computedVisible.value = false;
     emits('close', ev);

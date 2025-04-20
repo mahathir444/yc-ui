@@ -133,45 +133,52 @@ const getFilterResult = (value: string) => {
 // 处理事件
 const handleEvent = async (
   type: string,
-  ev: Event | FocusEvent | MouseEvent | null,
+  ev: Event | null,
   value: string = ''
 ) => {
-  // 输入
-  if (type == 'input') {
-    if (!value) {
-      popupVisible.value = false;
-      return;
-    }
-    emits('input', value, ev as Event);
-    const filterOptions = getFilterResult(value);
-    popupVisible.value = !!filterOptions.length;
-    if (popupVisible.value && isSearch.value) {
-      curOptions.value = filterOptions;
-    }
-    await sleep(500);
-    emits('search', value);
-  }
-  // 选择
-  else if (type == 'select') {
-    popupVisible.value = false;
-    if (isSelectSetValue.value) {
-      computedValue.value = value;
-    }
-    emits('select', value);
-  }
-  // 聚焦
-  else if (type == 'focus') {
-    emits('focus', ev as FocusEvent);
-  }
-  // 失焦
-  else if (type == 'blur') {
-    popupVisible.value = false;
-    emits('blur', ev as FocusEvent);
-  }
-  // 清空
-  else if (type == 'clear') {
-    computedValue.value = '';
-    emits('clear', ev as MouseEvent);
+  switch (type) {
+    case 'input':
+      {
+        if (!value) {
+          popupVisible.value = false;
+          return;
+        }
+        emits('input', value, ev as Event);
+        const filterOptions = getFilterResult(value);
+        popupVisible.value = !!filterOptions.length;
+        if (popupVisible.value && isSearch.value) {
+          curOptions.value = filterOptions;
+        }
+        await sleep(500);
+        emits('search', value);
+      }
+      break;
+    case 'select':
+      {
+        popupVisible.value = false;
+        if (isSelectSetValue.value) {
+          computedValue.value = value;
+        }
+        emits('select', value);
+      }
+      break;
+    case 'focus':
+      {
+        emits('focus', ev as FocusEvent);
+      }
+      break;
+    case 'blur':
+      {
+        popupVisible.value = false;
+        emits('blur', ev as FocusEvent);
+      }
+      break;
+    case 'clear':
+      {
+        computedValue.value = '';
+        emits('clear', ev as MouseEvent);
+      }
+      break;
   }
 };
 
