@@ -40,10 +40,10 @@
 import { computed } from 'vue';
 import { getSlotFunction } from '@shared/utils';
 import YcNotification from './Notification.vue';
-import { NotificationConfig, NOTIFICATION_POSITION } from './type';
+import { NotificationConfig, NotificationPosition } from './type';
 const props = defineProps<{
   notificationList: NotificationConfig[];
-  position: NOTIFICATION_POSITION;
+  position: NotificationPosition;
 }>();
 const emits = defineEmits(['close']);
 defineOptions({

@@ -1,10 +1,6 @@
 <template>
   <div class="yc-dot-loading">
-    <div class="yc-dot-loading-item"></div>
-    <div class="yc-dot-loading-item"></div>
-    <div class="yc-dot-loading-item"></div>
-    <div class="yc-dot-loading-item"></div>
-    <div class="yc-dot-loading-item"></div>
+    <div v-for="i in 5" :key="i" class="yc-dot-loading-item"></div>
   </div>
 </template>
 

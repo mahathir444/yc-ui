@@ -371,5 +371,5 @@ const disabledConfirm = computed(() => {
 });
 </script>
 <style scoped lang="less">
-@import url('./index.less');
+@import './style/time-picker.less';
 </style>
