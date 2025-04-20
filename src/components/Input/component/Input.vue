@@ -29,11 +29,11 @@
       ref="inputRef"
       @input="handleEvent('input', $event)"
       @change="handleEvent('change', $event)"
-      @focus="handleEvent('focus', $event)"
-      @blur="handleEvent('blur', $event)"
       @compositionstart="handleComposition"
       @compositionupdate="handleComposition"
       @compositionend="handleComposition"
+      @focus="handleEvent('focus', $event)"
+      @blur="handleEvent('blur', $event)"
       @keydown.enter="handleEvent('keydown', $event)"
     />
     <!-- select模式下的label -->
@@ -138,12 +138,6 @@ const {
 // 处理输入，改变和清除
 const handleEvent = async (type: string, e: Event) => {
   switch (type) {
-    case 'focus':
-    case 'blur':
-      {
-        emits(type as keyof InputEmits, e as FocusEvent);
-      }
-      break;
     case 'input':
       {
         handleInput(e);
@@ -152,6 +146,12 @@ const handleEvent = async (type: string, e: Event) => {
     case 'change':
       {
         emits('change', computedValue.value, e);
+      }
+      break;
+    case 'focus':
+    case 'blur':
+      {
+        emits(type as keyof InputEmits, e as FocusEvent);
       }
       break;
     case 'clear':

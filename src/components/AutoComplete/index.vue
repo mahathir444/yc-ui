@@ -6,9 +6,10 @@
     :trigger-props="triggerProps"
     :virtual-list-props="vistualListProps"
     hotkeys
-    @dropdown-scroll="(ev) => $emit('dropdown-scroll', ev)"
-    @select="(v) => handleEvent('select', null, v as string)"
     ref="selectRef"
+    @dropdown-scroll="(ev) => $emit('dropdown-scroll', ev)"
+    @dropdown-reach-bottom="(ev) => $emit('dropdown-reach-bottom', ev)"
+    @select="(v) => handleEvent('select', null, v as string)"
   >
     <template #trigger>
       <slot name="trigger">
@@ -20,11 +21,11 @@
             :allow-clear="allowClear"
             ref="inputRef"
             v-bind="$attrs"
-            @change="(v) => $emit('change', v)"
             @input="(v, ev) => handleEvent('input', ev, v)"
-            @clear="(ev) => handleEvent('clear', ev)"
+            @change="(v) => $emit('change', v)"
             @focus="(ev) => handleEvent('focus', ev)"
             @blur="(ev) => handleEvent('blur', ev)"
+            @clear="(ev) => handleEvent('clear', ev)"
           />
           <yc-textarea
             v-else
@@ -36,6 +37,8 @@
             ref="inputRef"
             v-bind="$attrs"
             @input="(v, ev) => handleEvent('input', ev, v)"
+            @change="(v) => $emit('change', v)"
+            @clear="(ev) => handleEvent('clear', ev)"
             @focus="(ev) => handleEvent('focus', ev)"
             @blur="(ev) => handleEvent('blur', ev)"
           >
@@ -45,6 +48,9 @@
     </template>
     <template v-if="$slots.prefix" #prefix>
       <slot name="prefix" />
+    </template>
+    <template v-if="$slots.option" #option>
+      <slot name="option" />
     </template>
     <template v-if="$slots.footer" #footer>
       <slot name="footer" />
@@ -88,12 +94,13 @@ const emits = defineEmits<{
   (e: 'update:modelValue', value: string): void;
   (e: 'change', value: string): void;
   (e: 'search', value: string): void;
+  (e: 'select', value: string): void;
   (e: 'clear', ev?: Event): void;
   (e: 'dropdown-scroll', ev?: Event): void;
-  (e: 'select', value: string): void;
-  (e: 'input', value: string, ev: Event): void;
+  (e: 'dropdown-reach-bottom', ev?: Event): void;
   (e: 'blur', ev: FocusEvent): void;
   (e: 'focus', ev: FocusEvent): void;
+  (e: 'input', value: string, ev: Event): void;
 }>();
 const { modelValue, defaultValue, data, strict, isSelectSetValue, isSearch } =
   toRefs(props);

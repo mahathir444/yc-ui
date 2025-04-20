@@ -26,11 +26,11 @@ export interface InputTagEmits {
   (e: 'update:inputValue', value: string): void;
   (e: 'input', value: string): void;
   (e: 'inputValueChange', value: string, ev: Event): void;
-  (e: 'remove', ev: MouseEvent | KeyboardEvent): void;
-  (e: 'clear', ev: MouseEvent): void;
   (e: 'focus', ev: FocusEvent): void;
   (e: 'blur', ev: FocusEvent): void;
   (e: 'pressEnter', ev: KeyboardEvent): void;
+  (e: 'remove', ev: MouseEvent | KeyboardEvent): void;
+  (e: 'clear', ev: MouseEvent): void;
 }
 
 export type TagData =

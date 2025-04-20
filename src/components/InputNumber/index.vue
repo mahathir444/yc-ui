@@ -10,12 +10,13 @@
     :input-attrs="inputAttrs"
     class="yc-input-number"
     ref="inputRef"
-    @clear="(ev) => $emit('clear', ev)"
-    @keydown="(ev) => $emit('keydown', ev)"
-    @change="(v, ev) => $emit('change', +v, ev)"
-    @blur="(ev) => handleUpdateValue('blur', ev)"
-    @press-enter="(ev) => handleUpdateValue('pressEnter', ev)"
     @input="handleInput"
+    @change="(v, ev) => $emit('change', +v, ev)"
+    @clear="(ev) => $emit('clear', ev)"
+    @focus="(ev) => $emit('focus', ev)"
+    @blur="(ev) => handleUpdateValue('blur', ev)"
+    @keydown="(ev) => $emit('keydown', ev)"
+    @press-enter="(ev) => handleUpdateValue('pressEnter', ev)"
   >
     <!-- prefix -->
     <template v-if="$slots.prefix" #prefix>
@@ -134,6 +135,7 @@ const emits = defineEmits<{
   (e: 'update:modelValue', value: InputNumberValue): void;
   (e: 'input', value: InputNumberValue, ev: Event): void;
   (e: 'change', value: InputNumberValue, ev: Event): void;
+  (e: 'focus', ev: FocusEvent): void;
   (e: 'blur', ev: FocusEvent): void;
   (e: 'clear', ev: MouseEvent): void;
   (e: 'keydown', ev: KeyboardEvent): void;
