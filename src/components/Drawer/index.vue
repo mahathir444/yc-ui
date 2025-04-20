@@ -32,7 +32,7 @@
         <div
           v-show="innerVisible"
           :class="['yc-drawer-container', $attrs.class]"
-          :style="drawerCss"
+          :style="drawerStyle"
         >
           <!-- header -->
           <slot name="header">
@@ -150,7 +150,7 @@ const {
   placement,
   maskClosable,
   escToClose,
-  drawerStyle,
+  drawerStyle: _drawerStyle,
   renderToBody,
 } = toRefs(props);
 const { onBeforeOk, onBeforeCancel } = props;
@@ -159,7 +159,7 @@ const attrs = useAttrs();
 // 接收configProvider
 const { popupContainer, zIndex } = useConfigProvder(props);
 // drawer绝对定位的left,top
-const drawerCss = computed(() => {
+const drawerStyle = computed(() => {
   return {
     height:
       placement.value == 'left' || placement.value == 'right'
@@ -170,7 +170,7 @@ const drawerCss = computed(() => {
         ? `${width.value}px`
         : `100%`,
     // 传入样式
-    ...drawerStyle.value,
+    ..._drawerStyle.value,
     ...(attrs.style || {}),
   } as CSSProperties;
 });

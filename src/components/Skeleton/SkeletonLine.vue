@@ -32,7 +32,7 @@ const { lineSpacing } = toRefs(props);
 // gap
 const gap = computed(() => `${lineSpacing.value}px`);
 // 接收
-const { animation, loading } = inject<SkeletonProvide>(SKELETON_PROVIDE_KEY, {
+const { animation } = inject<SkeletonProvide>(SKELETON_PROVIDE_KEY, {
   animation: ref(false),
   loading: ref(false),
 });

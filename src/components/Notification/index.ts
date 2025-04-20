@@ -1,6 +1,6 @@
 import { App, render, ref, createVNode, reactive, Ref } from 'vue';
 import _Notification from './Notification.vue';
-import _NotificationContainer from './Container.vue';
+import _NotificationContainer from './NotificationContainer.vue';
 import {
   NotificationConfig,
   NotificationType,

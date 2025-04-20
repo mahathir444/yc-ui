@@ -3,6 +3,7 @@
     :class="[
       'yc-space',
       SPACE_DIRECTION_MAP[direction],
+      SPACE_ALIGN_MAP[align],
       wrap ? 'yc-space-wrap' : '',
       fill ? 'yc-space-fill' : '',
     ]"
@@ -24,7 +25,7 @@
 <script lang="ts" setup>
 import { toRefs, computed, useSlots } from 'vue';
 import { SpaceProps } from './type';
-import { SPACE_DIRECTION_MAP } from '@shared/constants';
+import { SPACE_DIRECTION_MAP, SPACE_ALIGN_MAP } from '@shared/constants';
 import { isNumber } from '@shared/utils';
 defineOptions({
   name: 'Space',
@@ -59,7 +60,6 @@ const nodes = computed(() => slots.default?.());
 <style lang="less" scoped>
 @import './style/space.less';
 .yc-space {
-  align-items: v-bind(alignItems);
   gap: v-bind(gap);
 }
 </style>

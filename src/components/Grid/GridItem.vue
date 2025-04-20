@@ -1,19 +1,11 @@
 <template>
-  <div
-    class="yc-grid-item"
-    :style="{
-      gridColumn: `${suffix ? cols : `span ${span}`} / span ${span}`,
-      marginLeft: offset
-        ? `calc(${(100 / span) * offset}% + ${offset * colGap!}px )`
-        : '',
-    }"
-  >
+  <div class="yc-grid-item" :style="style">
     <slot />
   </div>
 </template>
 
 <script lang="ts" setup>
-import { ref, toRefs, computed, inject } from 'vue';
+import { ref, toRefs, computed, inject, CSSProperties } from 'vue';
 import { GridItemProps, GridProvide } from './type';
 import { isNumber } from '@shared/utils';
 import { GRID_PROVIDE_KEY } from '@shared/constants';
@@ -25,7 +17,19 @@ const props = withDefaults(defineProps<GridItemProps>(), {
   offset: 0,
   suffix: false,
 });
-const { span: _span, offset: _offset } = toRefs(props);
+const { span: _span, offset: _offset, suffix } = toRefs(props);
+// 接收数据
+const { breakpoint, cols, colGap } = inject<GridProvide>(GRID_PROVIDE_KEY, {
+  cols: ref(24),
+  colGap: ref(0),
+  breakpoint: ref('xs'),
+});
+// offset
+const offset = computed(() => {
+  return isNumber(_offset.value)
+    ? _offset.value
+    : (_offset.value?.[breakpoint.value] as number);
+});
 // span
 const span = computed(() => {
   const tempSpan = isNumber(_span.value)
@@ -34,15 +38,13 @@ const span = computed(() => {
   const resultSpan = tempSpan + offset.value;
   return resultSpan >= cols!.value ? cols!.value : resultSpan;
 });
-// offset
-const offset = computed(() => {
-  return isNumber(_offset.value)
-    ? _offset.value
-    : (_offset.value?.[breakpoint.value] as number);
-});
-const { breakpoint, cols, colGap } = inject<GridProvide>(GRID_PROVIDE_KEY, {
-  cols: ref(24),
-  colGap: ref(0),
-  breakpoint: ref('xs'),
+// 计算style
+const style = computed<CSSProperties>(() => {
+  return {
+    gridColumn: `${suffix.value ? cols!.value : `span ${span.value}`} / span ${span.value}`,
+    marginLeft: offset.value
+      ? `calc(${(100 / span.value) * offset.value}% + ${offset.value * colGap!.value}px )`
+      : '',
+  };
 });
 </script>

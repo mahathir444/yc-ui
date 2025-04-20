@@ -19,12 +19,6 @@ export const TRIGGER_POSITION_MAP = getComponentConstantsMap(
   'position'
 );
 
-export const DIVIDER_POSITION_MAP = getComponentConstantsMap(
-  'yc-divider-text',
-  ['left', 'center', 'right'],
-  'position'
-);
-
 export const RESIZE_BOX_POSITION_MAP = [
   'left',
   'right',
@@ -43,6 +37,30 @@ export const DRAWER_PLACEMENT_MAP = getComponentConstantsMap(
   'yc-drawer',
   ['left', 'right', 'top', 'bottom'],
   'placement'
+);
+
+export const DIVIDER_POSITION_MAP = getComponentConstantsMap(
+  'yc-divider-text',
+  ['left', 'center', 'right'],
+  'position'
+);
+
+export const ROW_JUSTIFY_MAP = getComponentConstantsMap(
+  'yc-row',
+  ['start', 'center', 'end', 'space-around', 'space-between'],
+  'justify'
+);
+
+export const ROW_ALIGN_MAP = getComponentConstantsMap(
+  'yc-row',
+  ['start', 'center', 'end', 'stretch'],
+  'align'
+);
+
+export const SPACE_ALIGN_MAP = getComponentConstantsMap(
+  'yc-space',
+  ['start', 'center', 'end', 'stretch'],
+  'align'
 );
 
 export const DROPDOWN_POSITION_MAP: Record<string, string> = {

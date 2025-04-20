@@ -45,7 +45,7 @@
       <slot name="label" />
     </yc-prevent-focus>
     <!-- suffixIcon -->
-    <yc-suffix
+    <input-suffix
       v-if="
         $slots.suffix ||
         showWordLimit ||
@@ -70,7 +70,7 @@
       <template v-if="$slots.suffix" #suffix>
         <slot name="suffix" />
       </template>
-    </yc-suffix>
+    </input-suffix>
   </div>
 </template>
 
@@ -85,7 +85,7 @@ import {
   useLimitedInput,
   useConfigProvder,
 } from '@shared/hooks';
-import YcSuffix from './Suffix.vue';
+import InputSuffix from './InputSuffix.vue';
 import { YcPreventFocus } from '@shared/components';
 const { props, emits } = inject<InputProvide>(INPUT_PROVIDE_KEY, {
   props: {} as any,

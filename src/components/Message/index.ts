@@ -1,6 +1,6 @@
 import { App, render, ref, createVNode, reactive } from 'vue';
 import _Message from './Message.vue';
-import _MessageContainer from './Container.vue';
+import _MessageContainer from './MessageContainer.vue';
 import { MessageConfig, MessageList, MessageType } from './type';
 import { MESSAGE_TYPE } from '@shared/constants';
 export type MessageInstance = InstanceType<typeof _Message>;

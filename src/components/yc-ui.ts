@@ -46,7 +46,7 @@ import Affix from './Affix';
 import TimePicker from './TimePicker';
 import { default as Breadcrumb, BreadcrumbItem } from './Breadcrumb';
 import PageHeader from './PageHeader';
-import { default as Grid, GridRow, GridCol } from './Grid';
+import { default as Grid, GridItem, GridRow, GridCol } from './Grid';
 import Transfer from './Transfer';
 import VerificationCode from './VerificationCode';
 import {
@@ -126,6 +126,7 @@ export default {
   BreadcrumbItem,
   GridCol,
   GridRow,
+  GridItem,
   LayoutFooter,
   LayoutSider,
   LayoutContent,

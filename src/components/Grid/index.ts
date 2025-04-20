@@ -16,7 +16,7 @@ const Grid = Object.assign(_Grid, {
   },
 });
 
-export { _Col as GridCol, _Row as GridRow, _GridItem };
+export { _Col as GridCol, _Row as GridRow, _GridItem as GridItem };
 
 declare module 'vue' {
   export interface GlobalComponents {

@@ -28,7 +28,7 @@ const props = withDefaults(defineProps<SkeletonShapeProps>(), {
 // 获取全局配置
 const { size } = useConfigProvder(props);
 // 接收
-const { animation, loading } = inject<SkeletonProvide>(SKELETON_PROVIDE_KEY, {
+const { animation } = inject<SkeletonProvide>(SKELETON_PROVIDE_KEY, {
   animation: ref(false),
   loading: ref(false),
 });
