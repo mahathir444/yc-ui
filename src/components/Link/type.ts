@@ -8,4 +8,10 @@ export interface LinkProps {
   loading?: boolean;
 }
 
+export interface LinkEmits {
+  (e: 'click', event: MouseEvent): void;
+  (e: 'dblclick', event: MouseEvent): void;
+  (e: 'contextmenu', event: MouseEvent): void;
+}
+
 export type LinkStatus = 'normal' | 'warning' | 'success' | 'danger';

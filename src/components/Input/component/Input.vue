@@ -76,7 +76,7 @@
 
 <script lang="ts" setup>
 import { ref, toRefs, computed, inject } from 'vue';
-import { InputProps, InputProvide } from '../type';
+import { InputProps, InputProvide, InputEmits } from '../type';
 import { INPUT_PROVIDE_KEY } from '@shared/constants';
 import { RequiredDeep } from '@shared/type';
 import { INPUT_SIZE_CLASS } from '@shared/constants';
@@ -136,33 +136,38 @@ const {
   inputRef,
 });
 // 处理输入，改变和清除
-const handleEvent = async (
-  type: 'input' | 'change' | 'clear' | 'focus' | 'blur' | 'keydown',
-  e: Event | MouseEvent | FocusEvent
-) => {
-  // focus,blur
-  if (['focus', 'blur'].includes(type)) {
-    emits(type as any, e as FocusEvent);
-  }
-  // input
-  else if (type == 'input') {
-    handleInput(e);
-  }
-  // change
-  else if (type == 'change') {
-    emits('change', computedValue.value, e);
-  }
-  // clear
-  else if (type == 'clear') {
-    computedValue.value = '';
-    emits('clear', e as MouseEvent);
-  }
-  //enter
-  else if (type == 'keydown') {
-    const ev = e as KeyboardEvent;
-    emits('keydown', ev);
-    if (ev.keyCode != 13) return;
-    emits('pressEnter', ev);
+const handleEvent = async (type: string, e: Event) => {
+  switch (type) {
+    case 'focus':
+    case 'blur':
+      {
+        emits(type as keyof InputEmits, e as FocusEvent);
+      }
+      break;
+    case 'input':
+      {
+        handleInput(e);
+      }
+      break;
+    case 'change':
+      {
+        emits('change', computedValue.value, e);
+      }
+      break;
+    case 'clear':
+      {
+        computedValue.value = '';
+        emits('clear', e as MouseEvent);
+      }
+      break;
+    case 'keydown':
+      {
+        const ev = e as KeyboardEvent;
+        emits('keydown', ev);
+        if (ev.keyCode != 13) return;
+        emits('pressEnter', ev);
+      }
+      break;
   }
 };
 // 暴露方法

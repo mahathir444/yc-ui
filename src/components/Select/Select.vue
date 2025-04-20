@@ -362,36 +362,45 @@ function blur() {
 }
 // 处理事件
 const handleEvent = async (
-  type: 'clear' | 'search' | 'updateValue' | 'blur' | 'focus' | 'click',
+  type: string,
   value: string | InputTagValue = ''
 ) => {
-  // 清除
-  if (type == 'clear') {
-    computedValue.value = multiple.value ? [] : '';
-    emits('clear');
-  }
-  // 搜索
-  else if (type == 'search') {
-    await sleep(searchDelay.value);
-    emits('search', value as string);
-  }
-  // 聚焦
-  else if (type == 'focus') {
-    if (computedVisible.value) {
-      return inputRef.value?.blur();
-    }
-    computedVisible.value = true;
-    await sleep(0);
-    inputRef.value?.focus();
-  }
-  // 失焦
-  else if (type == 'blur') {
-    computedVisible.value = false;
-    computedInputValue.value = '';
-  } else if (type == 'updateValue') {
-    computedValue.value = (value as InputTagValue).map(
-      (item) => (item as TagData).value
-    );
+  switch (type) {
+    case 'clear':
+      {
+        computedValue.value = multiple.value ? [] : '';
+        emits('clear');
+      }
+      break;
+    case 'search':
+      {
+        await sleep(searchDelay.value);
+        emits('search', value as string);
+      }
+      break;
+    case 'focus':
+      {
+        if (computedVisible.value) {
+          return inputRef.value?.blur();
+        }
+        computedVisible.value = true;
+        await sleep(0);
+        inputRef.value?.focus();
+      }
+      break;
+    case 'blur':
+      {
+        computedVisible.value = false;
+        computedInputValue.value = '';
+      }
+      break;
+    case 'updateValue':
+      {
+        computedValue.value = (value as InputTagValue).map(
+          (item) => (item as TagData).value
+        );
+      }
+      break;
   }
 };
 // 提供值

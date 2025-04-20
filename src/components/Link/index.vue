@@ -28,7 +28,7 @@
 
 <script lang="ts" setup>
 import { toRefs, computed } from 'vue';
-import { LinkProps } from './type';
+import { LinkProps, LinkEmits } from './type';
 import { LINK_STATUS_CLASS } from '@shared/constants';
 import YcSpin from '@/components/Spin';
 import { IconLink } from '@shared/icons';
@@ -43,11 +43,7 @@ const props = withDefaults(defineProps<LinkProps>(), {
   disabled: false,
   icon: false,
 });
-const emits = defineEmits<{
-  (e: 'click', event: MouseEvent): void;
-  (e: 'dblclick', event: MouseEvent): void;
-  (e: 'contextmenu', event: MouseEvent): void;
-}>();
+const emits = defineEmits<LinkEmits>();
 const { disabled, loading, href } = toRefs(props);
 // 最终的herf
 const resultHref = computed(() => {
@@ -55,12 +51,9 @@ const resultHref = computed(() => {
   return href.value || 'javascript:void(0)';
 });
 // 拦截事件
-const handleEvent = (
-  type: 'click' | 'dblclick' | 'contextmenu',
-  e: MouseEvent
-) => {
+const handleEvent = (type: string, e: MouseEvent) => {
   if (disabled.value || loading.value) return;
-  emits(type as any, e);
+  emits(type as keyof LinkEmits, e);
 };
 </script>
 

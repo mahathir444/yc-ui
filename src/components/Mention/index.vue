@@ -20,9 +20,10 @@
     @select="(v) => handleEvent('select', null, v)"
     @focus="(ev) => handleEvent('focus', ev)"
     @blur="(ev) => handleEvent('blur', ev)"
-  >
-  </yc-auto-complete>
+    @clear="(ev) => $emit('clear', ev as MouseEvent)"
+  />
 </template>
+<!-- @change="(value) => $emit('change', value)" -->
 
 <script lang="ts" setup>
 import { ref, toRefs, onMounted, computed } from 'vue';
@@ -108,59 +109,64 @@ const getCursorPostion = (cursor: number) => {
     y: bottom,
   };
 };
-
 // 处理事件
 const handleEvent = async (
-  type: 'input' | 'select' | 'clear' | 'focus' | 'blur',
-  ev: Event | FocusEvent | MouseEvent | null,
+  type: string,
+  ev: Event | null,
   value: string = ''
 ) => {
-  // 输入
-  if (type == 'input') {
-    emits('input', value, ev as Event);
-    const { selectionStart } = inputRef.value!;
-    recordCursor();
-    const cursor = getCursor() ?? selectionStart;
-    if (isNull(cursor)) return;
-    popupVisible.value = isMatchPrefix(value[cursor - 1]);
-    if (!popupVisible.value || mentionType.value != 'textarea') return;
-    const { x, y } = getCursorPostion(cursor);
-    const { bottom } = inputRef.value!.getBoundingClientRect();
-    autoCompleteRef.value?.updatePosition(x, y > bottom ? bottom : y);
-  }
-  // 选中
-  else if (type == 'select') {
-    popupVisible.value = false;
-    computedValue.value += value as string;
-    // if (!split.value) {
-    //   computedValue.value += value as string;
-    //   return;
-    // }
-    // const needSplit = prefixTexts.value.some((prefixText) =>
-    //   computedValue.value.includes(prefixText)
-    // );
-    // recordCursor();
-    // const cursor = getCursor() ?? computedValue.value.length - 1;
-    // // 当前的分隔符
-    // const curSplit = needSplit ? split.value : '';
-    // // 之前的值
-    // const preValue = computedValue.value.slice(0, cursor);
-    // // 现在的值
-    // const prefixCh = computedValue.value.slice(cursor, cursor + 1);
-    // const curValue = computedValue.value.slice(cursor + 1);
-    // computedValue.value = preValue + curSplit + prefixCh + value + curValue;
-  }
-  // 聚焦
-  else if (type == 'focus') {
-    popupVisible.value = isMatchPrefix(
-      computedValue.value[computedValue.value.length - 1]
-    );
-    emits('focus', ev as FocusEvent);
-  }
-  // 失焦
-  else if (type == 'blur') {
-    popupVisible.value = false;
-    emits('blur', ev as FocusEvent);
+  switch (type) {
+    case 'input':
+      {
+        emits('input', value, ev as Event);
+        const { selectionStart } = inputRef.value!;
+        recordCursor();
+        const cursor = getCursor() ?? selectionStart;
+        if (isNull(cursor)) return;
+        popupVisible.value = isMatchPrefix(value[cursor - 1]);
+        if (!popupVisible.value || mentionType.value != 'textarea') return;
+        const { x, y } = getCursorPostion(cursor);
+        const { bottom } = inputRef.value!.getBoundingClientRect();
+        autoCompleteRef.value?.updatePosition(x, y > bottom ? bottom : y);
+      }
+      break;
+    case 'select':
+      {
+        popupVisible.value = false;
+        computedValue.value += value as string;
+        // if (!split.value) {
+        //   computedValue.value += value as string;
+        //   return;
+        // }
+        // const needSplit = prefixTexts.value.some((prefixText) =>
+        //   computedValue.value.includes(prefixText)
+        // );
+        // recordCursor();
+        // const cursor = getCursor() ?? computedValue.value.length - 1;
+        // // 当前的分隔符
+        // const curSplit = needSplit ? split.value : '';
+        // // 之前的值
+        // const preValue = computedValue.value.slice(0, cursor);
+        // // 现在的值
+        // const prefixCh = computedValue.value.slice(cursor, cursor + 1);
+        // const curValue = computedValue.value.slice(cursor + 1);
+        // computedValue.value = preValue + curSplit + prefixCh + value + curValue;
+      }
+      break;
+    case 'focus':
+      {
+        popupVisible.value = isMatchPrefix(
+          computedValue.value[computedValue.value.length - 1]
+        );
+        emits('focus', ev as FocusEvent);
+      }
+      break;
+    case 'blur':
+      {
+        popupVisible.value = false;
+        emits('blur', ev as FocusEvent);
+      }
+      break;
   }
 };
 onMounted(() => {
