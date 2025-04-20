@@ -1,0 +1,41 @@
+.yc-anchor-link-item {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  .yc-anchor-link {
+    cursor: pointer;
+    min-height: 30px;
+    padding: 4px 8px;
+    border-radius: 2px;
+    color: rgb(78, 89, 105);
+    font-size: 14px;
+    line-height: 1.5715;
+    transition: all 0.1s cubic-bezier(0, 0, 1, 1);
+    &:hover {
+      color: rgb(29, 33, 41);
+      font-weight: 500;
+      background-color: rgb(242, 243, 245);
+    }
+  }
+  .yc-anchor-sublist {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    &:deep(.yc-anchor-link-item) {
+      margin-left: 12px;
+    }
+  }
+}
+.yc-anchor-link-active {
+  & > .yc-anchor-link {
+    color: rgb(29, 33, 41);
+    font-weight: 500;
+  }
+}
+.yc-anchor-link-lineless-active {
+  & > .yc-anchor-link {
+    background-color: rgb(242, 243, 245);
+    color: rgb(22, 93, 255);
+    font-weight: 500;
+  }
+}

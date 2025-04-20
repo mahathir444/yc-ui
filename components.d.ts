@@ -7,6 +7,9 @@ export {}
 /* prettier-ignore */
 declare module 'vue' {
   export interface GlobalComponents {
+    AAffix: typeof import('@arco-design/web-vue')['Affix']
+    AAnchor: typeof import('@arco-design/web-vue')['Anchor']
+    AAnchorLink: typeof import('@arco-design/web-vue')['AnchorLink']
     Affix: typeof import('./src/components/Affix/index.vue')['default']
     Alert: typeof import('./src/components/Alert/index.vue')['default']
     AModal: typeof import('@arco-design/web-vue')['Modal']
