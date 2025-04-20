@@ -1,18 +1,20 @@
 <template>
   <transition-group name="input-tag-zoom" tag="div">
-    <yc-tag
-      v-for="item in curList.visibleList"
-      :key="item?.[fieldKey.id]"
-      :closeable="item?.[fieldKey.closeable] ?? true"
-      :bordered="item?.[fieldKey.tagProps]?.bordered ?? true"
-      :nowrap="item?.[fieldKey.tagProps]?.nowrap ?? tagNowrap"
-      :size="size == 'mini' ? 'small' : size"
-      :checked="false"
-      prevent-focus
-      @close="(ev) => $emit('close', ev, item.id)"
-    >
-      {{ formatTag ? formatTag(item) : item[fieldKey.label] }}
-    </yc-tag>
+    <template v-for="item in curList.visibleList" :key="item?.[fieldKey.id]">
+      <slot name="tag" :data="item">
+        <yc-tag
+          :closeable="item?.[fieldKey.closeable] ?? true"
+          :bordered="item?.[fieldKey.tagProps]?.bordered ?? true"
+          :nowrap="item?.[fieldKey.tagProps]?.nowrap ?? tagNowrap"
+          :size="size == 'mini' ? 'small' : size"
+          :checked="false"
+          prevent-focus
+          @close="(ev) => $emit('close', ev, item.id)"
+        >
+          {{ formatTag ? formatTag(item) : item[fieldKey.label] }}
+        </yc-tag>
+      </slot>
+    </template>
     <yc-tag
       v-if="maxTagCount > 0 && computedValue.length > maxTagCount"
       key="yc-select-value-tag"

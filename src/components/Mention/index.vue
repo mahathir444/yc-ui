@@ -17,13 +17,18 @@
     ref="autoCompleteRef"
     v-bind="$attrs"
     @input="(v, ev) => handleEvent('input', ev, v)"
+    @change="(v) => $emit('change', v as string)"
+    @search="(v) => $emit('search', v)"
+    @clear="(ev) => $emit('clear', ev as MouseEvent)"
     @select="(v) => handleEvent('select', null, v)"
     @focus="(ev) => handleEvent('focus', ev)"
     @blur="(ev) => handleEvent('blur', ev)"
-    @clear="(ev) => $emit('clear', ev as MouseEvent)"
-  />
+  >
+    <template v-if="$slots.option" #option>
+      <slot name="option" />
+    </template>
+  </yc-auto-complete>
 </template>
-<!-- @change="(value) => $emit('change', value)" -->
 
 <script lang="ts" setup>
 import { ref, toRefs, onMounted, computed } from 'vue';
@@ -34,6 +39,7 @@ import { useControlValue, useCursor } from '@shared/hooks';
 import YcAutoComplete, {
   AutoCompleteInstance,
 } from '@/components/AutoComplete';
+import { SelectValue } from '@/components/Select';
 defineOptions({
   name: 'Mention',
 });
@@ -49,11 +55,13 @@ const props = withDefaults(defineProps<MentionProps>(), {
 });
 const emits = defineEmits<{
   (e: 'update:modelValue', value: string): void;
-  (e: 'input', value: string, ev: Event): void;
-  (e: 'change', value: string, ev: Event): void;
-  (e: 'clear', ev: MouseEvent): void;
+  (e: 'change', value: string): void;
+  (e: 'search', value: string): void;
+  (e: 'select', value: SelectValue): void;
   (e: 'focus', ev: FocusEvent): void;
   (e: 'blur', ev: FocusEvent): void;
+  (e: 'clear', ev: MouseEvent): void;
+  (e: 'input', value: string, ev: Event): void;
 }>();
 const {
   modelValue,
@@ -132,6 +140,7 @@ const handleEvent = async (
       break;
     case 'select':
       {
+        emits('select', value as SelectValue);
         popupVisible.value = false;
         computedValue.value += value as string;
         // if (!split.value) {
