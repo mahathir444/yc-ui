@@ -28,3 +28,30 @@ export function throttleByRaf(cb: (...args: any[]) => void) {
 
   return throttle;
 }
+
+export function debounce<T extends (...args: any[]) => any>(
+  func: T,
+  delay: number,
+  immediate: boolean = false
+): (...args: Parameters<T>) => void {
+  let timer: ReturnType<typeof setTimeout> | null = null;
+  let isInvoked = false;
+
+  return function (this: any, ...args: Parameters<T>) {
+    const context = this;
+
+    if (timer) clearTimeout(timer);
+
+    if (immediate && !isInvoked) {
+      func.apply(context, args);
+      isInvoked = true;
+    }
+
+    timer = setTimeout(() => {
+      if (!immediate) {
+        func.apply(context, args);
+      }
+      isInvoked = false;
+    }, delay);
+  };
+}

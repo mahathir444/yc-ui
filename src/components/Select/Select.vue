@@ -266,16 +266,16 @@ const props = withDefaults(defineProps<SelectProps>(), {
 const emits = defineEmits<{
   (e: 'update:modelValue', value: SelectValue): void;
   (e: 'update:inputValue', value: SelectValue): void;
+  (e: 'update:popupVisible', value: boolean): void;
   (e: 'change', value: SelectValue): void;
   (e: 'input-value-change', value: string): void;
   (e: 'clear'): void;
   (e: 'remove'): void;
   (e: 'search', value: string): void;
-  (e: 'update:popupVisible', value: boolean): void;
+  (e: 'exceedLimit', value: SelectValue, ev?: MouseEvent): void;
   (e: 'popupVisibleChange', value: boolean): void;
   (e: 'dropdownScroll'): void;
   (e: 'dropdownReachBottom'): void;
-  (e: 'exceedLimit', value: SelectValue, ev?: MouseEvent): void;
   (e: 'select', value: SelectValue): void;
 }>();
 const {

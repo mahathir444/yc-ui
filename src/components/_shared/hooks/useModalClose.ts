@@ -1,7 +1,7 @@
 import { ref, Ref, watch } from 'vue';
-import { CloseType, Fn } from '../type';
+import { Fn } from '../type';
 import { OnBeforeCancel, OnBeforeOk } from '@/components/Modal/type';
-import { useMagicKeys, whenever } from '@vueuse/core';
+import { useMagicKeys, onKeyStroke } from '@vueuse/core';
 import useControlValue from './useControlValue';
 import useOnBeforeClose from './useOnBeforeClose';
 
@@ -33,15 +33,13 @@ export default (params: {
       emits('update:visible', val);
     }
   );
-  // 关闭类型
-  const closeType = ref<CloseType>('');
   // 处理动画离开
   const handleAfterLeave = () => {
-    emits('close', closeType.value);
+    emits('close');
     outerVisible.value = false;
   };
   // 处理关闭
-  const handleClose = async (type: CloseType) => {
+  const handleClose = async (type: string, ev: MouseEvent | KeyboardEvent) => {
     // 执行关闭之前的函数
     const isClose = await useOnBeforeClose(type, onBeforeOk, onBeforeCancel);
     if (!isClose) {
@@ -50,26 +48,25 @@ export default (params: {
     if (type == 'mask' && !maskClosable.value) {
       return;
     }
-    // 执行关闭逻辑
-    closeType.value = type;
     if (type == 'confirmBtn') {
       emits('ok');
     } else if (type == 'cancelBtn') {
-      emits('cancel', closeType.value);
+      emits('cancel', ev);
     }
     innerVisible.value = false;
   };
-  // 初始化关闭快捷键
-  const keys = useMagicKeys();
-  whenever(keys.escape, () => {
-    if (!escToClose.value || !innerVisible.value) return;
-    handleClose('esc');
-  });
+
+  if (escToClose.value) {
+    onKeyStroke(['Escape'], (ev) => {
+      if (!innerVisible.value) return;
+      handleClose('esc', ev);
+    });
+  }
+
   // 检测
   watch(
     innerVisible,
     (val) => {
-      closeType.value = '';
       if (val) {
         outerVisible.value = val;
       }
@@ -80,7 +77,6 @@ export default (params: {
   );
 
   return {
-    closeType,
     outerVisible,
     innerVisible,
     handleClose,

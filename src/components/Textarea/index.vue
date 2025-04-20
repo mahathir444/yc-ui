@@ -24,10 +24,17 @@
       :style="style"
       class="yc-textarea"
       ref="inputRef"
-      @keydown.enter="(ev) => enterPrevent && ev.preventDefault()"
       @compositionstart="handleComposition"
       @compositionupdate="handleComposition"
       @compositionend="handleComposition"
+      @keydown="
+        (ev) => {
+          if (ev.keyCode == 13 && enterPrevent) {
+            ev.preventDefault();
+          }
+          $emit('keydown', ev);
+        }
+      "
       @input="handleEvent('input', $event)"
       @change="handleEvent('change', $event)"
       @focus="handleEvent('focus', $event)"
@@ -87,6 +94,7 @@ const emits = defineEmits<{
   (e: 'clear', ev: MouseEvent): void;
   (e: 'focus', ev: FocusEvent): void;
   (e: 'blur', ev: FocusEvent): void;
+  (e: 'keydown', ev: KeyboardEvent): void;
 }>();
 const { autoSize } = toRefs(props);
 // 输入实例

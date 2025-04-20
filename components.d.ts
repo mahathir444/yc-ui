@@ -9,6 +9,10 @@ declare module 'vue' {
   export interface GlobalComponents {
     Affix: typeof import('./src/components/Affix/index.vue')['default']
     Alert: typeof import('./src/components/Alert/index.vue')['default']
+    AModal: typeof import('@arco-design/web-vue')['Modal']
+    Anchor: typeof import('./src/components/Anchor/Anchor.vue')['default']
+    AnchorLink: typeof import('./src/components/Anchor/AnchorLink.vue')['default']
+    ASlider: typeof import('@arco-design/web-vue')['Slider']
     AutoComplete: typeof import('./src/components/AutoComplete/index.vue')['default']
     AWatermark: typeof import('@arco-design/web-vue')['Watermark']
     BackTop: typeof import('./src/components/BackTop/index.vue')['default']

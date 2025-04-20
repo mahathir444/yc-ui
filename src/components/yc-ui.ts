@@ -57,6 +57,7 @@ import {
 } from './Layout';
 import ConfigProvider from './ConfigProvider';
 import Watermark from './Watermark';
+import { default as Anchor, AnchorLink } from './Anchor';
 
 export const components: Record<string, Plugin> = {
   Button,
@@ -106,6 +107,7 @@ export const components: Record<string, Plugin> = {
   Layout,
   Watermark,
   ConfigProvider,
+  Anchor,
 };
 
 console.log('components：', Object.keys(components).length);
@@ -130,6 +132,7 @@ export default {
   LayoutFooter,
   LayoutSider,
   LayoutContent,
+  AnchorLink,
   install: (app: App) => {
     for (const key of Object.keys(components)) {
       app.use(components[key]);

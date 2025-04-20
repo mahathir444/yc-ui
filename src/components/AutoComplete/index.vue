@@ -24,6 +24,7 @@
             @input="(v, ev) => handleEvent('input', ev, v)"
             @change="(v) => $emit('change', v)"
             @focus="(ev) => handleEvent('focus', ev)"
+            @keydown="(ev) => handleEvent('keydown', ev)"
             @blur="(ev) => handleEvent('blur', ev)"
             @clear="(ev) => handleEvent('clear', ev)"
           />
@@ -39,6 +40,7 @@
             @input="(v, ev) => handleEvent('input', ev, v)"
             @change="(v) => $emit('change', v)"
             @clear="(ev) => handleEvent('clear', ev)"
+            @keydown="(ev) => $emit('keydown', ev)"
             @focus="(ev) => handleEvent('focus', ev)"
             @blur="(ev) => handleEvent('blur', ev)"
           >
@@ -101,6 +103,7 @@ const emits = defineEmits<{
   (e: 'blur', ev: FocusEvent): void;
   (e: 'focus', ev: FocusEvent): void;
   (e: 'input', value: string, ev: Event): void;
+  (e: 'keydown', ev: KeyboardEvent): void;
 }>();
 const { modelValue, defaultValue, data, strict, isSelectSetValue, isSearch } =
   toRefs(props);

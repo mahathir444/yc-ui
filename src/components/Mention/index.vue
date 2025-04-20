@@ -23,6 +23,7 @@
     @select="(v) => handleEvent('select', null, v)"
     @focus="(ev) => handleEvent('focus', ev)"
     @blur="(ev) => handleEvent('blur', ev)"
+    @keydown="updatePopPosition"
   >
     <template v-if="$slots.option" #option>
       <slot name="option" />
@@ -31,10 +32,10 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, toRefs, onMounted, computed } from 'vue';
+import { ref, toRefs, onMounted, computed, nextTick } from 'vue';
 import { MentionProps } from './type';
 import { ObjectData } from '@shared/type';
-import { isNull, isArray } from '@shared/utils';
+import { isNull, isArray, debounce } from '@shared/utils';
 import { useControlValue, useCursor } from '@shared/hooks';
 import YcAutoComplete, {
   AutoCompleteInstance,
@@ -94,15 +95,22 @@ const prefixTexts = computed(() => {
     : data.value.map((op) => prefix.value + (op as ObjectData).value);
 });
 // 记录光标位置
-const { recordCursor, getCursor } = useCursor(inputRef);
+const { recordCursor, getCursor: _getCursor } = useCursor(inputRef);
 // 是否匹配前缀
 const isMatchPrefix = (ch: string) => {
   return isArray(prefix.value) ? prefix.value.includes(ch) : prefix.value == ch;
 };
-// 获取光标位置
-const getCursorPostion = (cursor: number) => {
+// 获取光标
+const getCursor = () => {
+  recordCursor();
+  const { selectionStart } = inputRef.value!;
+  const cursor = _getCursor() ?? selectionStart;
+  console.log(cursor, 'cursor');
+  return cursor as number;
+};
+// 设置pop位置
+const setPopPosition = (cursor: number) => {
   const el = autoCompleteRef.value!.getMirrorRef();
-  console.log(el);
   // 创建一个临时的范围对象
   const range = document.createRange();
   // 获取文本节点（纯文本div只有一个文本节点）
@@ -111,12 +119,24 @@ const getCursorPostion = (cursor: number) => {
   range.setStart(textNode, cursor);
   range.setEnd(textNode, cursor);
   // 获取位置信息
-  const { bottom, left } = range.getBoundingClientRect();
-  return {
-    x: left,
-    y: bottom,
-  };
+  const { bottom: y, left: x } = range.getBoundingClientRect();
+  const { bottom } = inputRef.value!.getBoundingClientRect();
+  autoCompleteRef.value?.updatePosition(x, y > bottom ? bottom : y);
 };
+// 更新pop位置
+const updatePopPosition = debounce(
+  (e: KeyboardEvent, isUpdate: boolean = false) => {
+    if (isUpdate || !['ArrowRight', 'ArrowLeft', 'Backspace'].includes(e.key)) {
+      return;
+    }
+    const target = e.target as HTMLInputElement;
+    const cursor = getCursor();
+    popupVisible.value = isMatchPrefix(target.value[cursor - 1]);
+    if (!popupVisible.value || mentionType.value != 'textarea') return;
+    setPopPosition(cursor);
+  },
+  100
+);
 // 处理事件
 const handleEvent = async (
   type: string,
@@ -127,47 +147,49 @@ const handleEvent = async (
     case 'input':
       {
         emits('input', value, ev as Event);
-        const { selectionStart } = inputRef.value!;
-        recordCursor();
-        const cursor = getCursor() ?? selectionStart;
+        await nextTick();
+        const cursor = getCursor();
         if (isNull(cursor)) return;
         popupVisible.value = isMatchPrefix(value[cursor - 1]);
         if (!popupVisible.value || mentionType.value != 'textarea') return;
-        const { x, y } = getCursorPostion(cursor);
-        const { bottom } = inputRef.value!.getBoundingClientRect();
-        autoCompleteRef.value?.updatePosition(x, y > bottom ? bottom : y);
+        setPopPosition(cursor);
       }
       break;
     case 'select':
       {
+        const { selectionStart } = inputRef.value!;
+        const cursor = (getCursor() ?? selectionStart) as number;
         emits('select', value as SelectValue);
         popupVisible.value = false;
-        computedValue.value += value as string;
-        // if (!split.value) {
-        //   computedValue.value += value as string;
-        //   return;
-        // }
-        // const needSplit = prefixTexts.value.some((prefixText) =>
-        //   computedValue.value.includes(prefixText)
-        // );
-        // recordCursor();
-        // const cursor = getCursor() ?? computedValue.value.length - 1;
-        // // 当前的分隔符
-        // const curSplit = needSplit ? split.value : '';
-        // // 之前的值
-        // const preValue = computedValue.value.slice(0, cursor);
-        // // 现在的值
-        // const prefixCh = computedValue.value.slice(cursor, cursor + 1);
-        // const curValue = computedValue.value.slice(cursor + 1);
-        // computedValue.value = preValue + curSplit + prefixCh + value + curValue;
+        const needSplit = prefixTexts.value.some((prefixText) =>
+          computedValue.value.includes(prefixText)
+        );
+        if (needSplit) {
+          // 之前的值
+          const preValue = computedValue.value.slice(0, cursor - 1);
+          // 现在的值
+          const prefixCh = computedValue.value.slice(cursor - 1, cursor);
+          const curValue = computedValue.value.slice(cursor);
+          computedValue.value =
+            preValue + split.value + prefixCh + value + curValue;
+        } else {
+          computedValue.value =
+            computedValue.value.slice(0, cursor) +
+            value +
+            computedValue.value.slice(cursor);
+        }
+        updatePopPosition(ev as KeyboardEvent, true);
       }
       break;
     case 'focus':
       {
+        emits('focus', ev as FocusEvent);
         popupVisible.value = isMatchPrefix(
           computedValue.value[computedValue.value.length - 1]
         );
-        emits('focus', ev as FocusEvent);
+        if (!popupVisible.value || mentionType.value != 'textarea') return;
+        const cursor = getCursor();
+        setPopPosition(cursor);
       }
       break;
     case 'blur':

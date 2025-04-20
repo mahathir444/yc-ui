@@ -12,6 +12,7 @@
       :ref="(el) => (chars[i] = el as HTMLDivElement)"
     >
       <div
+        v-if="allowHalf"
         class="yc-rate-character-left"
         :style="{
           color:
@@ -75,7 +76,6 @@ const emits = defineEmits<{
   (e: 'hoverChange', value: number): void;
 }>();
 const {
-  allowHalf,
   modelValue,
   defaultValue,
   readonly,

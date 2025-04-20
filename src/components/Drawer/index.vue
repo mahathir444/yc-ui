@@ -17,7 +17,7 @@
           v-if="mask"
           v-show="innerVisible"
           class="yc-drawer-mask"
-          @click="handleClose('mask')"
+          @click="handleClose('mask', $event)"
         ></div>
       </transition>
       <!-- drawer -->
@@ -25,7 +25,7 @@
         :name="`slide-drawer-${placement}`"
         appear
         @before-enter="$emit('beforeOpen')"
-        @before-leave="$emit('beforeClose', closeType)"
+        @before-leave="$emit('beforeClose')"
         @after-enter="$emit('open')"
         @after-leave="handleAfterLeave"
       >
@@ -47,7 +47,7 @@
               <yc-icon-button
                 v-if="closable"
                 class="yc-modal-close-button"
-                @click="handleClose('closeBtn')"
+                @click="handleClose('closeBtn', $event)"
               />
             </div>
           </slot>
@@ -61,7 +61,7 @@
               <yc-button
                 v-if="!hideCancel"
                 v-bind="cancelButtonProps"
-                @click="handleClose('cancelBtn')"
+                @click="handleClose('cancelBtn', $event)"
               >
                 {{ cancelText }}
               </yc-button>
@@ -69,7 +69,7 @@
                 type="primary"
                 :loading="okLoading"
                 v-bind="okButtonProps"
-                @click="handleClose('confirmBtn')"
+                @click="handleClose('confirmBtn', $event)"
               >
                 {{ okText }}
               </yc-button>
@@ -85,7 +85,6 @@
 import { toRefs, computed, CSSProperties, useAttrs, ref } from 'vue';
 import { DRAWER_PLACEMENT_MAP } from '@shared/constants';
 import { DrawerProps } from './type';
-import { CloseType } from '@shared/type';
 import {
   useModalClose as useDrawerClose,
   useConfigProvder,
@@ -135,11 +134,11 @@ const props = withDefaults(defineProps<DrawerProps>(), {
 const emits = defineEmits<{
   (e: 'update:visible', value: boolean): void;
   (e: 'ok'): void;
-  (e: 'cancel', type: CloseType): void;
+  (e: 'cancel', event: MouseEvent | KeyboardEvent): void;
   (e: 'beforeOpen'): void;
   (e: 'open'): void;
-  (e: 'beforeClose', type: CloseType): void;
-  (e: 'close', type: CloseType): void;
+  (e: 'beforeClose'): void;
+  (e: 'close'): void;
 }>();
 // 结构属性
 const {
@@ -175,7 +174,7 @@ const drawerStyle = computed(() => {
   } as CSSProperties;
 });
 // 处理组件关闭开启
-const { outerVisible, innerVisible, closeType, handleClose, handleAfterLeave } =
+const { outerVisible, innerVisible, handleClose, handleAfterLeave } =
   useDrawerClose({
     visible,
     defaultVisible,

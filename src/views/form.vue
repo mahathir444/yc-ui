@@ -89,7 +89,7 @@
     </div>
     <div>
       rate
-      <yc-rate :count="5" allow-half allow-clear />
+      <yc-rate :count="5" allow-clear />
     </div>
     <div style="width: 500px; height: 500px">
       slider
@@ -108,7 +108,12 @@
     </div>
     <div style="width: 300px">
       mention
-      <yc-mention :data="options" prefix="@" placeholder="mention" />
+      <yc-mention
+        :data="options"
+        prefix="@"
+        split="---"
+        placeholder="mention"
+      />
     </div>
     <div style="width: 300px">
       colorPicker
@@ -147,9 +152,9 @@ const parser = (value: string) => {
 
 <style lang="less" scoped>
 .test {
-  height: 100%;
+  height: 100vh;
   width: 100%;
-
+  overflow: auto;
   display: flex;
   flex-direction: column;
   justify-content: center;

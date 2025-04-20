@@ -19,12 +19,12 @@
         ></div>
       </transition>
       <!-- modal-wrapper -->
-      <div class="yc-modal-wrapper" @click="handleClose('mask')">
+      <div class="yc-modal-wrapper" @click="handleClose('mask', $event)">
         <transition
           :name="modalAnimationName"
           appear
           @before-enter="$emit('beforeOpen')"
-          @before-leave="$emit('beforeClose', closeType)"
+          @before-leave="$emit('beforeClose')"
           @after-enter="$emit('open')"
           @after-leave="handleAfterLeave"
         >
@@ -65,7 +65,7 @@
               <yc-icon-button
                 v-if="closable && !simple"
                 class="yc-modal-close-button"
-                @click="handleClose('closeBtn')"
+                @click="handleClose('closeBtn', $event)"
               />
             </div>
             <!-- body -->
@@ -78,7 +78,7 @@
                 <yc-button
                   v-if="!hideCancel"
                   v-bind="cancelButtonProps"
-                  @click="handleClose('cancelBtn')"
+                  @click="handleClose('cancelBtn', $event)"
                 >
                   {{ cancelText }}
                 </yc-button>
@@ -86,7 +86,7 @@
                   type="primary"
                   :loading="okLoading"
                   v-bind="okButtonProps"
-                  @click="handleClose('confirmBtn')"
+                  @click="handleClose('confirmBtn', $event)"
                 >
                   {{ okText }}
                 </yc-button>
@@ -102,7 +102,6 @@
 <script lang="ts" setup>
 import { ref, toRefs, computed, CSSProperties, useAttrs } from 'vue';
 import { ModalProps } from './type';
-import { CloseType } from '@shared/type';
 import {
   useModalClose,
   useModalDraggable,
@@ -167,11 +166,11 @@ const props = withDefaults(defineProps<ModalProps>(), {
 const emits = defineEmits<{
   (e: 'update:visible', value: boolean): void;
   (e: 'ok'): void;
-  (e: 'cancel', type: CloseType): void;
+  (e: 'cancel', ev: MouseEvent | KeyboardEvent): void;
   (e: 'open'): void;
   (e: 'beforeOpen'): void;
-  (e: 'close', type: CloseType): void;
-  (e: 'beforeClose', type: CloseType): void;
+  (e: 'close'): void;
+  (e: 'beforeClose'): void;
 }>();
 const {
   visible,
@@ -191,7 +190,7 @@ const attrs = useAttrs();
 // 接收属性
 const { popupContainer, zIndex } = useConfigProvder(props);
 // 处理组件关闭开启
-const { outerVisible, innerVisible, closeType, handleClose, handleAfterLeave } =
+const { outerVisible, innerVisible, handleClose, handleAfterLeave } =
   useModalClose({
     visible,
     defaultVisible,

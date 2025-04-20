@@ -19,6 +19,7 @@ export default (params: {
     range.value && !isArray(defaultValue.value) ? [0, 0] : defaultValue.value,
     (val) => {
       emits('update:modelValue', val);
+      emits('change', val);
     }
   );
   // 开始值

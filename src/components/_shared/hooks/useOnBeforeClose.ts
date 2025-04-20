@@ -1,8 +1,7 @@
 import { OnBeforeCancel, OnBeforeOk } from '@/components/Modal/type';
-import { CloseType } from '../type';
 import { isBoolean } from '../utils';
 export default async (
-  type: CloseType,
+  type: string,
   onBeforeOk: OnBeforeOk,
   onBeforeCancel: OnBeforeCancel
 ) => {
