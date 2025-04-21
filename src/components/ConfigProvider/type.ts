@@ -1,10 +1,10 @@
 import { Size } from '@shared/type';
 import { Ref } from 'vue';
-import { PopupContainer } from '../Trigger';
+import { PopupContainer } from '@shared/type';
 export interface ConfigProviderProps {
   zIndex?: number;
   size?: Size;
-  popupContainer?: string;
+  popupContainer?: PopupContainer;
   updateAtScroll?: boolean;
   scrollToClose?: boolean;
   exchangeTime?: boolean;

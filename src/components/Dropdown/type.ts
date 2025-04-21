@@ -1,5 +1,5 @@
-import { Ref } from 'vue';
-import { TriggerType, PopupContainer } from '@/components/Trigger';
+import { PopupContainer } from '@shared/type';
+import { TriggerType } from '@/components/Trigger';
 import { ButtonProps, ButtonType } from '@/components/Button';
 import { Fn, Size } from '@shared/type';
 export interface DropdownProps {

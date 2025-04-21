@@ -1,5 +1,6 @@
 import { Fn } from '@vueuse/core';
 import { CSSProperties, Ref } from 'vue';
+import { PopupContainer } from '@shared/type';
 export type TriggerProps = {
   popupVisible?: boolean;
   defaultPopupVisible?: boolean;
@@ -66,8 +67,6 @@ export type TriggerPostion =
   | 'rb';
 
 export type TriggerType = 'hover' | 'click' | 'focus' | 'contextMenu';
-
-export type PopupContainer = string | HTMLElement;
 
 // 内部使用
 export type TriggerProvide = {

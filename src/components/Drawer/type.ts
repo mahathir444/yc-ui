@@ -1,7 +1,7 @@
 import { CSSProperties } from 'vue';
 import { ButtonProps } from '@/components/Button';
 import { OnBeforeCancel } from '@/components/Modal';
-import { RenderContent } from '@shared/type';
+import { RenderContent, PopupContainer } from '@shared/type';
 export interface DrawerProps {
   visible?: boolean;
   defaultVisible?: boolean;
@@ -18,7 +18,7 @@ export interface DrawerProps {
   unmountOnClose?: boolean;
   width?: number;
   height?: number;
-  popupContainer?: string | HTMLElement;
+  popupContainer?: PopupContainer;
   drawerStyle?: CSSProperties;
   escToClose?: boolean;
   renderToBody?: boolean;

@@ -1,9 +1,10 @@
 import { ComputedRef, Ref } from 'vue';
+import { TargetContainer } from '@shared/type';
 
 export interface AnchorProps {
   boundary?: 'start' | 'end' | 'center' | 'nearest' | number;
   lineLess?: boolean;
-  scrollContainer?: string | HTMLElement;
+  scrollContainer?: TargetContainer;
   changeHash?: boolean;
   smooth?: boolean;
 }

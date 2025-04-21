@@ -1,6 +1,6 @@
 import { CSSProperties } from 'vue';
 import { ButtonProps } from '@/components/Button/type';
-import { RenderContent } from '../_shared/type';
+import { RenderContent, PopupContainer } from '@shared/type';
 
 export interface ModalProps {
   visible?: boolean;
@@ -22,7 +22,7 @@ export interface ModalProps {
   cancelButtonProps?: ButtonProps;
   footer?: boolean;
   renderToBody?: boolean;
-  popupContainer?: string;
+  popupContainer?: PopupContainer;
   maskStyle?: CSSProperties;
   modalClass?: string;
   modalStyle?: CSSProperties;

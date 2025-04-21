@@ -1,7 +1,12 @@
 import { WritableComputedRef, Ref } from 'vue';
-import { Fn, ObjectData, RenderContent, Size } from '@shared/type';
+import {
+  Fn,
+  ObjectData,
+  RenderContent,
+  Size,
+  PopupContainer,
+} from '@shared/type';
 import { TriggerProps } from '../Trigger';
-import { PopupContainer } from '../Trigger/type';
 import { TagProps } from '../Tag';
 
 export interface SelectProps {

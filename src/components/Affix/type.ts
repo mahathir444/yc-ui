@@ -1,6 +1,8 @@
+import { TargetContainer } from '@shared/type';
+
 export interface AffixProps {
   offsetTop?: number;
   offsetBottom?: number;
-  target?: string | HTMLElement;
-  targetContainer?: string | HTMLElement;
+  target?: TargetContainer;
+  targetContainer?: TargetContainer;
 }

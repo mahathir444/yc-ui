@@ -41,11 +41,7 @@
                 </a-anchor-link>
               </a-anchor>
             </a-affix>
-            <a-affix
-              :offset-top="0"
-              target-container=".content"
-              target=".content"
-            >
+            <yc-affix :offset-top="0">
               <yc-anchor :change-hash="false" :boundary="30" line-less>
                 <yc-anchor-link href="#basic">Basic</yc-anchor-link>
                 <yc-anchor-link href="#line-less">LineLess Mode</yc-anchor-link>
@@ -59,7 +55,7 @@
                   </template>
                 </yc-anchor-link>
               </yc-anchor>
-            </a-affix>
+            </yc-affix>
           </div>
           <div style="height: 100vh" id="basic" class="target"></div>
           <div

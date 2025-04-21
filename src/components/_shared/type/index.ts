@@ -15,6 +15,10 @@ export type Fn = (...args: any) => any;
 
 export type ObjectData = Record<string, any>;
 
+export type TargetContainer = string | HTMLElement;
+
+export type PopupContainer = string | HTMLElement;
+
 export type IconProps = {
   strokeWidth?: number;
   strokeLinecap?: 'butt' | 'round' | 'square';

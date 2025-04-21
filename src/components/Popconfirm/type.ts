@@ -1,6 +1,7 @@
 import { CSSProperties } from 'vue';
+import { PopupContainer } from '@shared/type';
 import { OnBeforeCancel, OnBeforeOk } from '@/components/Modal';
-import { PopupContainer, TriggerPostion } from '@/components/Trigger';
+import { TriggerPostion } from '@/components/Trigger';
 import { ButtonProps } from '@/components/Button';
 
 export interface PopconfirmProps {

@@ -1,4 +1,5 @@
 import { TriggerProps } from '../Trigger';
+import { PopupContainer } from '@shared/type';
 
 export interface TimePickerProps {
   type?: 'time' | 'time-range';
@@ -11,7 +12,7 @@ export interface TimePickerProps {
   format?: string;
   placeholder?: string | string[];
   size?: 'mini' | 'small' | 'medium' | 'large';
-  popupContainer?: string | HTMLElement;
+  popupContainer?: PopupContainer;
   // use12Hours?: boolean;
   step?: {
     hour?: number;

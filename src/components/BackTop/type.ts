@@ -1,6 +1,8 @@
+import { TargetContainer } from '@shared/type';
+
 export interface BackTopProps {
   visibleHeight?: number;
-  targetContainer?: string | HTMLElement;
+  targetContainer?: TargetContainer;
   easeing?: string;
   duration?: number;
 }
