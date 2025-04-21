@@ -16,16 +16,20 @@
 
 <script lang="ts" setup>
 import { computed, onMounted, ref, toRefs, provide } from 'vue';
-import { AnchorProps } from './type';
+import { AnchorProps, AnchorProvide } from './type';
 import { ANCHOR_PROVIDE_KEY } from '@shared/constants';
-import { getElement, findFirstScrollableParent } from '@shared/utils';
+import {
+  getElement,
+  findFirstScrollableParent,
+  isUndefined,
+} from '@shared/utils';
 defineOptions({
   name: 'Anchor',
 });
 const props = withDefaults(defineProps<AnchorProps>(), {
   boundary: 'start',
   lineLess: false,
-  scrollContainer: '',
+  scrollContainer: undefined,
   changeHash: true,
   smooth: true,
 });
@@ -63,9 +67,13 @@ const top = computed(() => {
   return offset + curIndex * 2;
 });
 // 滚动容器
-const scrollContainer = ref<HTMLElement | null>(null);
+const scrollContainer = computed(() => {
+  return isUndefined(_scrollContainer.value)
+    ? findFirstScrollableParent(listRef.value)
+    : getElement(_scrollContainer.value);
+});
 // 提供属性
-provide(ANCHOR_PROVIDE_KEY, {
+provide<AnchorProvide>(ANCHOR_PROVIDE_KEY, {
   hrefs,
   order,
   changeHash,
@@ -82,9 +90,6 @@ onMounted(() => {
       '.yc-anchor-link'
     ) as NodeListOf<HTMLDivElement>),
   ];
-  scrollContainer.value = _scrollContainer.value
-    ? getElement(_scrollContainer.value as string)!
-    : findFirstScrollableParent(listRef.value as HTMLDivElement);
 });
 </script>
 

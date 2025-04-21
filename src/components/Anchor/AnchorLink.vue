@@ -19,8 +19,8 @@
 
 <script lang="ts" setup>
 import { ref, toRefs, inject } from 'vue';
-import { isNumber } from '@shared/utils';
-import { AnchorLinkProps } from './type';
+import { AnchorLinkProps, AnchorProvide } from './type';
+import { isNumber, getElement } from '@shared/utils';
 import { ANCHOR_PROVIDE_KEY } from '@shared/constants';
 defineOptions({
   name: 'AnchorLink',
@@ -40,7 +40,7 @@ const {
   order,
   lineLess,
   scrollContainer,
-} = inject(ANCHOR_PROVIDE_KEY, {
+} = inject<AnchorProvide>(ANCHOR_PROVIDE_KEY, {
   hrefs: ref<string[]>([]),
   order: ref(0),
   changeHash: ref(true),
@@ -48,7 +48,7 @@ const {
   boundary: ref('start'),
   curHref: ref(''),
   lineLess: ref(false),
-  scrollContainer: ref<HTMLElement | null>(null),
+  scrollContainer: ref<HTMLElement>(),
 });
 // 初始化收集herfs
 const collectHref = () => {
@@ -58,31 +58,27 @@ const collectHref = () => {
 // 处理点击
 const handleClick = (e: MouseEvent) => {
   curHref.value = href.value;
-  if (!changeHash.value) {
-    e.preventDefault();
-    const anchorDom = document.querySelector(href.value) as HTMLDivElement;
-    if (!anchorDom) return;
-    if (isNumber(boundary.value) && scrollContainer.value) {
-      const targetRect = anchorDom.getBoundingClientRect();
-      const containerRect = scrollContainer.value.getBoundingClientRect();
-      const verticalPosition =
-        targetRect.top -
-        containerRect.top +
-        scrollContainer.value.scrollTop -
-        boundary.value;
-      scrollContainer.value.scrollTo({
-        top: verticalPosition,
-        behavior: 'smooth',
-      });
-    } else {
-      anchorDom.scrollIntoView({
-        block: boundary.value as any,
-        behavior: smooth.value ? 'smooth' : 'auto',
-      });
-    }
+  if (changeHash.value) return;
+  e.preventDefault();
+  const anchorDom = getElement(href.value);
+  // 如果dom不存退出
+  if (!anchorDom) return;
+  // 如果offset是一个数字
+  if (isNumber(boundary.value) && scrollContainer.value) {
+    const { top: anchorTop } = anchorDom.getBoundingClientRect();
+    const { top: containerTop } = scrollContainer.value.getBoundingClientRect();
+    const { scrollTop } = scrollContainer.value;
+    scrollContainer.value.scrollTo({
+      top: anchorTop - containerTop + scrollTop - boundary.value,
+      behavior: smooth.value ? 'smooth' : 'auto',
+    });
+  } else {
+    anchorDom.scrollIntoView({
+      block: boundary.value as any,
+      behavior: smooth.value ? 'smooth' : 'auto',
+    });
   }
 };
-
 collectHref();
 </script>
 

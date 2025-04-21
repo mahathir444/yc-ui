@@ -106,19 +106,14 @@ export const mediaQueryHandler = (
 };
 
 // 查找元素的第一个可滚动父元素
-export function findFirstScrollableParent(
-  element: HTMLElement | null
-): HTMLElement | null {
+export function findFirstScrollableParent(element?: HTMLElement) {
   if (!element || element === document.body) {
-    return null;
+    return;
   }
-
   let currentElement: HTMLElement | null = element.parentElement;
-
   while (currentElement && currentElement !== document.body) {
     const style = window.getComputedStyle(currentElement);
     const overflow = style.overflowY || style.overflow;
-
     // 检查元素是否可滚动（垂直方向）
     const isScrollable = overflow === 'auto' || overflow === 'scroll';
     const canScroll = currentElement.scrollHeight > currentElement.clientHeight;
@@ -126,9 +121,8 @@ export function findFirstScrollableParent(
     if (isScrollable && canScroll) {
       return currentElement;
     }
-
     currentElement = currentElement.parentElement;
   }
 
-  return null;
+  return;
 }

@@ -27,7 +27,7 @@
               target-container=".content"
               target=".content"
             >
-              <a-anchor :change-hash="false" boundary="end">
+              <a-anchor :change-hash="false" :boundary="30">
                 <a-anchor-link href="#basic" title="1231"></a-anchor-link>
                 <a-anchor-link href="#line-less">LineLess Mode</a-anchor-link>
                 <a-anchor-link href="#affix">
