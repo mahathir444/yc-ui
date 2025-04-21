@@ -75,9 +75,9 @@ defineOptions({
 });
 const props = withDefaults(defineProps<TransferProps>(), {
   data: () => [],
-  modelValue: void 0,
+  modelValue: undefined,
   defaultValue: () => [],
-  selected: void 0,
+  selected: undefined,
   defaultSelected: () => [],
   disabled: false,
   simple: false,

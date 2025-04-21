@@ -23,7 +23,7 @@ defineOptions({
 });
 const props = withDefaults(defineProps<SkeletonShapeProps>(), {
   shape: 'sqaure',
-  size: void 0,
+  size: undefined,
 });
 // 获取全局配置
 const { size } = useConfigProvder(props);

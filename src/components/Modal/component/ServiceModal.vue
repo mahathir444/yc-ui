@@ -81,7 +81,7 @@ const props = withDefaults(defineProps<ModalConfig>(), {
   },
   footer: true,
   renderToBody: false,
-  popupContainer: void 0,
+  popupContainer: undefined,
   maskStyle: () => {
     return {};
   },

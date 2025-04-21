@@ -1,6 +1,6 @@
 export interface AffixProps {
   offsetTop?: number;
   offsetBottom?: number;
-  target?: string | HTMLElement | Window;
+  target?: string | HTMLElement;
   targetContainer?: string | HTMLElement;
 }

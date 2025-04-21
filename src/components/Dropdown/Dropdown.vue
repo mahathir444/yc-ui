@@ -39,11 +39,11 @@ defineOptions({
   name: 'Dropdown',
 });
 const props = withDefaults(defineProps<DropdownProps>(), {
-  popupVisible: void 0,
+  popupVisible: undefined,
   defaultPopupVisible: false,
   trigger: 'hover',
   position: 'bottom',
-  popupContainer: void 0,
+  popupContainer: undefined,
   hideOnSelect: true,
 });
 const emits = defineEmits<{

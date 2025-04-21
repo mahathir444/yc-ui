@@ -36,9 +36,9 @@ defineOptions({
   name: 'CheckboxGroup',
 });
 const props = withDefaults(defineProps<CheckboxGroupProps>(), {
-  modelValue: void 0,
+  modelValue: undefined,
   defaultValue: () => [],
-  max: void 0,
+  max: undefined,
   options: () => [],
   direction: 'horizontal',
   disabled: false,

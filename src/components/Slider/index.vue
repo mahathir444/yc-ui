@@ -45,7 +45,7 @@ defineOptions({
   name: 'Slider',
 });
 const props = withDefaults(defineProps<SliderProps>(), {
-  modelValue: void 0,
+  modelValue: undefined,
   defaultValue: 0,
   step: 1,
   min: 0,

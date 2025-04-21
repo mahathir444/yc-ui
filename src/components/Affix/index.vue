@@ -30,17 +30,20 @@ import {
 } from 'vue';
 import { AffixProps } from './type';
 import { useResizeObserver } from '@vueuse/core';
-import { isUndefined } from '@shared/utils';
-import { getElement } from '@shared/utils';
+import {
+  isUndefined,
+  findFirstScrollableParent,
+  getElement,
+} from '@shared/utils';
 import { throttleByRaf } from '@shared/utils';
 defineOptions({
   name: 'Affix',
 });
 const props = withDefaults(defineProps<AffixProps>(), {
   offsetTop: 0,
-  offsetBottom: void 0,
-  target: () => window,
-  targetContainer: '',
+  offsetBottom: undefined,
+  target: undefined,
+  targetContainer: undefined,
 });
 const {
   target: _target,
@@ -48,14 +51,22 @@ const {
   offsetTop,
   offsetBottom,
 } = toRefs(props);
-// target
-const target = ref<HTMLElement>();
-// targetContainer
-const targetContainer = ref<HTMLElement>();
 // affixRef
 const affixRef = ref<HTMLDivElement>();
 // wrapperRef
 const wrapperRef = ref<HTMLDivElement>();
+// target
+const target = computed(() => {
+  return isUndefined(_target.value)
+    ? findFirstScrollableParent(affixRef.value)
+    : getElement(_target.value);
+});
+// 目标
+const targetContainer = computed(() => {
+  return isUndefined(_targetContainer.value)
+    ? findFirstScrollableParent(affixRef.value)
+    : getElement(_targetContainer.value);
+});
 // 是否固定
 const isFixed = ref<boolean>(false);
 // 固定样式
@@ -95,8 +106,6 @@ const handleScroll = throttleByRaf(() => {
   }
 });
 onMounted(() => {
-  target.value = getElement(_target.value as string);
-  targetContainer.value = getElement(_targetContainer.value);
   target.value?.addEventListener('scroll', handleScroll);
 });
 onBeforeUnmount(() => {

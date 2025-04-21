@@ -3,6 +3,7 @@
     <div
       v-show="curScroll >= visibleHeight"
       class="yc-back-top"
+      ref="buttonRef"
       @click="handleTop"
     >
       <slot>
@@ -15,10 +16,14 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, toRefs, onMounted, onBeforeUnmount } from 'vue';
+import { ref, toRefs, computed, onMounted, onBeforeUnmount } from 'vue';
 import { BackTopProps } from './type';
 import { IconToTop } from '@shared/icons';
-import { getElement } from '@shared/utils';
+import {
+  getElement,
+  isUndefined,
+  findFirstScrollableParent,
+} from '@shared/utils';
 import { useConfigProvder } from '@shared/hooks';
 import BTween from 'b-tween';
 import YcButton from '@/components/Button';
@@ -34,33 +39,38 @@ const props = withDefaults(defineProps<BackTopProps>(), {
 const { targetContainer: _targetContainer, easeing, duration } = toRefs(props);
 // 接收configProvier的属性
 const { zIndex } = useConfigProvder(props);
+// buttonRef
+const buttonRef = ref<HTMLDivElement>();
 // 当前的滚动
 const curScroll = ref<number>(0);
 // 目标
-const target = ref<HTMLElement>();
+const targetContainer = computed(() => {
+  return isUndefined(_targetContainer.value)
+    ? findFirstScrollableParent(buttonRef.value)
+    : getElement(_targetContainer.value);
+});
 // 处理滚动
 const handleScroll = () => {
-  curScroll.value = target.value!.scrollTop;
+  curScroll.value = targetContainer.value!.scrollTop;
 };
 // 处理回到顶部
 const handleTop = () => {
-  if (!target.value) return;
+  if (!targetContainer.value) return;
   new BTween({
-    from: { scroll: target.value.scrollTop },
+    from: { scroll: targetContainer.value.scrollTop },
     to: { scroll: 0 },
     duration: duration.value,
     easing: easeing.value,
     onUpdate: (current: any) => {
-      target.value!.scrollTop = current.scroll;
+      targetContainer.value!.scrollTop = current.scroll;
     },
   }).start();
 };
 onMounted(() => {
-  target.value = getElement(_targetContainer.value) as HTMLElement;
-  target.value?.addEventListener('scroll', handleScroll);
+  targetContainer.value?.addEventListener('scroll', handleScroll);
 });
 onBeforeUnmount(() => {
-  target.value?.removeEventListener('scroll', handleScroll);
+  targetContainer.value?.removeEventListener('scroll', handleScroll);
 });
 </script>
 

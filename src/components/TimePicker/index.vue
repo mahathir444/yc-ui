@@ -146,13 +146,13 @@ defineOptions({
 dayjs.extend(isSameOrBefore);
 const props = withDefaults(defineProps<TimePickerProps>(), {
   type: 'time-range',
-  size: void 0,
+  size: undefined,
   format: 'HH:mm:ss',
   defaultPopupVisible: false,
-  popupVisible: void 0,
+  popupVisible: undefined,
   position: 'tl',
   unmountOnClose: false,
-  modelValue: void 0,
+  modelValue: undefined,
   defaultValue: '',
   disableConfirm: false,
   disabledHours: () => [],
@@ -333,7 +333,7 @@ const hanInput = (e: any) => {
 };
 const hanClear = () => {
   if (props.readonly) return;
-  const v = void 0;
+  const v = undefined;
   cValue.value = props.type === 'time' ? v : ([v, v] as any);
   inputValue.value = [{}, {}];
   emit('clear');

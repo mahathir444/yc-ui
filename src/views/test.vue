@@ -61,15 +61,15 @@
               </yc-anchor>
             </a-affix>
           </div>
-          <div style="height: 500px" id="basic" class="target"></div>
+          <div style="height: 100vh" id="basic" class="target"></div>
           <div
-            style="height: 500px; background-color: aqua"
+            style="height: 100vh; background-color: aqua"
             id="line-less"
             class="target"
           ></div>
-          <div style="height: 500px" id="affix" class="target"></div>
-          <div style="height: 500px" id="boundary" class="target"></div>
-          <div style="height: 500px" id="hash" class="target"></div>
+          <div style="height: 100vh" id="affix" class="target"></div>
+          <div style="height: 100vh" id="boundary" class="target"></div>
+          <div style="height: 100vh" id="hash" class="target"></div>
         </div>
       </yc-layout-content>
     </yc-layout>

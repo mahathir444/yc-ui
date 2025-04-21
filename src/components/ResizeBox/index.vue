@@ -192,7 +192,7 @@ useEventListener('mousemove', (e) => {
 });
 useEventListener('mouseup', (e) => {
   if (!resizingDrigger.value) return;
-  resizingDrigger.value = void 0;
+  resizingDrigger.value = undefined;
   document.body.style.cursor = defaultCursor;
   emits('moving-end', e);
 });

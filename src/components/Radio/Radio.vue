@@ -51,7 +51,7 @@ defineOptions({
   name: 'Radio',
 });
 const props = withDefaults(defineProps<RadioProps>(), {
-  modelValue: void 0,
+  modelValue: undefined,
   defaultChecked: false,
   disabled: false,
   value: true,

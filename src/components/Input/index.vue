@@ -72,14 +72,14 @@ defineOptions({
   name: 'Input',
 });
 const props = withDefaults(defineProps<InputProps>(), {
-  modelValue: void 0,
+  modelValue: undefined,
   defaultValue: '',
-  size: void 0,
+  size: undefined,
   allowClear: false,
   disabled: false,
   readonly: false,
-  error: void 0,
-  maxLength: void 0,
+  error: undefined,
+  maxLength: undefined,
   showWordLimit: false,
   placeholder: '',
   inputAttrs: () => {
@@ -93,7 +93,7 @@ const props = withDefaults(defineProps<InputProps>(), {
   },
   // password
   isPassword: false,
-  visibility: void 0,
+  visibility: undefined,
   defaultVisibility: false,
   invisibleButton: true,
   // search

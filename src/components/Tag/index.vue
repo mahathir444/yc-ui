@@ -52,18 +52,18 @@ defineOptions({
 });
 const props = withDefaults(defineProps<TagProps>(), {
   color: 'default',
-  size: void 0,
+  size: undefined,
   bordered: false,
   loading: false,
   closeable: false,
   checkable: false,
-  visible: void 0,
+  visible: undefined,
   defaultVisible: true,
-  checked: void 0,
+  checked: undefined,
   defaultChecked: true,
   nowrap: false,
   preventFocus: false,
-  tagIndex: void 0,
+  tagIndex: undefined,
 });
 const emits = defineEmits<{
   (e: 'update:visible', value: boolean): void;

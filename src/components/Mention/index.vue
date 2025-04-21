@@ -45,7 +45,7 @@ defineOptions({
   name: 'Mention',
 });
 const props = withDefaults(defineProps<MentionProps>(), {
-  modelValue: void 0,
+  modelValue: undefined,
   defaultValue: '',
   data: () => [],
   prefix: '@',

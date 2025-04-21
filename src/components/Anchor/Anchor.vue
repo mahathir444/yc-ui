@@ -83,7 +83,9 @@ provide<AnchorProvide>(ANCHOR_PROVIDE_KEY, {
   curHref,
   scrollContainer,
 });
+
 onMounted(() => {
+  if (!hrefs.value.length) return;
   curHref.value = hrefs.value[0];
   linkRefs.value = [
     ...(listRef.value!.querySelectorAll(

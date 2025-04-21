@@ -77,13 +77,13 @@ defineOptions({
   name: 'AutoComplete',
 });
 const props = withDefaults(defineProps<AutoCompleteProps>(), {
-  modelValue: void 0,
+  modelValue: undefined,
   defaultValue: '',
   disabled: false,
   data: () => [],
-  popupContainer: void 0,
+  popupContainer: undefined,
   strict: false,
-  filterOption: void 0,
+  filterOption: undefined,
   triggerProps: () => {
     return {};
   },

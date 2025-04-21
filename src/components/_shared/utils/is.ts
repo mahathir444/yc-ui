@@ -19,7 +19,7 @@ export function isNull(value: unknown): value is null {
 
 // 检查给定的值是否是 undefined
 export function isUndefined(value: unknown): value is undefined {
-  return value === void 0; // void 0 始终返回 undefined
+  return value === undefined; // undefined 始终返回 undefined
 }
 
 // 检查给定的值是否是 NaN

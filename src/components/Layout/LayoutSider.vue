@@ -66,13 +66,13 @@ defineOptions({
 });
 const props = withDefaults(defineProps<LayoutSiderProps>(), {
   theme: 'light',
-  collapsed: void 0,
+  collapsed: undefined,
   defaultCollapsed: false,
   collapsible: false,
   width: 200,
   collapsedWidth: 48,
   reverseArrow: false,
-  breakpoint: void 0,
+  breakpoint: undefined,
   hideTrigger: false,
   resizeDirections: () => {
     return [];
