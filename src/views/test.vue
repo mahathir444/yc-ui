@@ -46,7 +46,7 @@
               target-container=".content"
               target=".content"
             >
-              <yc-anchor :change-hash="false" boundary="end" line-less>
+              <yc-anchor :change-hash="false" :boundary="30" line-less>
                 <yc-anchor-link href="#basic">Basic</yc-anchor-link>
                 <yc-anchor-link href="#line-less">LineLess Mode</yc-anchor-link>
                 <yc-anchor-link href="#affix">

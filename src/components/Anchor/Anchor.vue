@@ -16,27 +16,26 @@
 
 <script lang="ts" setup>
 import { computed, onMounted, ref, toRefs, provide } from 'vue';
+import { AnchorProps } from './type';
 import { ANCHOR_PROVIDE_KEY } from '@shared/constants';
+import { getElement, findFirstScrollableParent } from '@shared/utils';
 defineOptions({
   name: 'Anchor',
 });
-const props = withDefaults(
-  defineProps<{
-    boundary?: 'start' | 'end' | 'center' | 'nearest' | number;
-    lineLess?: boolean;
-    scrollContainer?: string | HTMLElement | Window;
-    changeHash?: boolean;
-    smooth?: boolean;
-  }>(),
-  {
-    boundary: 'start',
-    lineLess: false,
-    scrollContainer: () => window,
-    changeHash: true,
-    smooth: true,
-  }
-);
-const { changeHash, smooth, boundary, lineLess } = toRefs(props);
+const props = withDefaults(defineProps<AnchorProps>(), {
+  boundary: 'start',
+  lineLess: false,
+  scrollContainer: '',
+  changeHash: true,
+  smooth: true,
+});
+const {
+  changeHash,
+  smooth,
+  boundary,
+  lineLess,
+  scrollContainer: _scrollContainer,
+} = toRefs(props);
 // 获取listRef
 const listRef = ref<HTMLDivElement>();
 // listRef
@@ -63,6 +62,8 @@ const top = computed(() => {
   console.log(offset, 'offset');
   return offset + curIndex * 2;
 });
+// 滚动容器
+const scrollContainer = ref<HTMLElement | null>(null);
 // 提供属性
 provide(ANCHOR_PROVIDE_KEY, {
   hrefs,
@@ -72,6 +73,7 @@ provide(ANCHOR_PROVIDE_KEY, {
   boundary,
   lineLess,
   curHref,
+  scrollContainer,
 });
 onMounted(() => {
   curHref.value = hrefs.value[0];
@@ -80,6 +82,9 @@ onMounted(() => {
       '.yc-anchor-link'
     ) as NodeListOf<HTMLDivElement>),
   ];
+  scrollContainer.value = _scrollContainer.value
+    ? getElement(_scrollContainer.value as string)!
+    : findFirstScrollableParent(listRef.value as HTMLDivElement);
 });
 </script>
 

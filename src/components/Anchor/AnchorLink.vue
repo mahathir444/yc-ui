@@ -20,52 +20,70 @@
 <script lang="ts" setup>
 import { ref, toRefs, inject } from 'vue';
 import { isNumber } from '@shared/utils';
+import { AnchorLinkProps } from './type';
 import { ANCHOR_PROVIDE_KEY } from '@shared/constants';
 defineOptions({
   name: 'AnchorLink',
 });
-const props = withDefaults(
-  defineProps<{
-    title?: string;
-    href?: string;
-  }>(),
-  {
-    title: '',
-    href: '',
-  }
-);
+const props = withDefaults(defineProps<AnchorLinkProps>(), {
+  title: '',
+  href: '',
+});
 const { href } = toRefs(props);
 // 获取属性
-const { smooth, boundary, changeHash, curHref, hrefs, order, lineLess } =
-  inject(ANCHOR_PROVIDE_KEY, {
-    hrefs: ref<string[]>([]),
-    order: ref(0),
-    changeHash: ref(true),
-    smooth: ref(true),
-    boundary: ref('start'),
-    curHref: ref(''),
-    lineLess: ref(false),
-  });
+const {
+  smooth,
+  boundary,
+  changeHash,
+  curHref,
+  hrefs,
+  order,
+  lineLess,
+  scrollContainer,
+} = inject(ANCHOR_PROVIDE_KEY, {
+  hrefs: ref<string[]>([]),
+  order: ref(0),
+  changeHash: ref(true),
+  smooth: ref(true),
+  boundary: ref('start'),
+  curHref: ref(''),
+  lineLess: ref(false),
+  scrollContainer: ref<HTMLElement | null>(null),
+});
 // 初始化收集herfs
-hrefs.value[order.value] = href.value;
-order.value++;
+const collectHref = () => {
+  hrefs.value[order.value] = href.value;
+  order.value++;
+};
 // 处理点击
 const handleClick = (e: MouseEvent) => {
+  curHref.value = href.value;
   if (!changeHash.value) {
     e.preventDefault();
-    const dom = document.querySelector(href.value) as HTMLDivElement;
-    if (dom) {
-      if (isNumber(boundary.value)) {
-      } else {
-        dom.scrollIntoView({
-          block: boundary.value as any,
-          behavior: smooth.value ? 'smooth' : 'auto',
-        });
-      }
+    const anchorDom = document.querySelector(href.value) as HTMLDivElement;
+    if (!anchorDom) return;
+    if (isNumber(boundary.value) && scrollContainer.value) {
+      const targetRect = anchorDom.getBoundingClientRect();
+      const containerRect = scrollContainer.value.getBoundingClientRect();
+      const verticalPosition =
+        targetRect.top -
+        containerRect.top +
+        scrollContainer.value.scrollTop -
+        boundary.value;
+      scrollContainer.value.scrollTo({
+        top: verticalPosition,
+        behavior: 'smooth',
+      });
+    } else {
+      anchorDom.scrollIntoView({
+        block: boundary.value as any,
+        behavior: smooth.value ? 'smooth' : 'auto',
+      });
     }
   }
-  curHref.value = href.value;
 };
+
+collectHref();
 </script>
 
 <style lang="less" scoped>
