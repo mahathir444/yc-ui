@@ -4,6 +4,10 @@ export type Size = 'mini' | 'small' | 'medium' | 'large';
 
 export type Direction = 'vertical' | 'horizontal';
 
+export type TargetContainer = string | HTMLElement;
+
+export type PopupContainer = string | HTMLElement;
+
 export type ClassName =
   | string
   | Record<string, boolean>
@@ -14,10 +18,6 @@ export type RenderContent = string | RenderFunction;
 export type Fn = (...args: any) => any;
 
 export type ObjectData = Record<string, any>;
-
-export type TargetContainer = string | HTMLElement;
-
-export type PopupContainer = string | HTMLElement;
 
 export type IconProps = {
   strokeWidth?: number;

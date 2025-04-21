@@ -95,7 +95,7 @@ const prefixTexts = computed(() => {
     : data.value.map((op) => prefix.value + (op as ObjectData).value);
 });
 // 记录光标位置
-const { recordCursor, getCursor: _getCursor } = useCursor(inputRef);
+const { recordCursor, getCursor: _getCursor, setCursor } = useCursor(inputRef);
 // 是否匹配前缀
 const isMatchPrefix = (ch: string) => {
   return isArray(prefix.value) ? prefix.value.includes(ch) : prefix.value == ch;
@@ -178,6 +178,9 @@ const handleEvent = async (
             value +
             computedValue.value.slice(cursor);
         }
+        const newCursor = cursor + value.toString().length;
+        inputRef.value?.setSelectionRange(newCursor, newCursor);
+        await nextTick();
         updatePopPosition(ev as KeyboardEvent, true);
       }
       break;

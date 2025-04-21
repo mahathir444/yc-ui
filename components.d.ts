@@ -123,6 +123,7 @@ declare module 'vue' {
     Space: typeof import('./src/components/Space/index.vue')['default']
     Spin: typeof import('./src/components/Spin/index.vue')['default']
     SpinIcon: typeof import('./src/components/Spin/component/SpinIcon.vue')['default']
+    Split: typeof import('./src/components/Split/index.vue')['default']
     Switch: typeof import('./src/components/Switch/index.vue')['default']
     Tag: typeof import('./src/components/Tag/index.vue')['default']
     TagOverflowList: typeof import('./src/components/InputTag/component/TagOverflowList.vue')['default']
