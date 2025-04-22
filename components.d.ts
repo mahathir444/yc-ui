@@ -16,6 +16,7 @@ declare module 'vue' {
     Anchor: typeof import('./src/components/Anchor/Anchor.vue')['default']
     AnchorLink: typeof import('./src/components/Anchor/AnchorLink.vue')['default']
     ASlider: typeof import('@arco-design/web-vue')['Slider']
+    ASplit: typeof import('@arco-design/web-vue')['Split']
     AutoComplete: typeof import('./src/components/AutoComplete/index.vue')['default']
     AWatermark: typeof import('@arco-design/web-vue')['Watermark']
     BackTop: typeof import('./src/components/BackTop/index.vue')['default']

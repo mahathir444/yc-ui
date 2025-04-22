@@ -4,69 +4,34 @@
     <yc-layout class="main">
       <yc-layout-header class="header"> </yc-layout-header>
       <yc-layout-content class="content">
-        <div class="inner">
-          <!-- <yc-watermark content="李银超" grayscale>
-          <div
-            style="
-              width: 500px;
-              height: 500px;
-              display: flex;
-              justify-content: center;
-              align-items: center;
-            "
-          >
-            <h2>受保护的内容区域</h2>
-            <p>这里的内容会被添加水印保护</p>
-            <p>支持文字和图片两种水印类型</p>
-            <p>可以调整各种水印参数</p>
-          </div>
-        </yc-watermark> -->
-          <div style="display: flex; gap: 20px">
-            <a-affix
-              :offset-top="0"
-              target-container=".content"
-              target=".content"
-            >
-              <a-anchor :change-hash="false" :boundary="30">
-                <a-anchor-link href="#basic" title="1231"></a-anchor-link>
-                <a-anchor-link href="#line-less">LineLess Mode</a-anchor-link>
-                <a-anchor-link href="#affix">
-                  Affix
-                  <template #sublist>
-                    <a-anchor-link href="#boundary"
-                      >Scroll Boundary</a-anchor-link
-                    >
-                    <a-anchor-link href="#hash">Hash mode</a-anchor-link>
-                  </template>
-                </a-anchor-link>
-              </a-anchor>
-            </a-affix>
-            <yc-affix :offset-top="0">
-              <yc-anchor :change-hash="false" :boundary="30" line-less>
-                <yc-anchor-link href="#basic">Basic</yc-anchor-link>
-                <yc-anchor-link href="#line-less">LineLess Mode</yc-anchor-link>
-                <yc-anchor-link href="#affix">
-                  Affix
-                  <template #sublist>
-                    <yc-anchor-link href="#boundary"
-                      >Scroll Boundary</yc-anchor-link
-                    >
-                    <yc-anchor-link href="#hash">Hash mode</yc-anchor-link>
-                  </template>
-                </yc-anchor-link>
-              </yc-anchor>
-            </yc-affix>
-          </div>
-          <div style="height: 100vh" id="basic" class="target"></div>
-          <div
-            style="height: 100vh; background-color: aqua"
-            id="line-less"
-            class="target"
-          ></div>
-          <div style="height: 100vh" id="affix" class="target"></div>
-          <div style="height: 100vh" id="boundary" class="target"></div>
-          <div style="height: 100vh" id="hash" class="target"></div>
-        </div>
+        <a-split
+          v-model:size="size"
+          :min="0.1"
+          :max="0.9"
+          direction="vertical"
+          style="height: 600px; width: 100%"
+        >
+          <template #first>
+            <div style="background-color: aqua; height: 100%"></div>
+          </template>
+          <template #second>
+            <div style="background-color: bisque; height: 100%"></div>
+          </template>
+        </a-split>
+        <yc-split
+          v-model:size="size"
+          :min="0.2"
+          :max="0.7"
+          direction="vertical"
+          style="height: 600px; width: 100%"
+        >
+          <template #first>
+            <div style="background-color: aqua; height: 100%"></div>
+          </template>
+          <template #second>
+            <div style="background-color: bisque; height: 100%"></div>
+          </template>
+        </yc-split>
       </yc-layout-content>
     </yc-layout>
   </yc-layout>
@@ -81,6 +46,8 @@ const options = Array(8)
     value: `option${index + 1}`,
     label: `Option ${index + 1}`,
   }));
+
+const size = ref(0.7);
 </script>
 
 <style lang="less" scoped>
@@ -94,22 +61,6 @@ const options = Array(8)
       border-bottom: 1px solid rgb(229, 230, 235);
     }
     .content {
-      overflow: auto;
-
-      .inner {
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-
-        .yc-anchor {
-          flex-shrink: 0;
-        }
-        .target {
-          width: 100%;
-          flex-shrink: 0;
-        }
-      }
     }
   }
 }

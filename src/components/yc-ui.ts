@@ -58,6 +58,7 @@ import {
 import ConfigProvider from './ConfigProvider';
 import Watermark from './Watermark';
 import { default as Anchor, AnchorLink } from './Anchor';
+import Split from './Split';
 
 export const components: Record<string, Plugin> = {
   Button,
@@ -108,6 +109,7 @@ export const components: Record<string, Plugin> = {
   Watermark,
   ConfigProvider,
   Anchor,
+  Split,
 };
 
 console.log('components：', Object.keys(components).length);

@@ -11,6 +11,8 @@ export const SLIDER_DIRECTION_MAP = getComponentDirectionMap('yc-slider');
 
 export const SPACE_DIRECTION_MAP = getComponentDirectionMap('yc-space');
 
+export const SPLIT_DIRECTION_MAP = getComponentDirectionMap('yc-split');
+
 // 内部组件
 export const TRACK_DIRECTION_MAP =
   getComponentDirectionMap('yc-scrollbar-track');
