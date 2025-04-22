@@ -6,10 +6,11 @@
       <yc-layout-content class="content">
         <a-split
           v-model:size="size"
-          :min="0.1"
-          :max="0.9"
-          direction="vertical"
-          style="height: 600px; width: 100%"
+          :min="0.2"
+          :max="0.7"
+          :component="'span'"
+          direction="horizontal"
+          style="height: 400px; width: 100%"
         >
           <template #first>
             <div style="background-color: aqua; height: 100%"></div>
@@ -22,8 +23,8 @@
           v-model:size="size"
           :min="0.2"
           :max="0.7"
-          direction="vertical"
-          style="height: 600px; width: 100%"
+          direction="horizontal"
+          style="height: 400px; width: 100%"
         >
           <template #first>
             <div style="background-color: aqua; height: 100%"></div>

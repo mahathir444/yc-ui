@@ -4,7 +4,7 @@
     <div
       class="yc-split-pane yc-split-pane-first"
       :style="{
-        flex: `0 0 calc(${rate} - 3px)`,
+        flex: `0 0 calc(${rate} - ${(triggerRef?.offsetWidth || 0) / 2}px)`,
       }"
     >
       <slot name="first" />
@@ -70,7 +70,7 @@ const emits = defineEmits<{
 }>();
 const { size, defaultSize, direction, min, max } = toRefs(props);
 // 比例模式
-let numberType: 'rate' | 'value' = 'rate';
+let valueType: string = 'rate';
 // 容器ref
 const splitRef = ref<HTMLDivElement>();
 // 触发器
@@ -87,7 +87,7 @@ const computedSize = useControlValue<number>(size, defaultSize.value, (val) => {
 });
 const rate = computed(() => {
   const value =
-    numberType == 'rate' ? computedSize.value : getRate(computedSize.value);
+    valueType == 'rate' ? computedSize.value : getRate(computedSize.value);
   return value * 100 + '%';
 });
 // 获取具体的数值
@@ -100,6 +100,7 @@ const getRate = (value: number) => {
   const base = direction.value == 'horizontal' ? width.value : height.value;
   return value / base;
 };
+// 处理拖动
 useEventListener('mousemove', () => {
   if (!isDragging.value) return;
   emits('moving');
@@ -110,16 +111,14 @@ useEventListener('mousemove', () => {
     x.value = x.value < minValue ? minValue : x.value;
     x.value = x.value > maxValue ? maxValue : x.value;
     computedSize.value =
-      numberType == 'value'
+      valueType == 'value'
         ? x.value - left.value
         : getRate(x.value - left.value);
   } else {
     y.value = y.value < minValue ? minValue : y.value;
     y.value = y.value > maxValue ? maxValue : y.value;
     computedSize.value =
-      numberType == 'value'
-        ? y.value - top.value
-        : getRate(y.value - top.value);
+      valueType == 'value' ? y.value - top.value : getRate(y.value - top.value);
   }
 });
 // 检测值的改变
@@ -137,55 +136,11 @@ watch(
 // 计算初始位置
 onMounted(async () => {
   await sleep(0);
-  numberType = computedSize.value > 1 ? 'value' : 'rate';
   x.value = left.value + getValue(computedSize.value);
   y.value = top.value + getValue(computedSize.value);
 });
 </script>
 
 <style lang="less" scoped>
-.yc-split {
-  display: flex;
-  .yc-split-pane {
-    overflow: auto;
-  }
-  .yc-split-pane-second {
-    flex: 1;
-  }
-
-  .yc-split-trigger {
-    .yc-split-trigger-icon-wrapper {
-      color: rgb(29, 33, 41);
-      font-size: 12px;
-      line-height: 1;
-      background-color: rgb(229, 230, 235);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-
-      .yc-split-trigger-icon {
-        margin: 0 -3px;
-      }
-    }
-  }
-}
-// direction
-.yc-split-direction-horizontal {
-  flex-direction: row;
-  .yc-split-trigger {
-    cursor: col-resize;
-    .yc-split-trigger-icon-wrapper {
-      height: 100%;
-    }
-  }
-}
-.yc-split-direction-vertical {
-  flex-direction: column;
-  .yc-split-trigger {
-    cursor: row-resize;
-    .yc-split-trigger-icon-wrapper {
-      width: 100%;
-    }
-  }
-}
+@import './style/split.less';
 </style>
