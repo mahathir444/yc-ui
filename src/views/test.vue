@@ -1,6 +1,16 @@
 <template>
   <yc-layout class="container">
-    <yc-layout-sider collapsible theme="dark"></yc-layout-sider>
+    <yc-layout-sider>
+      <yc-menu>
+        <yc-sub-menu title="分组1">
+          <yc-menu-item path="0_1-1" disabled>分组子菜单1</yc-menu-item>
+          <yc-menu-item path="0_2-2">分组子菜单2</yc-menu-item>
+          <yc-menu-item path="0_0-3"> 分组子菜单3 </yc-menu-item>
+        </yc-sub-menu>
+        <yc-menu-item path="0_1" disabled>Menu 2</yc-menu-item>
+        <yc-menu-item path="0_2">Menu 3</yc-menu-item>
+      </yc-menu>
+    </yc-layout-sider>
     <yc-layout class="main">
       <yc-layout-header class="header"> </yc-layout-header>
       <yc-layout-content class="content">
@@ -57,6 +67,7 @@ const size = ref(0.7);
 
   .main {
     overflow: hidden;
+    background-color: rgb(242, 243, 245);
     .header {
       height: 60px;
       border-bottom: 1px solid rgb(229, 230, 235);

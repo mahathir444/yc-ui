@@ -59,6 +59,7 @@ import ConfigProvider from './ConfigProvider';
 import Watermark from './Watermark';
 import { default as Anchor, AnchorLink } from './Anchor';
 import Split from './Split';
+import { default as Menu, MenuItem } from './Menu';
 
 export const components: Record<string, Plugin> = {
   Button,
@@ -110,6 +111,7 @@ export const components: Record<string, Plugin> = {
   ConfigProvider,
   Anchor,
   Split,
+  Menu,
 };
 
 console.log('components：', Object.keys(components).length);
@@ -135,6 +137,7 @@ export default {
   LayoutSider,
   LayoutContent,
   AnchorLink,
+  MenuItem,
   install: (app: App) => {
     for (const key of Object.keys(components)) {
       app.use(components[key]);
