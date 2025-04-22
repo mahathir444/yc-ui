@@ -2,13 +2,24 @@
   <div
     :class="{
       'yc-menu-inline': true,
-      // 'yc-menu-selected': computedSelectedKeys.includes(path),
+      'yc-menu-selected': childKeys.includes(computedSelectedKeys),
     }"
   >
     <div class="yc-menu-inline-header" @click="handleClick">
       <div v-if="$slots.icon" class="yc-menu-icon">
         <slot name="icon" />
       </div>
+      <span v-if="subMenuLevel" class="yc-menu-indent-list">
+        <div
+          v-for="i in subMenuLevel"
+          :key="i"
+          class="yc-menu-indent"
+          :style="{
+            width: levelIndent + 'px',
+            height: levelIndent + 'px',
+          }"
+        ></div>
+      </span>
       <div class="yc-menu-title">
         <slot name="title">
           {{ title }}
@@ -31,7 +42,7 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, inject, toRefs } from 'vue';
+import { ref, inject, provide, toRefs } from 'vue';
 import { IconArrowDown, IconArrowUp } from '@shared/icons';
 defineOptions({
   name: 'SubMenu',
@@ -49,15 +60,32 @@ const props = withDefaults(
   }
 );
 const { path } = toRefs(props);
-// 接收父级注入的属性
-const { computedSelectedKeys, computedOpenKeys, emits } = inject('menu-props', {
-  computedSelectedKeys: ref(''),
-  computedOpenKeys: ref<string[]>([]),
-  emits: (() => {}) as any,
+// 接收
+const { childKeys, level } = inject('sub-menu-props', {
+  childKeys: ref<string[]>([]),
+  level: ref<number>(1),
 });
-// 子级的key
-const childKeys = ref<string[]>([]);
-
+// 当前的level
+const subMenuLevel = level.value - 1;
+// 子级的level
+const childLevel = level.value++;
+// 继续注入
+provide('sub-menu-props', {
+  childKeys,
+  level,
+  childLevel,
+});
+// 接收父级注入的属性
+const { computedSelectedKeys, computedOpenKeys, levelIndent, emits } = inject(
+  'menu-props',
+  {
+    computedSelectedKeys: ref(''),
+    computedOpenKeys: ref<string[]>([]),
+    levelIndent: ref(20),
+    emits: (() => {}) as any,
+  }
+);
+// 处理子菜单点击
 const handleClick = () => {
   const index = computedOpenKeys.value.findIndex((item) => item == path.value);
   if (index == -1) {
@@ -67,6 +95,7 @@ const handleClick = () => {
       (item) => item != path.value
     );
   }
+  emits('sub-menu-click', path.value, computedOpenKeys.value);
 };
 // 过渡时间
 const transitions: Record<string, any> = {
@@ -111,20 +140,23 @@ const transitions: Record<string, any> = {
     display: flex;
     align-items: center;
     gap: 16px;
-    .yc-menu-icon {
-      line-height: 1;
-    }
     &:not(.yc-menu-disabled) {
       &:hover {
         background-color: rgb(242, 243, 245);
       }
+    }
+    .yc-menu-icon {
+      line-height: 1;
+    }
+    .yc-menu-indent-list {
+      display: flex;
+      margin-right: -16px;
     }
     .yc-menu-title {
       flex: 1;
     }
   }
 }
-
 // 选中
 .yc-menu-selected {
   .yc-menu-inline-header {

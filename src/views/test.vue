@@ -2,10 +2,14 @@
   <yc-layout class="container">
     <yc-layout-sider>
       <yc-menu>
-        <yc-sub-menu title="分组1">
+        <yc-sub-menu title="分组1" path="12">
           <yc-menu-item path="0_1-1" disabled>分组子菜单1</yc-menu-item>
           <yc-menu-item path="0_2-2">分组子菜单2</yc-menu-item>
-          <yc-menu-item path="0_0-3"> 分组子菜单3 </yc-menu-item>
+          <yc-sub-menu title="分组2" path="123">
+            <yc-menu-item path="0_1-1-1" disabled>分组子菜单1</yc-menu-item>
+            <yc-menu-item path="0_2-2-2">分组子菜单2</yc-menu-item>
+            <yc-menu-item path="0_0-3-2"> 分组子菜单3 </yc-menu-item>
+          </yc-sub-menu>
         </yc-sub-menu>
         <yc-menu-item path="0_1" disabled>Menu 2</yc-menu-item>
         <yc-menu-item path="0_2">Menu 3</yc-menu-item>

@@ -10,6 +10,17 @@
     <div v-if="$slots.icon" class="yc-menu-icon">
       <slot name="icon" />
     </div>
+    <span v-if="childLevel > 0" class="yc-menu-indent-list">
+      <div
+        v-for="i in childLevel"
+        :key="i"
+        class="yc-menu-indent"
+        :style="{
+          width: levelIndent + 'px',
+          height: levelIndent + 'px',
+        }"
+      ></div>
+    </span>
     <div class="yc-menu-item-inner text-ellipsis">
       <slot />
     </div>
@@ -34,10 +45,17 @@ const props = withDefaults(
   }
 );
 const { path, disabled } = toRefs(props);
-// 接收属性
-const { computedSelectedKeys, emits } = inject('menu-props', {
+// 接收menu注入
+const { computedSelectedKeys, levelIndent, emits } = inject('menu-props', {
   computedSelectedKeys: ref(''),
+  levelIndent: ref(20),
   emits: (() => {}) as any,
+});
+// 接收submenu注入
+const { childKeys, childLevel } = inject('sub-menu-props', {
+  childKeys: ref<string[]>([]),
+  level: ref<number>(1),
+  childLevel: 0,
 });
 // 处理点击
 const handleClick = () => {
@@ -45,6 +63,13 @@ const handleClick = () => {
   computedSelectedKeys.value = path.value;
   emits('menu-item-click', path.value);
 };
+// 收集
+const collectKeys = () => {
+  if (!childKeys.value.includes(path.value)) {
+    childKeys.value.push(path.value);
+  }
+};
+collectKeys();
 </script>
 
 <style lang="less" scoped>
@@ -62,13 +87,17 @@ const handleClick = () => {
   display: flex;
   align-items: center;
   gap: 16px;
-  .yc-menu-icon {
-    line-height: 1;
-  }
   &:not(.yc-menu-disabled) {
     &:hover {
       background-color: rgb(242, 243, 245);
     }
+  }
+  .yc-menu-icon {
+    line-height: 1;
+  }
+  .yc-menu-indent-list {
+    display: flex;
+    margin-right: -16px;
   }
   .yc-menu-item-inner {
     flex: 1;

@@ -53,6 +53,8 @@ const emits = defineEmits<{
   (e: 'update:selectedKeys', value: string): void;
   (e: 'update:openKeys', value: string): void;
   (e: 'update:collapse', value: boolean): void;
+  (e: 'menu-item-click', key: string): void;
+  (e: 'sub-menu-click', key: string, openKeys: string[]): void;
 }>();
 const {
   selectedKeys,
