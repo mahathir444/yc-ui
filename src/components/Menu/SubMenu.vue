@@ -1,7 +1,12 @@
 <template>
-  <div class="yc-menu-inline">
-    <!-- :disabled="computedCollapsed" -->
-    <yc-popover position="lt">
+  <yc-popover
+    position="lt"
+    :disabled="computedCollapsed"
+    :content-style="{
+      padding: '0',
+    }"
+  >
+    <div class="yc-menu-inline">
       <yc-menu-item
         is-submenu
         class="yc-menu-inline-header"
@@ -22,20 +27,18 @@
           </slot>
         </template>
       </yc-menu-item>
-      <template #content>
-        <slot />
-      </template>
-    </yc-popover>
-    <!-- 过渡 -->
-    <expand-transition>
-      <div
-        v-show="computedOpenKeys.includes(path) && !computedCollapsed"
-        class="yc-menu-inline-content"
-      >
-        <slot />
-      </div>
-    </expand-transition>
-  </div>
+      <!-- 过渡 -->
+      <expand-transition>
+        <div
+          v-show="computedOpenKeys.includes(path) && !computedCollapsed"
+          class="yc-menu-inline-content"
+        >
+          <slot />
+        </div>
+      </expand-transition>
+    </div>
+    <template #content> </template>
+  </yc-popover>
 </template>
 
 <script lang="ts" setup>

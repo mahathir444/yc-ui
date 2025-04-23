@@ -20,7 +20,12 @@
       <slot name="icon" />
     </div>
     <!-- content -->
-    <div class="yc-menu-item-title text-ellipsis">
+    <div
+      class="yc-menu-item-title text-ellipsis"
+      :style="{
+        width: computedCollapsed ? 0 : '',
+      }"
+    >
       <slot />
     </div>
     <!-- suffix -->
