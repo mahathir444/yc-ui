@@ -2,20 +2,30 @@
   <div
     :class="['yc-menu', MENU_DIRECTION_MAP[mode]]"
     :style="{
-      width: collapsed ? `${collapsedWidth}px` : '100%',
+      width: computedCollapsed ? `${collapsedWidth}px` : '',
     }"
   >
     <div class="yc-menu-inner">
       <slot />
     </div>
+    <div
+      v-if="showCollapseButton"
+      class="yc-menu-collapse-button"
+      @click="handleClick"
+    >
+      <icon-menu-fold v-if="!computedCollapsed" />
+      <icon-menu-unfold v-else />
+    </div>
   </div>
 </template>
 
 <script lang="ts" setup>
-import { ref, provide, toRefs } from 'vue';
-import { BreakpointName } from '@/components/Grid';
-import { MENU_DIRECTION_MAP } from '@shared/constants';
+import { provide, toRefs } from 'vue';
+import { MenuProvide, MenuEmits } from './type';
 import { Direction } from '@shared/type';
+import { BreakpointName } from '@/components/Grid';
+import { MENU_DIRECTION_MAP, MENU_PROVIDE_KEY } from '@shared/constants';
+import { IconMenuFold, IconMenuUnfold } from '@shared/icons';
 import { useControlValue } from '@shared/hooks';
 import { mediaQueryHandler } from '@shared/utils';
 defineOptions({
@@ -25,37 +35,40 @@ const props = withDefaults(
   defineProps<{
     theme?: 'light' | 'dark';
     mode?: Direction;
+    levelIndent?: number;
+    autoOpen?: boolean;
+    collapsed?: boolean;
+    defaultCollapsed?: boolean;
+    collapsedWidth?: number;
+    accordion?: boolean;
+    autoScrollIntoView?: boolean;
+    showCollapseButton?: boolean;
     selectedKeys?: string;
     defaultSelectedKeys?: string;
     openKeys?: string[];
     defaultOpenKeys?: string[];
-    levelIndent?: number;
-    collapsed?: boolean;
-    defaultCollapsed?: boolean;
-    collapsedWidth?: number;
     breakpoint?: BreakpointName;
   }>(),
   {
     theme: 'light',
     mode: 'vertical',
+    levelIndent: 20,
+    autoOpen: false,
+    collapsed: undefined,
+    defaultCollapsed: false,
+    collapsedWidth: 64,
+    accordion: false,
+    autoScrollIntoView: false,
+    showCollapseButton: false,
     selectedKeys: undefined,
     defaultSelectedKeys: '',
     openKeys: undefined,
     defaultOpenKeys: () => [],
-    levelIndent: 20,
-    collapsed: undefined,
-    defaultCollapsed: false,
-    collapsedWidth: 64,
     breakpoint: undefined,
   }
 );
-const emits = defineEmits<{
-  (e: 'update:selectedKeys', value: string): void;
-  (e: 'update:openKeys', value: string): void;
-  (e: 'update:collapse', value: boolean): void;
-  (e: 'menu-item-click', key: string): void;
-  (e: 'sub-menu-click', key: string, openKeys: string[]): void;
-}>();
+const emits = defineEmits<MenuEmits>();
+// 解构属性
 const {
   selectedKeys,
   defaultSelectedKeys,
@@ -80,7 +93,7 @@ const computedCollapsed = useControlValue<boolean>(
   collapsed,
   defaultCollapsed.value,
   (val) => {
-    emits('update:collapse', val);
+    emits('update:collapsed', val);
   }
 );
 // 展开的key
@@ -91,14 +104,18 @@ const computedOpenKeys = useControlValue<string[]>(
     emits('update:openKeys', val);
   }
 );
-
-provide('menu-props', {
+// 处理点击
+const handleClick = () => {
+  computedCollapsed.value = !computedCollapsed.value;
+};
+// 注入数据
+provide<MenuProvide>(MENU_PROVIDE_KEY, {
   computedSelectedKeys,
   computedOpenKeys,
+  computedCollapsed,
   levelIndent,
   emits,
 });
-
 // 媒体查询
 mediaQueryHandler((_, order, i) => {
   if (!breakpoint.value) return;
@@ -108,11 +125,31 @@ mediaQueryHandler((_, order, i) => {
 
 <style lang="less" scoped>
 .yc-menu {
+  position: relative;
+  transition: width 0.2s cubic-bezier(0.34, 0.69, 0.1, 1);
   .yc-menu-inner {
     padding: 4px 8px;
     width: 100%;
     height: 100%;
     overflow: auto;
+  }
+  .yc-menu-collapse-button {
+    cursor: pointer;
+    position: absolute;
+    right: 12px;
+    bottom: 12px;
+    width: 24px;
+    height: 24px;
+    border-radius: 2px;
+    font-size: 14px;
+    color: rgb(134, 144, 156);
+    background-color: rgb(247, 248, 250);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    &:hover {
+      background-color: rgb(229, 230, 235);
+    }
   }
 }
 // mode

@@ -34,7 +34,7 @@
       theme == 'light' ? 'yc-layout-sider-light' : 'yc-layout-sider-dark',
     ]"
     :style="{
-      width: width + 'px',
+      width: `${computedCollapsed ? collapsedWidth : width}px`,
     }"
   >
     <slot />

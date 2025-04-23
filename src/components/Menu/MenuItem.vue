@@ -17,38 +17,37 @@
     <div v-if="$slots.icon" class="yc-menu-icon">
       <slot name="icon" />
     </div>
-    <div class="yc-menu-item-inner text-ellipsis">
-      <slot />
-    </div>
+    <transition name="fade">
+      <div v-if="!computedCollapsed" class="yc-menu-item-inner text-ellipsis">
+        <slot />
+      </div>
+    </transition>
   </div>
 </template>
 
 <script lang="ts" setup>
-import { ref, reactive, toRefs, inject } from 'vue';
+import { ref, toRefs, inject } from 'vue';
+import { MenuItemProps, MenuProvide, SubMenuProvide } from './type';
+import { SUBMENU_PROVIDE_KEY, MENU_PROVIDE_KEY } from '@shared/constants';
 defineOptions({
   name: 'MenuItem',
 });
-const props = withDefaults(
-  defineProps<{
-    key?: string;
-    path?: string;
-    disabled?: boolean;
-  }>(),
-  {
-    key: '',
-    path: '',
-    disabled: false,
-  }
-);
+const props = withDefaults(defineProps<MenuItemProps>(), {
+  path: '',
+  disabled: false,
+});
 const { path, disabled } = toRefs(props);
 // 接收menu注入
-const { computedSelectedKeys, levelIndent, emits } = inject('menu-props', {
-  computedSelectedKeys: ref(''),
-  levelIndent: ref(20),
-  emits: (() => {}) as any,
-});
+const { computedSelectedKeys, computedCollapsed, levelIndent, emits } =
+  inject<MenuProvide>(MENU_PROVIDE_KEY, {
+    computedSelectedKeys: ref(''),
+    computedOpenKeys: ref([]),
+    levelIndent: ref(20),
+    computedCollapsed: ref(false),
+    emits: () => {},
+  });
 // 接收submenu注入
-const { childKeys, childLevel } = inject('sub-menu-props', {
+const { childKeys, childLevel } = inject<SubMenuProvide>(SUBMENU_PROVIDE_KEY, {
   childKeys: ref<string[]>([]),
   level: ref<number>(1),
   childLevel: 0,

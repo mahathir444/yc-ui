@@ -1,7 +1,11 @@
 <template>
   <yc-layout class="container">
-    <yc-layout-sider>
-      <yc-menu>
+    <yc-layout-sider
+      hide-trigger
+      v-model:collapsed="collapsed"
+      :collapsed-width="64"
+    >
+      <yc-menu v-model:collapsed="collapsed" show-collapse-button>
         <yc-sub-menu title="分组1" path="12">
           <yc-menu-item path="0_1-1" disabled>分组子菜单1</yc-menu-item>
           <yc-menu-item path="0_2-2">分组子菜单2</yc-menu-item>
@@ -62,6 +66,8 @@ const options = Array(8)
     label: `Option ${index + 1}`,
   }));
 
+const collapsed = ref<boolean>(false);
+
 const size = ref(0.7);
 </script>
 
@@ -76,8 +82,8 @@ const size = ref(0.7);
       height: 60px;
       border-bottom: 1px solid rgb(229, 230, 235);
     }
-    .content {
-    }
+    // .content {
+    // }
   }
 }
 </style>

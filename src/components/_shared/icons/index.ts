@@ -25,3 +25,5 @@ export { default as IconInfoLine } from './IconInfoLine.vue';
 export { default as IconTime } from './IconTime.vue';
 export { default as IconSeparator } from './IconSeparator.vue';
 export { default as IconDelete } from './IconDelete.vue';
+export { default as IconMenuFold } from './IconMenuFold.vue';
+export { default as IconMenuUnfold } from './IconMenuUnfold.vue';

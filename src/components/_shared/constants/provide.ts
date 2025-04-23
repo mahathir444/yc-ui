@@ -16,3 +16,5 @@ export const TRANSFER_PROVIDE_KEY = 'transfer-props';
 export const LAYOUT_PROVIDE_KEY = 'layout-props';
 export const CONFIG_PROVIDER_PROVIDE_KEY = 'config-props';
 export const ANCHOR_PROVIDE_KEY = 'anchor-props';
+export const MENU_PROVIDE_KEY = 'menu-props';
+export const SUBMENU_PROVIDE_KEY = 'sub-menu-props';
