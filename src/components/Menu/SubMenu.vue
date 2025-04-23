@@ -1,59 +1,40 @@
 <template>
-  <div
-    :class="{
-      'yc-menu-inline': true,
-      'yc-menu-selected': childKeys.includes(computedSelectedKeys),
-    }"
-  >
-    <div class="yc-menu-inline-header" @click="handleClick">
-      <!-- 缩进 -->
-      <div
-        v-if="subMenuLevel"
-        class="yc-menu-indent"
-        :style="{
-          width: `${levelIndent * subMenuLevel}px`,
-          height: `${levelIndent}px`,
-        }"
-      ></div>
-      <!-- icon -->
-      <div v-if="$slots.icon" class="yc-menu-icon">
+  <div class="yc-menu-inline">
+    <yc-menu-item is-submenu class="yc-menu-inline-header" @click="handleClick">
+      <slot name="title">
+        {{ title }}
+      </slot>
+      <template v-if="$slots.icon" #icon>
         <slot name="icon" />
-      </div>
-      <!-- title -->
-      <transition name="fade">
-        <div v-if="!computedCollapsed" class="yc-menu-title">
-          <slot name="title">
-            {{ title }}
-          </slot>
-        </div>
-      </transition>
-      <!-- 后缀 -->
-      <div class="yc-menu-icon-suffix">
+      </template>
+      <template #suffix>
         <slot v-if="!computedOpenKeys.includes(path)" name="expand-icon-down">
           <icon-arrow-down />
         </slot>
         <slot v-else name="expand-icon-up">
           <icon-arrow-up />
         </slot>
-      </div>
-    </div>
-    <!-- 过渡 -->
-    <expand-transition :expand="computedOpenKeys.includes(path)">
-      <template #default="{ expand }">
-        <div v-show="expand" class="yc-menu-inline-content">
-          <slot />
-        </div>
       </template>
+    </yc-menu-item>
+    <!-- 过渡 -->
+    <expand-transition>
+      <div
+        v-show="computedOpenKeys.includes(path)"
+        class="yc-menu-inline-content"
+      >
+        <slot />
+      </div>
     </expand-transition>
   </div>
 </template>
 
 <script lang="ts" setup>
-import { ref, inject, provide, toRefs } from 'vue';
+import { ref, inject, provide, toRefs, computed, watch } from 'vue';
 import { SubMenuProps, MenuProvide, SubMenuProvide } from './type';
 import { IconArrowDown, IconArrowUp } from '@shared/icons';
 import { SUBMENU_PROVIDE_KEY, MENU_PROVIDE_KEY } from '@shared/constants';
 import { ExpandTransition } from '@shared/components';
+import YcMenuItem from './MenuItem.vue';
 defineOptions({
   name: 'SubMenu',
 });
@@ -67,12 +48,13 @@ const props = withDefaults(defineProps<SubMenuProps>(), {
 const { path } = toRefs(props);
 // 接收
 const { childKeys, level } = inject<SubMenuProvide>(SUBMENU_PROVIDE_KEY, {
-  childKeys: ref<string[]>([]),
+  childKeys: ref([]),
   level: ref<number>(1),
   childLevel: 0,
+  submenuLevel: 1,
 });
 // 当前的level
-const subMenuLevel = level.value - 1;
+const submenuLevel = level.value - 1;
 // 子级的level
 const childLevel = level.value++;
 // 继续注入
@@ -80,73 +62,41 @@ provide<SubMenuProvide>(SUBMENU_PROVIDE_KEY, {
   childKeys,
   level,
   childLevel,
+  submenuLevel,
 });
 // 接收父级注入的属性
-const {
-  computedSelectedKeys,
-  computedOpenKeys,
-  computedCollapsed,
-  levelIndent,
-  emits,
-} = inject<MenuProvide>(MENU_PROVIDE_KEY, {
-  computedSelectedKeys: ref(''),
-  computedOpenKeys: ref([]),
-  levelIndent: ref(20),
-  computedCollapsed: ref(false),
-  emits: () => {},
-});
+const { computedOpenKeys, accordion, emits } = inject<MenuProvide>(
+  MENU_PROVIDE_KEY,
+  {
+    computedSelectedKeys: ref(''),
+    computedOpenKeys: ref([]),
+    levelIndent: ref(20),
+    computedCollapsed: ref(false),
+    accordion: ref(false),
+    emits: () => {},
+  }
+);
 // 处理子菜单点击
 const handleClick = () => {
   const index = computedOpenKeys.value.findIndex((item) => item == path.value);
   if (index == -1) {
-    computedOpenKeys.value.push(path.value);
+    if (accordion.value) {
+      computedOpenKeys.value = [path.value];
+    } else {
+      computedOpenKeys.value.push(path.value);
+    }
   } else {
     computedOpenKeys.value = computedOpenKeys.value.filter(
       (item) => item != path.value
     );
   }
-  emits('sub-menu-click', path.value, computedOpenKeys.value);
+  emits('subMenuClick', path.value, computedOpenKeys.value);
 };
 </script>
 
 <style lang="less" scoped>
 .yc-menu-inline {
-  .yc-menu-inline-header {
-    overflow: hidden;
-    cursor: pointer;
-    padding: 0 12px;
-    margin-bottom: 4px;
-    background-color: #fff;
-    border-radius: 2px;
-    line-height: 40px;
-    color: rgb(78, 89, 105);
-    font-size: 14px;
-    transition: color 0.2s cubic-bezier(0, 0, 1, 1);
-    display: flex;
-    align-items: center;
-    gap: 16px;
-    &:not(.yc-menu-disabled) {
-      &:hover {
-        background-color: rgb(242, 243, 245);
-      }
-    }
-    .yc-menu-icon {
-      line-height: 1;
-    }
-    .yc-menu-indent {
-      margin-right: -16px;
-    }
-    .yc-menu-title {
-      flex: 1;
-    }
-  }
-}
-// 选中
-.yc-menu-selected {
-  .yc-menu-inline-header {
-    font-weight: 500;
-    background-color: rgb(242, 243, 245);
-    color: rgb(22, 93, 255);
-  }
+  display: flex;
+  flex-direction: column;
 }
 </style>

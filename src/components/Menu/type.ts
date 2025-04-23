@@ -6,8 +6,8 @@ export interface MenuEmits {
   (e: 'update:selectedKeys', value: string): void;
   (e: 'update:openKeys', value: string): void;
   (e: 'update:collapsed', value: boolean): void;
-  (e: 'menu-item-click', key: string): void;
-  (e: 'sub-menu-click', key: string, openKeys: string[]): void;
+  (e: 'menuItemClick', key: string): void;
+  (e: 'subMenuClick', key: string, openKeys: string[]): void;
 }
 
 export interface SubMenuProps {
@@ -21,6 +21,7 @@ export interface SubMenuProps {
 export interface MenuItemProps {
   path?: string;
   disabled?: boolean;
+  isSubmenu?: boolean;
 }
 
 export interface MenuProvide {
@@ -28,11 +29,18 @@ export interface MenuProvide {
   computedOpenKeys: WritableComputedRef<string[]> | Ref<string[]>;
   computedCollapsed: WritableComputedRef<string> | Ref<boolean>;
   levelIndent: Ref<number>;
+  accordion: Ref<boolean>;
   emits: MenuEmits;
 }
 
 export interface SubMenuProvide {
-  childKeys: Ref<string[]>;
-  childLevel: number;
+  childKeys: Ref<
+    {
+      level: number;
+      path: string;
+    }[]
+  >;
   level: Ref<number>;
+  childLevel: number;
+  submenuLevel: number;
 }

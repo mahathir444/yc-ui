@@ -7,3 +7,4 @@ export * from './icon';
 export * from './position';
 export * from './provide';
 export * from './scrollbar';
+export * from './theme';

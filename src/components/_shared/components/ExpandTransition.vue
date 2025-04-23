@@ -1,18 +1,10 @@
 <template>
   <transition name="expand" v-bind="transitions">
-    <slot :expand="expand" />
+    <slot />
   </transition>
 </template>
 
 <script lang="ts" setup>
-withDefaults(
-  defineProps<{
-    expand?: boolean;
-  }>(),
-  {
-    expand: false,
-  }
-);
 // 过渡时间
 const transitions: Record<string, any> = {
   onBeforeEnter(el: HTMLDivElement) {

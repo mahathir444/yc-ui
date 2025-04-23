@@ -37,3 +37,10 @@ export const getComponentDirectionMap = (
 ) => {
   return getComponentConstantsMap(name, dirs, 'direction');
 };
+
+export const getComponentThemeMap = (
+  name: string,
+  dirs: string[] = ['drak', 'light']
+) => {
+  return getComponentConstantsMap(name, dirs, 'theme');
+};

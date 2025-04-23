@@ -1,6 +1,6 @@
 <template>
   <div
-    :class="['yc-menu', MENU_DIRECTION_MAP[mode]]"
+    :class="['yc-menu', MENU_DIRECTION_MAP[mode], MENU_THEME_MAP[theme]]"
     :style="{
       width: computedCollapsed ? `${collapsedWidth}px` : '',
     }"
@@ -20,11 +20,15 @@
 </template>
 
 <script lang="ts" setup>
-import { provide, toRefs } from 'vue';
+import { provide, toRefs, onMounted } from 'vue';
 import { MenuProvide, MenuEmits } from './type';
 import { Direction } from '@shared/type';
 import { BreakpointName } from '@/components/Grid';
-import { MENU_DIRECTION_MAP, MENU_PROVIDE_KEY } from '@shared/constants';
+import {
+  MENU_DIRECTION_MAP,
+  MENU_PROVIDE_KEY,
+  MENU_THEME_MAP,
+} from '@shared/constants';
 import { IconMenuFold, IconMenuUnfold } from '@shared/icons';
 import { useControlValue } from '@shared/hooks';
 import { mediaQueryHandler } from '@shared/utils';
@@ -79,6 +83,7 @@ const {
   defaultCollapsed,
   breakpoint,
   collapsedWidth,
+  accordion,
 } = toRefs(props);
 // 选中的key
 const computedSelectedKeys = useControlValue<string>(
@@ -93,6 +98,9 @@ const computedCollapsed = useControlValue<boolean>(
   collapsed,
   defaultCollapsed.value,
   (val) => {
+    if (true) {
+      computedOpenKeys.value = [];
+    }
     emits('update:collapsed', val);
   }
 );
@@ -114,6 +122,7 @@ provide<MenuProvide>(MENU_PROVIDE_KEY, {
   computedOpenKeys,
   computedCollapsed,
   levelIndent,
+  accordion,
   emits,
 });
 // 媒体查询
@@ -121,6 +130,8 @@ mediaQueryHandler((_, order, i) => {
   if (!breakpoint.value) return;
   computedCollapsed.value = i <= order[breakpoint.value];
 });
+
+onMounted(() => {});
 </script>
 
 <style lang="less" scoped>
@@ -158,5 +169,30 @@ mediaQueryHandler((_, order, i) => {
 }
 .yc-menu-direction-horizontal {
   width: 100%;
+}
+// theme
+.yc-menu-theme-light {
+  background-color: #fff;
+  .yc-menu-item {
+    color: rgb(78, 89, 105);
+
+    &:not(.yc-menu-item-disabled) {
+      &:hover {
+        background-color: rgb(242, 243, 245);
+      }
+    }
+  }
+}
+.yc-menu-theme-dark {
+  background-color: #232324;
+  .yc-menu-item {
+    color: rgb(201, 205, 212);
+
+    & {
+      &:hover {
+        background-color: rgb(242, 243, 245);
+      }
+    }
+  }
 }
 </style>

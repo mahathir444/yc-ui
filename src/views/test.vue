@@ -6,37 +6,38 @@
       :collapsed-width="64"
     >
       <yc-menu v-model:collapsed="collapsed" show-collapse-button>
-        <yc-sub-menu title="分组1" path="12">
-          <yc-menu-item path="0_1-1" disabled>分组子菜单1</yc-menu-item>
-          <yc-menu-item path="0_2-2">分组子菜单2</yc-menu-item>
-          <yc-sub-menu title="分组2" path="123">
-            <yc-menu-item path="0_1-1-1" disabled>分组子菜单1</yc-menu-item>
-            <yc-menu-item path="0_2-2-2">分组子菜单2</yc-menu-item>
-            <yc-menu-item path="0_0-3-2"> 分组子菜单3 </yc-menu-item>
+        <template v-for="(item, index) in menus" :key="item.path">
+          <yc-sub-menu
+            v-if="item.submenu.length"
+            :title="item.title"
+            :path="item.path"
+          >
+            <template #icon>
+              <icon-apps />
+            </template>
+            <yc-menu-item
+              v-for="subItem in item.submenu"
+              :key="subItem.path"
+              :path="subItem.path"
+            >
+              {{ subItem.title }}
+            </yc-menu-item>
+            <yc-sub-menu v-if="!index" title="三级测试" path="test">
+              <yc-menu-item path="test1"> 三级测试子级 </yc-menu-item>
+            </yc-sub-menu>
           </yc-sub-menu>
-        </yc-sub-menu>
-        <yc-menu-item path="0_1" disabled>Menu 2</yc-menu-item>
-        <yc-menu-item path="0_2">Menu 3</yc-menu-item>
+          <yc-menu-item v-else :path="item.path">
+            <template #icon>
+              <icon-apps />
+            </template>
+            {{ item.title }}
+          </yc-menu-item>
+        </template>
       </yc-menu>
     </yc-layout-sider>
     <yc-layout class="main">
       <yc-layout-header class="header"> </yc-layout-header>
       <yc-layout-content class="content">
-        <a-split
-          v-model:size="size"
-          :min="0.2"
-          :max="0.7"
-          :component="'span'"
-          direction="horizontal"
-          style="height: 400px; width: 100%"
-        >
-          <template #first>
-            <div style="background-color: aqua; height: 100%"></div>
-          </template>
-          <template #second>
-            <div style="background-color: bisque; height: 100%"></div>
-          </template>
-        </a-split>
         <yc-split
           v-model:size="size"
           :min="0.2"
@@ -58,17 +59,24 @@
 
 <script lang="ts" setup>
 import { ref, watch } from 'vue';
-const index = ref(1);
-const options = Array(8)
-  .fill(undefined)
-  .map((_, index) => ({
-    value: `option${index + 1}`,
-    label: `Option ${index + 1}`,
-  }));
-
-const collapsed = ref<boolean>(false);
-
 const size = ref(0.7);
+const collapsed = ref<boolean>(false);
+const menus = Array(8)
+  .fill(undefined)
+  .map((_, i) => {
+    return {
+      title: `菜单${i + 1}`,
+      path: `菜单 ${i + 1}`,
+      submenu: !i
+        ? new Array(3).fill(undefined).map((_, i1) => {
+            return {
+              title: `子菜单${i + 1}-${i1 + 1}`,
+              path: `子菜单${i + 1}-${i1 + 1}`,
+            };
+          })
+        : [],
+    };
+  });
 </script>
 
 <style lang="less" scoped>
