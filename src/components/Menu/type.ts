@@ -30,6 +30,8 @@ export interface MenuProvide {
   computedCollapsed: WritableComputedRef<string> | Ref<boolean>;
   levelIndent: Ref<number>;
   accordion: Ref<boolean>;
+  autoOpen: Ref<boolean>;
+  theme: Ref<'light' | 'dark'>;
   emits: MenuEmits;
 }
 

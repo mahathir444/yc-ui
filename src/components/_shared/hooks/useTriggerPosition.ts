@@ -258,6 +258,7 @@ export default (params: {
     bottom,
     right,
     popupPosition,
+    curPosition,
     contentStyle,
     arrowStyle,
   };

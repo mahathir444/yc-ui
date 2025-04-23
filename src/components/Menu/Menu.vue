@@ -1,6 +1,11 @@
 <template>
   <div
-    :class="['yc-menu', MENU_DIRECTION_MAP[mode], MENU_THEME_MAP[theme]]"
+    :class="[
+      'yc-menu',
+      MENU_DIRECTION_MAP[mode],
+      MENU_THEME_MAP[theme],
+      computedCollapsed ? 'yc-menu-collapsed' : '',
+    ]"
     :style="{
       width: computedCollapsed ? `${collapsedWidth}px` : '',
     }"
@@ -20,7 +25,7 @@
 </template>
 
 <script lang="ts" setup>
-import { provide, toRefs, onMounted } from 'vue';
+import { ref, provide, toRefs, onMounted } from 'vue';
 import { MenuProvide, MenuEmits } from './type';
 import { Direction } from '@shared/type';
 import { BreakpointName } from '@/components/Grid';
@@ -54,7 +59,7 @@ const props = withDefaults(
     breakpoint?: BreakpointName;
   }>(),
   {
-    theme: 'light',
+    theme: 'dark',
     mode: 'vertical',
     levelIndent: 20,
     autoOpen: false,
@@ -84,6 +89,8 @@ const {
   breakpoint,
   collapsedWidth,
   accordion,
+  autoOpen,
+  theme,
 } = toRefs(props);
 // 选中的key
 const computedSelectedKeys = useControlValue<string>(
@@ -112,6 +119,7 @@ const computedOpenKeys = useControlValue<string[]>(
     emits('update:openKeys', val);
   }
 );
+
 // 处理点击
 const handleClick = () => {
   computedCollapsed.value = !computedCollapsed.value;
@@ -123,6 +131,8 @@ provide<MenuProvide>(MENU_PROVIDE_KEY, {
   computedCollapsed,
   levelIndent,
   accordion,
+  autoOpen,
+  theme,
   emits,
 });
 // 媒体查询
@@ -130,8 +140,6 @@ mediaQueryHandler((_, order, i) => {
   if (!breakpoint.value) return;
   computedCollapsed.value = i <= order[breakpoint.value];
 });
-
-onMounted(() => {});
 </script>
 
 <style lang="less" scoped>
@@ -139,10 +147,13 @@ onMounted(() => {});
   position: relative;
   transition: width 0.2s cubic-bezier(0.34, 0.69, 0.1, 1);
   .yc-menu-inner {
+    overflow: auto;
     padding: 4px 8px;
     width: 100%;
     height: 100%;
-    overflow: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
   }
   .yc-menu-collapse-button {
     cursor: pointer;
@@ -153,14 +164,9 @@ onMounted(() => {});
     height: 24px;
     border-radius: 2px;
     font-size: 14px;
-    color: rgb(134, 144, 156);
-    background-color: rgb(247, 248, 250);
     display: flex;
     align-items: center;
     justify-content: center;
-    &:hover {
-      background-color: rgb(229, 230, 235);
-    }
   }
 }
 // mode
@@ -173,26 +179,51 @@ onMounted(() => {});
 // theme
 .yc-menu-theme-light {
   background-color: #fff;
-  .yc-menu-item {
-    color: rgb(78, 89, 105);
 
+  .yc-menu-collapse-button {
+    color: rgb(134, 144, 156);
+    background-color: rgb(247, 248, 250);
+    &:hover {
+      background-color: rgb(229, 230, 235);
+    }
+  }
+  &:deep(.yc-menu-item) {
+    color: rgb(134, 144, 156);
     &:not(.yc-menu-item-disabled) {
       &:hover {
         background-color: rgb(242, 243, 245);
+        color: rgb(22, 93, 255);
       }
     }
   }
 }
 .yc-menu-theme-dark {
   background-color: #232324;
-  .yc-menu-item {
+
+  .yc-menu-collapse-button {
+    color: rgb(201, 205, 212);
+    background-color: rgba(255, 255, 255, 0.04);
+    &:hover {
+      background-color: rgba(255, 255, 255, 0.04);
+    }
+  }
+  &:deep(.yc-menu-item) {
     color: rgb(201, 205, 212);
 
-    & {
+    &:not(.yc-menu-item-disabled) {
       &:hover {
-        background-color: rgb(242, 243, 245);
+        background-color: rgba(255, 255, 255, 0.04);
       }
     }
+    &.yc-menu-item-selected {
+      background-color: rgba(255, 255, 255, 0.04);
+      color: rgb(22, 93, 255);
+    }
+  }
+}
+.yc-menu-collapsed {
+  &:deep(.yc-menu-item) {
+    width: fit-content !important;
   }
 }
 </style>

@@ -5,7 +5,7 @@
       v-model:collapsed="collapsed"
       :collapsed-width="64"
     >
-      <yc-menu v-model:collapsed="collapsed" show-collapse-button>
+      <yc-menu v-model:collapsed="collapsed" show-collapse-button auto-open>
         <template v-for="(item, index) in menus" :key="item.path">
           <yc-sub-menu
             v-if="item.submenu.length"
@@ -22,9 +22,6 @@
             >
               {{ subItem.title }}
             </yc-menu-item>
-            <yc-sub-menu v-if="!index" title="三级测试" path="test">
-              <yc-menu-item path="test1"> 三级测试子级 </yc-menu-item>
-            </yc-sub-menu>
           </yc-sub-menu>
           <yc-menu-item v-else :path="item.path">
             <template #icon>

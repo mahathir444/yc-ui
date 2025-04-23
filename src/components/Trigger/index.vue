@@ -25,9 +25,9 @@
         :data-group-level="level"
         :class="[
           'yc-trigger',
-          TRIGGER_POSITION_MAP[position],
+          TRIGGER_POSITION_MAP[curPosition],
           needTransformOrigin ? 'yc-trigger-transform-origin' : '',
-          $attrs.class,
+          $attrs.class ?? '',
         ]"
         :style="popupPosition"
         ref="popupRef"
@@ -107,6 +107,7 @@ const props = withDefaults(defineProps<TriggerProps>(), {
   autoSetPosition: false,
 });
 const emits = defineEmits<TriggerEmits>();
+console.log(TRIGGER_POSITION_MAP, 'ss');
 // 接收属性
 const { zIndex, popupContainer } = useConfigProvder(props);
 // 弹出层的ref
@@ -137,7 +138,7 @@ const {
   triggerRef,
 });
 // 初始化trigger地计算参数
-const { popupPosition, contentStyle, arrowStyle } = initTrigger();
+const { popupPosition, curPosition, contentStyle, arrowStyle } = initTrigger();
 // 初始化trigger
 function initTrigger() {
   if (!vNode.value) {
@@ -145,10 +146,11 @@ function initTrigger() {
       popupPosition: {},
       contentStyle: {},
       arrowStyle: {},
+      curPosition: '',
     };
   }
   // 计算wrapper与arrow的位置信息
-  const { left, top, popupPosition, contentStyle, arrowStyle } =
+  const { left, top, popupPosition, curPosition, contentStyle, arrowStyle } =
     useTriggerPosition({
       props,
       popupRef,
@@ -161,6 +163,7 @@ function initTrigger() {
   // 处理滚动关闭
   handleScrollToClose(left, top);
   return {
+    curPosition,
     popupPosition,
     contentStyle,
     arrowStyle,
