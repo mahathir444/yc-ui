@@ -103,7 +103,6 @@ provide('menu-props', {
 mediaQueryHandler((_, order, i) => {
   if (!breakpoint.value) return;
   computedCollapsed.value = i <= order[breakpoint.value];
-  emits('collapse', computedCollapsed.value);
 });
 </script>
 

@@ -6,44 +6,46 @@
     }"
   >
     <div class="yc-menu-inline-header" @click="handleClick">
+      <!-- 缩进 -->
+      <div
+        v-if="subMenuLevel"
+        class="yc-menu-indent"
+        :style="{
+          width: `${levelIndent * subMenuLevel}px`,
+          height: `${levelIndent}px`,
+        }"
+      ></div>
+      <!-- icon -->
       <div v-if="$slots.icon" class="yc-menu-icon">
         <slot name="icon" />
       </div>
-      <span v-if="subMenuLevel" class="yc-menu-indent-list">
-        <div
-          v-for="i in subMenuLevel"
-          :key="i"
-          class="yc-menu-indent"
-          :style="{
-            width: levelIndent + 'px',
-            height: levelIndent + 'px',
-          }"
-        ></div>
-      </span>
+      <!-- title -->
       <div class="yc-menu-title">
         <slot name="title">
           {{ title }}
         </slot>
       </div>
+      <!-- 后缀 -->
       <div class="yc-menu-icon-suffix">
         <icon-arrow-down v-if="!computedOpenKeys.includes(path)" />
         <icon-arrow-up v-else />
       </div>
     </div>
-    <transition name="submenu-expand" v-bind="transitions">
-      <div
-        v-show="computedOpenKeys.includes(path)"
-        class="yc-menu-inline-content"
-      >
-        <slot />
-      </div>
-    </transition>
+    <!-- body -->
+    <expand-transition :expand="computedOpenKeys.includes(path)">
+      <template #default="{ expand }">
+        <div v-show="expand" class="yc-menu-inline-content">
+          <slot />
+        </div>
+      </template>
+    </expand-transition>
   </div>
 </template>
 
 <script lang="ts" setup>
 import { ref, inject, provide, toRefs } from 'vue';
 import { IconArrowDown, IconArrowUp } from '@shared/icons';
+import { ExpandTransition } from '@shared/components';
 defineOptions({
   name: 'SubMenu',
 });
@@ -97,31 +99,6 @@ const handleClick = () => {
   }
   emits('sub-menu-click', path.value, computedOpenKeys.value);
 };
-// 过渡时间
-const transitions: Record<string, any> = {
-  onBeforeEnter(el: HTMLDivElement) {
-    el.style.height = '0';
-    el.style.opacity = '0';
-  },
-  onEnter(el: HTMLDivElement) {
-    el.style.height = `${el.scrollHeight}px`;
-    el.style.opacity = '1';
-  },
-  onAfterEnter(el: HTMLDivElement) {
-    el.style.height = '';
-  },
-  onBeforeLeave(el: HTMLDivElement) {
-    el.style.height = `${el.scrollHeight}px`;
-    el.style.opacity = '1';
-  },
-  onLeave(el: HTMLDivElement) {
-    el.style.height = '0';
-    el.style.opacity = '0';
-  },
-  onAfterLeave(el: HTMLElement) {
-    el.style.height = '';
-  },
-};
 </script>
 
 <style lang="less" scoped>
@@ -148,8 +125,7 @@ const transitions: Record<string, any> = {
     .yc-menu-icon {
       line-height: 1;
     }
-    .yc-menu-indent-list {
-      display: flex;
+    .yc-menu-indent {
       margin-right: -16px;
     }
     .yc-menu-title {

@@ -7,20 +7,16 @@
     }"
     @click="handleClick"
   >
+    <div
+      class="yc-menu-indent"
+      :style="{
+        width: `${levelIndent * childLevel}px`,
+        height: `${levelIndent}px`,
+      }"
+    ></div>
     <div v-if="$slots.icon" class="yc-menu-icon">
       <slot name="icon" />
     </div>
-    <span v-if="childLevel > 0" class="yc-menu-indent-list">
-      <div
-        v-for="i in childLevel"
-        :key="i"
-        class="yc-menu-indent"
-        :style="{
-          width: levelIndent + 'px',
-          height: levelIndent + 'px',
-        }"
-      ></div>
-    </span>
     <div class="yc-menu-item-inner text-ellipsis">
       <slot />
     </div>
@@ -95,8 +91,7 @@ collectKeys();
   .yc-menu-icon {
     line-height: 1;
   }
-  .yc-menu-indent-list {
-    display: flex;
+  .yc-menu-indent {
     margin-right: -16px;
   }
   .yc-menu-item-inner {

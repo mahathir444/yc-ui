@@ -44,6 +44,7 @@ declare module 'vue' {
     DropdownButton: typeof import('./src/components/Dropdown/DropdownButton.vue')['default']
     Dsubmenu: typeof import('./src/components/Dropdown/Dsubmenu.vue')['default']
     Empty: typeof import('./src/components/Empty/index.vue')['default']
+    ExpandTransition: typeof import('./src/components/_shared/components/ExpandTransition.vue')['default']
     Grid: typeof import('./src/components/Grid/Grid.vue')['default']
     GridCol: typeof import('./src/components/Grid/GridCol.vue')['default']
     GridItem: typeof import('./src/components/Grid/GridItem.vue')['default']
