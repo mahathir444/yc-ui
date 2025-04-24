@@ -1,8 +1,9 @@
 import { Ref, ref, toRefs, watchEffect } from 'vue';
-import { TriggerProps, TriggerEmits } from '@/components/Trigger';
-import { ObjectData, RequiredDeep } from '../type';
+import { TriggerProps, TriggerEmits } from '../type';
+import { ObjectData, RequiredDeep } from '@shared/type';
 import { onClickOutside } from '@vueuse/core';
-import { useControlValue, useTriggerNested, useConfigProvder } from './index';
+import { useControlValue, useConfigProvder } from '@shared/hooks';
+import useTriggerNested from './useTriggerNested';
 export default (params: {
   props: ObjectData;
   emits: TriggerEmits;

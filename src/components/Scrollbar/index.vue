@@ -3,7 +3,6 @@
     :class="{
       'yc-scrollbar': true,
       'yc-scrollbar-auto-fill': autoFill,
-      'yc-scrollbar-virtual': scrollbarType == BAR_TYPE.virtual,
       'yc-scrollbar-both-track':
         type == 'track' && hasVerticalBar && hashorizontalBar,
       'yc-scrollbar-vertical-track': type == 'track' && hasVerticalBar,
@@ -40,9 +39,9 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, computed, toRefs, provide, watch, CSSProperties } from 'vue';
+import { ref, computed, toRefs, provide, watch } from 'vue';
 import { ScrollbarProps, ScrollbarProvide } from './type';
-import { SCROLLBAR_PROVIDE_KEY, BAR_TYPE } from '@shared/constants';
+import { SCROLLBAR_PROVIDE_KEY } from '@shared/constants';
 import { useElementSize, useScroll } from '@vueuse/core';
 import YcTrack from './component/Track.vue';
 defineOptions({
@@ -51,7 +50,6 @@ defineOptions({
 });
 const props = withDefaults(defineProps<ScrollbarProps>(), {
   type: 'embed',
-  scrollbarType: 'virtual',
   outerClass: '',
   outerStyle: () => {
     return {};
@@ -66,7 +64,7 @@ const emits = defineEmits<{
   (e: 'reachBottom'): void;
   (e: 'reachRight'): void;
 }>();
-const { type, scrollbarType } = toRefs(props);
+const { type } = toRefs(props);
 // contentRef
 const contentRef = ref<HTMLElement>();
 // scrollRef
@@ -86,133 +84,78 @@ watch(arrivedState, () => {
   }
 });
 // 初始化需要计算的属性
-const {
+// 获取内容的高度
+const { width: contentWidth, height: contentHeight } = useElementSize(
+  contentRef,
+  undefined,
+  {
+    box: 'border-box',
+  }
+);
+// 获取滚动的高度
+const { width: scrollWidth, height: scrollHeight } = useElementSize(
+  scrollRef,
+  undefined,
+  {
+    box: 'border-box',
+  }
+);
+// 计算top
+const curTop = ref<number>(0);
+//计算left
+const curLeft = ref<number>(0);
+// 是否有纵向滚动条
+const hasVerticalBar = computed(() => {
+  return contentHeight.value > scrollHeight.value;
+});
+// 是否有很想滚动条
+const hashorizontalBar = computed(() => {
+  return contentWidth.value > scrollWidth.value;
+});
+// 计算滚动条高度
+const thumbHeight = computed(() => {
+  if (!hasVerticalBar.value) return 0;
+  const height = +(
+    (scrollHeight.value * scrollHeight.value) /
+    contentHeight.value
+  ).toFixed(0);
+  return height <= 20 ? 20 : height;
+});
+// 计算滚动条宽度
+const thumbWidth = computed(() => {
+  if (!hashorizontalBar.value) return 0;
+  const width = +(
+    (scrollWidth.value * scrollWidth.value) /
+    contentWidth.value
+  ).toFixed(0);
+  return width <= 20 ? 20 : width;
+});
+// 可移动的top
+const movableTop = computed(() => {
+  // 横向track的宽度
+  const track = hashorizontalBar.value ? trackHeight.value : 0;
+  return scrollHeight.value - thumbHeight.value - track;
+});
+// 可移动的left
+const movableLeft = computed(() => {
+  // 纵向track的宽度
+  const track = hasVerticalBar.value ? trackWidth.value : 0;
+  return scrollWidth.value - thumbWidth.value - track;
+});
+// 提供数据
+provide<ScrollbarProvide>(SCROLLBAR_PROVIDE_KEY, {
   curTop,
   curLeft,
   movableLeft,
   movableTop,
-  contentHeight,
-  contentWidth,
-  scrollHeight,
-  scrollWidth,
-  hasVerticalBar,
-  hashorizontalBar,
-} = initScrollbar();
-// 初始化滚动条
-function initScrollbar() {
-  // 真实滚动条不需要
-  if (scrollbarType.value == 'real') {
-    return {
-      thumbHeight: ref(0),
-      thumbWidth: ref(0),
-      curTop: ref(0),
-      curLeft: ref(0),
-      movableTop: ref(0),
-      movableLeft: ref(0),
-      contentWidth: ref(0),
-      contentHeight: ref(0),
-      scrollWidth: ref(0),
-      scrollHeight: ref(0),
-      hasVerticalBar: ref(false),
-      hashorizontalBar: ref(false),
-    };
-  }
-  // 获取内容的高度
-  const { width: contentWidth, height: contentHeight } = useElementSize(
-    contentRef,
-    undefined,
-    {
-      box: 'border-box',
-    }
-  );
-  // 获取滚动的高度
-  const { width: scrollWidth, height: scrollHeight } = useElementSize(
-    scrollRef,
-    undefined,
-    {
-      box: 'border-box',
-    }
-  );
-  // 计算top
-  const curTop = ref<number>(0);
-  //计算left
-  const curLeft = ref<number>(0);
-  // 是否有纵向滚动条
-  const hasVerticalBar = computed(() => {
-    return (
-      contentHeight.value > scrollHeight.value &&
-      scrollbarType.value == BAR_TYPE.virtual
-    );
-  });
-  // 是否有很想滚动条
-  const hashorizontalBar = computed(() => {
-    return (
-      contentWidth.value > scrollWidth.value &&
-      scrollbarType.value == BAR_TYPE.virtual
-    );
-  });
-  // 计算滚动条高度
-  const thumbHeight = computed(() => {
-    if (!hasVerticalBar.value) return 0;
-    const height = +(
-      (scrollHeight.value * scrollHeight.value) /
-      contentHeight.value
-    ).toFixed(0);
-    return height <= 20 ? 20 : height;
-  });
-  // 计算滚动条宽度
-  const thumbWidth = computed(() => {
-    if (!hashorizontalBar.value) return 0;
-    const width = +(
-      (scrollWidth.value * scrollWidth.value) /
-      contentWidth.value
-    ).toFixed(0);
-    return width <= 20 ? 20 : width;
-  });
-  // 可移动的top
-  const movableTop = computed(() => {
-    // 横向track的宽度
-    const track = hashorizontalBar.value ? trackHeight.value : 0;
-    return scrollHeight.value - thumbHeight.value - track;
-  });
-  // 可移动的left
-  const movableLeft = computed(() => {
-    // 纵向track的宽度
-    const track = hasVerticalBar.value ? trackWidth.value : 0;
-    return scrollWidth.value - thumbWidth.value - track;
-  });
-  // 提供数据
-  provide<ScrollbarProvide>(SCROLLBAR_PROVIDE_KEY, {
-    curTop,
-    curLeft,
-    movableLeft,
-    movableTop,
-    thumbHeight,
-    thumbWidth,
-    scrollRef,
-  });
-  return {
-    thumbHeight,
-    thumbWidth,
-    curTop,
-    curLeft,
-    movableTop,
-    movableLeft,
-    contentWidth,
-    contentHeight,
-    scrollWidth,
-    scrollHeight,
-    hasVerticalBar,
-    hashorizontalBar,
-  };
-}
+  thumbHeight,
+  thumbWidth,
+  scrollRef,
+});
 // 处理容器滚动
 const handleScroll = (e: Event) => {
   const { scrollTop, scrollLeft } = e.target as HTMLDivElement;
   emits('scroll', scrollLeft, scrollTop);
-  if (scrollbarType.value == BAR_TYPE.real) {
-    return;
-  }
   //计算top
   const top =
     (scrollTop / (contentHeight.value - scrollHeight.value)) * movableTop.value;

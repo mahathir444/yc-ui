@@ -2,7 +2,6 @@ import { CSSProperties, Ref, ComputedRef } from 'vue';
 
 export interface ScrollbarProps {
   type?: TackType;
-  scrollbarType?: ScrollbarType;
   outerClass?: string;
   outerStyle?: CSSProperties;
   style?: CSSProperties;
@@ -10,8 +9,6 @@ export interface ScrollbarProps {
 }
 
 export type TackType = 'track' | 'embed';
-
-export type ScrollbarType = 'virtual' | 'real';
 
 // 内部使用
 export interface ScrollbarProvide {

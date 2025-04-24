@@ -1,8 +1,8 @@
 import { computed, CSSProperties, Ref, ref, toRefs } from 'vue';
-import { TriggerPostion, TriggerProps } from '@/components/Trigger';
-import { ObjectData, RequiredDeep } from '../type';
 import { useElementBounding, useElementSize } from '@vueuse/core';
-import { useConfigProvder } from './index';
+import { TriggerPostion, TriggerProps } from '../type';
+import { ObjectData, RequiredDeep } from '@shared/type';
+import { useConfigProvder } from '@shared/hooks';
 
 export default (params: {
   props: ObjectData;

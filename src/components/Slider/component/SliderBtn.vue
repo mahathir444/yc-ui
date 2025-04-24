@@ -23,7 +23,7 @@
 import { ref, inject, computed, watch, toRefs } from 'vue';
 import { SLIDER_PROVIDE_KEY } from '@shared/constants';
 import { SliderProvide, PositionData } from '../type';
-import { useSliderDraggable } from '@shared/hooks';
+import useSliderDraggable from '../hooks/useSliderDraggable';
 import YcTooltip from '@/components/Tooltip';
 const props = defineProps<{
   type: 'start' | 'end';

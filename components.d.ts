@@ -7,6 +7,7 @@ export {}
 /* prettier-ignore */
 declare module 'vue' {
   export interface GlobalComponents {
+    _Icon: typeof import('./src/components/_shared/icons/_Icon.vue')['default']
     AAffix: typeof import('@arco-design/web-vue')['Affix']
     AAnchor: typeof import('@arco-design/web-vue')['Anchor']
     AAnchorLink: typeof import('@arco-design/web-vue')['AnchorLink']
@@ -27,6 +28,8 @@ declare module 'vue' {
     ButtonGroup: typeof import('./src/components/Button/ButtonGroup.vue')['default']
     Checkbox: typeof import('./src/components/Checkbox/Checkbox.vue')['default']
     CheckboxGroup: typeof import('./src/components/Checkbox/CheckboxGroup.vue')['default']
+    Collapse: typeof import('./src/components/Collapse/Collapse.vue')['default']
+    CollapseItem: typeof import('./src/components/Collapse/CollapseItem.vue')['default']
     ColorControlBar: typeof import('./src/components/ColorPicker/component/ColorControlBar.vue')['default']
     ColorInput: typeof import('./src/components/ColorPicker/component/ColorInput.vue')['default']
     ColorList: typeof import('./src/components/ColorPicker/component/ColorList.vue')['default']

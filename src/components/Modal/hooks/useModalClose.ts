@@ -1,8 +1,8 @@
 import { ref, Ref, watch } from 'vue';
-import { Fn } from '../type';
+import { Fn } from '@shared/type';
 import { OnBeforeCancel, OnBeforeOk } from '@/components/Modal/type';
-import { useMagicKeys, onKeyStroke } from '@vueuse/core';
-import useControlValue from './useControlValue';
+import { onKeyStroke } from '@vueuse/core';
+import { useControlValue } from '@shared/hooks';
 import useOnBeforeClose from './useOnBeforeClose';
 
 export default (params: {

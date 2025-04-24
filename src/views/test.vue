@@ -58,7 +58,6 @@
 
 <script lang="ts" setup>
 import { ref, watch } from 'vue';
-import { StarOfficeStructure } from '@/components/dept-user-select/star-office.js';
 const size = ref(0.7);
 const collapsed = ref<boolean>(false);
 const menus = Array(8)

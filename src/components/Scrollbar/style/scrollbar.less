@@ -9,19 +9,14 @@
   }
   .yc-scrollbar-container {
     overflow: auto;
+    &::-webkit-scrollbar {
+      width: 0;
+      height: 0;
+    }
     .yc-scrollbar-content {
       height: fit-content;
       width: fit-content;
       min-width: 100%;
-    }
-  }
-}
-// 虚拟滚动条
-.yc-scrollbar-virtual {
-  .yc-scrollbar-container {
-    &::-webkit-scrollbar {
-      width: 0;
-      height: 0;
     }
   }
 }

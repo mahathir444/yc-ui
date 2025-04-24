@@ -62,7 +62,8 @@
 <script lang="ts" setup>
 import { ref, toRefs } from 'vue';
 import { TextareaProps, ResizeRange } from './type';
-import { useLimitedInput, useTextareaHeight } from '@shared/hooks';
+import useTextareaHeight from './hooks/useTextareaHeight';
+import useLimitedInput from '@/components/Input/hooks/useLimitedInput';
 import { YcPreventFocus, YcIconButton } from '@shared/components';
 defineOptions({
   name: 'Textarea',

@@ -201,7 +201,8 @@ import {
 import { ObjectData } from '@shared/type';
 import { SELECT_PROVIDE_KEY } from '@shared/constants';
 import { sleep } from '@shared/utils';
-import { useSelectHotkeys, useSeletValue } from '@shared/hooks';
+import useSelectHotkeys from './hooks/useSelectHotkeys';
+import useSeletValue from './hooks/useSeletValue';
 import SelectVirtualList from './component/SelectVirtualList.vue';
 import SelectList from './component//SelectList.vue';
 import YcInput, { InputInstance } from '@/components/Input';

@@ -80,11 +80,8 @@ import { InputProps, InputProvide, InputEmits } from '../type';
 import { INPUT_PROVIDE_KEY } from '@shared/constants';
 import { RequiredDeep } from '@shared/type';
 import { INPUT_SIZE_CLASS } from '@shared/constants';
-import {
-  useControlValue,
-  useLimitedInput,
-  useConfigProvder,
-} from '@shared/hooks';
+import { useControlValue, useConfigProvder } from '@shared/hooks';
+import useLimitedInput from '../hooks/useLimitedInput';
 import InputSuffix from './InputSuffix.vue';
 import { YcPreventFocus } from '@shared/components';
 const { props, emits } = inject<InputProvide>(INPUT_PROVIDE_KEY, {

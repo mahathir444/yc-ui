@@ -1,7 +1,7 @@
 import { ComputedRef, ref, Ref, WritableComputedRef } from 'vue';
 import { onKeyStroke } from '@vueuse/core';
-import { SelectOptionData, SelectValue } from '@/components/Select';
-import { Fn, ObjectData } from '../type';
+import { SelectOptionData, SelectValue } from '../type';
+import { Fn, ObjectData } from '@shared/type';
 
 export default (params: {
   hotkeys: Ref<boolean>;

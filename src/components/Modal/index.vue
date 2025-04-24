@@ -102,11 +102,9 @@
 <script lang="ts" setup>
 import { ref, toRefs, computed, CSSProperties, useAttrs } from 'vue';
 import { ModalProps } from './type';
-import {
-  useModalClose,
-  useModalDraggable,
-  useConfigProvder,
-} from '@shared/hooks';
+import { useConfigProvder } from '@shared/hooks';
+import useModalClose from './hooks/useModalClose';
+import useModalDraggable from './hooks/useModalDraggable';
 import YcButton from '@/components/Button';
 import { YcIconButton } from '@shared/components';
 defineOptions({

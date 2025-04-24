@@ -1,12 +1,12 @@
 import { computed, Ref } from 'vue';
-import { Fn, ObjectData } from '../type';
+import { Fn, ObjectData } from '@shared/type';
 import {
   SelectValue,
   SelectOptions,
   FallbackOption,
   FormatLabel,
-} from '@/components/Select';
-import useControlValue from './useControlValue';
+} from '../index';
+import { useControlValue } from '@shared/hooks';
 import useSelectOptions from './useSelectOptions';
 import { TriggerInstance } from '@/components/Trigger';
 

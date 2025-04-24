@@ -8,16 +8,20 @@ import {
   ComputedRef,
 } from 'vue';
 import { nanoid } from 'nanoid';
-import { Fn, ObjectData } from '../type';
+import { Fn, ObjectData } from '@shared/type';
 import {
   OptionProps,
   SelectValue,
   SelectOptions,
   FallbackOption,
   Option,
-} from '@/components/Select';
+} from '../index';
 import { TriggerInstance } from '@/components/Trigger';
-import { getTextContent, findComponentsFromVnodes, isObject } from '../utils';
+import {
+  getTextContent,
+  findComponentsFromVnodes,
+  isObject,
+} from '@shared/utils';
 
 export default (params: {
   fieldKey: ComputedRef<Record<string, string>>;

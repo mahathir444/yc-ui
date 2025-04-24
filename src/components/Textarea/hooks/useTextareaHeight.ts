@@ -1,5 +1,5 @@
 import { Ref, computed } from 'vue';
-import { ResizeRange } from '@/components/Textarea';
+import { ResizeRange } from '../type';
 import { useElementSize } from '@vueuse/core';
 
 export default (

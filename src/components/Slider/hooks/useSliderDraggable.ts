@@ -1,5 +1,5 @@
 import { reactive, Ref, watch, nextTick, computed, onMounted } from 'vue';
-import { PositionData, RangeData } from '@/components/Slider';
+import { PositionData, RangeData } from '../index';
 import { Direction, Fn } from '@shared/type';
 import { useDraggable, useEventListener, debouncedWatch } from '@vueuse/core';
 export default (params: {
