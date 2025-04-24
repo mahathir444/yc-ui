@@ -50,7 +50,27 @@
             <div style="background-color: bisque; height: 100%"></div>
           </template>
         </yc-split> -->
-        <star-office-structure type="user" server="front" multiple />
+        <yc-collapse accordion :expand-icon-position="'right'">
+          <yc-collapse-item
+            v-for="item in menus"
+            :key="item.path"
+            :title="item.title"
+            :value="item.path"
+          >
+            <div>Beijing Toutiao Technology Co., Ltd.</div>
+            <div>Beijing Toutiao Technology Co., Ltd.</div>
+          </yc-collapse-item>
+        </yc-collapse>
+        <a-collapse accordion :expand-icon-position="'right'">
+          <a-collapse-item
+            v-for="item in menus"
+            :key="item.path"
+            :header="item.title"
+          >
+            <div>Beijing Toutiao Technology Co., Ltd.</div>
+            <div>Beijing Toutiao Technology Co., Ltd.</div>
+          </a-collapse-item>
+        </a-collapse>
       </yc-layout-content>
     </yc-layout>
   </yc-layout>
@@ -85,13 +105,16 @@ const menus = Array(8)
 
   .main {
     overflow: hidden;
-    background-color: rgb(242, 243, 245);
+    // background-color: rgb(242, 243, 245);
     .header {
       height: 60px;
       border-bottom: 1px solid rgb(229, 230, 235);
     }
-    // .content {
-    // }
+    .content {
+      display: flex;
+      justify-content: center;
+      // align-items: center;
+    }
   }
 }
 </style>

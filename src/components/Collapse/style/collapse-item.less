@@ -1,0 +1,42 @@
+.yc-collapse-item {
+  display: flex;
+  flex-direction: column;
+  border-bottom: 1px solid rgb(229, 230, 235);
+  .yc-collapse-item-header {
+    cursor: pointer;
+    position: relative;
+    padding: 8px 12px;
+    overflow: hidden;
+    color: rgb(29, 33, 41);
+    font-size: 14px;
+    line-height: 24px;
+    background-color: #fff;
+    border-bottom: 1px solid transparent;
+    transition: border-color 0.2s ease;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    .yc-collapse-item-header-icon {
+      color: rgb(107, 119, 133);
+    }
+    .yc-collapse-item-header-title {
+      flex: 1;
+      font-weight: 500;
+    }
+  }
+
+  .yc-collapse-item-header-disabled {
+    color: rgb(201, 205, 212);
+    background-color: #fff;
+    cursor: not-allowed;
+  }
+
+  .yc-collapse-item-content {
+    position: relative;
+    padding: 8px 12px;
+    overflow: hidden;
+    color: rgb(29, 33, 41);
+    font-size: 14px;
+    background-color: rgb(247, 248, 250);
+  }
+}

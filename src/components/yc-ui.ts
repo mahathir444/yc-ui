@@ -60,6 +60,7 @@ import Watermark from './Watermark';
 import { default as Anchor, AnchorLink } from './Anchor';
 import Split from './Split';
 import { default as Menu, MenuItem } from './Menu';
+import Collapse from './Collapse';
 
 export const components: Record<string, Plugin> = {
   Button,
@@ -112,6 +113,7 @@ export const components: Record<string, Plugin> = {
   Anchor,
   Split,
   Menu,
+  Collapse,
 };
 
 console.log('components：', Object.keys(components).length);

@@ -27,3 +27,6 @@ export { default as IconSeparator } from './IconSeparator.vue';
 export { default as IconDelete } from './IconDelete.vue';
 export { default as IconMenuFold } from './IconMenuFold.vue';
 export { default as IconMenuUnfold } from './IconMenuUnfold.vue';
+export { default as IconRight } from './IconRight.vue';
+export { default as IconDown } from './IconDown.vue';
+export { default as IconLeft } from './IconLeft.vue';
