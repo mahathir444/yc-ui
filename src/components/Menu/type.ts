@@ -1,6 +1,32 @@
 import { WritableComputedRef, Ref } from 'vue';
+import { BreakpointName } from '@/components/Grid';
+import { TooltipProps } from '@/components/Tooltip';
+import { TriggerProps } from '@/components/Trigger';
+import { Direction } from '@shared/type';
 
-export interface MenuProps {}
+export interface MenuProps {
+  theme?: 'light' | 'dark';
+  mode?: Direction;
+  levelIndent?: number;
+  autoOpen?: boolean;
+  collapsed?: boolean;
+  defaultCollapsed?: boolean;
+  collapsedWidth?: number;
+  accordion?: boolean;
+  showCollapseButton?: boolean;
+  selectedKeys?: string;
+  defaultSelectedKeys?: string;
+  openKeys?: string[];
+  defaultOpenKeys?: string[];
+  breakpoint?: BreakpointName;
+  //
+  autoScrollIntoView?: boolean;
+  scrollConfig?: Record<string, any>;
+  triggerProps?: TriggerProps;
+  tooltipProps?: TooltipProps;
+  autoOpenSelected?: boolean;
+  popupMaxHeight?: boolean | number;
+}
 
 export interface MenuEmits {
   (e: 'update:selectedKeys', value: string): void;
@@ -15,7 +41,7 @@ export interface SubMenuProps {
   title?: string;
   selectable?: boolean;
   popup?: boolean;
-  popupMaxHeight?: boolean;
+  popupMaxHeight?: boolean | number;
 }
 
 export interface MenuItemProps {
@@ -31,18 +57,18 @@ export interface MenuProvide {
   levelIndent: Ref<number>;
   accordion: Ref<boolean>;
   autoOpen: Ref<boolean>;
-  theme: Ref<'light' | 'dark'>;
   emits: MenuEmits;
 }
 
+export type ChlidKey = {
+  level: number;
+  type: 'menuitem' | 'submenu';
+  label: string;
+  path: string;
+};
+
 export interface SubMenuProvide {
-  childKeys: Ref<
-    {
-      level: number;
-      path: string;
-    }[]
-  >;
+  childKeys: Ref<ChlidKey[]>;
   level: Ref<number>;
   childLevel: number;
-  submenuLevel: number;
 }

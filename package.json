@@ -19,6 +19,7 @@
     "dist"
   ],
   "dependencies": {
+    "@arco-design/web-vue": "^2.57.0",
     "@vueuse/core": "^12.0.0",
     "b-tween": "^0.3.3",
     "dayjs": "^1.11.11",
@@ -28,7 +29,6 @@
     "vue-router": "^4.3.2"
   },
   "devDependencies": {
-    "@arco-design/web-vue": "^2.55.1",
     "@types/node": "^20.12.8",
     "@types/tinycolor2": "^1.4.6",
     "@typescript-eslint/eslint-plugin": "^7.11.0",

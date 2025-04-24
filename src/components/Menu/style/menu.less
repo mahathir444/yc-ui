@@ -1,0 +1,81 @@
+.yc-menu {
+  position: relative;
+  transition: width 0.2s cubic-bezier(0.34, 0.69, 0.1, 1);
+  .yc-menu-inner {
+    overflow: auto;
+    padding: 4px 8px;
+    display: flex;
+    gap: 4px;
+  }
+  .yc-menu-collapse-button {
+    cursor: pointer;
+    position: absolute;
+    right: 12px;
+    bottom: 12px;
+    width: 24px;
+    height: 24px;
+    border-radius: 2px;
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+}
+// mode
+.yc-menu-direction-vertical {
+  height: 100%;
+  .yc-menu-inner {
+    height: 100%;
+    flex-direction: column;
+  }
+}
+.yc-menu-direction-horizontal {
+  width: 100%;
+  .yc-menu-inner {
+    width: 100%;
+  }
+}
+// theme
+.yc-menu-theme-light {
+  background-color: #fff;
+  .yc-menu-collapse-button {
+    color: rgb(134, 144, 156);
+    background-color: rgb(247, 248, 250);
+    &:hover {
+      background-color: rgb(229, 230, 235);
+    }
+  }
+  &:deep(.yc-menu-item) {
+    color: rgb(134, 144, 156);
+    &:not(.yc-menu-item-disabled) {
+      &:hover {
+        background-color: rgb(242, 243, 245);
+        color: rgb(22, 93, 255);
+      }
+    }
+  }
+}
+.yc-menu-theme-dark {
+  background-color: #232324;
+
+  .yc-menu-collapse-button {
+    color: rgb(201, 205, 212);
+    background-color: rgba(255, 255, 255, 0.04);
+    &:hover {
+      background-color: rgba(255, 255, 255, 0.04);
+    }
+  }
+  &:deep(.yc-menu-item) {
+    color: rgb(201, 205, 212);
+
+    &:not(.yc-menu-item-disabled) {
+      &:hover {
+        background-color: rgba(255, 255, 255, 0.04);
+      }
+    }
+    &.yc-menu-item-selected {
+      background-color: rgba(255, 255, 255, 0.04);
+      color: rgb(22, 93, 255);
+    }
+  }
+}

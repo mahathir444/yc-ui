@@ -6,9 +6,6 @@
       MENU_THEME_MAP[theme],
       computedCollapsed ? 'yc-menu-collapsed' : '',
     ]"
-    :style="{
-      width: computedCollapsed ? `${collapsedWidth}px` : '',
-    }"
   >
     <div class="yc-menu-inner">
       <slot />
@@ -25,57 +22,36 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, provide, toRefs, onMounted } from 'vue';
-import { MenuProvide, MenuEmits } from './type';
-import { Direction } from '@shared/type';
-import { BreakpointName } from '@/components/Grid';
+import { provide, toRefs, computed, onMounted } from 'vue';
+import { MenuProps, MenuProvide, MenuEmits } from './type';
 import {
   MENU_DIRECTION_MAP,
   MENU_PROVIDE_KEY,
   MENU_THEME_MAP,
 } from '@shared/constants';
-import { IconMenuFold, IconMenuUnfold } from '@shared/icons';
 import { useControlValue } from '@shared/hooks';
 import { mediaQueryHandler } from '@shared/utils';
+import { IconMenuFold, IconMenuUnfold } from '@shared/icons';
 defineOptions({
   name: 'Menu',
 });
-const props = withDefaults(
-  defineProps<{
-    theme?: 'light' | 'dark';
-    mode?: Direction;
-    levelIndent?: number;
-    autoOpen?: boolean;
-    collapsed?: boolean;
-    defaultCollapsed?: boolean;
-    collapsedWidth?: number;
-    accordion?: boolean;
-    autoScrollIntoView?: boolean;
-    showCollapseButton?: boolean;
-    selectedKeys?: string;
-    defaultSelectedKeys?: string;
-    openKeys?: string[];
-    defaultOpenKeys?: string[];
-    breakpoint?: BreakpointName;
-  }>(),
-  {
-    theme: 'dark',
-    mode: 'vertical',
-    levelIndent: 20,
-    autoOpen: false,
-    collapsed: undefined,
-    defaultCollapsed: false,
-    collapsedWidth: 64,
-    accordion: false,
-    autoScrollIntoView: false,
-    showCollapseButton: false,
-    selectedKeys: undefined,
-    defaultSelectedKeys: '',
-    openKeys: undefined,
-    defaultOpenKeys: () => [],
-    breakpoint: undefined,
-  }
-);
+const props = withDefaults(defineProps<MenuProps>(), {
+  theme: 'dark',
+  mode: 'vertical',
+  levelIndent: 20,
+  autoOpen: false,
+  collapsed: undefined,
+  defaultCollapsed: false,
+  collapsedWidth: 64,
+  accordion: false,
+  autoScrollIntoView: false,
+  showCollapseButton: false,
+  selectedKeys: undefined,
+  defaultSelectedKeys: '',
+  openKeys: undefined,
+  defaultOpenKeys: () => [],
+  breakpoint: undefined,
+});
 const emits = defineEmits<MenuEmits>();
 // 解构属性
 const {
@@ -87,10 +63,10 @@ const {
   collapsed,
   defaultCollapsed,
   breakpoint,
-  collapsedWidth,
   accordion,
   autoOpen,
   theme,
+  collapsedWidth: _collapsedWidth,
 } = toRefs(props);
 // 选中的key
 const computedSelectedKeys = useControlValue<string>(
@@ -119,11 +95,8 @@ const computedOpenKeys = useControlValue<string[]>(
     emits('update:openKeys', val);
   }
 );
-
-// 处理点击
-const handleClick = () => {
-  computedCollapsed.value = !computedCollapsed.value;
-};
+// 收缩的宽度
+const collapsedWidth = computed(() => _collapsedWidth.value + 'px');
 // 注入数据
 provide<MenuProvide>(MENU_PROVIDE_KEY, {
   computedSelectedKeys,
@@ -132,9 +105,12 @@ provide<MenuProvide>(MENU_PROVIDE_KEY, {
   levelIndent,
   accordion,
   autoOpen,
-  theme,
   emits,
 });
+// 处理点击
+const handleClick = () => {
+  computedCollapsed.value = !computedCollapsed.value;
+};
 // 媒体查询
 mediaQueryHandler((_, order, i) => {
   if (!breakpoint.value) return;
@@ -143,87 +119,9 @@ mediaQueryHandler((_, order, i) => {
 </script>
 
 <style lang="less" scoped>
-.yc-menu {
-  position: relative;
-  transition: width 0.2s cubic-bezier(0.34, 0.69, 0.1, 1);
-  .yc-menu-inner {
-    overflow: auto;
-    padding: 4px 8px;
-    width: 100%;
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    gap: 4px;
-  }
-  .yc-menu-collapse-button {
-    cursor: pointer;
-    position: absolute;
-    right: 12px;
-    bottom: 12px;
-    width: 24px;
-    height: 24px;
-    border-radius: 2px;
-    font-size: 14px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-}
-// mode
-.yc-menu-direction-vertical {
-  height: 100%;
-}
-.yc-menu-direction-horizontal {
-  width: 100%;
-}
-// theme
-.yc-menu-theme-light {
-  background-color: #fff;
-
-  .yc-menu-collapse-button {
-    color: rgb(134, 144, 156);
-    background-color: rgb(247, 248, 250);
-    &:hover {
-      background-color: rgb(229, 230, 235);
-    }
-  }
-  &:deep(.yc-menu-item) {
-    color: rgb(134, 144, 156);
-    &:not(.yc-menu-item-disabled) {
-      &:hover {
-        background-color: rgb(242, 243, 245);
-        color: rgb(22, 93, 255);
-      }
-    }
-  }
-}
-.yc-menu-theme-dark {
-  background-color: #232324;
-
-  .yc-menu-collapse-button {
-    color: rgb(201, 205, 212);
-    background-color: rgba(255, 255, 255, 0.04);
-    &:hover {
-      background-color: rgba(255, 255, 255, 0.04);
-    }
-  }
-  &:deep(.yc-menu-item) {
-    color: rgb(201, 205, 212);
-
-    &:not(.yc-menu-item-disabled) {
-      &:hover {
-        background-color: rgba(255, 255, 255, 0.04);
-      }
-    }
-    &.yc-menu-item-selected {
-      background-color: rgba(255, 255, 255, 0.04);
-      color: rgb(22, 93, 255);
-    }
-  }
-}
+@import './style/menu.less';
+// 收缩
 .yc-menu-collapsed {
-  &:deep(.yc-menu-item) {
-    width: fit-content !important;
-  }
+  width: v-bind(collapsedWidth) !important;
 }
 </style>

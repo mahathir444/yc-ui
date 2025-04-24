@@ -107,7 +107,6 @@ const props = withDefaults(defineProps<TriggerProps>(), {
   autoSetPosition: false,
 });
 const emits = defineEmits<TriggerEmits>();
-console.log(TRIGGER_POSITION_MAP, 'ss');
 // 接收属性
 const { zIndex, popupContainer } = useConfigProvder(props);
 // 弹出层的ref

@@ -1,11 +1,12 @@
 <template>
   <yc-layout class="container">
-    <yc-layout-sider
-      hide-trigger
-      v-model:collapsed="collapsed"
-      :collapsed-width="64"
-    >
-      <yc-menu v-model:collapsed="collapsed" show-collapse-button auto-open>
+    <yc-layout-sider hide-trigger>
+      <yc-menu
+        v-model:collapsed="collapsed"
+        show-collapse-button
+        auto-open
+        style="width: 200px"
+      >
         <template v-for="(item, index) in menus" :key="item.path">
           <yc-sub-menu
             v-if="item.submenu.length"
@@ -35,7 +36,7 @@
     <yc-layout class="main">
       <yc-layout-header class="header"> </yc-layout-header>
       <yc-layout-content class="content">
-        <yc-split
+        <!-- <yc-split
           v-model:size="size"
           :min="0.2"
           :max="0.7"
@@ -48,7 +49,8 @@
           <template #second>
             <div style="background-color: bisque; height: 100%"></div>
           </template>
-        </yc-split>
+        </yc-split> -->
+        <star-office-structure type="user" server="front" multiple />
       </yc-layout-content>
     </yc-layout>
   </yc-layout>
@@ -56,6 +58,7 @@
 
 <script lang="ts" setup>
 import { ref, watch } from 'vue';
+import { StarOfficeStructure } from '@/components/dept-user-select/star-office.js';
 const size = ref(0.7);
 const collapsed = ref<boolean>(false);
 const menus = Array(8)
@@ -64,14 +67,15 @@ const menus = Array(8)
     return {
       title: `菜单${i + 1}`,
       path: `菜单 ${i + 1}`,
-      submenu: !i
-        ? new Array(3).fill(undefined).map((_, i1) => {
-            return {
-              title: `子菜单${i + 1}-${i1 + 1}`,
-              path: `子菜单${i + 1}-${i1 + 1}`,
-            };
-          })
-        : [],
+      submenu:
+        i < 2
+          ? new Array(3).fill(undefined).map((_, i1) => {
+              return {
+                title: `子菜单${i + 1}-${i1 + 1}`,
+                path: `子菜单${i + 1}-${i1 + 1}`,
+              };
+            })
+          : [],
     };
   });
 </script>
