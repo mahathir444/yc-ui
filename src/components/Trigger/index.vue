@@ -98,7 +98,7 @@ const props = withDefaults(defineProps<TriggerProps>(), {
   autoFitPosition: true,
   updateAtScroll: undefined,
   scrollToClose: undefined,
-  scrollToCloseDistance: 0.1,
+  scrollToCloseDistance: 1,
   preventFocus: false,
   alignPoint: false,
   needTransformOrigin: false,

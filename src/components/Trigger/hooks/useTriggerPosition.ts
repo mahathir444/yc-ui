@@ -52,7 +52,7 @@ export default (params: {
   // 计算trigger的位置
   const popupPosition = computed(() => {
     // 计算偏移量
-    const { offsetX, offsetY } = calcOffset();
+    const { offsetX, offsetY } = calcOffset(popupTranslate, popupOffset);
     // 是否是自由设置位置，或者跟随鼠标位置
     const isMousePosition =
       alignPoint.value && ['click', 'contextMenu'].includes(trigger.value);
@@ -103,9 +103,13 @@ export default (params: {
       offsetLeft,
       offsetTop
     ) as TriggerPostion;
+    const { offsetX: newOffsetX, offsetY: newOffsetY } = calcOffset(
+      popupTranslate,
+      popupOffset
+    );
     return {
-      top: `${newTop + offsetY}px`,
-      left: `${newLeft + offsetX}px`,
+      top: `${newTop + newOffsetY}px`,
+      left: `${newLeft + newOffsetX}px`,
     };
   });
   // contentStyle
@@ -254,7 +258,7 @@ export default (params: {
     };
   };
   // 计算偏移量
-  function calcOffset() {
+  function calcOffset(popupTranslate: Ref<number[]>, popupOffset: Ref<number>) {
     const [translateX, translateY] = popupTranslate.value;
     // 计算偏移量
     let offsetX = translateX;

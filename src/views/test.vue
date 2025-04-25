@@ -23,6 +23,9 @@
             >
               {{ subItem.title }}
             </yc-menu-item>
+            <yc-sub-menu v-if="!index" path="11" title="通用三级">
+              <yc-menu-item path="111"> 三级子级 </yc-menu-item>
+            </yc-sub-menu>
           </yc-sub-menu>
           <yc-menu-item v-else :path="item.path">
             <template #icon>

@@ -52,6 +52,8 @@ const { childKeys, level } = inject<SubMenuProvide>(SUBMENU_PROVIDE_KEY, {
   level: ref<number>(1),
   childLevel: 0,
 });
+console.log(childKeys.value);
+
 // 继续注入
 provide<SubMenuProvide>(SUBMENU_PROVIDE_KEY, {
   childKeys,

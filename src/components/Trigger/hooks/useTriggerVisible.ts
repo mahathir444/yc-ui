@@ -163,7 +163,7 @@ export default (params: {
       }
     );
   };
-  // 处理滚动关闭
+  // 处理滚动关闭,滚动关闭存在问题
   const handleScrollToClose = (left: Ref<number>, top: Ref<number>) => {
     // 检测滚动关闭
     if (!scrollToClose.value) return;
