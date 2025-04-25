@@ -18,3 +18,4 @@ export const CONFIG_PROVIDER_PROVIDE_KEY = 'config-props';
 export const ANCHOR_PROVIDE_KEY = 'anchor-props';
 export const MENU_PROVIDE_KEY = 'menu-props';
 export const SUBMENU_PROVIDE_KEY = 'sub-menu-props';
+export const COLLAPSE_PROVIDE_KEY = 'collapse-props';

@@ -11,8 +11,14 @@
 
 <script lang="ts" setup>
 import { toRefs, provide } from 'vue';
-import { CollapseProps, CollapseEmits, CollapseValue } from './type';
+import {
+  CollapseProps,
+  CollapseEmits,
+  CollapseValue,
+  CollapseProvide,
+} from './type';
 import { useControlValue } from '@shared/hooks';
+import { COLLAPSE_PROVIDE_KEY } from '@shared/constants';
 defineOptions({
   name: 'Collapse',
 });
@@ -43,8 +49,7 @@ const computedActiveKey = useControlValue<CollapseValue[]>(
     emits('change', val);
   }
 );
-
-provide('collapse-props', {
+provide<CollapseProvide>(COLLAPSE_PROVIDE_KEY, {
   computedActiveKey,
   accordion,
   expandIconPosition,

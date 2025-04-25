@@ -50,7 +50,8 @@
 
 <script lang="ts" setup>
 import { ref, inject, toRefs } from 'vue';
-import { CollapseItemProps, CollapseValue } from './type';
+import { COLLAPSE_PROVIDE_KEY } from '@shared/constants';
+import { CollapseItemProps, CollapseProvide } from './type';
 import { IconDown, IconRight, IconLeft } from '@shared/icons';
 import { ExpandTransition } from '@shared/components';
 import YcIconButton from '@shared/components/IconButton.vue';
@@ -77,8 +78,8 @@ const {
   expandIconPosition,
   showExpandIcon,
   destroyOnHide,
-} = inject('collapse-props', {
-  computedActiveKey: ref<CollapseValue[]>([]),
+} = inject<CollapseProvide>(COLLAPSE_PROVIDE_KEY, {
+  computedActiveKey: ref([]),
   accordion: ref(false),
   expandIconPosition: ref('left'),
   showExpandIcon: _showExpandIcon,

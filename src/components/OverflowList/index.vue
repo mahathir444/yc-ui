@@ -6,9 +6,16 @@
     }"
     ref="listRef"
   >
-    <yc-tag v-if="max < tags.length && from == 'start'">
-      {{ `+${tags.length - max + 1}...` }}
-    </yc-tag>
+    <slot
+      v-if="max < tags.length && from == 'end'"
+      name="overflow"
+      :number="tags.length - max + 1"
+    >
+      <yc-tag v-if="max < tags.length && from == 'end'">
+        {{ `+${tags.length - max + 1}...` }}
+      </yc-tag>
+    </slot>
+
     <component
       v-for="(node, i) in tags"
       :key="i"
@@ -21,9 +28,15 @@
       }"
       :ref="(el: TagInstance) => (tagRef[i] = el)"
     />
-    <yc-tag v-if="max < tags.length && from == 'end'">
-      {{ `+${tags.length - max + 1}...` }}
-    </yc-tag>
+    <slot
+      v-if="max < tags.length && from == 'end'"
+      name="overflow"
+      :number="tags.length - max + 1"
+    >
+      <yc-tag>
+        {{ `+${tags.length - max + 1}...` }}
+      </yc-tag>
+    </slot>
   </div>
 </template>
 
