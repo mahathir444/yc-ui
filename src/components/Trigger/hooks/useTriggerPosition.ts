@@ -13,7 +13,6 @@ export default (params: {
   const { props, popupRef, triggerRef, mouseX, mouseY } = params;
   // 解构需要使用的属性
   const {
-    position,
     trigger,
     alignPoint,
     popupTranslate,
@@ -22,13 +21,14 @@ export default (params: {
     autoFitPopupMinWidth,
     autoFitPopupWidth,
     autoSetPosition,
+    position: _position,
     arrowStyle: _arrowStyle,
     contentStyle: _contentStyle,
   } = toRefs(props);
   // 接收provider传入的属性
   const { updateAtScroll } = useConfigProvder(props);
   // 动态计算当前的位置
-  const curPosition = ref<TriggerPostion>(position.value);
+  const position = ref<TriggerPostion>(_position.value);
   // 获取trigger元素bounding
   const {
     left,
@@ -52,7 +52,11 @@ export default (params: {
   // 计算trigger的位置
   const popupPosition = computed(() => {
     // 计算偏移量
-    const { offsetX, offsetY } = calcOffset(popupTranslate, popupOffset);
+    const { offsetX, offsetY } = calcOffset(
+      popupTranslate.value,
+      popupOffset.value,
+      position.value
+    );
     // 是否是自由设置位置，或者跟随鼠标位置
     const isMousePosition =
       alignPoint.value && ['click', 'contextMenu'].includes(trigger.value);
@@ -64,17 +68,18 @@ export default (params: {
       };
     }
     // 计算初始位置
-    const { offsetTop, offsetLeft } = calcOriginPopup({
-      position,
-      triggerWidth,
-      triggerHeight,
-      popupHeight,
-      popupWidth,
-      top,
-      left,
-      right,
-      bottom,
+    const { offsetTop, offsetLeft } = calcPopupPosition({
+      position: position.value,
+      triggerWidth: triggerWidth.value,
+      triggerHeight: triggerHeight.value,
+      popupHeight: popupHeight.value,
+      popupWidth: popupWidth.value,
+      top: top.value,
+      left: left.value,
+      right: right.value,
+      bottom: bottom.value,
     });
+    console.log('position', position.value);
     // 如果不进行边界检测
     if (!autoFitPosition.value) {
       return {
@@ -83,33 +88,42 @@ export default (params: {
       };
     }
     // 边界检测
-    const { offsetTop: newTop, offsetLeft: newLeft } = calcPopupBounding(
+    const { newTop, newLeft } = calcCurPopupPosition({
       offsetLeft,
       offsetTop,
-      {
-        position,
-        triggerWidth,
-        triggerHeight,
-        popupHeight,
-        popupWidth,
-        top,
-        left,
-        right,
-        bottom,
-      }
-    );
+      position: position.value,
+      triggerWidth: triggerWidth.value,
+      triggerHeight: triggerHeight.value,
+      popupHeight: popupHeight.value,
+      popupWidth: popupWidth.value,
+      top: top.value,
+      left: left.value,
+      right: right.value,
+      bottom: bottom.value,
+    });
     // 计算trigger当前的位置
-    curPosition.value = calcPositionRef(
-      offsetLeft,
-      offsetTop
-    ) as TriggerPostion;
+    position.value = calcPositionRef({
+      offsetLeft: newLeft,
+      offsetTop: newTop,
+      triggerWidth: triggerWidth.value,
+      triggerHeight: triggerHeight.value,
+      popupHeight: popupHeight.value,
+      popupWidth: popupWidth.value,
+      top: top.value,
+      left: left.value,
+      right: right.value,
+      bottom: bottom.value,
+    }) as TriggerPostion;
+    // 计算新的offset
     const { offsetX: newOffsetX, offsetY: newOffsetY } = calcOffset(
-      popupTranslate,
-      popupOffset
+      popupTranslate.value,
+      popupOffset.value,
+      position.value
     );
+    console.log(position.value, newOffsetX, newOffsetY);
     return {
-      top: `${newTop + newOffsetY}px`,
       left: `${newLeft + newOffsetX}px`,
+      top: `${newTop + newOffsetY}px`,
     };
   });
   // contentStyle
@@ -122,78 +136,60 @@ export default (params: {
   });
   // arrowStyle
   const arrowStyle = computed(() => {
-    let inset: CSSProperties;
-    if (['top', 'tl', 'tr', 'bottom', 'bl', 'br'].includes(curPosition.value)) {
-      let arrowLeft: string | number = '';
-      if (['top', 'bottom'].includes(curPosition.value)) {
-        arrowLeft = popupWidth.value / 2;
-      } else {
-        arrowLeft = triggerWidth.value / 2;
-      }
-      inset = {
-        top: curPosition.value.startsWith('b') ? '0' : '',
-        bottom: curPosition.value.startsWith('t') ? '0' : '',
-        left: `${arrowLeft}px`,
-      };
-    } else {
-      let arrowTop: string | number = '';
-      let arrowBottom: string | number = '';
-      if (['left', 'right'].includes(curPosition.value)) {
-        arrowTop = popupHeight.value / 2;
-      } else if (['lt', 'rt'].includes(curPosition.value)) {
-        arrowTop = triggerHeight.value / 2;
-      } else {
-        arrowBottom = triggerHeight.value / 2;
-      }
-      inset = {
-        top: `${arrowTop}px`,
-        right: curPosition.value.startsWith('l') ? '0' : '',
-        bottom: `${arrowBottom}px`,
-        left: curPosition.value.startsWith('r') ? '0' : '',
-      };
-    }
     return {
       ..._arrowStyle.value,
-      ...inset,
+      ...calcArrowPosition({
+        position: position.value,
+        popupWidth: popupWidth.value,
+        popupHeight: popupHeight.value,
+        triggerHeight: triggerHeight.value,
+        triggerWidth: triggerWidth.value,
+      }),
     } as CSSProperties;
   });
   // 计算最初的pop位置
-  const calcOriginPopup = (params: {
-    position: Ref<TriggerPostion>;
-    triggerWidth: Ref<number>;
-    triggerHeight: Ref<number>;
-    top: Ref<number>;
-    bottom: Ref<number>;
-    left: Ref<number>;
-    right: Ref<number>;
-    popupHeight: Ref<number>;
-    popupWidth: Ref<number>;
+  const calcPopupPosition = (params: {
+    position: TriggerPostion;
+    triggerWidth: number;
+    triggerHeight: number;
+    top: number;
+    bottom: number;
+    left: number;
+    right: number;
+    popupHeight: number;
+    popupWidth: number;
   }) => {
     let offsetTop = 0;
     let offsetLeft = 0;
-    const { position, triggerWidth, triggerHeight } = params;
+    const {
+      position,
+      triggerWidth,
+      triggerHeight,
+      popupWidth,
+      popupHeight,
+      left,
+      top,
+      right,
+      bottom,
+    } = params;
     // 初始位置计算
-    if (['top', 'tl', 'tr', 'bottom', 'bl', 'br'].includes(position.value)) {
-      offsetTop = position.value.startsWith('t')
-        ? top.value - popupHeight.value
-        : bottom.value;
-      if (['top', 'bottom'].includes(position.value)) {
-        offsetLeft = left.value + (triggerWidth.value - popupWidth.value) / 2;
-      } else if (['tl', 'bl'].includes(position.value)) {
-        offsetLeft = left.value;
+    if (['top', 'tl', 'tr', 'bottom', 'bl', 'br'].includes(position)) {
+      offsetTop = position.startsWith('t') ? top - popupHeight : bottom;
+      if (['top', 'bottom'].includes(position)) {
+        offsetLeft = left + (triggerWidth - popupWidth) / 2;
+      } else if (['tl', 'bl'].includes(position)) {
+        offsetLeft = left;
       } else {
-        offsetLeft = right.value - popupWidth.value;
+        offsetLeft = right - popupWidth;
       }
     } else {
-      offsetLeft = position.value.startsWith('l')
-        ? left.value - popupWidth.value
-        : right.value;
-      if (['left', 'right'].includes(position.value)) {
-        offsetTop = top.value + (triggerHeight.value - popupHeight.value) / 2;
-      } else if (['lt', 'rt'].includes(position.value)) {
-        offsetTop = top.value;
+      offsetLeft = position.startsWith('l') ? left - popupWidth : right;
+      if (['left', 'right'].includes(position)) {
+        offsetTop = top + (triggerHeight - popupHeight) / 2;
+      } else if (['lt', 'rt'].includes(position)) {
+        offsetTop = top;
       } else {
-        offsetTop = bottom.value - popupHeight.value;
+        offsetTop = bottom - popupHeight;
       }
     }
     return {
@@ -202,75 +198,130 @@ export default (params: {
     };
   };
   // 计算边界
-  const calcPopupBounding = (
-    offsetLeft: number,
-    offsetTop: number,
-    params: {
-      position: Ref<TriggerPostion>;
-      triggerWidth: Ref<number>;
-      triggerHeight: Ref<number>;
-      top: Ref<number>;
-      bottom: Ref<number>;
-      left: Ref<number>;
-      right: Ref<number>;
-      popupHeight: Ref<number>;
-      popupWidth: Ref<number>;
-    }
-  ) => {
-    const { bottom, left, right, top, popupHeight, popupWidth, position } =
-      params;
-    if (['top', 'tl', 'tr', 'bottom', 'bl', 'br'].includes(position.value)) {
+  const calcCurPopupPosition = (params: {
+    offsetLeft: number;
+    offsetTop: number;
+    position: TriggerPostion;
+    top: number;
+    bottom: number;
+    left: number;
+    right: number;
+    triggerWidth: number;
+    triggerHeight: number;
+    popupHeight: number;
+    popupWidth: number;
+  }) => {
+    const {
+      bottom,
+      left,
+      right,
+      top,
+      popupHeight,
+      popupWidth,
+      position,
+      offsetLeft,
+      offsetTop,
+    } = params;
+    let newLeft = offsetLeft;
+    let newTop = offsetTop;
+    if (['top', 'tl', 'tr', 'bottom', 'bl', 'br'].includes(position)) {
       // 上下检测
-      if (offsetTop < 0 && ['top', 'tl', 'tr'].includes(position.value)) {
-        offsetTop = bottom.value;
+      if (newTop < 0 && ['top', 'tl', 'tr'].includes(position)) {
+        newTop = bottom;
       } else if (
-        offsetTop + popupHeight.value > window.innerHeight &&
-        ['bottom', 'bl', 'br'].includes(position.value)
+        newTop + popupHeight > window.innerHeight &&
+        ['bottom', 'bl', 'br'].includes(position)
       ) {
-        offsetTop = top.value - popupHeight.value;
+        newTop = top - popupHeight;
       }
       // 左右检测
-      if (offsetLeft < 0) {
-        offsetLeft = left.value;
-      } else if (offsetLeft + popupWidth.value > window.innerWidth) {
-        offsetLeft = right.value - popupWidth.value;
+      if (newLeft < 0) {
+        newLeft = left;
+      } else if (newLeft + popupWidth > window.innerWidth) {
+        newLeft = right - popupWidth;
       }
     } else {
       // 左右检测
-      if (offsetLeft < 0 && ['left', 'lt', 'lb'].includes(position.value)) {
-        offsetLeft = right.value;
+      if (newLeft < 0 && ['left', 'lt', 'lb'].includes(position)) {
+        newLeft = right;
       } else if (
-        offsetLeft + popupWidth.value > window.innerWidth &&
-        ['right', 'rt', 'rb'].includes(position.value)
+        newLeft + popupWidth > window.innerWidth &&
+        ['right', 'rt', 'rb'].includes(position)
       ) {
-        offsetLeft = left.value - popupWidth.value;
+        newLeft = left - popupWidth;
       }
       // 上下检测
-      if (offsetTop < 0) {
-        offsetTop = top.value;
-      } else if (offsetTop + popupHeight.value > window.innerHeight) {
-        offsetTop = top.value - popupHeight.value;
+      if (newTop < 0) {
+        newTop = top;
+      } else if (newTop + popupHeight > window.innerHeight) {
+        newTop = top - popupHeight;
       }
     }
     return {
-      offsetTop,
-      offsetLeft,
+      newTop,
+      newLeft,
     };
   };
+  // 计算arrow的positon
+  const calcArrowPosition = (params: {
+    position: TriggerPostion;
+    triggerWidth: number;
+    triggerHeight: number;
+    popupHeight: number;
+    popupWidth: number;
+  }) => {
+    const { position, triggerWidth, triggerHeight, popupWidth, popupHeight } =
+      params;
+    let inset: CSSProperties;
+    if (['top', 'tl', 'tr', 'bottom', 'bl', 'br'].includes(position)) {
+      let arrowLeft: string | number = '';
+      if (['top', 'bottom'].includes(position)) {
+        arrowLeft = popupWidth / 2;
+      } else {
+        arrowLeft = triggerWidth / 2;
+      }
+      inset = {
+        top: position.startsWith('b') ? '0' : '',
+        bottom: position.startsWith('t') ? '0' : '',
+        left: `${arrowLeft}px`,
+      };
+    } else {
+      let arrowTop: string | number = '';
+      let arrowBottom: string | number = '';
+      if (['left', 'right'].includes(position)) {
+        arrowTop = popupHeight / 2;
+      } else if (['lt', 'rt'].includes(position)) {
+        arrowTop = triggerHeight / 2;
+      } else {
+        arrowBottom = triggerHeight / 2;
+      }
+      inset = {
+        top: `${arrowTop}px`,
+        right: position.startsWith('l') ? '0' : '',
+        bottom: `${arrowBottom}px`,
+        left: position.startsWith('r') ? '0' : '',
+      };
+    }
+    return inset;
+  };
   // 计算偏移量
-  function calcOffset(popupTranslate: Ref<number[]>, popupOffset: Ref<number>) {
-    const [translateX, translateY] = popupTranslate.value;
+  function calcOffset(
+    popupTranslate: number[],
+    popupOffset: number,
+    position: TriggerPostion
+  ) {
+    const [translateX, translateY] = popupTranslate;
     // 计算偏移量
     let offsetX = translateX;
     let offsetY = translateY;
-    if (curPosition.value.startsWith('t')) {
-      offsetY = -popupOffset.value;
-    } else if (curPosition.value.startsWith('b')) {
-      offsetY = popupOffset.value;
-    } else if (curPosition.value.startsWith('l')) {
-      offsetX = -popupOffset.value;
-    } else if (curPosition.value.startsWith('r')) {
-      offsetX = popupOffset.value;
+    if (position.startsWith('t')) {
+      offsetY = -popupOffset;
+    } else if (position.startsWith('b')) {
+      offsetY = popupOffset;
+    } else if (position.startsWith('l')) {
+      offsetX = -popupOffset;
+    } else if (position.startsWith('r')) {
+      offsetX = popupOffset;
     }
     return {
       offsetX,
@@ -278,41 +329,48 @@ export default (params: {
     };
   }
   // 根据offsettop与offsetleft反向计算当前的位置
-  function calcPositionRef(offsetLeft: number, offsetTop: number) {
+  function calcPositionRef(params: {
+    offsetLeft: number;
+    offsetTop: number;
+    top: number;
+    bottom: number;
+    left: number;
+    right: number;
+    triggerWidth: number;
+    triggerHeight: number;
+    popupHeight: number;
+    popupWidth: number;
+  }) {
+    const {
+      offsetLeft,
+      offsetTop,
+      top,
+      left,
+      bottom,
+      right,
+      triggerWidth,
+      triggerHeight,
+      popupHeight,
+      popupWidth,
+    } = params;
     const epsilon = 0.00001; // 定义一个小的容差值
     const dirArray = [
       //上
-      [
-        top.value - popupHeight.value,
-        left.value + (triggerWidth.value - popupWidth.value) / 2,
-        'top',
-      ],
-      [top.value - popupHeight.value, left.value, 'tl'],
-      [top.value - popupHeight.value, right.value - popupWidth.value, 'tr'],
+      [top - popupHeight, left + (triggerWidth - popupWidth) / 2, 'top'],
+      [top - popupHeight, left, 'tl'],
+      [top - popupHeight, right - popupWidth, 'tr'],
       //下
-      [
-        bottom.value,
-        left.value + (triggerWidth.value - popupWidth.value) / 2,
-        'bottom',
-      ],
-      [bottom.value, left.value, 'bl'],
-      [bottom.value, right.value - popupWidth.value, 'br'],
+      [bottom, left + (triggerWidth - popupWidth) / 2, 'bottom'],
+      [bottom, left, 'bl'],
+      [bottom, right - popupWidth, 'br'],
       //左
-      [
-        top.value + (triggerHeight.value - popupHeight.value) / 2,
-        left.value - popupWidth.value,
-        'left',
-      ],
-      [top.value, left.value - popupWidth.value, 'lt'],
-      [bottom.value - popupHeight.value, left.value - popupWidth.value, 'lb'],
+      [top + (triggerHeight - popupHeight) / 2, left - popupWidth, 'left'],
+      [top, left - popupWidth, 'lt'],
+      [bottom - popupHeight, left - popupWidth, 'lb'],
       //右
-      [
-        top.value + (triggerHeight.value - popupHeight.value) / 2,
-        right.value,
-        'right',
-      ],
-      [top.value, right.value, 'rt'],
-      [bottom.value - popupHeight.value, right.value, 'rb'],
+      [top + (triggerHeight - popupHeight) / 2, right, 'right'],
+      [top, right, 'rt'],
+      [bottom - popupHeight, right, 'rb'],
     ];
     for (const [finalTop, finalLeft, dir] of dirArray) {
       if (
@@ -330,7 +388,7 @@ export default (params: {
     bottom,
     right,
     popupPosition,
-    curPosition,
+    position,
     contentStyle,
     arrowStyle,
   };

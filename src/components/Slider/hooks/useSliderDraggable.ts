@@ -139,18 +139,14 @@ export default (params: {
     }
   );
   // 检测computedValue的改变重置位置
-  debouncedWatch(
-    computedValue,
+  watch(
+    () => computedValue.value,
     async (v) => {
       if (isDragging.value) {
         return;
       }
       await nextTick();
       setPositionFromValue(v);
-    },
-    {
-      debounce: 50,
-      immediate: true,
     }
   );
   return {

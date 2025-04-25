@@ -25,7 +25,7 @@
         :data-group-level="level"
         :class="[
           'yc-trigger',
-          TRIGGER_POSITION_MAP[curPosition],
+          TRIGGER_POSITION_MAP[position],
           needTransformOrigin ? 'yc-trigger-transform-origin' : '',
           $attrs.class ?? '',
         ]"
@@ -77,7 +77,7 @@ const props = withDefaults(defineProps<TriggerProps>(), {
   blurToClose: true,
   clickToClose: true,
   clickOutsideToClose: true,
-  unmountOnClose: false,
+  unmountOnClose: true,
   contentClass: '',
   contentStyle: () => {
     return {};
@@ -113,6 +113,7 @@ const popupRef = ref<HTMLDivElement>();
 const triggerRef = ref<HTMLElement>();
 // 获取插槽
 const slots = useSlots();
+// slots
 const vNode = computed(() => findFirstLegitChild(slots.default?.() || []));
 // 处理trigger关闭与开启
 const {
@@ -134,38 +135,20 @@ const {
   popupRef,
   triggerRef,
 });
-// 初始化trigger地计算参数
-const { popupPosition, curPosition, contentStyle, arrowStyle } = initTrigger();
-// 初始化trigger
-function initTrigger() {
-  if (!vNode.value) {
-    return {
-      popupPosition: {},
-      contentStyle: {},
-      arrowStyle: {},
-      curPosition: '',
-    };
-  }
-  // 计算wrapper与arrow的位置信息
-  const { left, top, popupPosition, curPosition, contentStyle, arrowStyle } =
-    useTriggerPosition({
-      props: props as TriggerPropsRequired,
-      popupRef,
-      triggerRef,
-      mouseX,
-      mouseY,
-    });
-  // 处理点击到外层关闭
-  handleClickOutsideClose();
-  // 处理滚动关闭
-  handleScrollToClose(left, top);
-  return {
-    curPosition,
-    popupPosition,
-    contentStyle,
-    arrowStyle,
-  };
-}
+// 计算wrapper与arrow的位置信息
+const { left, top, popupPosition, position, contentStyle, arrowStyle } =
+  useTriggerPosition({
+    props: props as TriggerPropsRequired,
+    popupRef,
+    triggerRef,
+    mouseX,
+    mouseY,
+  });
+// 处理点击到外层关闭
+handleClickOutsideClose();
+// 处理滚动关闭
+handleScrollToClose(left, top);
+
 defineExpose({
   hide() {
     computedVisible.value = false;

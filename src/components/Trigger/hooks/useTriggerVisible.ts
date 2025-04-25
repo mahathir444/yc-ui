@@ -26,7 +26,6 @@ export default (params: {
   } = toRefs(props);
   // 接收全局属性
   const { scrollToClose } = useConfigProvder();
-  console.log(scrollToClose.value, 'scrollTopClose');
   // 处理事件
   const {
     onTriggerMouseclick,
@@ -169,19 +168,6 @@ export default (params: {
     if (!scrollToClose.value) return;
     let oldLeft = left.value;
     let oldTop = top.value;
-    watchEffect(() => {
-      if (!computedVisible.value) return;
-      const distanceX = Math.abs(oldLeft - left.value);
-      const distanceY = Math.abs(oldTop - top.value);
-      if (
-        distanceX >= scrollToCloseDistance.value ||
-        distanceY >= scrollToCloseDistance.value
-      ) {
-        computedVisible.value = false;
-      }
-      oldLeft = left.value;
-      oldTop = top.value;
-    });
   };
   return {
     level,

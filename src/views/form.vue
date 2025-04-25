@@ -126,7 +126,7 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, watch, watchEffect } from 'vue';
+import { ref, watch } from 'vue';
 import YcAutoComplete from '@/components/AutoComplete';
 const value = ref([]);
 const value1 = ref([]);
