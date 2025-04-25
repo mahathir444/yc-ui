@@ -45,7 +45,7 @@
     </div>
     <div style="width: 300px">
       popover
-      <yc-popover>
+      <yc-popover trigger="click">
         <yc-button>测试嵌套</yc-button>
         <template #content>
           <yc-empty description="暂无数据" style="width: 180px" />
@@ -93,6 +93,8 @@
 .test {
   height: 100%;
   width: 100%;
+  height: 300vh;
+  overflow: auto;
 
   display: flex;
   flex-direction: column;

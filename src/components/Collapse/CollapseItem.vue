@@ -11,8 +11,7 @@
         class="yc-collapse-item-header-icon"
       >
         <slot name="expand-icon">
-          <icon-down v-if="computedActiveKey.includes(value)" />
-          <icon-right v-else />
+          <icon-right :rotate="computedActiveKey.includes(value) ? 90 : 0" />
         </slot>
       </yc-icon-button>
       <div class="yc-collapse-item-header-title text-ellipsis">
@@ -28,17 +27,15 @@
         class="yc-collapse-item-header-icon"
       >
         <slot name="expand-icon">
-          <icon-down v-if="computedActiveKey.includes(value)" />
-          <icon-left v-else />
+          <icon-right :rotate="computedActiveKey.includes(value) ? -90 : 180" />
         </slot>
       </yc-icon-button>
     </div>
-    <expand-transition>
-      <div
-        v-if="!destroyOnHide || computedActiveKey.includes(value)"
-        v-show="computedActiveKey.includes(value)"
-        class="yc-collapse-item-content"
-      >
+    <expand-transition
+      v-if="!destroyOnHide || computedActiveKey.includes(value)"
+      v-show="computedActiveKey.includes(value)"
+    >
+      <div class="yc-collapse-item-content">
         <slot />
       </div>
     </expand-transition>
@@ -49,9 +46,8 @@
 import { ref, inject, toRefs } from 'vue';
 import { COLLAPSE_PROVIDE_KEY } from '@shared/constants';
 import { CollapseItemProps, CollapseProvide } from './type';
-import { IconDown, IconRight, IconLeft } from '@shared/icons';
-import { ExpandTransition } from '@shared/components';
-import YcIconButton from '@shared/components/IconButton.vue';
+import { IconRight } from '@shared/icons';
+import { YcIconButton, ExpandTransition } from '@shared/components';
 defineOptions({
   name: 'CollapseItem',
 });

@@ -36,21 +36,7 @@
     <yc-layout class="main">
       <yc-layout-header class="header"> </yc-layout-header>
       <yc-layout-content class="content">
-        <!-- <yc-split
-          v-model:size="size"
-          :min="0.2"
-          :max="0.7"
-          direction="horizontal"
-          style="height: 400px; width: 100%"
-        >
-          <template #first>
-            <div style="background-color: aqua; height: 100%"></div>
-          </template>
-          <template #second>
-            <div style="background-color: bisque; height: 100%"></div>
-          </template>
-        </yc-split> -->
-        <yc-collapse accordion :expand-icon-position="'right'">
+        <yc-collapse accordion>
           <yc-collapse-item
             v-for="item in menus"
             :key="item.path"

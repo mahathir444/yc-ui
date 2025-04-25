@@ -77,7 +77,7 @@ const props = withDefaults(defineProps<TriggerProps>(), {
   blurToClose: true,
   clickToClose: true,
   clickOutsideToClose: true,
-  unmountOnClose: true,
+  unmountOnClose: false,
   contentClass: '',
   contentStyle: () => {
     return {};

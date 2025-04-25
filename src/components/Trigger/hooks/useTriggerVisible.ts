@@ -26,6 +26,7 @@ export default (params: {
   } = toRefs(props);
   // 接收全局属性
   const { scrollToClose } = useConfigProvder();
+  console.log(scrollToClose.value, 'scrollTopClose');
   // 处理事件
   const {
     onTriggerMouseclick,
@@ -60,14 +61,16 @@ export default (params: {
   );
   // 点击
   const handleClickEvent = (e: MouseEvent) => {
-    if (!['click', 'contextMenu'].includes(trigger.value)) return;
     if (timeout.value) clearTimeout(timeout.value);
+    if (!['click', 'contextMenu'].includes(trigger.value)) return;
     if (!autoSetPosition.value) {
       const { pageX, pageY } = e;
       mouseX.value = pageX;
       mouseY.value = pageY;
     }
+    console.log(computedVisible.value, 'computedVisible');
     computedVisible.value = clickToClose.value ? !computedVisible.value : true;
+    console.log(computedVisible.value, 'computedVisible');
     // 触发click事件
     onTriggerMouseclick?.();
   };
@@ -76,9 +79,10 @@ export default (params: {
     setHoverLevel(mouseEnterDelay.value);
     if (trigger.value != 'hover') return;
     if (timeout.value) clearTimeout(timeout.value);
-    // if (computedVisible.value) return;
+    if (computedVisible.value) return;
     timeout.value = setTimeout(() => {
       computedVisible.value = true;
+      console.log('进入函数触发了', computedVisible.value);
       // 触发enter事件
       onTriggerMouseenter?.();
     }, mouseEnterDelay.value);
@@ -87,7 +91,7 @@ export default (params: {
   const handleMouseleave = (e: MouseEvent) => {
     if (trigger.value != 'hover') return;
     if (timeout.value) clearTimeout(timeout.value);
-    // if (!computedVisible.value) return;
+    if (!computedVisible.value) return;
     timeout.value = setTimeout(() => {
       // 处理不嵌套的情况
       if (!isNested.value) {
@@ -111,7 +115,7 @@ export default (params: {
   const handleFocus = () => {
     if (trigger.value != 'focus') return;
     if (timeout.value) clearTimeout(timeout.value);
-    // if (computedVisible.value) return;
+    if (computedVisible.value) return;
     timeout.value = setTimeout(() => {
       computedVisible.value = true;
       // 触发foucs事件
@@ -122,7 +126,7 @@ export default (params: {
   const handleBlur = () => {
     if (trigger.value != 'focus' || !blurToClose.value) return;
     if (timeout.value) clearTimeout(timeout.value);
-    // if (!computedVisible.value) return
+    if (!computedVisible.value) return;
     computedVisible.value = false;
     onTriggerBlur?.();
   };

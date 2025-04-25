@@ -23,6 +23,8 @@ export default (props: Record<string, any> = {}) => {
   // 接收属性
   const { size, updateAtScroll, scrollToClose, exchangeTime, popupContainer } =
     toRefs(isReactive(props) ? props : reactive(props));
+  console.log(_scrollToClose, 'configProvider');
+  console.log(scrollToClose, 'component');
   return {
     zIndex: _zIndex,
     size: !isUndefined(size?.value) ? size : _size,
@@ -30,8 +32,8 @@ export default (props: Record<string, any> = {}) => {
       ? updateAtScroll
       : _updateAtScroll,
     scrollToClose: !isUndefined(scrollToClose?.value)
-      ? updateAtScroll
-      : _updateAtScroll,
+      ? scrollToClose
+      : _scrollToClose,
     popupContainer: !isUndefined(popupContainer?.value)
       ? popupContainer
       : _popupContainer,
