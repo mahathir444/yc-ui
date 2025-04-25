@@ -95,8 +95,8 @@ export default (params: {
           };
     });
   });
-  // optionContent内容
-  const optionContent = ref<string[]>([]);
+  // optionContent的dom
+  const optionDoms = ref<Element[]>([]);
   // 所有的options
   const options = computed(() => {
     const result = [
@@ -106,7 +106,7 @@ export default (params: {
     ].map((item, index) => {
       return {
         ...item,
-        label: item.label ?? optionContent.value[index] ?? '',
+        label: item.label ?? getTextContent(optionDoms.value[index]),
       };
     });
     return result;
@@ -115,18 +115,18 @@ export default (params: {
   const getOptions = () => {
     if (!slots.default) return;
     // 获取option的content
-    const popupContainer = popupRef.value
-      ?.getPopupRef()
-      ?.getRef() as HTMLDivElement;
-    const optionDoms = popupContainer.querySelectorAll(
-      '.yc-select-option-content'
+    optionDoms.value = Array.from(
+      popupRef.value
+        ?.getPopupRef()
+        ?.getRef()
+        .querySelectorAll('.yc-select-option-content')
     );
-    optionContent.value = [...optionDoms].map((dom) => getTextContent(dom));
     // 获取插槽的props
     const nodes = findComponentsFromVnodes(
       slots?.default?.() ?? [],
       Option.name
     );
+    // 处理slotOptions
     slotOptions.value = nodes
       .filter((item) => item.props)
       .map((item) => item.props);

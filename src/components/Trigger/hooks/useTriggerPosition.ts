@@ -50,7 +50,7 @@ export default (params: {
     }
   );
   // 计算trigger的位置
-  const popupPosition = computed(() => {
+  const popupStyle = computed(() => {
     // 计算偏移量
     const { offsetX, offsetY } = calcOffset(
       popupTranslate.value,
@@ -79,7 +79,6 @@ export default (params: {
       right: right.value,
       bottom: bottom.value,
     });
-    console.log('position', position.value);
     // 如果不进行边界检测
     if (!autoFitPosition.value) {
       return {
@@ -120,7 +119,6 @@ export default (params: {
       popupOffset.value,
       position.value
     );
-    console.log(position.value, newOffsetX, newOffsetY);
     return {
       left: `${newLeft + newOffsetX}px`,
       top: `${newTop + newOffsetY}px`,
@@ -385,10 +383,8 @@ export default (params: {
   return {
     left,
     top,
-    bottom,
-    right,
-    popupPosition,
     position,
+    popupStyle,
     contentStyle,
     arrowStyle,
   };

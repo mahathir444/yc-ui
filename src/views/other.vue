@@ -30,8 +30,11 @@
         :style="{
           width: width + 'px',
         }"
+        from="start"
       >
-        <yc-tag v-for="i in options" :key="i.value">{{ i.label }}</yc-tag>
+        <yc-tag v-for="i in options" :key="i.value" :nowrap="true">{{
+          i.label
+        }}</yc-tag>
       </yc-overflow-list>
     </div>
     <div>
@@ -81,7 +84,7 @@ import Notification from '@/components/Notification';
 const visible = ref(false);
 const width = ref(300);
 const options = ref<any[]>([]);
-for (let i = 0; i < 100; i++) {
+for (let i = 0; i < 40; i++) {
   options.value.push({
     label: '选项' + i,
     value: i,

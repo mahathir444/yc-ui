@@ -135,14 +135,17 @@ const handleClick = () => {
 };
 // 收集
 const collectKeys = () => {
-  if (isSubmenu.value && autoOpen.value) {
-    computedOpenKeys.value.push(path.value);
+  if (isSubmenu.value) {
+    if (autoOpen.value) {
+      computedOpenKeys.value.push(path.value);
+    }
+    return;
   }
   const index = childKeys.value.findIndex((item) => item.path == path.value);
   if (index == -1) {
     childKeys.value.push({
       label: title.value,
-      type: isSubmenu.value ? 'submenu' : 'menuitem',
+      type: 'menuitem',
       level: childLevel - 1,
       path: path.value,
     });
@@ -150,6 +153,12 @@ const collectKeys = () => {
 };
 onMounted(() => {
   collectKeys();
+});
+
+defineExpose({
+  getTitle() {
+    return title.value;
+  },
 });
 </script>
 

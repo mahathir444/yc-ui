@@ -341,8 +341,8 @@ const { curIndex } = useSelectHotkeys({
   emits,
 });
 // 获取value
-function getValue(value: string | ObjectData) {
-  return ((value as ObjectData)?.[valueKey.value] ?? value) as SelectValue;
+function getValue(value: SelectValue) {
+  return (value as ObjectData)?.[valueKey.value] ?? value;
 }
 // 失焦
 function blur() {

@@ -1,6 +1,11 @@
 <template>
   <div class="yc-menu-inline">
-    <yc-menu-item is-submenu :path="path" class="yc-menu-inline-header">
+    <yc-menu-item
+      is-submenu
+      :path="path"
+      class="yc-menu-inline-header"
+      ref="headerRef"
+    >
       <slot name="title">
         {{ title }}
       </slot>
@@ -29,12 +34,14 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, inject, provide, toRefs } from 'vue';
+import { ref, inject, provide, toRefs, onMounted, computed } from 'vue';
 import { SubMenuProps, MenuProvide, SubMenuProvide } from './type';
 import { IconArrowDown, IconArrowUp } from '@shared/icons';
+import { buildMenuTree } from '@shared/utils';
 import { SUBMENU_PROVIDE_KEY, MENU_PROVIDE_KEY } from '@shared/constants';
 import { ExpandTransition } from '@shared/components';
-import YcMenuItem from './MenuItem.vue';
+import { MenuItem as YcMenuItem, MenuItemInstance } from './index';
+
 defineOptions({
   name: 'SubMenu',
 });
@@ -45,15 +52,18 @@ const props = withDefaults(defineProps<SubMenuProps>(), {
   popup: false,
   popupMaxHeight: true,
 });
-const { path } = toRefs(props);
+const { path, title } = toRefs(props);
+// headerRef
+const headerRef = ref<MenuItemInstance>();
 // 接收
 const { childKeys, level } = inject<SubMenuProvide>(SUBMENU_PROVIDE_KEY, {
   childKeys: ref([]),
   level: ref<number>(1),
   childLevel: 0,
 });
-console.log(childKeys.value);
-
+// 子菜单转树
+const childTrees = computed(() => buildMenuTree(childKeys.value));
+const submenuLevel = level.value - 1;
 // 继续注入
 provide<SubMenuProvide>(SUBMENU_PROVIDE_KEY, {
   childKeys,
@@ -73,6 +83,23 @@ const { computedOpenKeys, computedCollapsed } = inject<MenuProvide>(
     emits: () => {},
   }
 );
+// 收集key
+const collectKeys = () => {
+  const index = childKeys.value.findIndex((item) => item.path == path.value);
+  if (index == -1) {
+    childKeys.value.push({
+      label: title.value ? title.value : headerRef.value!.getTitle(),
+      type: 'submenu',
+      level: submenuLevel - 1,
+      path: path.value,
+    });
+  }
+  console.log(childTrees.value, 'childTrees');
+};
+
+onMounted(() => {
+  collectKeys();
+});
 </script>
 
 <style lang="less" scoped>

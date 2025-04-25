@@ -5,5 +5,5 @@ export interface OverflowListProps {
 }
 
 export interface OverflowListEmits {
-  change: (change: number) => void;
+  (e: 'change', value: number): void;
 }

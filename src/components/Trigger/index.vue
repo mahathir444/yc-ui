@@ -29,7 +29,7 @@
           needTransformOrigin ? 'yc-trigger-transform-origin' : '',
           $attrs.class ?? '',
         ]"
-        :style="popupPosition"
+        :style="popupStyle"
         ref="popupRef"
         @mouseenter="handleMouseenter"
         @mouseleave="handleMouseleave"
@@ -136,7 +136,7 @@ const {
   triggerRef,
 });
 // 计算wrapper与arrow的位置信息
-const { left, top, popupPosition, position, contentStyle, arrowStyle } =
+const { left, top, position, popupStyle, contentStyle, arrowStyle } =
   useTriggerPosition({
     props: props as TriggerPropsRequired,
     popupRef,

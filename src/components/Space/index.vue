@@ -37,7 +37,7 @@ const props = withDefaults(defineProps<SpaceProps>(), {
   wrap: false,
   fill: false,
 });
-const { size, align: alignItems } = toRefs(props);
+const { size } = toRefs(props);
 // slots
 const slots = useSlots();
 // 计算gap
