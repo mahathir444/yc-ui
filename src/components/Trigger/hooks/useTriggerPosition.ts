@@ -119,6 +119,9 @@ export default (params: {
       popupOffset.value,
       position.value
     );
+    console.log(_position.value, 'position');
+    console.log(position.value, 'position');
+
     return {
       left: `${newLeft + newOffsetX}px`,
       top: `${newTop + newOffsetY}px`,

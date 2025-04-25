@@ -1,3 +1,4 @@
+import { ChlidTreeNode } from '@/components/Menu';
 //睡眠函数
 export const sleep = (ms: number) => {
   return new Promise((resolve) => {
@@ -56,20 +57,13 @@ export function debounce<T extends (...args: any[]) => any>(
   };
 }
 
-interface MenuItem {
-  label: string;
-  type: 'menuitem' | 'submenu';
-  level: number;
-  path: string;
-  children?: MenuItem[];
-}
 // 构建menu-tree
-export function buildMenuTree(flatMenu: MenuItem[]): MenuItem[] {
+export function buildMenuTree(flatMenu: ChlidTreeNode[]): ChlidTreeNode[] {
   // 首先对菜单按level排序，确保父节点在前
   const sortedMenu = [...flatMenu].sort((a, b) => a.level - b.level);
 
-  const tree: MenuItem[] = [];
-  const map: Record<number, MenuItem> = {};
+  const tree: ChlidTreeNode[] = [];
+  const map: Record<number, ChlidTreeNode> = {};
 
   // 创建所有节点的映射
   sortedMenu.forEach((item, index) => {

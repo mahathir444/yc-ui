@@ -4,7 +4,6 @@
       <yc-menu
         v-model:collapsed="collapsed"
         show-collapse-button
-        auto-open
         style="width: 200px"
       >
         <template v-for="(item, index) in menus" :key="item.path">
@@ -35,6 +34,43 @@
           </yc-menu-item>
         </template>
       </yc-menu>
+      <!-- <a-menu
+        v-model:collapsed="collapsed"
+        mode="pop"
+        show-collapse-button
+        style="width: 200px"
+        :triggerProps="{
+          trigger: 'click',
+        }"
+      >
+        <template v-for="(item, index) in menus" :key="item.path">
+          <a-sub-menu
+            v-if="item.submenu.length"
+            :title="item.title"
+            :path="item.path"
+          >
+            <template #icon>
+              <icon-apps />
+            </template>
+            <a-menu-item
+              v-for="subItem in item.submenu"
+              :key="subItem.path"
+              :path="subItem.path"
+            >
+              {{ subItem.title }}
+            </a-menu-item>
+            <a-sub-menu v-if="!index" path="11" title="通用三级">
+              <a-menu-item path="111"> 三级子级 </a-menu-item>
+            </a-sub-menu>
+          </a-sub-menu>
+          <a-menu-item v-else :path="item.path">
+            <template #icon>
+              <icon-apps />
+            </template>
+            {{ item.title }}
+          </a-menu-item>
+        </template>
+      </a-menu> -->
     </yc-layout-sider>
     <yc-layout class="main">
       <yc-layout-header class="header"> </yc-layout-header>

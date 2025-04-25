@@ -15,7 +15,12 @@
     ref="triggerRef"
     v-bind="$attrs"
   >
-    <yc-doption :disabled="disabled" is-submenu ref="optionRef">
+    <yc-doption
+      :disabled="disabled"
+      :style="optionStyle"
+      is-submenu
+      ref="optionRef"
+    >
       <slot />
       <template #suffix>
         <icon-arrow-right />
@@ -58,6 +63,9 @@ const props = withDefaults(defineProps<DsubmenuProps>(), {
   trigger: 'hover',
   position: 'rt',
   disabled: false,
+  optionStyle: () => {
+    return {};
+  },
 });
 const emits = defineEmits<DsubmenuEmits>();
 const {

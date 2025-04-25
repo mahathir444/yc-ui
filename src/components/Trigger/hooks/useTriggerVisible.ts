@@ -81,7 +81,6 @@ export default (params: {
     if (computedVisible.value) return;
     timeout.value = setTimeout(() => {
       computedVisible.value = true;
-      console.log('进入函数触发了', computedVisible.value);
       // 触发enter事件
       onTriggerMouseenter?.();
     }, mouseEnterDelay.value);

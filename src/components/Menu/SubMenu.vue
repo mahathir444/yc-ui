@@ -13,17 +13,20 @@
         <slot name="icon" />
       </template>
       <template #suffix>
-        <slot v-if="!computedOpenKeys.includes(path)" name="expand-icon-down">
-          <icon-arrow-down />
+        <slot v-if="mode != 'pop'" name="expand-icon-down">
+          <icon-arrow-down
+            :rotate="computedOpenKeys.includes(path) ? 180 : 0"
+          />
         </slot>
-        <slot v-else name="expand-icon-up">
-          <icon-arrow-up />
+        <slot v-else name="expand-icon-right">
+          <icon-arrow-right />
         </slot>
       </template>
     </yc-menu-item>
     <!-- 过渡 -->
     <expand-transition>
       <div
+        v-if="mode != 'pop'"
         v-show="computedOpenKeys.includes(path) && !computedCollapsed"
         class="yc-menu-inline-content"
       >
@@ -36,8 +39,7 @@
 <script lang="ts" setup>
 import { ref, inject, provide, toRefs, onMounted, computed } from 'vue';
 import { SubMenuProps, MenuProvide, SubMenuProvide } from './type';
-import { IconArrowDown, IconArrowUp } from '@shared/icons';
-import { buildMenuTree } from '@shared/utils';
+import { IconArrowDown, IconArrowRight } from '@shared/icons';
 import { SUBMENU_PROVIDE_KEY, MENU_PROVIDE_KEY } from '@shared/constants';
 import { ExpandTransition } from '@shared/components';
 import { MenuItem as YcMenuItem, MenuItemInstance } from './index';
@@ -61,8 +63,6 @@ const { childKeys, level } = inject<SubMenuProvide>(SUBMENU_PROVIDE_KEY, {
   level: ref<number>(1),
   childLevel: 0,
 });
-// 子菜单转树
-const childTrees = computed(() => buildMenuTree(childKeys.value));
 const submenuLevel = level.value - 1;
 // 继续注入
 provide<SubMenuProvide>(SUBMENU_PROVIDE_KEY, {
@@ -71,7 +71,7 @@ provide<SubMenuProvide>(SUBMENU_PROVIDE_KEY, {
   childLevel: level.value++,
 });
 // 接收父级注入的属性
-const { computedOpenKeys, computedCollapsed } = inject<MenuProvide>(
+const { computedOpenKeys, computedCollapsed, mode } = inject<MenuProvide>(
   MENU_PROVIDE_KEY,
   {
     computedSelectedKeys: ref(''),
@@ -80,6 +80,10 @@ const { computedOpenKeys, computedCollapsed } = inject<MenuProvide>(
     computedCollapsed: ref(false),
     accordion: ref(false),
     autoOpen: ref(false),
+    tooltipProps: ref({}),
+    triggerProps: ref({}),
+    autoOpenSelected: ref(false),
+    mode: ref('vertical'),
     emits: () => {},
   }
 );
@@ -94,7 +98,6 @@ const collectKeys = () => {
       path: path.value,
     });
   }
-  console.log(childTrees.value, 'childTrees');
 };
 
 onMounted(() => {

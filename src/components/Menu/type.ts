@@ -6,7 +6,7 @@ import { Direction } from '@shared/type';
 
 export interface MenuProps {
   theme?: 'light' | 'dark';
-  mode?: Direction;
+  mode?: MenuMode;
   levelIndent?: number;
   autoOpen?: boolean;
   collapsed?: boolean;
@@ -19,12 +19,12 @@ export interface MenuProps {
   openKeys?: string[];
   defaultOpenKeys?: string[];
   breakpoint?: BreakpointName;
-  //
-  autoScrollIntoView?: boolean;
-  scrollConfig?: Record<string, any>;
   triggerProps?: TriggerProps;
   tooltipProps?: TooltipProps;
   autoOpenSelected?: boolean;
+  //
+  autoScrollIntoView?: boolean;
+  scrollConfig?: Record<string, any>;
   popupMaxHeight?: boolean | number;
 }
 
@@ -50,6 +50,8 @@ export interface MenuItemProps {
   isSubmenu?: boolean;
 }
 
+type MenuMode = 'vertical' | 'pop' | 'horizontal';
+
 export interface MenuProvide {
   computedSelectedKeys: WritableComputedRef<string> | Ref<string>;
   computedOpenKeys: WritableComputedRef<string[]> | Ref<string[]>;
@@ -57,6 +59,10 @@ export interface MenuProvide {
   levelIndent: Ref<number>;
   accordion: Ref<boolean>;
   autoOpen: Ref<boolean>;
+  triggerProps: Ref<TriggerProps>;
+  tooltipProps: Ref<TooltipProps>;
+  autoOpenSelected: Ref<boolean>;
+  mode: Ref<MenuMode>;
   emits: MenuEmits;
 }
 
@@ -66,6 +72,14 @@ export type ChlidKey = {
   label: string;
   path: string;
 };
+
+export interface ChlidTreeNode {
+  label: string;
+  type: 'menuitem' | 'submenu';
+  level: number;
+  path: string;
+  children?: ChlidTreeNode[];
+}
 
 export interface SubMenuProvide {
   childKeys: Ref<ChlidKey[]>;

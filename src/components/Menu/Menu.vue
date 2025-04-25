@@ -36,8 +36,8 @@ defineOptions({
   name: 'Menu',
 });
 const props = withDefaults(defineProps<MenuProps>(), {
-  theme: 'dark',
-  mode: 'vertical',
+  theme: 'light',
+  mode: 'pop',
   levelIndent: 20,
   autoOpen: false,
   collapsed: undefined,
@@ -50,6 +50,13 @@ const props = withDefaults(defineProps<MenuProps>(), {
   defaultSelectedKeys: '',
   openKeys: undefined,
   defaultOpenKeys: () => [],
+  triggerProps: () => {
+    return {};
+  },
+  tooltipProps: () => {
+    return {};
+  },
+  autoOpenSelected: false,
   breakpoint: undefined,
 });
 const emits = defineEmits<MenuEmits>();
@@ -66,6 +73,10 @@ const {
   accordion,
   autoOpen,
   theme,
+  triggerProps,
+  tooltipProps,
+  autoOpenSelected,
+  mode,
   collapsedWidth: _collapsedWidth,
 } = toRefs(props);
 // 选中的key
@@ -105,6 +116,10 @@ provide<MenuProvide>(MENU_PROVIDE_KEY, {
   levelIndent,
   accordion,
   autoOpen,
+  triggerProps,
+  tooltipProps,
+  mode,
+  autoOpenSelected,
   emits,
 });
 // 处理点击

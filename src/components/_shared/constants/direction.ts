@@ -1,4 +1,7 @@
-import { getComponentDirectionMap } from '../utils/compt';
+import {
+  getComponentConstantsMap,
+  getComponentDirectionMap,
+} from '../utils/compt';
 
 export const CHECKBOX_DIRECTION_MAP =
   getComponentDirectionMap('yc-checkbox-group');
@@ -13,7 +16,11 @@ export const SPACE_DIRECTION_MAP = getComponentDirectionMap('yc-space');
 
 export const SPLIT_DIRECTION_MAP = getComponentDirectionMap('yc-split');
 
-export const MENU_DIRECTION_MAP = getComponentDirectionMap('yc-menu');
+export const MENU_DIRECTION_MAP = getComponentConstantsMap(
+  'yc-menu',
+  ['pop', 'vertical', 'horizontal'],
+  'mode'
+);
 
 // 内部组件
 export const TRACK_DIRECTION_MAP =

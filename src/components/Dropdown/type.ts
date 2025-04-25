@@ -2,6 +2,7 @@ import { PopupContainer } from '@shared/type';
 import { TriggerType } from '@/components/Trigger';
 import { ButtonProps, ButtonType } from '@/components/Button';
 import { Size } from '@shared/type';
+import { CSSProperties } from 'vue';
 export interface DropdownProps {
   popupVisible?: boolean;
   defaultPopupVisible?: boolean;
@@ -29,6 +30,7 @@ export interface DsubmenuProps {
   position?: 'rt' | 'lt';
   popupVisible?: boolean;
   defaultPopupVisible?: boolean;
+  optionStyle?: CSSProperties;
 }
 
 export interface DsubmenuEmits {

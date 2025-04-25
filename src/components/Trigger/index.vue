@@ -29,7 +29,10 @@
           needTransformOrigin ? 'yc-trigger-transform-origin' : '',
           $attrs.class ?? '',
         ]"
-        :style="popupStyle"
+        :style="{
+          ...popupStyle,
+          zIndex,
+        }"
         ref="popupRef"
         @mouseenter="handleMouseenter"
         @mouseleave="handleMouseleave"
@@ -168,7 +171,4 @@ defineExpose({
 
 <style lang="less" scoped>
 @import './style/trigger.less';
-.yc-trigger {
-  z-index: v-bind(zIndex);
-}
 </style>
