@@ -60,7 +60,7 @@ import Watermark from './Watermark';
 import { default as Anchor, AnchorLink } from './Anchor';
 import Split from './Split';
 import { default as Menu, MenuItem } from './Menu';
-import Collapse from './Collapse';
+import { default as Collapse, CollapseItem } from './Collapse';
 
 export const components: Record<string, Plugin> = {
   Button,
@@ -116,8 +116,6 @@ export const components: Record<string, Plugin> = {
   Collapse,
 };
 
-console.log('components：', Object.keys(components).length);
-
 export default {
   ...components,
   ButtonGroup,
@@ -140,6 +138,7 @@ export default {
   LayoutContent,
   AnchorLink,
   MenuItem,
+  CollapseItem,
   install: (app: App) => {
     for (const key of Object.keys(components)) {
       app.use(components[key]);

@@ -16,7 +16,7 @@
 
 <script lang="ts" setup>
 import { computed, onMounted, ref, toRefs, provide } from 'vue';
-import { AnchorProps, AnchorProvide } from './type';
+import { AnchorProps, AnchorSlot, AnchorProvide } from './type';
 import { ANCHOR_PROVIDE_KEY } from '@shared/constants';
 import {
   getElement,
@@ -26,6 +26,7 @@ import {
 defineOptions({
   name: 'Anchor',
 });
+defineSlots<AnchorSlot>();
 const props = withDefaults(defineProps<AnchorProps>(), {
   boundary: 'start',
   lineLess: false,

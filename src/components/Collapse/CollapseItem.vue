@@ -1,14 +1,11 @@
 <template>
-  <div class="yc-collapse-item">
-    <div
-      class="yc-collapse-item-header"
-      :class="{
-        'yc-collapse-item-header-left': expandIconPosition == 'left',
-        'yc-collapse-item-header-right': expandIconPosition == 'right',
-        'yc-collapse-item-header-disabled': disabled,
-      }"
-      @click="handleClick"
-    >
+  <div
+    :class="{
+      'yc-collapse-item': true,
+      'yc-collapse-item-disabled': disabled,
+    }"
+  >
+    <div class="yc-collapse-item-header" @click="handleClick">
       <yc-icon-button
         v-if="showExpandIcon && expandIconPosition == 'left'"
         class="yc-collapse-item-header-icon"
@@ -40,7 +37,7 @@
       <div
         v-if="!destroyOnHide || computedActiveKey.includes(value)"
         v-show="computedActiveKey.includes(value)"
-        class="yc-collapse-item-content yc-collapse-item-content-expend"
+        class="yc-collapse-item-content"
       >
         <slot />
       </div>

@@ -55,10 +55,10 @@ export * from './Empty';
 export { default as Empty } from './Empty';
 
 export * from './Select';
-export { default as Select, Option, Optgroup } from './Select';
+export { default as Select } from './Select';
 
 export * from './Checkbox';
-export { default as Checkbox, CheckboxGroup } from './Checkbox';
+export { default as Checkbox } from './Checkbox';
 
 export * from './InputTag';
 export { default as InputTag } from './InputTag';
@@ -67,7 +67,7 @@ export * from './AutoComplete';
 export { default as AutoComplete } from './AutoComplete';
 
 export * from './Radio';
-export { default as Radio, RadioGroup } from './Radio';
+export { default as Radio } from './Radio';
 
 export * from './Switch';
 export { default as Switch } from './Switch';
@@ -116,3 +116,39 @@ export { default as Affix } from './Affix';
 
 export * from './TimePicker';
 export { default as TimePicker } from './TimePicker';
+
+export * from './Breadcrumb';
+export { default as Breadcrumb } from './Breadcrumb';
+
+export * from './PageHeader';
+export { default as PageHeader } from './PageHeader';
+
+export * from './Grid';
+export { default as Grid } from './Grid';
+
+export * from './Transfer';
+export { default as Transfer } from './Transfer';
+
+export * from './VerificationCode';
+export { default as VerificationCode } from './VerificationCode';
+
+export * from './Layout';
+export { default as Layout } from './Layout';
+
+export * from './ConfigProvider';
+export { default as ConfigProvider } from './ConfigProvider';
+
+export * from './Watermark';
+export { default as Watermark } from './Watermark';
+
+export * from './Anchor';
+export { default as Anchor } from './Anchor';
+
+export * from './Split';
+export { default as Split } from './Split';
+
+export * from './Menu';
+export { default as Menu } from './Menu';
+
+export * from './Collapse';
+export { default as Collapse } from './Collapse';

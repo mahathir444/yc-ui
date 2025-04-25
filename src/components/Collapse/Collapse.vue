@@ -1,7 +1,7 @@
 <template>
   <div
-    class="yc-collapse"
     :class="{
+      'yc-collapse': true,
       'yc-collapse-bordered': bordered,
     }"
   >

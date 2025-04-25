@@ -1,8 +1,8 @@
 import { App } from 'vue';
 import _Breadcrumb from './Breadcrumb.vue';
 import _BreadcrumbItem from './BreadcrumbItem.vue';
-export type ButonInstance = InstanceType<typeof _Breadcrumb>;
-export type ButonItemInstance = InstanceType<typeof _BreadcrumbItem>;
+export type BreadcrumbInstance = InstanceType<typeof _Breadcrumb>;
+export type BreadcrumbItemInstance = InstanceType<typeof _BreadcrumbItem>;
 export * from './type';
 
 const Breadcrumb = Object.assign(_Breadcrumb, {
