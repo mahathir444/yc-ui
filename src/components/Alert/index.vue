@@ -33,7 +33,7 @@
       </div>
       <div class="yc-alert-close-btn" role="button" aria-label="Close">
         <yc-icon-button @click="handleClose">
-          <slot v-if="$slots['close-element']" name="close-element" />
+          <slot v-if="$slots['close-element']" name="closeElement" />
         </yc-icon-button>
       </div>
     </div>
@@ -42,7 +42,7 @@
 
 <script lang="ts" setup>
 import { ref } from 'vue';
-import { AlertProps, AlertEmits } from './type';
+import { AlertProps, AlertEmits, AlertSlot } from './type';
 import {
   TYPE_ICON_MAP,
   TYPE_ICON_COLOR_MAP,
@@ -52,6 +52,7 @@ import { YcIconButton } from '@shared/components';
 defineOptions({
   name: 'alert',
 });
+defineSlots<AlertSlot>();
 withDefaults(defineProps<AlertProps>(), {
   type: 'info',
   showIcon: true,

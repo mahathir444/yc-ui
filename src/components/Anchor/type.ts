@@ -8,9 +8,19 @@ export interface AnchorProps {
   changeHash?: boolean;
   smooth?: boolean;
 }
+
+export interface AnchorSlot {
+  default(): void;
+}
+
 export interface AnchorLinkProps {
   title?: string;
   href?: string;
+}
+
+export interface AnchorLinkSlot {
+  default(): void;
+  sublist(): void;
 }
 
 export interface AnchorProvide {

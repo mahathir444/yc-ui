@@ -12,4 +12,12 @@ export interface AlertEmits {
   (e: 'afterClose'): void;
 }
 
+export interface AlertSlot {
+  default(): void;
+  icon(): void;
+  title(): void;
+  action(): void;
+  closeElement(): void;
+}
+
 export type AlertType = 'warning' | 'success' | 'info' | 'error' | 'normal';
