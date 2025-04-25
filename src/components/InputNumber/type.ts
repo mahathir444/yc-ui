@@ -1,4 +1,4 @@
-import { Size, ObjectData } from '@shared/type';
+import { Size } from '@shared/type';
 export interface InputNumberProps {
   modelValue?: InputNumberValue;
   defaultValue?: InputNumberValue;
@@ -17,7 +17,18 @@ export interface InputNumberProps {
   formatter?: (value: string) => string;
   parser?: (value: string) => string;
   readonly?: boolean;
-  inputAttrs?: ObjectData;
+  inputAttrs?: Record<string, any>;
+}
+
+export interface InputNumberEmits {
+  (e: 'update:modelValue', value: InputNumberValue): void;
+  (e: 'input', value: InputNumberValue, ev: Event): void;
+  (e: 'change', value: InputNumberValue, ev: Event): void;
+  (e: 'focus', ev: FocusEvent): void;
+  (e: 'blur', ev: FocusEvent): void;
+  (e: 'clear', ev: MouseEvent): void;
+  (e: 'keydown', ev: KeyboardEvent): void;
+  (e: 'pressEnter', ev: KeyboardEvent): void;
 }
 
 export type InputNumberValue = number | string;

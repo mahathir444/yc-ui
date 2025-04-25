@@ -24,7 +24,12 @@
 
 <script lang="ts" setup>
 import { toRefs, provide } from 'vue';
-import { CheckboxGroupProps, CheckboxValue, CheckboxProvide } from './type';
+import {
+  CheckboxGroupProps,
+  CheckboxEmits,
+  CheckboxValue,
+  CheckboxProvide,
+} from './type';
 import {
   CHECKBOX_GROUP_PROVIDE_KEY,
   CHECKBOX_DIRECTION_MAP,
@@ -43,10 +48,7 @@ const props = withDefaults(defineProps<CheckboxGroupProps>(), {
   direction: 'horizontal',
   disabled: false,
 });
-const emits = defineEmits<{
-  (e: 'update:modelValue', value: CheckboxValue[]): void;
-  (e: 'change', value: CheckboxValue[], ev: Event): void;
-}>();
+const emits = defineEmits<CheckboxEmits>();
 const { modelValue, defaultValue, disabled, max } = toRefs(props);
 // 受控值
 const computedValue = useControlValue<CheckboxValue[]>(

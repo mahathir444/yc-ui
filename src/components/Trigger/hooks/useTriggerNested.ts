@@ -1,10 +1,9 @@
 import { ref, provide, inject, watch, computed } from 'vue';
 import { nanoid } from 'nanoid';
 import { TriggerProvide, TriggerType } from '../type';
-import { Fn } from '@shared/type';
 import { TRIGGER_PROVIDE_KEY } from '@shared/constants';
 
-export default (trigger: TriggerType, hideCallback?: Fn) => {
+export default (trigger: TriggerType, hideCallback?: () => void) => {
   // 组件标识，用于标识submenu是否处于一个嵌套中
   const groupId = nanoid(32);
   /**

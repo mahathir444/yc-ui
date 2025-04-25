@@ -52,7 +52,7 @@
 
 <script lang="ts" setup>
 import { ref, toRefs } from 'vue';
-import { RateProps } from './type';
+import { RateProps, RateEmits } from './type';
 import { isObject } from '@shared/utils';
 import { sleep } from '@shared/utils';
 import { useControlValue } from '@shared/hooks';
@@ -70,11 +70,7 @@ const props = withDefaults(defineProps<RateProps>(), {
   disabled: false,
   color: 'rgb(247, 186, 30)',
 });
-const emits = defineEmits<{
-  (e: 'update:modelValue', value: number): void;
-  (e: 'change', value: number): void;
-  (e: 'hoverChange', value: number): void;
-}>();
+const emits = defineEmits<RateEmits>();
 const {
   modelValue,
   defaultValue,

@@ -1,11 +1,5 @@
 import { WritableComputedRef, Ref } from 'vue';
-import {
-  Fn,
-  ObjectData,
-  RenderContent,
-  Size,
-  PopupContainer,
-} from '@shared/type';
+import { ObjectData, RenderContent, Size, PopupContainer } from '@shared/type';
 import { TriggerProps } from '../Trigger';
 import { TagProps } from '../Tag';
 
@@ -47,6 +41,22 @@ export interface SelectProps {
   tagNowrap?: boolean;
   // 是否开启快捷键
   hotkeys?: boolean;
+}
+
+export interface SelectEmits {
+  (e: 'update:modelValue', value: SelectValue): void;
+  (e: 'update:inputValue', value: SelectValue): void;
+  (e: 'update:popupVisible', value: boolean): void;
+  (e: 'change', value: SelectValue): void;
+  (e: 'input-value-change', value: string): void;
+  (e: 'clear'): void;
+  (e: 'remove'): void;
+  (e: 'search', value: string): void;
+  (e: 'exceedLimit', value: SelectValue, ev?: MouseEvent): void;
+  (e: 'popupVisibleChange', value: boolean): void;
+  (e: 'dropdownScroll'): void;
+  (e: 'dropdownReachBottom'): void;
+  (e: 'select', value: SelectValue): void;
 }
 
 export interface OptionProps {
@@ -105,8 +115,8 @@ export interface SelectProvide {
   limit: Ref<number>;
   curIndex: Ref<number>;
   options: Ref<SelectOptionData[]>;
-  blur: Fn;
-  filterOption: Fn;
-  getValue: Fn;
-  emits: Fn;
+  blur: () => void;
+  filterOption: FilterOption;
+  getValue: (value: SelectValue | ObjectData) => SelectValue;
+  emits: SelectEmits;
 }

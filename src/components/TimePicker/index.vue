@@ -121,7 +121,7 @@
 
 <script setup lang="ts">
 import { ref, computed, toRefs, watch, nextTick } from 'vue';
-import { TimePickerProps, TimeType } from './type';
+import { TimePickerProps, TimePickerEmits } from './type';
 import YcTrigger from '../Trigger/index.vue';
 import { SIZE_MAP } from '@shared/constants';
 import { isArray, isString, isUndefined } from '@shared/utils';
@@ -163,14 +163,7 @@ const props = withDefaults(defineProps<TimePickerProps>(), {
   allowClear: true,
   readonly: false,
 });
-const emit = defineEmits<{
-  (e: 'update:modelValue', value: TimePickerProps['modelValue']): void;
-  (e: 'change', value: TimePickerProps['modelValue']): void;
-  (e: 'clear'): void;
-  (e: 'popup-visible-change', visible: boolean): void;
-  (e: 'update:popupVisible', visible: boolean): void;
-  (e: 'select', value: TimePickerProps['modelValue']): void;
-}>();
+const emit = defineEmits<TimePickerEmits>();
 const { defaultValue, modelValue, popupVisible, defaultPopupVisible } =
   toRefs(props);
 // 获取全局配置

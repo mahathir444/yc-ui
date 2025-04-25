@@ -3,3 +3,7 @@ export interface PageHeaderProp {
   subtitle?: string;
   showBack?: boolean;
 }
+
+export interface PageHeaderEmits {
+  (e: 'back', ev: Event): void;
+}

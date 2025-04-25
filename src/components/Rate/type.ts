@@ -9,3 +9,9 @@ export interface RateProps {
   disabled?: boolean;
   color?: string;
 }
+
+export interface RateEmits {
+  (e: 'update:modelValue', value: number): void;
+  (e: 'change', value: number): void;
+  (e: 'hoverChange', value: number): void;
+}

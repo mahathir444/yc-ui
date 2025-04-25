@@ -38,7 +38,7 @@
 
 <script lang="ts" setup>
 import { toRefs, computed } from 'vue';
-import { SwitchProps, SwitchValue } from './type';
+import { SwitchProps, SwitchEmits, SwitchValue } from './type';
 import { SWITCH_SIZE_CLASS, SWITCH_SHAPE_CLASS } from '@shared/constants';
 import { isBoolean } from '@shared/utils';
 import { useControlValue, useConfigProvder } from '@shared/hooks';
@@ -63,12 +63,7 @@ const props = withDefaults(defineProps<SwitchProps>(), {
     return true;
   },
 });
-const emits = defineEmits<{
-  (e: 'update:modelValue', value: SwitchValue): void;
-  (e: 'change', value: SwitchValue, ev: Event): void;
-  (e: 'focus', ev: FocusEvent): void;
-  (e: 'blur', ev: FocusEvent): void;
-}>();
+const emits = defineEmits<SwitchEmits>();
 const {
   modelValue,
   defaultValue,

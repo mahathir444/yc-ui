@@ -1,11 +1,10 @@
 import { computed, CSSProperties, Ref, ref, toRefs } from 'vue';
 import { useElementBounding, useElementSize } from '@vueuse/core';
-import { TriggerPostion, TriggerProps } from '../type';
-import { ObjectData, RequiredDeep } from '@shared/type';
+import { TriggerPropsRequired, TriggerPostion } from '../type';
 import { useConfigProvder } from '@shared/hooks';
 
 export default (params: {
-  props: ObjectData;
+  props: TriggerPropsRequired;
   popupRef: Ref<HTMLDivElement | undefined>;
   triggerRef: Ref<HTMLElement | undefined>;
   mouseX: Ref<number>;
@@ -25,7 +24,7 @@ export default (params: {
     autoSetPosition,
     arrowStyle: _arrowStyle,
     contentStyle: _contentStyle,
-  } = toRefs(props as RequiredDeep<TriggerProps>);
+  } = toRefs(props);
   // 接收provider传入的属性
   const { updateAtScroll } = useConfigProvder(props);
   // 动态计算当前的位置

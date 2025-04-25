@@ -1,7 +1,7 @@
 import { ComputedRef, ref, Ref, WritableComputedRef } from 'vue';
 import { onKeyStroke } from '@vueuse/core';
-import { SelectOptionData, SelectValue } from '../type';
-import { Fn, ObjectData } from '@shared/type';
+import { SelectEmits, SelectOptionData, SelectValue } from '../type';
+import { ObjectData } from '@shared/type';
 
 export default (params: {
   hotkeys: Ref<boolean>;
@@ -10,8 +10,8 @@ export default (params: {
   computedVisible: WritableComputedRef<boolean>;
   computedValue: WritableComputedRef<SelectValue>;
   options: ComputedRef<SelectOptionData[]>;
-  blur: Fn;
-  emits: Fn;
+  blur: () => void;
+  emits: SelectEmits;
 }) => {
   const {
     computedValue,
@@ -48,7 +48,7 @@ export default (params: {
         const index = curValue.findIndex((item) => item == value);
         if (index == -1) {
           if (limit.value > 0 && curValue.length == limit.value) {
-            return emits('exceedLimit', value);
+            return emits('exceedLimit', value as SelectValue);
           }
           computedValue.value = [...curValue, value];
         } else {
@@ -58,7 +58,7 @@ export default (params: {
         computedValue.value = value as string;
         blur();
       }
-      emits('select', value);
+      emits('select', value as SelectValue);
     }
   });
   return {

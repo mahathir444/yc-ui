@@ -101,7 +101,7 @@
 
 <script lang="ts" setup>
 import { ref, toRefs, computed, CSSProperties, useAttrs } from 'vue';
-import { ModalProps } from './type';
+import { ModalProps, ModalEmits } from './type';
 import { useConfigProvder } from '@shared/hooks';
 import useModalClose from './hooks/useModalClose';
 import useModalDraggable from './hooks/useModalDraggable';
@@ -161,15 +161,7 @@ const props = withDefaults(defineProps<ModalProps>(), {
     return true;
   },
 });
-const emits = defineEmits<{
-  (e: 'update:visible', value: boolean): void;
-  (e: 'ok'): void;
-  (e: 'cancel', ev: MouseEvent | KeyboardEvent): void;
-  (e: 'open'): void;
-  (e: 'beforeOpen'): void;
-  (e: 'close'): void;
-  (e: 'beforeClose'): void;
-}>();
+const emits = defineEmits<ModalEmits>();
 const {
   visible,
   defaultVisible,

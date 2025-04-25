@@ -8,7 +8,7 @@ import {
   ComputedRef,
 } from 'vue';
 import { nanoid } from 'nanoid';
-import { Fn, ObjectData } from '@shared/type';
+import { ObjectData } from '@shared/type';
 import {
   OptionProps,
   SelectValue,
@@ -29,7 +29,7 @@ export default (params: {
   provideOptions: Ref<SelectOptions>;
   showExtraOptions: Ref<boolean>;
   popupRef: Ref<TriggerInstance | undefined>;
-  getValue: Fn;
+  getValue: (value: string | ObjectData) => SelectValue;
   fallbackOption?: FallbackOption;
 }) => {
   const {

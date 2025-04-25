@@ -52,7 +52,7 @@
 
 <script lang="ts" setup>
 import { ref, toRefs } from 'vue';
-import { PopconfirmProps } from './type';
+import { PopconfirmProps, PopconfirmEmits } from './type';
 import { TYPE_ICON_MAP, TYPE_ICON_COLOR_MAP } from '@shared/constants';
 import { useControlValue } from '@shared/hooks';
 import useOnBeforeClose from '@/components/Modal/hooks/useOnBeforeClose';
@@ -88,12 +88,7 @@ const props = withDefaults(defineProps<PopconfirmProps>(), {
   onBeforeOk: () => true,
   onBeforeCancel: () => true,
 });
-const emits = defineEmits<{
-  (e: 'update:popupVisible', value: boolean): void;
-  (e: 'popup-visible-change', value: boolean): void;
-  (e: 'ok'): void;
-  (e: 'cancel'): void;
-}>();
+const emits = defineEmits<PopconfirmEmits>();
 const { popupVisible, defaultPopupVisible, type } = toRefs(props);
 const { onBeforeOk, onBeforeCancel } = props;
 // 触发器实例

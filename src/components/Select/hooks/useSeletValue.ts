@@ -1,6 +1,7 @@
 import { computed, Ref } from 'vue';
-import { Fn, ObjectData } from '@shared/type';
+import { ObjectData } from '@shared/type';
 import {
+  SelectEmits,
   SelectValue,
   SelectOptions,
   FallbackOption,
@@ -22,8 +23,8 @@ export default (params: {
   provideOptions: Ref<SelectOptions>;
   showExtraOptions: Ref<boolean>;
   popupRef: Ref<TriggerInstance | undefined>;
-  emits: Fn;
-  getValue: Fn;
+  emits: SelectEmits;
+  getValue: (value: string | ObjectData) => SelectValue;
   fallbackOption?: FallbackOption;
   formatLabel?: FormatLabel;
 }) => {

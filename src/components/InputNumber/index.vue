@@ -103,7 +103,7 @@
 
 <script lang="ts" setup>
 import { ref, toRefs, computed } from 'vue';
-import { InputNumberProps, InputNumberValue } from './type';
+import { InputNumberProps, InputNumberEmits, InputNumberValue } from './type';
 import { isNumber, isString, isFunction } from '@shared/utils';
 import YcOperaBtn from './component/OperaBtn.vue';
 import { useControlValue } from '@shared/hooks';
@@ -131,16 +131,7 @@ const props = withDefaults(defineProps<InputNumberProps>(), {
     return {};
   },
 });
-const emits = defineEmits<{
-  (e: 'update:modelValue', value: InputNumberValue): void;
-  (e: 'input', value: InputNumberValue, ev: Event): void;
-  (e: 'change', value: InputNumberValue, ev: Event): void;
-  (e: 'focus', ev: FocusEvent): void;
-  (e: 'blur', ev: FocusEvent): void;
-  (e: 'clear', ev: MouseEvent): void;
-  (e: 'keydown', ev: KeyboardEvent): void;
-  (e: 'pressEnter', ev: KeyboardEvent): void;
-}>();
+const emits = defineEmits<InputNumberEmits>();
 const {
   modelValue,
   defaultValue,

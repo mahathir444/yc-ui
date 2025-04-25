@@ -33,7 +33,7 @@
 
 <script lang="ts" setup>
 import { toRefs } from 'vue';
-import { PopoverProps } from './type';
+import { PopoverProps, PopoverEmits } from './type';
 import YcTrigger from '@/components/Trigger';
 import { useControlValue } from '@shared/hooks';
 defineOptions({
@@ -56,10 +56,7 @@ const props = withDefaults(defineProps<PopoverProps>(), {
   },
   popupContainer: undefined,
 });
-const emits = defineEmits<{
-  (e: 'update:popupVisible', value: boolean): void;
-  (e: 'popup-visible-change', value: boolean): void;
-}>();
+const emits = defineEmits<PopoverEmits>();
 const { popupVisible, defaultPopupVisible } = toRefs(props);
 // 受控的visible
 const computedVisible = useControlValue<boolean>(

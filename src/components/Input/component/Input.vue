@@ -76,16 +76,14 @@
 
 <script lang="ts" setup>
 import { ref, toRefs, computed, inject } from 'vue';
-import { InputProps, InputProvide, InputEmits } from '../type';
+import { InputProvide, InputEmits } from '../type';
 import { INPUT_PROVIDE_KEY } from '@shared/constants';
-import { RequiredDeep } from '@shared/type';
 import { INPUT_SIZE_CLASS } from '@shared/constants';
 import { useControlValue, useConfigProvder } from '@shared/hooks';
 import useLimitedInput from '../hooks/useLimitedInput';
 import InputSuffix from './InputSuffix.vue';
 import { YcPreventFocus } from '@shared/components';
 const { props, emits } = inject<InputProvide>(INPUT_PROVIDE_KEY, {
-  props: {} as any,
   emits: () => {},
 });
 const {
@@ -99,7 +97,7 @@ const {
   isSearch,
   isPassword,
   invisibleButton,
-} = toRefs(props as RequiredDeep<InputProps>);
+} = toRefs(props!);
 // 获取全局属性
 const { size } = useConfigProvder(props);
 // 输入实例
@@ -128,7 +126,7 @@ const {
   handleInput,
   handleComposition,
 } = useLimitedInput({
-  props,
+  props: props!,
   emits,
   inputRef,
 });

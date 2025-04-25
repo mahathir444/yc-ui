@@ -40,7 +40,7 @@
 
 <script lang="ts" setup>
 import { ref, computed, toRefs, provide, watch } from 'vue';
-import { ScrollbarProps, ScrollbarProvide } from './type';
+import { ScrollbarProps, ScrollbarEmits, ScrollbarProvide } from './type';
 import { SCROLLBAR_PROVIDE_KEY } from '@shared/constants';
 import { useElementSize, useScroll } from '@vueuse/core';
 import YcTrack from './component/Track.vue';
@@ -59,11 +59,7 @@ const props = withDefaults(defineProps<ScrollbarProps>(), {
   },
   autoFill: false,
 });
-const emits = defineEmits<{
-  (e: 'scroll', left: number, top: number): void;
-  (e: 'reachBottom'): void;
-  (e: 'reachRight'): void;
-}>();
+const emits = defineEmits<ScrollbarEmits>();
 const { type } = toRefs(props);
 // contentRef
 const contentRef = ref<HTMLElement>();

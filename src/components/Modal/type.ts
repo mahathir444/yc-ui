@@ -39,6 +39,16 @@ export interface ModalProps {
   onBeforeOk?: OnBeforeOk;
 }
 
+export interface ModalEmits {
+  (e: 'update:visible', value: boolean): void;
+  (e: 'ok'): void;
+  (e: 'cancel', ev: MouseEvent | KeyboardEvent): void;
+  (e: 'open'): void;
+  (e: 'beforeOpen'): void;
+  (e: 'close'): void;
+  (e: 'beforeClose'): void;
+}
+
 export type ModalConfig = Omit<ModalProps, 'visible' | 'defaultVisible'> & {
   title?: RenderContent;
   content: RenderContent;

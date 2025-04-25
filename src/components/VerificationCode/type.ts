@@ -1,5 +1,5 @@
 import { VNode } from 'vue';
-import { Fn, Size } from '../_shared/type';
+import { Size } from '@shared/type';
 
 export interface VerificationCodeProps {
   modelValue?: string;
@@ -16,4 +16,11 @@ export interface VerificationCodeProps {
     index: number,
     value: string
   ) => string | boolean;
+}
+
+export interface VerificationCodeEmits {
+  (e: 'update:modelValue', value: string): void;
+  (e: 'input', value: string, ev: Event, i: number): void;
+  (e: 'change', value: string): void;
+  (e: 'finish', value: string): void;
 }

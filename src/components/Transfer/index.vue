@@ -64,7 +64,7 @@
 
 <script lang="ts" setup>
 import { toRefs, computed, provide } from 'vue';
-import { TransferProps, TransferProvide } from './type';
+import { TransferProps, TransferEmits, TransferProvide } from './type';
 import { TRANSFER_PROVIDE_KEY } from '@shared/constants';
 import { useControlValue } from '@shared/hooks';
 import { IconArrowRight } from '@shared/icons';
@@ -92,13 +92,7 @@ const props = withDefaults(defineProps<TransferProps>(), {
     return {};
   },
 });
-const emits = defineEmits<{
-  (e: 'update:selected', value: string[]): void;
-  (e: 'update:modelValue', value: string[]): void;
-  (e: 'change', value: string[]): void;
-  (e: 'select', value: string[]): void;
-  (e: 'search', value: string, type: 'target' | 'source'): void;
-}>();
+const emits = defineEmits<TransferEmits>();
 const {
   modelValue,
   defaultValue,

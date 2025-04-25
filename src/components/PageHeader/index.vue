@@ -35,7 +35,7 @@
 </template>
 
 <script lang="ts" setup>
-import { PageHeaderProp } from './type';
+import { PageHeaderProp, PageHeaderEmits } from './type';
 import { IconArrowRight } from '@shared/icons';
 import YcDivider from '@/components/Divider';
 import { YcIconButton } from '@shared/components';
@@ -47,9 +47,7 @@ withDefaults(defineProps<PageHeaderProp>(), {
   subtitle: '',
   showBack: true,
 });
-defineEmits<{
-  (e: 'back', ev: Event): void;
-}>();
+defineEmits<PageHeaderEmits>();
 </script>
 
 <style lang="less" scoped>

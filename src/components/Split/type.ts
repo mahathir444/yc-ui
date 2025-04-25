@@ -8,3 +8,10 @@ export interface SplitProps {
   max?: number;
   disabled?: boolean;
 }
+
+export interface SplitEmits {
+  (e: 'update:size', value: number): void;
+  (e: 'moving-start'): void;
+  (e: 'moving'): void;
+  (e: 'move-end'): void;
+}

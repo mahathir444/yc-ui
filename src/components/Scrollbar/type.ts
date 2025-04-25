@@ -8,6 +8,12 @@ export interface ScrollbarProps {
   autoFill?: boolean;
 }
 
+export interface ScrollbarEmits {
+  (e: 'scroll', left: number, top: number): void;
+  (e: 'reachBottom'): void;
+  (e: 'reachRight'): void;
+}
+
 export type TackType = 'track' | 'embed';
 
 // 内部使用

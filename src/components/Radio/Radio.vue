@@ -41,7 +41,7 @@
 
 <script lang="ts" setup>
 import { toRefs, inject, computed, ref } from 'vue';
-import { RadioProps, RadioValue, RadioProvide } from './type';
+import { RadioProps, RadioEmits, RadioValue, RadioProvide } from './type';
 import { RADIO_SIZE_CLASS } from '@shared/constants';
 import { RADIO_GROUP_PROVIDE_KEY } from '@shared/constants';
 import { isUndefined } from '@shared/utils';
@@ -58,10 +58,7 @@ const props = withDefaults(defineProps<RadioProps>(), {
   type: 'radio',
   preventFocus: false,
 });
-const emits = defineEmits<{
-  (e: 'update:modelValue', value: boolean): void;
-  (e: 'change', value: boolean, ev: Event): void;
-}>();
+const emits = defineEmits<RadioEmits>();
 const {
   modelValue,
   defaultChecked,

@@ -1,6 +1,5 @@
 import { computed, ref, Ref } from 'vue';
-import { SliderValue } from '../type';
-import { Fn } from '@shared/type';
+import { SliderValue, SliderEmits } from '../type';
 import { isArray } from '@shared/utils';
 import { useControlValue } from '@shared/hooks';
 
@@ -10,7 +9,7 @@ export default (params: {
   _marks: Ref<Record<number, string>>;
   step: Ref<number>;
   range: Ref<boolean>;
-  emits: Fn;
+  emits: SliderEmits;
 }) => {
   const { modelValue, defaultValue, range, _marks, step, emits } = params;
   // 控制值

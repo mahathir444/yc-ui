@@ -62,7 +62,7 @@
 
 <script lang="ts" setup>
 import { ref, toRefs } from 'vue';
-import { AutoCompleteProps } from './type';
+import { AutoCompleteProps, AutoCompleteEmits } from './type';
 import { sleep } from '@shared/utils';
 import { useControlValue } from '@shared/hooks';
 import {
@@ -92,19 +92,7 @@ const props = withDefaults(defineProps<AutoCompleteProps>(), {
   isSearch: true,
   type: 'input',
 });
-const emits = defineEmits<{
-  (e: 'update:modelValue', value: string): void;
-  (e: 'change', value: string): void;
-  (e: 'search', value: string): void;
-  (e: 'select', value: string): void;
-  (e: 'clear', ev?: Event): void;
-  (e: 'dropdown-scroll', ev?: Event): void;
-  (e: 'dropdown-reach-bottom', ev?: Event): void;
-  (e: 'blur', ev: FocusEvent): void;
-  (e: 'focus', ev: FocusEvent): void;
-  (e: 'input', value: string, ev: Event): void;
-  (e: 'keydown', ev: KeyboardEvent): void;
-}>();
+const emits = defineEmits<AutoCompleteEmits>();
 const { modelValue, defaultValue, data, strict, isSelectSetValue, isSearch } =
   toRefs(props);
 const { filterOption } = props;

@@ -15,8 +15,6 @@ export type ClassName =
 
 export type RenderContent = string | RenderFunction;
 
-export type Fn = (...args: any) => any;
-
 export type ObjectData = Record<string, any>;
 
 export type RequiredDeep<T> = {

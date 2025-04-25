@@ -1,5 +1,5 @@
 import { Ref, WritableComputedRef } from 'vue';
-import { Direction, Fn } from '@shared/type';
+import { Direction } from '@shared/type';
 
 export interface SliderProps {
   modelValue?: SliderValue;
@@ -15,6 +15,11 @@ export interface SliderProps {
   range?: boolean;
   showTooltip?: boolean;
   formatTooltip?: FormatTooltip;
+}
+
+export interface SliderEmits {
+  (e: 'update:modelValue', value: number): void;
+  (e: 'change', value: number): void;
 }
 
 export type SliderValue = number | number[];
@@ -51,5 +56,5 @@ export interface SliderProvide {
   disabled: Ref<boolean>;
   trackRef: Ref<HTMLDivElement | undefined>;
   formatTooltip?: FormatTooltip;
-  handleRangeValue: Fn;
+  handleRangeValue: (value: number) => number;
 }

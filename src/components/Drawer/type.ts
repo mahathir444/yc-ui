@@ -29,6 +29,16 @@ export interface DrawerProps {
   onBeforeOk?: OnBeforeCancel;
 }
 
+export interface DrawerEmits {
+  (e: 'update:visible', value: boolean): void;
+  (e: 'ok'): void;
+  (e: 'cancel', event: MouseEvent | KeyboardEvent): void;
+  (e: 'beforeOpen'): void;
+  (e: 'open'): void;
+  (e: 'beforeClose'): void;
+  (e: 'close'): void;
+}
+
 export type DrawerConfig = Omit<DrawerProps, 'visible' | 'defaultVisible'> & {
   content?: RenderContent;
   title?: RenderContent;

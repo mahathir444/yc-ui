@@ -84,7 +84,7 @@
 <script lang="ts" setup>
 import { toRefs, computed, CSSProperties, useAttrs, ref } from 'vue';
 import { DRAWER_PLACEMENT_MAP } from '@shared/constants';
-import { DrawerProps } from './type';
+import { DrawerProps, DrawerEmits } from './type';
 import { useConfigProvder } from '@shared/hooks';
 import useDrawerClose from '@/components/Modal/hooks/useModalClose';
 import YcButton from '@/components/Button';
@@ -129,15 +129,7 @@ const props = withDefaults(defineProps<DrawerProps>(), {
     return true;
   },
 });
-const emits = defineEmits<{
-  (e: 'update:visible', value: boolean): void;
-  (e: 'ok'): void;
-  (e: 'cancel', event: MouseEvent | KeyboardEvent): void;
-  (e: 'beforeOpen'): void;
-  (e: 'open'): void;
-  (e: 'beforeClose'): void;
-  (e: 'close'): void;
-}>();
+const emits = defineEmits<DrawerEmits>();
 // 结构属性
 const {
   visible,

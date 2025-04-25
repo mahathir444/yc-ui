@@ -1,4 +1,4 @@
-import { ObjectData, Size } from '@shared/type';
+import { Size, RequiredDeep } from '@shared/type';
 import { ButtonProps } from '@/components/Button';
 
 export interface InputProps {
@@ -14,7 +14,7 @@ export interface InputProps {
   wordLength?: WordLength;
   wordSlice?: WordSlice;
   showWordLimit?: boolean;
-  inputAttrs?: ObjectData;
+  inputAttrs?: Record<string, any>;
   // password使用
   isPassword?: boolean;
   visibility?: boolean;
@@ -29,6 +29,8 @@ export interface InputProps {
   //select使用
   showInput?: boolean;
 }
+
+export type InputPropsRequired = RequiredDeep<InputProps>;
 
 export type InputEmits = {
   (e: 'update:modelValue', value: string): void;
@@ -52,6 +54,6 @@ export type MaxLength = number | { length: number; errorOnly?: boolean };
 
 // 内部使用
 export interface InputProvide {
-  props: InputProps;
+  props?: InputPropsRequired;
   emits: InputEmits;
 }

@@ -54,7 +54,7 @@
 
 <script lang="ts" setup>
 import { ref, computed, useSlots } from 'vue';
-import { TriggerProps, TriggerEmits } from './type';
+import { TriggerProps, TriggerPropsRequired, TriggerEmits } from './type';
 import { TRIGGER_POSITION_MAP } from '@shared/constants';
 import { findFirstLegitChild } from '@shared/utils';
 import { useConfigProvder } from '@shared/hooks';
@@ -129,7 +129,7 @@ const {
   handleClickOutsideClose,
   handleScrollToClose,
 } = useTriggerVisible({
-  props,
+  props: props as TriggerPropsRequired,
   emits,
   popupRef,
   triggerRef,
@@ -149,7 +149,7 @@ function initTrigger() {
   // 计算wrapper与arrow的位置信息
   const { left, top, popupPosition, curPosition, contentStyle, arrowStyle } =
     useTriggerPosition({
-      props,
+      props: props as TriggerPropsRequired,
       popupRef,
       triggerRef,
       mouseX,

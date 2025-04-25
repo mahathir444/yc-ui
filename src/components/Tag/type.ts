@@ -11,8 +11,13 @@ export interface TagProps {
   defaultChecked?: boolean;
   nowrap?: boolean;
   preventFocus?: boolean;
-  // 用于overflowList
-  tagIndex?: number;
+}
+
+export interface TagEmits {
+  (e: 'update:visible', value: boolean): void;
+  (e: 'update:checked', value: boolean): void;
+  (e: 'close', ev: MouseEvent, value?: string): void;
+  (e: 'check', value: boolean, ev: MouseEvent): void;
 }
 
 export type TagSize = 'small' | 'medium' | 'large';

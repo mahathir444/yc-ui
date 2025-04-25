@@ -63,7 +63,12 @@
 
 <script lang="ts" setup>
 import { ref, provide } from 'vue';
-import { InputProps, InputEmits, InputProvide } from './type';
+import {
+  InputProps,
+  InputPropsRequired,
+  InputEmits,
+  InputProvide,
+} from './type';
 import { INPUT_OUTER_SIZE_CLASS } from '@shared/constants';
 import { INPUT_PROVIDE_KEY } from '@shared/constants';
 import YcInput from './component/Input.vue';
@@ -109,7 +114,7 @@ const props = withDefaults(defineProps<InputProps>(), {
 });
 const emits = defineEmits<InputEmits>();
 provide<InputProvide>(INPUT_PROVIDE_KEY, {
-  props,
+  props: props as InputPropsRequired,
   emits,
 });
 // 输入实例

@@ -42,7 +42,7 @@
 
 <script lang="ts" setup>
 import { ref } from 'vue';
-import { AlertProps } from './type';
+import { AlertProps, AlertEmits } from './type';
 import {
   TYPE_ICON_MAP,
   TYPE_ICON_COLOR_MAP,
@@ -60,10 +60,8 @@ withDefaults(defineProps<AlertProps>(), {
   banner: false,
   center: false,
 });
-const emits = defineEmits<{
-  (e: 'close', ev: MouseEvent): void;
-  (e: 'afterClose'): void;
-}>();
+const emits = defineEmits<AlertEmits>();
+// v可见性
 const visible = ref<boolean>(true);
 // 处理关闭
 const handleClose = (ev: MouseEvent) => {

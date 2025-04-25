@@ -1,6 +1,5 @@
-import { Fn } from '@vueuse/core';
 import { CSSProperties, Ref } from 'vue';
-import { PopupContainer } from '@shared/type';
+import { PopupContainer, RequiredDeep } from '@shared/type';
 export type TriggerProps = {
   popupVisible?: boolean;
   defaultPopupVisible?: boolean;
@@ -38,12 +37,14 @@ export type TriggerProps = {
   needTransformOrigin?: boolean;
   // 是否需要自由设置位置
   autoSetPosition?: boolean;
-  onTriggerMouseenter?: Fn;
-  onTriggerMouseleave?: Fn;
-  onTriggerMouseclick?: Fn;
-  onTriggerFocus?: Fn;
-  onTriggerBlur?: Fn;
+  onTriggerMouseenter?: () => void;
+  onTriggerMouseleave?: () => void;
+  onTriggerMouseclick?: () => void;
+  onTriggerFocus?: () => void;
+  onTriggerBlur?: () => void;
 };
+
+export type TriggerPropsRequired = RequiredDeep<TriggerProps>;
 
 export interface TriggerEmits {
   (e: 'update:popupVisible', value: boolean): void;
@@ -75,5 +76,5 @@ export type TriggerProvide = {
   groupIds: Ref<string[]>;
   timeout: Ref<NodeJS.Timeout | undefined>;
   hoverTimer: Ref<NodeJS.Timeout | undefined>;
-  hide?: Fn;
+  hide?: () => void;
 };

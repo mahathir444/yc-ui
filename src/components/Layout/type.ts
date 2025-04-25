@@ -18,6 +18,16 @@ export interface LayoutSiderProps {
   resizeDirections?: Array<'left' | 'right' | 'top' | 'bottom'>;
 }
 
+export interface LayoutSiderEmits {
+  (e: 'update:collapsed', collapsed: boolean): void;
+  (
+    e: 'collapse',
+    collapsed: boolean,
+    type: 'clickTrigger' | 'responsive'
+  ): void;
+  (e: 'breakpoint', collapsed: boolean): void;
+}
+
 export interface LayoutProvide {
   hasSider: Ref<boolean>;
   curLevel: Ref<number>;

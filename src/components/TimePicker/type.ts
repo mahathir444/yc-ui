@@ -34,4 +34,13 @@ export interface TimePickerProps {
   unmountOnClose?: boolean;
 }
 
+export interface TimePickerEmits {
+  (e: 'update:modelValue', value: TimePickerProps['modelValue']): void;
+  (e: 'change', value: TimePickerProps['modelValue']): void;
+  (e: 'clear'): void;
+  (e: 'popup-visible-change', visible: boolean): void;
+  (e: 'update:popupVisible', visible: boolean): void;
+  (e: 'select', value: TimePickerProps['modelValue']): void;
+}
+
 export type TimeType = 'hours' | 'minutes' | 'seconds' | 'meridiems';

@@ -33,7 +33,7 @@
 
 <script lang="ts" setup>
 import { ref, toRefs, onMounted, computed, nextTick } from 'vue';
-import { MentionProps } from './type';
+import { MentionProps, MentionEmits } from './type';
 import { ObjectData } from '@shared/type';
 import { isNull, isArray, debounce } from '@shared/utils';
 import { useControlValue, useCursor } from '@shared/hooks';
@@ -54,16 +54,7 @@ const props = withDefaults(defineProps<MentionProps>(), {
   disabled: false,
   allowClear: false,
 });
-const emits = defineEmits<{
-  (e: 'update:modelValue', value: string): void;
-  (e: 'change', value: string): void;
-  (e: 'search', value: string): void;
-  (e: 'select', value: SelectValue): void;
-  (e: 'focus', ev: FocusEvent): void;
-  (e: 'blur', ev: FocusEvent): void;
-  (e: 'clear', ev: MouseEvent): void;
-  (e: 'input', value: string, ev: Event): void;
-}>();
+const emits = defineEmits<MentionEmits>();
 const {
   modelValue,
   defaultValue,

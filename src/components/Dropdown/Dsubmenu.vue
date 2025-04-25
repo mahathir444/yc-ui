@@ -41,7 +41,12 @@ import { ref, computed, toRefs, nextTick } from 'vue';
 import { IconArrowRight } from '@shared/icons';
 import { useControlValue } from '@shared/hooks';
 import { DSUBMENU_POSITION_MAP, DSUBMENU_TRIGGER_MAP } from '@shared/constants';
-import { DsubmenuProps, DoptionInstance, Doption as YcDoption } from './index';
+import {
+  DsubmenuProps,
+  DsubmenuEmits,
+  DoptionInstance,
+  Doption as YcDoption,
+} from './index';
 import YcTrigger, { TriggerInstance } from '@/components/Trigger';
 import YcScrollbar from '@/components/Scrollbar';
 defineOptions({
@@ -54,10 +59,7 @@ const props = withDefaults(defineProps<DsubmenuProps>(), {
   position: 'rt',
   disabled: false,
 });
-const emits = defineEmits<{
-  (e: 'update:popupVisible', value: boolean): void;
-  (e: 'popup-visible-change', value: boolean): void;
-}>();
+const emits = defineEmits<DsubmenuEmits>();
 const {
   defaultPopupVisible,
   popupVisible,

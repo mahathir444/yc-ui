@@ -10,6 +10,11 @@ export interface CheckboxProps {
   preventFocus?: boolean;
 }
 
+export interface CheckboxEmits {
+  (e: 'update:modelValue', value: boolean): void;
+  (e: 'change', value: boolean, ev: Event): void;
+}
+
 export interface CheckboxGroupProps {
   modelValue?: CheckboxValue[];
   defaultValue?: CheckboxValue[];
@@ -17,6 +22,11 @@ export interface CheckboxGroupProps {
   options?: CheckboxOption[];
   direction?: Direction;
   disabled?: boolean;
+}
+
+export interface CheckboxGroupEmits {
+  (e: 'update:modelValue', value: CheckboxValue[]): void;
+  (e: 'change', value: CheckboxValue[], ev: Event): void;
 }
 
 export interface CheckboxOption {

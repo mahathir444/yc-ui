@@ -61,7 +61,7 @@
 
 <script lang="ts" setup>
 import { ref, toRefs } from 'vue';
-import { TextareaProps, ResizeRange } from './type';
+import { TextareaProps, TextareaEmits, ResizeRange } from './type';
 import useTextareaHeight from './hooks/useTextareaHeight';
 import useLimitedInput from '@/components/Input/hooks/useLimitedInput';
 import { YcPreventFocus, YcIconButton } from '@shared/components';
@@ -88,15 +88,7 @@ const props = withDefaults(defineProps<TextareaProps>(), {
   enterPrevent: false,
   showMirror: false,
 });
-const emits = defineEmits<{
-  (e: 'update:modelValue', value: string): void;
-  (e: 'input', value: string, ev: Event): void;
-  (e: 'change', value: string, ev: Event): void;
-  (e: 'clear', ev: MouseEvent): void;
-  (e: 'focus', ev: FocusEvent): void;
-  (e: 'blur', ev: FocusEvent): void;
-  (e: 'keydown', ev: KeyboardEvent): void;
-}>();
+const emits = defineEmits<TextareaEmits>();
 const { autoSize } = toRefs(props);
 // 输入实例
 const inputRef = ref<HTMLTextAreaElement>();

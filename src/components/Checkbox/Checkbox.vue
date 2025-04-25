@@ -38,7 +38,7 @@
 
 <script lang="ts" setup>
 import { toRefs, inject, computed, ref } from 'vue';
-import { CheckboxProps, CheckboxProvide } from './type';
+import { CheckboxProps, CheckboxEmits, CheckboxProvide } from './type';
 import { CHECKBOX_GROUP_PROVIDE_KEY } from '@shared/constants';
 import { useControlValue } from '@shared/hooks';
 import { IconCheck } from '@shared/icons';
@@ -55,10 +55,7 @@ const props = withDefaults(defineProps<CheckboxProps>(), {
   indeterminate: false,
   preventFocus: false,
 });
-const emits = defineEmits<{
-  (e: 'update:modelValue', value: boolean): void;
-  (e: 'change', value: boolean, ev: Event): void;
-}>();
+const emits = defineEmits<CheckboxEmits>();
 const {
   modelValue,
   defaultChecked,

@@ -24,4 +24,11 @@ export interface PopconfirmProps {
   onBeforeCancel?: OnBeforeCancel;
 }
 
+export interface PopconfirmEmits {
+  (e: 'update:popupVisible', value: boolean): void;
+  (e: 'popup-visible-change', value: boolean): void;
+  (e: 'ok'): void;
+  (e: 'cancel'): void;
+}
+
 export type PopconfirmType = 'info' | 'success' | 'warning' | 'error';

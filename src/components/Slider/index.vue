@@ -35,7 +35,7 @@
 
 <script lang="ts" setup>
 import { ref, toRefs, computed, provide } from 'vue';
-import { SliderProps, SliderProvide, PositionData } from './type';
+import { SliderProps, SliderEmits, SliderProvide, PositionData } from './type';
 import { SLIDER_PROVIDE_KEY, SLIDER_DIRECTION_MAP } from '@shared/constants';
 import useSliderValue from './hooks/useSliderValue';
 import YcSliderTicks from './component/SliderTicks.vue';
@@ -63,10 +63,7 @@ const props = withDefaults(defineProps<SliderProps>(), {
     return val + '';
   },
 });
-const emits = defineEmits<{
-  (e: 'update:modelValue', value: number): void;
-  (e: 'change', value: number): void;
-}>();
+const emits = defineEmits<SliderEmits>();
 const {
   modelValue,
   defaultValue,

@@ -1,13 +1,12 @@
 import { computed, Ref, ref, toRefs } from 'vue';
-import { Fn, ObjectData, RequiredDeep } from '@shared/type';
 import { isFunction, isNumber } from '@shared/utils';
 import { useControlValue, useCursor } from '@shared/hooks';
-import { InputProps } from '../type';
-import { TextareaProps } from '@/components/Textarea';
+import { TextareaPropsRequired, TextareaEmits } from '@/components/Textarea';
+import { InputPropsRequired, InputEmits } from '@/components/Input';
 
 export default (params: {
-  props: ObjectData;
-  emits: Fn;
+  props: InputPropsRequired | TextareaPropsRequired;
+  emits: TextareaEmits | InputEmits;
   inputRef: Ref<HTMLInputElement | HTMLTextAreaElement | undefined>;
 }) => {
   const { props, emits, inputRef } = params;
@@ -21,7 +20,7 @@ export default (params: {
     error: _error,
     showWordLimit: _showWordLimit,
     maxLength: _maxLength,
-  } = toRefs(props as RequiredDeep<TextareaProps | InputProps>);
+  } = toRefs(props);
   const { wordLength, wordSlice } = props;
   // 初始化记录光标位置的hook
   const { setCursor, recordCursor } = useCursor(inputRef);

@@ -25,7 +25,7 @@
 
 <script lang="ts" setup>
 import { toRefs, computed, CSSProperties } from 'vue';
-import { TooltipProps } from './type';
+import { TooltipProps, TooltipEmits } from './type';
 import { useControlValue } from '@shared/hooks';
 import YcTrigger from '@/components/Trigger';
 defineOptions({
@@ -48,10 +48,7 @@ const props = withDefaults(defineProps<TooltipProps>(), {
   },
   popupContainer: undefined,
 });
-const emits = defineEmits<{
-  (e: 'update:popupVisible', value: boolean): void;
-  (e: 'popup-visible-change', value: boolean): void;
-}>();
+const emits = defineEmits<TooltipEmits>();
 const {
   arrowStyle: _arrowStyle,
   contentStyle: _contentStyle,

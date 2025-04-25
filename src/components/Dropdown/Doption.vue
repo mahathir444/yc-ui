@@ -22,8 +22,8 @@
 
 <script lang="ts" setup>
 import { ref, toRefs, inject } from 'vue';
-import { DoptionProps, DropdownProvide } from './type';
-import { DROPDOWN_PROVIDE_KEY, TRIGGER_PROVIDE_KEY } from '@shared/constants';
+import { DoptionProps, DropdownProvide, DoptionValue } from './type';
+import { DROPDOWN_PROVIDE_KEY } from '@shared/constants';
 defineOptions({
   name: 'Doption',
 });
@@ -46,7 +46,7 @@ const handleClick = (ev: MouseEvent) => {
   if (disabled.value) return;
   emits('click', ev);
   if (isSubmenu.value) return;
-  select(optionValue.value, ev);
+  select(optionValue.value as DoptionValue, ev);
 };
 
 defineExpose({

@@ -39,7 +39,7 @@
 
 <script setup lang="ts">
 import { ref, onMounted, computed, watch, toRefs } from 'vue';
-import { ResizeBoxProps, DirectionType } from './type';
+import { ResizeBoxProps, ResizeBoxEmits, DirectionType } from './type';
 import { useResizeObserver, useEventListener } from '@vueuse/core';
 import { useControlValue } from '@shared/hooks';
 import { IconDragDot, IconDragDotVertical } from '@shared/icons';
@@ -50,17 +50,7 @@ const props = withDefaults(defineProps<ResizeBoxProps>(), {
   directions: () => ['right'],
   component: 'div',
 });
-const emits = defineEmits<{
-  (event: 'update:width', val: number): void;
-  (event: 'update:height', val: number): void;
-  (event: 'moving-start', ev: MouseEvent): void;
-  (event: 'moving-end', ev: MouseEvent): void;
-  (
-    event: 'moving',
-    ev: MouseEvent,
-    size: { width?: number; height?: number }
-  ): void;
-}>();
+const emits = defineEmits<ResizeBoxEmits>();
 const { width, height } = toRefs(props);
 const cWidth = useControlValue(width, width.value, (val) => {
   emits('update:width', val);

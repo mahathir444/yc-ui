@@ -72,8 +72,7 @@
 
 <script lang="ts" setup>
 import { ref, inject, toRefs } from 'vue';
-import { ColorPickerProvide, ColorPickerProps } from '../type';
-import { RequiredDeep } from '@shared/type';
+import { ColorPickerProvide } from '../type';
 import { COLOR_PICKER_PROVIDE_KEY } from '@shared/constants';
 import ColorPalette from './ColorPalette.vue';
 import ColorInput from './ColorInput.vue';
@@ -82,7 +81,6 @@ import ColorControlBar from './ColorControlBar.vue';
 // 注入值
 const { props, popupVisible, computedColor, baseColor, alpha, format } =
   inject<ColorPickerProvide>(COLOR_PICKER_PROVIDE_KEY, {
-    props: {} as any,
     emits: () => {},
     popupVisible: ref(false),
     computedColor: ref(''),
@@ -97,7 +95,7 @@ const {
   showPreset,
   historyColors,
   presetColors,
-} = toRefs(props as RequiredDeep<ColorPickerProps>);
+} = toRefs(props!);
 // 组件实例
 const colorBarRef = ref<InstanceType<typeof ColorControlBar>>();
 const alphaBarRef = ref<InstanceType<typeof ColorControlBar>>();

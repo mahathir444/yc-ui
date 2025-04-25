@@ -54,7 +54,7 @@
 
 <script lang="ts" setup>
 import { ref, onMounted, inject, toRefs } from 'vue';
-import { LayoutSiderProps, LayoutProvide } from './type';
+import { LayoutSiderProps, LayoutSiderEmits, LayoutProvide } from './type';
 import { useControlValue } from '@shared/hooks';
 import { mediaQueryHandler } from '@shared/utils';
 import { LAYOUT_PROVIDE_KEY } from '@shared/constants';
@@ -78,15 +78,7 @@ const props = withDefaults(defineProps<LayoutSiderProps>(), {
     return [];
   },
 });
-const emits = defineEmits<{
-  (e: 'update:collapsed', collapsed: boolean): void;
-  (
-    e: 'collapse',
-    collapsed: boolean,
-    type: 'clickTrigger' | 'responsive'
-  ): void;
-  (e: 'breakpoint', collapsed: boolean): void;
-}>();
+const emits = defineEmits<LayoutSiderEmits>();
 const {
   collapsed,
   defaultCollapsed,

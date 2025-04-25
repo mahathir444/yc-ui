@@ -8,6 +8,11 @@ export interface CollapseProps {
   destroyOnHide?: boolean;
 }
 
+export interface CollapseEmits {
+  (e: 'update:activekey', value: CollapseValue): void;
+  (e: 'change', value: CollapseValue): void;
+}
+
 export interface CollapseItemProps {
   value?: CollapseValue;
   title?: string;

@@ -41,7 +41,7 @@
 
 <script lang="ts" setup>
 import { toRefs, computed, ref } from 'vue';
-import { TagProps } from './type';
+import { TagProps, TagEmits } from './type';
 import { TAG_SIZE_CLASS, TAG_COLOR_CLASS } from '@shared/constants';
 import YcSpin from '@/components/Spin';
 import { useControlValue, useConfigProvder } from '@shared/hooks';
@@ -63,14 +63,8 @@ const props = withDefaults(defineProps<TagProps>(), {
   defaultChecked: true,
   nowrap: false,
   preventFocus: false,
-  tagIndex: undefined,
 });
-const emits = defineEmits<{
-  (e: 'update:visible', value: boolean): void;
-  (e: 'update:checked', value: boolean): void;
-  (e: 'close', ev: MouseEvent, value?: string): void;
-  (e: 'check', value: boolean, ev: MouseEvent): void;
-}>();
+const emits = defineEmits<TagEmits>();
 const {
   visible,
   defaultVisible,
@@ -79,7 +73,6 @@ const {
   checkable,
   preventFocus,
   color,
-  tagIndex: _tagIndex,
 } = toRefs(props);
 // 获取全局配置
 const { size } = useConfigProvder(props);

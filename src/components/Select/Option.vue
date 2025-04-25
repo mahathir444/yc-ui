@@ -73,7 +73,7 @@ const {
   options: ref([]),
   blur: () => {},
   filterOption: () => true,
-  getValue: () => {},
+  getValue: () => '',
   emits: () => {},
 });
 //  选项的值

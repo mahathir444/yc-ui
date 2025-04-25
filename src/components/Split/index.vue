@@ -40,7 +40,7 @@
 
 <script lang="ts" setup>
 import { ref, toRefs, computed, watch, onMounted } from 'vue';
-import { SplitProps } from './type';
+import { SplitProps, SplitEmits } from './type';
 import { sleep } from '@shared/utils';
 import { SPLIT_DIRECTION_MAP } from '@shared/constants';
 import { IconDragDotVertical, IconDragDot } from '@shared/icons';
@@ -62,12 +62,7 @@ const props = withDefaults(defineProps<SplitProps>(), {
   max: 1,
   disabled: false,
 });
-const emits = defineEmits<{
-  (e: 'update:size', value: number): void;
-  (e: 'moving-start'): void;
-  (e: 'moving'): void;
-  (e: 'move-end'): void;
-}>();
+const emits = defineEmits<SplitEmits>();
 const { size, defaultSize, direction, min, max } = toRefs(props);
 // 比例模式
 let valueType: string = 'rate';

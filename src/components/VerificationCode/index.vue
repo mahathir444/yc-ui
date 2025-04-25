@@ -26,7 +26,7 @@
 
 <script lang="ts" setup>
 import { ref, toRefs, computed } from 'vue';
-import { VerificationCodeProps } from './type';
+import { VerificationCodeProps, VerificationCodeEmits } from './type';
 import { useControlValue, useConfigProvder } from '@shared/hooks';
 import { VERIFICATION_CODE_SIZE_CLASS } from '@shared/constants';
 import { sleep } from '@shared/utils';
@@ -47,12 +47,7 @@ const props = withDefaults(defineProps<VerificationCodeProps>(), {
   formatter: undefined,
   separator: undefined,
 });
-const emits = defineEmits<{
-  (e: 'update:modelValue', value: string): void;
-  (e: 'input', value: string, ev: Event, i: number): void;
-  (e: 'change', value: string): void;
-  (e: 'finish', value: string): void;
-}>();
+const emits = defineEmits<VerificationCodeEmits>();
 const { modelValue, defaultValue, length: _length } = toRefs(props);
 const { formatter } = props;
 // 接收传入的属性

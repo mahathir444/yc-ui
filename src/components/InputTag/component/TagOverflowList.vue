@@ -55,7 +55,6 @@ const curList = computed(() => {
       : computedValue.value;
   return {
     visibleList: visibleList as ObjectData,
-
     hideList: computedValue.value.slice(maxTagCount.value),
   };
 });

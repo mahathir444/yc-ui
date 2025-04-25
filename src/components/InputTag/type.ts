@@ -1,4 +1,4 @@
-import { ObjectData, Size } from '@shared/type';
+import { Size } from '@shared/type';
 import { TagProps } from '@/components/Tag';
 
 export interface InputTagProps {
@@ -41,7 +41,7 @@ export type TagData =
       closeable?: boolean;
       tagProps?: TagProps;
     }
-  | ObjectData;
+  | Record<string, any>;
 
 export type InputTagValue = (string | number | TagData)[];
 

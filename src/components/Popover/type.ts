@@ -15,3 +15,8 @@ export interface PopoverProps {
   arrowStyle?: CSSProperties;
   popupContainer?: PopupContainer;
 }
+
+export interface PopoverEmits {
+  (e: 'update:popupVisible', value: boolean): void;
+  (e: 'popup-visible-change', value: boolean): void;
+}

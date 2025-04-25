@@ -21,7 +21,12 @@
 <script lang="ts" setup>
 import { ref, toRefs, provide } from 'vue';
 import { PRESET_COLORS } from '@shared/constants';
-import { ColorPickerProps, ColorPickerEmits, ColorPickerProvide } from './type';
+import {
+  ColorPickerProps,
+  ColorPickerPropsRequired,
+  ColorPickerEmits,
+  ColorPickerProvide,
+} from './type';
 import { parseColor } from '@shared/utils';
 import { COLOR_PICKER_PROVIDE_KEY } from '@shared/constants';
 import { useControlValue, useConfigProvder } from '@shared/hooks';
@@ -83,7 +88,7 @@ const baseColor = ref<string>(computedColor.value);
 const popupVisible = ref<boolean>(false);
 // 提供属性
 provide<ColorPickerProvide>(COLOR_PICKER_PROVIDE_KEY, {
-  props,
+  props: props as ColorPickerPropsRequired,
   emits,
   popupVisible,
   computedColor,

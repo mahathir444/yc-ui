@@ -1,7 +1,7 @@
 import { PopupContainer } from '@shared/type';
 import { TriggerType } from '@/components/Trigger';
 import { ButtonProps, ButtonType } from '@/components/Button';
-import { Fn, Size } from '@shared/type';
+import { Size } from '@shared/type';
 export interface DropdownProps {
   popupVisible?: boolean;
   defaultPopupVisible?: boolean;
@@ -9,6 +9,12 @@ export interface DropdownProps {
   position?: 'top' | 'tr' | 'tl' | 'bottom' | 'br' | 'bl';
   popupContainer?: PopupContainer;
   hideOnSelect?: boolean;
+}
+
+export interface DropdownEmits {
+  (e: 'update:popupVisible', value: boolean): void;
+  (e: 'popup-visible-change', value: boolean): void;
+  (e: 'select', value: DoptionValue, ev: MouseEvent): void;
 }
 
 export interface DoptionProps {
@@ -23,6 +29,11 @@ export interface DsubmenuProps {
   position?: 'rt' | 'lt';
   popupVisible?: boolean;
   defaultPopupVisible?: boolean;
+}
+
+export interface DsubmenuEmits {
+  (e: 'update:popupVisible', value: boolean): void;
+  (e: 'popup-visible-change', value: boolean): void;
 }
 
 export interface DgroupProps {
@@ -46,5 +57,5 @@ export type DoptionValue = string | number | boolean;
 
 // 内部使用
 export interface DropdownProvide {
-  select: Fn;
+  select: (value: DoptionValue, ev: MouseEvent) => void;
 }

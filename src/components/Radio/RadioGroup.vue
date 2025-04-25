@@ -26,7 +26,12 @@
 
 <script lang="ts" setup>
 import { toRefs, provide } from 'vue';
-import { RadioGroupProps, RadioValue, RadioProvide } from './type';
+import {
+  RadioGroupProps,
+  RadioGroupEmits,
+  RadioValue,
+  RadioProvide,
+} from './type';
 import { RADIO_SIZE_CLASS } from '@shared/constants';
 import { RADIO_DIRECTION_MAP } from '@shared/constants';
 import { RADIO_GROUP_PROVIDE_KEY } from '@shared/constants';
@@ -44,10 +49,7 @@ const props = withDefaults(defineProps<RadioGroupProps>(), {
   direction: 'horizontal',
   disabled: false,
 });
-const emits = defineEmits<{
-  (e: 'update:modelValue', value: RadioValue): void;
-  (e: 'change', value: RadioValue, ev: Event): void;
-}>();
+const emits = defineEmits<RadioGroupEmits>();
 const { modelValue, defaultValue, disabled, type } = toRefs(props);
 // 获取全局配置
 const { size } = useConfigProvder(props);

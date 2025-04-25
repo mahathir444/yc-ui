@@ -1,11 +1,10 @@
 import { Ref, ref, toRefs, watchEffect } from 'vue';
-import { TriggerProps, TriggerEmits } from '../type';
-import { ObjectData, RequiredDeep } from '@shared/type';
+import { TriggerPropsRequired, TriggerEmits } from '../type';
 import { onClickOutside } from '@vueuse/core';
 import { useControlValue, useConfigProvder } from '@shared/hooks';
 import useTriggerNested from './useTriggerNested';
 export default (params: {
-  props: ObjectData;
+  props: TriggerPropsRequired;
   emits: TriggerEmits;
   popupRef: Ref<HTMLDivElement | undefined>;
   triggerRef: Ref<HTMLElement | undefined>;
@@ -24,7 +23,7 @@ export default (params: {
     focusDelay,
     scrollToCloseDistance,
     autoSetPosition,
-  } = toRefs(props as RequiredDeep<TriggerProps>);
+  } = toRefs(props);
   // 接收全局属性
   const { scrollToClose } = useConfigProvder();
   // 处理事件

@@ -10,8 +10,8 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, reactive, toRefs, provide } from 'vue';
-import { CollapseProps, CollapseValue } from './type';
+import { toRefs, provide } from 'vue';
+import { CollapseProps, CollapseEmits, CollapseValue } from './type';
 import { useControlValue } from '@shared/hooks';
 defineOptions({
   name: 'Collapse',
@@ -25,10 +25,7 @@ const props = withDefaults(defineProps<CollapseProps>(), {
   bordered: true,
   destroyOnHide: false,
 });
-const emits = defineEmits<{
-  (e: 'update:activekey', value: any): void;
-  (e: 'change', value: CollapseValue): void;
-}>();
+const emits = defineEmits<CollapseEmits>();
 const {
   activeKey,
   defaultActiveKey,

@@ -15,3 +15,8 @@ export interface TooltipProps {
   arrowStyle?: CSSProperties;
   popupContainer?: PopupContainer;
 }
+
+export interface TooltipEmits {
+  (e: 'update:popupVisible', value: boolean): void;
+  (e: 'popup-visible-change', value: boolean): void;
+}

@@ -8,3 +8,15 @@ export interface ResizeBoxProps {
   height?: number;
   component?: string;
 }
+
+export interface ResizeBoxEmits {
+  (event: 'update:width', val: number): void;
+  (event: 'update:height', val: number): void;
+  (event: 'moving-start', ev: MouseEvent): void;
+  (event: 'moving-end', ev: MouseEvent): void;
+  (
+    event: 'moving',
+    ev: MouseEvent,
+    size: { width?: number; height?: number }
+  ): void;
+}

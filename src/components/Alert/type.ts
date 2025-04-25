@@ -7,4 +7,9 @@ export interface AlertProps {
   center?: boolean;
 }
 
+export interface AlertEmits {
+  (e: 'close', ev: MouseEvent): void;
+  (e: 'afterClose'): void;
+}
+
 export type AlertType = 'warning' | 'success' | 'info' | 'error' | 'normal';

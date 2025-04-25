@@ -10,6 +10,11 @@ export interface RadioProps {
   preventFocus?: boolean;
 }
 
+export interface RadioEmits {
+  (e: 'update:modelValue', value: boolean): void;
+  (e: 'change', value: boolean, ev: Event): void;
+}
+
 export interface RadioGroupProps {
   modelValue?: RadioValue;
   defaultValue?: RadioValue;
@@ -18,6 +23,11 @@ export interface RadioGroupProps {
   options?: RadioOption[];
   direction?: Direction;
   disabled?: boolean;
+}
+
+export interface RadioGroupEmits {
+  (e: 'update:modelValue', value: RadioValue): void;
+  (e: 'change', value: RadioValue, ev: Event): void;
 }
 
 export interface RadioOption {

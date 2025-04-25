@@ -1,6 +1,9 @@
 import { ref, Ref, watch } from 'vue';
-import { Fn } from '@shared/type';
-import { OnBeforeCancel, OnBeforeOk } from '@/components/Modal/type';
+import {
+  ModalEmits,
+  OnBeforeCancel,
+  OnBeforeOk,
+} from '@/components/Modal/type';
 import { onKeyStroke } from '@vueuse/core';
 import { useControlValue } from '@shared/hooks';
 import useOnBeforeClose from './useOnBeforeClose';
@@ -12,7 +15,7 @@ export default (params: {
   escToClose: Ref<boolean>;
   onBeforeOk: OnBeforeOk;
   onBeforeCancel: OnBeforeCancel;
-  emits: Fn;
+  emits: ModalEmits;
 }) => {
   const {
     maskClosable,

@@ -1,6 +1,6 @@
 import { reactive, Ref, watch, nextTick, computed, onMounted } from 'vue';
 import { PositionData, RangeData } from '../index';
-import { Direction, Fn } from '@shared/type';
+import { Direction } from '@shared/type';
 import { useDraggable, useEventListener, debouncedWatch } from '@vueuse/core';
 export default (params: {
   computedValue: Ref<number>;

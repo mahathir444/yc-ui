@@ -18,6 +18,13 @@ export interface SwitchProps {
   ) => Promise<boolean | void> | boolean | void;
 }
 
+export interface SwitchEmits {
+  (e: 'update:modelValue', value: SwitchValue): void;
+  (e: 'change', value: SwitchValue, ev: Event): void;
+  (e: 'focus', ev: FocusEvent): void;
+  (e: 'blur', ev: FocusEvent): void;
+}
+
 export type SwitchValue = string | number | boolean;
 export type SwitchType = 'circle' | 'round' | 'line';
 export type SwitchSize = 'small' | 'medium';
