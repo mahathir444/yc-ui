@@ -41,13 +41,13 @@
     <!-- 选然popover -->
     <yc-popover
       v-if="isSubmenu && !level && (mode == 'pop' || computedCollapsed)"
-      v-model:popup-visible="popupVisible"
       position="rt"
+      :trigger-props="triggerProps"
       :autoFitPosition="false"
       :content-style="{
         padding: '4px 0',
       }"
-      v-bind="triggerProps"
+      ref="popoverRef"
     >
       <reuse-template />
       <template #content>
@@ -60,6 +60,7 @@
             v-for="item in childTree"
             :key="item.path"
             :child-node="item"
+            :computed-selected-keys="computedSelectedKeys"
             :trigger-props="triggerProps"
             :popup-max-height="maxHeight"
           >
@@ -90,7 +91,7 @@ import { MenuItemProps, MenuProvide } from './type';
 import { getTextContent, isNumber } from '@shared/utils';
 import { MENU_PROVIDE_KEY, DROPDOWN_PROVIDE_KEY } from '@shared/constants';
 import useMenvLevel from './hooks/useMenvLevel';
-import YcPopover from '@/components/Popover';
+import YcPopover, { PopoverInstance } from '@/components/Popover';
 import YcTooltip from '@/components/Tooltip';
 import { DropdownProvide } from '@/components/Dropdown';
 import YcScrollbar from '@/components/Scrollbar';
@@ -144,7 +145,9 @@ const { isSelected, childLevel, childTree, popupMaxHeight, collectKeys } =
     computedSelectedKeys,
   });
 // popup可见性
-const popupVisible = ref<boolean>(false);
+const popoverRef = ref<PopoverInstance>();
+// title容器
+const titleRef = ref<HTMLDivElement>();
 // maxHeight
 const maxHeight = computed(() => {
   if (popupMaxHeight.value && isNumber(popupMaxHeight.value)) {
@@ -158,8 +161,6 @@ const maxHeight = computed(() => {
 const level = computed(() => {
   return isSubmenu.value ? childLevel - 1 : childLevel;
 });
-// title容器
-const titleRef = ref<HTMLDivElement>();
 // title
 const title = computed(() => {
   return titleRef.value ? getTextContent(titleRef.value) : '';
@@ -171,8 +172,7 @@ provide<DropdownProvide>(DROPDOWN_PROVIDE_KEY, {
       computedSelectedKeys.value = value as string;
       _emits('menuItemClick', value as string);
     }
-    console.log(computedSelectedKeys.value, 'value');
-    popupVisible.value = false;
+    popoverRef.value?.hide();
   },
 });
 // 处理点击

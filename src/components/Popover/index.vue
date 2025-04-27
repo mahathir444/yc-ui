@@ -13,7 +13,7 @@
     animation-name="zoom-in-fade-out"
     need-transform-origin
     show-arrow
-    v-bind="$attrs"
+    v-bind="triggerProps"
   >
     <slot />
     <template #content>
@@ -55,6 +55,9 @@ const props = withDefaults(defineProps<PopoverProps>(), {
     return {};
   },
   popupContainer: undefined,
+  triggerProps: () => {
+    return {};
+  },
 });
 const emits = defineEmits<PopoverEmits>();
 const { popupVisible, defaultPopupVisible } = toRefs(props);
@@ -67,6 +70,15 @@ const computedVisible = useControlValue<boolean>(
     emits('popup-visible-change', val);
   }
 );
+
+defineExpose({
+  show() {
+    computedVisible.value = true;
+  },
+  hide() {
+    computedVisible.value = false;
+  },
+});
 </script>
 
 <style lang="less">

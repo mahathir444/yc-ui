@@ -67,9 +67,7 @@ export default (params: {
       mouseX.value = pageX;
       mouseY.value = pageY;
     }
-    console.log(computedVisible.value, 'computedVisible');
     computedVisible.value = clickToClose.value ? !computedVisible.value : true;
-    console.log(computedVisible.value, 'computedVisible');
     // 触发click事件
     onTriggerMouseclick?.();
   };

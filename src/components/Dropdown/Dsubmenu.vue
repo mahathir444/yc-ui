@@ -13,7 +13,7 @@
     auto-set-position
     auto-fit-popup-min-width
     ref="triggerRef"
-    v-bind="$attrs"
+    v-bind="triggerProps"
   >
     <yc-doption
       :disabled="disabled"
@@ -67,6 +67,9 @@ const props = withDefaults(defineProps<DsubmenuProps>(), {
   trigger: 'hover',
   position: 'rt',
   disabled: false,
+  triggerProps: () => {
+    return {};
+  },
   popupMaxHeight: 200,
   optionStyle: () => {
     return {};

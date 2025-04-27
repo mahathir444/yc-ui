@@ -30,6 +30,7 @@ defineOptions({
 const props = withDefaults(defineProps<DoptionProps>(), {
   disabled: false,
   isSubmenu: false,
+  isActive: false,
 });
 const emits = defineEmits<{
   (e: 'click', ev: MouseEvent): void;

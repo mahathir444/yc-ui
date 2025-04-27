@@ -14,7 +14,7 @@
     need-transform-origin
     show-arrow
     ref="triggerRef"
-    v-bind="$attrs"
+    v-bind="triggerProps"
   >
     <slot />
     <template #content>
@@ -85,6 +85,9 @@ const props = withDefaults(defineProps<PopconfirmProps>(), {
     return {};
   },
   popupContainer: undefined,
+  triggerProps: () => {
+    return {};
+  },
   onBeforeOk: () => true,
   onBeforeCancel: () => true,
 });

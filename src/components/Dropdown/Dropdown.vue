@@ -9,7 +9,7 @@
     animation-name="slide-dynamic-origin"
     need-transform-origin
     auto-fit-popup-min-width
-    v-bind="$attrs"
+    v-bind="triggerProps"
   >
     <slot />
     <template #content>
@@ -34,7 +34,6 @@ import { DROPDOWN_PROVIDE_KEY, DROPDOWN_POSITION_MAP } from '@shared/constants';
 import { useControlValue } from '@shared/hooks';
 import YcTrigger from '@/components/Trigger';
 import YcScrollbar from '@/components/Scrollbar';
-
 defineOptions({
   name: 'Dropdown',
 });
@@ -45,6 +44,10 @@ const props = withDefaults(defineProps<DropdownProps>(), {
   position: 'bottom',
   popupContainer: undefined,
   hideOnSelect: true,
+  triggerProps: () => {
+    return {};
+  },
+  isMenuDropdown: false,
 });
 const emits = defineEmits<{
   (e: 'update:popupVisible', value: boolean): void;
@@ -54,9 +57,9 @@ const emits = defineEmits<{
 const {
   popupVisible,
   defaultPopupVisible,
-  position: _position,
   trigger,
   hideOnSelect,
+  position: _position,
 } = toRefs(props);
 // 受控的visible
 const computedVisible = useControlValue<boolean>(

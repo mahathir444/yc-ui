@@ -1,7 +1,7 @@
 import { CSSProperties } from 'vue';
 import { PopupContainer } from '@shared/type';
 import { OnBeforeCancel, OnBeforeOk } from '@/components/Modal';
-import { TriggerPostion } from '@/components/Trigger';
+import { TriggerPostion, TriggerProps } from '@/components/Trigger';
 import { ButtonProps } from '@/components/Button';
 
 export interface PopconfirmProps {
@@ -20,6 +20,7 @@ export interface PopconfirmProps {
   arrowClass?: string;
   arrowStyle?: CSSProperties;
   popupContainer?: PopupContainer;
+  triggerProps?: TriggerProps;
   onBeforeOk?: OnBeforeOk;
   onBeforeCancel?: OnBeforeCancel;
 }

@@ -2,6 +2,7 @@
   <yc-doption
     v-if="childNode.type == 'menuitem'"
     :value="childNode.path"
+    :is-active="computedSelectedKeys == childNode.path"
     :style="{
       minWidth: '182px',
     }"
@@ -14,13 +15,14 @@
       minWidth: '182px',
     }"
     :popup-max-height="popupMaxHeight"
-    v-bind="<Record<string, any>>triggerProps"
+    :trigger-props="triggerProps"
   >
     {{ childNode.label }}
     <template #content>
       <div v-for="v in childNode.children" :key="v.path">
         <pop-option
           :child-node="v"
+          :computed-selected-keys="computedSelectedKeys"
           :trigger-props="triggerProps"
           :popupMaxHeight="popupMaxHeight"
         />
@@ -43,5 +45,6 @@ defineProps<{
   childNode: ChlidTreeNode;
   triggerProps: TriggerProps;
   popupMaxHeight: number;
+  computedSelectedKeys: string;
 }>();
 </script>

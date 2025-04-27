@@ -1,6 +1,10 @@
 import { CSSProperties } from 'vue';
 import { PopupContainer } from '@shared/type';
-import { TriggerPostion, TriggerType } from '@/components/Trigger';
+import {
+  TriggerPostion,
+  TriggerProps,
+  TriggerType,
+} from '@/components/Trigger';
 
 export interface PopoverProps {
   popupVisible?: boolean;
@@ -14,6 +18,7 @@ export interface PopoverProps {
   arrowClass?: string;
   arrowStyle?: CSSProperties;
   popupContainer?: PopupContainer;
+  triggerProps?: TriggerProps;
 }
 
 export interface PopoverEmits {

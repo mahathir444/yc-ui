@@ -32,7 +32,7 @@ export default (params: {
           item.path == computedSelectedKeys.value && item.type != 'submenu'
         );
       });
-      return level.value <= (target?.level ?? -1);
+      return submenuLevel <= (target?.level ?? -1);
     }
     return computedSelectedKeys.value == path.value;
   });
@@ -44,7 +44,7 @@ export default (params: {
     childKeys.value.push({
       label: title,
       type: mode,
-      level: mode == 'submenu' ? submenuLevel - 1 : childLevel - 1,
+      level: mode == 'submenu' ? submenuLevel : childLevel,
       path: path.value,
     });
     console.log(childKeys.value);

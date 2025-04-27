@@ -12,7 +12,7 @@
     animation-name="zoom-in-fade-out"
     need-transform-origin
     show-arrow
-    v-bind="$attrs"
+    v-bind="triggerProps"
   >
     <slot />
     <template #content>
@@ -47,6 +47,9 @@ const props = withDefaults(defineProps<TooltipProps>(), {
     return {};
   },
   popupContainer: undefined,
+  triggerProps: () => {
+    return {};
+  },
 });
 const emits = defineEmits<TooltipEmits>();
 const {
