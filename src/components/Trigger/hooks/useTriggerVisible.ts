@@ -21,6 +21,7 @@ export default (params: {
     mouseEnterDelay,
     mouseLeaveDelay,
     focusDelay,
+    disabled,
     scrollToCloseDistance,
     autoSetPosition,
   } = toRefs(props);
@@ -60,8 +61,9 @@ export default (params: {
   );
   // 点击
   const handleClickEvent = (e: MouseEvent) => {
+    if (!['click', 'contextMenu'].includes(trigger.value) || disabled.value)
+      return;
     if (timeout.value) clearTimeout(timeout.value);
-    if (!['click', 'contextMenu'].includes(trigger.value)) return;
     if (!autoSetPosition.value) {
       const { pageX, pageY } = e;
       mouseX.value = pageX;
@@ -74,7 +76,7 @@ export default (params: {
   // 鼠标进入
   const handleMouseenter = () => {
     setHoverLevel(mouseEnterDelay.value);
-    if (trigger.value != 'hover') return;
+    if (trigger.value != 'hover' || disabled.value) return;
     if (timeout.value) clearTimeout(timeout.value);
     if (computedVisible.value) return;
     timeout.value = setTimeout(() => {
@@ -85,7 +87,7 @@ export default (params: {
   };
   // 鼠标离开
   const handleMouseleave = (e: MouseEvent) => {
-    if (trigger.value != 'hover') return;
+    if (trigger.value != 'hover' || disabled.value) return;
     if (timeout.value) clearTimeout(timeout.value);
     if (!computedVisible.value) return;
     timeout.value = setTimeout(() => {
@@ -109,7 +111,7 @@ export default (params: {
   };
   // 聚焦
   const handleFocus = () => {
-    if (trigger.value != 'focus') return;
+    if (trigger.value != 'focus' || disabled.value) return;
     if (timeout.value) clearTimeout(timeout.value);
     if (computedVisible.value) return;
     timeout.value = setTimeout(() => {
@@ -120,7 +122,8 @@ export default (params: {
   };
   // 失焦
   const handleBlur = () => {
-    if (trigger.value != 'focus' || !blurToClose.value) return;
+    if (trigger.value != 'focus' || !blurToClose.value || disabled.value)
+      return;
     if (timeout.value) clearTimeout(timeout.value);
     if (!computedVisible.value) return;
     computedVisible.value = false;
@@ -137,6 +140,7 @@ export default (params: {
     onClickOutside(
       popupRef,
       (e) => {
+        if (disabled.value) return;
         let isIngore = false;
         // 处理dropdown或者嵌套情况
         if (isNested.value) {

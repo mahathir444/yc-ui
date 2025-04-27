@@ -56,10 +56,10 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, computed, useSlots } from 'vue';
+import { ref, computed, watch, useSlots } from 'vue';
 import { TriggerProps, TriggerPropsRequired, TriggerEmits } from './type';
 import { TRIGGER_POSITION_MAP } from '@shared/constants';
-import { findFirstLegitChild } from '@shared/utils';
+import { findFirstLegitChild, sleep } from '@shared/utils';
 import { useConfigProvder } from '@shared/hooks';
 import useTriggerVisible from './hooks/useTriggerVisible';
 import useTriggerPosition from './hooks/useTriggerPosition';
@@ -139,18 +139,56 @@ const {
   triggerRef,
 });
 // 计算wrapper与arrow的位置信息
-const { left, top, position, popupStyle, contentStyle, arrowStyle } =
-  useTriggerPosition({
-    props: props as TriggerPropsRequired,
-    popupRef,
-    triggerRef,
-    mouseX,
-    mouseY,
-  });
+const {
+  left,
+  top,
+  right,
+  bottom,
+  popupHeight,
+  popupWidth,
+  triggerHeight,
+  triggerWidth,
+  position,
+  popupStyle,
+  contentStyle,
+  arrowStyle,
+} = useTriggerPosition({
+  props: props as TriggerPropsRequired,
+  popupRef,
+  triggerRef,
+  mouseX,
+  mouseY,
+});
 // 处理点击到外层关闭
 handleClickOutsideClose();
 // 处理滚动关闭
 handleScrollToClose(left, top);
+
+watch(
+  () => computedVisible.value,
+  async (val) => {
+    if (!val) return;
+    await sleep(0);
+    // const {
+    //   left: _left,
+    //   right: _right,
+    //   top: _top,
+    //   bottom: _bottom,
+    //   width: _triggerWidth,
+    //   height: _triggerHeight,
+    // } = triggerRef.value!.getBoundingClientRect();
+    // const { width: _popupWidth, height: _popupHeight } =
+    //   popupRef.value!.getBoundingClientRect();
+    // left.value = _left;
+    // right.value = _right;
+    // top.value = _top;
+    // bottom.value = _bottom;
+    // triggerWidth.value = _triggerWidth;
+    // triggerHeight.value = _triggerHeight;
+    // popupWidth.value = _popupWidth;
+    // popupHeight.value = _popupHeight;
+  }
+);
 
 defineExpose({
   hide() {

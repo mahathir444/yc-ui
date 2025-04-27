@@ -90,7 +90,8 @@ watch(
     let maxCount = 0;
     let totalWidth = overFlowWidth.value;
     for (let tag of tagRef.value) {
-      if (totalWidth > width.value) {
+      if (totalWidth - margin.value > width.value) {
+        maxCount--;
         break;
       }
       totalWidth += tag?.getRef()?.offsetWidth + margin.value;

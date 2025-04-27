@@ -7,7 +7,7 @@
       computedCollapsed ? 'yc-menu-collapsed' : '',
     ]"
   >
-    <div class="yc-menu-inner">
+    <div class="yc-menu-inner" ref="menuRef">
       <slot />
     </div>
     <div
@@ -22,22 +22,23 @@
 </template>
 
 <script lang="ts" setup>
-import { provide, toRefs, computed } from 'vue';
-import { MenuProps, MenuProvide, MenuEmits } from './type';
+import { provide, ref, toRefs, computed, watch } from 'vue';
+import { MenuProps, MenuProvide, MenuEmits, MenuItemData } from './type';
 import {
   MENU_DIRECTION_MAP,
   MENU_PROVIDE_KEY,
   MENU_THEME_MAP,
 } from '@shared/constants';
 import { useControlValue } from '@shared/hooks';
-import { mediaQueryHandler } from '@shared/utils';
+import { mediaQueryHandler, sleep } from '@shared/utils';
 import { IconMenuFold, IconMenuUnfold } from '@shared/icons';
+import { useElementSize } from '@vueuse/core';
 defineOptions({
   name: 'Menu',
 });
 const props = withDefaults(defineProps<MenuProps>(), {
   theme: 'light',
-  mode: 'horizontal',
+  mode: 'vertical',
   levelIndent: 20,
   autoOpen: false,
   collapsed: undefined,
@@ -81,6 +82,33 @@ const {
   popupMaxHeight,
   collapsedWidth: _collapsedWidth,
 } = toRefs(props);
+// menuredf
+const menuRef = ref<HTMLDivElement>();
+// 顺序
+const order = ref<number>(0);
+const max = ref<number>(0);
+const menuItemData = ref<MenuItemData[]>([]);
+// menu的宽度
+const { width } = useElementSize(menuRef, undefined, { box: 'border-box' });
+watch(
+  () => width.value,
+  async () => {
+    await sleep(0);
+    let maxCount = 0;
+    let totalWidth = 0;
+    let gap = 4;
+    for (let item of menuItemData.value) {
+      if (totalWidth - gap > width.value) {
+        maxCount--;
+        break;
+      }
+      totalWidth += item.dom.offsetWidth + gap;
+      maxCount++;
+    }
+    max.value = maxCount;
+    console.log(max.value, max);
+  }
+);
 // 选中的key
 const computedSelectedKeys = useControlValue<string>(
   selectedKeys,
@@ -123,6 +151,9 @@ provide<MenuProvide>(MENU_PROVIDE_KEY, {
   mode,
   autoOpenSelected,
   popupMaxHeight,
+  order,
+  menuItemData,
+  max,
   emits,
 });
 // 处理点击

@@ -9,8 +9,7 @@
   <yc-dsubmenu
     v-else
     :trigger-props="{
-      autoFitPopupMinWidth: ['pop', 'vertical'].includes(mode),
-      autoFitPopupWidth: mode == 'horizontal',
+      autoFitPopupMinWidth: true,
       ...triggerProps,
     }"
     :popup-max-height="popupMaxHeight"

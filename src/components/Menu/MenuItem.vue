@@ -1,5 +1,5 @@
 <template>
-  <div class="yc-menu-item-wrapper">
+  <div v-show="curOrder < max" class="yc-menu-item-wrapper">
     <define-template>
       <div
         :class="{
@@ -7,13 +7,14 @@
           'yc-menu-item-selected': isSelected,
           'yc-menu-item-disabled': disabled,
         }"
+        ref="menuItemRef"
         @click="handleClick"
       >
         <div
-          v-if="level"
+          v-if="curLevel"
           class="yc-menu-indent"
           :style="{
-            width: `${levelIndent * level}px`,
+            width: `${levelIndent * curLevel}px`,
             height: `${levelIndent}px`,
           }"
         ></div>
@@ -24,7 +25,6 @@
         <div
           v-show="!computedCollapsed"
           class="yc-menu-item-title text-ellipsis"
-          ref="titleRef"
         >
           <slot />
         </div>
@@ -40,11 +40,12 @@
     </define-template>
     <!-- 选然popover -->
     <yc-popover
-      v-if="isSubmenu && !level && (mode != 'vertical' || !computedCollapsed)"
+      v-if="
+        isSubmenu && !curLevel && (mode != 'vertical' || !computedCollapsed)
+      "
       :position="mode == 'horizontal' ? 'bl' : 'rt'"
       :trigger-props="{
-        autoFitPopupMinWidth: ['pop', 'vertical'].includes(mode),
-        autoFitPopupWidth: mode == 'horizontal',
+        autoFitPopupMinWidth: true,
         ...triggerProps,
       }"
       :autoFitPosition="false"
@@ -76,7 +77,7 @@
     </yc-popover>
     <!-- 选然tooltip -->
     <yc-tooltip
-      v-else-if="!isSubmenu && level && computedCollapsed"
+      v-else-if="!isSubmenu && curLevel && computedCollapsed"
       position="rt"
       :autoFitPosition="false"
       :content="title"
@@ -125,6 +126,9 @@ const {
   tooltipProps,
   autoOpenSelected,
   mode,
+  order,
+  max,
+  menuItemData,
   popupMaxHeight: _popupMaxHeight,
   emits: _emits,
 } = inject<MenuProvide>(MENU_PROVIDE_KEY, {
@@ -139,20 +143,19 @@ const {
   autoOpenSelected: ref(false),
   mode: ref('vertical'),
   popupMaxHeight: ref(167),
+  order: ref(0),
+  max: ref(0),
+  menuItemData: ref([]),
   emits: () => {},
 });
-// 接收submenu注入
-const { isSelected, childLevel, childTree, popupMaxHeight, collectKeys } =
-  useMenvLevel({
-    path,
-    isSubHeader: isSubmenu.value,
-    mode: 'menuitem',
-    computedSelectedKeys,
-  });
 // popup可见性
 const popoverRef = ref<PopoverInstance>();
 // title容器
-const titleRef = ref<HTMLDivElement>();
+const menuItemRef = ref<HTMLDivElement>();
+// title
+const title = computed(() => {
+  return menuItemRef.value ? getTextContent(menuItemRef.value) : '';
+});
 // maxHeight
 const maxHeight = computed(() => {
   if (popupMaxHeight.value && isNumber(popupMaxHeight.value)) {
@@ -162,13 +165,22 @@ const maxHeight = computed(() => {
   }
   return 167;
 });
-// 层级
-const level = computed(() => {
-  return isSubmenu.value ? childLevel - 1 : childLevel;
-});
-// title
-const title = computed(() => {
-  return titleRef.value ? getTextContent(titleRef.value) : '';
+// 接收submenu注入
+const {
+  isSelected,
+  curLevel,
+  curOrder,
+  childTree,
+  popupMaxHeight,
+  collectKeys,
+} = useMenvLevel({
+  path,
+  isSubHeader: isSubmenu.value,
+  order,
+  menuItemRef,
+  menuItemData,
+  mode: 'menuitem',
+  computedSelectedKeys,
 });
 // 注入Popover
 provide<DropdownProvide>(DROPDOWN_PROVIDE_KEY, {
@@ -183,8 +195,8 @@ provide<DropdownProvide>(DROPDOWN_PROVIDE_KEY, {
 // 处理点击
 const handleClick = () => {
   if (
-    mode.value != 'vertical' ||
-    !computedCollapsed.value ||
+    (mode.value != 'vertical' && isSubmenu.value) ||
+    computedCollapsed.value ||
     computedSelectedKeys.value == path.value ||
     disabled.value
   ) {
@@ -223,7 +235,6 @@ onMounted(() => {
     computedSelectedKeys.value = path.value;
   }
 });
-
 defineExpose({
   getTitle() {
     return title.value;

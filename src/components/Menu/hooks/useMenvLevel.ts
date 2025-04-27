@@ -1,15 +1,26 @@
 import { ref, inject, computed, Ref, provide } from 'vue';
 import { SUBMENU_PROVIDE_KEY } from '@shared/constants';
-import { SubMenuProvide } from '../type';
+import { SubMenuProvide, MenuItemData } from '../type';
 import { buildMenuTree } from '@shared/utils';
 
 export default (params: {
   mode: 'submenu' | 'menuitem';
+  order: Ref<number>;
+  menuItemData: Ref<MenuItemData[]>;
+  menuItemRef: Ref<HTMLDivElement | undefined>;
   isSubHeader: boolean;
   path: Ref<string>;
   computedSelectedKeys: Ref<string>;
 }) => {
-  const { mode, isSubHeader, computedSelectedKeys, path } = params;
+  const {
+    mode,
+    isSubHeader,
+    computedSelectedKeys,
+    path,
+    order,
+    menuItemData,
+    menuItemRef,
+  } = params;
   // 接收submenu注入
   const { childKeys, level, childLevel, popupMaxHeight } =
     inject<SubMenuProvide>(SUBMENU_PROVIDE_KEY, {
@@ -20,6 +31,8 @@ export default (params: {
     });
   // submen的子等级
   const submenuLevel = level.value - 1;
+  // 当前的层级
+  const curLevel = computed(() => (isSubHeader ? childLevel - 1 : childLevel));
   // 子菜单转树
   const childTree = computed(() => {
     return buildMenuTree(childKeys.value);
@@ -36,36 +49,49 @@ export default (params: {
     }
     return computedSelectedKeys.value == path.value;
   });
+  // 当前的order,用于计算横向情况下的隐藏
+  const curOrder = !curLevel.value ? ++order.value : -1;
   // 收集keys
   const collectKeys = (title: string) => {
-    if (isSubHeader) return;
+    if (mode != 'submenu') {
+      menuItemData.value[curOrder - 1] = {
+        dom: menuItemRef.value as HTMLDivElement,
+        data: {
+          label: title,
+          path: path.value,
+        },
+        childTree: isSubHeader ? childTree.value : [],
+      };
+    }
+    console.log(menuItemData.value);
     const index = childKeys.value.findIndex((item) => item.path == path.value);
-    if (index != -1) return;
+    if (isSubHeader || index != -1) return;
     childKeys.value.push({
       label: title,
       type: mode,
       level: mode == 'submenu' ? submenuLevel : childLevel,
       path: path.value,
     });
-    console.log(childKeys.value);
   };
   // 注入值
-  if (mode == 'submenu') {
+  const provideKeys = () => {
     provide<SubMenuProvide>(SUBMENU_PROVIDE_KEY, {
       childKeys,
       level,
       childLevel: level.value++,
       popupMaxHeight,
     });
-  }
-
+  };
   return {
     level,
+    curLevel,
     isSelected,
     childKeys,
     childLevel,
     childTree,
+    curOrder,
     popupMaxHeight,
+    provideKeys,
     collectKeys,
   };
 };

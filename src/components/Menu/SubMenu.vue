@@ -79,17 +79,26 @@ const {
   autoOpenSelected: ref(false),
   mode: ref('vertical'),
   popupMaxHeight: ref(167),
+  order: ref(0),
+  max: ref(0),
+  menuItemData: ref([]),
   emits: () => {},
 });
 // 注入属性
-const { collectKeys } = useMenvLevel({
+const { provideKeys, collectKeys } = useMenvLevel({
   path,
   isSubHeader: false,
   mode: 'submenu',
   computedSelectedKeys,
+  menuItemRef: ref<HTMLDivElement | undefined>(),
+  menuItemData: ref([]),
+  order: ref(0),
 });
+
+provideKeys();
+
 onMounted(() => {
-  collectKeys(title.value ? title.value : headerRef.value!.getTitle());
+  collectKeys(headerRef.value!.getTitle());
 });
 </script>
 

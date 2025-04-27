@@ -51,6 +51,14 @@ export interface MenuItemProps {
 
 export type MenuMode = 'vertical' | 'pop' | 'horizontal';
 export type PopupMaxHeight = boolean | number;
+export type MenuItemData = {
+  dom: HTMLDivElement;
+  data: {
+    label: string;
+    path: string;
+  };
+  childTree: ChlidTreeNode[];
+};
 
 export interface MenuProvide {
   computedSelectedKeys: WritableComputedRef<string> | Ref<string>;
@@ -63,6 +71,9 @@ export interface MenuProvide {
   tooltipProps: Ref<TooltipProps>;
   autoOpenSelected: Ref<boolean>;
   mode: Ref<MenuMode>;
+  order: Ref<number>;
+  max: Ref<number>;
+  menuItemData: Ref<MenuItemData[]>;
   popupMaxHeight: Ref<PopupMaxHeight>;
   emits: MenuEmits;
 }

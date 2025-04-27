@@ -39,7 +39,7 @@ export default (params: {
     height: triggerHeight,
   } = useElementBounding(triggerRef, {
     windowScroll: updateAtScroll.value,
-    updateTiming: 'next-frame',
+    // updateTiming: 'next-frame',
   });
   // 获取弹出层元素的信息
   const { width: popupWidth, height: popupHeight } = useElementSize(
@@ -386,6 +386,12 @@ export default (params: {
   return {
     left,
     top,
+    bottom,
+    right,
+    popupWidth,
+    popupHeight,
+    triggerWidth,
+    triggerHeight,
     position,
     popupStyle,
     contentStyle,
