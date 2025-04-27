@@ -22,7 +22,7 @@
 </template>
 
 <script lang="ts" setup>
-import { provide, toRefs, computed, onMounted } from 'vue';
+import { provide, toRefs, computed } from 'vue';
 import { MenuProps, MenuProvide, MenuEmits } from './type';
 import {
   MENU_DIRECTION_MAP,
@@ -58,6 +58,7 @@ const props = withDefaults(defineProps<MenuProps>(), {
   },
   autoOpenSelected: false,
   breakpoint: undefined,
+  popupMaxHeight: 167,
 });
 const emits = defineEmits<MenuEmits>();
 // 解构属性
@@ -77,6 +78,7 @@ const {
   tooltipProps,
   autoOpenSelected,
   mode,
+  popupMaxHeight,
   collapsedWidth: _collapsedWidth,
 } = toRefs(props);
 // 选中的key
@@ -120,6 +122,7 @@ provide<MenuProvide>(MENU_PROVIDE_KEY, {
   tooltipProps,
   mode,
   autoOpenSelected,
+  popupMaxHeight,
   emits,
 });
 // 处理点击

@@ -28,7 +28,11 @@
     </yc-doption>
     <template #content>
       <div class="yc-dropdown">
-        <yc-scrollbar style="max-height: 200px">
+        <yc-scrollbar
+          :style="{
+            maxHeight: popupMaxHeight + 'px',
+          }"
+        >
           <div class="yc-dropdown-list">
             <slot name="content" />
           </div>
@@ -63,6 +67,7 @@ const props = withDefaults(defineProps<DsubmenuProps>(), {
   trigger: 'hover',
   position: 'rt',
   disabled: false,
+  popupMaxHeight: 200,
   optionStyle: () => {
     return {};
   },

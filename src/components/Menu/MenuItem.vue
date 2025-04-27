@@ -1,12 +1,13 @@
 <template>
-  <div class="yc-menu-item-wrapper" @click="handleClick">
+  <div class="yc-menu-item-wrapper">
     <define-template>
       <div
-        :class="[
-          'yc-menu-item',
-          isSelected ? 'yc-menu-item-selected' : '',
-          disabled ? 'yc-menu-item-disabled' : '',
-        ]"
+        :class="{
+          'yc-menu-item': true,
+          'yc-menu-item-selected': isSelected,
+          'yc-menu-item-disabled': disabled,
+        }"
+        @click="handleClick"
       >
         <div
           v-if="level"
@@ -50,13 +51,21 @@
     >
       <reuse-template />
       <template #content>
-        <pop-option
-          v-for="item in childTree"
-          :key="item.path"
-          :child-node="item"
+        <yc-scrollbar
+          :style="{
+            maxHeight: maxHeight + 'px',
+          }"
         >
-          {{ item.label }}
-        </pop-option>
+          <pop-option
+            v-for="item in childTree"
+            :key="item.path"
+            :child-node="item"
+            :trigger-props="triggerProps"
+            :popup-max-height="maxHeight"
+          >
+            {{ item.label }}
+          </pop-option>
+        </yc-scrollbar>
       </template>
     </yc-popover>
     <!-- 选然tooltip -->
@@ -77,18 +86,15 @@
 <script lang="ts" setup>
 import { ref, toRefs, inject, computed, onMounted, provide } from 'vue';
 import { createReusableTemplate } from '@vueuse/core';
-import { MenuItemProps, MenuProvide, SubMenuProvide } from './type';
-import {
-  SUBMENU_PROVIDE_KEY,
-  MENU_PROVIDE_KEY,
-  DROPDOWN_PROVIDE_KEY,
-} from '@shared/constants';
-import { getTextContent, buildMenuTree } from '@shared/utils';
+import { MenuItemProps, MenuProvide } from './type';
+import { getTextContent, isNumber } from '@shared/utils';
+import { MENU_PROVIDE_KEY, DROPDOWN_PROVIDE_KEY } from '@shared/constants';
+import useMenvLevel from './hooks/useMenvLevel';
 import YcPopover from '@/components/Popover';
 import YcTooltip from '@/components/Tooltip';
 import { DropdownProvide } from '@/components/Dropdown';
+import YcScrollbar from '@/components/Scrollbar';
 import PopOption from './component/PopOption.vue';
-
 defineOptions({
   name: 'MenuItem',
 });
@@ -98,6 +104,9 @@ const props = withDefaults(defineProps<MenuItemProps>(), {
   isSubmenu: false,
 });
 const { path, disabled, isSubmenu } = toRefs(props);
+// 创建通用模板
+const { reuse: ReuseTemplate, define: DefineTemplate } =
+  createReusableTemplate();
 // 接收menu注入
 const {
   computedSelectedKeys,
@@ -110,6 +119,7 @@ const {
   tooltipProps,
   autoOpenSelected,
   mode,
+  popupMaxHeight: _popupMaxHeight,
   emits: _emits,
 } = inject<MenuProvide>(MENU_PROVIDE_KEY, {
   computedSelectedKeys: ref(''),
@@ -122,31 +132,31 @@ const {
   tooltipProps: ref({}),
   autoOpenSelected: ref(false),
   mode: ref('vertical'),
+  popupMaxHeight: ref(167),
   emits: () => {},
 });
-const { reuse: ReuseTemplate, define: DefineTemplate } =
-  createReusableTemplate();
 // 接收submenu注入
-const { childKeys, childLevel } = inject<SubMenuProvide>(SUBMENU_PROVIDE_KEY, {
-  childKeys: ref([]),
-  level: ref(1),
-  childLevel: 0,
+const { isSelected, childLevel, childTree, popupMaxHeight, collectKeys } =
+  useMenvLevel({
+    path,
+    isSubHeader: isSubmenu.value,
+    mode: 'menuitem',
+    computedSelectedKeys,
+  });
+// popup可见性
+const popupVisible = ref<boolean>(false);
+// maxHeight
+const maxHeight = computed(() => {
+  if (popupMaxHeight.value && isNumber(popupMaxHeight.value)) {
+    return popupMaxHeight.value;
+  } else if (_popupMaxHeight.value && isNumber(_popupMaxHeight.value)) {
+    return _popupMaxHeight.value;
+  }
+  return 167;
 });
 // 层级
 const level = computed(() => {
   return isSubmenu.value ? childLevel - 1 : childLevel;
-});
-// 子菜单转树
-const childTree = computed(() => buildMenuTree(childKeys.value));
-// 是否选中
-const isSelected = computed(() => {
-  if (isSubmenu.value) {
-    const target = childKeys.value.find((item) => {
-      return item.path == computedSelectedKeys.value && item.type != 'submenu';
-    });
-    return level.value <= (target?.level ?? -1);
-  }
-  return computedSelectedKeys.value == path.value;
 });
 // title容器
 const titleRef = ref<HTMLDivElement>();
@@ -154,7 +164,6 @@ const titleRef = ref<HTMLDivElement>();
 const title = computed(() => {
   return titleRef.value ? getTextContent(titleRef.value) : '';
 });
-const popupVisible = ref<boolean>(false);
 // 注入Popover
 provide<DropdownProvide>(DROPDOWN_PROVIDE_KEY, {
   select: (value) => {
@@ -168,8 +177,11 @@ provide<DropdownProvide>(DROPDOWN_PROVIDE_KEY, {
 });
 // 处理点击
 const handleClick = () => {
-  if (computedCollapsed.value && mode.value != 'pop') return;
-  if (computedSelectedKeys.value == path.value || disabled.value) {
+  if (
+    (computedCollapsed.value && mode.value != 'pop') ||
+    computedSelectedKeys.value == path.value ||
+    disabled.value
+  ) {
     return;
   }
   // submenu点击
@@ -196,31 +208,14 @@ const handleClick = () => {
     computedSelectedKeys.value = path.value;
     _emits('menuItemClick', path.value);
   }
-  console.log('事件触发了');
 };
 // 收集
-const collectKeys = () => {
-  if (isSubmenu.value) {
-    if (autoOpen.value) {
-      computedOpenKeys.value.push(path.value);
-    }
-    if (isSelected.value && autoOpenSelected.value) {
-      computedOpenKeys.value.push(path.value);
-    }
-    return;
-  }
-  const index = childKeys.value.findIndex((item) => item.path == path.value);
-  if (index == -1) {
-    childKeys.value.push({
-      label: title.value,
-      type: 'menuitem',
-      level: childLevel - 1,
-      path: path.value,
-    });
-  }
-};
 onMounted(() => {
-  collectKeys();
+  collectKeys(title.value);
+  if (!isSubmenu.value) return;
+  if (autoOpen.value || (isSelected.value && autoOpenSelected.value)) {
+    computedSelectedKeys.value = path.value;
+  }
 });
 
 defineExpose({

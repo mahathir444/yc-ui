@@ -1,8 +1,7 @@
-import { WritableComputedRef, Ref } from 'vue';
+import { WritableComputedRef, Ref, ComputedRef } from 'vue';
 import { BreakpointName } from '@/components/Grid';
 import { TooltipProps } from '@/components/Tooltip';
 import { TriggerProps } from '@/components/Trigger';
-import { Direction } from '@shared/type';
 
 export interface MenuProps {
   theme?: 'light' | 'dark';
@@ -22,10 +21,10 @@ export interface MenuProps {
   triggerProps?: TriggerProps;
   tooltipProps?: TooltipProps;
   autoOpenSelected?: boolean;
+  popupMaxHeight?: PopupMaxHeight;
   //
   autoScrollIntoView?: boolean;
   scrollConfig?: Record<string, any>;
-  popupMaxHeight?: boolean | number;
 }
 
 export interface MenuEmits {
@@ -41,7 +40,7 @@ export interface SubMenuProps {
   title?: string;
   selectable?: boolean;
   popup?: boolean;
-  popupMaxHeight?: boolean | number;
+  popupMaxHeight?: PopupMaxHeight;
 }
 
 export interface MenuItemProps {
@@ -51,6 +50,7 @@ export interface MenuItemProps {
 }
 
 type MenuMode = 'vertical' | 'pop' | 'horizontal';
+export type PopupMaxHeight = boolean | number;
 
 export interface MenuProvide {
   computedSelectedKeys: WritableComputedRef<string> | Ref<string>;
@@ -63,7 +63,15 @@ export interface MenuProvide {
   tooltipProps: Ref<TooltipProps>;
   autoOpenSelected: Ref<boolean>;
   mode: Ref<MenuMode>;
+  popupMaxHeight: Ref<PopupMaxHeight>;
   emits: MenuEmits;
+}
+
+export interface SubMenuProvide {
+  childKeys: Ref<ChlidKey[]>;
+  level: Ref<number>;
+  childLevel: number;
+  popupMaxHeight: ComputedRef<number> | Ref<number>;
 }
 
 export type ChlidKey = {
@@ -79,10 +87,4 @@ export interface ChlidTreeNode {
   level: number;
   path: string;
   children?: ChlidTreeNode[];
-}
-
-export interface SubMenuProvide {
-  childKeys: Ref<ChlidKey[]>;
-  level: Ref<number>;
-  childLevel: number;
 }

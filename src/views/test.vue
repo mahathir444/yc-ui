@@ -1,10 +1,18 @@
 <template>
   <yc-layout class="container">
-    <yc-layout-sider hide-trigger>
+    <yc-layout-sider
+      hide-trigger
+      style="max-height: 100vh"
+      :popup-max-height="300"
+    >
       <yc-menu
         v-model:collapsed="collapsed"
         show-collapse-button
         style="width: 200px"
+        :popup-max-height="500"
+        :trigger-props="{
+          trigger: 'click',
+        }"
       >
         <template v-for="(item, index) in menus" :key="item.path">
           <yc-sub-menu
@@ -48,6 +56,8 @@
             v-if="item.submenu.length"
             :title="item.title"
             :path="item.path"
+            :popup="false"
+            :selectable="false"
           >
             <template #icon>
               <icon-apps />
@@ -105,7 +115,7 @@
 import { ref, watch } from 'vue';
 const size = ref(0.7);
 const collapsed = ref<boolean>(false);
-const menus = Array(8)
+const menus = Array(1)
   .fill(undefined)
   .map((_, i) => {
     return {
@@ -113,7 +123,7 @@ const menus = Array(8)
       path: `菜单 ${i + 1}`,
       submenu:
         i < 2
-          ? new Array(3).fill(undefined).map((_, i1) => {
+          ? new Array(10).fill(undefined).map((_, i1) => {
               return {
                 title: `子菜单${i + 1}-${i1 + 1}`,
                 path: `子菜单${i + 1}-${i1 + 1}`,

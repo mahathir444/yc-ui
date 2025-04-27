@@ -31,6 +31,7 @@ export interface DsubmenuProps {
   popupVisible?: boolean;
   defaultPopupVisible?: boolean;
   optionStyle?: CSSProperties;
+  popupMaxHeight?: number;
 }
 
 export interface DsubmenuEmits {
