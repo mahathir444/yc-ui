@@ -37,12 +37,13 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, toRefs, inject, computed } from 'vue';
-import { OptionProps, SelectProvide } from './type';
+import { toRefs, computed } from 'vue';
+import { OptionProps } from './type';
 import { ObjectData } from '@shared/type';
-import { SELECT_PROVIDE_KEY } from '@shared/constants';
 import { isUndefined } from '@shared/utils';
+import useProvide from './hooks/useProvide';
 import YcCheckbox from '@/components/Checkbox';
+
 defineOptions({
   name: 'Option',
 });
@@ -53,6 +54,7 @@ const props = withDefaults(defineProps<OptionProps>(), {
 });
 const { label, value: optionValue, disabled } = toRefs(props);
 // 解构父级provide的属性
+const { inject } = useProvide();
 const {
   computedValue,
   computedInputValue,
@@ -64,18 +66,7 @@ const {
   filterOption,
   getValue,
   emits,
-} = inject<SelectProvide>(SELECT_PROVIDE_KEY, {
-  computedValue: ref(undefined),
-  computedInputValue: ref(''),
-  multiple: ref(false),
-  limit: ref(0),
-  curIndex: ref(-1),
-  options: ref([]),
-  blur: () => {},
-  filterOption: () => true,
-  getValue: () => '',
-  emits: () => {},
-});
+} = inject();
 //  选项的值
 const modelValue = computed({
   get() {

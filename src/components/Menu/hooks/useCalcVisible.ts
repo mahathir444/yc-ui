@@ -1,7 +1,7 @@
 import { ref, watch, Ref } from 'vue';
 import { useElementSize } from '@vueuse/core';
 import { sleep } from '@shared/utils';
-import { MenuItemData } from '../type';
+import { MenuItemData } from './useProvide';
 export default (menuRef: Ref<HTMLDivElement | undefined>) => {
   // 顺序
   const order = ref<number>(0);

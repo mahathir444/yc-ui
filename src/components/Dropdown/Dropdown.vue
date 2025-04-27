@@ -28,12 +28,12 @@
 </template>
 
 <script lang="ts" setup>
-import { provide, toRefs, computed } from 'vue';
-import { DropdownProps, DoptionValue, DropdownProvide } from './type';
-import { DROPDOWN_PROVIDE_KEY, DROPDOWN_POSITION_MAP } from '@shared/constants';
-import { useControlValue } from '@shared/hooks';
+import { toRefs, computed } from 'vue';
+import { DropdownProps, DoptionValue } from './type';
+import { DROPDOWN_POSITION_MAP } from '@shared/constants';
 import YcTrigger from '@/components/Trigger';
 import YcScrollbar from '@/components/Scrollbar';
+import useProvide from './hooks/useProvide';
 defineOptions({
   name: 'Dropdown',
 });
@@ -54,33 +54,13 @@ const emits = defineEmits<{
   (e: 'popup-visible-change', value: boolean): void;
   (e: 'select', value: DoptionValue, ev: MouseEvent): void;
 }>();
-const {
-  popupVisible,
-  defaultPopupVisible,
-  trigger,
-  hideOnSelect,
-  position: _position,
-} = toRefs(props);
-// 受控的visible
-const computedVisible = useControlValue<boolean>(
-  popupVisible,
-  defaultPopupVisible.value,
-  (val) => {
-    emits('update:popupVisible', val);
-    emits('popup-visible-change', val);
-  }
-);
+const { trigger, position: _position } = toRefs(props);
+// 注入
+const { provide } = useProvide();
+const { computedVisible } = provide(props, emits);
 // 位置
 const position = computed(() => {
   return DROPDOWN_POSITION_MAP[_position.value] || 'bottom';
-});
-// dropdown提供的值
-provide<DropdownProvide>(DROPDOWN_PROVIDE_KEY, {
-  select: (value: DoptionValue, ev: MouseEvent) => {
-    emits('select', value, ev);
-    if (!hideOnSelect.value) return;
-    computedVisible.value = false;
-  },
 });
 </script>
 

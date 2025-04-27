@@ -55,28 +55,6 @@ export interface MenuItemGroupProps {
 
 export type MenuMode = 'vertical' | 'pop' | 'horizontal';
 export type PopupMaxHeight = boolean | number;
-export type MenuItemData = {
-  width: number;
-  childTree: ChlidTreeNode[];
-};
-
-export interface MenuProvide {
-  computedSelectedKeys: WritableComputedRef<string> | Ref<string>;
-  computedOpenKeys: WritableComputedRef<string[]> | Ref<string[]>;
-  computedCollapsed: WritableComputedRef<string> | Ref<boolean>;
-  levelIndent: Ref<number>;
-  accordion: Ref<boolean>;
-  autoOpen: Ref<boolean>;
-  triggerProps: Ref<TriggerProps>;
-  tooltipProps: Ref<TooltipProps>;
-  autoOpenSelected: Ref<boolean>;
-  mode: Ref<MenuMode>;
-  order: Ref<number>;
-  max: Ref<number>;
-  menuItemData: Ref<MenuItemData[]>;
-  popupMaxHeight: Ref<PopupMaxHeight>;
-  emits: MenuEmits;
-}
 
 export interface SubMenuProvide {
   childKeys: Ref<ChlidKey[]>;
@@ -91,11 +69,3 @@ export type ChlidKey = {
   label: string;
   path: string;
 };
-
-export interface ChlidTreeNode {
-  label: string;
-  type: 'menuitem' | 'submenu';
-  level: number;
-  path: string;
-  children?: ChlidTreeNode[];
-}

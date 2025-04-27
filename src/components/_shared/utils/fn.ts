@@ -1,4 +1,4 @@
-import { ChlidTreeNode } from '@/components/Menu';
+import { ChlidTreeNode } from '@/components/Menu/hooks/useProvide';
 //睡眠函数
 export const sleep = (ms: number) => {
   return new Promise((resolve) => {

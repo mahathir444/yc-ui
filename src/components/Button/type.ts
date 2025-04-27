@@ -41,11 +41,3 @@ export type ButtonType =
   | 'text';
 
 export type ButtonHtmlType = 'button' | 'reset' | 'submit';
-
-export interface ButtonProvide {
-  type: Ref<ButtonType>;
-  status: Ref<ButtonStatus>;
-  size: Ref<Size>;
-  shape: Ref<ButtonShape>;
-  disabled: Ref<boolean>;
-}

@@ -26,7 +26,13 @@
         "
       >
         <span class="yc-checkbox-icon">
-          <icon-check v-show="computedChecked" :size="[8, 10]" />
+          <icon-check
+            v-show="computedChecked"
+            :size="[8, 10]"
+            height="200"
+            width="200"
+            fill="currentColor"
+          />
         </span>
       </yc-icon-button>
       <span class="yc-checkbox-label text-ellipsis">
@@ -37,12 +43,12 @@
 </template>
 
 <script lang="ts" setup>
-import { toRefs, inject, computed, ref } from 'vue';
-import { CheckboxProps, CheckboxEmits, CheckboxProvide } from './type';
-import { CHECKBOX_GROUP_PROVIDE_KEY } from '@shared/constants';
+import { toRefs, computed, ref } from 'vue';
+import { CheckboxProps, CheckboxEmits } from './type';
 import { useControlValue } from '@shared/hooks';
 import { IconCheck } from '@shared/icons';
 import { YcPreventFocus, YcIconButton } from '@shared/components';
+import useProvide from './hooks/useProvide';
 
 defineOptions({
   name: 'Checkbox',
@@ -62,16 +68,9 @@ const {
   disabled: _disabled,
   value: checkboxValue,
 } = toRefs(props);
-// 接收的值
-const {
-  computedValue,
-  max,
-  disabled: injectDisabled,
-} = inject<CheckboxProvide>(CHECKBOX_GROUP_PROVIDE_KEY, {
-  computedValue: ref(undefined),
-  max: ref(undefined),
-  disabled: _disabled,
-});
+// 接收注入
+const { inject } = useProvide();
+const { computedValue, max, disabled: injectDisabled } = inject(props);
 // checkbox受控的值
 const _checked = useControlValue<boolean>(
   modelValue,

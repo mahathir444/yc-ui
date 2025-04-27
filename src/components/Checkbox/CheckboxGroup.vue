@@ -23,19 +23,10 @@
 </template>
 
 <script lang="ts" setup>
-import { toRefs, provide } from 'vue';
-import {
-  CheckboxGroupProps,
-  CheckboxEmits,
-  CheckboxValue,
-  CheckboxProvide,
-} from './type';
-import {
-  CHECKBOX_GROUP_PROVIDE_KEY,
-  CHECKBOX_DIRECTION_MAP,
-} from '@shared/constants';
-import { useControlValue } from '@shared/hooks';
+import { CheckboxGroupProps, CheckboxEmits } from './type';
+import { CHECKBOX_DIRECTION_MAP } from '@shared/constants';
 import YcCheckbox from './Checkbox.vue';
+import useProvide from './hooks/useProvide';
 
 defineOptions({
   name: 'CheckboxGroup',
@@ -49,21 +40,9 @@ const props = withDefaults(defineProps<CheckboxGroupProps>(), {
   disabled: false,
 });
 const emits = defineEmits<CheckboxEmits>();
-const { modelValue, defaultValue, disabled, max } = toRefs(props);
-// 受控值
-const computedValue = useControlValue<CheckboxValue[]>(
-  modelValue,
-  defaultValue.value,
-  (val) => {
-    emits('update:modelValue', val);
-  }
-);
-// 提供给子组件
-provide<CheckboxProvide>(CHECKBOX_GROUP_PROVIDE_KEY, {
-  computedValue,
-  max,
-  disabled,
-});
+// 注入数据
+const { provide } = useProvide();
+provide(props, emits);
 </script>
 
 <style lang="less">

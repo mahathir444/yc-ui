@@ -18,14 +18,16 @@
 
 <script lang="ts" setup>
 import { MenuItemGroupProps } from './type';
-import useInject from './hooks/useInject';
+import useProvide from './hooks/useProvide';
 defineOptions({
   name: 'MenuItemGroup',
 });
 withDefaults(defineProps<MenuItemGroupProps>(), {
   title: '',
 });
-const { levelIndent } = useInject();
+// 接收menu注入
+const { inject } = useProvide();
+const { levelIndent } = inject();
 </script>
 
 <style lang="less" scoped>

@@ -40,12 +40,12 @@
 </template>
 
 <script lang="ts" setup>
-import { toRefs, inject, computed, ref } from 'vue';
-import { RadioProps, RadioEmits, RadioValue, RadioProvide } from './type';
+import { toRefs, computed } from 'vue';
+import { RadioProps, RadioEmits, RadioValue } from './type';
 import { RADIO_SIZE_CLASS } from '@shared/constants';
-import { RADIO_GROUP_PROVIDE_KEY } from '@shared/constants';
 import { isUndefined } from '@shared/utils';
 import { useControlValue } from '@shared/hooks';
+import useProvide from './hooks/useProvide';
 import { YcPreventFocus, YcIconButton } from '@shared/components';
 defineOptions({
   name: 'Radio',
@@ -59,23 +59,10 @@ const props = withDefaults(defineProps<RadioProps>(), {
   preventFocus: false,
 });
 const emits = defineEmits<RadioEmits>();
-const {
-  modelValue,
-  defaultChecked,
-  value: radioValue,
-  disabled: _disabled,
-  type: _type,
-} = toRefs(props);
-// 接收的值
-const { computedValue, disabled, type, size } = inject<RadioProvide>(
-  RADIO_GROUP_PROVIDE_KEY,
-  {
-    computedValue: ref(undefined),
-    disabled: _disabled,
-    type: _type,
-    size: ref('medium'),
-  }
-);
+const { modelValue, defaultChecked, value: radioValue } = toRefs(props);
+// 接收注入
+const { inject } = useProvide();
+const { computedValue, disabled, type, size } = inject(props);
 // checkbox受控的值
 const _computedValue = useControlValue<RadioValue>(
   modelValue,

@@ -25,17 +25,10 @@
 </template>
 
 <script lang="ts" setup>
-import { toRefs, provide } from 'vue';
-import {
-  RadioGroupProps,
-  RadioGroupEmits,
-  RadioValue,
-  RadioProvide,
-} from './type';
+import { RadioGroupProps, RadioGroupEmits } from './type';
 import { RADIO_SIZE_CLASS } from '@shared/constants';
 import { RADIO_DIRECTION_MAP } from '@shared/constants';
-import { RADIO_GROUP_PROVIDE_KEY } from '@shared/constants';
-import { useControlValue, useConfigProvder } from '@shared/hooks';
+import useProvide from './hooks/useProvide';
 import YcRadio from './Radio.vue';
 defineOptions({
   name: 'RadioGroup',
@@ -50,24 +43,9 @@ const props = withDefaults(defineProps<RadioGroupProps>(), {
   disabled: false,
 });
 const emits = defineEmits<RadioGroupEmits>();
-const { modelValue, defaultValue, disabled, type } = toRefs(props);
-// 获取全局配置
-const { size } = useConfigProvder(props);
-// 受控值
-const computedValue = useControlValue<RadioValue>(
-  modelValue,
-  defaultValue.value,
-  (val) => {
-    emits('update:modelValue', val);
-  }
-);
-// 提供给子组件
-provide<RadioProvide>(RADIO_GROUP_PROVIDE_KEY, {
-  computedValue,
-  type,
-  disabled,
-  size,
-});
+// 注入数据
+const { provide } = useProvide();
+provide(props, emits);
 </script>
 
 <style lang="less">

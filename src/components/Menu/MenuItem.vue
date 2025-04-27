@@ -90,13 +90,13 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, toRefs, inject, computed, onMounted, provide } from 'vue';
+import { ref, toRefs, computed, onMounted, provide } from 'vue';
 import { createReusableTemplate } from '@vueuse/core';
 import { MenuItemProps } from './type';
 import { getTextContent, isNumber } from '@shared/utils';
 import { IconMore } from '@shared/icons';
 import { DROPDOWN_PROVIDE_KEY } from '@shared/constants';
-import useInject from './hooks/useInject';
+import useProvide from './hooks/useProvide';
 import useMenuLevel from './hooks/useMenuLevel';
 import PopOption from './component/PopOption.vue';
 import { DropdownProvide } from '@/components/Dropdown';
@@ -117,6 +117,7 @@ const { path, disabled, isSubmenu } = toRefs(props);
 const { reuse: ReuseTemplate, define: DefineTemplate } =
   createReusableTemplate();
 // 接收menu注入
+const { inject } = useProvide();
 const {
   computedSelectedKeys,
   computedOpenKeys,
@@ -133,7 +134,7 @@ const {
   menuItemData,
   popupMaxHeight: _popupMaxHeight,
   emits: _emits,
-} = useInject();
+} = inject();
 // popup可见性
 const popoverRef = ref<PopoverInstance>();
 // title容器

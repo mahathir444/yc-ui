@@ -5,10 +5,10 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, toRefs, computed, inject, CSSProperties } from 'vue';
-import { GridItemProps, GridProvide } from './type';
+import { toRefs, computed, CSSProperties } from 'vue';
+import { GridItemProps } from './type';
 import { isNumber } from '@shared/utils';
-import { GRID_PROVIDE_KEY } from '@shared/constants';
+import useInject from './hooks/useInject';
 defineOptions({
   name: 'GridItem',
 });
@@ -19,11 +19,7 @@ const props = withDefaults(defineProps<GridItemProps>(), {
 });
 const { span: _span, offset: _offset, suffix } = toRefs(props);
 // 接收数据
-const { breakpoint, cols, colGap } = inject<GridProvide>(GRID_PROVIDE_KEY, {
-  cols: ref(24),
-  colGap: ref(0),
-  breakpoint: ref('xs'),
-});
+const { breakpoint, cols, colGap } = useInject();
 // offset
 const offset = computed(() => {
   return isNumber(_offset.value)

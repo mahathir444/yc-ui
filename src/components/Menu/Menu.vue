@@ -22,17 +22,12 @@
 </template>
 
 <script lang="ts" setup>
-import { provide, ref, toRefs, computed } from 'vue';
-import { MenuProps, MenuProvide, MenuEmits } from './type';
-import {
-  MENU_DIRECTION_MAP,
-  MENU_PROVIDE_KEY,
-  MENU_THEME_MAP,
-} from '@shared/constants';
-import { useControlValue } from '@shared/hooks';
+import { ref, computed } from 'vue';
+import { MenuProps, MenuEmits } from './type';
+import { MENU_DIRECTION_MAP, MENU_THEME_MAP } from '@shared/constants';
 import { mediaQueryHandler } from '@shared/utils';
 import { IconMenuFold, IconMenuUnfold } from '@shared/icons';
-import useCalcVisible from './hooks/useCalcVisible';
+import useProvide from './hooks/useProvide';
 defineOptions({
   name: 'Menu',
 });
@@ -62,77 +57,16 @@ const props = withDefaults(defineProps<MenuProps>(), {
   popupMaxHeight: 167,
 });
 const emits = defineEmits<MenuEmits>();
-// 解构属性
-const {
-  selectedKeys,
-  defaultSelectedKeys,
-  openKeys,
-  defaultOpenKeys,
-  levelIndent,
-  collapsed,
-  defaultCollapsed,
-  breakpoint,
-  accordion,
-  autoOpen,
-  theme,
-  triggerProps,
-  tooltipProps,
-  autoOpenSelected,
-  mode,
-  popupMaxHeight,
-  collapsedWidth: _collapsedWidth,
-} = toRefs(props);
+// 注入数据
+const { provide } = useProvide();
+const { computedCollapsed, _collapsedWidth, breakpoint } = provide(
+  props,
+  emits
+);
 // menuredf
 const menuRef = ref<HTMLDivElement>();
-// 选中的key
-const computedSelectedKeys = useControlValue<string>(
-  selectedKeys,
-  defaultSelectedKeys.value,
-  (val) => {
-    emits('update:selectedKeys', val);
-  }
-);
-// 收缩状态
-const computedCollapsed = useControlValue<boolean>(
-  collapsed,
-  defaultCollapsed.value,
-  (val) => {
-    if (true) {
-      computedOpenKeys.value = [];
-    }
-    emits('update:collapsed', val);
-  }
-);
-// 展开的key
-const computedOpenKeys = useControlValue<string[]>(
-  openKeys,
-  defaultOpenKeys.value,
-  (val) => {
-    emits('update:openKeys', val);
-  }
-);
 // 收缩的宽度
 const collapsedWidth = computed(() => _collapsedWidth.value + 'px');
-// 计算能显示的menuItem数目
-const { max, order, menuItemData } = useCalcVisible(menuRef);
-// 注入数据
-provide<MenuProvide>(MENU_PROVIDE_KEY, {
-  computedSelectedKeys,
-  computedOpenKeys,
-  computedCollapsed,
-  levelIndent,
-  accordion,
-  autoOpen,
-  triggerProps,
-  tooltipProps,
-  mode,
-  autoOpenSelected,
-  popupMaxHeight,
-  order,
-  menuItemData,
-  max,
-  emits,
-});
 // 处理点击
 const handleClick = () => {
   computedCollapsed.value = !computedCollapsed.value;

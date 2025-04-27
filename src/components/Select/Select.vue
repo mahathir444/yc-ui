@@ -191,19 +191,15 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, computed, toRefs, provide } from 'vue';
+import { ref, computed, toRefs } from 'vue';
 import {
   SelectProps,
   SelectEmits,
   SelectValue,
   SelectOptionData,
-  SelectProvide,
 } from './type';
 import { ObjectData } from '@shared/type';
-import { SELECT_PROVIDE_KEY } from '@shared/constants';
 import { sleep } from '@shared/utils';
-import useSelectHotkeys from './hooks/useSelectHotkeys';
-import useSeletValue from './hooks/useSeletValue';
 import SelectVirtualList from './component/SelectVirtualList.vue';
 import SelectList from './component//SelectList.vue';
 import YcInput, { InputInstance } from '@/components/Input';
@@ -211,6 +207,7 @@ import YcInputTag, { TagData, InputTagValue } from '@/components/InputTag';
 import YcTrigger, { TriggerInstance } from '@/components/Trigger';
 import { YcIconButton, YcPreventFocus } from '@shared/components';
 import { createReusableTemplate } from '@vueuse/core';
+import useProvide from './hooks/useProvide';
 defineOptions({
   name: 'Select',
 });
@@ -267,35 +264,24 @@ const props = withDefaults(defineProps<SelectProps>(), {
 });
 const emits = defineEmits<SelectEmits>();
 const {
-  modelValue,
-  defaultValue,
-  inputValue,
-  defaultInputValue,
   allowClear,
   disabled,
   loading,
-  defaultPopupVisible,
   popupVisible,
   searchDelay,
   showFooterOnEmpty,
   showHeaderOnEmpty,
-  limit,
   multiple,
-  fieldNames,
   allowSearch,
-  valueKey,
-  options: provideOptions,
-  showExtraOptions,
   virtualListProps,
-  hotkeys,
 } = toRefs(props);
-const { filterOption, formatLabel, fallbackOption } = props;
 const { reuse: IconReuse, define: IconDefine } = createReusableTemplate();
 // 输入实例
 const inputRef = ref<InputInstance>();
 // triggerRef
 const popupRef = ref<TriggerInstance>();
-// 处理值
+// 注入值
+const { provide } = useProvide();
 const {
   computedVisible,
   computedValue,
@@ -304,23 +290,9 @@ const {
   selectOptions,
   fieldKey,
   isEmpty,
-  options,
-} = useSeletValue({
-  popupVisible,
-  defaultPopupVisible,
-  modelValue,
-  defaultValue,
-  defaultInputValue,
-  inputValue,
-  multiple,
-  provideOptions,
-  fieldNames,
-  showExtraOptions,
+} = provide(props, emits, {
   popupRef,
-  fallbackOption,
-  formatLabel,
-  emits,
-  getValue,
+  inputRef,
 });
 // 是否展示清除按钮
 const showClearBtn = computed(() => {
@@ -329,25 +301,6 @@ const showClearBtn = computed(() => {
     : String(computedValue.value).length;
   return allowClear.value && !disabled.value && !loading.value && !!hasValue;
 });
-// 初始化快捷键
-const { curIndex } = useSelectHotkeys({
-  computedValue,
-  computedVisible,
-  hotkeys,
-  limit,
-  multiple,
-  options,
-  blur,
-  emits,
-});
-// 获取value
-function getValue(value: SelectValue) {
-  return (value as ObjectData)?.[valueKey.value] ?? value;
-}
-// 失焦
-function blur() {
-  inputRef.value?.blur();
-}
 // 处理事件
 const handleEvent = async (
   type: string,
@@ -391,19 +344,6 @@ const handleEvent = async (
       break;
   }
 };
-// 提供值
-provide<SelectProvide>(SELECT_PROVIDE_KEY, {
-  computedValue,
-  computedInputValue,
-  limit,
-  multiple,
-  curIndex,
-  options,
-  blur,
-  filterOption,
-  getValue,
-  emits,
-});
 
 defineExpose({
   focus() {

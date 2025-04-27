@@ -21,8 +21,8 @@
 
 <script lang="ts" setup>
 import { ref, inject, computed, watch, toRefs } from 'vue';
-import { SLIDER_PROVIDE_KEY } from '@shared/constants';
-import { SliderProvide, PositionData } from '../type';
+import { PositionData } from '../type';
+import useInject from '../hooks/useInject';
 import useSliderDraggable from '../hooks/useSliderDraggable';
 import YcTooltip from '@/components/Tooltip';
 const props = defineProps<{
@@ -49,23 +49,7 @@ const {
   startValue,
   endValue,
   formatTooltip,
-} = inject<SliderProvide>(SLIDER_PROVIDE_KEY, {
-  startValue: ref(0),
-  endValue: ref(0),
-  tempEndValue: ref(0),
-  tempStartValue: ref(0),
-  range: ref(false),
-  min: ref(0),
-  max: ref(0),
-  step: ref(0),
-  direction: ref('horizontal'),
-  disabled: ref(false),
-  showTooltip: ref(true),
-  trackRef: ref(),
-  handleRangeValue: (value: number) => {
-    return value;
-  },
-});
+} = useInject();
 // 计算值
 const computedValue = computed({
   get() {

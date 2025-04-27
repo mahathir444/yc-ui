@@ -20,13 +20,9 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, toRefs, inject } from 'vue';
-import { SliderProvide } from '../type';
-import {
-  SLIDER_PROVIDE_KEY,
-  TICK_TYPE_CLASS,
-  TICKS_TYPE_CLASS,
-} from '@shared/constants';
+import { toRefs } from 'vue';
+import { TICK_TYPE_CLASS, TICKS_TYPE_CLASS } from '@shared/constants';
+import useInject from '../hooks/useInject';
 
 const props = defineProps<{
   type: 'dots' | 'marks' | 'ticks';
@@ -37,30 +33,8 @@ defineEmits<{
 }>();
 const { type } = toRefs(props);
 // 解构父级属性
-const {
-  min,
-  max,
-  startValue,
-  endValue,
-  range,
-  direction,
-  step,
-  handleRangeValue,
-} = inject<SliderProvide>(SLIDER_PROVIDE_KEY, {
-  startValue: ref(0),
-  endValue: ref(0),
-  tempEndValue: ref(0),
-  tempStartValue: ref(0),
-  min: ref(0),
-  max: ref(0),
-  step: ref(0),
-  range: ref(false),
-  direction: ref('horizontal'),
-  disabled: ref(false),
-  showTooltip: ref(true),
-  trackRef: ref(),
-  handleRangeValue: () => {},
-});
+const { min, startValue, endValue, range, direction, handleRangeValue } =
+  useInject();
 // 计算position
 const getPosition = (value: number) => {
   const curValue = handleRangeValue(value);

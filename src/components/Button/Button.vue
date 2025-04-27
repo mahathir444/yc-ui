@@ -37,17 +37,16 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, toRefs, inject, useSlots } from 'vue';
-import { ButtonProps, ButtonEmits, ButtonProvide } from './type';
+import { computed, toRefs, useSlots } from 'vue';
+import { ButtonProps, ButtonEmits } from './type';
 import {
   BUTTON_SIZE_CLASS,
   BUTTON_SHAPE_CLASS,
   BUTTON_TYPE_CLASS,
   BUTTON_STATUS_CLASS,
-  BUTTON_GROUP_PROVIDE_KEY,
 } from '@shared/constants';
-import { useConfigProvder } from '@shared/hooks';
 import YcSpin from '@/components/Spin';
+import useInject from './hooks/useProvide';
 defineOptions({
   name: 'Button',
 });
@@ -72,19 +71,9 @@ const {
   long,
 } = toRefs(props);
 const slots = useSlots();
-// 获取全局配置
-const { size: _size } = useConfigProvder(props);
-// buttonGroup接收的属性
-const { size, disabled, type, status, shape } = inject<ButtonProvide>(
-  BUTTON_GROUP_PROVIDE_KEY,
-  {
-    size: _size,
-    disabled: _disabled,
-    type: _type,
-    status: _status,
-    shape: _shape,
-  }
-);
+// 呼求注入
+const { inject } = useInject();
+const { size, disabled, type, status, shape } = inject(props);
 // button的class
 const btnClass = computed(() => {
   return [

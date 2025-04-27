@@ -21,9 +21,9 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, toRefs, inject } from 'vue';
-import { DoptionProps, DropdownProvide, DoptionValue } from './type';
-import { DROPDOWN_PROVIDE_KEY } from '@shared/constants';
+import { ref, toRefs } from 'vue';
+import { DoptionProps, DoptionValue } from './type';
+import useProvide from './hooks/useProvide';
 defineOptions({
   name: 'Doption',
 });
@@ -37,9 +37,8 @@ const emits = defineEmits<{
 }>();
 const { value: optionValue, disabled, isSubmenu } = toRefs(props);
 // dropdown传递的值
-const { select } = inject<DropdownProvide>(DROPDOWN_PROVIDE_KEY, {
-  select: () => {},
-});
+const { inject } = useProvide();
+const { select } = inject();
 // 自身实例
 const doptionRef = ref<HTMLDivElement>();
 // 处理后缀点击

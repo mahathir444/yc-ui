@@ -39,11 +39,3 @@ export interface RadioOption {
 export type RadioValue = string | number | boolean;
 
 export type RadioType = 'radio' | 'button';
-
-// 内部使用
-export interface RadioProvide {
-  computedValue: WritableComputedRef<RadioValue> | Ref<undefined>;
-  type: Ref<RadioType>;
-  disabled: Ref<boolean>;
-  size: Ref<Size>;
-}

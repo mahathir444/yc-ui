@@ -1,4 +1,3 @@
-import { WritableComputedRef, Ref } from 'vue';
 import { ObjectData, RenderContent, Size, PopupContainer } from '@shared/type';
 import { TriggerProps } from '../Trigger';
 import { TagProps } from '../Tag';
@@ -104,19 +103,3 @@ export type FilterOption = (
 export type FallbackOption = (value: SelectValue) => SelectOptionData;
 
 export type FormatLabel = (data: SelectOptionData) => string;
-
-// 内部使用
-export interface SelectProvide {
-  computedValue:
-    | WritableComputedRef<SelectValue | SelectValue[]>
-    | Ref<undefined>;
-  computedInputValue: WritableComputedRef<string> | Ref<string>;
-  multiple: Ref<boolean>;
-  limit: Ref<number>;
-  curIndex: Ref<number>;
-  options: Ref<SelectOptionData[]>;
-  blur: () => void;
-  filterOption: FilterOption;
-  getValue: (value: SelectValue | ObjectData) => SelectValue;
-  emits: SelectEmits;
-}

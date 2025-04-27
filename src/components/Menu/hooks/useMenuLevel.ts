@@ -1,6 +1,7 @@
 import { ref, inject, computed, Ref, provide } from 'vue';
 import { SUBMENU_PROVIDE_KEY } from '@shared/constants';
-import { SubMenuProvide, MenuItemData } from '../type';
+import { SubMenuProvide } from '../type';
+import { MenuItemData } from './useProvide';
 import { buildMenuTree } from '@shared/utils';
 
 export default (params: {

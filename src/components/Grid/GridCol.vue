@@ -10,10 +10,10 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, inject, toRefs, computed, CSSProperties } from 'vue';
-import { ColProps, GridProvide } from './type';
+import { toRefs, computed, CSSProperties } from 'vue';
+import { ColProps } from './type';
 import { isNumber, isObject } from '@shared/utils';
-import { GRID_PROVIDE_KEY } from '@shared/constants';
+import useInject from './hooks/useInject';
 defineOptions({
   name: 'Col',
 });
@@ -28,11 +28,7 @@ const {
   flex: _flex,
 } = toRefs(props);
 // 接收注入属性
-const { gutter, breakpoint, div } = inject<GridProvide>(GRID_PROVIDE_KEY, {
-  gutter: ref(0),
-  breakpoint: ref('xs'),
-  div: ref(false),
-});
+const { gutter, breakpoint, div } = useInject();
 // col-style
 const style = computed<CSSProperties>(() => {
   const span = isNumber(_span.value)

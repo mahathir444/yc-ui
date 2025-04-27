@@ -40,13 +40,13 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, inject, toRefs, onMounted } from 'vue';
+import { ref, toRefs, onMounted } from 'vue';
 import { SubMenuProps } from './type';
 import { IconArrowDown, IconArrowRight } from '@shared/icons';
 import { ExpandTransition } from '@shared/components';
 import { MenuItem as YcMenuItem, MenuItemInstance } from './index';
 import useMenuLevel from './hooks/useMenuLevel';
-import useInject from './hooks/useInject';
+import useProvide from './hooks/useProvide';
 defineOptions({
   name: 'SubMenu',
 });
@@ -61,13 +61,14 @@ const { path, title } = toRefs(props);
 // headerRef
 const headerRef = ref<MenuItemInstance>();
 // 接收父级注入的属性
+const { inject } = useProvide();
 const {
   mode,
   computedOpenKeys,
   computedCollapsed,
   computedSelectedKeys,
   popupMaxHeight: _popupMaxHeight,
-} = useInject();
+} = inject();
 // 注入属性
 const { provideKeys, collectKeys } = useMenuLevel({
   path,

@@ -13,6 +13,7 @@
 import { ref, inject, toRefs, computed } from 'vue';
 import { SliderProvide } from '../type';
 import { SLIDER_PROVIDE_KEY } from '@shared/constants';
+import useInject from '../hooks/useInject';
 import YcInputNumber from '@/components/InputNumber';
 const props = defineProps<{
   type: 'start' | 'end';
@@ -26,21 +27,7 @@ const {
   endValue,
   tempStartValue,
   tempEndValue,
-} = inject<SliderProvide>(SLIDER_PROVIDE_KEY, {
-  startValue: ref(0),
-  endValue: ref(0),
-  tempEndValue: ref(0),
-  tempStartValue: ref(0),
-  range: ref(false),
-  min: ref(0),
-  max: ref(0),
-  step: ref(0),
-  direction: ref('horizontal'),
-  disabled: ref(false),
-  showTooltip: ref(true),
-  trackRef: ref(),
-  handleRangeValue: () => {},
-});
+} = useInject();
 // 计算值
 const computedValue = computed({
   get() {

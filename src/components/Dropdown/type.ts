@@ -59,8 +59,3 @@ export interface DropdownButtonProps {
 }
 
 export type DoptionValue = string | number | boolean;
-
-// 内部使用
-export interface DropdownProvide {
-  select: (value: DoptionValue, ev: MouseEvent) => void;
-}

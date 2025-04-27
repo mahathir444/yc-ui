@@ -1,9 +1,4 @@
 // provide-keys
-export const BUTTON_GROUP_PROVIDE_KEY = 'button-group-props';
-export const CHECKBOX_GROUP_PROVIDE_KEY = 'checkbox-group-props';
-export const RADIO_GROUP_PROVIDE_KEY = 'radio-group-props';
-export const SELECT_PROVIDE_KEY = 'select-props';
-export const DROPDOWN_PROVIDE_KEY = 'dropdown-props';
 export const SCROLLBAR_PROVIDE_KEY = 'scrollbar-props';
 export const TRIGGER_PROVIDE_KEY = 'trigger-props';
 export const SLIDER_PROVIDE_KEY = 'slider-props';
@@ -16,6 +11,5 @@ export const TRANSFER_PROVIDE_KEY = 'transfer-props';
 export const LAYOUT_PROVIDE_KEY = 'layout-props';
 export const CONFIG_PROVIDER_PROVIDE_KEY = 'config-props';
 export const ANCHOR_PROVIDE_KEY = 'anchor-props';
-export const MENU_PROVIDE_KEY = 'menu-props';
 export const SUBMENU_PROVIDE_KEY = 'sub-menu-props';
 export const COLLAPSE_PROVIDE_KEY = 'collapse-props';
