@@ -11,7 +11,7 @@
       <slot />
     </div>
     <div
-      v-if="showCollapseButton"
+      v-if="showCollapseButton && mode != 'horizontal'"
       class="yc-menu-collapse-button"
       @click="handleClick"
     >
@@ -37,7 +37,7 @@ defineOptions({
 });
 const props = withDefaults(defineProps<MenuProps>(), {
   theme: 'light',
-  mode: 'pop',
+  mode: 'horizontal',
   levelIndent: 20,
   autoOpen: false,
   collapsed: undefined,

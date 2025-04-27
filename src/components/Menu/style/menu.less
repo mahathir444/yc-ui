@@ -34,6 +34,20 @@
   width: 100%;
   .yc-menu-inner {
     width: 100%;
+    padding: 14px 20px;
+    display: flex;
+    align-items: center;
+    &:deep(.yc-menu-item) {
+      min-height: 30px;
+      line-height: 30px;
+      width: fit-content;
+      .yc-menu-icon-suffix {
+        margin-left: -10px;
+      }
+      &:first-child {
+        margin-left: 12px;
+      }
+    }
   }
 }
 // theme

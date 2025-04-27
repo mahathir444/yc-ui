@@ -33,7 +33,6 @@ export interface DsubmenuProps {
   popupVisible?: boolean;
   defaultPopupVisible?: boolean;
   triggerProps?: TriggerProps;
-  optionStyle?: CSSProperties;
   popupMaxHeight?: number;
 }
 

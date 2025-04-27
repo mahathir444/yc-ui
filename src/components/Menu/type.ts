@@ -49,7 +49,7 @@ export interface MenuItemProps {
   isSubmenu?: boolean;
 }
 
-type MenuMode = 'vertical' | 'pop' | 'horizontal';
+export type MenuMode = 'vertical' | 'pop' | 'horizontal';
 export type PopupMaxHeight = boolean | number;
 
 export interface MenuProvide {

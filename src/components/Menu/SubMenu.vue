@@ -27,7 +27,9 @@
     <expand-transition>
       <div
         v-show="
-          computedOpenKeys.includes(path) && !computedCollapsed && mode != 'pop'
+          mode == 'vertical' &&
+          computedOpenKeys.includes(path) &&
+          !computedCollapsed
         "
         class="yc-menu-inline-content"
       >

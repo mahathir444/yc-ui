@@ -40,9 +40,13 @@
     </define-template>
     <!-- 选然popover -->
     <yc-popover
-      v-if="isSubmenu && !level && (mode == 'pop' || computedCollapsed)"
-      position="rt"
-      :trigger-props="triggerProps"
+      v-if="isSubmenu && !level && (mode != 'vertical' || !computedCollapsed)"
+      :position="mode == 'horizontal' ? 'bl' : 'rt'"
+      :trigger-props="{
+        autoFitPopupMinWidth: ['pop', 'vertical'].includes(mode),
+        autoFitPopupWidth: mode == 'horizontal',
+        ...triggerProps,
+      }"
       :autoFitPosition="false"
       :content-style="{
         padding: '4px 0',
@@ -60,6 +64,7 @@
             v-for="item in childTree"
             :key="item.path"
             :child-node="item"
+            :mode="mode"
             :computed-selected-keys="computedSelectedKeys"
             :trigger-props="triggerProps"
             :popup-max-height="maxHeight"
@@ -71,7 +76,7 @@
     </yc-popover>
     <!-- 选然tooltip -->
     <yc-tooltip
-      v-else-if="computedCollapsed && level && !isSubmenu"
+      v-else-if="!isSubmenu && level && computedCollapsed"
       position="rt"
       :autoFitPosition="false"
       :content="title"
@@ -178,7 +183,8 @@ provide<DropdownProvide>(DROPDOWN_PROVIDE_KEY, {
 // 处理点击
 const handleClick = () => {
   if (
-    (computedCollapsed.value && mode.value != 'pop') ||
+    mode.value != 'vertical' ||
+    !computedCollapsed.value ||
     computedSelectedKeys.value == path.value ||
     disabled.value
   ) {
