@@ -5,7 +5,7 @@
       style="max-height: 100vh"
       :popup-max-height="300"
     >
-      <yc-menu
+      <!-- <yc-menu
         v-model:collapsed="collapsed"
         show-collapse-button
         :popup-max-height="500"
@@ -18,7 +18,7 @@
             {{ item.title }}
           </yc-menu-item>
         </template>
-      </yc-menu>
+      </yc-menu> -->
     </yc-layout-sider>
     <yc-layout class="main">
       <yc-layout-header

@@ -1,5 +1,5 @@
 <template>
-  <div v-show="curOrder < max" class="yc-menu-item-wrapper">
+  <div v-show="curOrder <= max" class="yc-menu-item-wrapper" ref="menuItemRef">
     <define-template>
       <div
         :class="{
@@ -7,7 +7,6 @@
           'yc-menu-item-selected': isSelected,
           'yc-menu-item-disabled': disabled,
         }"
-        ref="menuItemRef"
         @click="handleClick"
       >
         <div
@@ -26,7 +25,8 @@
           v-show="!computedCollapsed"
           class="yc-menu-item-title text-ellipsis"
         >
-          <slot />
+          <slot v-if="curOrder != max" />
+          <icon-more v-else />
         </div>
         <!-- suffix -->
         <div
@@ -40,9 +40,7 @@
     </define-template>
     <!-- 选然popover -->
     <yc-popover
-      v-if="
-        isSubmenu && !curLevel && (mode != 'vertical' || !computedCollapsed)
-      "
+      v-if="popoverVisible"
       :position="mode == 'horizontal' ? 'bl' : 'rt'"
       :trigger-props="{
         autoFitPopupMinWidth: true,
@@ -62,7 +60,7 @@
           }"
         >
           <pop-option
-            v-for="item in childTree"
+            v-for="item in popupOptions"
             :key="item.path"
             :child-node="item"
             :mode="mode"
@@ -95,13 +93,14 @@ import { ref, toRefs, inject, computed, onMounted, provide } from 'vue';
 import { createReusableTemplate } from '@vueuse/core';
 import { MenuItemProps, MenuProvide } from './type';
 import { getTextContent, isNumber } from '@shared/utils';
+import { IconMore } from '@shared/icons';
 import { MENU_PROVIDE_KEY, DROPDOWN_PROVIDE_KEY } from '@shared/constants';
 import useMenvLevel from './hooks/useMenvLevel';
+import PopOption from './component/PopOption.vue';
+import { DropdownProvide } from '@/components/Dropdown';
 import YcPopover, { PopoverInstance } from '@/components/Popover';
 import YcTooltip from '@/components/Tooltip';
-import { DropdownProvide } from '@/components/Dropdown';
 import YcScrollbar from '@/components/Scrollbar';
-import PopOption from './component/PopOption.vue';
 defineOptions({
   name: 'MenuItem',
 });
@@ -125,11 +124,11 @@ const {
   triggerProps,
   tooltipProps,
   autoOpenSelected,
+  popupMaxHeight: _popupMaxHeight,
   mode,
   order,
   max,
   menuItemData,
-  popupMaxHeight: _popupMaxHeight,
   emits: _emits,
 } = inject<MenuProvide>(MENU_PROVIDE_KEY, {
   computedSelectedKeys: ref(''),
@@ -152,6 +151,26 @@ const {
 const popoverRef = ref<PopoverInstance>();
 // title容器
 const menuItemRef = ref<HTMLDivElement>();
+// popver是否可见
+const popoverVisible = computed(() => {
+  if (mode.value == 'horizontal') {
+    return curOrder.value == max.value;
+  }
+  return (
+    isSubmenu.value &&
+    !curLevel.value &&
+    (mode.value != 'vertical' || !computedCollapsed.value)
+  );
+});
+// options
+const popupOptions = computed(() => {
+  if (mode.value == 'horizontal' && popoverVisible.value) {
+    return menuItemData.value
+      .slice(max.value - 1)
+      .map((item) => item.childTree[0]);
+  }
+  return childTree.value;
+});
 // title
 const title = computed(() => {
   return menuItemRef.value ? getTextContent(menuItemRef.value) : '';
@@ -235,6 +254,7 @@ onMounted(() => {
     computedSelectedKeys.value = path.value;
   }
 });
+// 暴露方法
 defineExpose({
   getTitle() {
     return title.value;

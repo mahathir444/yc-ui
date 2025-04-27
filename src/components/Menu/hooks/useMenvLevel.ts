@@ -50,17 +50,21 @@ export default (params: {
     return computedSelectedKeys.value == path.value;
   });
   // 当前的order,用于计算横向情况下的隐藏
-  const curOrder = !curLevel.value ? ++order.value : -1;
+  const curOrder = ref(!curLevel.value ? ++order.value : -1);
   // 收集keys
   const collectKeys = (title: string) => {
     if (mode != 'submenu') {
-      menuItemData.value[curOrder - 1] = {
-        dom: menuItemRef.value as HTMLDivElement,
-        data: {
-          label: title,
-          path: path.value,
-        },
-        childTree: isSubHeader ? childTree.value : [],
+      menuItemData.value[curOrder.value - 1] = {
+        width: menuItemRef.value!.offsetWidth,
+        childTree: [
+          {
+            label: title,
+            path: path.value,
+            level: -1,
+            type: isSubHeader ? 'submenu' : 'menuitem',
+            children: isSubHeader ? childTree.value : [],
+          },
+        ],
       };
     }
     console.log(menuItemData.value);

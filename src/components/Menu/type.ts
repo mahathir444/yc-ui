@@ -52,11 +52,7 @@ export interface MenuItemProps {
 export type MenuMode = 'vertical' | 'pop' | 'horizontal';
 export type PopupMaxHeight = boolean | number;
 export type MenuItemData = {
-  dom: HTMLDivElement;
-  data: {
-    label: string;
-    path: string;
-  };
+  width: number;
   childTree: ChlidTreeNode[];
 };
 
