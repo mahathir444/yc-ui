@@ -5,20 +5,42 @@
       style="max-height: 100vh"
       :popup-max-height="300"
     >
-      <!-- <yc-menu
+      <yc-menu
         v-model:collapsed="collapsed"
         show-collapse-button
         :popup-max-height="500"
       >
-        <template v-for="(item, index) in menus" :key="item.path">
-          <yc-menu-item :path="item.path">
-            <template #icon>
-              <icon-apps />
-            </template>
-            {{ item.title }}
-          </yc-menu-item>
-        </template>
-      </yc-menu> -->
+        <yc-menu-item-group title="测试">
+          <template v-for="(item, index) in menus" :key="item.path">
+            <yc-menu-item :path="item.path">
+              <template #icon>
+                <icon-apps />
+              </template>
+              {{ item.title }}
+            </yc-menu-item>
+          </template>
+        </yc-menu-item-group>
+      </yc-menu>
+      <a-menu
+        v-model:collapsed="collapsed"
+        theme="dark"
+        show-collapse-button
+        style="width: 100%"
+        :triggerProps="{
+          trigger: 'click',
+        }"
+      >
+        <a-menu-item-group title="测试">
+          <template v-for="(item, index) in menus" :key="item.path">
+            <a-menu-item :path="item.path">
+              <template #icon>
+                <icon-apps />
+              </template>
+              {{ item.title }}
+            </a-menu-item>
+          </template>
+        </a-menu-item-group>
+      </a-menu>
     </yc-layout-sider>
     <yc-layout class="main">
       <yc-layout-header
@@ -40,48 +62,8 @@
             </yc-menu-item>
           </template>
         </yc-menu>
-        <a-menu
-          v-model:collapsed="collapsed"
-          mode="horizontal"
-          show-collapse-button
-          style="width: 100%"
-          :triggerProps="{
-            trigger: 'click',
-          }"
-        >
-          <template v-for="(item, index) in menus" :key="item.path">
-            <a-menu-item :path="item.path">
-              <template #icon>
-                <icon-apps />
-              </template>
-              {{ item.title }}
-            </a-menu-item>
-          </template>
-        </a-menu>
       </yc-layout-header>
-      <yc-layout-content class="content">
-        <yc-collapse accordion>
-          <yc-collapse-item
-            v-for="item in menus"
-            :key="item.path"
-            :title="item.title"
-            :value="item.path"
-          >
-            <div>Beijing Toutiao Technology Co., Ltd.</div>
-            <div>Beijing Toutiao Technology Co., Ltd.</div>
-          </yc-collapse-item>
-        </yc-collapse>
-        <a-collapse accordion :expand-icon-position="'right'">
-          <a-collapse-item
-            v-for="item in menus"
-            :key="item.path"
-            :header="item.title"
-          >
-            <div>Beijing Toutiao Technology Co., Ltd.</div>
-            <div>Beijing Toutiao Technology Co., Ltd.</div>
-          </a-collapse-item>
-        </a-collapse>
-      </yc-layout-content>
+      <yc-layout-content class="content"> </yc-layout-content>
     </yc-layout>
   </yc-layout>
 </template>

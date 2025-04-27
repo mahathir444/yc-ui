@@ -32,7 +32,7 @@ import {
 import { useControlValue } from '@shared/hooks';
 import { mediaQueryHandler } from '@shared/utils';
 import { IconMenuFold, IconMenuUnfold } from '@shared/icons';
-import useCalcMenuItem from './hooks/useCalcMenuItem';
+import useCalcVisible from './hooks/useCalcVisible';
 defineOptions({
   name: 'Menu',
 });
@@ -114,7 +114,7 @@ const computedOpenKeys = useControlValue<string[]>(
 // 收缩的宽度
 const collapsedWidth = computed(() => _collapsedWidth.value + 'px');
 // 计算能显示的menuItem数目
-const { max, order, menuItemData } = useCalcMenuItem(menuRef);
+const { max, order, menuItemData } = useCalcVisible(menuRef);
 // 注入数据
 provide<MenuProvide>(MENU_PROVIDE_KEY, {
   computedSelectedKeys,

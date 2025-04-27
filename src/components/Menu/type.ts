@@ -49,6 +49,10 @@ export interface MenuItemProps {
   isSubmenu?: boolean;
 }
 
+export interface MenuItemGroupProps {
+  title?: string;
+}
+
 export type MenuMode = 'vertical' | 'pop' | 'horizontal';
 export type PopupMaxHeight = boolean | number;
 export type MenuItemData = {

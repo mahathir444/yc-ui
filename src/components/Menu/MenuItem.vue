@@ -1,5 +1,5 @@
 <template>
-  <div v-show="curOrder <= max" class="yc-menu-item-wrapper" ref="menuItemRef">
+  <div class="yc-menu-item-wrapper" ref="menuItemRef">
     <define-template>
       <div
         :class="{
@@ -25,8 +25,7 @@
           v-show="!computedCollapsed"
           class="yc-menu-item-title text-ellipsis"
         >
-          <slot v-if="curOrder != max" />
-          <icon-more v-else />
+          <slot />
         </div>
         <!-- suffix -->
         <div
@@ -40,7 +39,9 @@
     </define-template>
     <!-- 选然popover -->
     <yc-popover
-      v-if="popoverVisible"
+      v-if="
+        isSubmenu && !curLevel && (mode != 'vertical' || !computedCollapsed)
+      "
       :position="mode == 'horizontal' ? 'bl' : 'rt'"
       :trigger-props="{
         autoFitPopupMinWidth: true,
@@ -60,7 +61,7 @@
           }"
         >
           <pop-option
-            v-for="item in popupOptions"
+            v-for="item in childTree"
             :key="item.path"
             :child-node="item"
             :mode="mode"
@@ -91,16 +92,18 @@
 <script lang="ts" setup>
 import { ref, toRefs, inject, computed, onMounted, provide } from 'vue';
 import { createReusableTemplate } from '@vueuse/core';
-import { MenuItemProps, MenuProvide } from './type';
+import { MenuItemProps } from './type';
 import { getTextContent, isNumber } from '@shared/utils';
 import { IconMore } from '@shared/icons';
-import { MENU_PROVIDE_KEY, DROPDOWN_PROVIDE_KEY } from '@shared/constants';
-import useMenvLevel from './hooks/useMenvLevel';
+import { DROPDOWN_PROVIDE_KEY } from '@shared/constants';
+import useInject from './hooks/useInject';
+import useMenuLevel from './hooks/useMenuLevel';
 import PopOption from './component/PopOption.vue';
 import { DropdownProvide } from '@/components/Dropdown';
 import YcPopover, { PopoverInstance } from '@/components/Popover';
 import YcTooltip from '@/components/Tooltip';
 import YcScrollbar from '@/components/Scrollbar';
+
 defineOptions({
   name: 'MenuItem',
 });
@@ -124,53 +127,17 @@ const {
   triggerProps,
   tooltipProps,
   autoOpenSelected,
-  popupMaxHeight: _popupMaxHeight,
   mode,
   order,
   max,
   menuItemData,
+  popupMaxHeight: _popupMaxHeight,
   emits: _emits,
-} = inject<MenuProvide>(MENU_PROVIDE_KEY, {
-  computedSelectedKeys: ref(''),
-  computedOpenKeys: ref([]),
-  levelIndent: ref(20),
-  computedCollapsed: ref(false),
-  accordion: ref(false),
-  autoOpen: ref(false),
-  triggerProps: ref({}),
-  tooltipProps: ref({}),
-  autoOpenSelected: ref(false),
-  mode: ref('vertical'),
-  popupMaxHeight: ref(167),
-  order: ref(0),
-  max: ref(0),
-  menuItemData: ref([]),
-  emits: () => {},
-});
+} = useInject();
 // popup可见性
 const popoverRef = ref<PopoverInstance>();
 // title容器
 const menuItemRef = ref<HTMLDivElement>();
-// popver是否可见
-const popoverVisible = computed(() => {
-  if (mode.value == 'horizontal') {
-    return curOrder.value == max.value;
-  }
-  return (
-    isSubmenu.value &&
-    !curLevel.value &&
-    (mode.value != 'vertical' || !computedCollapsed.value)
-  );
-});
-// options
-const popupOptions = computed(() => {
-  if (mode.value == 'horizontal' && popoverVisible.value) {
-    return menuItemData.value
-      .slice(max.value - 1)
-      .map((item) => item.childTree[0]);
-  }
-  return childTree.value;
-});
 // title
 const title = computed(() => {
   return menuItemRef.value ? getTextContent(menuItemRef.value) : '';
@@ -192,9 +159,9 @@ const {
   childTree,
   popupMaxHeight,
   collectKeys,
-} = useMenvLevel({
+} = useMenuLevel({
   path,
-  isSubHeader: isSubmenu.value,
+  isSubmenu,
   order,
   menuItemRef,
   menuItemData,
@@ -223,28 +190,20 @@ const handleClick = () => {
   }
   // submenu点击
   if (isSubmenu.value) {
-    const index = computedOpenKeys.value.findIndex(
-      (item) => item == path.value
-    );
-    // 展开元素
-    if (index != -1) {
-      computedOpenKeys.value = computedOpenKeys.value.filter(
-        (item) => item != path.value
-      );
-      _emits('subMenuClick', path.value, computedOpenKeys.value);
-      return;
-    }
-    // 处理手风琴模式
-    if (accordion.value) {
-      computedOpenKeys.value = [path.value];
-    } else {
-      computedOpenKeys.value.push(path.value);
-    }
-    _emits('subMenuClick', path.value, computedOpenKeys.value);
-  } else {
     computedSelectedKeys.value = path.value;
-    _emits('menuItemClick', path.value);
+    return _emits('menuItemClick', path.value);
   }
+  // 展开元素
+  if (computedOpenKeys.value.includes(path.value)) {
+    computedOpenKeys.value = computedOpenKeys.value.filter(
+      (item) => item != path.value
+    );
+  } else {
+    computedOpenKeys.value = accordion.value
+      ? [path.value]
+      : [...computedOpenKeys.value, path.value];
+  }
+  _emits('subMenuClick', path.value, computedOpenKeys.value);
 };
 // 收集
 onMounted(() => {

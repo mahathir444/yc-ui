@@ -41,12 +41,12 @@
 
 <script lang="ts" setup>
 import { ref, inject, toRefs, onMounted } from 'vue';
-import { SubMenuProps, MenuProvide } from './type';
+import { SubMenuProps } from './type';
 import { IconArrowDown, IconArrowRight } from '@shared/icons';
-import { MENU_PROVIDE_KEY } from '@shared/constants';
 import { ExpandTransition } from '@shared/components';
 import { MenuItem as YcMenuItem, MenuItemInstance } from './index';
-import useMenvLevel from './hooks/useMenvLevel';
+import useMenuLevel from './hooks/useMenuLevel';
+import useInject from './hooks/useInject';
 defineOptions({
   name: 'SubMenu',
 });
@@ -67,38 +67,21 @@ const {
   computedCollapsed,
   computedSelectedKeys,
   popupMaxHeight: _popupMaxHeight,
-} = inject<MenuProvide>(MENU_PROVIDE_KEY, {
-  computedSelectedKeys: ref(''),
-  computedOpenKeys: ref([]),
-  levelIndent: ref(20),
-  computedCollapsed: ref(false),
-  accordion: ref(false),
-  autoOpen: ref(false),
-  tooltipProps: ref({}),
-  triggerProps: ref({}),
-  autoOpenSelected: ref(false),
-  mode: ref('vertical'),
-  popupMaxHeight: ref(167),
-  order: ref(0),
-  max: ref(0),
-  menuItemData: ref([]),
-  emits: () => {},
-});
+} = useInject();
 // 注入属性
-const { provideKeys, collectKeys } = useMenvLevel({
+const { provideKeys, collectKeys } = useMenuLevel({
   path,
-  isSubHeader: false,
+  isSubmenu: ref(false),
   mode: 'submenu',
   computedSelectedKeys,
   menuItemRef: ref<HTMLDivElement | undefined>(),
   menuItemData: ref([]),
   order: ref(0),
 });
-
 provideKeys();
 
 onMounted(() => {
-  collectKeys(headerRef.value!.getTitle());
+  collectKeys(title.value ? title.value : headerRef.value!.getTitle());
 });
 </script>
 

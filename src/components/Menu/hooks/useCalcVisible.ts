@@ -13,7 +13,7 @@ export default (menuRef: Ref<HTMLDivElement | undefined>) => {
     () => width.value,
     async () => {
       await sleep(0);
-      let maxCount = 1;
+      let maxCount = 0;
       let totalWidth = 0;
       let gap = 4;
       for (let item of menuItemData.value) {
@@ -25,7 +25,6 @@ export default (menuRef: Ref<HTMLDivElement | undefined>) => {
         maxCount++;
       }
       max.value = maxCount;
-      console.log(max.value, width.value);
     }
   );
   return {

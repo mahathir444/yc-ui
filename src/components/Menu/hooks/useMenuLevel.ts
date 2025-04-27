@@ -8,13 +8,13 @@ export default (params: {
   order: Ref<number>;
   menuItemData: Ref<MenuItemData[]>;
   menuItemRef: Ref<HTMLDivElement | undefined>;
-  isSubHeader: boolean;
+  isSubmenu: Ref<boolean>;
   path: Ref<string>;
   computedSelectedKeys: Ref<string>;
 }) => {
   const {
     mode,
-    isSubHeader,
+    isSubmenu,
     computedSelectedKeys,
     path,
     order,
@@ -29,17 +29,19 @@ export default (params: {
       childLevel: 0,
       popupMaxHeight: ref(167),
     });
-  // submen的子等级
-  const submenuLevel = level.value - 1;
-  // 当前的层级
-  const curLevel = computed(() => (isSubHeader ? childLevel - 1 : childLevel));
   // 子菜单转树
   const childTree = computed(() => {
     return buildMenuTree(childKeys.value);
   });
+  // submen的子等级
+  const submenuLevel = level.value - 1;
+  // 当前的层级
+  const curLevel = computed(() => {
+    return isSubmenu.value ? childLevel - 1 : childLevel;
+  });
   // 是否选中
   const isSelected = computed(() => {
-    if (isSubHeader) {
+    if (isSubmenu.value) {
       const target = childKeys.value.find((item) => {
         return (
           item.path == computedSelectedKeys.value && item.type != 'submenu'
@@ -61,15 +63,15 @@ export default (params: {
             label: title,
             path: path.value,
             level: -1,
-            type: isSubHeader ? 'submenu' : 'menuitem',
-            children: isSubHeader ? childTree.value : [],
+            type: isSubmenu.value ? 'submenu' : 'menuitem',
+            children: isSubmenu.value ? childTree.value : [],
           },
         ],
       };
     }
     console.log(menuItemData.value);
-    const index = childKeys.value.findIndex((item) => item.path == path.value);
-    if (isSubHeader || index != -1) return;
+    const target = childKeys.value.find((item) => item.path == path.value);
+    if (isSubmenu.value || target) return;
     childKeys.value.push({
       label: title,
       type: mode,
