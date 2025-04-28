@@ -21,6 +21,9 @@ import { TriggerInstance } from '@/components/Trigger';
 import { InputInstance } from '@/components/Input';
 import useSelectOptions from './useSelectOptions';
 import useSelectHotkeys from './useSelectHotkeys';
+
+export const SELECT_PROVIDE_KEY = 'select-props';
+
 export interface SelectProvide {
   computedValue:
     | WritableComputedRef<SelectValue | SelectValue[]>
@@ -36,11 +39,9 @@ export interface SelectProvide {
   emits: SelectEmits;
 }
 
-type Props = Reactive<Record<string, any>>;
-
 type SelectPropsRequired = RequiredDeep<SelectProps>;
 
-export const SELECT_PROVIDE_KEY = 'select-props';
+type Props = Reactive<Record<string, any>>;
 
 export default () => {
   const provide = (

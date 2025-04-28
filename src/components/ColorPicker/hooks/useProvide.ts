@@ -15,7 +15,7 @@ import {
 import { parseColor } from '@shared/utils';
 import { useControlValue, useConfigProvder } from '@shared/hooks';
 
-export const CHECKBOX_GROUP_PROVIDE_KEY = 'checkbox-group-props';
+export const COLOR_PICKER_PROVIDE_KEY = 'color-picker-props';
 
 export type ColorPickerProvide = {
   props?: ColorPickerPropsRequired;
@@ -28,8 +28,6 @@ export type ColorPickerProvide = {
 };
 
 type Props = Reactive<Record<string, any>>;
-
-export const COLOR_PICKER_PROVIDE_KEY = 'color-picker-props';
 
 export default () => {
   const provide = (props: Props, emits: ColorPickerEmits) => {

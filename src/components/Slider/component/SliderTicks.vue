@@ -22,7 +22,7 @@
 <script lang="ts" setup>
 import { toRefs } from 'vue';
 import { TICK_TYPE_CLASS, TICKS_TYPE_CLASS } from '@shared/constants';
-import useInject from '../hooks/useInject';
+import useProvide from '../hooks/useProvide';
 
 const props = defineProps<{
   type: 'dots' | 'marks' | 'ticks';
@@ -32,9 +32,10 @@ defineEmits<{
   (e: 'labelClick', value: number): void;
 }>();
 const { type } = toRefs(props);
-// 解构父级属性
-const { min, startValue, endValue, range, direction, handleRangeValue } =
-  useInject();
+// 接收注入
+const { inject } = useProvide();
+const { min, max, startValue, endValue, range, direction, handleRangeValue } =
+  inject();
 // 计算position
 const getPosition = (value: number) => {
   const curValue = handleRangeValue(value);
@@ -52,7 +53,7 @@ const isInRange = (value: number) => {
   const start = handleRangeValue(startValue.value);
   const end = handleRangeValue(endValue.value);
   const rangeMin = handleRangeValue(min.value);
-  const rangeMax = handleRangeValue(min.value);
+  const rangeMax = handleRangeValue(max.value);
   if (!range.value) {
     return start >= curValue && curValue >= rangeMin && curValue <= rangeMax;
   } else {

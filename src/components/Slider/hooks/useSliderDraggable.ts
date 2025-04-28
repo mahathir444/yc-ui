@@ -1,7 +1,7 @@
-import { reactive, Ref, watch, nextTick, computed, onMounted } from 'vue';
+import { reactive, Ref, watch, nextTick, computed } from 'vue';
 import { PositionData, RangeData } from '../index';
 import { Direction } from '@shared/type';
-import { useDraggable, useEventListener, debouncedWatch } from '@vueuse/core';
+import { useDraggable, useEventListener } from '@vueuse/core';
 export default (params: {
   computedValue: Ref<number>;
   trackRef: Ref<HTMLDivElement | undefined>;

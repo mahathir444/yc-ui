@@ -34,13 +34,14 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, toRefs, computed, provide } from 'vue';
-import { SliderProps, SliderEmits, SliderProvide, PositionData } from './type';
-import { SLIDER_PROVIDE_KEY, SLIDER_DIRECTION_MAP } from '@shared/constants';
-import useSliderValue from './hooks/useSliderValue';
+import { ref, computed } from 'vue';
+import { SliderProps, SliderEmits, PositionData } from './type';
+import { SLIDER_DIRECTION_MAP } from '@shared/constants';
+import useProvide from './hooks/useProvide';
 import YcSliderTicks from './component/SliderTicks.vue';
 import YcSliderBtn from './component/SliderBtn.vue';
 import YcSliderInput from './component/SliderInput.vue';
+
 defineOptions({
   name: 'Slider',
 });
@@ -64,31 +65,15 @@ const props = withDefaults(defineProps<SliderProps>(), {
   },
 });
 const emits = defineEmits<SliderEmits>();
-const {
-  modelValue,
-  defaultValue,
-  step,
-  min,
-  max,
-  direction,
-  disabled,
-  range,
-  showTooltip,
-  marks: _marks,
-} = toRefs(props);
-const { formatTooltip } = props;
 // trackRef
 const trackRef = ref<HTMLDivElement>();
-// 获取slider的值
-const { startValue, endValue, tempEndValue, tempStartValue, ticks, marks } =
-  useSliderValue({
-    modelValue,
-    defaultValue,
-    step,
-    range,
-    _marks,
-    emits,
-  });
+// 注入
+const { provide } = useProvide();
+const { ticks, marks, range, direction, min, handleRangeValue } = provide(
+  props,
+  emits,
+  trackRef
+);
 // 开始按钮的位置
 const startPosition = ref<PositionData>({
   bottom: 0,
@@ -132,28 +117,6 @@ const position = computed(() => {
         left: `${left < left1 ? left : left1}%`,
         right: `${right < right1 ? right : right1}%`,
       };
-});
-// 处理值的问题
-function handleRangeValue(value: number) {
-  const maxValue = max.value <= 100 ? 100 : max.value;
-  return (value * 100) / maxValue;
-}
-// 提供值
-provide<SliderProvide>(SLIDER_PROVIDE_KEY, {
-  startValue,
-  endValue,
-  tempStartValue,
-  tempEndValue,
-  range,
-  min,
-  max,
-  step,
-  showTooltip,
-  disabled,
-  direction,
-  trackRef,
-  formatTooltip,
-  handleRangeValue,
 });
 </script>
 

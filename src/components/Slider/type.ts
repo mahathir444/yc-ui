@@ -40,21 +40,3 @@ export interface RangeData {
   minTop: number;
   maxTop: number;
 }
-
-// 内部使用
-export interface SliderProvide {
-  startValue: WritableComputedRef<number> | Ref<number>;
-  endValue: WritableComputedRef<number> | Ref<number>;
-  tempStartValue: Ref<number>;
-  tempEndValue: Ref<number>;
-  range: Ref<boolean>;
-  min: Ref<number>;
-  max: Ref<number>;
-  step: Ref<number>;
-  direction: Ref<Direction>;
-  showTooltip: Ref<boolean>;
-  disabled: Ref<boolean>;
-  trackRef: Ref<HTMLDivElement | undefined>;
-  formatTooltip?: FormatTooltip;
-  handleRangeValue: (value: number) => number;
-}

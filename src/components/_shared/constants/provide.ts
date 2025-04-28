@@ -1,5 +1,4 @@
 // provide-keys
-export const SLIDER_PROVIDE_KEY = 'slider-props';
 export const INPUT_PROVIDE_KEY = 'input-props';
 export const SKELETON_PROVIDE_KEY = 'skeleton-props';
 export const BREADCRUMB_PROVIDE_KEY = 'breadcrumb-props';

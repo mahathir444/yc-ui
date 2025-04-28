@@ -10,15 +10,15 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, inject, toRefs, computed } from 'vue';
-import { SliderProvide } from '../type';
-import { SLIDER_PROVIDE_KEY } from '@shared/constants';
-import useInject from '../hooks/useInject';
+import { toRefs, computed } from 'vue';
+import useProvide from '../hooks/useProvide';
 import YcInputNumber from '@/components/InputNumber';
 const props = defineProps<{
   type: 'start' | 'end';
 }>();
 const { type } = toRefs(props);
+// 接收注入
+const { inject } = useProvide();
 const {
   min,
   max,
@@ -27,7 +27,7 @@ const {
   endValue,
   tempStartValue,
   tempEndValue,
-} = useInject();
+} = inject();
 // 计算值
 const computedValue = computed({
   get() {

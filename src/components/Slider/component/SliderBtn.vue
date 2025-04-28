@@ -20,9 +20,9 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, inject, computed, watch, toRefs } from 'vue';
+import { ref, computed, watch, toRefs } from 'vue';
 import { PositionData } from '../type';
-import useInject from '../hooks/useInject';
+import useProvide from '../hooks/useProvide';
 import useSliderDraggable from '../hooks/useSliderDraggable';
 import YcTooltip from '@/components/Tooltip';
 const props = defineProps<{
@@ -38,6 +38,7 @@ const popupVisible = ref<boolean>(false);
 // 触发dom
 const triggerRef = ref<HTMLDivElement>();
 // 解构父级属性通用
+const { inject } = useProvide();
 const {
   trackRef,
   min,
@@ -49,7 +50,7 @@ const {
   startValue,
   endValue,
   formatTooltip,
-} = useInject();
+} = inject();
 // 计算值
 const computedValue = computed({
   get() {
