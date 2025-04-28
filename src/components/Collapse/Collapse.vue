@@ -10,15 +10,8 @@
 </template>
 
 <script lang="ts" setup>
-import { toRefs, provide } from 'vue';
-import {
-  CollapseProps,
-  CollapseEmits,
-  CollapseValue,
-  CollapseProvide,
-} from './type';
-import { useControlValue } from '@shared/hooks';
-import { COLLAPSE_PROVIDE_KEY } from '@shared/constants';
+import { CollapseProps, CollapseEmits } from './type';
+import useProvide from './hooks/useProvide';
 defineOptions({
   name: 'Collapse',
 });
@@ -32,30 +25,9 @@ const props = withDefaults(defineProps<CollapseProps>(), {
   destroyOnHide: false,
 });
 const emits = defineEmits<CollapseEmits>();
-const {
-  activeKey,
-  defaultActiveKey,
-  accordion,
-  expandIconPosition,
-  showExpandIcon,
-  destroyOnHide,
-} = toRefs(props);
-// 受控的key
-const computedActiveKey = useControlValue<CollapseValue[]>(
-  activeKey,
-  defaultActiveKey.value,
-  (val) => {
-    emits('update:activekey', val);
-    emits('change', val);
-  }
-);
-provide<CollapseProvide>(COLLAPSE_PROVIDE_KEY, {
-  computedActiveKey,
-  accordion,
-  expandIconPosition,
-  showExpandIcon,
-  destroyOnHide,
-});
+// 注入数据
+const { provide } = useProvide();
+provide(props, emits);
 </script>
 
 <style lang="less" scoped>

@@ -63,13 +63,12 @@
 </template>
 
 <script lang="ts" setup>
-import { toRefs, computed, provide } from 'vue';
-import { TransferProps, TransferEmits, TransferProvide } from './type';
-import { TRANSFER_PROVIDE_KEY } from '@shared/constants';
-import { useControlValue } from '@shared/hooks';
+import { TransferProps, TransferEmits } from './type';
+import useProvide from './hooks/useProvide';
 import { IconArrowRight } from '@shared/icons';
 import TransferPanel from './component/Panel.vue';
 import YcButton from '@/components/Button';
+
 defineOptions({
   name: 'Transfer',
 });
@@ -93,93 +92,10 @@ const props = withDefaults(defineProps<TransferProps>(), {
   },
 });
 const emits = defineEmits<TransferEmits>();
-const {
-  modelValue,
-  defaultValue,
-  selected,
-  defaultSelected,
-  data,
-  oneWay,
-  simple,
-  sourceInputSearchProps,
-  targetInputSearchProps,
-  showSearch,
-  showSelectAll,
-  disabled,
-  title,
-} = toRefs(props);
-// dataMap
-const dataMap = computed(() => {
-  return Object.fromEntries(data.value.map((item) => [item.value, item]));
-});
-// 计算的value
-const computedValue = useControlValue<string[]>(
-  modelValue,
-  defaultValue.value,
-  (val) => {
-    emits('update:modelValue', val);
-    emits('change', val);
-  }
-);
-// target
-const computedValueMap = computed(() => {
-  return Object.fromEntries(
-    (computedValue.value as string[]).map((item) => {
-      return [item, item];
-    })
-  );
-});
-// 选中的value
-const computedSelected = useControlValue<string[]>(
-  selected,
-  defaultSelected.value,
-  (val) => {
-    emits('update:selected', val);
-  }
-);
-// 源options
-const sourceOptions = computed(() => {
-  return data.value.filter((item) => {
-    return !computedValueMap.value[item.value as string];
-  });
-});
-// 目标options
-const targetOptions = computed(() => {
-  return (computedValue.value as string[]).map((item) => {
-    const target = dataMap.value[item];
-    return target;
-  });
-});
-// 数据checked
-const sourceChecked = computed(() => {
-  return computedSelected.value.filter(
-    (item: string) => !computedValueMap.value[item]
-  );
-});
-// 目标checked
-const targetChecked = computed(() => {
-  return computedSelected.value.filter(
-    (item: string) => computedValueMap.value[item]
-  );
-});
 // 注入数据
-provide<TransferProvide>(TRANSFER_PROVIDE_KEY, {
-  computedValue,
-  computedSelected,
-  targetChecked,
-  sourceChecked,
-  sourceOptions,
-  targetOptions,
-  oneWay,
-  simple,
-  sourceInputSearchProps,
-  targetInputSearchProps,
-  showSearch,
-  showSelectAll,
-  disabled,
-  title,
-  emits,
-});
+const { provide } = useProvide();
+const { computedValue, targetChecked, computedSelected, sourceChecked } =
+  provide(props, emits);
 // 处理添加
 const handleAdd = () => {
   const checked = [...sourceChecked.value];

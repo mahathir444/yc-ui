@@ -1,4 +1,3 @@
-import { Ref, WritableComputedRef } from 'vue';
 import { InputProps } from '@/components/Input';
 
 export interface TransferProps {
@@ -29,22 +28,4 @@ export interface TransferItem {
   label?: string;
   value?: string;
   disabled?: boolean;
-}
-
-export interface TransferProvide {
-  computedValue: WritableComputedRef<string[]> | Ref<string[]>;
-  computedSelected: WritableComputedRef<string[]> | Ref<string[]>;
-  targetChecked: Ref<string[]>;
-  sourceChecked: Ref<string[]>;
-  sourceOptions: Ref<TransferItem[]>;
-  targetOptions: Ref<TransferItem[]>;
-  showSelectAll: Ref<boolean>;
-  disabled: Ref<boolean>;
-  title: Ref<string[]>;
-  sourceInputSearchProps: Ref<InputProps>;
-  targetInputSearchProps: Ref<InputProps>;
-  showSearch: Ref<boolean>;
-  oneWay: Ref<boolean>;
-  simple: Ref<boolean>;
-  emits: any;
 }

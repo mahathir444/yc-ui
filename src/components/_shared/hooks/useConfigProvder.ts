@@ -1,7 +1,17 @@
-import { toRefs, inject, ref, isReactive, reactive } from 'vue';
-import { CONFIG_PROVIDER_PROVIDE_KEY } from '../constants';
-import { ConfigProviderProvide } from '@/components/ConfigProvider';
+import { toRefs, inject, ref, isReactive, reactive, Ref } from 'vue';
+import { PopupContainer, Size } from '@shared/type';
 import { isUndefined } from '../utils';
+
+export const CONFIG_PROVIDER_PROVIDE_KEY = 'config-props';
+
+export interface ConfigProviderProvide {
+  zIndex: Ref<number>;
+  size: Ref<Size>;
+  popupContainer: Ref<PopupContainer>;
+  updateAtScroll: Ref<boolean>;
+  scrollToClose: Ref<boolean>;
+  exchangeTime: Ref<boolean>;
+}
 
 export default (props: Record<string, any> = {}) => {
   // 接收值

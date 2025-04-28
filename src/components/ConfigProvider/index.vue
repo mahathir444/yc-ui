@@ -4,8 +4,11 @@
 
 <script lang="ts" setup>
 import { toRefs, provide } from 'vue';
-import { ConfigProviderProps, ConfigProviderProvide } from './type';
-import { CONFIG_PROVIDER_PROVIDE_KEY } from '@shared/constants';
+import { ConfigProviderProps } from './type';
+import {
+  CONFIG_PROVIDER_PROVIDE_KEY,
+  ConfigProviderProvide,
+} from '@shared/hooks/useConfigProvder';
 defineOptions({
   name: 'ConfigProvider',
 });

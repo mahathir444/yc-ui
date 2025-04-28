@@ -43,9 +43,9 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, inject, toRefs } from 'vue';
-import { COLLAPSE_PROVIDE_KEY } from '@shared/constants';
-import { CollapseItemProps, CollapseProvide } from './type';
+import { toRefs } from 'vue';
+import { CollapseItemProps } from './type';
+import useProvide from './hooks/useProvide';
 import { IconRight } from '@shared/icons';
 import { YcIconButton, ExpandTransition } from '@shared/components';
 defineOptions({
@@ -58,26 +58,16 @@ const props = withDefaults(defineProps<CollapseItemProps>(), {
   showExpandIcon: true,
   destroyOnHide: false,
 });
-const {
-  value,
-  disabled,
-  showExpandIcon: _showExpandIcon,
-  destroyOnHide: _destroyOnHide,
-} = toRefs(props);
-// 接收注入属性
+const { value, disabled } = toRefs(props);
+// 注入数据
+const { inject } = useProvide();
 const {
   computedActiveKey,
   accordion,
   expandIconPosition,
   showExpandIcon,
   destroyOnHide,
-} = inject<CollapseProvide>(COLLAPSE_PROVIDE_KEY, {
-  computedActiveKey: ref([]),
-  accordion: ref(false),
-  expandIconPosition: ref('left'),
-  showExpandIcon: _showExpandIcon,
-  destroyOnHide: _destroyOnHide,
-});
+} = inject(props);
 // 处理点击
 const handleClick = () => {
   if (disabled.value) return;

@@ -88,10 +88,10 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, toRefs, computed, inject } from 'vue';
-import { TransferItem, TransferProvide } from '../type';
+import { ref, toRefs, computed } from 'vue';
+import { TransferItem } from '../type';
 import { IconDelete, IconClose } from '@shared/icons';
-import { TRANSFER_PROVIDE_KEY } from '@shared/constants';
+import useProvide from '../hooks/useProvide';
 import YcEmpty from '@/components/Empty';
 import YcCheckbox from '@/components/Checkbox';
 import YcScrollbar from '@/components/Scrollbar';
@@ -101,7 +101,8 @@ const props = defineProps<{
   type: 'source' | 'target';
 }>();
 const { type } = toRefs(props);
-// 结构注入的属性
+// 接收注入
+const { inject } = useProvide();
 const {
   computedValue,
   computedSelected,
@@ -118,23 +119,7 @@ const {
   sourceInputSearchProps,
   targetInputSearchProps,
   emits,
-} = inject<TransferProvide>(TRANSFER_PROVIDE_KEY, {
-  computedValue: ref([]),
-  computedSelected: ref([]),
-  targetChecked: ref([]),
-  sourceChecked: ref([]),
-  sourceOptions: ref([]),
-  targetOptions: ref([]),
-  disabled: ref(false),
-  oneWay: ref(false),
-  simple: ref(false),
-  title: ref([]),
-  showSearch: ref(false),
-  showSelectAll: ref(false),
-  sourceInputSearchProps: ref({}),
-  targetInputSearchProps: ref({}),
-  emits: () => {},
-});
+} = inject();
 // 搜索关键词
 const keywords = ref<string>('');
 // 当前的data

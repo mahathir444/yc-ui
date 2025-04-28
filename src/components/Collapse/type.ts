@@ -25,13 +25,3 @@ export interface CollapseItemProps {
 export type CollapseValue = string | number;
 
 export type ExpandIconPosition = 'left' | 'right';
-
-export type CollapseProvide = {
-  computedActiveKey:
-    | WritableComputedRef<CollapseValue[]>
-    | Ref<CollapseValue[]>;
-  accordion: Ref<boolean>;
-  expandIconPosition: Ref<ExpandIconPosition>;
-  showExpandIcon: Ref<boolean>;
-  destroyOnHide: Ref<boolean>;
-};
