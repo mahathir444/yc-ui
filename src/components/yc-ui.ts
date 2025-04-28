@@ -59,8 +59,9 @@ import ConfigProvider from './ConfigProvider';
 import Watermark from './Watermark';
 import { default as Anchor, AnchorLink } from './Anchor';
 import Split from './Split';
-import { default as Menu, MenuItem } from './Menu';
+import { default as Menu, MenuItem, SubMenu, MenuItemGroup } from './Menu';
 import { default as Collapse, CollapseItem } from './Collapse';
+import Avatar from './Avatar';
 
 export const components: Record<string, Plugin> = {
   Button,
@@ -114,6 +115,7 @@ export const components: Record<string, Plugin> = {
   Split,
   Menu,
   Collapse,
+  Avatar,
 };
 
 export default {
@@ -138,6 +140,8 @@ export default {
   LayoutContent,
   AnchorLink,
   MenuItem,
+  SubMenu,
+  MenuItemGroup,
   CollapseItem,
   install: (app: App) => {
     for (const key of Object.keys(components)) {

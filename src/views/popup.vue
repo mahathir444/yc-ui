@@ -95,7 +95,6 @@
   width: 100%;
   height: 300vh;
   overflow: auto;
-
   display: flex;
   flex-direction: column;
   justify-content: center;

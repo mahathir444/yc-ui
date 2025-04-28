@@ -28,8 +28,8 @@
       <div
         v-show="
           mode == 'vertical' &&
-          computedOpenKeys.includes(path) &&
-          !computedCollapsed
+          !computedCollapsed &&
+          computedOpenKeys.includes(path)
         "
         class="yc-menu-inline-content"
       >

@@ -6,6 +6,7 @@ export type AnchorLinkInstance = InstanceType<typeof _AnchorLink>;
 export * from './type';
 
 const Anchor = Object.assign(_Anchor, {
+  link: _AnchorLink,
   install: (app: App) => {
     app.component('Yc' + _Anchor.name, _Anchor);
     app.component('Yc' + _AnchorLink.name, _AnchorLink);

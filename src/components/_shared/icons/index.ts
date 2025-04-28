@@ -30,3 +30,4 @@ export { default as IconMenuUnfold } from './IconMenuUnfold.vue';
 export { default as IconRight } from './IconRight.vue';
 export { default as IconDown } from './IconDown.vue';
 export { default as IconLeft } from './IconLeft.vue';
+export { default as IconImageClose } from './IconImageClose.vue';

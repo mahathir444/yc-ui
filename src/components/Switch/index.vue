@@ -51,7 +51,7 @@ const props = withDefaults(defineProps<SwitchProps>(), {
   defaultValue: false,
   disabled: false,
   loading: false,
-  type: 'line',
+  type: 'circle',
   size: undefined,
   checkedValue: true,
   uncheckedValue: false,

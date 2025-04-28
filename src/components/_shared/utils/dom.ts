@@ -126,3 +126,32 @@ export function findFirstScrollableParent(element?: HTMLElement) {
 
   return;
 }
+
+// 判断一个对象是否是 DOM 对象
+export function isDOMObject(obj: unknown): obj is Element | Document | Window {
+  if (typeof obj !== 'object' || obj === null) {
+    return false;
+  }
+
+  // 检查是否是 window 对象
+  if (obj === window) {
+    return true;
+  }
+
+  // 检查是否是 document 对象
+  if (obj === document) {
+    return true;
+  }
+
+  // 检查是否是节点类型 (Element, Text, Comment 等)
+  if (typeof (obj as Node).nodeType === 'number') {
+    return true;
+  }
+
+  // 检查是否是 DOM 元素 (适用于某些环境，如 iframe)
+  if ((obj as HTMLElement).nodeName !== undefined) {
+    return true;
+  }
+
+  return false;
+}

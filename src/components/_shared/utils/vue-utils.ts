@@ -2,6 +2,8 @@ import { RenderContent } from '../type';
 import { Comment, Fragment, Text, h, VNode } from 'vue';
 import { isFunction, isObject } from './is';
 import { ObjectData } from '../type';
+import type { ComponentPublicInstance, MaybeRef, MaybeRefOrGetter } from 'vue';
+import { toValue } from 'vue';
 
 // 获取renderFunction
 export const getSlotFunction = (param: RenderContent | undefined) => {
@@ -78,4 +80,24 @@ export function findComponentsFromVnodes(
   };
   traverse(vnodes);
   return result;
+}
+
+export type VueInstance = ComponentPublicInstance;
+export type MaybeElementRef<T extends MaybeElement = MaybeElement> =
+  MaybeRef<T>;
+export type MaybeComputedElementRef<T extends MaybeElement = MaybeElement> =
+  MaybeRefOrGetter<T>;
+export type MaybeElement =
+  | HTMLElement
+  | SVGElement
+  | VueInstance
+  | undefined
+  | null;
+export type UnRefElementReturn<T extends MaybeElement = MaybeElement> =
+  T extends VueInstance ? Exclude<MaybeElement, VueInstance> : T | undefined;
+export function unrefElement<T extends MaybeElement>(
+  elRef: MaybeComputedElementRef<T>
+): UnRefElementReturn<T> {
+  const plain = toValue(elRef);
+  return (plain as VueInstance)?.$el ?? plain;
 }

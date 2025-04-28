@@ -10,6 +10,9 @@ export type MenuItemGroupInstance = InstanceType<typeof _MenuItemGroup>;
 export * from './type';
 
 const Menu = Object.assign(_Menu, {
+  item: _MenuItem,
+  submenu: _SubMenu,
+  group: _MenuItemGroup,
   install: (app: App) => {
     app.component('Yc' + _Menu.name, _Menu);
     app.component('Yc' + _MenuItem.name, _MenuItem);
@@ -18,7 +21,11 @@ const Menu = Object.assign(_Menu, {
   },
 });
 
-export { _MenuItem as MenuItem };
+export {
+  _MenuItem as MenuItem,
+  _MenuItemGroup as MenuItemGroup,
+  _SubMenu as SubMenu,
+};
 
 declare module 'vue' {
   export interface GlobalComponents {

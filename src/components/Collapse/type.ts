@@ -1,4 +1,3 @@
-import { WritableComputedRef, Ref } from 'vue';
 export interface CollapseProps {
   activeKey?: CollapseValue[];
   defaultActiveKey?: CollapseValue[];

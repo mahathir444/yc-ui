@@ -39,9 +39,7 @@
     </define-template>
     <!-- 选然popover -->
     <yc-popover
-      v-if="
-        isSubmenu && !curLevel && (mode != 'vertical' || !computedCollapsed)
-      "
+      v-if="isSubmenu && !curLevel && (mode != 'vertical' || computedCollapsed)"
       :position="mode == 'horizontal' ? 'bl' : 'rt'"
       :trigger-props="{
         autoFitPopupMinWidth: true,
@@ -94,7 +92,6 @@ import { ref, toRefs, computed, onMounted, provide } from 'vue';
 import { createReusableTemplate } from '@vueuse/core';
 import { MenuItemProps } from './type';
 import { getTextContent, isNumber } from '@shared/utils';
-import { IconMore } from '@shared/icons';
 import {
   DROPDOWN_PROVIDE_KEY,
   DropdownProvide,
@@ -185,14 +182,16 @@ provide<DropdownProvide>(DROPDOWN_PROVIDE_KEY, {
 const handleClick = () => {
   if (
     (mode.value != 'vertical' && isSubmenu.value) ||
-    computedCollapsed.value ||
-    computedSelectedKeys.value == path.value ||
-    disabled.value
+    computedCollapsed.value
   ) {
     return;
   }
   // submenu点击
-  if (!isSubmenu.value) {
+  if (
+    !isSubmenu.value &&
+    computedSelectedKeys.value != path.value &&
+    !disabled.value
+  ) {
     computedSelectedKeys.value = path.value;
     return _emits('menuItemClick', path.value);
   }

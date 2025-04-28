@@ -11,3 +11,8 @@ export const SWITCH_SHAPE_CLASS = getComponentShapeMap('yc-switch', [
   'round',
   'line',
 ]);
+
+export const AVATAR_SHAPE_CLASS = getComponentShapeMap('yc-avatar', [
+  'square',
+  'round',
+]);

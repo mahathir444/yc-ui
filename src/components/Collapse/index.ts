@@ -6,7 +6,7 @@ export type CollapseItemInstance = InstanceType<typeof _CollapseItem>;
 export * from './type';
 
 const Collapse = Object.assign(_Collapse, {
-  group: _CollapseItem,
+  item: _CollapseItem,
   install: (app: App) => {
     app.component('Yc' + _Collapse.name, _Collapse);
     app.component('Yc' + _CollapseItem.name, _CollapseItem);

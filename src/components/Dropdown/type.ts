@@ -2,7 +2,6 @@ import { PopupContainer } from '@shared/type';
 import { TriggerProps, TriggerType } from '@/components/Trigger';
 import { ButtonProps, ButtonType } from '@/components/Button';
 import { Size } from '@shared/type';
-import { CSSProperties } from 'vue';
 export interface DropdownProps {
   popupVisible?: boolean;
   defaultPopupVisible?: boolean;
@@ -10,7 +9,14 @@ export interface DropdownProps {
   position?: 'top' | 'tr' | 'tl' | 'bottom' | 'br' | 'bl';
   popupContainer?: PopupContainer;
   hideOnSelect?: boolean;
-  triggerProps?: TriggerProps;
+  triggerProps?: Omit<
+    TriggerProps,
+    | 'popupVisible'
+    | 'defaultPopupVisible'
+    | 'trigger'
+    | 'position'
+    | 'popupContainer'
+  >;
 }
 
 export interface DropdownEmits {
@@ -32,7 +38,10 @@ export interface DsubmenuProps {
   position?: 'rt' | 'lt';
   popupVisible?: boolean;
   defaultPopupVisible?: boolean;
-  triggerProps?: TriggerProps;
+  triggerProps?: Omit<
+    TriggerProps,
+    'disabled' | 'trigger' | 'position' | 'popupVisible' | 'defaultPopupVisible'
+  >;
   popupMaxHeight?: number;
 }
 

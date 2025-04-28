@@ -86,13 +86,12 @@
       rate
       <yc-rate :count="5" allow-clear />
     </div>
-    <div style="width: 500px; height: 500px">
+    <div style="width: 500px">
       slider
       <yc-slider
-        :direction="'vertical'"
         show-input
         :min="30"
-        :max="300"
+        :max="100"
         :marks="{
           10: '10km',
           30: '30km',

@@ -6,7 +6,7 @@ export type BreadcrumbItemInstance = InstanceType<typeof _BreadcrumbItem>;
 export * from './type';
 
 const Breadcrumb = Object.assign(_Breadcrumb, {
-  Item: _BreadcrumbItem,
+  item: _BreadcrumbItem,
   install: (app: App) => {
     app.component('Yc' + _Breadcrumb.name, _Breadcrumb);
     app.component('Yc' + _BreadcrumbItem.name, _BreadcrumbItem);

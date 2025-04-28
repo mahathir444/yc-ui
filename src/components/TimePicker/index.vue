@@ -58,11 +58,11 @@
       >
         <div class="yc-time-icon">
           <slot name="suffix-icon">
-            <IconTime />
+            <IconTime :size="14" />
           </slot>
         </div>
         <YcIconButton
-          fontSize="14px"
+          :size="14"
           class="yc-close-icon"
           @click="hanClear"
           v-if="allowClear && !readonly && !disabled"

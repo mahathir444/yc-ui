@@ -5,22 +5,31 @@
       style="max-height: 100vh"
       :popup-max-height="300"
     >
-      <!-- <yc-menu
+      <yc-menu
         v-model:collapsed="collapsed"
         show-collapse-button
         :popup-max-height="500"
+        :trigger-props="{
+          unmountOnClose: false,
+        }"
       >
-        <yc-menu-item-group title="测试">
-          <template v-for="(item, index) in menus" :key="item.path">
-            <yc-menu-item :path="item.path">
-              <template #icon>
-                <icon-apps />
-              </template>
-              {{ item.title }}
+        <template v-for="(item, index) in menus" :key="item.path">
+          <yc-sub-menu v-if="item.submenu?.length" :title="item.title">
+            <template #icon>
+              <icon-apps />
+            </template>
+            <yc-menu-item v-for="v in item.submenu" :path="v.path">
+              {{ v.title }}
             </yc-menu-item>
-          </template>
-        </yc-menu-item-group>
-      </yc-menu> -->
+          </yc-sub-menu>
+          <yc-menu-item v-else :path="item.path">
+            <template #icon>
+              <icon-apps />
+            </template>
+            {{ item.title }}
+          </yc-menu-item>
+        </template>
+      </yc-menu>
     </yc-layout-sider>
     <yc-layout class="main">
       <yc-layout-header class="header">
@@ -40,7 +49,28 @@
           </template>
         </yc-menu>
       </yc-layout-header>
-      <yc-layout-content class="content"> </yc-layout-content>
+      <yc-layout-content class="content">
+        <a-avatar
+          @click="
+            () => {
+              console.log('click');
+            }
+          "
+        >
+          小李
+
+          <template #trigger-icon>
+            <IconEdit />
+          </template>
+        </a-avatar>
+        <yc-avatar trigger-type="mask">
+          小李
+
+          <template #trigger-icon>
+            <IconEdit />
+          </template>
+        </yc-avatar>
+      </yc-layout-content>
     </yc-layout>
   </yc-layout>
 </template>
@@ -55,6 +85,8 @@ const menus = Array(5)
     return {
       title: `菜单${i + 1}`,
       path: `菜单 ${i + 1}`,
+      submenu:
+        i == 0 ? [{ title: `子菜单`, path: `菜单${Math.random()}` }] : [],
     };
   });
 </script>

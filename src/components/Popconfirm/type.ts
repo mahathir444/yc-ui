@@ -20,7 +20,10 @@ export interface PopconfirmProps {
   arrowClass?: string;
   arrowStyle?: CSSProperties;
   popupContainer?: PopupContainer;
-  triggerProps?: TriggerProps;
+  triggerProps?: Omit<
+    TriggerProps,
+    'popupContainer' | 'position' | 'popupVisible' | 'defaultPopupVisible'
+  >;
   onBeforeOk?: OnBeforeOk;
   onBeforeCancel?: OnBeforeCancel;
 }

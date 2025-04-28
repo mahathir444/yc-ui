@@ -1,9 +1,9 @@
-import { Ref, ref, toRefs, watchEffect } from 'vue';
+import { nextTick, Ref, ref, toRefs, computed, watch } from 'vue';
 import { onClickOutside } from '@vueuse/core';
 import { TriggerProps, TriggerEmits } from '../type';
-import { TriggerPropsRequired } from './useTriggerNested';
+import useTriggerNested, { TriggerPropsRequired } from './useTriggerNested';
 import { useControlValue, useConfigProvder } from '@shared/hooks';
-import useTriggerNested from './useTriggerNested';
+import { findFirstScrollableParent, unrefElement } from '@shared/utils';
 export default (params: {
   props: TriggerProps;
   emits: TriggerEmits;
@@ -27,7 +27,7 @@ export default (params: {
     autoSetPosition,
   } = toRefs(props as TriggerPropsRequired);
   // 接收全局属性
-  const { scrollToClose } = useConfigProvder();
+  const { scrollToClose } = useConfigProvder(props);
   // 处理事件
   const {
     onTriggerMouseclick,
@@ -60,6 +60,14 @@ export default (params: {
       emits('popup-visible-change', val);
     }
   );
+  let oldScrollLeft = 0;
+  let oldScrollTop = 0;
+  // 滚动容器
+  const scrollContainer = computed(() => {
+    return triggerRef.value
+      ? findFirstScrollableParent(unrefElement(triggerRef.value))
+      : null;
+  });
   // 点击
   const handleClickEvent = (e: MouseEvent) => {
     if (!['click', 'contextMenu'].includes(trigger.value) || disabled.value)
@@ -165,12 +173,33 @@ export default (params: {
     );
   };
   // 处理滚动关闭,滚动关闭存在问题
-  const handleScrollToClose = (left: Ref<number>, top: Ref<number>) => {
+  const handleScrollToClose = async () => {
+    await nextTick();
     // 检测滚动关闭
-    if (!scrollToClose.value) return;
-    let oldLeft = left.value;
-    let oldTop = top.value;
+    if (!scrollToClose.value || !scrollContainer.value) return;
+    scrollContainer.value.addEventListener('scroll', () => {
+      if (!computedVisible.value) return;
+      const { scrollTop, scrollLeft } = scrollContainer.value!;
+      if (
+        Math.abs(scrollTop - oldScrollTop) >= scrollToCloseDistance.value ||
+        Math.abs(scrollLeft - oldScrollLeft) >= scrollToCloseDistance.value
+      ) {
+        computedVisible.value = false;
+        oldScrollTop = scrollTop;
+        oldScrollLeft = oldScrollLeft;
+      }
+    });
   };
+  // 检测visible确定第一次的left top
+  watch(
+    () => computedVisible.value,
+    async () => {
+      await nextTick();
+      if (!scrollContainer.value) return;
+      const { scrollTop, scrollLeft } = scrollContainer.value;
+      (oldScrollLeft = scrollLeft), (oldScrollTop = scrollTop);
+    }
+  );
   return {
     level,
     groupId,

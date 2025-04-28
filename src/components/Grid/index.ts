@@ -8,6 +8,9 @@ export type ColInstance = InstanceType<typeof _Col>;
 export * from './type';
 
 const Grid = Object.assign(_Grid, {
+  col: _Col,
+  row: _Row,
+  item: _GridItem,
   install: (app: App) => {
     app.component('Yc' + _Grid.name, _Grid);
     app.component('Yc' + _GridItem.name, _GridItem);

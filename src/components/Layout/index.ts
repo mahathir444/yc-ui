@@ -7,6 +7,10 @@ import _Sider from './LayoutSider.vue';
 export type LayoutInstance = InstanceType<typeof _Layout>;
 
 const Layout = Object.assign(_Layout, {
+  content: _Content,
+  Header: _Header,
+  Footer: _Footer,
+  Sider: _Sider,
   install: (app: App) => {
     app.component('Yc' + _Layout.name, _Layout);
     app.component('Yc' + _Header.name, _Header);

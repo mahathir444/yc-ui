@@ -35,18 +35,16 @@ import {
   Dsubmenu as YcDsubmenu,
 } from '@/components/Dropdown';
 import { TriggerProps } from '@/components/Trigger';
-import { ChlidTreeNode, MenuMode } from '../type';
+import { ChlidTreeNode } from '../hooks/useMenuLevel';
+import { MenuMode } from '../type';
 defineOptions({
   name: 'PopOption',
 });
-withDefaults(
-  defineProps<{
-    childNode: ChlidTreeNode;
-    triggerProps: TriggerProps;
-    popupMaxHeight: number;
-    computedSelectedKeys: string;
-    mode: MenuMode;
-  }>(),
-  {}
-);
+defineProps<{
+  childNode: ChlidTreeNode;
+  triggerProps: TriggerProps;
+  popupMaxHeight: number;
+  computedSelectedKeys: string;
+  mode: MenuMode;
+}>();
 </script>
