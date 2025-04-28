@@ -52,12 +52,12 @@ import { ref, toRefs } from 'vue';
 import { AVATAR_SHAPE_CLASS } from '@shared/constants';
 import { useResizeObserver } from '@vueuse/core';
 import { IconImageClose } from '@shared/icons';
-import { AvatarProps, AvatarSlot, AvatarEmits } from './type';
+import { AvatarProps, AvatarSlots, AvatarEmits } from './type';
 import useProvide from './hooks/useProvide';
 defineOptions({
   name: 'Avatar',
 });
-defineSlots<AvatarSlot>();
+defineSlots<AvatarSlots>();
 const props = withDefaults(defineProps<AvatarProps>(), {
   shape: 'round',
   imageUrl: '',

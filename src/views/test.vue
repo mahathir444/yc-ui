@@ -64,13 +64,12 @@
           <a-avatar> 小李 </a-avatar>
         </a-avatar-group>
 
-        <yc-avatar-group shape="square" :max-count="3">
+        <a-badge :count="22">
           <yc-avatar> 小李 </yc-avatar>
+        </a-badge>
+        <yc-badge :count="22">
           <yc-avatar> 小李 </yc-avatar>
-          <yc-avatar> 小李 </yc-avatar>
-          <yc-avatar> 小李 </yc-avatar>
-          <yc-avatar> 小李 </yc-avatar>
-        </yc-avatar-group>
+        </yc-badge>
       </yc-layout-content>
     </yc-layout>
   </yc-layout>

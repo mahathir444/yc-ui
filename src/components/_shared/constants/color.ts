@@ -24,6 +24,29 @@ export const TAG_COLOR_CLASS = getComponentConstantsMap(
   'color'
 );
 
+export const BADGE_COLOR_CLASS = getComponentConstantsMap(
+  'yc-badge',
+  [
+    'default',
+    'red',
+    'orangered',
+    'orange',
+    'gold',
+    'lime',
+    'green',
+    'cyan',
+    'blue',
+    'arcoblue',
+    'purple',
+    'pinkpurple',
+    'magent',
+    'gray',
+    'white',
+    'default',
+  ],
+  'color'
+);
+
 export const PRESET_COLORS = [
   '#00B42A',
   '#3C7EFF',

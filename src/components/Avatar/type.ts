@@ -11,6 +11,17 @@ export interface AvatarProps {
   objectFit?: 'cover' | 'contain' | 'fill' | 'none';
 }
 
+export interface AvatarEmits {
+  (e: 'click', ev: MouseEvent): void;
+  (e: 'error'): void;
+  (e: 'load'): void;
+}
+
+export interface AvatarSlots {
+  default(): void;
+  ['trigger-icon'](): void;
+}
+
 export interface AvatarGroupProps {
   shape?: AvatarShape;
   size?: number;
@@ -21,15 +32,8 @@ export interface AvatarGroupProps {
   maxPopoverTriggerProps?: TriggerProps;
 }
 
-export type AvatarShape = 'square' | 'round';
-
-export interface AvatarEmits {
-  (e: 'click', ev: MouseEvent): void;
-  (e: 'error'): void;
-  (e: 'load'): void;
-}
-
-export interface AvatarSlot {
+export interface AvatarGroupSlots {
   default(): void;
-  ['trigger-icon'](): void;
 }
+
+export type AvatarShape = 'square' | 'round';

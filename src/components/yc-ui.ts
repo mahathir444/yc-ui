@@ -62,6 +62,7 @@ import Split from './Split';
 import { default as Menu, MenuItem, SubMenu, MenuItemGroup } from './Menu';
 import { default as Collapse, CollapseItem } from './Collapse';
 import Avatar from './Avatar';
+import Badge from './Badge';
 
 export const components: Record<string, Plugin> = {
   Button,
@@ -116,6 +117,7 @@ export const components: Record<string, Plugin> = {
   Menu,
   Collapse,
   Avatar,
+  Badge,
 };
 
 export default {

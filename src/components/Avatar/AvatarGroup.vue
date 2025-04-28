@@ -21,16 +21,16 @@
         +{{ nodes.hide.length }}
       </yc-avatar>
       <template #content>
-        <div>
-          <component
-            v-for="(node, index) in nodes.hide"
-            :key="index"
-            :is="node"
-            :style="{
-              zIndex: zIndexAscend ? index + 1 : nodes.hide.length - index,
-            }"
-          />
-        </div>
+        <component
+          v-for="(node, index) in nodes.hide"
+          :key="index"
+          :is="node"
+          :style="{
+            border: '2px solid #fff',
+            zIndex: zIndexAscend ? index + 1 : nodes.hide.length - index,
+            marginLeft: '-10px',
+          }"
+        />
       </template>
     </yc-popover>
   </div>
@@ -38,7 +38,7 @@
 
 <script lang="ts" setup>
 import { toRefs, computed, useSlots } from 'vue';
-import { AvatarGroupProps } from './type';
+import { AvatarGroupProps, AvatarGroupSlots } from './type';
 import { findComponentsFromVnodes } from '@shared/utils';
 import useProvide from './hooks/useProvide';
 import YcAvatar from './index';
@@ -46,6 +46,7 @@ import YcPopover from '@/components/Popover';
 defineOptions({
   name: 'AvatarGroup',
 });
+defineSlots<AvatarGroupSlots>();
 const props = withDefaults(defineProps<AvatarGroupProps>(), {
   size: 40,
   shape: 'round',

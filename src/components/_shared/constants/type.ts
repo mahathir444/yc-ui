@@ -67,3 +67,11 @@ export const BUTTON_GROUP_STAUTS_CLASS =
   getComponentStatusMap('yc-button-group');
 
 export const LINK_STATUS_CLASS = getComponentStatusMap('yc-link');
+
+export const BADGE_STATUS_CLASS = getComponentStatusMap('yc-badge', [
+  'normal',
+  'processing',
+  'success',
+  'warning',
+  'danger',
+]);
