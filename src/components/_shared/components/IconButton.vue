@@ -17,7 +17,7 @@ const props = withDefaults(
     hoverSize?: number;
   }>(),
   {
-    size: 14,
+    size: 12,
     hoverColor: 'rgb(242, 243, 245)',
     hoverSize: 20,
   }

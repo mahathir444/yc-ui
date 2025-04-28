@@ -53,7 +53,6 @@
             <!-- clear -->
             <yc-icon-button
               v-if="showClearBtn"
-              :size="12"
               class="yc-select-clear-icon"
               @click="$emit('clear')"
             />

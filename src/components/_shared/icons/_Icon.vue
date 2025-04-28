@@ -11,7 +11,7 @@
 </template>
 
 <script lang="ts" setup>
-import { toRefs, computed, CSSProperties } from 'vue';
+import { toRefs, computed, CSSProperties, useAttrs } from 'vue';
 type IconProps = {
   strokeWidth?: number;
   strokeLinecap?: 'butt' | 'round' | 'square';
@@ -38,6 +38,7 @@ const {
   strokeLinejoin,
   strokeWidth,
 } = toRefs(props);
+const $attrs = useAttrs();
 // 计算style
 const style = computed(() => {
   let width = '';
@@ -71,6 +72,7 @@ const attrs = computed(() => {
     'stroke-width': strokeWidth.value,
     'stroke-linecap': strokeLinecap.value,
     'stroke-linejoin': strokeLinejoin.value,
+    ...($attrs || {}),
   };
 });
 </script>

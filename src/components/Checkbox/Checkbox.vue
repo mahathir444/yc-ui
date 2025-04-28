@@ -6,8 +6,8 @@
       'yc-checkbox': true,
       'yc-checkbox-disabled': disabled,
       'yc-checkbox-unchecked': !computedChecked && !indeterminate,
-      'yc-checkbox-checked': computedChecked && !indeterminate,
       'yc-checkbox-indeterminate': !computedChecked && indeterminate,
+      'yc-checkbox-checked': computedChecked,
     }"
   >
     <input
@@ -26,13 +26,7 @@
         "
       >
         <span class="yc-checkbox-icon">
-          <icon-check
-            v-show="computedChecked"
-            :size="[8, 10]"
-            height="200"
-            width="200"
-            fill="currentColor"
-          />
+          <icon-check v-show="computedChecked" :size="[8, 10]" />
         </span>
       </yc-icon-button>
       <span class="yc-checkbox-label text-ellipsis">

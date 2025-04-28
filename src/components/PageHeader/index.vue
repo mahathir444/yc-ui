@@ -6,7 +6,11 @@
       </div>
       <div class="yc-page-header-header">
         <div class="yc-page-header-main">
-          <yc-icon-button :hover-size="30" @click="$emit('back', $event)">
+          <yc-icon-button
+            :size="14"
+            :hover-size="30"
+            @click="$emit('back', $event)"
+          >
             <slot name="back-icon">
               <icon-arrow-right />
             </slot>

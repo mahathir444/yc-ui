@@ -27,7 +27,6 @@
     <yc-icon-button
       v-if="closeable"
       :hover-size="16"
-      :size="12"
       hover-color="rgba(255, 255, 255, 0.2)"
       class="yc-tag-close-button"
       @click="handleEvent('close', $event)"
