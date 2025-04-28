@@ -35,6 +35,7 @@
     </span>
 
     <div
+      v-if="$slots['trigger-icon']"
       :class="{
         'yc-avatar-trigger-icon-button': triggerType == 'button',
         'yc-avatar-trigger-icon-mask': triggerType == 'mask',
@@ -52,6 +53,7 @@ import { AVATAR_SHAPE_CLASS } from '@shared/constants';
 import { useResizeObserver } from '@vueuse/core';
 import { IconImageClose } from '@shared/icons';
 import { AvatarProps, AvatarSlot, AvatarEmits } from './type';
+import useProvide from './hooks/useProvide';
 defineOptions({
   name: 'Avatar',
 });
@@ -68,7 +70,9 @@ const props = withDefaults(defineProps<AvatarProps>(), {
   objectFit: 'cover',
 });
 const emits = defineEmits<AvatarEmits>();
-const { size, autoFixFontSize } = toRefs(props);
+// 接收注入
+const { inject } = useProvide();
+const { size, autoFixFontSize, shape } = inject(props);
 // 是否加载错误
 const isLoadError = ref<boolean>(false);
 // scale

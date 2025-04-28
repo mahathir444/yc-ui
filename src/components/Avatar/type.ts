@@ -1,7 +1,8 @@
 import { CSSProperties } from 'vue';
+import { TriggerProps } from '../Trigger';
 
 export interface AvatarProps {
-  shape?: 'square' | 'round';
+  shape?: AvatarShape;
   imageUrl?: string;
   size?: number;
   autoFixFontSize?: boolean;
@@ -9,6 +10,18 @@ export interface AvatarProps {
   triggerIconStyle?: CSSProperties;
   objectFit?: 'cover' | 'contain' | 'fill' | 'none';
 }
+
+export interface AvatarGroupProps {
+  shape?: AvatarShape;
+  size?: number;
+  autoFixFontSize?: boolean;
+  maxCount?: number;
+  zIndexAscend?: boolean;
+  maxStyle?: CSSProperties;
+  maxPopoverTriggerProps?: TriggerProps;
+}
+
+export type AvatarShape = 'square' | 'round';
 
 export interface AvatarEmits {
   (e: 'click', ev: MouseEvent): void;

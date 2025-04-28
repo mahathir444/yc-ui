@@ -12,6 +12,7 @@ declare module 'vue' {
     AAnchor: typeof import('@arco-design/web-vue')['Anchor']
     AAnchorLink: typeof import('@arco-design/web-vue')['AnchorLink']
     AAvatar: typeof import('@arco-design/web-vue')['Avatar']
+    AAvatarGroup: typeof import('@arco-design/web-vue')['AvatarGroup']
     ACollapse: typeof import('@arco-design/web-vue')['Collapse']
     ACollapseItem: typeof import('@arco-design/web-vue')['CollapseItem']
     Affix: typeof import('./src/components/Affix/index.vue')['default']

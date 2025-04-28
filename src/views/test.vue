@@ -50,26 +50,27 @@
         </yc-menu>
       </yc-layout-header>
       <yc-layout-content class="content">
-        <a-avatar
-          @click="
-            () => {
-              console.log('click');
-            }
-          "
+        <a-avatar-group
+          shape="square"
+          :max-count="3"
+          :max-popover-trigger-props="{
+            trigger: 'click',
+          }"
         >
-          小李
+          <a-avatar> 小李 </a-avatar>
+          <a-avatar> 小李 </a-avatar>
+          <a-avatar> 小李 </a-avatar>
+          <a-avatar> 小李 </a-avatar>
+          <a-avatar> 小李 </a-avatar>
+        </a-avatar-group>
 
-          <template #trigger-icon>
-            <IconEdit />
-          </template>
-        </a-avatar>
-        <yc-avatar trigger-type="mask">
-          小李
-
-          <template #trigger-icon>
-            <IconEdit />
-          </template>
-        </yc-avatar>
+        <yc-avatar-group shape="square" :max-count="3">
+          <yc-avatar> 小李 </yc-avatar>
+          <yc-avatar> 小李 </yc-avatar>
+          <yc-avatar> 小李 </yc-avatar>
+          <yc-avatar> 小李 </yc-avatar>
+          <yc-avatar> 小李 </yc-avatar>
+        </yc-avatar-group>
       </yc-layout-content>
     </yc-layout>
   </yc-layout>
