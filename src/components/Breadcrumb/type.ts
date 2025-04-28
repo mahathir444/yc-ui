@@ -19,9 +19,3 @@ export interface BreadcrumbRoute {
   path?: string;
   children?: BreadcrumbRoute[];
 }
-
-export interface BreadcrumbProvide {
-  index: Ref<number>;
-  maxCount: Ref<number>;
-  separator: Ref<string | number>;
-}

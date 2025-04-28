@@ -75,17 +75,16 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, toRefs, computed, inject } from 'vue';
-import { InputProvide, InputEmits } from '../type';
-import { INPUT_PROVIDE_KEY } from '@shared/constants';
+import { ref, toRefs, computed } from 'vue';
+import { InputEmits } from '../type';
 import { INPUT_SIZE_CLASS } from '@shared/constants';
 import { useControlValue, useConfigProvder } from '@shared/hooks';
 import useLimitedInput from '../hooks/useLimitedInput';
+import useProvide from '../hooks/useProvide';
 import InputSuffix from './InputSuffix.vue';
 import { YcPreventFocus } from '@shared/components';
-const { props, emits } = inject<InputProvide>(INPUT_PROVIDE_KEY, {
-  emits: () => {},
-});
+const { inject } = useProvide();
+const { props, emits } = inject();
 const {
   visibility,
   defaultVisibility,

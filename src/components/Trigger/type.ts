@@ -1,5 +1,5 @@
-import { CSSProperties, Ref } from 'vue';
-import { PopupContainer, RequiredDeep } from '@shared/type';
+import { CSSProperties } from 'vue';
+import { PopupContainer } from '@shared/type';
 export type TriggerProps = {
   popupVisible?: boolean;
   defaultPopupVisible?: boolean;
@@ -43,8 +43,6 @@ export type TriggerProps = {
   onTriggerFocus?: () => void;
   onTriggerBlur?: () => void;
 };
-
-export type TriggerPropsRequired = RequiredDeep<TriggerProps>;
 
 export interface TriggerEmits {
   (e: 'update:popupVisible', value: boolean): void;

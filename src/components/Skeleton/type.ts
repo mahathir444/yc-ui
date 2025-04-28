@@ -16,8 +16,3 @@ export interface SkeletonShapeProps {
   shape?: 'sqaure' | 'circle';
   size?: 'small' | 'medium' | 'large';
 }
-
-export type SkeletonProvide = {
-  animation: Ref<boolean>;
-  loading: Ref<boolean>;
-};

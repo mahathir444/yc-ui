@@ -62,17 +62,12 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, provide } from 'vue';
-import {
-  InputProps,
-  InputPropsRequired,
-  InputEmits,
-  InputProvide,
-} from './type';
+import { ref } from 'vue';
+import { InputProps, InputEmits } from './type';
 import { INPUT_OUTER_SIZE_CLASS } from '@shared/constants';
-import { INPUT_PROVIDE_KEY } from '@shared/constants';
 import YcInput from './component/Input.vue';
 import { YcPreventFocus } from '@shared/components';
+import useProvide from './hooks/useProvide';
 defineOptions({
   name: 'Input',
 });
@@ -113,10 +108,9 @@ const props = withDefaults(defineProps<InputProps>(), {
   showInput: false,
 });
 const emits = defineEmits<InputEmits>();
-provide<InputProvide>(INPUT_PROVIDE_KEY, {
-  props: props as InputPropsRequired,
-  emits,
-});
+// 注入
+const { provide } = useProvide();
+provide(props, emits);
 // 输入实例
 const inputRef = ref<InstanceType<typeof YcInput>>();
 // 暴露方法

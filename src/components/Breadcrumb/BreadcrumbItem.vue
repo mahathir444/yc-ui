@@ -50,8 +50,8 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, inject, computed, toRefs } from 'vue';
-import { BreadcrumbItemProps, BreadcrumbProvide } from './type';
+import { ref, computed, toRefs } from 'vue';
+import { BreadcrumbItemProps } from './type';
 import {
   default as YcDropdown,
   Doption as YcDoption,
@@ -62,7 +62,7 @@ import {
   IconMore,
   IconSeparator,
 } from '@shared/icons';
-import { BREADCRUMB_PROVIDE_KEY } from '@shared/constants';
+import useProvide from './hooks/useProvide';
 defineOptions({
   name: 'BreadcrumbItem',
 });
@@ -76,15 +76,8 @@ const props = withDefaults(defineProps<BreadcrumbItemProps>(), {
 });
 const { separator } = toRefs(props);
 // 接收数据
-const {
-  index,
-  maxCount,
-  separator: _separator,
-} = inject<BreadcrumbProvide>(BREADCRUMB_PROVIDE_KEY, {
-  index: ref(-1),
-  maxCount: ref(0),
-  separator: ref(''),
-});
+const { inject } = useProvide();
+const { index, maxCount, separator: _separator } = inject();
 // popupVisible
 const popupVisible = ref<boolean>(false);
 // 当前的Index

@@ -11,6 +11,7 @@ import { TooltipProps } from '@/components/Tooltip';
 import { TriggerProps } from '@/components/Trigger';
 import { MenuMode, PopupMaxHeight, MenuEmits } from '../type';
 import { useControlValue } from '@shared/hooks';
+import { ChlidTreeNode } from './useMenuLevel';
 import useCalcVisible from './useCalcVisible';
 
 export const MENU_PROVIDE_KEY = 'menu-props';
@@ -37,14 +38,6 @@ export type MenuItemData = {
   width: number;
   childTree: ChlidTreeNode[];
 };
-
-export interface ChlidTreeNode {
-  label: string;
-  type: 'menuitem' | 'submenu';
-  level: number;
-  path: string;
-  children?: ChlidTreeNode[];
-}
 
 type Props = Reactive<Record<string, any>>;
 

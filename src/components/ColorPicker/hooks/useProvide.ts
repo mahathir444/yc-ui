@@ -7,11 +7,8 @@ import {
   inject as _inject,
   Reactive,
 } from 'vue';
-import {
-  ColorPickerPropsRequired,
-  ColorPickerEmits,
-  ColorFormat,
-} from '../type';
+import { RequiredDeep } from '@shared/type';
+import { ColorPickerProps, ColorPickerEmits, ColorFormat } from '../type';
 import { parseColor } from '@shared/utils';
 import { useControlValue, useConfigProvder } from '@shared/hooks';
 
@@ -26,6 +23,8 @@ export type ColorPickerProvide = {
   format: WritableComputedRef<ColorFormat> | Ref<ColorFormat>;
   alpha: Ref<number>;
 };
+
+export type ColorPickerPropsRequired = RequiredDeep<ColorPickerProps>;
 
 type Props = Reactive<Record<string, any>>;
 

@@ -1,8 +1,12 @@
 import { computed, Ref, ref, toRefs } from 'vue';
 import { isFunction, isNumber } from '@shared/utils';
 import { useControlValue, useCursor } from '@shared/hooks';
-import { TextareaPropsRequired, TextareaEmits } from '@/components/Textarea';
-import { InputPropsRequired, InputEmits } from '@/components/Input';
+import { RequiredDeep } from '@shared/type';
+import { TextareaProps, TextareaEmits } from '@/components/Textarea';
+import { InputProps, InputEmits } from '@/components/Input';
+
+export type TextareaPropsRequired = RequiredDeep<TextareaProps>;
+export type InputPropsRequired = RequiredDeep<InputProps>;
 
 export default (params: {
   props: InputPropsRequired | TextareaPropsRequired;

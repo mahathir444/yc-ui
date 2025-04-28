@@ -54,18 +54,5 @@ export interface MenuItemGroupProps {
 }
 
 export type MenuMode = 'vertical' | 'pop' | 'horizontal';
+
 export type PopupMaxHeight = boolean | number;
-
-export interface SubMenuProvide {
-  childKeys: Ref<ChlidKey[]>;
-  level: Ref<number>;
-  childLevel: number;
-  popupMaxHeight: ComputedRef<number> | Ref<number>;
-}
-
-export type ChlidKey = {
-  level: number;
-  type: 'menuitem' | 'submenu';
-  label: string;
-  path: string;
-};

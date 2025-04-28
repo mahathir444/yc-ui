@@ -18,10 +18,10 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, toRefs, inject } from 'vue';
-import { AnchorLinkProps, AnchorLinkSlot, AnchorProvide } from './type';
+import { ref, toRefs } from 'vue';
+import { AnchorLinkProps, AnchorLinkSlot } from './type';
 import { isNumber, getElement } from '@shared/utils';
-import { ANCHOR_PROVIDE_KEY } from '@shared/constants';
+import useProvide from './hooks/useProvide';
 defineOptions({
   name: 'AnchorLink',
 });
@@ -31,7 +31,8 @@ const props = withDefaults(defineProps<AnchorLinkProps>(), {
   href: '',
 });
 const { href } = toRefs(props);
-// 获取属性
+// 接收注入
+const { inject } = useProvide();
 const {
   smooth,
   boundary,
@@ -41,16 +42,7 @@ const {
   order,
   lineLess,
   scrollContainer,
-} = inject<AnchorProvide>(ANCHOR_PROVIDE_KEY, {
-  hrefs: ref<string[]>([]),
-  order: ref(0),
-  changeHash: ref(true),
-  smooth: ref(true),
-  boundary: ref('start'),
-  curHref: ref(''),
-  lineLess: ref(false),
-  scrollContainer: ref<HTMLElement>(),
-});
+} = inject();
 // 初始化收集herfs
 const collectHref = () => {
   hrefs.value[order.value] = href.value;

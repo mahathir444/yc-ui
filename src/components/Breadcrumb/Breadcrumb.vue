@@ -31,9 +31,9 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, toRefs, provide } from 'vue';
-import { BreadcrumbProps, BreadcrumbProvide } from './type';
-import { BREADCRUMB_PROVIDE_KEY } from '@shared/constants';
+import { toRefs } from 'vue';
+import { BreadcrumbProps } from './type';
+import useProvide from './hooks/useProvide';
 import { BreadcrumbItem as YcBreadcrumbItem } from './index';
 defineOptions({
   name: 'Breadcrumb',
@@ -44,21 +44,16 @@ const props = withDefaults(defineProps<BreadcrumbProps>(), {
   separator: '',
   customUrl: undefined,
 });
-const { maxCount, separator, routes } = toRefs(props);
-// 次序
-const index = ref<number>(-1);
-
+const { routes } = toRefs(props);
+// 注入数据
+const { provide } = useProvide();
+provide(props);
+// 获取path
 const getPaths = (index: number) => {
   return routes.value
     .slice(0, index + 1)
     .map((item) => item.path?.replace(/\//g, '')) as string[];
 };
-// 发放数据
-provide<BreadcrumbProvide>(BREADCRUMB_PROVIDE_KEY, {
-  index,
-  maxCount,
-  separator,
-});
 </script>
 
 <style lang="less" scoped>

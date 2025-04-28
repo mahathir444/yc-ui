@@ -52,7 +52,6 @@ const { x, y } = useDraggable(btnRef, {
   onMove() {
     setColor();
   },
-  containerElement: paletteRef,
 });
 // 处理点击
 const handleClick = (e: MouseEvent) => {

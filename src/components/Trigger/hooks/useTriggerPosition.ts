@@ -1,10 +1,11 @@
 import { computed, CSSProperties, Ref, ref, toRefs } from 'vue';
 import { useElementBounding, useElementSize } from '@vueuse/core';
-import { TriggerPropsRequired, TriggerPostion } from '../type';
+import { TriggerPostion, TriggerProps } from '../type';
+import { TriggerPropsRequired } from './useTriggerNested';
 import { useConfigProvder } from '@shared/hooks';
 
 export default (params: {
-  props: TriggerPropsRequired;
+  props: TriggerProps;
   popupRef: Ref<HTMLDivElement | undefined>;
   triggerRef: Ref<HTMLElement | undefined>;
   mouseX: Ref<number>;
@@ -24,7 +25,7 @@ export default (params: {
     position: _position,
     arrowStyle: _arrowStyle,
     contentStyle: _contentStyle,
-  } = toRefs(props);
+  } = toRefs(props as TriggerPropsRequired);
   // 接收provider传入的属性
   const { updateAtScroll } = useConfigProvder(props);
   // 动态计算当前的位置
@@ -119,9 +120,6 @@ export default (params: {
       popupOffset.value,
       position.value
     );
-    console.log(_position.value, 'position');
-    console.log(position.value, 'position');
-
     return {
       left: `${newLeft + newOffsetX}px`,
       top: `${newTop + newOffsetY}px`,

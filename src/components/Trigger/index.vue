@@ -57,7 +57,7 @@
 
 <script lang="ts" setup>
 import { ref, computed, watch, useSlots } from 'vue';
-import { TriggerProps, TriggerPropsRequired, TriggerEmits } from './type';
+import { TriggerProps, TriggerEmits } from './type';
 import { TRIGGER_POSITION_MAP } from '@shared/constants';
 import { findFirstLegitChild, sleep } from '@shared/utils';
 import { useConfigProvder } from '@shared/hooks';
@@ -133,7 +133,7 @@ const {
   handleClickOutsideClose,
   handleScrollToClose,
 } = useTriggerVisible({
-  props: props as TriggerPropsRequired,
+  props,
   emits,
   popupRef,
   triggerRef,
@@ -153,7 +153,7 @@ const {
   contentStyle,
   arrowStyle,
 } = useTriggerPosition({
-  props: props as TriggerPropsRequired,
+  props,
   popupRef,
   triggerRef,
   mouseX,

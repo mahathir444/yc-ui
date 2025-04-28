@@ -1,5 +1,5 @@
 import { WordLength, WordSlice, MaxLength } from '../Input';
-import { RequiredDeep } from '@shared/type';
+
 export interface TextareaProps {
   modelValue?: string;
   defaultValue?: string;
@@ -17,8 +17,6 @@ export interface TextareaProps {
   enterPrevent?: boolean;
   showMirror?: boolean;
 }
-
-export type TextareaPropsRequired = RequiredDeep<TextareaProps>;
 
 export interface TextareaEmits {
   (e: 'update:modelValue', value: string): void;

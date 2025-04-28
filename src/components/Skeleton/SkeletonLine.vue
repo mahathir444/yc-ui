@@ -1,10 +1,7 @@
 <template>
   <div class="yc-skeleton-line">
     <div
-      :class="{
-        'yc-skeleton-line-row': true,
-        'yc-skeleton-animation': animation,
-      }"
+      class="yc-skeleton-line-row"
       v-for="i in rows"
       :key="i"
       :style="{
@@ -16,9 +13,8 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, inject, toRefs, computed } from 'vue';
-import { SkeletonLineProps, SkeletonProvide } from './type';
-import { SKELETON_PROVIDE_KEY } from '@shared/constants';
+import { toRefs, computed } from 'vue';
+import { SkeletonLineProps } from './type';
 defineOptions({
   name: 'SkeletonLine',
 });
@@ -31,11 +27,6 @@ const props = withDefaults(defineProps<SkeletonLineProps>(), {
 const { lineSpacing } = toRefs(props);
 // gap
 const gap = computed(() => `${lineSpacing.value}px`);
-// 接收
-const { animation } = inject<SkeletonProvide>(SKELETON_PROVIDE_KEY, {
-  animation: ref(false),
-  loading: ref(false),
-});
 </script>
 
 <style lang="less" scoped>

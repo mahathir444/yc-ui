@@ -15,14 +15,9 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, onMounted, ref, toRefs, provide } from 'vue';
-import { AnchorProps, AnchorSlot, AnchorProvide } from './type';
-import { ANCHOR_PROVIDE_KEY } from '@shared/constants';
-import {
-  getElement,
-  findFirstScrollableParent,
-  isUndefined,
-} from '@shared/utils';
+import { computed, onMounted, ref } from 'vue';
+import { AnchorProps, AnchorSlot } from './type';
+import useProvide from './hooks/useProvide';
 defineOptions({
   name: 'Anchor',
 });
@@ -34,23 +29,13 @@ const props = withDefaults(defineProps<AnchorProps>(), {
   changeHash: true,
   smooth: true,
 });
-const {
-  changeHash,
-  smooth,
-  boundary,
-  lineLess,
-  scrollContainer: _scrollContainer,
-} = toRefs(props);
 // 获取listRef
 const listRef = ref<HTMLDivElement>();
 // listRef
 const linkRefs = ref<HTMLDivElement[]>([]);
-// 当前的link
-const curHref = ref<string>('');
-// hrefs
-const hrefs = ref<string[]>([]);
-// order次序
-const order = ref<number>(0);
+// 注入
+const { provide } = useProvide();
+const { curHref, hrefs } = provide(props, listRef);
 // 计算top
 const top = computed(() => {
   const curIndex = hrefs.value.findIndex((item) => item == curHref.value);
@@ -64,25 +49,7 @@ const top = computed(() => {
         return pre + cur;
       }
     }, 0);
-  console.log(offset, 'offset');
   return offset + curIndex * 2;
-});
-// 滚动容器
-const scrollContainer = computed(() => {
-  return isUndefined(_scrollContainer.value)
-    ? findFirstScrollableParent(listRef.value)
-    : getElement(_scrollContainer.value);
-});
-// 提供属性
-provide<AnchorProvide>(ANCHOR_PROVIDE_KEY, {
-  hrefs,
-  order,
-  changeHash,
-  smooth,
-  boundary,
-  lineLess,
-  curHref,
-  scrollContainer,
 });
 
 onMounted(() => {
