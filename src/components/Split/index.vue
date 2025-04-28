@@ -45,11 +45,7 @@ import { sleep } from '@shared/utils';
 import { SPLIT_DIRECTION_MAP } from '@shared/constants';
 import { IconDragDotVertical, IconDragDot } from '@shared/icons';
 import { useControlValue } from '@shared/hooks';
-import {
-  useElementBounding,
-  useDraggable,
-  useEventListener,
-} from '@vueuse/core';
+import { useElementBounding, useDraggable } from '@vueuse/core';
 defineOptions({
   name: 'Split',
 });
@@ -74,8 +70,6 @@ const triggerRef = ref<HTMLDivElement>();
 const { width, height, left, top } = useElementBounding(splitRef, {
   updateTiming: 'next-frame',
 });
-// 拖动
-const { isDragging, x, y } = useDraggable(triggerRef);
 // 受控的size
 const computedSize = useControlValue<number>(size, defaultSize.value, (val) => {
   emits('update:size', val);
@@ -84,6 +78,30 @@ const rate = computed(() => {
   const value =
     valueType == 'rate' ? computedSize.value : getRate(computedSize.value);
   return value * 100 + '%';
+});
+// 拖动
+const { isDragging, x, y } = useDraggable(triggerRef, {
+  onMove() {
+    emits('moving');
+    const base = direction.value == 'horizontal' ? left.value : top.value;
+    const minValue = base + getValue(min.value);
+    const maxValue = base + getValue(max.value);
+    if (direction.value == 'horizontal') {
+      x.value = x.value < minValue ? minValue : x.value;
+      x.value = x.value > maxValue ? maxValue : x.value;
+      computedSize.value =
+        valueType == 'value'
+          ? x.value - left.value
+          : getRate(x.value - left.value);
+    } else {
+      y.value = y.value < minValue ? minValue : y.value;
+      y.value = y.value > maxValue ? maxValue : y.value;
+      computedSize.value =
+        valueType == 'value'
+          ? y.value - top.value
+          : getRate(y.value - top.value);
+    }
+  },
 });
 // 获取具体的数值
 const getValue = (value: number) => {
@@ -95,27 +113,6 @@ const getRate = (value: number) => {
   const base = direction.value == 'horizontal' ? width.value : height.value;
   return value / base;
 };
-// 处理拖动
-useEventListener('mousemove', () => {
-  if (!isDragging.value) return;
-  emits('moving');
-  const base = direction.value == 'horizontal' ? left.value : top.value;
-  const minValue = base + getValue(min.value);
-  const maxValue = base + getValue(max.value);
-  if (direction.value == 'horizontal') {
-    x.value = x.value < minValue ? minValue : x.value;
-    x.value = x.value > maxValue ? maxValue : x.value;
-    computedSize.value =
-      valueType == 'value'
-        ? x.value - left.value
-        : getRate(x.value - left.value);
-  } else {
-    y.value = y.value < minValue ? minValue : y.value;
-    y.value = y.value > maxValue ? maxValue : y.value;
-    computedSize.value =
-      valueType == 'value' ? y.value - top.value : getRate(y.value - top.value);
-  }
-});
 // 检测值的改变
 watch(
   () => computedSize.value,

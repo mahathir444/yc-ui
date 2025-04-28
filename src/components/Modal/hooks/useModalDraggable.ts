@@ -1,5 +1,5 @@
 import { ref, Ref, computed, CSSProperties, watch } from 'vue';
-import { useDraggable, useEventListener } from '@vueuse/core';
+import { useDraggable } from '@vueuse/core';
 import { sleep } from '@shared/utils';
 
 export default (params: {
@@ -25,7 +25,17 @@ export default (params: {
   const originX = ref<number>(0);
   const originY = ref<number>(0);
   //   拖拽
-  const { x, y, isDragging } = useDraggable(triggerRef);
+  const { x, y } = useDraggable(triggerRef, {
+    onMove() {
+      if (!isDraggable.value) return;
+      const maxX = window.innerWidth - modalRef.value!.offsetWidth;
+      const maxY = window.innerHeight - modalRef.value!.offsetHeight;
+      x.value = x.value >= maxX ? maxX : x.value;
+      x.value = x.value <= 0 ? 0 : x.value;
+      y.value = y.value >= maxY ? maxY : y.value;
+      y.value = y.value <= 0 ? 0 : y.value;
+    },
+  });
   // 是否可拖拽
   const isDraggable = computed(() => draggable.value && !fullscreen.value);
   // 拖拽样式
@@ -39,16 +49,6 @@ export default (params: {
           left: `${originX.value}px`,
           top: `${originY.value}px`,
         };
-  });
-  // 处理拖拽越界
-  useEventListener('mousemove', () => {
-    if (!isDragging.value || !isDraggable.value) return;
-    const maxX = window.innerWidth - modalRef.value!.offsetWidth;
-    const maxY = window.innerHeight - modalRef.value!.offsetHeight;
-    x.value = x.value >= maxX ? maxX : x.value;
-    x.value = x.value <= 0 ? 0 : x.value;
-    y.value = y.value >= maxY ? maxY : y.value;
-    y.value = y.value <= 0 ? 0 : y.value;
   });
   // 计算初始位置
   watch(

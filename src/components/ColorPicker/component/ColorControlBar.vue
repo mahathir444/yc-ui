@@ -23,7 +23,7 @@
 
 <script lang="ts" setup>
 import { ref, watch, toRefs } from 'vue';
-import { useDraggable, useEventListener } from '@vueuse/core';
+import { useDraggable } from '@vueuse/core';
 import { sleep } from '@shared/utils';
 import { GradientColorCalculator, parseColor } from '@shared/utils';
 const props = defineProps<{
@@ -44,8 +44,6 @@ const { color, mode, popupVisible, disabled } = toRefs(props);
 const btnRef = ref<HTMLDivElement>();
 // barRef
 const barRef = ref<HTMLDivElement>();
-// draggable hook
-const { x, isDragging } = useDraggable(btnRef);
 // 旧的x
 let oldX = 0;
 // 位移范围
@@ -55,6 +53,12 @@ const range = ref<Record<string, number>>({
 });
 // 计算器
 const calculator = new GradientColorCalculator();
+// draggable hook
+const { x } = useDraggable(btnRef, {
+  onMove() {
+    setColor();
+  },
+});
 // 设置position
 const setPosition = (color: string) => {
   const { max, min } = range.value;
@@ -95,11 +99,6 @@ const handleClick = (e: MouseEvent) => {
   x.value = e.pageX;
   setColor();
 };
-// 处理拖动
-useEventListener('mousemove', () => {
-  if (!isDragging.value) return;
-  setColor();
-});
 // 检测visible
 watch(
   () => popupVisible.value,

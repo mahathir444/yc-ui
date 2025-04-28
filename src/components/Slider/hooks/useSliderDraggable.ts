@@ -1,7 +1,7 @@
 import { reactive, Ref, watch, nextTick, computed } from 'vue';
 import { PositionData, RangeData } from '../index';
 import { Direction } from '@shared/type';
-import { useDraggable, useEventListener } from '@vueuse/core';
+import { useDraggable } from '@vueuse/core';
 export default (params: {
   computedValue: Ref<number>;
   trackRef: Ref<HTMLDivElement | undefined>;
@@ -23,7 +23,31 @@ export default (params: {
     disabled,
   } = params;
   // 处理Button拖动
-  const { x, y, isDragging } = useDraggable(triggerRef);
+  const { x, y, isDragging } = useDraggable(triggerRef, {
+    onMove() {
+      if (disabled.value) {
+        y.value = oldY;
+        x.value = oldX;
+      }
+      // 给出范围
+      const { minTop, maxTop, minLeft, maxLeft } = moveRange;
+      let value;
+      // 处理不同情况的拖动
+      if (direction.value == 'vertical') {
+        y.value = y.value > minTop ? minTop : y.value;
+        y.value = y.value < maxTop ? maxTop : y.value;
+        oldY = y.value;
+        value = calcValueFromPosition(y.value);
+      } else {
+        x.value = x.value < minLeft ? minLeft : x.value;
+        x.value = x.value > maxLeft ? maxLeft : x.value;
+        oldX = x.value;
+        value = calcValueFromPosition(x.value);
+      }
+      setPositionFromValue(value);
+      computedValue.value = value;
+    },
+  });
   let oldX = x.value;
   let oldY = y.value;
   // 最大值
@@ -92,31 +116,6 @@ export default (params: {
       position.transform = `translate(calc(${translateX}px - 50%),-50%)`;
     }
   };
-  // 处理越界情况
-  useEventListener('mousemove', () => {
-    if (!isDragging.value) return;
-    if (disabled.value) {
-      y.value = oldY;
-      x.value = oldX;
-    }
-    // 给出范围
-    const { minTop, maxTop, minLeft, maxLeft } = moveRange;
-    let value;
-    // 处理不同情况的拖动
-    if (direction.value == 'vertical') {
-      y.value = y.value > minTop ? minTop : y.value;
-      y.value = y.value < maxTop ? maxTop : y.value;
-      oldY = y.value;
-      value = calcValueFromPosition(y.value);
-    } else {
-      x.value = x.value < minLeft ? minLeft : x.value;
-      x.value = x.value > maxLeft ? maxLeft : x.value;
-      oldX = x.value;
-      value = calcValueFromPosition(x.value);
-    }
-    setPositionFromValue(value);
-    computedValue.value = value;
-  });
   // 检测min,max计算范围
   watch(
     [min, max],

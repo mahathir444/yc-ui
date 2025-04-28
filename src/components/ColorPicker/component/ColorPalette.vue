@@ -19,11 +19,7 @@
 
 <script lang="ts" setup>
 import { ref, watch, toRefs, computed } from 'vue';
-import {
-  useDraggable,
-  useEventListener,
-  useElementBounding,
-} from '@vueuse/core';
+import { useDraggable, useElementBounding } from '@vueuse/core';
 import { sleep } from '@shared/utils';
 import { parseColor } from '@shared/utils';
 const props = defineProps<{
@@ -41,16 +37,23 @@ const { popupVisible, baseColor, disabled } = toRefs(props);
 const btnRef = ref<HTMLDivElement>();
 // 面板实例
 const paletteRef = ref<HTMLDivElement>();
-// dragger
-const { x, y, isDragging } = useDraggable(btnRef);
 // plate的宽高
-const { width, height, top, left } = useElementBounding(paletteRef);
+const { width, height, top, left } = useElementBounding(paletteRef, {
+  updateTiming: 'next-frame',
+});
 // hsv
 const hsv = computed(() => {
   return parseColor(baseColor.value).toHsv();
 });
 let oldX = 0;
 let oldY = 0;
+// dragger
+const { x, y } = useDraggable(btnRef, {
+  onMove() {
+    setColor();
+  },
+  containerElement: paletteRef,
+});
 // 处理点击
 const handleClick = (e: MouseEvent) => {
   if (disabled.value) return;
@@ -80,11 +83,6 @@ const setColor = () => {
   oldX = x.value;
   oldY = y.value;
 };
-// 处理hanler越界的问题
-useEventListener('mousemove', () => {
-  if (!isDragging.value) return;
-  setColor();
-});
 // 检测visible
 watch(
   () => popupVisible.value,

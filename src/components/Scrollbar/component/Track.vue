@@ -21,11 +21,7 @@
 
 <script lang="ts" setup>
 import { ref, toRefs, computed, inject } from 'vue';
-import {
-  useDraggable,
-  useResizeObserver,
-  useEventListener,
-} from '@vueuse/core';
+import { useDraggable, useResizeObserver } from '@vueuse/core';
 import { Direction } from '@shared/type';
 import { TRACK_DIRECTION_MAP, THUMB_DIRECTION_MAP } from '@shared/constants';
 import { SCROLLBAR_PROVIDE_KEY, ScrollbarProvide } from '../hooks/useProvide';
@@ -83,24 +79,23 @@ useResizeObserver(trackRef, () => {
 // dargRef
 const dragRef = ref<HTMLDivElement>();
 // 处理拖动
-const { x, y, isDragging } = useDraggable(dragRef);
-// 计算越界情况
-useEventListener('mousemove', () => {
-  if (!isDragging.value) return;
-  const { left, top } = scrollRef.value!.getBoundingClientRect();
-  const minTop = top;
-  const maxTop = movableTop.value + minTop;
-  const minLeft = left;
-  const maxLeft = movableLeft.value + minLeft;
-  if (isVertical.value) {
-    y.value = y.value <= minTop ? minTop : y.value;
-    y.value = y.value >= maxTop ? maxTop : y.value;
-    emits('drag', true, y.value - minTop);
-  } else {
-    x.value = x.value <= minLeft ? minLeft : x.value;
-    x.value = x.value >= maxLeft ? maxLeft : x.value;
-    emits('drag', false, x.value - minLeft);
-  }
+const { x, y, isDragging } = useDraggable(dragRef, {
+  onMove() {
+    const { left, top } = scrollRef.value!.getBoundingClientRect();
+    const minTop = top;
+    const maxTop = movableTop.value + minTop;
+    const minLeft = left;
+    const maxLeft = movableLeft.value + minLeft;
+    if (isVertical.value) {
+      y.value = y.value <= minTop ? minTop : y.value;
+      y.value = y.value >= maxTop ? maxTop : y.value;
+      emits('drag', true, y.value - minTop);
+    } else {
+      x.value = x.value <= minLeft ? minLeft : x.value;
+      x.value = x.value >= maxLeft ? maxLeft : x.value;
+      emits('drag', false, x.value - minLeft);
+    }
+  },
 });
 // 处理鼠标点击
 const handleClick = (e: MouseEvent) => {
