@@ -5,7 +5,7 @@
       style="max-height: 100vh"
       :popup-max-height="300"
     >
-      <yc-menu
+      <!-- <yc-menu
         v-model:collapsed="collapsed"
         show-collapse-button
         :popup-max-height="500"
@@ -20,33 +20,10 @@
             </yc-menu-item>
           </template>
         </yc-menu-item-group>
-      </yc-menu>
-      <a-menu
-        v-model:collapsed="collapsed"
-        theme="dark"
-        show-collapse-button
-        style="width: 100%"
-        :triggerProps="{
-          trigger: 'click',
-        }"
-      >
-        <a-menu-item-group title="测试">
-          <template v-for="(item, index) in menus" :key="item.path">
-            <a-menu-item :path="item.path">
-              <template #icon>
-                <icon-apps />
-              </template>
-              {{ item.title }}
-            </a-menu-item>
-          </template>
-        </a-menu-item-group>
-      </a-menu>
+      </yc-menu> -->
     </yc-layout-sider>
     <yc-layout class="main">
-      <yc-layout-header
-        class="header"
-        style="display: flex; flex-direction: column"
-      >
+      <yc-layout-header class="header">
         <yc-menu
           v-model:collapsed="collapsed"
           show-collapse-button
@@ -90,7 +67,7 @@ const menus = Array(5)
     overflow: hidden;
     // background-color: rgb(242, 243, 245);
     .header {
-      height: 200px;
+      // height: 200px;
       border-bottom: 1px solid rgb(229, 230, 235);
     }
     .content {

@@ -26,7 +26,7 @@
         "
       >
         <span class="yc-checkbox-icon">
-          <icon-check v-show="computedChecked" :size="[8, 10]" />
+          <icon-check :size="[8, 10]" />
         </span>
       </yc-icon-button>
       <span class="yc-checkbox-label text-ellipsis">

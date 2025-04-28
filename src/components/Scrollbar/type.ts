@@ -1,4 +1,4 @@
-import { CSSProperties, Ref, ComputedRef } from 'vue';
+import { CSSProperties } from 'vue';
 
 export interface ScrollbarProps {
   type?: TackType;

@@ -20,11 +20,11 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, toRefs, computed, inject } from 'vue';
+import { ref, toRefs, computed } from 'vue';
 import { useDraggable, useResizeObserver } from '@vueuse/core';
 import { Direction } from '@shared/type';
 import { TRACK_DIRECTION_MAP, THUMB_DIRECTION_MAP } from '@shared/constants';
-import { SCROLLBAR_PROVIDE_KEY, ScrollbarProvide } from '../hooks/useProvide';
+import useProvide from '../hooks/useProvide';
 const props = withDefaults(
   defineProps<{
     direction?: Direction;
@@ -39,6 +39,7 @@ const emits = defineEmits<{
 }>();
 const { direction } = toRefs(props);
 // 接受值
+const { inject } = useProvide();
 const {
   scrollRef,
   thumbHeight,
@@ -47,15 +48,7 @@ const {
   movableTop,
   curTop,
   curLeft,
-} = inject<ScrollbarProvide>(SCROLLBAR_PROVIDE_KEY, {
-  curTop: ref(0),
-  curLeft: ref(0),
-  movableLeft: ref(0),
-  movableTop: ref(0),
-  thumbHeight: ref(0),
-  thumbWidth: ref(0),
-  scrollRef: ref(),
-});
+} = inject();
 // 是否是垂直
 const isVertical = computed(() => direction.value == 'vertical');
 // thumbStyle

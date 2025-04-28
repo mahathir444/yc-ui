@@ -69,11 +69,7 @@
     </div>
     <div style="width: 300px">
       inputNumber
-      <yc-input-number
-        :formatter="formatter"
-        :parser="parser"
-        placeholder="请输入"
-      ></yc-input-number>
+      <yc-input-number placeholder="请输入"></yc-input-number>
     </div>
     <div style="width: 300px">
       switch
@@ -128,16 +124,6 @@ for (let i = 0; i < 30; i++) {
     value: i,
   });
 }
-const formatter = (value: string) => {
-  const values = value.split('.');
-  values[0] = values[0].replace(/\B(?=(\d{3})+(?!\d))/g, ',');
-
-  return values.join('.');
-};
-
-const parser = (value: string) => {
-  return value.replace(/,/g, '');
-};
 </script>
 
 <style lang="less" scoped>

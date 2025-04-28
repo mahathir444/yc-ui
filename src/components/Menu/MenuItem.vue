@@ -192,7 +192,7 @@ const handleClick = () => {
     return;
   }
   // submenu点击
-  if (isSubmenu.value) {
+  if (!isSubmenu.value) {
     computedSelectedKeys.value = path.value;
     return _emits('menuItemClick', path.value);
   }

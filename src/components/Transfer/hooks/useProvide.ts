@@ -69,7 +69,7 @@ export default () => {
     );
     // target
     const computedValueMap = computed(() => {
-      return Object.fromEntries(
+      return new Map(
         (computedValue.value as string[]).map((item) => {
           return [item, item];
         })
@@ -86,7 +86,7 @@ export default () => {
     // 源options
     const sourceOptions = computed(() => {
       return data.value.filter((item) => {
-        return !computedValueMap.value[item.value as string];
+        return !computedValueMap.value.has(item.value as string);
       });
     });
     // 目标options
@@ -99,13 +99,13 @@ export default () => {
     // 数据checked
     const sourceChecked = computed(() => {
       return computedSelected.value.filter(
-        (item: string) => !computedValueMap.value[item]
+        (item: string) => !computedValueMap.value.has(item)
       );
     });
     // 目标checked
     const targetChecked = computed(() => {
-      return computedSelected.value.filter(
-        (item: string) => computedValueMap.value[item]
+      return computedSelected.value.filter((item: string) =>
+        computedValueMap.value.has(item)
       );
     });
     // 提供给子组件

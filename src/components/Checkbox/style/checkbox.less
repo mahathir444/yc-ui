@@ -50,6 +50,23 @@
   }
 }
 
+// icon显影
+.yc-checkbox-checked {
+  .yc-checkbox-icon {
+    .yc-icon {
+      visibility: visible;
+    }
+  }
+}
+.yc-checkbox-unchecked,
+.yc-checkbox-indeterminate {
+  .yc-checkbox-icon {
+    .yc-icon {
+      visibility: hidden;
+    }
+  }
+}
+
 // 全选和半选
 // transition: border-color 0.1s cubic-bezier(0, 0, 1, 1);
 .yc-checkbox-unchecked {
@@ -68,6 +85,7 @@
     border-color: transparent;
     background-color: rgb(22, 93, 255);
   }
+
   &.yc-checkbox-disabled {
     .yc-checkbox-icon {
       border-color: transparent;
