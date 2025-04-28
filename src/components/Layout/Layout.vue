@@ -10,10 +10,10 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, provide, toRefs, computed } from 'vue';
-import { LayoutProps, LayoutProvide } from './type';
+import { toRefs, computed } from 'vue';
+import { LayoutProps } from './type';
 import { isUndefined } from '@shared/utils';
-import { LAYOUT_PROVIDE_KEY } from '@shared/constants';
+import useProvide from './hooks/useProvide';
 defineOptions({
   name: 'Layout',
 });
@@ -21,18 +21,13 @@ const props = withDefaults(defineProps<LayoutProps>(), {
   hasSider: undefined,
 });
 const { hasSider: _hasSider } = toRefs(props);
-// 是否有sider
-const hasSider = ref<boolean>(false);
-// 当前的level
-const curLevel = ref<number>(0);
+// 注入
+const { provide } = useProvide();
+const { hasSider, curLevel } = provide();
 // 是否有sider
 const computedHasSider = computed(() => {
   if (!isUndefined(_hasSider.value)) return _hasSider.value;
   return curLevel.value == 1 && hasSider.value;
-});
-provide<LayoutProvide>(LAYOUT_PROVIDE_KEY, {
-  hasSider,
-  curLevel,
 });
 </script>
 

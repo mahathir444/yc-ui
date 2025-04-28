@@ -53,13 +53,13 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, onMounted, inject, toRefs } from 'vue';
-import { LayoutSiderProps, LayoutSiderEmits, LayoutProvide } from './type';
+import { ref, onMounted, toRefs } from 'vue';
+import { LayoutSiderProps, LayoutSiderEmits } from './type';
 import { useControlValue } from '@shared/hooks';
 import { mediaQueryHandler } from '@shared/utils';
-import { LAYOUT_PROVIDE_KEY } from '@shared/constants';
 import { YcIconButton } from '@shared/components';
 import { IconArrowRight } from '@shared/icons';
+import useProvide from './hooks/useProvide';
 import YcResizeBox from '@/components/ResizeBox';
 defineOptions({
   name: 'LayoutSider',
@@ -87,6 +87,9 @@ const {
   width: _width,
   collapsedWidth,
 } = toRefs(props);
+// 注入数据
+const { inject } = useProvide();
+const { curLevel, hasSider } = inject();
 // 宽度
 const width = useControlValue<number>(ref(), _width.value);
 // 受控的收缩
@@ -97,11 +100,6 @@ const computedCollapsed = useControlValue<boolean>(
     emits('update:collapsed', val);
   }
 );
-// 注入数据
-const { curLevel, hasSider } = inject<LayoutProvide>(LAYOUT_PROVIDE_KEY, {
-  curLevel: ref(0),
-  hasSider: ref(false),
-});
 // 处理点击收缩
 const handleCollapse = () => {
   if (!collapsible.value) return;

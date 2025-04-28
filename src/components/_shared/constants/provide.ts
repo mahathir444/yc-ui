@@ -1,14 +1,9 @@
 // provide-keys
-export const SCROLLBAR_PROVIDE_KEY = 'scrollbar-props';
-export const TRIGGER_PROVIDE_KEY = 'trigger-props';
 export const SLIDER_PROVIDE_KEY = 'slider-props';
-export const COLOR_PICKER_PROVIDE_KEY = 'color-picker-props';
 export const INPUT_PROVIDE_KEY = 'input-props';
 export const SKELETON_PROVIDE_KEY = 'skeleton-props';
 export const BREADCRUMB_PROVIDE_KEY = 'breadcrumb-props';
-export const GRID_PROVIDE_KEY = 'grid-props';
 export const TRANSFER_PROVIDE_KEY = 'transfer-props';
-export const LAYOUT_PROVIDE_KEY = 'layout-props';
 export const CONFIG_PROVIDER_PROVIDE_KEY = 'config-props';
 export const ANCHOR_PROVIDE_KEY = 'anchor-props';
 export const SUBMENU_PROVIDE_KEY = 'sub-menu-props';

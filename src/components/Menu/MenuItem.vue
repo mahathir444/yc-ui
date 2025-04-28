@@ -95,11 +95,13 @@ import { createReusableTemplate } from '@vueuse/core';
 import { MenuItemProps } from './type';
 import { getTextContent, isNumber } from '@shared/utils';
 import { IconMore } from '@shared/icons';
-import { DROPDOWN_PROVIDE_KEY } from '@shared/constants';
+import {
+  DROPDOWN_PROVIDE_KEY,
+  DropdownProvide,
+} from '@/components/Dropdown/hooks/useProvide';
 import useProvide from './hooks/useProvide';
 import useMenuLevel from './hooks/useMenuLevel';
 import PopOption from './component/PopOption.vue';
-import { DropdownProvide } from '@/components/Dropdown';
 import YcPopover, { PopoverInstance } from '@/components/Popover';
 import YcTooltip from '@/components/Tooltip';
 import YcScrollbar from '@/components/Scrollbar';

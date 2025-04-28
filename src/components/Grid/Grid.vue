@@ -11,10 +11,10 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, toRefs, computed, provide } from 'vue';
-import { GridProps, BreakpointName, GridProvide } from './type';
+import { toRefs, computed } from 'vue';
+import { GridProps } from './type';
 import { isNumber, mediaQueryHandler } from '@shared/utils';
-import { GRID_PROVIDE_KEY } from '@shared/constants';
+import useProvide from './hooks/useProvide';
 defineOptions({
   name: 'Grid',
 });
@@ -25,34 +25,19 @@ const props = withDefaults(defineProps<GridProps>(), {
   collapsed: false,
   collapsedRows: 1,
 });
-const { cols: _cols, rowGap: _rowGap, colGap: _colGap } = toRefs(props);
-// 断点
-const breakpoint = ref<BreakpointName>('xxl');
-// cols
-const cols = computed(() => {
-  return isNumber(_cols.value)
-    ? _cols.value
-    : (_cols.value?.[breakpoint.value] as number);
-});
+const { rowGap: _rowGap } = toRefs(props);
+// 注入
+const { provide } = useProvide();
+const { breakpoint } = provide(props);
 // gap
 const rowGap = computed(() => {
   return isNumber(_rowGap.value)
     ? _rowGap.value
     : _rowGap.value?.[breakpoint.value];
 });
-const colGap = computed(() => {
-  return isNumber(_colGap.value)
-    ? _colGap.value
-    : (_colGap.value?.[breakpoint.value] as number);
-});
 // 媒体查询管理器
 mediaQueryHandler((name) => {
   breakpoint.value = name;
-});
-provide<GridProvide>(GRID_PROVIDE_KEY, {
-  cols,
-  breakpoint,
-  colGap,
 });
 </script>
 

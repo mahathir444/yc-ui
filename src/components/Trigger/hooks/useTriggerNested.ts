@@ -1,7 +1,17 @@
-import { ref, provide, inject, watch, computed } from 'vue';
+import { ref, provide, inject, watch, computed, Ref } from 'vue';
 import { nanoid } from 'nanoid';
-import { TriggerProvide, TriggerType } from '../type';
-import { TRIGGER_PROVIDE_KEY } from '@shared/constants';
+import { TriggerType } from '../type';
+
+export const TRIGGER_PROVIDE_KEY = 'trigger-props';
+
+export type TriggerProvide = {
+  level: number;
+  curHoverLevel: Ref<number>;
+  groupIds: Ref<string[]>;
+  timeout: Ref<NodeJS.Timeout | undefined>;
+  hoverTimer: Ref<NodeJS.Timeout | undefined>;
+  hide?: () => void;
+};
 
 export default (trigger: TriggerType, hideCallback?: () => void) => {
   // 组件标识，用于标识submenu是否处于一个嵌套中

@@ -17,14 +17,11 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, provide, toRefs, computed, CSSProperties } from 'vue';
-import { RowProps, GridProvide, BreakpointName } from './type';
-import { mediaQueryHandler, isObject } from '@shared/utils';
-import {
-  GRID_PROVIDE_KEY,
-  ROW_ALIGN_MAP,
-  ROW_JUSTIFY_MAP,
-} from '@shared/constants';
+import { toRefs, computed, CSSProperties } from 'vue';
+import { RowProps } from './type';
+import { mediaQueryHandler } from '@shared/utils';
+import { ROW_ALIGN_MAP, ROW_JUSTIFY_MAP } from '@shared/constants';
+import useProvide from './hooks/useProvide';
 defineOptions({
   name: 'Row',
 });
@@ -35,17 +32,10 @@ const props = withDefaults(defineProps<RowProps>(), {
   div: false,
   wrap: true,
 });
-const { gutter: _gutter, div, wrap, justify, align } = toRefs(props);
-// 断点
-const breakpoint = ref<BreakpointName>('xxl');
-// gutter
-const gutter = computed(() => {
-  return (
-    isObject(_gutter.value)
-      ? _gutter.value?.[breakpoint.value] || 0
-      : _gutter.value
-  ) as number;
-});
+const { div, wrap, justify, align } = toRefs(props);
+// 注入
+const { provide } = useProvide();
+const { breakpoint } = provide(props);
 // style
 const style = computed<CSSProperties>(() => {
   return div.value
@@ -59,11 +49,6 @@ const style = computed<CSSProperties>(() => {
 // 媒体查询管理器
 mediaQueryHandler((name) => {
   breakpoint.value = name;
-});
-provide<GridProvide>(GRID_PROVIDE_KEY, {
-  gutter,
-  breakpoint,
-  div,
 });
 </script>
 

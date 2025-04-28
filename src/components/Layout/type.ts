@@ -27,8 +27,3 @@ export interface LayoutSiderEmits {
   ): void;
   (e: 'breakpoint', collapsed: boolean): void;
 }
-
-export interface LayoutProvide {
-  hasSider: Ref<boolean>;
-  curLevel: Ref<number>;
-}

@@ -40,9 +40,9 @@
 
 <script lang="ts" setup>
 import { ref, computed, toRefs, provide, watch } from 'vue';
-import { ScrollbarProps, ScrollbarEmits, ScrollbarProvide } from './type';
-import { SCROLLBAR_PROVIDE_KEY } from '@shared/constants';
+import { ScrollbarProps, ScrollbarEmits } from './type';
 import { useElementSize, useScroll } from '@vueuse/core';
+import { SCROLLBAR_PROVIDE_KEY, ScrollbarProvide } from './hooks/useProvide';
 import YcTrack from './component/Track.vue';
 defineOptions({
   name: 'Scrollbar',

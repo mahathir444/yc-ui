@@ -13,7 +13,7 @@
 import { toRefs, computed, CSSProperties } from 'vue';
 import { ColProps } from './type';
 import { isNumber, isObject } from '@shared/utils';
-import useInject from './hooks/useInject';
+import useProvide from './hooks/useProvide';
 defineOptions({
   name: 'Col',
 });
@@ -28,7 +28,8 @@ const {
   flex: _flex,
 } = toRefs(props);
 // 接收注入属性
-const { gutter, breakpoint, div } = useInject();
+const { inject } = useProvide();
+const { gutter, breakpoint, div } = inject();
 // col-style
 const style = computed<CSSProperties>(() => {
   const span = isNumber(_span.value)

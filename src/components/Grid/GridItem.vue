@@ -8,7 +8,7 @@
 import { toRefs, computed, CSSProperties } from 'vue';
 import { GridItemProps } from './type';
 import { isNumber } from '@shared/utils';
-import useInject from './hooks/useInject';
+import useProvide from './hooks/useProvide';
 defineOptions({
   name: 'GridItem',
 });
@@ -19,7 +19,8 @@ const props = withDefaults(defineProps<GridItemProps>(), {
 });
 const { span: _span, offset: _offset, suffix } = toRefs(props);
 // 接收数据
-const { breakpoint, cols, colGap } = useInject();
+const { inject } = useProvide();
+const { breakpoint, cols, colGap } = inject();
 // offset
 const offset = computed(() => {
   return isNumber(_offset.value)

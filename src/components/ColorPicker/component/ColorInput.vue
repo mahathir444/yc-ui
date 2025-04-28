@@ -78,7 +78,7 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, toRefs } from 'vue';
+import { ref, toRefs, watch } from 'vue';
 import { parseColor } from '@shared/utils';
 import { ColorFormat } from '@/components/ColorPicker/type';
 import { FORMAT_OPTIONS } from '@shared/constants';
@@ -100,9 +100,9 @@ const emits = defineEmits<{
 }>();
 const { color, alpha: _alpha } = toRefs(props);
 // hex
-const hex = ref<string>(parseColor(color.value).toHex());
+const hex = ref<string>('');
 // rgb对象
-const rgb = ref<Record<string, any>>(parseColor(color.value).toRgb());
+const rgb = ref<Record<string, any>>({});
 // alpha
 const alpha = ref<number>(_alpha.value);
 // 处理设置
@@ -127,6 +127,23 @@ const handleSet = (type: 'hex' | 'rgb' | 'alpha') => {
     emits('change', resultColor, 'alpha');
   }
 };
+// 检测color的改变
+watch(
+  () => color.value,
+  () => {
+    hex.value = parseColor(color.value).toHex();
+    rgb.value = parseColor(color.value).toRgb();
+  },
+  {
+    immediate: true,
+  }
+);
+watch(
+  () => _alpha.value,
+  () => {
+    alpha.value = _alpha.value * 100;
+  }
+);
 </script>
 
 <style lang="less" scoped>

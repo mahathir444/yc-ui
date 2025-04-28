@@ -68,13 +68,3 @@ export type TriggerPostion =
   | 'rb';
 
 export type TriggerType = 'hover' | 'click' | 'focus' | 'contextMenu';
-
-// 内部使用
-export type TriggerProvide = {
-  level: number;
-  curHoverLevel: Ref<number>;
-  groupIds: Ref<string[]>;
-  timeout: Ref<NodeJS.Timeout | undefined>;
-  hoverTimer: Ref<NodeJS.Timeout | undefined>;
-  hide?: () => void;
-};

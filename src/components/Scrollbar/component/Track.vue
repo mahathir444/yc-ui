@@ -26,13 +26,9 @@ import {
   useResizeObserver,
   useEventListener,
 } from '@vueuse/core';
-import { ScrollbarProvide } from '../type';
 import { Direction } from '@shared/type';
-import {
-  SCROLLBAR_PROVIDE_KEY,
-  TRACK_DIRECTION_MAP,
-  THUMB_DIRECTION_MAP,
-} from '@shared/constants';
+import { TRACK_DIRECTION_MAP, THUMB_DIRECTION_MAP } from '@shared/constants';
+import { SCROLLBAR_PROVIDE_KEY, ScrollbarProvide } from '../hooks/useProvide';
 const props = withDefaults(
   defineProps<{
     direction?: Direction;

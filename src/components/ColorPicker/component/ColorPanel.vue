@@ -71,23 +71,17 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, inject, toRefs } from 'vue';
+import { ref, toRefs } from 'vue';
 import { ColorPickerProvide } from '../type';
-import { COLOR_PICKER_PROVIDE_KEY } from '@shared/constants';
+import useProvide from '../hooks/useProvide';
 import ColorPalette from './ColorPalette.vue';
 import ColorInput from './ColorInput.vue';
 import ColorList from './ColorList.vue';
-import ColorControlBar from './ColorControlBar.vue';
 // 注入值
+import ColorControlBar from './ColorControlBar.vue';
+const { inject } = useProvide();
 const { props, popupVisible, computedColor, baseColor, alpha, format } =
-  inject<ColorPickerProvide>(COLOR_PICKER_PROVIDE_KEY, {
-    emits: () => {},
-    popupVisible: ref(false),
-    computedColor: ref(''),
-    baseColor: ref(''),
-    alpha: ref(100),
-    format: ref('hex'),
-  });
+  inject();
 const {
   disabled,
   disabledAlpha,

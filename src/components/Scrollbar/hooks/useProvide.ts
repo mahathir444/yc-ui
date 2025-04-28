@@ -1,0 +1,13 @@
+import { ComputedRef, Ref, provide as _provide, inject as _inject } from 'vue';
+
+export const SCROLLBAR_PROVIDE_KEY = 'scrollbar-props';
+
+export interface ScrollbarProvide {
+  curTop: Ref<number>;
+  curLeft: Ref<number>;
+  movableLeft: Ref<number> | ComputedRef<number>;
+  movableTop: Ref<number> | ComputedRef<number>;
+  thumbHeight: Ref<number> | ComputedRef<number>;
+  thumbWidth: Ref<number> | ComputedRef<number>;
+  scrollRef: Ref<HTMLDivElement | undefined>;
+}
