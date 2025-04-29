@@ -22,6 +22,8 @@ export const MENU_DIRECTION_MAP = getComponentConstantsMap(
   'mode'
 );
 
+export const CAROUSEL_DIRECTION_MAP = getComponentDirectionMap('yc-carousel');
+
 // 内部组件
 export const TRACK_DIRECTION_MAP =
   getComponentDirectionMap('yc-scrollbar-track');

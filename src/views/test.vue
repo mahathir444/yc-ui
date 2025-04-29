@@ -5,31 +5,6 @@
       style="max-height: 100vh"
       :popup-max-height="300"
     >
-      <yc-menu
-        v-model:collapsed="collapsed"
-        show-collapse-button
-        :popup-max-height="500"
-        :trigger-props="{
-          unmountOnClose: false,
-        }"
-      >
-        <template v-for="(item, index) in menus" :key="item.path">
-          <yc-sub-menu v-if="item.submenu?.length" :title="item.title">
-            <template #icon>
-              <icon-apps />
-            </template>
-            <yc-menu-item v-for="v in item.submenu" :path="v.path">
-              {{ v.title }}
-            </yc-menu-item>
-          </yc-sub-menu>
-          <yc-menu-item v-else :path="item.path">
-            <template #icon>
-              <icon-apps />
-            </template>
-            {{ item.title }}
-          </yc-menu-item>
-        </template>
-      </yc-menu>
     </yc-layout-sider>
     <yc-layout class="main">
       <yc-layout-header class="header">
@@ -50,38 +25,46 @@
         </yc-menu>
       </yc-layout-header>
       <yc-layout-content class="content">
-        <a-card :bordered="false" :style="{ width: '100%' }">
-          <a-card-grid
-            v-for="(_, index) in new Array(7)"
-            :key="index"
-            :hoverable="index % 2 === 0"
-          >
-            <a-card class="card-demo" title="Arco Card" :bordered="false">
-              <template #extra>
-                <a-link>More</a-link>
-              </template>
-              <p :style="{ margin: 0 }">
-                {{ index % 2 === 0 ? 'Card allow to hover' : 'Card content' }}
-              </p>
-            </a-card>
-          </a-card-grid>
-        </a-card>
-        <yc-card :bordered="false" :style="{ width: '100%' }">
-          <yc-card-grid
-            v-for="(_, index) in new Array(7)"
-            :key="index"
-            :hoverable="index % 2 === 0"
-          >
-            <yc-card class="card-demo" title="Arco Card" :bordered="false">
-              <template #extra>
-                <a-link>More</a-link>
-              </template>
-              <p :style="{ margin: 0 }">
-                {{ index % 2 === 0 ? 'Card allow to hover' : 'Card content' }}
-              </p>
-            </yc-card>
-          </yc-card-grid>
-        </yc-card>
+        <a-carousel
+          :style="{
+            width: '600px',
+            height: '240px',
+          }"
+          animation-name="fade"
+          indicator-type="slider"
+          indicator-position="outer"
+          @change="handleChange"
+        >
+          <a-carousel-item v-for="image in images">
+            <img
+              :src="image"
+              :style="{
+                width: '100%',
+                height: '100%',
+              }"
+            />
+          </a-carousel-item>
+        </a-carousel>
+        <yc-carousel
+          :style="{
+            width: '600px',
+            height: '240px',
+          }"
+          animation-name="fade"
+          indicator-type="slider"
+          indicator-position="outer"
+          @change="handleChange"
+        >
+          <yc-carousel-item v-for="image in images">
+            <img
+              :src="image"
+              :style="{
+                width: '100%',
+                height: '100%',
+              }"
+            />
+          </yc-carousel-item>
+        </yc-carousel>
       </yc-layout-content>
     </yc-layout>
   </yc-layout>
@@ -101,6 +84,15 @@ const menus = Array(5)
         i == 0 ? [{ title: `子菜单`, path: `菜单${Math.random()}` }] : [],
     };
   });
+const images = [
+  'https://p1-arco.byteimg.com/tos-cn-i-uwbnlip3yd/cd7a1aaea8e1c5e3d26fe2591e561798.png~tplv-uwbnlip3yd-webp.webp',
+  'https://p1-arco.byteimg.com/tos-cn-i-uwbnlip3yd/6480dbc69be1b5de95010289787d64f1.png~tplv-uwbnlip3yd-webp.webp',
+  'https://p1-arco.byteimg.com/tos-cn-i-uwbnlip3yd/0265a04fddbd77a19602a15d9d55d797.png~tplv-uwbnlip3yd-webp.webp',
+  'https://p1-arco.byteimg.com/tos-cn-i-uwbnlip3yd/24e0dd27418d2291b65db1b21aa62254.png~tplv-uwbnlip3yd-webp.webp',
+];
+const handleChange = (value: number) => {
+  console.log(value);
+};
 </script>
 
 <style lang="less" scoped>

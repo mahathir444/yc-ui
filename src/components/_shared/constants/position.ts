@@ -81,3 +81,9 @@ export const DSUBMENU_TRIGGER_MAP: Record<string, string> = {
   click: 'click',
   hover: 'hover',
 };
+
+export const INDICATOR_POSITION_MAP = getComponentConstantsMap(
+  'yc-carousel-indicator',
+  ['left', 'right', 'top', 'bottom', 'outer'],
+  'position'
+);

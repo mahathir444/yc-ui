@@ -64,6 +64,7 @@ import { default as Collapse, CollapseItem } from './Collapse';
 import Avatar from './Avatar';
 import Badge from './Badge';
 import { default as Card, CardMeta, CardGrid } from './Card';
+import { default as Carousel, CarouselItem } from './Carousel';
 
 export const components: Record<string, Plugin> = {
   Button,
@@ -120,6 +121,7 @@ export const components: Record<string, Plugin> = {
   Avatar,
   Badge,
   Card,
+  Carousel,
 };
 
 export default {
@@ -149,6 +151,7 @@ export default {
   CollapseItem,
   CardMeta,
   CardGrid,
+  CarouselItem,
   install: (app: App) => {
     for (const key of Object.keys(components)) {
       app.use(components[key]);
