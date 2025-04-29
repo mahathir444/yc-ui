@@ -1,11 +1,10 @@
 <template>
   <div
-    :class="{
-      'yc-carousel': true,
-      'yc-carousel-indicator-outer': indicatorPosition == 'outer',
-      'yc-carousel-animation-slide': animationName == 'slide',
-      'yc-carousel-animation-fade': animationName == 'fade',
-    }"
+    :class="[
+      'yc-carousel',
+      indicatorPosition == 'outer' ? 'yc-carousel-indicator-outer' : '',
+      CAROUSEL_ANIMATION_CLASS[animationName],
+    ]"
   >
     <div :class="['yc-carousel-slide', CAROUSEL_DIRECTION_MAP[direction]]">
       <slot />
@@ -27,7 +26,10 @@
 
 <script lang="ts" setup>
 import { CarouselProps, CarouselEmits, CarouselSlots } from './type';
-import { CAROUSEL_DIRECTION_MAP } from '@shared/constants';
+import {
+  CAROUSEL_DIRECTION_MAP,
+  CAROUSEL_ANIMATION_CLASS,
+} from '@shared/constants';
 import useProvide from './hooks/useProvide';
 import CarouselArrow from './CarouselArrow.vue';
 import CarouselIndicator from './CarouselIndicator.vue';

@@ -6,7 +6,7 @@
       hoverable ? 'yc-card-hoverable' : '',
       loading ? 'yc-card-loading' : '',
       hasGrid ? 'yc-card-contain-grid' : '',
-      CARD_SIZE_CLASS[size],
+      CARD_SIZE_CLASS[size] || 'yc-card-size-medium ',
     ]"
   >
     <div
@@ -57,7 +57,7 @@ defineOptions({
   name: 'Card',
 });
 defineSlots<CardSlots>();
-withDefaults(defineProps<CardProps>(), {
+const props = withDefaults(defineProps<CardProps>(), {
   bordered: true,
   loading: false,
   hoverable: false,
@@ -73,7 +73,7 @@ withDefaults(defineProps<CardProps>(), {
 });
 // 注入
 const { provide } = useProvide();
-const { hasMeta, hasGrid } = provide();
+const { hasMeta, hasGrid, size } = provide(props);
 </script>
 
 <style lang="less" scoped>

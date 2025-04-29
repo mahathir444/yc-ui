@@ -4,7 +4,7 @@ export interface CarouselProps {
   defaultCurrent?: number;
   autoPlay?: boolean;
   moveSpeed?: number;
-  animationName?: 'slide' | 'fade';
+  animationName?: 'slide' | 'fade' | 'card';
   trigger?: IndicatorTrigger;
   direction?: Direction;
   showArrow?: ShowArrow;

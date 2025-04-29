@@ -1,3 +1,4 @@
+import { getComponentConstantsMap, getComponentThemeMap } from '../utils';
 import {
   IconInfo,
   IconWarning,
@@ -39,3 +40,25 @@ export const TYPE_ICON_COLOR_MAP: Record<string, string> = {
   loading: 'rgb(22, 93, 225)',
   normal: 'rgb(201,205,212)',
 };
+
+export const TICK_TYPE_CLASS = getComponentConstantsMap('yc-slider', [
+  'dot',
+  'tick',
+  'mark',
+]);
+
+export const TICKS_TYPE_CLASS = getComponentConstantsMap('yc-slider', [
+  'dots',
+  'ticks',
+  'marks',
+]);
+
+export const MENU_THEME_MAP = getComponentThemeMap('yc-menu');
+
+export const MENU_ITEM_THEME_MAP = getComponentThemeMap('yc-menu');
+
+export const CAROUSEL_ANIMATION_CLASS = getComponentConstantsMap(
+  'yc-carousel',
+  ['slide', 'fade', 'card'],
+  'animation'
+);

@@ -3,6 +3,5 @@ export * from './shape';
 export * from './direction';
 export * from './type';
 export * from './color';
-export * from './icon';
 export * from './position';
-export * from './theme';
+export * from './other';

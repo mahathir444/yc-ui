@@ -47,19 +47,6 @@ export const BUTTON_GROUP_TYPE_CLASS = getComponentConstantsMap(
   ['primary', 'secondary', 'dashed', 'outline', 'text']
 );
 
-// 内部组件
-export const TICK_TYPE_CLASS = getComponentConstantsMap('yc-slider', [
-  'dot',
-  'tick',
-  'mark',
-]);
-
-export const TICKS_TYPE_CLASS = getComponentConstantsMap('yc-slider', [
-  'dots',
-  'ticks',
-  'marks',
-]);
-
 // status
 export const BUTTON_STATUS_CLASS = getComponentStatusMap('yc-button');
 

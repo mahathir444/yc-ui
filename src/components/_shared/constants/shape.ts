@@ -17,6 +17,7 @@ export const AVATAR_SHAPE_CLASS = getComponentShapeMap('yc-avatar', [
   'round',
 ]);
 
+// 内部组件
 export const INDICATOR_SHAPE_CLASS = getComponentShapeMap(
   'yc-carousel-indicator',
   ['line', 'dot', 'slider', 'never']

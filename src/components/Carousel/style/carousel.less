@@ -17,7 +17,7 @@
     }
   }
 }
-// slide
+// animation
 .yc-carousel-animation-slide {
   .yc-carousel-item {
     visibility: hidden;
@@ -27,7 +27,6 @@
     }
   }
 }
-// fade
 .yc-carousel-animation-fade {
   .yc-carousel-item {
     opacity: 0;
@@ -37,10 +36,11 @@
     }
   }
 }
-// 方向
+// direction
 .yc-carousel-direction-vertical {
   flex-direction: column;
 }
+// outer
 .yc-carousel-indicator-outer {
   margin-bottom: 30px;
 }
@@ -95,7 +95,21 @@
 .yc-carousel-indicator {
   position: absolute;
   display: flex;
-  gap: 8px;
+  &.yc-carousel-indicator-position-outer {
+    .yc-carousel-indicator-item {
+      &:hover,
+      &.yc-carousel-indicator-item-active {
+        background-color: rgb(201, 205, 212);
+      }
+    }
+    &.yc-carousel-indicator-shape-slider {
+      background-color: rgba(201, 205, 212, 0.5);
+      .yc-carousel-indicator-item-slider {
+        background-color: rgb(201, 205, 212);
+      }
+    }
+  }
+
   .yc-carousel-indicator-item {
     background-color: rgba(255, 255, 255, 0.3);
     border-radius: 4px;
@@ -123,6 +137,7 @@
   left: 12px;
   top: 50%;
   transform: translateY(-50%);
+  flex-direction: column;
   &.yc-carousel-indicator-position-right {
     left: unset;
     right: 12px;
@@ -133,28 +148,17 @@
   transform: translateX(-50%);
   &.yc-carousel-indicator-shape-slider {
     bottom: -16px;
-    background-color: rgba(201, 205, 212, 0.5);
-    .yc-carousel-indicator-item-slider {
-      background-color: rgb(201, 205, 212);
-    }
   }
-  &.yc-carousel-indicator-shape-dot,
-  &.yc-carousel-indicator-shape-line {
+  &.yc-carousel-indicator-shape-dot {
     bottom: -22px;
-    .yc-carousel-indicator-item {
-      background-color: rgba(201, 205, 212, 0.5);
-      &:hover,
-      &.yc-carousel-indicator-item-active {
-        background-color: rgb(201, 205, 212);
-      }
-    }
-    &.yc-carousel-indicator-shape-line {
-      bottom: -20px;
-    }
+  }
+  &.yc-carousel-indicator-shape-line {
+    bottom: -20px;
   }
 }
 // indicator-shape
 .yc-carousel-indicator-shape-dot {
+  gap: 8px;
   .yc-carousel-indicator-item {
     width: 6px;
     height: 6px;
@@ -162,27 +166,51 @@
   }
 }
 .yc-carousel-indicator-shape-line {
-  .yc-carousel-indicator-item {
-    width: 12px;
-    height: 4px;
+  gap: 8px;
+  &.yc-carousel-indicator-position-left,
+  &.yc-carousel-indicator-position-right {
+    .yc-carousel-indicator-item {
+      height: 12px;
+      width: 4px;
+    }
+  }
+  &.yc-carousel-indicator-position-top,
+  &.yc-carousel-indicator-position-bottom {
+    .yc-carousel-indicator-item {
+      width: 12px;
+      height: 4px;
+    }
   }
 }
 .yc-carousel-indicator-shape-slider {
   cursor: pointer;
-  width: 48px;
-  height: 4px;
-  background-color: rgba(255, 255, 255, 0.3);
+
   border-radius: 4px;
-  gap: 0;
+  background-color: rgba(255, 255, 255, 0.3);
+  &.yc-carousel-indicator-position-left,
+  &.yc-carousel-indicator-position-right {
+    height: 48px;
+    width: 4px;
+    .yc-carousel-indicator-item-slider {
+      width: 100%;
+    }
+  }
+  &.yc-carousel-indicator-position-top,
+  &.yc-carousel-indicator-position-bottom {
+    width: 48px;
+    height: 4px;
+    .yc-carousel-indicator-item {
+      height: 100%;
+    }
+  }
   .yc-carousel-indicator-item {
     flex: 1;
     opacity: 0;
   }
   .yc-carousel-indicator-item-slider {
     position: absolute;
-    background-color: #fff;
-    height: 4px;
     border-radius: 4px;
     transition: transform 0.3s;
+    background-color: #fff;
   }
 }

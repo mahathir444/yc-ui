@@ -63,6 +63,12 @@ export const SPACE_ALIGN_MAP = getComponentConstantsMap(
   'align'
 );
 
+export const INDICATOR_POSITION_MAP = getComponentConstantsMap(
+  'yc-carousel-indicator',
+  ['left', 'right', 'top', 'bottom', 'outer'],
+  'position'
+);
+
 export const DROPDOWN_POSITION_MAP: Record<string, string> = {
   top: 'top',
   tl: 'tl',
@@ -81,9 +87,3 @@ export const DSUBMENU_TRIGGER_MAP: Record<string, string> = {
   click: 'click',
   hover: 'hover',
 };
-
-export const INDICATOR_POSITION_MAP = getComponentConstantsMap(
-  'yc-carousel-indicator',
-  ['left', 'right', 'top', 'bottom', 'outer'],
-  'position'
-);

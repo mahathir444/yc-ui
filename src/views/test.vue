@@ -32,7 +32,7 @@
           }"
           animation-name="fade"
           indicator-type="slider"
-          indicator-position="outer"
+          indicator-position="right"
           @change="handleChange"
         >
           <a-carousel-item v-for="image in images">
@@ -52,7 +52,7 @@
           }"
           animation-name="fade"
           indicator-type="slider"
-          indicator-position="outer"
+          indicator-position="right"
           @change="handleChange"
         >
           <yc-carousel-item v-for="image in images">
