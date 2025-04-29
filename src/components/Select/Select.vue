@@ -236,8 +236,6 @@ const props = withDefaults(defineProps<SelectProps>(), {
     return !!option?.label?.includes(inputValue);
   },
   options: () => [],
-  formatLabel: undefined,
-  fallbackOption: undefined,
   showExtraOptions: true,
   valueKey: '',
   triggerProps: () => {

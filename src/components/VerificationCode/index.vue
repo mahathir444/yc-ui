@@ -44,8 +44,6 @@ const props = withDefaults(defineProps<VerificationCodeProps>(), {
   readonly: false,
   error: false,
   marked: true,
-  formatter: undefined,
-  separator: undefined,
 });
 const emits = defineEmits<VerificationCodeEmits>();
 const { modelValue, defaultValue, length: _length } = toRefs(props);

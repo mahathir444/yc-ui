@@ -15,7 +15,7 @@ defineOptions({
 });
 const props = withDefaults(defineProps<WatermarkProps>(), {
   content: '',
-  image: undefined,
+  image: '',
   width: undefined,
   height: undefined,
   gap: () => [90, 90],

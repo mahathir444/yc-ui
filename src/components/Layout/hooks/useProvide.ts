@@ -32,10 +32,14 @@ export default () => {
   };
   const inject = () => {
     // 接收的值
-    return _inject<LayoutProvide>(LAYOUT_PROVIDE_KEY, {
+    const { hasSider, curLevel } = _inject<LayoutProvide>(LAYOUT_PROVIDE_KEY, {
       curLevel: ref(0),
       hasSider: ref(false),
     });
+    if (!hasSider.value) {
+      hasSider.value = true;
+      curLevel.value++;
+    }
   };
   return {
     provide,

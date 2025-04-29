@@ -99,7 +99,6 @@ const props = withDefaults(defineProps<InputTagProps>(), {
   size: undefined,
   maxTagCount: 5,
   retainInputValue: false,
-  formatLabel: undefined,
   uniqueValue: false,
   tagNowrap: false,
   fieldNames: () => {

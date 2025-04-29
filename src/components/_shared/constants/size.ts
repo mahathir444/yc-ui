@@ -38,3 +38,8 @@ export const TAG_SIZE_CLASS = getComponentSizeMap('yc-tag', [
   'medium',
   'large',
 ]);
+
+export const CARD_SIZE_CLASS = getComponentSizeMap('yc-card', [
+  'small',
+  'medium',
+]);

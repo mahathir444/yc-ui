@@ -63,6 +63,7 @@ import { default as Menu, MenuItem, SubMenu, MenuItemGroup } from './Menu';
 import { default as Collapse, CollapseItem } from './Collapse';
 import Avatar from './Avatar';
 import Badge from './Badge';
+import { default as Card, CardMeta, CardGrid } from './Card';
 
 export const components: Record<string, Plugin> = {
   Button,
@@ -118,6 +119,7 @@ export const components: Record<string, Plugin> = {
   Collapse,
   Avatar,
   Badge,
+  Card,
 };
 
 export default {
@@ -145,6 +147,8 @@ export default {
   SubMenu,
   MenuItemGroup,
   CollapseItem,
+  CardMeta,
+  CardGrid,
   install: (app: App) => {
     for (const key of Object.keys(components)) {
       app.use(components[key]);

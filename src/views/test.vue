@@ -50,26 +50,38 @@
         </yc-menu>
       </yc-layout-header>
       <yc-layout-content class="content">
-        <a-avatar-group
-          shape="square"
-          :max-count="3"
-          :max-popover-trigger-props="{
-            trigger: 'click',
-          }"
-        >
-          <a-avatar> 小李 </a-avatar>
-          <a-avatar> 小李 </a-avatar>
-          <a-avatar> 小李 </a-avatar>
-          <a-avatar> 小李 </a-avatar>
-          <a-avatar> 小李 </a-avatar>
-        </a-avatar-group>
-
-        <a-badge :count="22">
-          <yc-avatar> 小李 </yc-avatar>
-        </a-badge>
-        <yc-badge :count="22">
-          <yc-avatar> 小李 </yc-avatar>
-        </yc-badge>
+        <a-card :bordered="false" :style="{ width: '100%' }">
+          <a-card-grid
+            v-for="(_, index) in new Array(7)"
+            :key="index"
+            :hoverable="index % 2 === 0"
+          >
+            <a-card class="card-demo" title="Arco Card" :bordered="false">
+              <template #extra>
+                <a-link>More</a-link>
+              </template>
+              <p :style="{ margin: 0 }">
+                {{ index % 2 === 0 ? 'Card allow to hover' : 'Card content' }}
+              </p>
+            </a-card>
+          </a-card-grid>
+        </a-card>
+        <yc-card :bordered="false" :style="{ width: '100%' }">
+          <yc-card-grid
+            v-for="(_, index) in new Array(7)"
+            :key="index"
+            :hoverable="index % 2 === 0"
+          >
+            <yc-card class="card-demo" title="Arco Card" :bordered="false">
+              <template #extra>
+                <a-link>More</a-link>
+              </template>
+              <p :style="{ margin: 0 }">
+                {{ index % 2 === 0 ? 'Card allow to hover' : 'Card content' }}
+              </p>
+            </yc-card>
+          </yc-card-grid>
+        </yc-card>
       </yc-layout-content>
     </yc-layout>
   </yc-layout>
@@ -104,8 +116,10 @@ const menus = Array(5)
     }
     .content {
       display: flex;
+      gap: 4px;
       justify-content: center;
-      // align-items: center;
+      align-items: center;
+      padding: 20px;
     }
   }
 }

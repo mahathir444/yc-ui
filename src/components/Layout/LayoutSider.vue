@@ -90,7 +90,7 @@ const {
 } = toRefs(props);
 // 注入数据
 const { inject } = useProvide();
-const { curLevel, hasSider } = inject();
+inject();
 // 宽度
 const width = useControlValue<number>(ref(), _width.value);
 // 受控的收缩
@@ -115,12 +115,6 @@ mediaQueryHandler((_, order, i) => {
   width.value = computedCollapsed.value ? collapsedWidth.value : _width.value;
   emits('collapse', computedCollapsed.value, 'responsive');
   emits('breakpoint', computedCollapsed.value);
-});
-// 处理层级关系
-onMounted(() => {
-  if (hasSider.value) return;
-  hasSider.value = true;
-  curLevel.value++;
 });
 </script>
 

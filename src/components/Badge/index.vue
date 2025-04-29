@@ -37,7 +37,7 @@ const props = withDefaults(defineProps<BadgeProps>(), {
   offset: () => {
     return [];
   },
-  // color:'',
+  // color:,
   // status:
   // count:
 });

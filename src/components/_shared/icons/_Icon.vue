@@ -28,8 +28,6 @@ const props = withDefaults(defineProps<IconProps>(), {
   strokeLinecap: 'butt',
   strokeLinejoin: 'miter',
   spin: false,
-  rotate: undefined,
-  size: undefined,
 });
 const {
   size,
