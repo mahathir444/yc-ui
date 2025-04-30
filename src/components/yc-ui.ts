@@ -65,6 +65,7 @@ import Avatar from './Avatar';
 import Badge from './Badge';
 import { default as Card, CardMeta, CardGrid } from './Card';
 import { default as Carousel, CarouselItem } from './Carousel';
+import Image from './Image';
 
 export const components: Record<string, Plugin> = {
   Button,
@@ -122,6 +123,7 @@ export const components: Record<string, Plugin> = {
   Badge,
   Card,
   Carousel,
+  Image,
 };
 
 export default {

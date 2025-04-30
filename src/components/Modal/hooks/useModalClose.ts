@@ -68,11 +68,10 @@ export default (params: {
 
   // 检测
   watch(
-    innerVisible,
+    () => innerVisible.value,
     (val) => {
-      if (val) {
-        outerVisible.value = val;
-      }
+      if (!val) return;
+      outerVisible.value = val;
     },
     {
       immediate: true,
