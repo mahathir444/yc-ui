@@ -22,8 +22,7 @@
 <script lang="ts" setup>
 import { toRefs } from 'vue';
 import { TICK_TYPE_CLASS, TICKS_TYPE_CLASS } from '@shared/constants';
-import useProvide from '../hooks/useProvide';
-
+import useProvide from './hooks/useProvide';
 const props = defineProps<{
   type: 'dots' | 'marks' | 'ticks';
   data: Record<string, any>[];
@@ -65,5 +64,5 @@ const isInRange = (value: number) => {
 </script>
 
 <style lang="less" scoped>
-@import '../style/slider.less';
+@import './style/slider.less';
 </style>

@@ -147,7 +147,7 @@ watch(
 </script>
 
 <style lang="less" scoped>
-@import '../style/color-panel.less';
+@import './style/color-panel.less';
 </style>
 
 <style lang="less">

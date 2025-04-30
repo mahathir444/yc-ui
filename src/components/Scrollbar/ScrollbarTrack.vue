@@ -24,7 +24,7 @@ import { ref, toRefs, computed } from 'vue';
 import { useDraggable, useResizeObserver } from '@vueuse/core';
 import { Direction } from '@shared/type';
 import { TRACK_DIRECTION_MAP, THUMB_DIRECTION_MAP } from '@shared/constants';
-import useProvide from '../hooks/useProvide';
+import useProvide from './hooks/useProvide';
 const props = withDefaults(
   defineProps<{
     direction?: Direction;
@@ -116,5 +116,5 @@ const handleClick = (e: MouseEvent) => {
 </script>
 
 <style lang="less" scoped>
-@import '../style/scrollbar.less';
+@import './style/scrollbar.less';
 </style>

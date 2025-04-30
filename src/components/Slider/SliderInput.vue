@@ -11,7 +11,7 @@
 
 <script lang="ts" setup>
 import { toRefs, computed } from 'vue';
-import useProvide from '../hooks/useProvide';
+import useProvide from './hooks/useProvide';
 import YcInputNumber from '@/components/InputNumber';
 const props = defineProps<{
   type: 'start' | 'end';
@@ -52,5 +52,5 @@ const handleSet = () => {
 </script>
 
 <style lang="less" scoped>
-@import '../style/slider.less';
+@import './style/slider.less';
 </style>

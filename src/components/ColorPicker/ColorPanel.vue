@@ -15,7 +15,7 @@
     <div class="yc-color-picker-panel-control">
       <div class="yc-color-picker-control-wrapper">
         <div style="display: flex; flex-direction: column; gap: 12px">
-          <color-control-bar
+          <color-control
             mode="color"
             v-model:color="computedColor"
             v-model:base-color="baseColor"
@@ -25,7 +25,7 @@
             @change="(v) => paletteRef?.setPosition(v)"
           />
           <div class="yc-color-picker-control-bar-bg">
-            <color-control-bar
+            <color-control
               mode="alpha"
               v-model:color="computedColor"
               v-model:alpha="alpha"
@@ -72,13 +72,12 @@
 
 <script lang="ts" setup>
 import { ref, toRefs } from 'vue';
-import { ColorPickerProvide } from '../type';
-import useProvide from '../hooks/useProvide';
+import useProvide from './hooks/useProvide';
 import ColorPalette from './ColorPalette.vue';
 import ColorInput from './ColorInput.vue';
 import ColorList from './ColorList.vue';
+import ColorControl from './ColorControl.vue';
 // 注入值
-import ColorControlBar from './ColorControlBar.vue';
 const { inject } = useProvide();
 const { props, popupVisible, computedColor, baseColor, alpha, format } =
   inject();
@@ -91,8 +90,8 @@ const {
   presetColors,
 } = toRefs(props!);
 // 组件实例
-const colorBarRef = ref<InstanceType<typeof ColorControlBar>>();
-const alphaBarRef = ref<InstanceType<typeof ColorControlBar>>();
+const colorBarRef = ref<InstanceType<typeof ColorControl>>();
+const alphaBarRef = ref<InstanceType<typeof ColorControl>>();
 const paletteRef = ref<InstanceType<typeof ColorPalette>>();
 // 处理color点击
 const handleColorClick = (color: string) => {
@@ -115,5 +114,5 @@ const handleChange = (color: string, type: 'color' | 'alpha') => {
 </script>
 
 <style lang="less" scoped>
-@import '../style/color-panel.less';
+@import './style/color-panel.less';
 </style>

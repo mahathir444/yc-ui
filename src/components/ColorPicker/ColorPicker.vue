@@ -10,7 +10,17 @@
     v-bind="triggerProps"
     @popupVisibleChange="(v: boolean) => $emit('popupVisibleChange', v)"
   >
-    <color-preview :color="computedColor" :size="size" :show-text="showText" />
+    <div :class="['yc-color-picker', COLOR_PICKER_SIZE_CLASS[size]]">
+      <div
+        class="yc-color-picker-preview"
+        :style="{
+          backgroundColor: computedColor,
+        }"
+      ></div>
+      <span v-if="showText" class="yc-color-picker-value">
+        {{ computedColor }}
+      </span>
+    </div>
     <template #content>
       <color-panel />
     </template>
@@ -21,9 +31,9 @@
 <script lang="ts" setup>
 import { PRESET_COLORS } from '@shared/constants';
 import { ColorPickerProps, ColorPickerEmits } from './type';
+import { COLOR_PICKER_SIZE_CLASS } from '@shared/constants';
 import useProvide from './hooks/useProvide';
-import ColorPanel from './component/ColorPanel.vue';
-import ColorPreview from './component/ColorPreview.vue';
+import ColorPanel from './ColorPanel.vue';
 import YcTrigger from '@/components/Trigger';
 
 defineOptions({
@@ -51,3 +61,7 @@ const emits = defineEmits<ColorPickerEmits>();
 const { provide } = useProvide();
 const { popupVisible, computedColor, size } = provide(props, emits);
 </script>
+
+<style lang="less" scoped>
+@import './style/color-panel.less';
+</style>

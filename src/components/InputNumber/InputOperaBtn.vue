@@ -20,8 +20,8 @@
 
 <script lang="ts" setup>
 import { computed, toRefs } from 'vue';
+import { InputNumberMode, InputNumberValue } from './type';
 import { Size } from '@shared/type';
-import { InputNumberMode, InputNumberValue } from '../type';
 import { IconArrowDown, IconArrowUp, IconPlus, IconMinus } from '@shared/icons';
 const props = defineProps<{
   mode: InputNumberMode;
@@ -46,5 +46,5 @@ const disabledMinus = computed(() => {
 </script>
 
 <style lang="less" scoped>
-@import '../style/input-number.less';
+@import './style/input-number.less';
 </style>

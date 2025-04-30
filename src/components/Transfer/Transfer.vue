@@ -66,7 +66,7 @@
 import { TransferProps, TransferEmits } from './type';
 import useProvide from './hooks/useProvide';
 import { IconArrowRight } from '@shared/icons';
-import TransferPanel from './component/Panel.vue';
+import TransferPanel from './TransferPanel.vue';
 import YcButton from '@/components/Button';
 
 defineOptions({

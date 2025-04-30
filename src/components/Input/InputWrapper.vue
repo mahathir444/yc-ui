@@ -65,7 +65,7 @@
 import { ref } from 'vue';
 import { InputProps, InputEmits } from './type';
 import { INPUT_OUTER_SIZE_CLASS } from '@shared/constants';
-import YcInput from './component/Input.vue';
+import YcInput from './Input.vue';
 import { YcPreventFocus } from '@shared/components';
 import useProvide from './hooks/useProvide';
 defineOptions({

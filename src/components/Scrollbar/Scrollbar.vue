@@ -22,14 +22,14 @@
       </div>
     </div>
     <!-- 纵向滚动条 -->
-    <yc-track
+    <scrollbar-track
       v-if="hasVerticalBar"
       direction="vertical"
       @drag="handleDrag"
       @resize="(val) => (trackWidth = val)"
     />
     <!-- 横向滚动条 -->
-    <yc-track
+    <scrollbar-track
       v-if="hashorizontalBar"
       direction="horizontal"
       @drag="handleDrag"
@@ -43,7 +43,7 @@ import { ref, computed, toRefs, provide, watch } from 'vue';
 import { ScrollbarProps, ScrollbarEmits } from './type';
 import { useElementSize, useScroll } from '@vueuse/core';
 import { SCROLLBAR_PROVIDE_KEY, ScrollbarProvide } from './hooks/useProvide';
-import YcTrack from './component/Track.vue';
+import ScrollbarTrack from './ScrollbarTrack.vue';
 defineOptions({
   name: 'Scrollbar',
   inheritAttrs: false,

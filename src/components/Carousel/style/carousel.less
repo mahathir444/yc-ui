@@ -1,3 +1,4 @@
+@import './animation.less';
 .yc-carousel {
   position: relative;
   &:hover .yc-carousel-arrow-show-hover {
@@ -34,6 +35,28 @@
     &.yc-carousel-item-current {
       opacity: 1;
     }
+  }
+}
+.yc-carousel-animation-card {
+  .yc-carousel-item {
+    visibility: hidden;
+  }
+  .yc-carousel-item-prev {
+    visibility: visible;
+    transform: translateX(-100%) translateZ(-200px);
+    opacity: 0.4;
+    animation: carousel-card-top-to-middle;
+  }
+  .yc-carousel-item-current {
+    visibility: visible;
+    z-index: 1;
+    animation: carousel-card-middle-to-top;
+  }
+  .yc-carousel-item-next {
+    visibility: visible;
+    transform: translateX(0%) translateZ(-200px);
+    opacity: 0.4;
+    animation: carousel-card-bottom-to-middle;
   }
 }
 // direction
@@ -97,6 +120,7 @@
   display: flex;
   &.yc-carousel-indicator-position-outer {
     .yc-carousel-indicator-item {
+      background-color: rgba(201, 205, 212, 0.5);
       &:hover,
       &.yc-carousel-indicator-item-active {
         background-color: rgb(201, 205, 212);
@@ -184,7 +208,6 @@
 }
 .yc-carousel-indicator-shape-slider {
   cursor: pointer;
-
   border-radius: 4px;
   background-color: rgba(255, 255, 255, 0.3);
   &.yc-carousel-indicator-position-left,
@@ -204,6 +227,7 @@
     }
   }
   .yc-carousel-indicator-item {
+    flex-shrink: 0;
     flex: 1;
     opacity: 0;
   }

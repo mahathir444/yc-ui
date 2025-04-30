@@ -30,9 +30,9 @@
             width: '600px',
             height: '240px',
           }"
-          animation-name="fade"
-          indicator-type="slider"
-          indicator-position="right"
+          animation-name="card"
+          show-arrow="never"
+          indicator-position="outer"
           @change="handleChange"
         >
           <a-carousel-item v-for="image in images">
@@ -50,9 +50,9 @@
             width: '600px',
             height: '240px',
           }"
-          animation-name="fade"
-          indicator-type="slider"
-          indicator-position="right"
+          animation-name="card"
+          show-arrow="never"
+          indicator-position="outer"
           @change="handleChange"
         >
           <yc-carousel-item v-for="image in images">

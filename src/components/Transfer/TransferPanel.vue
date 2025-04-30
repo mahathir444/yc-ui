@@ -90,9 +90,9 @@
 
 <script lang="ts" setup>
 import { ref, toRefs, computed } from 'vue';
-import { TransferItem } from '../type';
+import { TransferItem } from './type';
 import { IconDelete, IconClose } from '@shared/icons';
-import useProvide from '../hooks/useProvide';
+import useProvide from './hooks/useProvide';
 import YcEmpty from '@/components/Empty';
 import YcCheckbox from '@/components/Checkbox';
 import YcScrollbar from '@/components/Scrollbar';
@@ -204,5 +204,5 @@ const handleClear = () => {
 </script>
 
 <style lang="less" scoped>
-@import '../style/transfer.less';
+@import './style/transfer.less';
 </style>

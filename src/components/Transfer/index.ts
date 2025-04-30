@@ -1,5 +1,5 @@
 import { App } from 'vue';
-import _Transfer from './index.vue';
+import _Transfer from './Transfer.vue';
 export type TransferInstance = InstanceType<typeof _Transfer>;
 export * from './type';
 

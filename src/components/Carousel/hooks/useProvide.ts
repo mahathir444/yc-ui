@@ -29,6 +29,7 @@ export interface CarouselProvide {
   showArrow: Ref<ShowArrow>;
   arrowClass: Ref<string>;
   slideTo: (...args: any) => any;
+  getValidIndex: (...args: any) => any;
 }
 
 type Props = Reactive<Record<string, any>>;
@@ -95,6 +96,7 @@ export default () => {
       moveType,
       preIndex,
       slideTo,
+      getValidIndex,
     });
     return {
       computedCurrent,
@@ -115,6 +117,7 @@ export default () => {
       preIndex: ref(0),
       moveType: ref('positive'),
       slideTo: () => {},
+      getValidIndex: () => {},
     });
     const { length } = injection;
     // 自己的index

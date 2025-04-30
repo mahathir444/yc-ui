@@ -76,11 +76,11 @@
 
 <script lang="ts" setup>
 import { ref, toRefs, computed } from 'vue';
-import { InputEmits } from '../type';
+import { InputEmits } from './type';
 import { INPUT_SIZE_CLASS } from '@shared/constants';
 import { useControlValue, useConfigProvder } from '@shared/hooks';
-import useLimitedInput from '../hooks/useLimitedInput';
-import useProvide from '../hooks/useProvide';
+import useLimitedInput from './hooks/useLimitedInput';
+import useProvide from './hooks/useProvide';
 import InputSuffix from './InputSuffix.vue';
 import { YcPreventFocus } from '@shared/components';
 const { inject } = useProvide();
@@ -182,5 +182,5 @@ defineExpose({
 </script>
 
 <style lang="less" scoped>
-@import '../style/input.less';
+@import './style/input.less';
 </style>

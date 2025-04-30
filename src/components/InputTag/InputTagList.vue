@@ -32,7 +32,7 @@
 
 <script lang="ts" setup>
 import { computed, toRefs } from 'vue';
-import { InputTagValue, FormatTag } from '../type';
+import { InputTagValue, FormatTag } from './type';
 import { ObjectData, Size } from '@shared/type';
 import YcTag from '@/components/Tag';
 const props = defineProps<{

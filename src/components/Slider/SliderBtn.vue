@@ -21,9 +21,9 @@
 
 <script lang="ts" setup>
 import { ref, computed, watch, toRefs } from 'vue';
-import { PositionData } from '../type';
-import useProvide from '../hooks/useProvide';
-import useSliderDraggable from '../hooks/useSliderDraggable';
+import { PositionData } from './type';
+import useProvide from './hooks/useProvide';
+import useSliderDraggable from './hooks/useSliderDraggable';
 import YcTooltip from '@/components/Tooltip';
 const props = defineProps<{
   type: 'start' | 'end';
@@ -82,5 +82,5 @@ watch(position, () => {
 </script>
 
 <style lang="less" scoped>
-@import '../style/slider.less';
+@import './style/slider.less';
 </style>

@@ -20,8 +20,7 @@
 <script lang="ts" setup>
 import { ref, watch, toRefs, computed } from 'vue';
 import { useDraggable, useElementBounding } from '@vueuse/core';
-import { sleep } from '@shared/utils';
-import { parseColor } from '@shared/utils';
+import { sleep, parseColor } from '@shared/utils';
 const props = defineProps<{
   color: string;
   baseColor: string;
@@ -108,5 +107,5 @@ defineExpose({
 </script>
 
 <style lang="less" scoped>
-@import '../style/color-panel.less';
+@import './style/color-panel.less';
 </style>

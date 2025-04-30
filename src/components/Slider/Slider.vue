@@ -38,9 +38,9 @@ import { ref, computed } from 'vue';
 import { SliderProps, SliderEmits, PositionData } from './type';
 import { SLIDER_DIRECTION_MAP } from '@shared/constants';
 import useProvide from './hooks/useProvide';
-import YcSliderTicks from './component/SliderTicks.vue';
-import YcSliderBtn from './component/SliderBtn.vue';
-import YcSliderInput from './component/SliderInput.vue';
+import YcSliderTicks from './SliderTicks.vue';
+import YcSliderBtn from './SliderBtn.vue';
+import YcSliderInput from './SliderInput.vue';
 
 defineOptions({
   name: 'Slider',

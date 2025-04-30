@@ -2,7 +2,7 @@
   <div v-if="!hideIcon" class="yc-spin-icon">
     <slot name="icon">
       <icon-loading v-if="!dot" name="loading" :size="size" />
-      <dot-icon v-else />
+      <spin-dot v-else />
     </slot>
   </div>
   <div v-if="tip" class="yc-spin-tip">
@@ -13,7 +13,7 @@
 </template>
 
 <script lang="ts" setup>
-import DotIcon from './DotIcon.vue';
+import SpinDot from './SpinDot.vue';
 import { IconLoading } from '@shared/icons';
 defineProps<{
   dot: boolean;
@@ -24,5 +24,5 @@ defineProps<{
 </script>
 
 <style lang="less" scoped>
-@import '../style/spin.less';
+@import './style/spin.less';
 </style>

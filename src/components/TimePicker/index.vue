@@ -131,7 +131,7 @@ import {
   parseTimeStrByFormat,
   timeObjToStr,
 } from '@shared/utils';
-import YcScrollbar from '@/components/Scrollbar/index.vue';
+import YcScrollbar from '@/components/Scrollbar/Scrollbar.vue';
 import { useTemplateRefsList } from '@vueuse/core';
 import { useControlValue } from '@shared/hooks';
 import dayjs from 'dayjs';
