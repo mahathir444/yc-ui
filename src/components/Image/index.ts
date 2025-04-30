@@ -17,6 +17,11 @@ const Image = Object.assign(_Image, {
   },
 });
 
+export {
+  _ImagePreview as ImagePreview,
+  _ImagePreviewAction as ImagePreviewAction,
+};
+
 declare module 'vue' {
   export interface GlobalComponents {
     YcImage: typeof Image;

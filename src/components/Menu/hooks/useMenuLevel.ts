@@ -136,7 +136,7 @@ export default (params: {
         ],
       };
     }
-    console.log(menuItemData.value);
+    // console.log(menuItemData.value);
     const target = childKeys.value.find((item) => item.path == path.value);
     if (isSubmenu.value || target) return;
     childKeys.value.push({

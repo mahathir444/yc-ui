@@ -65,4 +65,6 @@ const actionMap: Record<string, any> = {
 };
 </script>
 
-<style lang="less" scoped></style>
+<style lang="less" scoped>
+@import './style/image-preview.less';
+</style>

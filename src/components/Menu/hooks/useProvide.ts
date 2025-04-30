@@ -12,7 +12,7 @@ import { TriggerProps } from '@/components/Trigger';
 import { MenuMode, PopupMaxHeight, MenuEmits } from '../type';
 import { useControlValue } from '@shared/hooks';
 import { ChlidTreeNode } from './useMenuLevel';
-import useCalcVisible from './useCalcVisible';
+import useCalcMaxShow from './useCalcMaxShow';
 
 export const MENU_PROVIDE_KEY = 'menu-props';
 
@@ -30,6 +30,8 @@ interface MenuProvide {
   order: Ref<number>;
   max: Ref<number>;
   menuItemData: Ref<MenuItemData[]>;
+  autoScrollIntoView: Ref<boolean>;
+  scrollConfig: Ref<ScrollIntoViewOptions>;
   popupMaxHeight: Ref<PopupMaxHeight>;
   emits: MenuEmits;
 }
@@ -55,12 +57,13 @@ export default () => {
       breakpoint,
       accordion,
       autoOpen,
-      theme,
       triggerProps,
       tooltipProps,
       autoOpenSelected,
       mode,
       popupMaxHeight,
+      autoScrollIntoView,
+      scrollConfig,
       collapsedWidth: _collapsedWidth,
     } = toRefs(props);
     // menuredf
@@ -93,7 +96,7 @@ export default () => {
       }
     );
     // 计算能显示的menuItem数目
-    const { max, order, menuItemData } = useCalcVisible(menuRef);
+    const { max, order, menuItemData } = useCalcMaxShow(menuRef);
     _provide<MenuProvide>(MENU_PROVIDE_KEY, {
       computedSelectedKeys,
       computedOpenKeys,
@@ -107,14 +110,18 @@ export default () => {
       autoOpenSelected,
       popupMaxHeight,
       order,
+      autoScrollIntoView,
       menuItemData,
       max,
+      scrollConfig,
       emits,
     });
     return {
+      max,
+      menuItemData,
       computedCollapsed,
-      _collapsedWidth,
       breakpoint,
+      _collapsedWidth,
     };
   };
   const inject = () => {
@@ -133,6 +140,8 @@ export default () => {
       order: ref(0),
       max: ref(0),
       menuItemData: ref([]),
+      autoScrollIntoView: ref(false),
+      scrollConfig: ref({}),
       emits: () => {},
     });
   };

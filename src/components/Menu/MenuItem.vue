@@ -37,48 +37,44 @@
         </div>
       </div>
     </define-template>
-    <!-- 选然popover -->
-    <yc-popover
+    <!-- dropdown选择 -->
+    <yc-dropdown
       v-if="isSubmenu && !curLevel && (mode != 'vertical' || computedCollapsed)"
-      :position="mode == 'horizontal' ? 'bl' : 'rt'"
+      :popup-max-height="maxHeight"
       :trigger-props="{
+        autoFitPosition: false,
         autoFitPopupMinWidth: true,
+        needTransformOrigin: true,
+        position: mode == 'horizontal' ? 'bl' : 'rt',
+        animationName: 'zoom-in-fade-out',
         ...triggerProps,
       }"
-      :autoFitPosition="false"
-      :content-style="{
-        padding: '4px 0',
-      }"
-      ref="popoverRef"
+      ref="dropdownRef"
+      @select="handleSelect"
     >
       <reuse-template />
       <template #content>
-        <yc-scrollbar
-          :style="{
-            maxHeight: maxHeight + 'px',
-          }"
+        <pop-option
+          v-for="item in childTree[0].children"
+          :key="item.path"
+          :child-node="item"
+          :mode="mode"
+          :computed-selected-keys="computedSelectedKeys"
+          :popup-max-height="maxHeight"
+          :trigger-props="triggerProps"
         >
-          <pop-option
-            v-for="item in childTree"
-            :key="item.path"
-            :child-node="item"
-            :mode="mode"
-            :computed-selected-keys="computedSelectedKeys"
-            :trigger-props="triggerProps"
-            :popup-max-height="maxHeight"
-          >
-            {{ item.label }}
-          </pop-option>
-        </yc-scrollbar>
+          {{ item.label }}
+        </pop-option>
       </template>
-    </yc-popover>
+    </yc-dropdown>
     <!-- 选然tooltip -->
     <yc-tooltip
       v-else-if="!isSubmenu && curLevel && computedCollapsed"
       position="rt"
-      :autoFitPosition="false"
       :content="title"
-      v-bind="tooltipProps"
+      :trigger-props="{
+        autoFitPosition: false,
+      }"
     >
       <reuse-template />
     </yc-tooltip>
@@ -88,21 +84,15 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, toRefs, computed, onMounted, provide } from 'vue';
+import { ref, toRefs, computed, onMounted } from 'vue';
 import { createReusableTemplate } from '@vueuse/core';
 import { MenuItemProps } from './type';
 import { getTextContent, isNumber } from '@shared/utils';
-import {
-  DROPDOWN_PROVIDE_KEY,
-  DropdownProvide,
-} from '@/components/Dropdown/hooks/useProvide';
 import useProvide from './hooks/useProvide';
 import useMenuLevel from './hooks/useMenuLevel';
+import { default as YcDropdown, DropdownInstance } from '@/components/Dropdown';
 import PopOption from './MenuPopOption.vue';
-import YcPopover, { PopoverInstance } from '@/components/Popover';
 import YcTooltip from '@/components/Tooltip';
-import YcScrollbar from '@/components/Scrollbar';
-
 defineOptions({
   name: 'MenuItem',
 });
@@ -112,9 +102,6 @@ const props = withDefaults(defineProps<MenuItemProps>(), {
   isSubmenu: false,
 });
 const { path, disabled, isSubmenu } = toRefs(props);
-// 创建通用模板
-const { reuse: ReuseTemplate, define: DefineTemplate } =
-  createReusableTemplate();
 // 接收menu注入
 const { inject } = useProvide();
 const {
@@ -130,12 +117,17 @@ const {
   mode,
   order,
   max,
+  autoScrollIntoView,
+  scrollConfig,
   menuItemData,
   popupMaxHeight: _popupMaxHeight,
   emits: _emits,
 } = inject();
+// 创建通用模板
+const { reuse: ReuseTemplate, define: DefineTemplate } =
+  createReusableTemplate();
 // popup可见性
-const popoverRef = ref<PopoverInstance>();
+const dropdownRef = ref<DropdownInstance>();
 // title容器
 const menuItemRef = ref<HTMLDivElement>();
 // title
@@ -169,15 +161,20 @@ const {
   computedSelectedKeys,
 });
 // 注入Popover
-provide<DropdownProvide>(DROPDOWN_PROVIDE_KEY, {
-  select: (value) => {
-    if (computedSelectedKeys.value != (value as string)) {
-      computedSelectedKeys.value = value as string;
-      _emits('menuItemClick', value as string);
-    }
-    popoverRef.value?.hide();
-  },
-});
+const handleSelect = (value: any) => {
+  if (computedSelectedKeys.value != (value as string)) {
+    computedSelectedKeys.value = value as string;
+    _emits('menuItemClick', value as string);
+  }
+  dropdownRef.value?.hide();
+};
+// 自动滚动
+const autoScroll = () => {
+  // 配置自动滚动
+  if (autoScrollIntoView.value && computedSelectedKeys.value == path.value) {
+    menuItemRef.value?.scrollIntoView(scrollConfig.value);
+  }
+};
 // 处理点击
 const handleClick = () => {
   if (
@@ -210,10 +207,16 @@ const handleClick = () => {
 // 收集
 onMounted(() => {
   collectKeys(title.value);
-  if (!isSubmenu.value) return;
-  if (autoOpen.value || (isSelected.value && autoOpenSelected.value)) {
-    computedSelectedKeys.value = path.value;
+  autoScroll();
+  if (
+    !isSubmenu.value ||
+    !autoOpen.value ||
+    !autoOpenSelected.value ||
+    !isSelected.value
+  ) {
+    return;
   }
+  computedOpenKeys.value.push(path.value);
 });
 // 暴露方法
 defineExpose({

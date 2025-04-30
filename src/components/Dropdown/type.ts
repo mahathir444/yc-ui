@@ -9,14 +9,8 @@ export interface DropdownProps {
   position?: 'top' | 'tr' | 'tl' | 'bottom' | 'br' | 'bl';
   popupContainer?: PopupContainer;
   hideOnSelect?: boolean;
-  triggerProps?: Omit<
-    TriggerProps,
-    | 'popupVisible'
-    | 'defaultPopupVisible'
-    | 'trigger'
-    | 'position'
-    | 'popupContainer'
-  >;
+  triggerProps?: TriggerProps;
+  popupMaxHeight?: number;
 }
 
 export interface DropdownEmits {
@@ -38,10 +32,7 @@ export interface DsubmenuProps {
   position?: 'rt' | 'lt';
   popupVisible?: boolean;
   defaultPopupVisible?: boolean;
-  triggerProps?: Omit<
-    TriggerProps,
-    'disabled' | 'trigger' | 'position' | 'popupVisible' | 'defaultPopupVisible'
-  >;
+  triggerProps?: TriggerProps;
   popupMaxHeight?: number;
 }
 

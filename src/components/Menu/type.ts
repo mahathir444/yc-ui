@@ -22,9 +22,8 @@ export interface MenuProps {
   tooltipProps?: TooltipProps;
   autoOpenSelected?: boolean;
   popupMaxHeight?: PopupMaxHeight;
-  //
   autoScrollIntoView?: boolean;
-  scrollConfig?: Record<string, any>;
+  scrollConfig?: ScrollIntoViewOptions;
 }
 
 export interface MenuEmits {

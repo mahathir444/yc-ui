@@ -59,7 +59,7 @@ import {
   ImagePreviewSlots,
 } from './type';
 import { useConfigProvder, useControlValue } from '@shared/hooks';
-import { useDraggable, useEventListener } from '@vueuse/core';
+import { useDraggable, useEventListener, onKeyStroke } from '@vueuse/core';
 import useModalClose from '../Modal/hooks/useModalClose';
 import ImagePreviewToolbar from './ImagePreviewToolbar.vue';
 import ImagePreviewCloseBtn from './ImagePreviewCloseBtn.vue';
@@ -98,6 +98,7 @@ const {
   defaultScale,
   zoomRate,
   wheelZoom,
+  keyboard,
 } = toRefs(props);
 const { zIndex, popupContainer } = useConfigProvder(props);
 // scale
@@ -181,49 +182,20 @@ const intLisenter = () => {
       scale.value *= Math.pow(zoomRate.value, delta);
     });
   }
+  if (keyboard.value) {
+    const map: Record<string, string> = {
+      ArrowUp: 'zoomIn',
+      ArrowDown: 'zoomOut',
+      ' ': 'originalSize',
+    };
+    onKeyStroke(['ArrowUp', 'ArrowDown', ' '], (e) => {
+      handleAction(map[e.key]);
+    });
+  }
 };
 intLisenter();
 </script>
 
 <style lang="less" scoped>
-.yc-image-preview {
-  position: fixed;
-  inset: 0 0 0 0;
-  .yc-image-preview-mask {
-    position: absolute;
-    inset: 0 0 0 0;
-    background-color: rgba(29, 33, 41, 0.6);
-  }
-  .yc-image-preview-wrapper {
-    position: absolute;
-    inset: 0 0 0 0;
-    .yc-image-preview-img-container {
-      inset: 0 0 0 0;
-      position: absolute;
-      .yc-image-preview-img {
-        display: inline-block;
-        max-width: 100%;
-        max-height: 100%;
-        vertical-align: middle;
-        cursor: grab;
-        user-select: none;
-      }
-    }
-    .yc-image-preview-toolbar {
-      position: absolute;
-      bottom: 46px;
-      left: 50%;
-      transform: translate(-50%);
-      padding: 4px 16px;
-      background-color: #fff;
-      border-radius: 4px;
-      display: flex;
-      align-items: flex-start;
-      .yc-image-preview-toolbar-action {
-        width: 40px;
-        height: 40px;
-      }
-    }
-  }
-}
+@import './style/image-preview.less';
 </style>

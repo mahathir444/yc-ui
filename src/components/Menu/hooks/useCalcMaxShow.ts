@@ -25,6 +25,7 @@ export default (menuRef: Ref<HTMLDivElement | undefined>) => {
         maxCount++;
       }
       max.value = maxCount;
+      console.log(maxCount);
     }
   );
   return {

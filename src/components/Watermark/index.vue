@@ -9,7 +9,6 @@ import { onMounted, ref, watch, computed, CSSProperties, toRefs } from 'vue';
 import { WatermarkProps } from './type';
 import { useMutationObserver } from '@vueuse/core';
 import { isArray } from '@shared/utils';
-import { canvasToGray, styleToString } from './utils';
 defineOptions({
   name: 'Watermark',
 });
@@ -86,6 +85,29 @@ const markStyle = computed(() => {
   } as CSSProperties;
 });
 const isStaggered = computed(() => staggered.value && repeat.value);
+
+function camelToKebab(camelCase: string): string {
+  return camelCase.replace(/([a-z])([A-Z])/g, '$1-$2').toLowerCase();
+}
+function styleToString(style: CSSProperties): string {
+  return Object.entries(style)
+    .map(([key, value]) => `${camelToKebab(key)}:${value}`)
+    .join(';');
+}
+// 让canvas灰化
+function canvasToGray(canvas: HTMLCanvasElement): void {
+  const ctx = canvas.getContext('2d');
+  if (!ctx) return;
+  const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+  const { data } = imageData;
+  for (let i = 0; i < data.length; i += 4) {
+    const brightness = (data[i] + data[i + 1] + data[i + 2]) / 3;
+    data[i] = brightness;
+    data[i + 1] = brightness;
+    data[i + 2] = brightness;
+  }
+  ctx.putImageData(imageData, 0, 0);
+}
 // 添加水印
 const appendWatermark = (base64: string, width: number) => {
   if (containerRef.value) {

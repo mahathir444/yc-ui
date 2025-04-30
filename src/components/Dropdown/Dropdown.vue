@@ -14,7 +14,11 @@
     <slot />
     <template #content>
       <div class="yc-dropdown">
-        <yc-scrollbar style="max-height: 200px">
+        <yc-scrollbar
+          :style="{
+            maxHeight: popupMaxHeight + 'px',
+          }"
+        >
           <div class="yc-dropdown-list">
             <slot name="content" />
           </div>
@@ -47,7 +51,7 @@ const props = withDefaults(defineProps<DropdownProps>(), {
   triggerProps: () => {
     return {};
   },
-  isMenuDropdown: false,
+  popupMaxHeight: 200,
 });
 const emits = defineEmits<{
   (e: 'update:popupVisible', value: boolean): void;
@@ -61,6 +65,14 @@ const { computedVisible } = provide(props, emits);
 // 位置
 const position = computed(() => {
   return DROPDOWN_POSITION_MAP[_position.value] || 'bottom';
+});
+defineExpose({
+  show() {
+    computedVisible.value = true;
+  },
+  hide() {
+    computedVisible.value = false;
+  },
 });
 </script>
 

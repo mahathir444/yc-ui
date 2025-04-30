@@ -40,27 +40,5 @@ const handleEvent = (type: string, ev: MouseEvent) => {
 </script>
 
 <style lang="less" scoped>
-.yc-image-preview-toolbar-action {
-  cursor: pointer;
-  border-radius: 2px;
-  background-color: transparent;
-  color: rgb(78, 89, 105);
-  font-size: 14px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  &-content {
-    padding: 13px;
-    line-height: 1;
-  }
-  &:not(&-disabled):hover {
-    color: rgb(22, 93, 255);
-    background-color: rgb(242, 243, 245);
-  }
-}
-.yc-image-preview-toolbar-action-disabled {
-  color: rgb(201, 205, 212);
-  background-color: transparent;
-  cursor: not-allowed;
-}
+@import './style/image-preview.less';
 </style>

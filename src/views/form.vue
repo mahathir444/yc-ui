@@ -111,6 +111,10 @@
       transfer
       <yc-transfer :data="options" show-search />
     </div>
+    <div style="width: 300px">
+      VerificationCode
+      <yc-verification-code />
+    </div>
   </div>
 </template>
 

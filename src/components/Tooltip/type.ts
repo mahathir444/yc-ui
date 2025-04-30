@@ -14,17 +14,7 @@ export interface TooltipProps {
   arrowClass?: string;
   arrowStyle?: CSSProperties;
   popupContainer?: PopupContainer;
-  triggerProps?: Omit<
-    TriggerProps,
-    | 'position'
-    | 'contentClass'
-    | 'contentStyle'
-    | 'arrowClass'
-    | 'arrowStyle'
-    | 'popupContainer'
-    | 'popupVisible'
-    | 'defaultPopupVisible'
-  >;
+  triggerProps?: TriggerProps;
 }
 
 export interface TooltipEmits {

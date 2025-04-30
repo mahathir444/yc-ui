@@ -23,6 +23,7 @@
     />
     <!-- 图像预览 -->
     <image-preview
+      v-if="preview"
       v-model:visible="computedVisible"
       :src="src"
       v-bind="previewProps"
@@ -146,93 +147,5 @@ watch(
 </script>
 
 <style lang="less" scoped>
-.yc-image {
-  position: relative;
-  display: inline-block;
-  border-radius: 2px;
-  .yc-image-img {
-    vertical-align: middle;
-    border-radius: inherit;
-    border-style: none;
-  }
-
-  .yc-image-overlay {
-    position: absolute;
-    inset: 0 0 0 0;
-    z-index: 11;
-    .yc-image-error {
-      width: 100%;
-      height: 100%;
-      color: rgb(201, 205, 212);
-      background-color: rgb(247, 248, 250);
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-
-      .yc-image-error-icon {
-        width: 60px;
-        height: 60px;
-        max-width: 100%;
-        max-height: 100%;
-      }
-      .yc-image-error-alt {
-        padding: 8px 16px;
-        font-size: 12px;
-        line-height: 1.6667;
-      }
-    }
-    .yc-image-loader {
-      background-color: rgba(255, 255, 255, 0.6);
-      display: flex;
-      justify-content: center;
-      align-items: center;
-    }
-  }
-
-  .yc-image-footer {
-    width: 100%;
-    display: flex;
-    justify-content: space-between;
-
-    gap: 12px;
-    .yc-image-footer-caption {
-      flex: 1;
-      .yc-image-footer-caption-title {
-        font-weight: 500;
-        font-size: 16px;
-      }
-      .yc-image-footer-caption-description {
-        font-size: 14px;
-      }
-    }
-    .yc-image-footer-extra {
-      flex-shrink: 0;
-    }
-  }
-  .yc-image-footer-inner {
-    padding: 9px 16px;
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    color: #fff;
-    background: linear-gradient(
-      360deg,
-      rgba(0, 0, 0, 0.3) 0%,
-      rgba(0, 0, 0, 0) 100%
-    );
-    border-bottom-right-radius: 2px;
-    border-bottom-left-radius: 2px;
-    align-items: center;
-  }
-  .yc-image-footer-outer {
-    margin-top: 4px;
-    color: rgb(78, 89, 105);
-    .yc-image-footer-caption {
-      .yc-image-footer-caption-title {
-        color: rgb(29, 33, 41);
-      }
-    }
-  }
-}
+@import './style/image';
 </style>

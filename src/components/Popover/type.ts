@@ -18,18 +18,7 @@ export interface PopoverProps {
   arrowClass?: string;
   arrowStyle?: CSSProperties;
   popupContainer?: PopupContainer;
-  triggerProps?: Omit<
-    TriggerProps,
-    | 'trigger'
-    | 'position'
-    | 'contentClass'
-    | 'contentStyle'
-    | 'arrowClass'
-    | 'arrowStyle'
-    | 'popupContainer'
-    | 'popupVisible'
-    | 'defaultPopupVisible'
-  >;
+  triggerProps?: TriggerProps;
 }
 
 export interface PopoverEmits {

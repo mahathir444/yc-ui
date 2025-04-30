@@ -65,7 +65,7 @@ import Avatar from './Avatar';
 import Badge from './Badge';
 import { default as Card, CardMeta, CardGrid } from './Card';
 import { default as Carousel, CarouselItem } from './Carousel';
-import Image from './Image';
+import { default as Image, ImagePreview, ImagePreviewAction } from './Image';
 
 export const components: Record<string, Plugin> = {
   Button,
@@ -154,6 +154,8 @@ export default {
   CardMeta,
   CardGrid,
   CarouselItem,
+  ImagePreview,
+  ImagePreviewAction,
   install: (app: App) => {
     for (const key of Object.keys(components)) {
       app.use(components[key]);

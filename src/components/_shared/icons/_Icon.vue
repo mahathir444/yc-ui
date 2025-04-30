@@ -6,6 +6,7 @@
     fill="none"
     xmlns="http://www.w3.org/2000/svg"
     stroke="currentColor"
+    class="yc-icon"
     v-bind="attrs"
   >
     <slot></slot>
@@ -51,23 +52,16 @@ const style = computed(() => {
     height = size.value ? size.value + 'px' : '1em';
   }
   return {
-    color: color.value ? color.value : 'inherit',
     width,
     height,
+    color: color.value ? color.value : 'inherit',
     transform: rotate ? `rotate(${rotate.value}deg)` : 'unset',
+    animation: spin.value ? 'spin 1s infinite cubic-bezier(0, 0, 1, 1)' : '',
   } as CSSProperties;
-});
-// 计算className
-const className = computed(() => {
-  return {
-    'yc-icon': true,
-    'yc-icon-spin': spin.value,
-  };
 });
 // 计算attrs
 const attrs = computed(() => {
   return {
-    class: className.value,
     style: style.value,
     'stroke-width': strokeWidth.value,
     'stroke-linecap': strokeLinecap.value,
@@ -87,7 +81,6 @@ const attrs = computed(() => {
     transform: rotate(360deg);
   }
 }
-
 // icon
 .yc-icon {
   display: inline-block;
@@ -95,9 +88,5 @@ const attrs = computed(() => {
   width: 1em;
   height: 1em;
   color: inherit;
-}
-// spin-icon
-.yc-icon-spin {
-  animation: spin 1s infinite cubic-bezier(0, 0, 1, 1);
 }
 </style>
