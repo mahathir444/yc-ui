@@ -72,6 +72,7 @@
 
 <script lang="ts" setup>
 import { ref, watch } from 'vue';
+import Modal from '@/components/Modal';
 const size = ref(0.7);
 const collapsed = ref<boolean>(false);
 const menus = Array(5)
@@ -93,6 +94,16 @@ const images = [
 const handleChange = (value: number) => {
   console.log(value);
 };
+
+Modal.open({
+  title: '测试',
+  content: '测试',
+  onBeforeOk(done) {
+    setTimeout(() => {
+      done(true);
+    }, 1000);
+  },
+});
 </script>
 
 <style lang="less" scoped>

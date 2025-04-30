@@ -1,7 +1,7 @@
 import { App, render, h } from 'vue';
 import { DrawerConfig, DrawerServiceData } from './type';
-import _Drawer from './index.vue';
-import _ServiceDrawer from './component/ServiceDrawer.vue';
+import _Drawer from './Drawer.vue';
+import _DrawerService from './DrawerService.vue';
 export type DrawerInstance = InstanceType<typeof _Drawer>;
 export * from './type';
 
@@ -26,7 +26,7 @@ const Drawer = Object.assign(_Drawer, {
       render(null, drawerConfig.container as HTMLDivElement);
     };
     const { onOk: _onOk, onCancel: _onCancel } = props;
-    const vnode = h(_ServiceDrawer, {
+    const vnode = h(_DrawerService, {
       ...props,
       async onOk() {
         await _onOk?.();

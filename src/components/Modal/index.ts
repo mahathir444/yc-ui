@@ -1,7 +1,7 @@
 import { App, h, render } from 'vue';
 import { ModalConfig, ModalMethods, ModalServiceData } from './type';
-import _ServiceModal from './component/ServiceModal.vue';
-import _Modal from './index.vue';
+import _ModalService from './ModalService.vue';
+import _Modal from './Modal.vue';
 
 export type ModalInstance = InstanceType<typeof _Modal>;
 export * from './type';
@@ -26,17 +26,9 @@ const Modal = Object.assign(_Modal, {
     const close = () => {
       render(null, modalConfig.container as HTMLDivElement);
     };
-    const { onOk: _onOk, onCancel: _onCancel } = props;
-    const vnode = h(_ServiceModal, {
+    const vnode = h(_ModalService, {
       ...props,
-      async onOk() {
-        await _onOk?.();
-        close();
-      },
-      async onCancel() {
-        await _onCancel?.();
-        close();
-      },
+      serviceCloseFn: close,
     });
     // 渲染 VNode 到容器
     render(vnode, modalConfig.container);

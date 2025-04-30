@@ -25,16 +25,16 @@
     :fullscreen="fullscreen"
     :body-style="bodyStyle"
     :hide-title="hideTitle"
-    :on-before-cancel="onBeforeCancel"
-    :on-before-close="onBeforeClose"
     :render-to-body="renderToBody"
     :modal-class="'yc-service-modal'"
-    @close="onClose?.()"
-    @open="onOpen?.()"
-    @before-close="onBeforeClose?.()"
-    @before-open="onBeforeOpen?.()"
-    @ok="onOk?.()"
+    :on-before-ok="handleOnBeforeOk"
+    :on-before-cancel="onBeforeCancel"
+    @ok="handleOk"
     @cancel="onCancel?.()"
+    @before-open="onBeforeOpen?.()"
+    @before-close="onBeforeClose?.()"
+    @open="onOpen?.()"
+    @close="handleClose"
   >
     <template #title>
       <span v-if="type" class="yc-modal-title-icon">
@@ -55,10 +55,10 @@
 
 <script lang="ts" setup>
 import { ref, toRefs } from 'vue';
-import { ModalConfig } from '../type';
+import { ModalConfig } from './type';
 import { getSlotFunction } from '@shared/utils';
 import { TYPE_ICON_MAP, TYPE_ICON_COLOR_MAP } from '@shared/constants';
-import YcModal from '../index.vue';
+import YcModal from './Modal.vue';
 const props = withDefaults(defineProps<ModalConfig>(), {
   width: 400,
   top: 100,
@@ -101,11 +101,31 @@ const props = withDefaults(defineProps<ModalConfig>(), {
   onBeforeOk: () => {
     return true;
   },
+  serviceCloseFn: () => {},
   content: '',
 });
 const { type } = toRefs(props);
+const { onBeforeOk, onOk, onClose, serviceCloseFn } = props;
 // visible
 const visible = ref<boolean>(true);
+// loading
+const loading = ref<boolean>(false);
+// 处理beforeOk
+const handleOnBeforeOk = (done: any) => {
+  loading.value = true;
+  return onBeforeOk?.(done);
+};
+// 处理ok
+const handleOk = async () => {
+  loading.value = false;
+  await onOk?.();
+  visible.value = false;
+};
+// 处理close
+const handleClose = () => {
+  serviceCloseFn?.();
+  onClose?.();
+};
 </script>
 
 <style lang="less">

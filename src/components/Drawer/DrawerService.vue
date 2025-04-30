@@ -8,7 +8,7 @@
     :closable="closable"
     :ok-text="okText"
     :cancel-text="cancelText"
-    :ok-loading="okLoading"
+    :ok-loading="loading || okLoading"
     :ok-button-props="okButtonProps"
     :cancel-button-props="cancelButtonProps"
     :unmount-on-close="unmountOnClose"
@@ -21,14 +21,14 @@
     :header="header"
     :footer="footer"
     :hide-cancel="hideCancel"
+    :on-before-ok="handleOnBeforeOk"
     :on-before-cancel="onBeforeCancel"
-    :on-before-ok="onBeforeOk"
-    @close="onClose?.()"
-    @open="onOpen?.()"
-    @before-close="onBeforeClose?.()"
-    @before-open="onBeforeOpen?.()"
-    @ok="onOk?.()"
+    @ok="handleOk"
     @cancel="onCancel?.()"
+    @before-open="onBeforeOpen?.()"
+    @before-close="onBeforeClose?.()"
+    @open="onOpen?.()"
+    @close="handleClose"
   >
     <template #title>
       <component :is="getSlotFunction(title)" />
@@ -41,10 +41,10 @@
 
 <script lang="ts" setup>
 import { ref } from 'vue';
-import { DrawerConfig } from '../type';
+import { DrawerConfig } from './type';
 import { getSlotFunction } from '@shared/utils';
-import YcDrawer from '../index.vue';
-withDefaults(defineProps<DrawerConfig>(), {
+import YcDrawer from './Drawer.vue';
+const props = withDefaults(defineProps<DrawerConfig>(), {
   placement: 'right',
   title: '',
   mask: true,
@@ -78,6 +78,25 @@ withDefaults(defineProps<DrawerConfig>(), {
     return true;
   },
 });
+const { onBeforeOk, onOk, onClose, serviceCloseFn } = props;
 // visible
 const visible = ref<boolean>(true);
+// loading
+const loading = ref<boolean>(false);
+// 处理beforeOk
+const handleOnBeforeOk = (done: any) => {
+  loading.value = true;
+  return onBeforeOk?.(done);
+};
+// 处理ok
+const handleOk = async () => {
+  loading.value = false;
+  await onOk?.();
+  visible.value = false;
+};
+// 处理close
+const handleClose = () => {
+  serviceCloseFn?.();
+  onClose?.();
+};
 </script>

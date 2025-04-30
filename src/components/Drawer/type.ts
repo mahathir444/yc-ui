@@ -1,6 +1,6 @@
 import { CSSProperties } from 'vue';
 import { ButtonProps } from '@/components/Button';
-import { OnBeforeCancel } from '@/components/Modal';
+import { OnBeforeCancel, OnBeforeOk } from '@/components/Modal';
 import { RenderContent, PopupContainer } from '@shared/type';
 export interface DrawerProps {
   visible?: boolean;
@@ -26,7 +26,7 @@ export interface DrawerProps {
   footer?: boolean;
   hideCancel?: boolean;
   onBeforeCancel?: OnBeforeCancel;
-  onBeforeOk?: OnBeforeCancel;
+  onBeforeOk?: OnBeforeOk;
 }
 
 export interface DrawerEmits {
@@ -42,6 +42,7 @@ export interface DrawerEmits {
 export type DrawerConfig = Omit<DrawerProps, 'visible' | 'defaultVisible'> & {
   content?: RenderContent;
   title?: RenderContent;
+  serviceCloseFn?: () => void;
   onOk?: () => void | Promise<void>;
   onCancel?: () => void | Promise<void>;
   onOpen?: () => void;

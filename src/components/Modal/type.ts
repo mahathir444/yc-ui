@@ -53,6 +53,7 @@ export type ModalConfig = Omit<ModalProps, 'visible' | 'defaultVisible'> & {
   title?: RenderContent;
   content: RenderContent;
   type?: ModalType;
+  serviceCloseFn?: () => void;
   onOk?: () => void | Promise<void>;
   onCancel?: () => void | Promise<void>;
   onOpen?: () => void;
