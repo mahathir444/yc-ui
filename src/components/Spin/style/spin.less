@@ -5,10 +5,12 @@
   height: fit-content;
 
   .yc-spin-icon {
-    animation: spin 1s infinite cubic-bezier(0, 0, 1, 1);
     display: flex;
     justify-content: center;
     align-items: center;
+    &.yc-spin-icon-loading {
+      animation: spin 1s infinite cubic-bezier(0, 0, 1, 1);
+    }
   }
 
   .yc-dot-loading {
@@ -59,16 +61,10 @@
     z-index: 11;
     inset: 0 0 0 0;
     background-color: rgba(255, 255, 255, 0.6);
-    display: none;
+    display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-  }
-}
-
-.yc-spin-loading {
-  .yc-spin-mask {
-    display: flex;
   }
 }
 

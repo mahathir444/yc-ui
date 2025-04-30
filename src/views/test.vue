@@ -25,6 +25,9 @@
         </yc-menu>
       </yc-layout-header>
       <yc-layout-content class="content">
+        <div>
+          <yc-spin dot />
+        </div>
         <a-carousel
           :style="{
             width: '600px',
@@ -94,16 +97,6 @@ const images = [
 const handleChange = (value: number) => {
   console.log(value);
 };
-
-Modal.open({
-  title: '测试',
-  content: '测试',
-  onBeforeOk(done) {
-    setTimeout(() => {
-      done(true);
-    }, 1000);
-  },
-});
 </script>
 
 <style lang="less" scoped>

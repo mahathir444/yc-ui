@@ -30,13 +30,14 @@
 </template>
 
 <script lang="ts" setup>
+import { MenuMode } from './type';
+import { TriggerProps } from '@/components/Trigger';
+import { ChlidTreeNode } from './hooks/useMenuLevel';
 import {
   Doption as YcDoption,
   Dsubmenu as YcDsubmenu,
 } from '@/components/Dropdown';
-import { TriggerProps } from '@/components/Trigger';
-import { ChlidTreeNode } from '../hooks/useMenuLevel';
-import { MenuMode } from '../type';
+
 defineOptions({
   name: 'PopOption',
 });

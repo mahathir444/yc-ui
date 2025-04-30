@@ -13,7 +13,7 @@
     :closable="closable"
     :ok-text="okText"
     :cancel-text="cancelText"
-    :ok-loading="okLoading"
+    :ok-loading="loading || okLoading"
     :ok-button-props="okButtonProps"
     :cancel-button-props="cancelButtonProps"
     :footer="footer"

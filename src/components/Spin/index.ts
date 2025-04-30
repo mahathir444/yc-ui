@@ -1,5 +1,5 @@
 import { App } from 'vue';
-import _Spin from './Spin.vue';
+import _Spin from './index.vue';
 export type SpinInstance = InstanceType<typeof _Spin>;
 export * from './type';
 

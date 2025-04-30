@@ -98,7 +98,7 @@ import {
 } from '@/components/Dropdown/hooks/useProvide';
 import useProvide from './hooks/useProvide';
 import useMenuLevel from './hooks/useMenuLevel';
-import PopOption from './component/PopOption.vue';
+import PopOption from './MenuPopOption.vue';
 import YcPopover, { PopoverInstance } from '@/components/Popover';
 import YcTooltip from '@/components/Tooltip';
 import YcScrollbar from '@/components/Scrollbar';
