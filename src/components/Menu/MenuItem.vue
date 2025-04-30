@@ -1,12 +1,20 @@
 <template>
-  <div class="yc-menu-item-wrapper" ref="menuItemRef">
+  <div
+    :class="{
+      'yc-menu-item-wrapper': true,
+      'yc-menu-item-mode-horizontal': mode == 'horizontal',
+    }"
+    ref="menuItemRef"
+  >
     <define-template>
       <div
-        :class="{
-          'yc-menu-item': true,
-          'yc-menu-item-selected': isSelected,
-          'yc-menu-item-disabled': disabled,
-        }"
+        :class="[
+          'yc-menu-item',
+          isSelected ? 'yc-menu-item-selected' : '',
+          disabled ? 'yc-menu-item-disabled' : '',
+          computedCollapsed ? 'yc-menu-item-collapsed' : '',
+          MENU_ITEM_THEME_MAP[theme],
+        ]"
         @click="handleClick"
       >
         <div
@@ -23,7 +31,10 @@
         <!-- content -->
         <div
           v-show="!computedCollapsed"
-          class="yc-menu-item-title text-ellipsis"
+          :class="{
+            'yc-menu-item-title': true,
+            'text-ellipsis': mode != 'horizontal',
+          }"
         >
           <slot />
         </div>
@@ -53,9 +64,10 @@
       @select="handleSelect"
     >
       <reuse-template />
+
       <template #content>
         <pop-option
-          v-for="item in childTree[0].children"
+          v-for="item in childTree"
           :key="item.path"
           :child-node="item"
           :mode="mode"
@@ -74,7 +86,9 @@
       :content="title"
       :trigger-props="{
         autoFitPosition: false,
+        ...triggerProps,
       }"
+      v-bind="tooltipProps"
     >
       <reuse-template />
     </yc-tooltip>
@@ -88,10 +102,11 @@ import { ref, toRefs, computed, onMounted } from 'vue';
 import { createReusableTemplate } from '@vueuse/core';
 import { MenuItemProps } from './type';
 import { getTextContent, isNumber } from '@shared/utils';
+import { MENU_ITEM_THEME_MAP } from '@shared/constants';
 import useProvide from './hooks/useProvide';
 import useMenuLevel from './hooks/useMenuLevel';
-import { default as YcDropdown, DropdownInstance } from '@/components/Dropdown';
 import PopOption from './MenuPopOption.vue';
+import { default as YcDropdown, DropdownInstance } from '@/components/Dropdown';
 import YcTooltip from '@/components/Tooltip';
 defineOptions({
   name: 'MenuItem',
@@ -115,12 +130,13 @@ const {
   tooltipProps,
   autoOpenSelected,
   mode,
+  theme,
   order,
-  max,
   autoScrollIntoView,
   scrollConfig,
-  menuItemData,
   popupMaxHeight: _popupMaxHeight,
+  max,
+  menuItemData,
   emits: _emits,
 } = inject();
 // 创建通用模板

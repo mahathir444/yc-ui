@@ -1,11 +1,9 @@
 <template>
   <div
-    :class="[
-      'yc-menu',
-      MENU_DIRECTION_MAP[mode],
-      MENU_THEME_MAP[theme],
-      computedCollapsed ? 'yc-menu-collapsed' : '',
-    ]"
+    :class="['yc-menu', MENU_DIRECTION_MAP[mode], MENU_THEME_MAP[theme]]"
+    :style="{
+      width: computedCollapsed ? collapsedWidth + 'px' : '',
+    }"
   >
     <div class="yc-menu-inner" ref="menuRef">
       <slot />
@@ -57,14 +55,15 @@ const props = withDefaults(defineProps<MenuProps>(), {
   popupMaxHeight: 167,
 });
 const emits = defineEmits<MenuEmits>();
+// menuredf
+const menuRef = ref<HTMLDivElement>();
 // 注入数据
 const { provide } = useProvide();
 const { computedCollapsed, _collapsedWidth, breakpoint } = provide(
   props,
-  emits
+  emits,
+  menuRef
 );
-// menuredf
-const menuRef = ref<HTMLDivElement>();
 // 收缩的宽度
 const collapsedWidth = computed(() => _collapsedWidth.value + 'px');
 // 处理点击
@@ -81,8 +80,4 @@ mediaQueryHandler((_, order, i) => {
 <style lang="less" scoped>
 @import './style/menu.less';
 @import './style//menu-item.less';
-// 收缩
-.yc-menu-collapsed {
-  width: v-bind(collapsedWidth) !important;
-}
 </style>

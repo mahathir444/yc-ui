@@ -23,12 +23,80 @@
     margin-left: 16px;
   }
 }
+// theme
+.yc-menu-item-theme-light {
+  &:not(.yc-menu-item-disabled) {
+    color: rgb(78, 89, 105);
+    &:hover {
+      background-color: rgb(242, 243, 245);
+    }
+  }
+}
+.yc-menu-item-theme-dark {
+  &:not(.yc-menu-item-disabled) {
+    color: rgb(201, 205, 212);
+    &:hover {
+      background-color: rgba(255, 255, 255, 0.04);
+    }
+  }
+}
 // 选中
 .yc-menu-item-selected {
   font-weight: 500;
+  &.yc-menu-item-theme-light {
+    color: rgb(22, 93, 255);
+    background-color: rgb(242, 243, 245);
+  }
+  &.yc-menu-item-theme-dark {
+    color: #fff;
+    background-color: rgba(255, 255, 255, 0.04);
+  }
 }
 // 禁用
 .yc-menu-item-disabled {
   color: rgb(201, 205, 212);
   background-color: #fff;
+}
+// collapsed
+.yc-menu-item-collapsed {
+  .yc-menu-icon {
+    margin-right: 0;
+  }
+}
+// mode
+.yc-menu-item-mode-horizontal {
+  flex-shrink: 0;
+  position: relative;
+  .yc-menu-item {
+    min-height: 30px;
+    line-height: 30px;
+    .yc-menu-icon-suffix {
+      margin-left: 6px;
+    }
+    &.yc-menu-item-selected {
+      background-color: transparent;
+      &::after {
+        content: '';
+        position: absolute;
+        left: 12px;
+        right: 12px;
+        bottom: -14px;
+        height: 3px;
+        background-color: rgb(22, 93, 255);
+      }
+    }
+  }
+}
+
+.yc-menu-mode-horizontal {
+  width: 100%;
+  .yc-menu-inner {
+    width: 100%;
+    padding: 14px 20px 14px 32px;
+    display: flex;
+    align-items: center;
+    &:deep(.yc-menu-inline) {
+      flex-shrink: 0;
+    }
+  }
 }

@@ -27,12 +27,13 @@ interface MenuProvide {
   tooltipProps: Ref<TooltipProps>;
   autoOpenSelected: Ref<boolean>;
   mode: Ref<MenuMode>;
-  order: Ref<number>;
-  max: Ref<number>;
-  menuItemData: Ref<MenuItemData[]>;
+  theme: Ref<'light' | 'dark'>;
   autoScrollIntoView: Ref<boolean>;
   scrollConfig: Ref<ScrollIntoViewOptions>;
   popupMaxHeight: Ref<PopupMaxHeight>;
+  order: Ref<number>;
+  max: Ref<number>;
+  menuItemData: Ref<MenuItemData[]>;
   emits: MenuEmits;
 }
 
@@ -44,7 +45,11 @@ export type MenuItemData = {
 type Props = Reactive<Record<string, any>>;
 
 export default () => {
-  const provide = (props: Props, emits: MenuEmits) => {
+  const provide = (
+    props: Props,
+    emits: MenuEmits,
+    menuRef: Ref<HTMLDivElement | undefined>
+  ) => {
     // 解构属性
     const {
       selectedKeys,
@@ -61,13 +66,12 @@ export default () => {
       tooltipProps,
       autoOpenSelected,
       mode,
+      theme,
       popupMaxHeight,
       autoScrollIntoView,
       scrollConfig,
       collapsedWidth: _collapsedWidth,
     } = toRefs(props);
-    // menuredf
-    const menuRef = ref<HTMLDivElement>();
     // 选中的key
     const computedSelectedKeys = useControlValue<string>(
       selectedKeys,
@@ -109,11 +113,12 @@ export default () => {
       mode,
       autoOpenSelected,
       popupMaxHeight,
-      order,
       autoScrollIntoView,
+      scrollConfig,
+      order,
+      theme,
       menuItemData,
       max,
-      scrollConfig,
       emits,
     });
     return {
@@ -136,12 +141,13 @@ export default () => {
       triggerProps: ref({}),
       autoOpenSelected: ref(false),
       mode: ref('vertical'),
+      theme: ref('light'),
       popupMaxHeight: ref(167),
+      autoScrollIntoView: ref(false),
+      scrollConfig: ref({}),
       order: ref(0),
       max: ref(0),
       menuItemData: ref([]),
-      autoScrollIntoView: ref(false),
-      scrollConfig: ref({}),
       emits: () => {},
     });
   };

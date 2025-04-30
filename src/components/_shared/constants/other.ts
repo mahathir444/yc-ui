@@ -55,7 +55,7 @@ export const TICKS_TYPE_CLASS = getComponentConstantsMap('yc-slider', [
 
 export const MENU_THEME_MAP = getComponentThemeMap('yc-menu');
 
-export const MENU_ITEM_THEME_MAP = getComponentThemeMap('yc-menu');
+export const MENU_ITEM_THEME_MAP = getComponentThemeMap('yc-menu-item');
 
 export const CAROUSEL_ANIMATION_CLASS = getComponentConstantsMap(
   'yc-carousel',

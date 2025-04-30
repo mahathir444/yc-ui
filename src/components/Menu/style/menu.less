@@ -38,52 +38,19 @@
     padding: 14px 20px 14px 32px;
     display: flex;
     align-items: center;
-    &:deep(.yc-menu-item) {
-      position: relative;
+    &:deep(.yc-menu-inline) {
       flex-shrink: 0;
-      min-height: 30px;
-      line-height: 30px;
-      width: fit-content;
-      .yc-menu-icon-suffix {
-        margin-left: 6px;
-      }
-      &.yc-menu-item-selected {
-        background-color: transparent;
-        &::after {
-          content: '';
-          position: absolute;
-          left: 12px;
-          right: 12px;
-          bottom: -14px;
-          height: 3px;
-          background-color: rgb(22, 93, 255);
-        }
-      }
     }
   }
 }
 // theme
 .yc-menu-theme-light {
   background-color: #fff;
-
   .yc-menu-collapse-button {
     color: rgb(134, 144, 156);
     background-color: rgb(247, 248, 250);
     &:hover {
       background-color: rgb(229, 230, 235);
-    }
-  }
-
-  &:deep(.yc-menu-item) {
-    &:not(.yc-menu-item-disabled) {
-      color: rgb(78, 89, 105);
-      &:hover {
-        background-color: rgb(229, 230, 235);
-      }
-    }
-    &.yc-menu-item-selected {
-      background-color: rgb(242, 243, 245);
-      color: rgb(22, 93, 255);
     }
   }
 }
@@ -94,31 +61,6 @@
     color: #fff;
     &:hover {
       background-color: rgb(14, 66, 210);
-    }
-  }
-  &:deep(.yc-menu-item) {
-    color: rgb(201, 205, 212);
-    &:not(.yc-menu-item-disabled) {
-      &:hover {
-        background-color: rgba(255, 255, 255, 0.04);
-      }
-    }
-    &.yc-menu-item-selected {
-      background-color: rgba(255, 255, 255, 0.04);
-      color: #fff;
-    }
-  }
-}
-// collapse
-.yc-menu-collapse {
-  .yc-menu-inner {
-    &:deep(.yc-menu-item) {
-      .yc-menu-icon {
-        margin-right: 0;
-      }
-      .yc-menu-suffix-icon {
-        margin-left: 0;
-      }
     }
   }
 }

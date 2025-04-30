@@ -3,7 +3,7 @@
     <yc-layout-sider hide-trigger>
       <yc-menu
         v-model:collapsed="collapsed"
-        :popup-max-height="500"
+        show-collapse-button
         style="max-height: 100%; overflow: auto"
       >
         <yc-sub-menu title="层级1" path="321">
@@ -31,21 +31,36 @@
     </yc-layout-sider>
     <yc-layout class="main">
       <yc-layout-header class="header">
-        <!-- <yc-menu
-          v-model:collapsed="collapsed"
-          show-collapse-button
-          :popup-max-height="500"
-          :mode="'horizontal'"
-        >
-          <template v-for="(item, index) in menus" :key="item.path">
-            <yc-menu-item :path="item.path">
-              <template #icon>
-                <icon-apps />
-              </template>
+        <yc-menu :popup-max-height="500" mode="horizontal">
+          <yc-sub-menu title="层级1" path="321">
+            <template #icon>
+              <icon-dashboard />
+            </template>
+            <yc-menu-item
+              v-for="item in menus"
+              :key="item.path"
+              :path="item.path"
+            >
               {{ item.title }}
             </yc-menu-item>
-          </template>
-        </yc-menu> -->
+            <yc-sub-menu title="层级2" path="3221">
+              <yc-menu-item
+                v-for="item in menus"
+                :key="item.path + '1'"
+                :path="item.path + '1'"
+              >
+                {{ '层级3' + item.title }}
+              </yc-menu-item>
+            </yc-sub-menu>
+          </yc-sub-menu>
+          <yc-menu-item
+            v-for="item in menus"
+            :key="item.path"
+            :path="item.path"
+          >
+            {{ item.title }}
+          </yc-menu-item>
+        </yc-menu>
       </yc-layout-header>
       <yc-layout-content class="content">
         <!-- <a-carousel

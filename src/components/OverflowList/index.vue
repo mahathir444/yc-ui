@@ -44,7 +44,7 @@ import { ref, VNode, watch } from 'vue';
 import { toRefs, useSlots, computed } from 'vue';
 import { OverflowListProps, OverflowListEmits } from './type';
 import { findComponentsFromVnodes, sleep } from '@shared/utils';
-import { useElementSize } from '@vueuse/core';
+import { useResizeObserver } from '@vueuse/core';
 import YcTag, { TagInstance } from '@/components/Tag';
 defineOptions({
   name: 'OverflowList',
@@ -60,8 +60,6 @@ const { min, margin, from } = toRefs(props);
 const slots = useSlots();
 // list实例
 const listRef = ref<HTMLDivElement>();
-// list的width
-const { width } = useElementSize(listRef);
 // tags
 const tags = computed(() => {
   return findComponentsFromVnodes(
@@ -83,24 +81,21 @@ const overflowNumber = computed(() => {
 // 最多能展示的组件数量
 const max = ref<number>(min.value);
 // 动态计算
-watch(
-  () => width.value,
-  async () => {
-    await sleep(0);
-    let maxCount = 0;
-    let totalWidth = overFlowWidth.value;
-    for (let tag of tagRef.value) {
-      if (totalWidth - margin.value > width.value) {
-        maxCount--;
-        break;
-      }
-      totalWidth += tag?.getRef()?.offsetWidth + margin.value;
-      maxCount++;
+useResizeObserver(listRef, () => {
+  const width = listRef.value!.offsetWidth;
+  let maxCount = 0;
+  let totalWidth = overFlowWidth.value;
+  for (let tag of tagRef.value) {
+    if (totalWidth - margin.value > width) {
+      maxCount--;
+      break;
     }
-    max.value = maxCount > min.value ? maxCount : min.value;
-    emits('change', overflowNumber.value);
+    totalWidth += tag?.getRef()?.offsetWidth + margin.value;
+    maxCount++;
   }
-);
+  max.value = maxCount > min.value ? maxCount : min.value;
+  emits('change', overflowNumber.value);
+});
 </script>
 
 <style lang="less">

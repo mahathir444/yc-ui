@@ -98,7 +98,7 @@ export default (params: {
     });
   // 子菜单转树
   const childTree = computed(() => {
-    return buildMenuTree(childKeys.value);
+    return buildMenuTree(childKeys.value)?.[0]?.children || [];
   });
   // submen的子等级
   const submenuLevel = level.value - 1;
@@ -136,7 +136,6 @@ export default (params: {
         ],
       };
     }
-    // console.log(menuItemData.value);
     const target = childKeys.value.find((item) => item.path == path.value);
     if (isSubmenu.value || target) return;
     childKeys.value.push({
