@@ -2,7 +2,7 @@ import { Direction } from '@shared/type';
 export interface CarouselProps {
   current?: number;
   defaultCurrent?: number;
-  autoPlay?: boolean;
+  autoPlay?: boolean | { interval?: number; hoverToPause?: boolean };
   moveSpeed?: number;
   animationName?: 'slide' | 'fade' | 'card';
   trigger?: IndicatorTrigger;

@@ -25,7 +25,7 @@
     </div>
     <!-- 渲染虚拟列表 -->
     <div v-else class="yc-select-dropdown-list" v-bind="wrapperProps">
-      <reuse-template :options="list" />
+      <reuse-template :options="options" />
     </div>
     <slot v-if="isEmpty" name="empty">
       <yc-empty description="暂无数据" />
@@ -34,10 +34,10 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, toRefs, watch } from 'vue';
+import { ref, toRefs, computed, watch } from 'vue';
 import { ObjectData } from '@shared/type';
 import { getSlotFunction } from '@shared/utils';
-import { Option as YcOption, VirtualListProps } from '../index';
+import { Option as YcOption, VirtualListProps } from './index';
 import { useVirtualList, useScroll } from '@vueuse/core';
 import { createReusableTemplate } from '@vueuse/core';
 const props = defineProps<{
@@ -60,6 +60,7 @@ const { list, wrapperProps, containerProps } = useVirtualList(renderOptions, {
   overscan: virtualListProps.value?.buffer ?? 10,
   itemHeight: virtualListProps.value?.itemHeight || 36,
 });
+const options = computed(() => list.value.map((item) => item.data));
 // 滚动状态
 const { arrivedState } = useScroll(scrollRef);
 // 判断是否触底
@@ -76,5 +77,5 @@ const getRender = (option: ObjectData) => {
 </script>
 
 <style lang="less" scoped>
-@import '../style/select.less';
+@import './style/select.less';
 </style>

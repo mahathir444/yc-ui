@@ -16,7 +16,6 @@
       <slot name="prefix" />
     </yc-prevent-focus>
     <!-- input -->
-    <!---->
     <input
       v-show="!$slots.label || ($slots.label && showInput)"
       :value="computedValue"

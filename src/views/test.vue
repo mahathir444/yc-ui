@@ -33,7 +33,7 @@
             width: '600px',
             height: '240px',
           }"
-          animation-name="card"
+          animation-name="slide"
           show-arrow="never"
           indicator-position="outer"
           @change="handleChange"
@@ -53,7 +53,7 @@
             width: '600px',
             height: '240px',
           }"
-          animation-name="card"
+          animation-name="slide"
           show-arrow="never"
           indicator-position="outer"
           @change="handleChange"

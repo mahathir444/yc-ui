@@ -6,7 +6,11 @@
       CAROUSEL_ANIMATION_CLASS[animationName],
     ]"
   >
-    <div :class="['yc-carousel-slide', CAROUSEL_DIRECTION_MAP[direction]]">
+    <div
+      :class="['yc-carousel-slide', CAROUSEL_DIRECTION_MAP[direction]]"
+      @mouseenter="autoPlay?.hoverToPause && stopAutoPlay()"
+      @mouseleave="autoPlay?.hoverToPause && setAutoPlay()"
+    >
       <slot />
     </div>
     <div v-if="indicatorType != 'never'" class="yc-carousel-indicator-wrapper">
@@ -15,16 +19,18 @@
         :trigger="trigger"
         :indicator-position="indicatorPosition"
         :indicator-type="indicatorType"
+        @change="handleChange"
       />
     </div>
     <div v-if="showArrow != 'never'" class="yc-carousel-arrow-wrapper">
-      <carousel-arrow type="pre" />
-      <carousel-arrow type="next" />
+      <carousel-arrow type="pre" @change="handleChange" />
+      <carousel-arrow type="next" @change="handleChange" />
     </div>
   </div>
 </template>
 
 <script lang="ts" setup>
+import { watch, onBeforeUnmount } from 'vue';
 import { CarouselProps, CarouselEmits, CarouselSlots } from './type';
 import {
   CAROUSEL_DIRECTION_MAP,
@@ -55,7 +61,41 @@ const props = withDefaults(defineProps<CarouselProps>(), {
 const emits = defineEmits<CarouselEmits>();
 // 注入
 const { provide } = useProvide();
-provide(props, emits);
+const { slideTo, computedCurrent, autoPlay } = provide(props, emits);
+// 自动播放的timer
+let autoPlayTimer: any = null;
+// 设置自动播放
+const setAutoPlay = () => {
+  autoPlayTimer = setInterval(() => {
+    slideTo(computedCurrent.value + 1);
+  }, autoPlay.value?.interval ?? 3000);
+};
+// 停止自动播放
+const stopAutoPlay = () => {
+  clearInterval(autoPlayTimer);
+  autoPlayTimer = null;
+};
+// 处理click切换
+const handleChange = async (index: number) => {
+  stopAutoPlay();
+  await slideTo(index);
+  setAutoPlay();
+};
+watch(
+  () => autoPlay.value,
+  () => {
+    if (!autoPlay.value) {
+      return stopAutoPlay();
+    }
+    setAutoPlay();
+  },
+  {
+    immediate: true,
+  }
+);
+onBeforeUnmount(() => {
+  stopAutoPlay();
+});
 </script>
 
 <style lang="less" scoped>

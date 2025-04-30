@@ -14,8 +14,10 @@
         'yc-carousel-indicator-item': true,
         'yc-carousel-indicator-item-active': computedCurrent == i,
       }"
-      @mouseenter="trigger == 'hover' && slideTo(i)"
-      @click="trigger == 'click' && slideTo(i)"
+      @mouseenter="
+        trigger == 'hover' && computedCurrent != i && $emit('change', i)
+      "
+      @click="trigger == 'click' && computedCurrent != i && $emit('change', i)"
     ></div>
     <div
       v-if="indicatorType == 'slider'"
@@ -48,9 +50,12 @@ defineProps<{
   indicatorPosition: IndicatorPosition;
   indicatorClass: string;
 }>();
+defineEmits<{
+  (e: 'change', index: number): void;
+}>();
 // 接收注入
 const { inject } = useProvide();
-const { length, computedCurrent, slideTo } = inject();
+const { length, computedCurrent } = inject();
 </script>
 
 <style lang="less" scoped>

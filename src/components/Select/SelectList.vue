@@ -47,8 +47,8 @@ import { toRefs } from 'vue';
 import { ObjectData } from '@shared/type';
 import { getSlotFunction } from '@shared/utils';
 import YcEmpty from '@/components/Empty';
-import YcOption from '../Option.vue';
-import YcOptgroup from '../Optgroup.vue';
+import YcOption from './Option.vue';
+import YcOptgroup from './Optgroup.vue';
 const props = defineProps<{
   renderOptions: ObjectData[];
   fieldKey: Record<string, string>;
@@ -68,5 +68,5 @@ const getRender = (option: ObjectData) => {
 </script>
 
 <style lang="less" scoped>
-@import '../style/select.less';
+@import './style/select.less';
 </style>

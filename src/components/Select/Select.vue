@@ -192,22 +192,17 @@
 
 <script lang="ts" setup>
 import { ref, computed, toRefs } from 'vue';
-import {
-  SelectProps,
-  SelectEmits,
-  SelectValue,
-  SelectOptionData,
-} from './type';
-import { ObjectData } from '@shared/type';
+import { SelectProps, SelectEmits, SelectOptionData } from './type';
 import { sleep } from '@shared/utils';
-import SelectVirtualList from './component/SelectVirtualList.vue';
-import SelectList from './component//SelectList.vue';
+import useProvide from './hooks/useProvide';
+import { createReusableTemplate } from '@vueuse/core';
+import SelectVirtualList from './SelectVirtualList.vue';
+import SelectList from './SelectList.vue';
 import YcInput, { InputInstance } from '@/components/Input';
 import YcInputTag, { TagData, InputTagValue } from '@/components/InputTag';
 import YcTrigger, { TriggerInstance } from '@/components/Trigger';
 import { YcIconButton, YcPreventFocus } from '@shared/components';
-import { createReusableTemplate } from '@vueuse/core';
-import useProvide from './hooks/useProvide';
+
 defineOptions({
   name: 'Select',
 });

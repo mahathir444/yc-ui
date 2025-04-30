@@ -34,8 +34,8 @@ import {
   isUndefined,
   findFirstScrollableParent,
   getElement,
+  throttleByRaf,
 } from '@shared/utils';
-import { throttleByRaf } from '@shared/utils';
 defineOptions({
   name: 'Affix',
 });

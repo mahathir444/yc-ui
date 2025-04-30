@@ -6,7 +6,12 @@
       positionClass,
       arrowClass,
     ]"
-    @click="slideTo(type == 'next' ? computedCurrent + 1 : computedCurrent - 1)"
+    @click="
+      $emit(
+        'change',
+        type == 'next' ? computedCurrent + 1 : computedCurrent - 1
+      )
+    "
   >
     <icon-arrow-right :rotate="rotate" />
   </div>
@@ -18,6 +23,9 @@ import { IconArrowRight } from '@shared/icons';
 import useProvide from './hooks/useProvide';
 const props = defineProps<{
   type: 'pre' | 'next';
+}>();
+defineEmits<{
+  (e: 'change', index: number): void;
 }>();
 const { type } = toRefs(props);
 // 接收注入
@@ -31,7 +39,7 @@ const rotate = computed(() => {
     return direction.value == 'horizontal' ? 180 : -90;
   }
 });
-//
+// position信息
 const positionClass = computed(() => {
   if (type.value == 'next') {
     return direction.value == 'horizontal'

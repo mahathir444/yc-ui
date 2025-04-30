@@ -6,12 +6,13 @@ import {
   Reactive,
   Ref,
   WritableComputedRef,
-  computed,
-  onMounted,
+  watch,
+  onBeforeUnmount,
 } from 'vue';
-import { useControlValue } from '@shared/hooks';
 import { CarouselEmits, ShowArrow } from '../type';
-import { Direction } from '@/components/_shared/type';
+import { sleep } from '@shared/utils';
+import { useControlValue } from '@shared/hooks';
+import { Direction } from '@shared/type';
 
 export const CAROUSEL_PROVIDE_KEY = 'carousel-props';
 
@@ -28,7 +29,6 @@ export interface CarouselProvide {
   direction: Ref<Direction>;
   showArrow: Ref<ShowArrow>;
   arrowClass: Ref<string>;
-  slideTo: (...args: any) => any;
   getValidIndex: (...args: any) => any;
 }
 
@@ -45,6 +45,7 @@ export default () => {
       direction,
       showArrow,
       arrowClass,
+      autoPlay,
     } = toRefs(props);
     // 图片所属的length
     const length = ref<number>(0);
@@ -79,9 +80,8 @@ export default () => {
       preIndex.value = computedCurrent.value;
       computedCurrent.value = getValidIndex(targetIndex);
       emits('change', computedCurrent.value, preIndex.value, true);
-      timer = setTimeout(() => {
-        timer = null;
-      }, moveSpeed.value);
+      await sleep(moveSpeed.value);
+      timer = null;
     };
     // 提供给子组件
     _provide<CarouselProvide>(CAROUSEL_PROVIDE_KEY, {
@@ -95,12 +95,13 @@ export default () => {
       arrowClass,
       moveType,
       preIndex,
-      slideTo,
       getValidIndex,
     });
     return {
       computedCurrent,
       length,
+      autoPlay,
+      slideTo,
     };
   };
   const inject = (isItem: boolean = false) => {
@@ -116,7 +117,6 @@ export default () => {
       arrowClass: ref(''),
       preIndex: ref(0),
       moveType: ref('positive'),
-      slideTo: () => {},
       getValidIndex: () => {},
     });
     const { length } = injection;
