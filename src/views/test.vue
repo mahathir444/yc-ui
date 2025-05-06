@@ -103,7 +103,18 @@
             />
           </yc-carousel-item>
         </yc-carousel> -->
-        <!-- <yc-input-number placeholder="input-number" /> -->
+        <yc-input-number placeholder="input-number" />
+        <yc-slider
+          show-input
+          :min="30"
+          :max="100"
+          :marks="{
+            10: '10km',
+            30: '30km',
+            60: '60km',
+            90: '90km',
+          }"
+        />
       </yc-layout-content>
     </yc-layout>
   </yc-layout>

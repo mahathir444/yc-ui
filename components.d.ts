@@ -116,6 +116,7 @@ declare module 'vue' {
     ImagePreviewToolbar: typeof import('./src/components/Image/ImagePreviewToolbar.vue')['default']
     ImageTools: typeof import('./src/components/Image/ImageTools.vue')['default']
     Input: typeof import('./src/components/Input/Input.vue')['default']
+    InputIcon: typeof import('./src/components/Input/InputIcon.vue')['default']
     InputNumber: typeof import('./src/components/InputNumber/InputNumber.vue')['default']
     InputOperaBtn: typeof import('./src/components/InputNumber/InputOperaBtn.vue')['default']
     InputSuffix: typeof import('./src/components/Input/InputSuffix.vue')['default']

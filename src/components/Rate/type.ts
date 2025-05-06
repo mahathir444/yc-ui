@@ -15,3 +15,7 @@ export interface RateEmits {
   (e: 'change', value: number): void;
   (e: 'hoverChange', value: number): void;
 }
+
+export interface RateSlots {
+  character(params: { index: number }): void;
+}

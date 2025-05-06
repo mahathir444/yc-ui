@@ -1,19 +1,5 @@
 <template>
-  <div
-    :class="[
-      'yc-input-outer',
-      disabled ? 'yc-input-outer-disabled' : '',
-      $slots.prepend ? 'yc-input-has-prepend' : '',
-      $slots.append ? 'yc-input-has-append' : '',
-      isSearch && searchButton ? 'yc-input-search-append' : '',
-      INPUT_OUTER_SIZE_CLASS[size],
-    ]"
-  >
-    <!-- prepend -->
-    <yc-prevent-focus v-if="$slots.prepend" class="yc-input-prepend">
-      <slot name="prepend" />
-    </yc-prevent-focus>
-    <!-- input-wrraper -->
+  <define-compt>
     <div
       :class="[
         'yc-input-wrapper',
@@ -55,53 +41,53 @@
         <slot name="label" />
       </yc-prevent-focus>
       <!-- suffixIcon -->
-      <input-suffix
+      <input-icon
         v-if="
           $slots.suffix ||
           showWordLimit ||
           showClearBtn ||
-          (isSearch && searchButton) ||
           (isPassword && invisibleButton)
         "
         :cur-length="curLength"
         :max-length="maxLength"
         :computed-value="computedValue"
+        :show-clear-btn="showClearBtn"
+        :show-word-limit="showWordLimit"
         :computed-visibility="computedVisibility"
         :invisible-button="invisibleButton"
         :is-password="isPassword"
-        :search-button="showClearBtn"
-        :is-search="isSearch"
-        :show-clear-btn="showClearBtn"
-        :show-word-limit="showWordLimit"
         @clear="(ev) => handleEvent('clear', ev)"
-        @search="$emit('search', computedValue)"
         @visibility-change="(v) => (computedVisibility = v)"
       >
-        <template v-if="$slots.suffix" #suffix>
-          <slot name="suffix" />
-        </template>
-      </input-suffix>
+        <slot v-if="$slots.suffix" name="suffix" />
+      </input-icon>
     </div>
+  </define-compt>
+  <!-- outer -->
+  <div
+    v-if="$slots.append || $slots.prepend"
+    :class="[
+      'yc-input-outer',
+      disabled ? 'yc-input-outer-disabled' : '',
+      $slots.prepend ? 'yc-input-has-prepend' : '',
+      $slots.append ? 'yc-input-has-append' : '',
+      INPUT_OUTER_SIZE_CLASS[size],
+    ]"
+    v-bind="$attrs"
+  >
+    <!-- prepend -->
+    <yc-prevent-focus v-if="$slots.prepend" class="yc-input-prepend">
+      <slot name="prepend" />
+    </yc-prevent-focus>
+    <!-- wrapper -->
+    <reuse-compt />
     <!-- append -->
     <yc-prevent-focus v-if="$slots.append" class="yc-input-append">
-      <slot name="append" v-bind="props">
-        <yc-button
-          v-if="isSearch && searchButton"
-          type="primary"
-          :loading="loading"
-          v-bind="buttonProps"
-          @click="emits('search', computedValue)"
-        >
-          <template #icon>
-            <icon-search />
-          </template>
-          <template v-if="buttonText" #default>
-            {{ buttonText }}
-          </template>
-        </yc-button>
-      </slot>
+      <slot name="append" />
     </yc-prevent-focus>
   </div>
+  <!-- wrapper -->
+  <reuse-compt v-else v-bind="$attrs" />
 </template>
 
 <script lang="ts" setup>
@@ -112,9 +98,10 @@ import { createReusableTemplate } from '@vueuse/core';
 import { useControlValue, useConfigProvder } from '@shared/hooks';
 import useLimitedInput from './hooks/useLimitedInput';
 import { YcPreventFocus } from '@shared/components';
-import InputSuffix from './InputSuffix.vue';
+import InputIcon from './InputIcon.vue';
 defineOptions({
-  name: 'YcInput',
+  name: 'Input',
+  inheritAttrs: false,
 });
 defineSlots<InputSlots>();
 const props = withDefaults(defineProps<InputProps>(), {
@@ -142,21 +129,13 @@ const props = withDefaults(defineProps<InputProps>(), {
   visibility: undefined,
   defaultVisibility: false,
   invisibleButton: true,
-  // search
-  isSearch: false,
-  searchButton: false,
-  loading: false,
-  buttonText: '',
-  buttonProps: () => {
-    return {};
-  },
   // select
   showInput: false,
 });
 const emits = defineEmits<InputEmits>();
 const { visibility, defaultVisibility } = toRefs(props);
 // 定义重用模板
-// const { define: DefineCompt, reuse: ReuseCompt } = createReusableTemplate();
+const { define: DefineCompt, reuse: ReuseCompt } = createReusableTemplate();
 // 获取全局属性
 const { size } = useConfigProvder(props);
 // 输入实例

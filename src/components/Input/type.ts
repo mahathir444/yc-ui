@@ -20,12 +20,6 @@ export interface InputProps {
   visibility?: boolean;
   defaultVisibility?: boolean;
   invisibleButton?: boolean;
-  // search使用
-  isSearch?: boolean;
-  searchButton?: boolean;
-  loading?: boolean;
-  buttonText?: string;
-  buttonProps?: ButtonProps;
   //select使用
   showInput?: boolean;
 }
@@ -36,7 +30,6 @@ export type InputEmits = {
   (e: 'input', value: string, ev: Event): void;
   (e: 'change', value: string, ev: Event): void;
   (e: 'visibilityChange', value: boolean): void;
-  (e: 'search', value: string): void;
   (e: 'pressEnter', ev: KeyboardEvent): void;
   (e: 'keydown', ev: KeyboardEvent): void;
   (e: 'clear', ev: MouseEvent): void;

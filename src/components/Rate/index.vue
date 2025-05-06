@@ -52,7 +52,7 @@
 
 <script lang="ts" setup>
 import { ref, toRefs } from 'vue';
-import { RateProps, RateEmits } from './type';
+import { RateProps, RateEmits, RateSlots } from './type';
 import { isObject } from '@shared/utils';
 import { sleep } from '@shared/utils';
 import { useControlValue } from '@shared/hooks';
@@ -60,6 +60,7 @@ import { IconStar, IconFaceSmile } from '@shared/icons';
 defineOptions({
   name: 'Rate',
 });
+defineSlots<RateSlots>();
 const props = withDefaults(defineProps<RateProps>(), {
   count: 5,
   modelValue: undefined,

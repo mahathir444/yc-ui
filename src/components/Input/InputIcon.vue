@@ -1,6 +1,5 @@
 <template>
-  <!-- suffix-icon -->
-  <yc-prevent-focus class="yc-input-suffix" ref="suffixRef">
+  <yc-prevent-focus class="yc-input-suffix">
     <!-- clear-btn -->
     <yc-icon-button
       v-if="showClearBtn"
@@ -26,21 +25,13 @@
       <icon-eye-open v-if="!computedVisibility" />
       <icon-eye-close v-else />
     </yc-icon-button>
-    <!-- search -->
-    <yc-icon-button
-      v-if="isSearch && !searchButton"
-      :size="14"
-      @click="$emit('search')"
-    >
-      <icon-search />
-    </yc-icon-button>
     <!-- suffix -->
-    <slot name="suffix" />
+    <!-- <slot /> -->
   </yc-prevent-focus>
 </template>
 
 <script lang="ts" setup>
-import { IconSearch, IconEyeOpen, IconEyeClose } from '@shared/icons';
+import { IconEyeOpen, IconEyeClose } from '@shared/icons';
 import { YcPreventFocus, YcIconButton } from '@shared/components';
 defineProps<{
   curLength: number;
@@ -49,13 +40,10 @@ defineProps<{
   showWordLimit: boolean;
   computedValue: string;
   computedVisibility: boolean;
-  isSearch: boolean;
-  searchButton: boolean;
   isPassword: boolean;
   invisibleButton: boolean;
 }>();
 defineEmits<{
-  (e: 'search'): void;
   (e: 'clear', ev: MouseEvent): void;
   (e: 'visibilityChange', value: boolean): void;
 }>();

@@ -5,7 +5,7 @@ export * from './type';
 
 const Input = Object.assign(_Input, {
   install: (app: App) => {
-    app.component(_Input.name, _Input);
+    app.component('Yc' + _Input.name, _Input);
   },
 });
 

@@ -51,7 +51,7 @@
       </yc-radio-group>
     </div>
     <div style="width: 300px">
-      <!-- <yc-input-number placeholder="input-number" /> -->
+      <yc-input-number placeholder="input-number" />
     </div>
     <div style="width: 300px">
       <yc-switch checked-text="启动" unchecked-text="关闭">
@@ -69,13 +69,13 @@
     <div style="width: 300px">
       <yc-color-picker show-text show-preset size="large" />
     </div>
-    <div style="width: 300px">
+    <div style="width: 400px">
       <yc-verification-code />
     </div>
     <!-- <div>
       <yc-transfer :data="options" show-search />
     </div> -->
-    <!-- <div style="width: 300px">
+    <div style="width: 300px">
       <yc-slider
         show-input
         :min="30"
@@ -87,7 +87,7 @@
           90: '90km',
         }"
       />
-    </div> -->
+    </div>
   </div>
 </template>
 
