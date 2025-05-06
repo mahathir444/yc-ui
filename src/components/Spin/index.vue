@@ -10,7 +10,11 @@
         }"
       >
         <slot name="icon">
-          <icon-loading v-if="!dot" name="loading" :size="size" />
+          <icon-loading
+            v-if="!dot"
+            name="loading"
+            :size="$slots.default ? size : undefined"
+          />
           <div v-else class="yc-dot-loading">
             <div v-for="i in 5" :key="i" class="yc-dot-loading-item"></div>
           </div>

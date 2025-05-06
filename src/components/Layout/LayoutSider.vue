@@ -74,7 +74,7 @@ const props = withDefaults(defineProps<LayoutSiderProps>(), {
   collapsedWidth: 48,
   reverseArrow: false,
   breakpoint: undefined,
-  hideTrigger: false,
+  hideTrigger: true,
   resizeDirections: () => {
     return [];
   },

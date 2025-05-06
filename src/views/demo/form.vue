@@ -75,6 +75,9 @@
     <div style="width: 400px">
       <yc-verification-code />
     </div>
+    <div style="width: 400px">
+      <a-verification-code />
+    </div>
     <div>
       <yc-transfer :data="options" show-search />
     </div>
@@ -107,21 +110,12 @@ for (let i = 0; i < 30; i++) {
 
 <style lang="less" scoped>
 .test {
-  height: 100vh;
+  height: 100%;
   width: 100%;
-  overflow: auto;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   gap: 10px;
-}
-
-.popover-content {
-  width: 200px;
-  background-color: #fff;
-  border: 1px solid rgb(229, 230, 235);
-  border-radius: 4px;
-  box-shadow: 0 4px 10px #0000001a;
 }
 </style>

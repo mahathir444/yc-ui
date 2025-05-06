@@ -11,14 +11,14 @@
 </template>
 
 <script lang="ts" setup>
-import { provide, toRefs } from 'vue';
+import { toRefs } from 'vue';
 import { SkeletonProps } from './type';
 defineOptions({
   name: 'Skeleton',
 });
 const props = withDefaults(defineProps<SkeletonProps>(), {
   animation: false,
-  loading: false,
+  loading: true,
 });
 const { animation, loading } = toRefs(props);
 </script>

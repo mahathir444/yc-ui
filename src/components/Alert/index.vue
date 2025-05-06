@@ -50,7 +50,7 @@ import {
 } from '@shared/constants';
 import { YcIconButton } from '@shared/components';
 defineOptions({
-  name: 'alert',
+  name: 'Alert',
 });
 defineSlots<AlertSlot>();
 withDefaults(defineProps<AlertProps>(), {
