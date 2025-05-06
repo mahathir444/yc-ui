@@ -10,6 +10,7 @@
     v-else
     :trigger-props="{
       autoFitPopupMinWidth: true,
+      popupTranslate: [-4, 0],
       ...triggerProps,
     }"
     :popup-max-height="popupMaxHeight"

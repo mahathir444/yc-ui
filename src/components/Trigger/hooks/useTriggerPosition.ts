@@ -101,7 +101,6 @@ export default (params: {
       right: right.value,
       bottom: bottom.value,
     });
-    console.log(position.value, 'position');
     // 计算trigger当前的位置
     position.value = calcPositionRef({
       offsetLeft: newLeft,

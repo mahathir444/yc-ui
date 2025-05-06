@@ -164,32 +164,32 @@ handleClickOutsideClose();
 // 处理滚动关闭
 handleScrollToClose();
 // 强制重新获取位置
-// watch(
-//   () => computedVisible.value,
-//   async (val) => {
-//     if (!val) return;
-//     await sleep(0);
-//     const {
-//       left: _left,
-//       top: _top,
-//       right: _right,
-//       bottom: _bottom,
-//       width: _triggerWidth,
-//       height: _triggerHeight,
-//     } = unrefElement(triggerRef)!.getBoundingClientRect();
-//     const { width: _popupWidth, height: _popupHeight } =
-//       unrefElement(popupRef)!.getBoundingClientRect();
-//     left.value = _left;
-//     top.value = _top;
-//     right.value = _right;
-//     bottom.value = _bottom;
-//     triggerWidth.value = _triggerWidth;
-//     triggerHeight.value = _triggerHeight;
-//     popupWidth.value = _popupWidth;
-//     popupHeight.value = _triggerHeight;
-//   }
-// );
-
+watch(
+  () => computedVisible.value,
+  async (val) => {
+    if (!val) return;
+    await sleep(0);
+    const {
+      left: _left,
+      top: _top,
+      right: _right,
+      bottom: _bottom,
+      width: _triggerWidth,
+      height: _triggerHeight,
+    } = unrefElement(triggerRef)!.getBoundingClientRect();
+    const { width: _popupWidth, height: _popupHeight } =
+      unrefElement(popupRef)!.getBoundingClientRect();
+    left.value = _left;
+    top.value = _top;
+    right.value = _right;
+    bottom.value = _bottom;
+    triggerWidth.value = _triggerWidth;
+    triggerHeight.value = _triggerHeight;
+    popupWidth.value = _popupWidth;
+    popupHeight.value = _triggerHeight;
+    position.value = props.position;
+  }
+);
 defineExpose({
   hide() {
     computedVisible.value = false;

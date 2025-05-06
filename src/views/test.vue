@@ -10,13 +10,6 @@
           <template #icon>
             <icon-dashboard />
           </template>
-          <yc-menu-item
-            v-for="item in menus"
-            :key="item.path"
-            :path="item.path"
-          >
-            {{ item.title }}
-          </yc-menu-item>
           <yc-sub-menu title="层级2" path="3221">
             <yc-menu-item
               v-for="item in menus"
@@ -26,6 +19,13 @@
               {{ '层级3' + item.title }}
             </yc-menu-item>
           </yc-sub-menu>
+          <yc-menu-item
+            v-for="item in menus"
+            :key="item.path"
+            :path="item.path"
+          >
+            {{ item.title }}
+          </yc-menu-item>
         </yc-sub-menu>
       </yc-menu>
     </yc-layout-sider>
