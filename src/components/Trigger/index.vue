@@ -171,8 +171,8 @@ watch(
     await sleep(0);
     const {
       left: _left,
-      top: _top,
       right: _right,
+      top: _top,
       bottom: _bottom,
       width: _triggerWidth,
       height: _triggerHeight,
@@ -180,13 +180,13 @@ watch(
     const { width: _popupWidth, height: _popupHeight } =
       unrefElement(popupRef)!.getBoundingClientRect();
     left.value = _left;
-    top.value = _top;
     right.value = _right;
+    top.value = _top;
     bottom.value = _bottom;
     triggerWidth.value = _triggerWidth;
     triggerHeight.value = _triggerHeight;
     popupWidth.value = _popupWidth;
-    popupHeight.value = _triggerHeight;
+    popupHeight.value = _popupHeight;
     position.value = props.position;
   }
 );

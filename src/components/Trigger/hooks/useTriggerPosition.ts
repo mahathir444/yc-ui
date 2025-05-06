@@ -92,6 +92,7 @@ export default (params: {
       offsetLeft,
       offsetTop,
       position: position.value,
+      originPosition: _position.value,
       triggerWidth: triggerWidth.value,
       triggerHeight: triggerHeight.value,
       popupHeight: popupHeight.value,
@@ -198,9 +199,10 @@ export default (params: {
   };
   // 计算边界
   const calcCurPopupPosition = (params: {
+    position: TriggerPostion;
+    originPosition: TriggerPostion;
     offsetLeft: number;
     offsetTop: number;
-    position: TriggerPostion;
     top: number;
     bottom: number;
     left: number;
@@ -211,18 +213,22 @@ export default (params: {
     popupWidth: number;
   }) => {
     const {
+      position,
+      originPosition,
+      offsetLeft,
+      offsetTop,
       bottom,
       left,
       right,
       top,
       popupHeight,
       popupWidth,
-      position,
-      offsetLeft,
-      offsetTop,
+      triggerWidth,
+      triggerHeight,
     } = params;
     let newLeft = offsetLeft;
     let newTop = offsetTop;
+    console.log(offsetLeft, offsetTop, position, 'popPosition');
     if (['top', 'tl', 'tr', 'bottom', 'bl', 'br'].includes(position)) {
       // 上下检测
       if (offsetTop < 0 && ['top', 'tl', 'tr'].includes(position)) {
@@ -233,8 +239,23 @@ export default (params: {
       ) {
         newTop = top - popupHeight;
       }
-      // 左右检测
+
+      //   else if (originPosition != position) {
+      //   const { offsetTop } = calcPopupPosition({
+      //     position: originPosition,
+      //     bottom,
+      //     left,
+      //     right,
+      //     top,
+      //     popupHeight,
+      //     popupWidth,
+      //     triggerWidth,
+      //     triggerHeight,
+      //   });
+      //   newTop = offsetTop;
+      // }
       if (offsetLeft < 0) {
+        // 左右检测
         newLeft = left;
       } else if (offsetLeft + popupWidth > window.innerWidth) {
         newLeft = right - popupWidth;
@@ -252,7 +273,7 @@ export default (params: {
       // 上下检测
       if (offsetTop < 0) {
         newTop = top;
-      } else if (offsetTop + popupHeight > window.innerHeight) {
+      } else if (newTop + popupHeight > window.innerHeight) {
         newTop = top - popupHeight;
       }
     }

@@ -7,8 +7,12 @@
     :disabled="disabled"
     :mouse-enter-delay="150"
     :mouse-leave-delay="150"
+    :on-trigger-mouseenter="handleCalcStyle"
+    :on-trigger-mouseclick="handleCalcStyle"
     need-transform-origin
+    auto-set-position
     auto-fit-popup-min-width
+    ref="triggerRef"
     v-bind="triggerProps"
   >
     <yc-doption :disabled="disabled" is-submenu ref="optionRef">
@@ -37,7 +41,7 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, computed, toRefs } from 'vue';
+import { ref, computed, toRefs, nextTick } from 'vue';
 import { IconArrowRight } from '@shared/icons';
 import { useControlValue } from '@shared/hooks';
 import { DSUBMENU_POSITION_MAP, DSUBMENU_TRIGGER_MAP } from '@shared/constants';
@@ -47,7 +51,7 @@ import {
   DoptionInstance,
   Doption as YcDoption,
 } from './index';
-import YcTrigger from '@/components/Trigger';
+import YcTrigger, { TriggerInstance } from '@/components/Trigger';
 import YcScrollbar from '@/components/Scrollbar';
 defineOptions({
   name: 'Dsubmenu',
@@ -72,6 +76,8 @@ const {
 } = toRefs(props);
 // option的实例
 const optionRef = ref<DoptionInstance>();
+// 触发器实例
+const triggerRef = ref<TriggerInstance>();
 // 受控的visible
 const computedVisible = useControlValue<boolean>(
   popupVisible,
@@ -89,6 +95,16 @@ const position = computed(() => {
 const trigger = computed(() => {
   return DSUBMENU_TRIGGER_MAP[_trigger.value] || 'rt';
 });
+// 处理计算style
+const handleCalcStyle = async () => {
+  await nextTick();
+  const dom = optionRef.value?.getOptionRef();
+  if (!dom) return;
+  const { left, top, right, width } = dom.getBoundingClientRect();
+  const x = position.value == 'rt' ? right : left - width;
+  const y = top - 5;
+  triggerRef.value?.updatePosition(x, y);
+};
 </script>
 
 <style lang="less" scoped>
