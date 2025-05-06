@@ -177,8 +177,8 @@ watch(
       width: _triggerWidth,
       height: _triggerHeight,
     } = unrefElement(triggerRef)!.getBoundingClientRect();
-    const { width: _popupWidth, height: _popupHeight } =
-      unrefElement(popupRef)!.getBoundingClientRect();
+    const { offsetWidth: _popupWidth, offsetHeight: _popupHeight } =
+      unrefElement(popupRef)!;
     left.value = _left;
     right.value = _right;
     top.value = _top;

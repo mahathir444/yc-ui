@@ -93,14 +93,14 @@ export default (params: {
       offsetTop,
       position: position.value,
       originPosition: _position.value,
-      triggerWidth: triggerWidth.value,
-      triggerHeight: triggerHeight.value,
-      popupHeight: popupHeight.value,
-      popupWidth: popupWidth.value,
       top: top.value,
       left: left.value,
       right: right.value,
       bottom: bottom.value,
+      triggerWidth: triggerWidth.value,
+      triggerHeight: triggerHeight.value,
+      popupHeight: popupHeight.value,
+      popupWidth: popupWidth.value,
     });
     // 计算trigger当前的位置
     position.value = calcPositionRef({
@@ -228,7 +228,6 @@ export default (params: {
     } = params;
     let newLeft = offsetLeft;
     let newTop = offsetTop;
-    console.log(offsetLeft, offsetTop, position, 'popPosition');
     if (['top', 'tl', 'tr', 'bottom', 'bl', 'br'].includes(position)) {
       // 上下检测
       if (offsetTop < 0 && ['top', 'tl', 'tr'].includes(position)) {
@@ -239,7 +238,6 @@ export default (params: {
       ) {
         newTop = top - popupHeight;
       }
-
       //   else if (originPosition != position) {
       //   const { offsetTop } = calcPopupPosition({
       //     position: originPosition,
