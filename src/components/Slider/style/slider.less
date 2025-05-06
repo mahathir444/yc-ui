@@ -55,15 +55,13 @@
       height: 2px;
       background: rgb(134, 144, 156);
     }
-    .yc-input-number {
+    &:deep(.yc-input-wrapper) {
       width: 65px;
-      &:deep(.yc-input-wrapper) {
-        .yc-input {
-          text-align: center;
-        }
-        .yc-input-suffix {
-          padding-left: 0;
-        }
+      .yc-input {
+        text-align: center;
+      }
+      .yc-input-suffix {
+        padding-left: 0;
       }
     }
   }

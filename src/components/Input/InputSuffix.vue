@@ -26,7 +26,7 @@
       <icon-eye-close v-else />
     </yc-icon-button>
     <!-- suffix -->
-    <!-- <slot /> -->
+    <slot name="suffix" />
   </yc-prevent-focus>
 </template>
 

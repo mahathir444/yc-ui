@@ -40,8 +40,8 @@
       >
         <slot name="label" />
       </yc-prevent-focus>
-      <!-- suffixIcon -->
-      <input-icon
+      <!-- suffix -->
+      <input-suffix
         v-if="
           $slots.suffix ||
           showWordLimit ||
@@ -59,8 +59,10 @@
         @clear="(ev) => handleEvent('clear', ev)"
         @visibility-change="(v) => (computedVisibility = v)"
       >
-        <slot v-if="$slots.suffix" name="suffix" />
-      </input-icon>
+        <template v-if="$slots.suffix" #suffix>
+          <slot name="suffix" />
+        </template>
+      </input-suffix>
     </div>
   </define-compt>
   <!-- outer -->
@@ -98,7 +100,7 @@ import { createReusableTemplate } from '@vueuse/core';
 import { useControlValue, useConfigProvder } from '@shared/hooks';
 import useLimitedInput from './hooks/useLimitedInput';
 import { YcPreventFocus } from '@shared/components';
-import InputIcon from './InputIcon.vue';
+import InputSuffix from './InputSuffix.vue';
 defineOptions({
   name: 'Input',
   inheritAttrs: false,

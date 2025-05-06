@@ -31,6 +31,9 @@
       />
     </div>
     <div style="width: 300px">
+      <yc-time-picker placeholder="time-picker" />
+    </div>
+    <div style="width: 300px">
       <yc-textarea
         allow-clear
         :max-length="20"
@@ -72,9 +75,9 @@
     <div style="width: 400px">
       <yc-verification-code />
     </div>
-    <!-- <div>
+    <div>
       <yc-transfer :data="options" show-search />
-    </div> -->
+    </div>
     <div style="width: 300px">
       <yc-slider
         show-input
