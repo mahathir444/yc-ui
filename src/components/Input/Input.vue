@@ -1,101 +1,162 @@
 <template>
   <div
     :class="[
-      'yc-input-wrapper',
-      disabled ? 'yc-input-disabled' : '',
-      error ? 'yc-input-error' : '',
-      INPUT_SIZE_CLASS[size],
+      'yc-input-outer',
+      disabled ? 'yc-input-outer-disabled' : '',
+      $slots.prepend ? 'yc-input-has-prepend' : '',
+      $slots.append ? 'yc-input-has-append' : '',
+      isSearch && searchButton ? 'yc-input-search-append' : '',
+      INPUT_OUTER_SIZE_CLASS[size],
     ]"
   >
-    <!-- prefix-icon -->
-    <yc-prevent-focus
-      v-if="$slots.prefix"
-      class="yc-input-prefix"
-      ref="prefixRef"
-    >
-      <slot name="prefix" />
+    <!-- prepend -->
+    <yc-prevent-focus v-if="$slots.prepend" class="yc-input-prepend">
+      <slot name="prepend" />
     </yc-prevent-focus>
-    <!-- input -->
-    <input
-      v-show="!$slots.label || ($slots.label && showInput)"
-      :value="computedValue"
-      :type="type"
-      :disabled="disabled"
-      :readonly="readonly"
-      :placeholder="placeholder"
-      v-bind="inputAttrs"
-      class="yc-input"
-      ref="inputRef"
-      @input="handleEvent('input', $event)"
-      @change="handleEvent('change', $event)"
-      @compositionstart="handleComposition"
-      @compositionupdate="handleComposition"
-      @compositionend="handleComposition"
-      @focus="handleEvent('focus', $event)"
-      @blur="handleEvent('blur', $event)"
-      @keydown.enter="handleEvent('keydown', $event)"
-    />
-    <!-- select模式下的label -->
-    <yc-prevent-focus
-      v-if="$slots.label"
-      v-show="!showInput"
-      class="yc-input text-ellipsis"
+    <!-- input-wrraper -->
+    <div
+      :class="[
+        'yc-input-wrapper',
+        disabled ? 'yc-input-disabled' : '',
+        error ? 'yc-input-error' : '',
+        INPUT_SIZE_CLASS[size],
+      ]"
     >
-      <slot name="label" />
+      <!-- prefix-icon -->
+      <yc-prevent-focus v-if="$slots.prefix" class="yc-input-prefix">
+        <slot name="prefix" />
+      </yc-prevent-focus>
+      <!-- input -->
+      <input
+        v-show="!$slots.label || ($slots.label && showInput)"
+        :value="computedValue"
+        :type="type"
+        :disabled="disabled"
+        :readonly="readonly"
+        :placeholder="placeholder"
+        v-bind="inputAttrs"
+        class="yc-input"
+        ref="inputRef"
+        @input="handleEvent('input', $event)"
+        @change="handleEvent('change', $event)"
+        @compositionstart="handleComposition"
+        @compositionupdate="handleComposition"
+        @compositionend="handleComposition"
+        @focus="handleEvent('focus', $event)"
+        @blur="handleEvent('blur', $event)"
+        @keydown.enter="handleEvent('keydown', $event)"
+      />
+      <!-- select模式下的label -->
+      <yc-prevent-focus
+        v-if="$slots.label"
+        v-show="!showInput"
+        class="yc-input text-ellipsis"
+      >
+        <slot name="label" />
+      </yc-prevent-focus>
+      <!-- suffixIcon -->
+      <input-suffix
+        v-if="
+          $slots.suffix ||
+          showWordLimit ||
+          showClearBtn ||
+          (isSearch && searchButton) ||
+          (isPassword && invisibleButton)
+        "
+        :cur-length="curLength"
+        :max-length="maxLength"
+        :computed-value="computedValue"
+        :computed-visibility="computedVisibility"
+        :invisible-button="invisibleButton"
+        :is-password="isPassword"
+        :search-button="showClearBtn"
+        :is-search="isSearch"
+        :show-clear-btn="showClearBtn"
+        :show-word-limit="showWordLimit"
+        @clear="(ev) => handleEvent('clear', ev)"
+        @search="$emit('search', computedValue)"
+        @visibility-change="(v) => (computedVisibility = v)"
+      >
+        <template v-if="$slots.suffix" #suffix>
+          <slot name="suffix" />
+        </template>
+      </input-suffix>
+    </div>
+    <!-- append -->
+    <yc-prevent-focus v-if="$slots.append" class="yc-input-append">
+      <slot name="append" v-bind="props">
+        <yc-button
+          v-if="isSearch && searchButton"
+          type="primary"
+          :loading="loading"
+          v-bind="buttonProps"
+          @click="emits('search', computedValue)"
+        >
+          <template #icon>
+            <icon-search />
+          </template>
+          <template v-if="buttonText" #default>
+            {{ buttonText }}
+          </template>
+        </yc-button>
+      </slot>
     </yc-prevent-focus>
-    <!-- suffixIcon -->
-    <input-suffix
-      v-if="
-        $slots.suffix ||
-        showWordLimit ||
-        showClearBtn ||
-        (isSearch && showClearBtn) ||
-        (isPassword && invisibleButton)
-      "
-      :cur-length="curLength"
-      :max-length="maxLength"
-      :computed-value="computedValue"
-      :computed-visibility="computedVisibility"
-      :invisible-button="invisibleButton"
-      :is-password="isPassword"
-      :search-button="showClearBtn"
-      :is-search="isSearch"
-      :show-clear-btn="showClearBtn"
-      :show-word-limit="showWordLimit"
-      @clear="(ev) => handleEvent('clear', ev)"
-      @search="$emit('search', computedValue)"
-      @visibility-change="(v) => (computedVisibility = v)"
-    >
-      <template v-if="$slots.suffix" #suffix>
-        <slot name="suffix" />
-      </template>
-    </input-suffix>
   </div>
 </template>
 
 <script lang="ts" setup>
 import { ref, toRefs, computed } from 'vue';
-import { InputEmits } from './type';
-import { INPUT_SIZE_CLASS } from '@shared/constants';
+import { InputProps, InputEmits, InputSlots } from './type';
+import { INPUT_OUTER_SIZE_CLASS, INPUT_SIZE_CLASS } from '@shared/constants';
+import { createReusableTemplate } from '@vueuse/core';
 import { useControlValue, useConfigProvder } from '@shared/hooks';
 import useLimitedInput from './hooks/useLimitedInput';
-import useProvide from './hooks/useProvide';
-import InputSuffix from './InputSuffix.vue';
 import { YcPreventFocus } from '@shared/components';
-const { inject } = useProvide();
-const { props, emits } = inject();
-const {
-  visibility,
-  defaultVisibility,
-  inputAttrs,
-  disabled,
-  readonly,
-  showInput,
-  placeholder,
-  isSearch,
-  isPassword,
-  invisibleButton,
-} = toRefs(props!);
+import InputSuffix from './InputSuffix.vue';
+defineOptions({
+  name: 'YcInput',
+});
+defineSlots<InputSlots>();
+const props = withDefaults(defineProps<InputProps>(), {
+  modelValue: undefined,
+  defaultValue: '',
+  size: undefined,
+  allowClear: false,
+  disabled: false,
+  readonly: false,
+  error: undefined,
+  maxLength: undefined,
+  showWordLimit: false,
+  placeholder: '',
+  inputAttrs: () => {
+    return {};
+  },
+  wordLength: (value: string) => {
+    return value.length;
+  },
+  wordSlice: (value: string, maxLength: number) => {
+    return value.slice(0, maxLength);
+  },
+  // password
+  isPassword: false,
+  visibility: undefined,
+  defaultVisibility: false,
+  invisibleButton: true,
+  // search
+  isSearch: false,
+  searchButton: false,
+  loading: false,
+  buttonText: '',
+  buttonProps: () => {
+    return {};
+  },
+  // select
+  showInput: false,
+});
+const emits = defineEmits<InputEmits>();
+const { visibility, defaultVisibility } = toRefs(props);
+// 定义重用模板
+// const { define: DefineCompt, reuse: ReuseCompt } = createReusableTemplate();
 // 获取全局属性
 const { size } = useConfigProvder(props);
 // 输入实例
@@ -124,7 +185,7 @@ const {
   handleInput,
   handleComposition,
 } = useLimitedInput({
-  props: props!,
+  props: props as any,
   emits,
   inputRef,
 });

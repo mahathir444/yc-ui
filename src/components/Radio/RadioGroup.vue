@@ -7,8 +7,8 @@
   >
     <slot />
     <yc-radio
-      v-for="item in options"
-      :key="<string>item.value"
+      v-for="(item, index) in options"
+      :key="index"
       :value="item.value"
       :disabled="item.disabled"
     >
@@ -17,7 +17,7 @@
         <slot name="radio" :checked="checked" :disabled="disabled" />
       </template>
       <!-- label -->
-      <slot name="label" :data="item">
+      <slot v-if="$slots.label" name="label" :data="item">
         {{ item.label }}
       </slot>
     </yc-radio>
@@ -25,7 +25,7 @@
 </template>
 
 <script lang="ts" setup>
-import { RadioGroupProps, RadioGroupEmits } from './type';
+import { RadioGroupProps, RadioGroupEmits, RadioGroupSlots } from './type';
 import { RADIO_SIZE_CLASS } from '@shared/constants';
 import { RADIO_DIRECTION_MAP } from '@shared/constants';
 import useProvide from './hooks/useProvide';
@@ -33,6 +33,7 @@ import YcRadio from './Radio.vue';
 defineOptions({
   name: 'RadioGroup',
 });
+defineSlots<RadioGroupSlots>();
 const props = withDefaults(defineProps<RadioGroupProps>(), {
   modelValue: undefined,
   defaultValue: '',

@@ -1,4 +1,3 @@
-import { WritableComputedRef, Ref } from 'vue';
 import { Direction } from '@shared/type';
 
 export interface CheckboxProps {
@@ -15,6 +14,11 @@ export interface CheckboxEmits {
   (e: 'change', value: boolean, ev: Event): void;
 }
 
+export interface CheckboxSlots {
+  default(): void;
+  checkbox(params: { checked: boolean; disabled: boolean }): void;
+}
+
 export interface CheckboxGroupProps {
   modelValue?: CheckboxValue[];
   defaultValue?: CheckboxValue[];
@@ -27,6 +31,12 @@ export interface CheckboxGroupProps {
 export interface CheckboxGroupEmits {
   (e: 'update:modelValue', value: CheckboxValue[]): void;
   (e: 'change', value: CheckboxValue[], ev: Event): void;
+}
+
+export interface CheckboxGroupSlots {
+  default(): void;
+  checkbox(checked: boolean, disabled: boolean): void;
+  label(data: Record<string, any>): void;
 }
 
 export interface CheckboxOption {

@@ -103,20 +103,7 @@
             />
           </yc-carousel-item>
         </yc-carousel> -->
-        <div style="width: 300px">
-          <yc-select
-            allow-clear
-            allow-search
-            multiple
-            placeholder="请选择"
-            :options="options"
-            :max-tag-count="3"
-          >
-            <template #option="{ data }">
-              <span>选项的值是{{ data.value }}</span>
-            </template>
-          </yc-select>
-        </div>
+        <!-- <yc-input-number placeholder="input-number" /> -->
       </yc-layout-content>
     </yc-layout>
   </yc-layout>

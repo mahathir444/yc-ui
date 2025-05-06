@@ -11,11 +11,10 @@
 
 <script lang="ts" setup>
 import { ref } from 'vue';
-import { HtmlTag } from '@shared/type';
 withDefaults(
   defineProps<{
     preventFocus?: boolean;
-    tag?: HtmlTag;
+    tag?: string;
   }>(),
   {
     preventFocus: true,

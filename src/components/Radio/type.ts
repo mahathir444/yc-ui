@@ -1,4 +1,3 @@
-import { WritableComputedRef, Ref } from 'vue';
 import { Direction, Size } from '@shared/type';
 
 export interface RadioProps {
@@ -15,6 +14,11 @@ export interface RadioEmits {
   (e: 'change', value: boolean, ev: Event): void;
 }
 
+export interface RadioSlots {
+  default(): void;
+  radio(params: { checked: boolean; disabled: boolean }): void;
+}
+
 export interface RadioGroupProps {
   modelValue?: RadioValue;
   defaultValue?: RadioValue;
@@ -28,6 +32,12 @@ export interface RadioGroupProps {
 export interface RadioGroupEmits {
   (e: 'update:modelValue', value: RadioValue): void;
   (e: 'change', value: RadioValue, ev: Event): void;
+}
+
+export interface RadioGroupSlots {
+  default(): void;
+  radio(params: { checked: boolean; disabled: boolean }): void;
+  label(data: Record<string, any>): void;
 }
 
 export interface RadioOption {

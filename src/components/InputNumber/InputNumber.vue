@@ -37,7 +37,7 @@
             @click="handleStep"
           >
             <template v-if="$slots.minus" #icon>
-              <slot name="minus"> </slot>
+              <slot name="minus" />
             </template>
           </yc-opera-btn>
           <yc-opera-btn
@@ -51,7 +51,7 @@
             @click="handleStep"
           >
             <template v-if="$slots.plus" #icon>
-              <slot name="plus"> </slot>
+              <slot name="plus" />
             </template>
           </yc-opera-btn>
         </div>

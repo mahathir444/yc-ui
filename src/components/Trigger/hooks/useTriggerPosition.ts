@@ -114,7 +114,6 @@ export default (params: {
       right: right.value,
       bottom: bottom.value,
     }) as TriggerPostion;
-    console.log(position.value, 'newPosition');
     // 计算新的offset
     const { offsetX: newOffsetX, offsetY: newOffsetY } = calcOffset(
       popupTranslate.value,

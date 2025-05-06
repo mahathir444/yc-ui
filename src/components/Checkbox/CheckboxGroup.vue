@@ -2,8 +2,8 @@
   <div :class="['yc-checkbox-group', CHECKBOX_DIRECTION_MAP[direction]]">
     <slot />
     <yc-checkbox
-      v-for="item in options"
-      :key="<string>item.value"
+      v-for="(item, index) in options"
+      :key="index"
       :value="item.value"
       :disabled="item.disabled"
       :indeterminate="item.indeterminate"
@@ -13,24 +13,22 @@
         <slot name="checkbox" :checked="checked" :disabled="disabled" />
       </template>
       <!-- label -->
-      <template #default>
-        <slot name="label" :data="item">
-          {{ item.label }}
-        </slot>
-      </template>
+      <slot v-if="$slots.label" name="label" :data="item">
+        {{ item.label }}
+      </slot>
     </yc-checkbox>
   </div>
 </template>
 
 <script lang="ts" setup>
-import { CheckboxGroupProps, CheckboxEmits } from './type';
+import { CheckboxGroupProps, CheckboxEmits, CheckboxGroupSlots } from './type';
 import { CHECKBOX_DIRECTION_MAP } from '@shared/constants';
 import YcCheckbox from './Checkbox.vue';
 import useProvide from './hooks/useProvide';
-
 defineOptions({
   name: 'CheckboxGroup',
 });
+defineSlots<CheckboxGroupSlots>();
 const props = withDefaults(defineProps<CheckboxGroupProps>(), {
   modelValue: undefined,
   defaultValue: () => [],

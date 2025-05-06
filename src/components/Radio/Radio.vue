@@ -17,7 +17,6 @@
       :disabled="disabled"
       @change="handleCollect"
     />
-
     <slot name="radio" :checked="computedChecked" :disabled="disabled">
       <template v-if="type == 'radio'">
         <yc-icon-button
@@ -41,7 +40,7 @@
 
 <script lang="ts" setup>
 import { toRefs, computed } from 'vue';
-import { RadioProps, RadioEmits, RadioValue } from './type';
+import { RadioProps, RadioEmits, RadioSlots, RadioValue } from './type';
 import { RADIO_SIZE_CLASS } from '@shared/constants';
 import { isUndefined } from '@shared/utils';
 import { useControlValue } from '@shared/hooks';
@@ -50,6 +49,7 @@ import { YcPreventFocus, YcIconButton } from '@shared/components';
 defineOptions({
   name: 'Radio',
 });
+defineSlots<RadioSlots>();
 const props = withDefaults(defineProps<RadioProps>(), {
   modelValue: undefined,
   defaultChecked: false,

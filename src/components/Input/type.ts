@@ -44,6 +44,14 @@ export type InputEmits = {
   (e: 'blur', ev: FocusEvent): void;
 };
 
+export interface InputSlots {
+  prefix(): void;
+  suffix(): void;
+  prepend(): void;
+  append(): void;
+  label(): void;
+}
+
 export type WordSlice = (value: string, maxLength: number) => string;
 
 export type WordLength = (value: string) => number;

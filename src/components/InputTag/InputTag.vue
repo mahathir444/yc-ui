@@ -29,6 +29,9 @@
       class="yc-input-tag-inner"
       @close="(ev, id) => handleEvent('close', ev, id)"
     >
+      <template v-if="$slots.tag" #tag="{ data }">
+        <slot name="tag" :data="data" />
+      </template>
       <template #extra>
         <input
           v-model="computedInputValue"
@@ -75,6 +78,7 @@ import {
   TagData,
   InputRetainValue,
   InputTagEmits,
+  InputTagSlots,
 } from './type';
 import { ObjectData } from '@shared/type';
 import { isBoolean, isObject } from '@shared/utils';
@@ -86,6 +90,7 @@ import { YcPreventFocus, YcIconButton } from '@shared/components';
 defineOptions({
   name: 'InputTag',
 });
+defineSlots<InputTagSlots>();
 const props = withDefaults(defineProps<InputTagProps>(), {
   modelValue: undefined,
   defaultValue: () => [],

@@ -33,6 +33,12 @@ export interface InputTagEmits {
   (e: 'clear', ev: MouseEvent): void;
 }
 
+export interface InputTagSlots {
+  tag(tag: TagData): void;
+  prefix(): void;
+  suffix(): void;
+}
+
 export type TagData =
   | {
       id?: string;

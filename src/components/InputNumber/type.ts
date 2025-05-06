@@ -31,6 +31,16 @@ export interface InputNumberEmits {
   (e: 'pressEnter', ev: KeyboardEvent): void;
 }
 
+export interface InputNumberSlots {
+  minus(): void;
+  suffix(): void;
+  prefix(): void;
+  suffix(): void;
+  prepend(): void;
+  append(): void;
+  label(): void;
+}
+
 export type InputNumberValue = number | string;
 
 export type InputNumberMode = 'embed' | 'button';
