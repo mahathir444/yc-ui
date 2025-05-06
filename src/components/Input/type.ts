@@ -1,4 +1,4 @@
-import { Size } from '@shared/type';
+import { Size, ObjectData } from '@shared/type';
 import { ButtonProps } from '@/components/Button';
 
 export interface InputProps {
@@ -14,7 +14,7 @@ export interface InputProps {
   wordLength?: WordLength;
   wordSlice?: WordSlice;
   showWordLimit?: boolean;
-  inputAttrs?: Record<string, any>;
+  inputAttrs?: ObjectData;
   // password使用
   isPassword?: boolean;
   visibility?: boolean;

@@ -1,4 +1,4 @@
-import { Direction, Size } from '@shared/type';
+import { Direction, Size, ObjectData } from '@shared/type';
 
 export interface RadioProps {
   modelValue?: RadioValue;
@@ -37,7 +37,7 @@ export interface RadioGroupEmits {
 export interface RadioGroupSlots {
   default(): void;
   radio(params: { checked: boolean; disabled: boolean }): void;
-  label(data: Record<string, any>): void;
+  label(data: ObjectData): void;
 }
 
 export interface RadioOption {

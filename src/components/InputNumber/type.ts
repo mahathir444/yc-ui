@@ -1,4 +1,4 @@
-import { Size } from '@shared/type';
+import { Size, ObjectData } from '@shared/type';
 export interface InputNumberProps {
   modelValue?: InputNumberValue;
   defaultValue?: InputNumberValue;
@@ -17,7 +17,7 @@ export interface InputNumberProps {
   formatter?: (value: string) => string;
   parser?: (value: string) => string;
   readonly?: boolean;
-  inputAttrs?: Record<string, any>;
+  inputAttrs?: ObjectData;
 }
 
 export interface InputNumberEmits {

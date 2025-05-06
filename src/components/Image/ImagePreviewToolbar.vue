@@ -23,6 +23,7 @@ import {
   IconRotateRight,
   IconOriginSize,
 } from '@shared/icons';
+import { ObjectData } from '@shared/type';
 import ImagePreviewAction from './ImagePreviewAction.vue';
 withDefaults(
   defineProps<{
@@ -37,7 +38,7 @@ defineEmits<{
 }>();
 
 // actionMap
-const actionMap: Record<string, any> = {
+const actionMap: ObjectData = {
   fullScreen: {
     icon: IconFullScreen,
     name: '全屏',

@@ -1,4 +1,5 @@
 import { getComponentConstantsMap, getComponentThemeMap } from '../utils';
+import { ObjectData } from '@shared/type';
 import {
   IconInfo,
   IconWarning,
@@ -13,7 +14,7 @@ import Icon403 from '@shared/icons/Icon403.svg';
 import Icon404 from '@shared/icons/Icon404.svg';
 import Icon500 from '@shared/icons/Icon500.svg';
 
-export const RESULT_ICON_MAP: Record<string, any> = {
+export const RESULT_ICON_MAP: ObjectData = {
   info: IconInfoLine,
   warning: IconInfoLine,
   error: IconClose,
@@ -24,7 +25,7 @@ export const RESULT_ICON_MAP: Record<string, any> = {
 };
 
 // icon映射
-export const TYPE_ICON_MAP: Record<string, any> = {
+export const TYPE_ICON_MAP: ObjectData = {
   success: IconSuccess,
   warning: IconWarning,
   error: IconError,

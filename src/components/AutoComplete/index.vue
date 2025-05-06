@@ -48,9 +48,6 @@
         </div>
       </slot>
     </template>
-    <template v-if="$slots.prefix" #prefix>
-      <slot name="prefix" />
-    </template>
     <template v-if="$slots.option" #option>
       <slot name="option" />
     </template>
@@ -62,7 +59,11 @@
 
 <script lang="ts" setup>
 import { ref, toRefs } from 'vue';
-import { AutoCompleteProps, AutoCompleteEmits } from './type';
+import {
+  AutoCompleteProps,
+  AutoCompleteEmits,
+  AutoCompleteSlots,
+} from './type';
 import { sleep } from '@shared/utils';
 import { useControlValue } from '@shared/hooks';
 import {
@@ -76,6 +77,7 @@ import YcInput, { InputInstance } from '@/components/Input';
 defineOptions({
   name: 'AutoComplete',
 });
+defineSlots<AutoCompleteSlots>();
 const props = withDefaults(defineProps<AutoCompleteProps>(), {
   modelValue: undefined,
   defaultValue: '',

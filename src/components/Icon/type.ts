@@ -1,3 +1,4 @@
+import { ObjectData } from '@shared/type';
 export interface IconProps {
   type?: string;
   size?: number | string | number[];
@@ -7,5 +8,5 @@ export interface IconProps {
 
 export interface IconFontOptions {
   src?: string;
-  extraProps?: Record<string, any>;
+  extraProps?: ObjectData;
 }

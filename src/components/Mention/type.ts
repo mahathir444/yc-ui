@@ -1,4 +1,5 @@
 import { SelectOptions, SelectValue } from '@/components/Select';
+import { ObjectData } from '@shared/type';
 
 export interface MentionProps {
   modelValue?: string;
@@ -20,4 +21,8 @@ export interface MentionEmits {
   (e: 'blur', ev: FocusEvent): void;
   (e: 'clear', ev: MouseEvent): void;
   (e: 'input', value: string, ev: Event): void;
+}
+
+export interface MentionSlots {
+  option(data: ObjectData): void;
 }

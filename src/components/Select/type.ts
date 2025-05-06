@@ -67,8 +67,8 @@ export interface SelectSlots {
   ['arrow-icon'](): void;
   footer(): void;
   header(): void;
-  label(data: Record<string, any>): void;
-  option(data: Record<string, any>): void;
+  label(data: ObjectData): void;
+  option(data: ObjectData): void;
   empty(): void;
 }
 

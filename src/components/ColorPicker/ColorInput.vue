@@ -82,6 +82,7 @@ import { ref, toRefs, watch } from 'vue';
 import { parseColor } from '@shared/utils';
 import { ColorFormat } from '@/components/ColorPicker/type';
 import { FORMAT_OPTIONS } from '@shared/constants';
+import { ObjectData } from '@shared/type';
 import YcInputNumber from '@/components/InputNumber';
 const props = defineProps<{
   color: string;
@@ -102,7 +103,7 @@ const { color, alpha: _alpha } = toRefs(props);
 // hex
 const hex = ref<string>('');
 // rgb对象
-const rgb = ref<Record<string, any>>({});
+const rgb = ref<ObjectData>({});
 // alpha
 const alpha = ref<number>(_alpha.value);
 // 处理设置

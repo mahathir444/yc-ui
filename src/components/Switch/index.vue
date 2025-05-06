@@ -29,7 +29,7 @@
     </span>
     <!-- text -->
     <span v-if="showText" class="yc-switch-text">
-      <slot :name="compuedChecked ? 'checked-text' : 'unchecked-text'">
+      <slot :name="compuedChecked ? 'checked' : 'unchecked'">
         {{ compuedChecked ? checkedText : uncheckedText }}
       </slot>
     </span>
@@ -38,7 +38,7 @@
 
 <script lang="ts" setup>
 import { toRefs, computed } from 'vue';
-import { SwitchProps, SwitchEmits, SwitchValue } from './type';
+import { SwitchProps, SwitchEmits, SwitchSlots, SwitchValue } from './type';
 import { SWITCH_SIZE_CLASS, SWITCH_SHAPE_CLASS } from '@shared/constants';
 import { isBoolean } from '@shared/utils';
 import { useControlValue, useConfigProvder } from '@shared/hooks';
@@ -46,6 +46,7 @@ import YcSpin from '@/components/Spin';
 defineOptions({
   name: 'Switch',
 });
+defineSlots<SwitchSlots>();
 const props = withDefaults(defineProps<SwitchProps>(), {
   modelValue: undefined,
   defaultValue: false,

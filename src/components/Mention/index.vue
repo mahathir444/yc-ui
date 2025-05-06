@@ -25,15 +25,15 @@
     @blur="(ev) => handleEvent('blur', ev)"
     @keydown="updatePopPosition"
   >
-    <template v-if="$slots.option" #option>
-      <slot name="option" />
+    <template v-if="$slots.option" #option="{ data }">
+      <slot name="option" :data="data" />
     </template>
   </yc-auto-complete>
 </template>
 
 <script lang="ts" setup>
 import { ref, toRefs, onMounted, computed, nextTick } from 'vue';
-import { MentionProps, MentionEmits } from './type';
+import { MentionProps, MentionEmits, MentionSlots } from './type';
 import { ObjectData } from '@shared/type';
 import { isNull, isArray, debounce } from '@shared/utils';
 import { useControlValue, useCursor } from '@shared/hooks';
@@ -44,6 +44,7 @@ import { SelectValue } from '@/components/Select';
 defineOptions({
   name: 'Mention',
 });
+defineSlots<MentionSlots>();
 const props = withDefaults(defineProps<MentionProps>(), {
   modelValue: undefined,
   defaultValue: '',

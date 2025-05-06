@@ -25,6 +25,13 @@ export interface SwitchEmits {
   (e: 'blur', ev: FocusEvent): void;
 }
 
+export interface SwitchSlots {
+  ['checked-icon'](): void;
+  ['unchecked-icon'](): void;
+  ['checked'](): void;
+  ['unchecked'](): void;
+}
+
 export type SwitchValue = string | number | boolean;
 export type SwitchType = 'circle' | 'round' | 'line';
 export type SwitchSize = 'small' | 'medium';

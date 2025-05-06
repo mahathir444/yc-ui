@@ -1,4 +1,4 @@
-import { Direction } from '@shared/type';
+import { Direction, ObjectData } from '@shared/type';
 
 export interface CheckboxProps {
   modelValue?: boolean;
@@ -36,7 +36,7 @@ export interface CheckboxGroupEmits {
 export interface CheckboxGroupSlots {
   default(): void;
   checkbox(checked: boolean, disabled: boolean): void;
-  label(data: Record<string, any>): void;
+  label(data: ObjectData): void;
 }
 
 export interface CheckboxOption {

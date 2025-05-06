@@ -1,5 +1,5 @@
 import { toRefs, inject, ref, isReactive, reactive, Ref } from 'vue';
-import { PopupContainer, Size } from '@shared/type';
+import { PopupContainer, Props, Size } from '@shared/type';
 import { isUndefined } from '../utils';
 
 export const CONFIG_PROVIDER_PROVIDE_KEY = 'config-props';
@@ -13,7 +13,7 @@ export interface ConfigProviderProvide {
   exchangeTime: Ref<boolean>;
 }
 
-export default (props: Record<string, any> = {}) => {
+export default (props: Props = {}) => {
   // 接收值
   const {
     zIndex: _zIndex,

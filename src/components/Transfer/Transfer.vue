@@ -9,13 +9,29 @@
     <!-- target -->
     <transfer-panel type="source">
       <template v-if="$slots.soruce" #default="{ selectedKeys, data }">
-        <slot name="soruce" :data="selectedKeys" :selectedKeys="data" />
+        <slot name="source" :data="data" :selectedKeys="selectedKeys" />
       </template>
-      <template v-if="$slots['list-item']" #list-item="{ label, value }">
-        <slot name="list-item" :label="label" :value="value" />
+      <template v-if="$slots['item']" #item="{ label, value }">
+        <slot name="item" :label="label" :value="value" />
       </template>
-      <template v-if="$slots['source-title']" #title>
-        <slot name="source-title" />
+      <template
+        v-if="$slots['source-title']"
+        #title="{
+          countTotal,
+          countSelected,
+          searchValue,
+          checked,
+          indeterminate,
+        }"
+      >
+        <slot
+          name="source-title"
+          :countTotal="countTotal"
+          :countSelected="countSelected"
+          :searchValue="searchValue"
+          :checked="checked"
+          :indeterminate="indeterminate"
+        />
       </template>
     </transfer-panel>
     <!-- operations -->
@@ -40,7 +56,7 @@
         @click="handleDel"
       >
         <template #icon>
-          <slot name="to-soruce-icon">
+          <slot name="to-source-icon">
             <icon-arrow-right :rotate="180" />
           </slot>
         </template>
@@ -49,29 +65,44 @@
     <!-- target -->
     <transfer-panel type="target">
       <template v-if="$slots.target" #default="{ selectedKeys, data }">
-        <slot name="target" :data="selectedKeys" :selectedKeys="data" />
+        <slot name="target" :data="data" :selectedKeys="selectedKeys" />
       </template>
-
-      <template v-if="$slots['list-item']" #list-item="{ label, value }">
-        <slot name="list-item" :label="label" :value="value" />
+      <template v-if="$slots['item']" #item="{ label, value }">
+        <slot name="item" :label="label" :value="value" />
       </template>
-      <template v-if="$slots['target-title']" #title>
-        <slot name="target-title" />
+      <template
+        v-if="$slots['target-title']"
+        #title="{
+          countTotal,
+          countSelected,
+          searchValue,
+          checked,
+          indeterminate,
+        }"
+      >
+        <slot
+          name="target-title"
+          :countTotal="countTotal"
+          :countSelected="countSelected"
+          :searchValue="searchValue"
+          :checked="checked"
+          :indeterminate="indeterminate"
+        />
       </template>
     </transfer-panel>
   </div>
 </template>
 
 <script lang="ts" setup>
-import { TransferProps, TransferEmits } from './type';
+import { TransferProps, TransferEmits, TransferSlots } from './type';
 import useProvide from './hooks/useProvide';
 import { IconArrowRight } from '@shared/icons';
 import TransferPanel from './TransferPanel.vue';
 import YcButton from '@/components/Button';
-
 defineOptions({
   name: 'Transfer',
 });
+defineSlots<TransferSlots>();
 const props = withDefaults(defineProps<TransferProps>(), {
   data: () => [],
   modelValue: undefined,

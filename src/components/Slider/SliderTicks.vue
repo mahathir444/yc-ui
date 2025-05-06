@@ -21,11 +21,12 @@
 
 <script lang="ts" setup>
 import { toRefs } from 'vue';
+import { ObjectData } from '@shared/type';
 import { TICK_TYPE_CLASS, TICKS_TYPE_CLASS } from '@shared/constants';
 import useProvide from './hooks/useProvide';
 const props = defineProps<{
   type: 'dots' | 'marks' | 'ticks';
-  data: Record<string, any>[];
+  data: ObjectData[];
 }>();
 defineEmits<{
   (e: 'labelClick', value: number): void;

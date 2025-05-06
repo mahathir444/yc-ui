@@ -3,7 +3,15 @@
     <!-- header -->
     <div class="yc-transfer-view-header">
       <span class="yc-transfer-view-header-title">
-        <slot v-if="!showSelectAll || simple || oneWay" name="title">
+        <slot
+          v-if="!showSelectAll || simple || oneWay"
+          name="title"
+          :countTotal="type == 'source' ? sourceOptions : targetOptions"
+          :countSelected="type == 'source' ? sourceChecked : targetChecked"
+          :searchValue="keywords"
+          :checked="selectedAll"
+          :indeterminate="indeterminate"
+        >
           {{ title }}
         </slot>
         <yc-checkbox
@@ -47,7 +55,7 @@
             <slot
               v-for="item in curData"
               :key="item.value"
-              name="list-item"
+              name="item"
               :label="item.label"
               :value="item.value"
             >

@@ -3,7 +3,7 @@ import {
   FilterOption,
   VirtualListProps,
 } from '@/components/Select';
-import { PopupContainer } from '@shared/type';
+import { PopupContainer, ObjectData } from '@shared/type';
 import { TriggerProps } from '@/components/Trigger';
 
 export interface AutoCompleteProps {
@@ -36,3 +36,9 @@ export type AutoCompleteEmits = {
   (e: 'input', value: string, ev: Event): void;
   (e: 'keydown', ev: KeyboardEvent): void;
 };
+
+export interface AutoCompleteSlots {
+  option(data: ObjectData): void;
+  footer(): void;
+  trigger(): void;
+}

@@ -5,8 +5,9 @@
 </template>
 
 <script lang="ts" setup>
+import { ObjectData } from '@shared/type';
 // 过渡时间
-const transitions: Record<string, any> = {
+const transitions: ObjectData = {
   onBeforeEnter(el: HTMLDivElement) {
     el.style.height = '0';
     el.style.opacity = '0';
