@@ -63,6 +63,19 @@
         </div>
       </template>
     </yc-split>
+    <div>
+      <a-slider v-model="width" :min="0" :max="800" />
+      <yc-overflow-list :style="{ width: `${width}px`, marginTop: '20px' }">
+        <yc-tag v-for="item of tags" :key="item" style="width: 50px">
+          Tag{{ item }}
+        </yc-tag>
+      </yc-overflow-list>
+      <a-overflow-list :style="{ width: `${width}px`, marginTop: '20px' }">
+        <a-tag v-for="item of tags" :key="item" style="width: 50px">
+          Tag{{ item }}
+        </a-tag>
+      </a-overflow-list>
+    </div>
     <!-- scrollbar -->
     <yc-scrollbar style="height: 200px; width: 300px">
       <div
@@ -83,6 +96,15 @@
     </yc-watermark>
   </div>
 </template>
+
+<script setup lang="ts">
+import { ref, computed } from 'vue';
+const width = ref(500);
+const number = ref(100);
+const tags = computed(() =>
+  Array.from({ length: number.value }, (_, idx) => idx + 1)
+);
+</script>
 
 <style lang="less" scoped>
 .test {

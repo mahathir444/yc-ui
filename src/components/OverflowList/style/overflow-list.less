@@ -1,11 +1,14 @@
 .yc-overflow-list {
   position: relative;
-  overflow: hidden;
   display: flex;
 
   &:deep(.yc-tag) {
     flex-shrink: 0;
+    overflow: hidden;
     left: 0;
     right: 0;
+    .yc-tag-label {
+      text-wrap: nowrap;
+    }
   }
 }

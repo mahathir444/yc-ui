@@ -26,31 +26,30 @@
         v-if="max < tags.length"
         :style="{
           visibility: max < tags.length ? 'visible' : 'hidden',
-          position: max < tags.length ? 'absolute' : 'static',
+          position: max < tags.length ? 'static' : 'absolute',
           left: from == 'start' ? '0' : '',
           right: from == 'end' ? '0' : '',
-          top: '0',
         }"
         ref="overflowRef"
       >
-        {{ `+${overflowNumber}...` }}
+        {{ `+${overflowNumber}` }}
       </yc-tag>
     </slot>
   </div>
 </template>
 
 <script lang="ts" setup>
-import { ref, VNode, watch } from 'vue';
+import { ref, VNode } from 'vue';
 import { toRefs, useSlots, computed } from 'vue';
 import { OverflowListProps, OverflowListEmits } from './type';
-import { findComponentsFromVnodes } from '@shared/utils';
+import { findComponentsFromVnodes, throttle } from '@shared/utils';
 import { useResizeObserver } from '@vueuse/core';
 import YcTag, { TagInstance } from '@/components/Tag';
 defineOptions({
   name: 'OverflowList',
 });
 const props = withDefaults(defineProps<OverflowListProps>(), {
-  min: 6,
+  min: 0,
   margin: 8,
   from: 'end',
 });
@@ -81,23 +80,27 @@ const overflowNumber = computed(() => {
 // 最多能展示的组件数量
 const max = ref<number>(min.value);
 // 动态计算
-useResizeObserver(listRef, () => {
-  const width = listRef.value!.offsetWidth;
-  let maxCount = 0;
-  let totalWidth = overFlowWidth.value;
-  for (let tag of tagRef.value) {
-    if (totalWidth - margin.value > width) {
-      maxCount--;
-      break;
+useResizeObserver(
+  listRef,
+  throttle(() => {
+    const width = listRef.value!.offsetWidth;
+    let maxCount = 0;
+    let totalWidth = overFlowWidth.value;
+    for (let tag of tagRef.value) {
+      if (totalWidth - margin.value > width) {
+        maxCount--;
+        break;
+      }
+      totalWidth += tag?.getRef()?.offsetWidth + margin.value;
+      maxCount++;
     }
-    totalWidth += tag?.getRef()?.offsetWidth + margin.value;
-    maxCount++;
-  }
-  max.value = maxCount > min.value ? maxCount : min.value;
-  emits('change', overflowNumber.value);
-});
+    console.log(maxCount, 'maxCount');
+    max.value = maxCount > min.value ? maxCount : min.value;
+    emits('change', overflowNumber.value);
+  }, 16.7)
+);
 </script>
 
-<style lang="less">
+<style lang="less" scoped>
 @import './style/overflow-list.less';
 </style>

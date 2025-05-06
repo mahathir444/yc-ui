@@ -55,3 +55,33 @@ export function debounce<T extends (...args: any[]) => any>(
     }, delay);
   };
 }
+
+// 节流函数
+export function throttle<T extends (...args: any[]) => any>(
+  fn: T,
+  delay: number
+): (...args: Parameters<T>) => void {
+  let lastTime = 0;
+  let timeoutId: ReturnType<typeof setTimeout> | null = null;
+
+  return function (this: any, ...args: Parameters<T>) {
+    const now = Date.now();
+    const remaining = delay - (now - lastTime);
+
+    if (timeoutId) {
+      clearTimeout(timeoutId);
+      timeoutId = null;
+    }
+
+    if (remaining <= 0) {
+      fn.apply(this, args);
+      lastTime = now;
+    } else {
+      timeoutId = setTimeout(() => {
+        fn.apply(this, args);
+        lastTime = Date.now();
+        timeoutId = null;
+      }, remaining);
+    }
+  };
+}

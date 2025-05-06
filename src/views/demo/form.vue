@@ -82,16 +82,6 @@
         "
       />
     </div>
-    <div style="width: 400px">
-      <a-verification-code
-        :formatter="
-          (inputValue, index, v) => {
-            console.log(inputValue, index, v, 'formater');
-            return inputValue + '-' + index;
-          }
-        "
-      />
-    </div>
     <div>
       <yc-transfer :data="options" show-search />
     </div>
