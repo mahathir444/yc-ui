@@ -3,12 +3,14 @@
     v-model:popup-visible="computedVisible"
     :trigger="trigger"
     :position="position"
-    :disabled="disabled"
     :popup-offset="4"
-    :popup-translate="[0, -4]"
+    :disabled="disabled"
     :mouse-enter-delay="150"
     :mouse-leave-delay="150"
-    :auto-fit-position="false"
+    :on-trigger-mouseenter="handleCalcStyle"
+    :on-trigger-mouseclick="handleCalcStyle"
+    need-transform-origin
+    auto-set-position
     auto-fit-popup-min-width
     ref="triggerRef"
     v-bind="triggerProps"
@@ -93,6 +95,16 @@ const position = computed(() => {
 const trigger = computed(() => {
   return DSUBMENU_TRIGGER_MAP[_trigger.value] || 'rt';
 });
+// 处理计算style
+const handleCalcStyle = async () => {
+  await nextTick();
+  const dom = optionRef.value?.getOptionRef();
+  if (!dom) return;
+  const { left, top, right, width } = dom.getBoundingClientRect();
+  const x = position.value == 'rt' ? right : left - width;
+  const y = top - 5;
+  triggerRef.value?.updatePosition(x, y);
+};
 </script>
 
 <style lang="less" scoped>

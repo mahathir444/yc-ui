@@ -1,5 +1,6 @@
 <template>
   <div
+    v-show="mode != 'horizontal' || curOrder <= max"
     :class="{
       'yc-menu-item-wrapper': true,
       'yc-menu-item-mode-horizontal': mode == 'horizontal',

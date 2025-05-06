@@ -1,36 +1,21 @@
 <template>
-  <div
-    v-if="tag == 'div'"
+  <component
+    :is="tag"
     class="yc-prevent-focus"
     ref="htmlRef"
-    @mousedown="(e) => preventFocus && e.preventDefault()"
+    @mousedown="(e: MouseEvent) => preventFocus && e.preventDefault()"
   >
     <slot />
-  </div>
-  <label
-    v-else-if="tag == 'label'"
-    class="yc-prevent-focus"
-    ref="htmlRef"
-    @mousedown="(e) => preventFocus && e.preventDefault()"
-  >
-    <slot />
-  </label>
-  <span
-    v-else
-    class="yc-prevent-focus"
-    ref="htmlRef"
-    @mousedown="(e) => preventFocus && e.preventDefault()"
-  >
-    <slot />
-  </span>
+  </component>
 </template>
 
 <script lang="ts" setup>
 import { ref } from 'vue';
+import { HtmlTag } from '@shared/type';
 withDefaults(
   defineProps<{
     preventFocus?: boolean;
-    tag?: 'div' | 'label' | 'span';
+    tag?: HtmlTag;
   }>(),
   {
     preventFocus: true,

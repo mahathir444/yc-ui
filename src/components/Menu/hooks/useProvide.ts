@@ -70,7 +70,7 @@ export default () => {
       popupMaxHeight,
       autoScrollIntoView,
       scrollConfig,
-      collapsedWidth: _collapsedWidth,
+      collapsedWidth,
     } = toRefs(props);
     // 选中的key
     const computedSelectedKeys = useControlValue<string>(
@@ -126,7 +126,8 @@ export default () => {
       menuItemData,
       computedCollapsed,
       breakpoint,
-      _collapsedWidth,
+      collapsedWidth,
+      computedSelectedKeys,
     };
   };
   const inject = () => {

@@ -21,7 +21,7 @@ export default (menuRef: Ref<HTMLDivElement | undefined>) => {
       maxCount++;
     }
     max.value = maxCount;
-    console.log(maxCount, 'max');
+    console.log(max.value, 'max');
   });
   // menu的宽度
   useResizeObserver(menuRef, () => {

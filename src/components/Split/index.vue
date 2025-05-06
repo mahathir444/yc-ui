@@ -21,14 +21,14 @@
       ref="triggerRef"
     >
       <slot name="resize-trigger">
-        <div class="yc-split-trigger-icon-wrapper">
+        <component :is="component" class="yc-split-trigger-icon-wrapper">
           <div class="yc-split-trigger-icon">
             <slot name="resize-trigger-icon">
               <icon-drag-dot-vertical v-if="direction == 'horizontal'" />
               <icon-drag-dot v-else />
             </slot>
           </div>
-        </div>
+        </component>
       </slot>
     </div>
     <!-- second -->

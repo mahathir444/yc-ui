@@ -1,4 +1,12 @@
-import { ref, inject, computed, ComputedRef, Ref, provide } from 'vue';
+import {
+  ref,
+  inject,
+  computed,
+  ComputedRef,
+  Ref,
+  provide,
+  nextTick,
+} from 'vue';
 import { MenuItemData } from './useProvide';
 
 export const SUBMENU_PROVIDE_KEY = 'sub-menu-props';
@@ -121,7 +129,17 @@ export default (params: {
   // 当前的order,用于计算横向情况下的隐藏
   const curOrder = ref(!curLevel.value ? ++order.value : -1);
   // 收集keys
-  const collectKeys = (title: string) => {
+  const collectKeys = async (title: string) => {
+    const target = childKeys.value.find((item) => item.path == path.value);
+    if (!isSubmenu.value && !target) {
+      childKeys.value.push({
+        label: title,
+        type: mode,
+        level: mode == 'submenu' ? submenuLevel : childLevel,
+        path: path.value,
+      });
+    }
+    await nextTick();
     if (mode != 'submenu') {
       menuItemData.value[curOrder.value - 1] = {
         width: menuItemRef.value!.offsetWidth,
@@ -136,14 +154,7 @@ export default (params: {
         ],
       };
     }
-    const target = childKeys.value.find((item) => item.path == path.value);
-    if (isSubmenu.value || target) return;
-    childKeys.value.push({
-      label: title,
-      type: mode,
-      level: mode == 'submenu' ? submenuLevel : childLevel,
-      path: path.value,
-    });
+    console.log(menuItemData.value);
   };
   // 注入值
   const provideKeys = () => {
