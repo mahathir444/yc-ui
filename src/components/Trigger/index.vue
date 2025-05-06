@@ -1,13 +1,13 @@
 <template>
   <component
     :is="vNode"
+    ref="triggerRef"
     @click="handleClickEvent"
     @contextmenu.prevent="handleClickEvent"
     @mouseenter="handleMouseenter"
     @mouseleave="handleMouseleave"
     @focus="handleFocus"
     @blur="handleBlur"
-    ref="triggerRef"
   />
   <teleport :to="popupContainer" :disabled="!renderToBody">
     <transition

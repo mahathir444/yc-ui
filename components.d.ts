@@ -9,6 +9,9 @@ declare module 'vue' {
   export interface GlobalComponents {
     _Icon: typeof import('./src/components/_shared/icons/_Icon.vue')['default']
     2: typeof import('./src/components/_shared/icons/IconRotateLeft copy 2.vue')['default']
+    AAvatar: typeof import('@arco-design/web-vue')['Avatar']
+    ACard: typeof import('@arco-design/web-vue')['Card']
+    ACardMeta: typeof import('@arco-design/web-vue')['CardMeta']
     ACarousel: typeof import('@arco-design/web-vue')['Carousel']
     ACarouselItem: typeof import('@arco-design/web-vue')['CarouselItem']
     Affix: typeof import('./src/components/Affix/index.vue')['default']
@@ -19,6 +22,7 @@ declare module 'vue' {
     Anchor: typeof import('./src/components/Anchor/Anchor.vue')['default']
     AnchorLink: typeof import('./src/components/Anchor/AnchorLink.vue')['default']
     ATooltip: typeof import('@arco-design/web-vue')['Tooltip']
+    ATypographyText: typeof import('@arco-design/web-vue')['TypographyText']
     AutoComplete: typeof import('./src/components/AutoComplete/index.vue')['default']
     Avatar: typeof import('./src/components/Avatar/Avatar.vue')['default']
     AvatarGroup: typeof import('./src/components/Avatar/AvatarGroup.vue')['default']

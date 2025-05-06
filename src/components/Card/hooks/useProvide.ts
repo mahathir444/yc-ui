@@ -8,13 +8,14 @@ import {
   ref,
   Ref,
   Reactive,
+  Slots,
 } from 'vue';
 import { useConfigProvder } from '@shared/hooks';
 
 export const CARD_PROVIDE_KEY = 'card-props';
 
 export interface CardProvide {
-  actions: ComputedRef<VNode[]>;
+  slots: Slots;
   hasMeta: Ref<boolean>;
   hasGrid: Ref<boolean>;
 }
@@ -28,12 +29,10 @@ export default () => {
     const hasMeta = ref<boolean>(false);
     // 是否grid
     const hasGrid = ref<boolean>(false);
-    // action vnode
-    const actions = computed<VNode[]>(() => slots.actions?.() || []);
     // size
     const { size } = useConfigProvder(props);
     _provide<CardProvide>(CARD_PROVIDE_KEY, {
-      actions,
+      slots,
       hasMeta,
       hasGrid,
     });
@@ -44,21 +43,18 @@ export default () => {
     };
   };
   const inject = (type: 'meta' | 'grid') => {
-    const { hasMeta, hasGrid, actions } = _inject<CardProvide>(
-      CARD_PROVIDE_KEY,
-      {
-        actions: computed(() => []),
-        hasMeta: ref(false),
-        hasGrid: ref(false),
-      }
-    );
+    const { hasMeta, hasGrid, slots } = _inject<CardProvide>(CARD_PROVIDE_KEY, {
+      slots: {},
+      hasMeta: ref(false),
+      hasGrid: ref(false),
+    });
     if (type == 'grid') {
       hasGrid.value = true;
     } else {
       hasMeta.value = true;
     }
     return {
-      actions,
+      slots,
     };
   };
   return {

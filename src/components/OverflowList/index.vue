@@ -43,7 +43,7 @@
 import { ref, VNode, watch } from 'vue';
 import { toRefs, useSlots, computed } from 'vue';
 import { OverflowListProps, OverflowListEmits } from './type';
-import { findComponentsFromVnodes, sleep } from '@shared/utils';
+import { findComponentsFromVnodes } from '@shared/utils';
 import { useResizeObserver } from '@vueuse/core';
 import YcTag, { TagInstance } from '@/components/Tag';
 defineOptions({

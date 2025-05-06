@@ -22,9 +22,9 @@
       <div v-if="$slots.avatar" class="yc-card-meta-avatar">
         <slot name="avatar" />
       </div>
-      <div v-if="actions.length" class="yc-card-actions">
+      <div v-if="slots.actions" class="yc-card-actions">
         <div class="yc-card-actions-right text-ellipsis">
-          <component v-for="(node, index) in actions" :key="index" :is="node" />
+          <component :is="getSlotFunction(slots.actions)" />
         </div>
       </div>
     </div>
@@ -33,6 +33,7 @@
 
 <script lang="ts" setup>
 import { CardMetaProps, CardMetaSlots } from './type';
+import { getSlotFunction } from '@shared/utils';
 import useProvide from './hooks/useProvide';
 defineOptions({
   name: 'CardMeta',
@@ -44,7 +45,7 @@ withDefaults(defineProps<CardMetaProps>(), {
 });
 // 接收注入
 const { inject } = useProvide();
-const { actions } = inject('meta');
+const { slots } = inject('meta');
 </script>
 
 <style lang="less" scoped>

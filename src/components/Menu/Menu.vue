@@ -7,7 +7,7 @@
   >
     <div class="yc-menu-inner" ref="menuRef">
       <slot />
-      <yc-dropdown
+      <!-- <yc-dropdown
         v-if="max <= menuItemData.length"
         :popup-max-height="167"
         :trigger-props="{
@@ -36,7 +36,7 @@
             {{ item.childTree[0].label }}
           </menu-pop-option>
         </template>
-      </yc-dropdown>
+      </yc-dropdown> -->
     </div>
     <div
       v-if="showCollapseButton && mode != 'horizontal'"
