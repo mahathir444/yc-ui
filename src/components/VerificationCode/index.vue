@@ -65,13 +65,19 @@ const computedValue = useControlValue<string>(
 const length = computed(() =>
   new Array(_length.value).fill('').map(() => nanoid())
 );
+// 存储格式化的值
+const formatValue = ref<string[]>([]);
 // 输入值
 const inputValue = computed(() => {
   const base = [...computedValue.value];
   for (let i = base.length; i < _length.value; i++) {
     base[i] = '';
   }
-  return base;
+  return base.map((item, i) => {
+    return item && formatter
+      ? formatter(item, i, formatValue.value.join(''))
+      : item;
+  });
 });
 // 输入实例
 const inputList = ref<InputInstance[]>([]);
@@ -86,6 +92,8 @@ const isWritable = (i: number) => {
 const handleInput = async (v: string, ev: Event, i: number) => {
   // 处理字符串
   const value = (v ? v.at(v.length - 1) : ' ') as string;
+  formatValue.value[i] =
+    formatter?.(value, i, formatValue.value.join('')) ?? value;
   // 触发事件
   emits('input', value, ev, i);
   // 拼接字符串

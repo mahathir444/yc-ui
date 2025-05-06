@@ -11,11 +11,7 @@ export interface VerificationCodeProps {
   readonly?: boolean;
   error?: boolean;
   separator?: (index: number, character: string) => VNode;
-  formatter?: (
-    inputValue: string,
-    index: number,
-    value: string
-  ) => string | boolean;
+  formatter?: (inputValue: string, index: number, value: string) => string;
 }
 
 export interface VerificationCodeEmits {
