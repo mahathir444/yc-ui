@@ -25,26 +25,30 @@ export interface TransferEmits {
 }
 
 export interface TransferSlots {
-  source(params: { data: TransferItem[]; selectedKeys: string[] }): void;
-  target(params: { data: TransferItem[]; selectedKeys: string[] }): void;
-  ['source-title'](params: {
-    countTotal: number;
-    countSelected: number;
-    searchValue: string;
-    checked: boolean;
-    indeterminate: boolean;
-  }): void;
-  ['target-title'](params: {
-    countTotal: number;
-    countSelected: number;
-    searchValue: string;
-    checked: boolean;
-    indeterminate: boolean;
-  }): void;
+  source(params: DefaultSlots): void;
+  target(params: DefaultSlots): void;
+  ['source-title'](params: TitleSlots): void;
+  ['target-title'](params: TitleSlots): void;
   ['to-source-icon'](): void;
   ['to-target-icon'](): void;
-  item(value: string, label: string): void;
+  item(params: { value: string; label: string }): void;
 }
+
+export interface TransferPanelSlots {
+  default(params: DefaultSlots): void;
+  ['title'](params: TitleSlots): void;
+  item(params: { value: string; label: string }): void;
+}
+
+type TitleSlots = {
+  countTotal: number;
+  countSelected: number;
+  searchValue: string;
+  checked: boolean;
+  indeterminate: boolean;
+};
+
+type DefaultSlots = { data: TransferItem[]; selectedKeys: string[] };
 
 export interface TransferItem {
   label?: string;

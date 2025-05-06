@@ -6,8 +6,12 @@
         <slot
           v-if="!showSelectAll || simple || oneWay"
           name="title"
-          :countTotal="type == 'source' ? sourceOptions : targetOptions"
-          :countSelected="type == 'source' ? sourceChecked : targetChecked"
+          :countTotal="
+            type == 'source' ? sourceOptions.length : targetOptions.length
+          "
+          :countSelected="
+            type == 'source' ? sourceChecked.length : targetChecked.length
+          "
           :searchValue="keywords"
           :checked="selectedAll"
           :indeterminate="indeterminate"
@@ -20,7 +24,20 @@
           :indeterminate="indeterminate"
           :disabled="!curData.length || disabled"
         >
-          <slot name="title"> {{ title }} </slot>
+          <slot
+            name="title"
+            :countTotal="
+              type == 'source' ? sourceOptions.length : targetOptions.length
+            "
+            :countSelected="
+              type == 'source' ? sourceChecked.length : targetChecked.length
+            "
+            :searchValue="keywords"
+            :checked="selectedAll"
+            :indeterminate="indeterminate"
+          >
+            {{ title }}
+          </slot>
         </yc-checkbox>
       </span>
       <span class="yc-transfer-view-header-count">
@@ -52,43 +69,43 @@
       <yc-scrollbar v-else auto-fill>
         <slot :selectedKeys="curSeleced" :data="curData">
           <div role="list" class="yc-transfer-list">
-            <slot
-              v-for="item in curData"
-              :key="item.value"
-              name="item"
-              :label="item.label"
-              :value="item.value"
-            >
-              <div
-                role="listitem"
-                :class="{
-                  'yc-transfer-list-item': true,
-                  'yc-transfer-list-item-disabled': item.disabled || disabled,
-                }"
-                @click="handleClick(item)"
+            <template v-for="item in curData" :key="item.value">
+              <slot
+                name="item"
+                :label="item.label || ''"
+                :value="item.value || ''"
               >
-                <!-- checkbox -->
-                <yc-checkbox
-                  v-if="(!oneWay || (oneWay && type == 'source')) && !simple"
-                  :model-value="curSeleced.includes(item.value as string)"
-                  :disabled="item.disabled || disabled"
-                  @change="
-                    (isSelected) =>
-                      handleCheck(isSelected, item.value as string)
-                  "
+                <div
+                  role="listitem"
+                  :class="{
+                    'yc-transfer-list-item': true,
+                    'yc-transfer-list-item-disabled': item.disabled || disabled,
+                  }"
+                  @click="handleClick(item)"
                 >
-                  {{ item.label }}
-                </yc-checkbox>
-                <template v-else>
-                  <span class="yc-transfer-list-item-content text-ellipsis">
+                  <!-- checkbox -->
+                  <yc-checkbox
+                    v-if="(!oneWay || (oneWay && type == 'source')) && !simple"
+                    :model-value="curSeleced.includes(item.value as string)"
+                    :disabled="item.disabled || disabled"
+                    @change="
+                      (isSelected) =>
+                        handleCheck(isSelected, item.value as string)
+                    "
+                  >
                     {{ item.label }}
-                  </span>
-                  <yc-icon-button v-if="type == 'target'" :hover-size="20">
-                    <icon-close />
-                  </yc-icon-button>
-                </template>
-              </div>
-            </slot>
+                  </yc-checkbox>
+                  <template v-else>
+                    <span class="yc-transfer-list-item-content text-ellipsis">
+                      {{ item.label }}
+                    </span>
+                    <yc-icon-button v-if="type == 'target'" :hover-size="20">
+                      <icon-close />
+                    </yc-icon-button>
+                  </template>
+                </div>
+              </slot>
+            </template>
           </div>
         </slot>
       </yc-scrollbar>
@@ -98,7 +115,7 @@
 
 <script lang="ts" setup>
 import { ref, toRefs, computed } from 'vue';
-import { TransferItem } from './type';
+import { TransferItem, TransferPanelSlots } from './type';
 import { IconDelete, IconClose } from '@shared/icons';
 import useProvide from './hooks/useProvide';
 import YcEmpty from '@/components/Empty';
@@ -106,6 +123,7 @@ import YcCheckbox from '@/components/Checkbox';
 import YcScrollbar from '@/components/Scrollbar';
 import { YcIconButton } from '@shared/components';
 import YcInput from '@/components/Input';
+defineSlots<TransferPanelSlots>();
 const props = defineProps<{
   type: 'source' | 'target';
 }>();
