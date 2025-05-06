@@ -7,6 +7,7 @@
   >
     <div class="yc-select-dropdown-list">
       <slot />
+      <!-- option -->
       <template v-for="option in renderOptions" :key="option.id">
         <template v-if="option.isGroup">
           <yc-optgroup :label="option.label">
@@ -17,9 +18,7 @@
               :disabled="v[fieldKey.disabled]"
               :tag-props="v[fieldKey.tagProps]"
             >
-              <slot name="option" :data="v">
-                <component :is="getRender(v)" />
-              </slot>
+              <component :is="getLabelRender(v)" />
             </yc-option>
           </yc-optgroup>
         </template>
@@ -29,41 +28,48 @@
             :disabled="option[fieldKey.disabled]"
             :tag-props="option[fieldKey.tagProps]"
           >
-            <slot name="option" :data="option">
-              <component :is="getRender(option)" />
-            </slot>
+            <component :is="getLabelRender(option)" />
           </yc-option>
         </template>
       </template>
-      <slot v-if="isEmpty" name="empty">
-        <yc-empty description="暂无数据" />
-      </slot>
+      <!-- 空插槽 -->
+      <component v-if="isEmpty" :is="getEmptyRender" />
     </div>
   </yc-scrollbar>
 </template>
 
 <script lang="ts" setup>
-import { toRefs } from 'vue';
+import { toRefs, h } from 'vue';
 import { ObjectData } from '@shared/type';
 import { getSlotFunction } from '@shared/utils';
+import useProvide from './hooks/useProvide';
 import YcEmpty from '@/components/Empty';
 import YcOption from './Option.vue';
 import YcOptgroup from './Optgroup.vue';
-const props = defineProps<{
-  renderOptions: ObjectData[];
-  fieldKey: Record<string, string>;
+defineProps<{
   scrollbar: boolean;
-  isEmpty: boolean;
 }>();
-const emits = defineEmits<{
-  (e: 'dropdownScroll'): void;
-  (e: 'dropdownReachBottom'): void;
-}>();
-const { fieldKey } = toRefs(props);
-// 渲染
-const getRender = (option: ObjectData) => {
+// 接收注入
+const { inject } = useProvide();
+const { fieldKey, isEmpty, renderOptions, slots, emits } = inject();
+// 渲染label
+const getLabelRender = (option: ObjectData) => {
+  if (slots.option) {
+    return () =>
+      slots.option?.({
+        data: option,
+      }) || [];
+  }
   const { render, label } = fieldKey.value;
   return option[render] ?? getSlotFunction(option[label]);
+};
+// 渲染empty插槽
+const getEmptyRender = () => {
+  return slots.empty
+    ? slots.empty
+    : h(YcEmpty, {
+        description: '暂无数据',
+      });
 };
 </script>
 

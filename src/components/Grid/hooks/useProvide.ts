@@ -5,10 +5,10 @@ import {
   Ref,
   provide as _provide,
   inject as _inject,
-  Reactive,
   computed,
 } from 'vue';
 import { BreakpointName } from '../type';
+import { Props } from '@shared/type';
 import { isNumber, isObject } from '@shared/utils';
 
 export const GRID_PROVIDE_KEY = 'grid-props';
@@ -20,8 +20,6 @@ export type GridProvide = {
   cols: Ref<number> | ComputedRef<number>;
   colGap: Ref<number> | ComputedRef<number>;
 };
-
-type Props = Reactive<Record<string, any>>;
 
 export default () => {
   const provide = (props: Props) => {

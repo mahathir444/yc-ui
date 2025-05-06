@@ -5,9 +5,8 @@ import {
   Ref,
   provide as _provide,
   inject as _inject,
-  Reactive,
 } from 'vue';
-import { RequiredDeep } from '@shared/type';
+import { RequiredDeep, Props } from '@shared/type';
 import { ColorPickerProps, ColorPickerEmits, ColorFormat } from '../type';
 import { parseColor } from '@shared/utils';
 import { useControlValue, useConfigProvder } from '@shared/hooks';
@@ -25,8 +24,6 @@ export type ColorPickerProvide = {
 };
 
 export type ColorPickerPropsRequired = RequiredDeep<ColorPickerProps>;
-
-type Props = Reactive<Record<string, any>>;
 
 export default () => {
   const provide = (props: Props, emits: ColorPickerEmits) => {

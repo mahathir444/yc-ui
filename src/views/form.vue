@@ -9,9 +9,6 @@
         placeholder="请选择"
         :options="options"
         :max-tag-count="3"
-        :virtual-list-props="{
-          itemHeight: 36,
-        }"
       >
         <template #loading-icon>
           <icon-alipay-circle />

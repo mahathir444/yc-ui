@@ -58,6 +58,20 @@ export interface SelectEmits {
   (e: 'select', value: SelectValue): void;
 }
 
+export interface SelectSlots {
+  default(): void;
+  trigger(): void;
+  prefix(): void;
+  ['search-icon'](): void;
+  ['loading-icon'](): void;
+  ['arrow-icon'](): void;
+  footer(): void;
+  header(): void;
+  label(data: Record<string, any>): void;
+  option(data: Record<string, any>): void;
+  empty(): void;
+}
+
 export interface OptionProps {
   id?: string;
   label?: string;

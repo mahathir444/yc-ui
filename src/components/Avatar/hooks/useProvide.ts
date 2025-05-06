@@ -5,6 +5,7 @@ import {
   inject as _inject,
   Reactive,
 } from 'vue';
+import { Props } from '@shared/type';
 import { AvatarShape } from '../type';
 
 export const RADIO_GROUP_PROVIDE_KEY = 'radio-group-props';
@@ -14,8 +15,6 @@ export interface AvatarProvide {
   size: Ref<number>;
   autoFixFontSize: Ref<boolean>;
 }
-
-type Props = Reactive<Record<string, any>>;
 
 export default () => {
   const provide = (props: Props) => {

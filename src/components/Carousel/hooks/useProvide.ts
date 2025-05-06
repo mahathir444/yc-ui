@@ -3,16 +3,13 @@ import {
   toRefs,
   provide as _provide,
   inject as _inject,
-  Reactive,
   Ref,
   WritableComputedRef,
-  watch,
-  onBeforeUnmount,
 } from 'vue';
 import { CarouselEmits, ShowArrow } from '../type';
 import { sleep } from '@shared/utils';
 import { useControlValue } from '@shared/hooks';
-import { Direction } from '@shared/type';
+import { Direction, Props } from '@shared/type';
 
 export const CAROUSEL_PROVIDE_KEY = 'carousel-props';
 
@@ -31,8 +28,6 @@ export interface CarouselProvide {
   arrowClass: Ref<string>;
   getValidIndex: (...args: any) => any;
 }
-
-type Props = Reactive<Record<string, any>>;
 
 export default () => {
   const provide = (props: Props, emits: CarouselEmits) => {

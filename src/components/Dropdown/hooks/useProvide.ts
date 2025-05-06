@@ -1,14 +1,13 @@
-import { toRefs, provide as _provide, inject as _inject, Reactive } from 'vue';
+import { toRefs, provide as _provide, inject as _inject } from 'vue';
 import { DoptionValue, DropdownEmits } from '../type';
 import { useControlValue } from '@shared/hooks';
+import { Props } from '@shared/type';
 
 export const DROPDOWN_PROVIDE_KEY = 'dropdown-props';
 
 export interface DropdownProvide {
   select: (value: DoptionValue, ev: MouseEvent) => void;
 }
-
-type Props = Reactive<Record<string, any>>;
 
 export default () => {
   const provide = (props: Props, emits: DropdownEmits) => {

@@ -78,7 +78,7 @@ export default (params: {
       : [];
   });
   // 渲染的option数组
-  const renderOptions = computed(() => {
+  const renderOptions = computed<SelectOptions>(() => {
     return [
       ...provideOptions.value,
       ...(showExtraOptions.value ? fallbackOptions.value : []),

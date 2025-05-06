@@ -1,4 +1,4 @@
-import { RenderFunction } from 'vue';
+import { RenderFunction, Reactive } from 'vue';
 
 export type Size = 'mini' | 'small' | 'medium' | 'large';
 
@@ -14,6 +14,8 @@ export type ClassName =
   | (string | Record<string, boolean>)[];
 
 export type RenderContent = string | RenderFunction;
+
+export type Props = Reactive<ObjectData>;
 
 export type ObjectData = Record<string, any>;
 

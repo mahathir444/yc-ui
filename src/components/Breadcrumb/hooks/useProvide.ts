@@ -6,6 +6,7 @@ import {
   Reactive,
   toRefs,
 } from 'vue';
+import { Props } from '@shared/type';
 
 export const BREADCRUMB_PROVIDE_KEY = 'breadcrumb-props';
 
@@ -14,8 +15,6 @@ export interface BreadcrumbProvide {
   maxCount: Ref<number>;
   separator: Ref<string | number>;
 }
-
-type Props = Reactive<Record<string, any>>;
 
 export default () => {
   const provide = (props: Props) => {

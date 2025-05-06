@@ -9,6 +9,7 @@ import {
 } from 'vue';
 import { CheckboxValue, CheckboxEmits } from '../type';
 import { useControlValue } from '@shared/hooks';
+import { Props } from '@shared/type';
 
 export const CHECKBOX_GROUP_PROVIDE_KEY = 'checkbox-group-props';
 
@@ -17,8 +18,6 @@ interface CheckboxProvide {
   max: Ref<number | undefined>;
   disabled: Ref<boolean>;
 }
-
-type Props = Reactive<Record<string, any>>;
 
 export default () => {
   const provide = (props: Props, emits: CheckboxEmits) => {

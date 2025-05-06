@@ -2,15 +2,13 @@ import {
   useSlots,
   provide as _provide,
   inject as _inject,
-  VNode,
-  computed,
-  ComputedRef,
   ref,
   Ref,
   Reactive,
   Slots,
 } from 'vue';
 import { useConfigProvder } from '@shared/hooks';
+import { Props } from '@shared/type';
 
 export const CARD_PROVIDE_KEY = 'card-props';
 
@@ -19,8 +17,6 @@ export interface CardProvide {
   hasMeta: Ref<boolean>;
   hasGrid: Ref<boolean>;
 }
-
-type Props = Reactive<Record<string, any>>;
 
 export default () => {
   const provide = (props: Props) => {

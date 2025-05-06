@@ -12,7 +12,7 @@ import {
   ButtonProps,
   ButtonGroupProps,
 } from '../type';
-import { Size, RequiredDeep } from '@shared/type';
+import { Size, RequiredDeep, Props } from '@shared/type';
 import { useConfigProvder } from '@shared/hooks';
 
 const BUTTON_GROUP_PROVIDE_KEY = 'button-group-props';
@@ -24,8 +24,6 @@ interface ButtonProvide {
   shape: Ref<ButtonShape>;
   disabled: Ref<boolean>;
 }
-
-type Props = Reactive<Record<string, any>>;
 
 export default () => {
   const provide = (props: Props) => {

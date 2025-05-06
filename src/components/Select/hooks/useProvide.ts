@@ -6,7 +6,8 @@ import {
   Ref,
   provide as _provide,
   inject as _inject,
-  Reactive,
+  useSlots,
+  ComputedRef,
 } from 'vue';
 import {
   SelectValue,
@@ -14,8 +15,9 @@ import {
   FilterOption,
   SelectEmits,
   SelectProps,
+  SelectSlots,
 } from '../type';
-import { ObjectData, RequiredDeep } from '@shared/type';
+import { ObjectData, RequiredDeep, Props } from '@shared/type';
 import { useControlValue } from '@shared/hooks';
 import { TriggerInstance } from '@/components/Trigger';
 import { InputInstance } from '@/components/Input';
@@ -33,6 +35,10 @@ export interface SelectProvide {
   limit: Ref<number>;
   curIndex: Ref<number>;
   options: Ref<SelectOptionData[]>;
+  renderOptions: ComputedRef<ObjectData[]> | Ref<ObjectData[]>;
+  fieldKey: ComputedRef<Record<string, string>> | Ref<Record<string, string>>;
+  isEmpty: ComputedRef<boolean> | Ref<boolean>;
+  slots: Partial<SelectSlots>;
   blur: () => void;
   filterOption: FilterOption;
   getValue: (value: SelectValue | ObjectData) => SelectValue;
@@ -40,8 +46,6 @@ export interface SelectProvide {
 }
 
 type SelectPropsRequired = RequiredDeep<SelectProps>;
-
-type Props = Reactive<Record<string, any>>;
 
 export default () => {
   const provide = (
@@ -169,6 +173,10 @@ export default () => {
       multiple,
       curIndex,
       options,
+      isEmpty,
+      fieldKey,
+      renderOptions,
+      slots: useSlots(),
       filterOption,
       blur,
       getValue,
@@ -193,6 +201,10 @@ export default () => {
       limit: ref(0),
       curIndex: ref(-1),
       options: ref([]),
+      renderOptions: ref([]),
+      isEmpty: ref(false),
+      fieldKey: ref({}),
+      slots: {},
       blur: () => {},
       filterOption: () => true,
       getValue: () => '',

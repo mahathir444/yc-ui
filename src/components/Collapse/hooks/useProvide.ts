@@ -5,10 +5,10 @@ import {
   Ref,
   provide as _provide,
   inject as _inject,
-  Reactive,
 } from 'vue';
 import { CollapseEmits, CollapseValue, ExpandIconPosition } from '../type';
 import { useControlValue } from '@shared/hooks';
+import { Props } from '@shared/type';
 
 export const COLLAPSE_PROVIDE_KEY = 'collapse-props';
 
@@ -21,8 +21,6 @@ export type CollapseProvide = {
   showExpandIcon: Ref<boolean>;
   destroyOnHide: Ref<boolean>;
 };
-
-type Props = Reactive<Record<string, any>>;
 
 export default () => {
   const provide = (props: Props, emits: CollapseEmits) => {

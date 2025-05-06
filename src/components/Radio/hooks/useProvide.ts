@@ -5,10 +5,9 @@ import {
   Ref,
   provide as _provide,
   inject as _inject,
-  Reactive,
 } from 'vue';
 import { RadioType, RadioGroupEmits, RadioValue } from '../type';
-import { Size } from '@shared/type';
+import { Size, Props } from '@shared/type';
 import { useControlValue, useConfigProvder } from '@shared/hooks';
 
 export const RADIO_GROUP_PROVIDE_KEY = 'radio-group-props';
@@ -19,8 +18,6 @@ export interface RadioProvide {
   disabled: Ref<boolean>;
   size: Ref<Size>;
 }
-
-type Props = Reactive<Record<string, any>>;
 
 export default () => {
   const provide = (props: Props, emits: RadioGroupEmits) => {

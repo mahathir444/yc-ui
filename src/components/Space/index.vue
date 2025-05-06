@@ -13,7 +13,7 @@
         <component :is="node" />
       </div>
       <div
-        v-if="$slots.split && index < nodes!.length - 1"
+        v-if="$slots.split && index < nodes.length - 1"
         class="yc-space-split"
       >
         <slot name="split" />
@@ -54,7 +54,7 @@ const gap = computed(() => {
   return map[size.value] + 'px';
 });
 // node
-const nodes = computed(() => slots.default?.());
+const nodes = computed(() => slots.default?.() || []);
 </script>
 
 <style lang="less" scoped>

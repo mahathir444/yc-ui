@@ -4,11 +4,10 @@ import {
   Ref,
   inject as _inject,
   provide as _provide,
-  Reactive,
   toRefs,
   computed,
 } from 'vue';
-import { Direction, RequiredDeep } from '@shared/type';
+import { Direction, Props, RequiredDeep } from '@shared/type';
 import { FormatTooltip, SliderEmits, SliderProps, SliderValue } from '../type';
 import { isArray } from '@shared/utils';
 import { useControlValue } from '@shared/hooks';
@@ -33,8 +32,6 @@ export interface SliderProvide {
 }
 
 export type SliderPropsRequired = RequiredDeep<SliderProps>;
-
-type Props = Reactive<Record<string, any>>;
 
 export default () => {
   const provide = (

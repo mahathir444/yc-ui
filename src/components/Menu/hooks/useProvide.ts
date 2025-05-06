@@ -4,13 +4,13 @@ import {
   Ref,
   provide as _provide,
   inject as _inject,
-  Reactive,
   toRefs,
 } from 'vue';
 import { TooltipProps } from '@/components/Tooltip';
 import { TriggerProps } from '@/components/Trigger';
 import { MenuMode, PopupMaxHeight, MenuEmits } from '../type';
 import { useControlValue } from '@shared/hooks';
+import { Props } from '@shared/type';
 import { ChlidTreeNode } from './useMenuLevel';
 import useCalcMaxShow from './useCalcMaxShow';
 
@@ -41,8 +41,6 @@ export type MenuItemData = {
   width: number;
   childTree: ChlidTreeNode[];
 };
-
-type Props = Reactive<Record<string, any>>;
 
 export default () => {
   const provide = (

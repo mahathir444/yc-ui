@@ -103,46 +103,20 @@
             />
           </yc-carousel-item>
         </yc-carousel> -->
-        <yc-card :style="{ width: '360px' }">
-          <template #actions>
-            <span class="icon-hover"> <IconThumbUp /> </span>
-            <span class="icon-hover"> <IconShareInternal /> </span>
-            <span class="icon-hover"> <IconMore /> </span>
-          </template>
-          <template #cover>
-            <div
-              :style="{
-                height: '204px',
-                overflow: 'hidden',
-              }"
-            >
-              <img
-                :style="{ width: '100%', transform: 'translateY(-20px)' }"
-                alt="dessert"
-                src="https://p1-arco.byteimg.com/tos-cn-i-uwbnlip3yd/a20012a2d4d5b9db43dfc6a01fe508c0.png~tplv-uwbnlip3yd-webp.webp"
-              />
-            </div>
-          </template>
-          <yc-card-meta
-            title="Card Title"
-            description="This is the description"
+        <div style="width: 300px">
+          <yc-select
+            allow-clear
+            allow-search
+            multiple
+            placeholder="请选择"
+            :options="options"
+            :max-tag-count="3"
           >
-            <template #avatar>
-              <div
-                :style="{
-                  display: 'flex',
-                  alignItems: 'center',
-                  color: '#1D2129',
-                }"
-              >
-                <a-avatar :size="24" :style="{ marginRight: '8px' }">
-                  A
-                </a-avatar>
-                <a-typography-text>Username</a-typography-text>
-              </div>
+            <template #option="{ data }">
+              <span>选项的值是{{ data.value }}</span>
             </template>
-          </yc-card-meta>
-        </yc-card>
+          </yc-select>
+        </div>
       </yc-layout-content>
     </yc-layout>
   </yc-layout>
@@ -165,6 +139,13 @@ const images = [
   'https://p1-arco.byteimg.com/tos-cn-i-uwbnlip3yd/0265a04fddbd77a19602a15d9d55d797.png~tplv-uwbnlip3yd-webp.webp',
   'https://p1-arco.byteimg.com/tos-cn-i-uwbnlip3yd/24e0dd27418d2291b65db1b21aa62254.png~tplv-uwbnlip3yd-webp.webp',
 ];
+const options = ref<any[]>([]);
+for (let i = 0; i < 30; i++) {
+  options.value.push({
+    label: '选项' + i,
+    value: i,
+  });
+}
 </script>
 
 <style lang="less" scoped>

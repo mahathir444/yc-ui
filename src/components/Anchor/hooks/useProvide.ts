@@ -6,13 +6,13 @@ import {
   computed,
   provide as _provide,
   inject as _inject,
-  Reactive,
 } from 'vue';
 import {
   getElement,
   findFirstScrollableParent,
   isUndefined,
 } from '@shared/utils';
+import { Props } from '@shared/type';
 
 export const ANCHOR_PROVIDE_KEY = 'anchor-props';
 
@@ -28,8 +28,6 @@ export interface AnchorProvide {
     | ComputedRef<HTMLElement | undefined>
     | Ref<HTMLElement | undefined>;
 }
-
-type Props = Reactive<Record<string, any>>;
 
 export default () => {
   const provide = (props: Props, listRef: Ref<HTMLDivElement | undefined>) => {

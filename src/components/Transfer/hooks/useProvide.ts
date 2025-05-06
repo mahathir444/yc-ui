@@ -5,13 +5,12 @@ import {
   Ref,
   provide as _provide,
   inject as _inject,
-  Reactive,
   computed,
 } from 'vue';
 import { InputProps } from '@/components/Input';
 import { TransferEmits, TransferItem, TransferProps } from '../type';
 import { useControlValue } from '@shared/hooks';
-import { RequiredDeep } from '@/components/_shared/type';
+import { RequiredDeep, Props } from '@/components/_shared/type';
 
 export const TRANSFER_PROVIDE_KEY = 'transfer-props';
 
@@ -34,8 +33,6 @@ export interface TransferProvide {
 }
 
 export type TransferPropsRquired = RequiredDeep<TransferProps>;
-
-type Props = Reactive<Record<string, any>>;
 
 export default () => {
   const provide = (props: Props, emits: TransferEmits) => {
