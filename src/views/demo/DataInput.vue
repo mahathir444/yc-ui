@@ -1,5 +1,5 @@
 <template>
-  <div class="test">
+  <div class="form">
     <div style="width: 300px">
       <yc-select
         :options="options"
@@ -113,7 +113,7 @@ for (let i = 0; i < 30; i++) {
 </script>
 
 <style lang="less" scoped>
-.test {
+.form {
   height: 100%;
   width: 100%;
   display: flex;

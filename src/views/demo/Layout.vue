@@ -1,5 +1,5 @@
 <template>
-  <div class="test">
+  <div class="layout">
     <!-- divider -->
     <div>
       <p>
@@ -105,7 +105,7 @@
 </template>
 
 <style lang="less" scoped>
-.test {
+.layout {
   height: 100%;
   width: 100%;
   display: flex;

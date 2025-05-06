@@ -1,5 +1,5 @@
 <template>
-  <div class="test">
+  <div class="other">
     <!-- affix -->
     <yc-affix :offset-top="0">
       <yc-button>affix</yc-button>
@@ -70,11 +70,6 @@
           Tag{{ item }}
         </yc-tag>
       </yc-overflow-list>
-      <a-overflow-list :style="{ width: `${width}px`, marginTop: '20px' }">
-        <a-tag v-for="item of tags" :key="item" style="width: 50px">
-          Tag{{ item }}
-        </a-tag>
-      </a-overflow-list>
     </div>
     <!-- scrollbar -->
     <yc-scrollbar style="height: 200px; width: 300px">
@@ -107,7 +102,7 @@ const tags = computed(() =>
 </script>
 
 <style lang="less" scoped>
-.test {
+.other {
   height: 150vh;
   width: 100%;
   overflow: auto;

@@ -52,7 +52,7 @@ const router = createRouter({
             {
               path: 'dataInput',
               name: 'form',
-              component: () => import('@/views/demo/form.vue'),
+              component: () => import('@/views/demo/DataInput.vue'),
             },
             {
               path: 'feedback',

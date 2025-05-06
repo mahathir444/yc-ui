@@ -1,5 +1,5 @@
 <template>
-  <div class="test">
+  <div class="common">
     <yc-space>
       <yc-button type="primary">Primary</yc-button>
       <yc-button>Secondary</yc-button>
@@ -21,7 +21,7 @@
 </template>
 
 <style lang="less" scoped>
-.test {
+.common {
   height: 100%;
   width: 100%;
   display: flex;

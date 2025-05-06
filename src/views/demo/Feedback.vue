@@ -1,5 +1,5 @@
 <template>
-  <div class="test">
+  <div class="feedback">
     <yc-alert closable>
       This is an info alert.
       <template #action>
@@ -125,7 +125,7 @@ const animation = ref(false);
 </script>
 
 <style lang="less" scoped>
-.test {
+.feedback {
   width: 100%;
   overflow: auto;
   display: flex;

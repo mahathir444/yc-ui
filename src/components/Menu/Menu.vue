@@ -7,11 +7,11 @@
   >
     <div class="yc-menu-inner" ref="menuRef">
       <slot />
-      <!-- <yc-dropdown
-        v-if="max <= menuItemData.length"
+      <!-- 省略内容  -->
+      <yc-dropdown
+        v-if="mode == 'horizontal' && max < menuItemData.length"
         :popup-max-height="167"
         :trigger-props="{
-          autoFitPosition: false,
           autoFitPopupMinWidth: true,
           needTransformOrigin: true,
           position: mode == 'horizontal' ? 'bl' : 'rt',
@@ -20,12 +20,27 @@
         }"
         ref="dropdownRef"
       >
-        <div class="yc-menu-item">
-          <icon-more />
+        <div
+          :class="{
+            'yc-menu-item-wrapper': true,
+
+            'yc-menu-item-mode-horizontal': mode == 'horizontal',
+          }"
+        >
+          <div
+            :class="[
+              'yc-menu-item',
+              'yc-menu-item-ellipsis',
+              // isSelected ? 'yc-menu-item-selected' : '',
+              MENU_ITEM_THEME_MAP[theme],
+            ]"
+          >
+            <icon-more />
+          </div>
         </div>
         <template #content>
           <menu-pop-option
-            v-for="item in menuItemData"
+            v-for="item in menuItemData.slice(max)"
             :key="item.childTree[0].path"
             :child-node="item.childTree[0]"
             :mode="mode"
@@ -36,8 +51,9 @@
             {{ item.childTree[0].label }}
           </menu-pop-option>
         </template>
-      </yc-dropdown> -->
+      </yc-dropdown>
     </div>
+    <!-- 收缩按钮 -->
     <div
       v-if="showCollapseButton && mode != 'horizontal'"
       class="yc-menu-collapse-button"
@@ -52,7 +68,11 @@
 <script lang="ts" setup>
 import { ref, computed } from 'vue';
 import { MenuProps, MenuEmits } from './type';
-import { MENU_DIRECTION_MAP, MENU_THEME_MAP } from '@shared/constants';
+import {
+  MENU_DIRECTION_MAP,
+  MENU_THEME_MAP,
+  MENU_ITEM_THEME_MAP,
+} from '@shared/constants';
 import { mediaQueryHandler } from '@shared/utils';
 import { IconMenuFold, IconMenuUnfold, IconMore } from '@shared/icons';
 import MenuPopOption from './MenuPopOption.vue';

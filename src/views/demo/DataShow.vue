@@ -1,5 +1,5 @@
 <template>
-  <div class="test">
+  <div class="data-show">
     <!-- avatar -->
     <yc-space size="large">
       <yc-avatar>A</yc-avatar>
@@ -206,7 +206,7 @@ const colors = [
 </script>
 
 <style lang="less" scoped>
-.test {
+.data-show {
   height: 200vh;
   width: 100%;
   display: flex;

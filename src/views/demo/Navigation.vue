@@ -1,5 +1,5 @@
 <template>
-  <div class="test">
+  <div class="navigation">
     <!-- breadcrumb -->
     <yc-breadcrumb>
       <yc-breadcrumb-item>breadcrumb</yc-breadcrumb-item>
@@ -116,7 +116,7 @@ const menus = Array(5)
 </script>
 
 <style lang="less" scoped>
-.test {
+.navigation {
   height: 100%;
   width: 100%;
   display: flex;
