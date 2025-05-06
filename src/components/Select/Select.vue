@@ -11,8 +11,8 @@
     need-transform-origin
     auto-fit-popup-width
     prevent-focus
-    v-bind="triggerProps"
     ref="popupRef"
+    v-bind="triggerProps"
   >
     <slot name="trigger">
       <div
@@ -39,10 +39,6 @@
           @blur="handleEvent('blur')"
           @input="(v) => handleEvent('search', v)"
         >
-          <!-- prefix -->
-          <template v-if="$slots.prefix" #prefix>
-            <slot name="prefix" />
-          </template>
           <template #label>
             <slot name="label" :data="selectOptions[0]">
               <span
@@ -85,14 +81,10 @@
           @remove="$emit('remove')"
           @update:model-value="(v) => handleEvent('updateValue', v)"
         >
-          <!-- prefix -->
-          <template v-if="$slots.prefix" #prefix>
-            <slot name="prefix" />
-          </template>
           <!-- suffix -->
           <template #suffix>
             <select-icon
-              :popup-visible="popupVisible"
+              :popup-visible="computedVisible"
               :allow-search="allowSearch"
               :loading="loading"
               :show-clear-btn="showClearBtn"
@@ -129,7 +121,6 @@ import SelectView from './SelectView.vue';
 import YcInput, { InputInstance } from '@/components/Input';
 import YcInputTag, { TagData, InputTagValue } from '@/components/InputTag';
 import YcTrigger, { TriggerInstance } from '@/components/Trigger';
-
 defineOptions({
   name: 'Select',
 });
@@ -202,18 +193,11 @@ const inputRef = ref<InputInstance>();
 const popupRef = ref<TriggerInstance>();
 // 注入值
 const { provide } = useProvide();
-const {
-  computedVisible,
-  computedValue,
-  computedInputValue,
-  renderOptions,
-  selectOptions,
-  fieldKey,
-  isEmpty,
-} = provide(props, emits, {
-  popupRef,
-  inputRef,
-});
+const { computedVisible, computedValue, computedInputValue, selectOptions } =
+  provide(props, emits, {
+    popupRef,
+    inputRef,
+  });
 // 是否展示清除按钮
 const showClearBtn = computed(() => {
   const hasValue = multiple.value

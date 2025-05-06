@@ -59,12 +59,7 @@
 import { ref, computed, watch, useSlots } from 'vue';
 import { TriggerProps, TriggerEmits } from './type';
 import { TRIGGER_POSITION_MAP } from '@shared/constants';
-import {
-  findFirstLegitChild,
-  sleep,
-  isDOMObject,
-  unrefElement,
-} from '@shared/utils';
+import { findFirstLegitChild, unrefElement, sleep } from '@shared/utils';
 import { useConfigProvder } from '@shared/hooks';
 import useTriggerVisible from './hooks/useTriggerVisible';
 import useTriggerPosition from './hooks/useTriggerPosition';
@@ -144,7 +139,20 @@ const {
   triggerRef,
 });
 // 计算wrapper与arrow的位置信息
-const { position, popupStyle, contentStyle, arrowStyle } = useTriggerPosition({
+const {
+  left,
+  top,
+  right,
+  bottom,
+  triggerHeight,
+  triggerWidth,
+  popupHeight,
+  popupWidth,
+  position,
+  popupStyle,
+  contentStyle,
+  arrowStyle,
+} = useTriggerPosition({
   props,
   popupRef,
   triggerRef,
@@ -155,6 +163,32 @@ const { position, popupStyle, contentStyle, arrowStyle } = useTriggerPosition({
 handleClickOutsideClose();
 // 处理滚动关闭
 handleScrollToClose();
+// 强制重新获取位置
+// watch(
+//   () => computedVisible.value,
+//   async (val) => {
+//     if (!val) return;
+//     await sleep(0);
+//     const {
+//       left: _left,
+//       top: _top,
+//       right: _right,
+//       bottom: _bottom,
+//       width: _triggerWidth,
+//       height: _triggerHeight,
+//     } = unrefElement(triggerRef)!.getBoundingClientRect();
+//     const { width: _popupWidth, height: _popupHeight } =
+//       unrefElement(popupRef)!.getBoundingClientRect();
+//     left.value = _left;
+//     top.value = _top;
+//     right.value = _right;
+//     bottom.value = _bottom;
+//     triggerWidth.value = _triggerWidth;
+//     triggerHeight.value = _triggerHeight;
+//     popupWidth.value = _popupWidth;
+//     popupHeight.value = _triggerHeight;
+//   }
+// );
 
 defineExpose({
   hide() {
@@ -168,7 +202,7 @@ defineExpose({
     mouseY.value = y;
   },
   getPopupRef() {
-    return popupRef.value;
+    return unrefElement(popupRef);
   },
 });
 </script>

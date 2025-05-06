@@ -118,8 +118,7 @@ export default (params: {
     optionDoms.value = Array.from(
       popupRef.value
         ?.getPopupRef()
-        ?.getRef()
-        .querySelectorAll('.yc-select-option-content')
+        ?.querySelectorAll('.yc-select-option-content')
     );
     // 获取插槽的props
     const nodes = findComponentsFromVnodes(

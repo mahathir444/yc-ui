@@ -154,7 +154,7 @@ export default (params: {
         ],
       };
     }
-    console.log(menuItemData.value);
+    // console.log(menuItemData.value);
   };
   // 注入值
   const provideKeys = () => {

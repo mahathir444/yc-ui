@@ -101,6 +101,7 @@ export default (params: {
       right: right.value,
       bottom: bottom.value,
     });
+    console.log(position.value, 'position');
     // 计算trigger当前的位置
     position.value = calcPositionRef({
       offsetLeft: newLeft,
@@ -114,6 +115,7 @@ export default (params: {
       right: right.value,
       bottom: bottom.value,
     }) as TriggerPostion;
+    console.log(position.value, 'newPosition');
     // 计算新的offset
     const { offsetX: newOffsetX, offsetY: newOffsetY } = calcOffset(
       popupTranslate.value,
@@ -225,34 +227,34 @@ export default (params: {
     let newTop = offsetTop;
     if (['top', 'tl', 'tr', 'bottom', 'bl', 'br'].includes(position)) {
       // 上下检测
-      if (newTop < 0 && ['top', 'tl', 'tr'].includes(position)) {
+      if (offsetTop < 0 && ['top', 'tl', 'tr'].includes(position)) {
         newTop = bottom;
       } else if (
-        newTop + popupHeight > window.innerHeight &&
+        offsetTop + popupHeight > window.innerHeight &&
         ['bottom', 'bl', 'br'].includes(position)
       ) {
         newTop = top - popupHeight;
       }
       // 左右检测
-      if (newLeft < 0) {
+      if (offsetLeft < 0) {
         newLeft = left;
-      } else if (newLeft + popupWidth > window.innerWidth) {
+      } else if (offsetLeft + popupWidth > window.innerWidth) {
         newLeft = right - popupWidth;
       }
     } else {
       // 左右检测
-      if (newLeft < 0 && ['left', 'lt', 'lb'].includes(position)) {
+      if (offsetLeft < 0 && ['left', 'lt', 'lb'].includes(position)) {
         newLeft = right;
       } else if (
-        newLeft + popupWidth > window.innerWidth &&
+        offsetLeft + popupWidth > window.innerWidth &&
         ['right', 'rt', 'rb'].includes(position)
       ) {
         newLeft = left - popupWidth;
       }
       // 上下检测
-      if (newTop < 0) {
+      if (offsetTop < 0) {
         newTop = top;
-      } else if (newTop + popupHeight > window.innerHeight) {
+      } else if (offsetTop + popupHeight > window.innerHeight) {
         newTop = top - popupHeight;
       }
     }

@@ -186,11 +186,8 @@ export default () => {
       computedVisible,
       computedValue,
       computedInputValue,
-      fieldKey,
       selectOptions,
       options,
-      renderOptions,
-      isEmpty,
     };
   };
   const inject = () => {

@@ -40,7 +40,7 @@ defineProps<{
   scrollbar: boolean;
   showFooterOnEmpty: boolean;
   showHeaderOnEmpty: boolean;
-  virtualListProps: VirtualListProps;
+  virtualListProps?: VirtualListProps;
 }>();
 // 接收注入
 const { inject } = useProvide();

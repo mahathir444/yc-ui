@@ -9,8 +9,8 @@
     :mouse-leave-delay="150"
     :on-trigger-mouseenter="handleCalcStyle"
     :on-trigger-mouseclick="handleCalcStyle"
-    need-transform-origin
     auto-set-position
+    need-transform-origin
     auto-fit-popup-min-width
     ref="triggerRef"
     v-bind="triggerProps"
