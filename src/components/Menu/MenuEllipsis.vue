@@ -3,7 +3,7 @@
   <yc-dropdown
     :popup-max-height="maxHeight"
     :trigger-props="{
-      // autoFitPosition: false,
+      autoFitPosition: false,
       position: 'bl',
       trigger: 'click',
       ...triggerProps,
@@ -25,7 +25,9 @@
           MENU_ITEM_THEME_MAP[theme],
         ]"
       >
-        <icon-more />
+        <div class="yc-menu-item-title">
+          <icon-more />
+        </div>
         <div class="yc-menu-icon-suffix">
           <icon-arrow-down />
         </div>
@@ -72,6 +74,13 @@ const maxHeight = computed(() => {
     ? popupMaxHeight.value
     : 167;
 });
+// const handleSelect = (value: any) => {
+//   if (computedSelectedKeys.value != (value as string)) {
+//     computedSelectedKeys.value = value as string;
+//     _emits('menuItemClick', value as string);
+//   }
+//   dropdownRef.value?.hide();
+// };
 </script>
 
 <style lang="less" scoped>
