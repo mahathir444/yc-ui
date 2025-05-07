@@ -1,7 +1,6 @@
 import { computed, ref, Ref } from 'vue';
 import { useResizeObserver } from '@vueuse/core';
 import { MenuItemData } from './useProvide';
-import { flattenMenuTree } from './useMenuLevel';
 import { throttle } from '@/components/_shared/utils';
 import { MenuMode } from '../type';
 export default (menuRef: Ref<HTMLDivElement | undefined>, mode: MenuMode) => {
@@ -11,18 +10,11 @@ export default (menuRef: Ref<HTMLDivElement | undefined>, mode: MenuMode) => {
   const max = ref<number>(10000);
   // menuItemData
   const menuItemData = ref<MenuItemData[]>([]);
-  // 扁平化的数据
-  const flattenData = computed(() => {
-    return flattenMenuTree(
-      menuItemData.value.map((item) => item.childTree).flat(1)
-    );
-  });
   // 计算最大能展示元素的个数
   if (mode == 'horizontal') {
     useResizeObserver(
       menuRef,
       throttle(() => {
-        console.log(menuItemData.value);
         const menuWidth = menuRef.value!.offsetWidth - 52;
         let maxCount = 0;
         let totalWidth = 0;
@@ -43,6 +35,5 @@ export default (menuRef: Ref<HTMLDivElement | undefined>, mode: MenuMode) => {
     index,
     max,
     menuItemData,
-    flattenData,
   };
 };

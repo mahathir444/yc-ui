@@ -85,9 +85,9 @@
       :content="title"
       :trigger-props="{
         autoFitPosition: false,
+        ...tooltipProps,
         ...triggerProps,
       }"
-      v-bind="tooltipProps"
     >
       <reuse-template />
     </yc-tooltip>

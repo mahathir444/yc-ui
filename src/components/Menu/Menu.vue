@@ -2,7 +2,8 @@
   <div
     :class="['yc-menu', MENU_DIRECTION_MAP[mode], MENU_THEME_MAP[theme]]"
     :style="{
-      width: computedCollapsed ? collapsedWidth + 'px' : '',
+      width:
+        computedCollapsed && mode != 'horizontal' ? `${collapsedWidth}px` : '',
     }"
   >
     <div class="yc-menu-inner" ref="menuRef">
@@ -68,11 +69,13 @@ const { computedCollapsed, collapsedWidth, breakpoint, max, menuItemData } =
 // 处理点击
 const handleClick = () => {
   computedCollapsed.value = !computedCollapsed.value;
+  emits('collapse', computedCollapsed.value, 'clickTrigger');
 };
 // 媒体查询
 mediaQueryHandler((_, order, i) => {
   if (!breakpoint.value) return;
   computedCollapsed.value = i <= order[breakpoint.value];
+  emits('collapse', computedCollapsed.value, 'responsive');
 });
 </script>
 

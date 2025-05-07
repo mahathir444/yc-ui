@@ -30,6 +30,11 @@ export interface MenuEmits {
   (e: 'update:selectedKeys', value: string): void;
   (e: 'update:openKeys', value: string): void;
   (e: 'update:collapsed', value: boolean): void;
+  (
+    e: 'collapse',
+    collapsed: boolean,
+    type: 'clickTrigger' | 'responsive'
+  ): void;
   (e: 'menuItemClick', key: string): void;
   (e: 'subMenuClick', key: string, openKeys: string[]): void;
 }

@@ -34,7 +34,6 @@ interface MenuProvide {
   index: Ref<number>;
   max: Ref<number>;
   menuItemData: Ref<MenuItemData[]>;
-  flattenData: Ref<ChlidTreeNode[]>;
   emits: MenuEmits;
 }
 
@@ -99,10 +98,7 @@ export default () => {
       }
     );
     // 计算能显示的menuItem数目
-    const { max, index, menuItemData, flattenData } = useCalcMaxItems(
-      menuRef,
-      mode.value
-    );
+    const { max, index, menuItemData } = useCalcMaxItems(menuRef, mode.value);
     // 注入
     _provide<MenuProvide>(MENU_PROVIDE_KEY, {
       computedSelectedKeys,
@@ -122,7 +118,6 @@ export default () => {
       theme,
       max,
       menuItemData,
-      flattenData,
       emits,
     });
     return {
@@ -152,7 +147,6 @@ export default () => {
       index: ref(0),
       max: ref(0),
       menuItemData: ref([]),
-      flattenData: ref([]),
       emits: () => {},
     });
   };
