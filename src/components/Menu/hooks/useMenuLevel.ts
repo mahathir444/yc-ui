@@ -109,25 +109,22 @@ export default (params: {
     return buildMenuTree(childKeys.value)?.[0]?.children || [];
   });
   // submen的子等级
-  const submenuLevel = level.value - 1;
+  const subLevel = level.value - 1;
   // 当前的层级
   const curLevel = computed(() => {
     return isSubmenu.value ? childLevel - 1 : childLevel;
   });
+  // 当前的次序,用于计算横向情况下的隐藏
+  const curIndex = ref(!curLevel.value ? ++index.value : -1);
   // 是否选中
   const isSelected = computed(() => {
-    if (isSubmenu.value) {
-      const target = childKeys.value.find((item) => {
-        return (
-          item.path == computedSelectedKeys.value && item.type != 'submenu'
-        );
-      });
-      return submenuLevel <= (target?.level ?? -1);
-    }
-    return computedSelectedKeys.value == path.value;
+    const target = childKeys.value.find((item) => {
+      return item.path == computedSelectedKeys.value && item.type != 'submenu';
+    });
+    return isSubmenu.value
+      ? subLevel <= (target?.level ?? -1)
+      : computedSelectedKeys.value == path.value;
   });
-  // 当前的order,用于计算横向情况下的隐藏
-  const curIndex = ref(!curLevel.value ? ++index.value : -1);
   // 收集keys
   const collectKeys = async (title: string) => {
     const target = childKeys.value.find((item) => item.path == path.value);
@@ -135,7 +132,7 @@ export default (params: {
       childKeys.value.push({
         label: title,
         type: mode,
-        level: mode == 'submenu' ? submenuLevel : childLevel,
+        level: mode == 'submenu' ? subLevel : childLevel,
         path: path.value,
       });
     }
@@ -155,7 +152,7 @@ export default (params: {
       };
     }
   };
-  // 注入值
+  // 注入Keys
   const provideKeys = () => {
     provide<SubMenuProvide>(SUBMENU_PROVIDE_KEY, {
       childKeys,

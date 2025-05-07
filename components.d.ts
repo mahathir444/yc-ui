@@ -8,6 +8,8 @@ export {}
 declare module 'vue' {
   export interface GlobalComponents {
     _Icon: typeof import('./src/components/_shared/icons/_Icon.vue')['default']
+    _MenuEllipsis: typeof import('./src/components/Menu/_MenuEllipsis.vue')['default']
+    _MenuPopOption: typeof import('./src/components/Menu/_MenuPopOption.vue')['default']
     2: typeof import('./src/components/_shared/icons/IconRotateLeft copy 2.vue')['default']
     AAlert: typeof import('@arco-design/web-vue')['Alert']
     AAnchor: typeof import('@arco-design/web-vue')['Anchor']

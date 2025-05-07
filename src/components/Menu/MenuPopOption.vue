@@ -9,7 +9,6 @@
   <yc-dsubmenu
     v-else
     :trigger-props="{
-      autoFitPopupMinWidth: true,
       popupTranslate: [-4, 0],
       ...triggerProps,
     }"

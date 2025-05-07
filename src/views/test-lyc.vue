@@ -1,6 +1,6 @@
 <template>
   <div class="test">
-    <yc-menu mode="horizontal" default-selected-keys="1">
+    <yc-menu mode="horizontal" default-selected-keys="1" theme="dark">
       <yc-sub-menu path="s">
         <template #title> 测试 </template>
         <yc-menu-item path="5">Solution</yc-menu-item>
