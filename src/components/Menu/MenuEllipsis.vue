@@ -13,12 +13,13 @@
         ...triggerProps,
       }"
       ref="dropdownRef"
+      @select="handleSelect"
     >
       <div
         :class="[
           'yc-menu-item',
           'yc-menu-item-ellipsis',
-          // isSelected ? 'yc-menu-item-selected' : '',
+          isSelected ? 'yc-menu-item-selected' : '',
           MENU_ITEM_THEME_MAP[theme],
         ]"
       >
@@ -49,13 +50,18 @@
 <script lang="ts" setup>
 import { ref, toRefs, computed } from 'vue';
 import { MenuItemData } from './hooks/useProvide';
+import { ChlidTreeNode } from './hooks/useMenuLevel';
 import { MenuMode, PopupMaxHeight } from './type';
 import { TriggerProps } from '@/components/Trigger';
 import { IconMore, IconArrowDown } from '@shared/icons';
 import { isNumber } from '@shared/utils';
 import { MENU_ITEM_THEME_MAP } from '@shared/constants';
 import MenuPopOption from './MenuPopOption.vue';
-import { default as YcDropdown, DropdownInstance } from '@/components/Dropdown';
+import {
+  default as YcDropdown,
+  DropdownInstance,
+  DoptionValue,
+} from '@/components/Dropdown';
 const props = defineProps<{
   menuItemData: MenuItemData[];
   max: number;
@@ -64,11 +70,12 @@ const props = defineProps<{
   theme: 'light' | 'dark';
   triggerProps: TriggerProps;
   popupMaxHeight: PopupMaxHeight;
+  flattenData: ChlidTreeNode[];
 }>();
 const emits = defineEmits<{
   (e: 'select', value: string): void;
 }>();
-const { popupMaxHeight, computedSelectedKeys } = toRefs(props);
+const { popupMaxHeight, computedSelectedKeys, flattenData } = toRefs(props);
 // popup可见性
 const dropdownRef = ref<DropdownInstance>();
 // 计算最大height
@@ -77,6 +84,15 @@ const maxHeight = computed(() => {
     ? popupMaxHeight.value
     : 167;
 });
+// 是否选中
+const isSelected = computed(() =>
+  flattenData.value.find((item) => item.path == computedSelectedKeys.value)
+);
+const handleSelect = (value: DoptionValue) => {
+  if (computedSelectedKeys.value != value) {
+    emits('select', value as string);
+  }
+};
 </script>
 
 <style lang="less" scoped>

@@ -98,7 +98,8 @@ export default () => {
       }
     );
     // 计算能显示的menuItem数目
-    const { max, index, menuItemData } = useCalcMaxItems(menuRef);
+    const { max, index, menuItemData, flattenData } = useCalcMaxItems(menuRef);
+    // 注入
     _provide<MenuProvide>(MENU_PROVIDE_KEY, {
       computedSelectedKeys,
       computedOpenKeys,
@@ -124,6 +125,7 @@ export default () => {
       menuItemData,
       computedCollapsed,
       breakpoint,
+      flattenData,
       collapsedWidth,
       computedSelectedKeys,
     };

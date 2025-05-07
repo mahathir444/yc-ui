@@ -60,7 +60,6 @@
           mode == 'horizontal' ? 'slide-dynamic-origin' : 'zoom-in-fade-out',
         ...triggerProps,
       }"
-      ref="dropdownRef"
       @select="handleSelect"
     >
       <reuse-template />
@@ -106,7 +105,7 @@ import { MENU_ITEM_THEME_MAP } from '@shared/constants';
 import useProvide from './hooks/useProvide';
 import useMenuLevel from './hooks/useMenuLevel';
 import MenuPopOption from './MenuPopOption.vue';
-import { default as YcDropdown, DropdownInstance } from '@/components/Dropdown';
+import { default as YcDropdown, DoptionValue } from '@/components/Dropdown';
 import YcTooltip from '@/components/Tooltip';
 defineOptions({
   name: 'MenuItem',
@@ -124,26 +123,24 @@ const {
   computedOpenKeys,
   computedCollapsed,
   levelIndent,
+  mode,
+  theme,
   autoOpen,
+  autoOpenSelected,
   accordion,
   triggerProps,
   tooltipProps,
-  autoOpenSelected,
-  mode,
-  theme,
-  index,
   autoScrollIntoView,
   scrollConfig,
   popupMaxHeight: _popupMaxHeight,
   max,
+  index,
   menuItemData,
   emits: _emits,
 } = inject();
 // 创建通用模板
 const { reuse: ReuseTemplate, define: DefineTemplate } =
   createReusableTemplate();
-// popup可见性
-const dropdownRef = ref<DropdownInstance>();
 // title容器
 const menuItemRef = ref<HTMLDivElement>();
 // title
@@ -177,12 +174,10 @@ const {
   computedSelectedKeys,
 });
 // 注入Popover
-const handleSelect = (value: any) => {
-  if (computedSelectedKeys.value != (value as string)) {
-    computedSelectedKeys.value = value as string;
-    _emits('menuItemClick', value as string);
-  }
-  dropdownRef.value?.hide();
+const handleSelect = (value: DoptionValue) => {
+  if (computedSelectedKeys.value == value) return;
+  computedSelectedKeys.value = value as string;
+  _emits('menuItemClick', value as string);
 };
 // 自动滚动
 const autoScroll = () => {

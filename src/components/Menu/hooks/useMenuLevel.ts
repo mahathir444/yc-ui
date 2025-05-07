@@ -7,9 +7,7 @@ import {
   provide,
   nextTick,
 } from 'vue';
-import { useElementSize } from '@vueuse/core';
 import { MenuItemData } from './useProvide';
-import { sleep } from '@/components/_shared/utils';
 
 export const SUBMENU_PROVIDE_KEY = 'sub-menu-props';
 
@@ -83,10 +81,10 @@ function buildMenuTree(flatMenu: ChlidTreeNode[]): ChlidTreeNode[] {
 export default (params: {
   mode: 'submenu' | 'menuitem';
   index: Ref<number>;
+  path: Ref<string>;
+  isSubmenu: Ref<boolean>;
   menuItemData: Ref<MenuItemData[]>;
   menuItemRef: Ref<HTMLDivElement | undefined>;
-  isSubmenu: Ref<boolean>;
-  path: Ref<string>;
   computedSelectedKeys: Ref<string>;
 }) => {
   const {
@@ -130,9 +128,6 @@ export default (params: {
   });
   // 当前的order,用于计算横向情况下的隐藏
   const curIndex = ref(!curLevel.value ? ++index.value : -1);
-  const { width } = useElementSize(menuItemRef, undefined, {
-    box: 'border-box',
-  });
   // 收集keys
   const collectKeys = async (title: string) => {
     const target = childKeys.value.find((item) => item.path == path.value);

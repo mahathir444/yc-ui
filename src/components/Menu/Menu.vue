@@ -17,6 +17,7 @@
         :theme="theme"
         :trigger-props="triggerProps"
         :popup-max-height="popupMaxHeight"
+        :flatten-data="flattenData"
         @select="handleSelect"
       />
     </div>
@@ -80,6 +81,7 @@ const {
   breakpoint,
   max,
   menuItemData,
+  flattenData,
 } = provide(props, emits, menuRef);
 // 处理点击
 const handleClick = () => {
@@ -88,6 +90,7 @@ const handleClick = () => {
 const handleSelect = (value: string) => {
   computedSelectedKeys.value = value;
   emits('menuItemClick', value);
+  console.log(value, 'value');
 };
 // 媒体查询
 mediaQueryHandler((_, order, i) => {
