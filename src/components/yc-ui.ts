@@ -66,6 +66,7 @@ import Badge from './Badge';
 import { default as Card, CardMeta, CardGrid } from './Card';
 import { default as Carousel, CarouselItem } from './Carousel';
 import { default as Image, ImagePreview, ImagePreviewAction } from './Image';
+import Comment from './Comment';
 
 export const components: Record<string, Plugin> = {
   Button,
@@ -124,6 +125,7 @@ export const components: Record<string, Plugin> = {
   Card,
   Carousel,
   Image,
+  Comment,
 };
 
 export default {
