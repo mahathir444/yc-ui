@@ -1,10 +1,4 @@
-import {
-  toRefs,
-  Ref,
-  provide as _provide,
-  inject as _inject,
-  Reactive,
-} from 'vue';
+import { toRefs, Ref, provide as _provide, inject as _inject } from 'vue';
 import { Props } from '@shared/type';
 import { AvatarShape } from '../type';
 

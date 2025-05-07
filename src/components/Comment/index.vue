@@ -2,11 +2,12 @@
   <div Comment class="yc-comment">
     <div v-if="$slots.avatar || avatar" class="yc-comment-avatar">
       <slot name="avatar">
-        <yc-avatar :image-url="avatar" :size="$slots.default ? 32 : 40" />
+        <yc-avatar :image-url="avatar" :size="level > 1 ? 32 : 40" />
       </slot>
     </div>
     <div class="yc-comment-inner">
       <div class="yc-comment-inner-content">
+        <!-- title -->
         <div
           :class="{
             'yc-comment-title': true,
@@ -28,11 +29,13 @@
             </slot>
           </span>
         </div>
-        <div v-if="$slots.content" class="yc-comment-content">
+        <!-- content -->
+        <div v-if="$slots.content || content" class="yc-comment-content">
           <slot name="content">
             {{ content }}
           </slot>
         </div>
+        <!-- actions -->
         <div
           v-if="$slots.actions"
           :class="{
@@ -47,6 +50,7 @@
           <slot name="actions" />
         </div>
       </div>
+      <!-- comment -->
       <div v-if="$slots.default" class="yc-comment-inner-comment">
         <slot />
       </div>
@@ -57,6 +61,7 @@
 <script lang="ts" setup>
 import { CommentProps, CommentSlots } from './type';
 import { isObject } from '@shared/utils';
+import useProvide from './hooks/useProvide';
 import YcAvatar from '@/components/Avatar';
 defineOptions({
   name: 'Comment',
@@ -69,6 +74,7 @@ withDefaults(defineProps<CommentProps>(), {
   datetime: '',
   align: 'left',
 });
+const { level } = useProvide();
 </script>
 
 <style lang="less" scoped>
