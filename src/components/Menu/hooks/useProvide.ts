@@ -34,6 +34,7 @@ interface MenuProvide {
   index: Ref<number>;
   max: Ref<number>;
   menuItemData: Ref<MenuItemData[]>;
+  flattenData: Ref<ChlidTreeNode[]>;
   emits: MenuEmits;
 }
 
@@ -119,8 +120,9 @@ export default () => {
       scrollConfig,
       index,
       theme,
-      menuItemData,
       max,
+      menuItemData,
+      flattenData,
       emits,
     });
     return {
@@ -128,9 +130,7 @@ export default () => {
       menuItemData,
       computedCollapsed,
       breakpoint,
-      flattenData,
       collapsedWidth,
-      computedSelectedKeys,
     };
   };
   const inject = () => {
@@ -152,6 +152,7 @@ export default () => {
       index: ref(0),
       max: ref(0),
       menuItemData: ref([]),
+      flattenData: ref([]),
       emits: () => {},
     });
   };

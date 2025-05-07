@@ -17,7 +17,6 @@ export interface SubMenuProvide {
   childLevel: number;
   popupMaxHeight: ComputedRef<number> | Ref<number>;
 }
-
 export interface ChlidTreeNode {
   label: string;
   type: 'menuitem' | 'submenu';
@@ -25,7 +24,6 @@ export interface ChlidTreeNode {
   path: string;
   children?: ChlidTreeNode[];
 }
-
 export type ChlidKey = {
   level: number;
   type: 'menuitem' | 'submenu';
@@ -34,7 +32,7 @@ export type ChlidKey = {
 };
 
 // 构建menu-tree
-function buildMenuTree(flatMenu: ChlidTreeNode[]): ChlidTreeNode[] {
+export function buildMenuTree(flatMenu: ChlidTreeNode[]): ChlidTreeNode[] {
   // 首先对菜单按level排序，确保父节点在前
   const sortedMenu = [...flatMenu].sort((a, b) => a.level - b.level);
   const tree: ChlidTreeNode[] = [];
@@ -77,7 +75,24 @@ function buildMenuTree(flatMenu: ChlidTreeNode[]): ChlidTreeNode[] {
 
   return tree;
 }
-
+// 扁平化menu-tree
+export function flattenMenuTree(treeData: ChlidTreeNode[]): ChlidTreeNode[] {
+  const result: ChlidTreeNode[] = [];
+  const traverse = (node: ChlidTreeNode) => {
+    const { children, ...rest } = node;
+    result.push(rest);
+    if (children && children.length > 0) {
+      children.forEach((child) => traverse(child));
+    }
+  };
+  if (Array.isArray(treeData)) {
+    treeData.forEach((node) => traverse(node));
+  } else if (treeData) {
+    traverse(treeData);
+  }
+  return result;
+}
+//
 export default (params: {
   mode: 'submenu' | 'menuitem';
   index: Ref<number>;
