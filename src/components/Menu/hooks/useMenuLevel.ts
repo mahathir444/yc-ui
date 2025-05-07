@@ -7,7 +7,9 @@ import {
   provide,
   nextTick,
 } from 'vue';
+import { useElementSize } from '@vueuse/core';
 import { MenuItemData } from './useProvide';
+import { sleep } from '@/components/_shared/utils';
 
 export const SUBMENU_PROVIDE_KEY = 'sub-menu-props';
 
@@ -128,6 +130,9 @@ export default (params: {
   });
   // 当前的order,用于计算横向情况下的隐藏
   const curIndex = ref(!curLevel.value ? ++index.value : -1);
+  const { width } = useElementSize(menuItemRef, undefined, {
+    box: 'border-box',
+  });
   // 收集keys
   const collectKeys = async (title: string) => {
     const target = childKeys.value.find((item) => item.path == path.value);
@@ -141,10 +146,6 @@ export default (params: {
     }
     await nextTick();
     if (mode != 'submenu') {
-      // console.log(menuItemRef.value);
-      // const { width } = menuItemRef.value!.getBoundingClientRect();
-      // console.log(width, 'width');
-      // console.log(menuItemRef.value!.offsetWidth, 'width');
       menuItemData.value[curIndex.value - 1] = {
         width: menuItemRef.value!.offsetWidth,
         childTree: [

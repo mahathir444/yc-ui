@@ -6,7 +6,7 @@ export default (menuRef: Ref<HTMLDivElement | undefined>) => {
   // 顺序
   const index = ref<number>(0);
   // 最大能展示元素的个数
-  const max = ref<number>(0);
+  const max = ref<number>(10000);
   // menuItemData
   const menuItemData = ref<MenuItemData[]>([]);
   // 计算最大能展示元素的个数

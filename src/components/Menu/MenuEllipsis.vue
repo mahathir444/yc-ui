@@ -3,9 +3,8 @@
   <yc-dropdown
     :popup-max-height="maxHeight"
     :trigger-props="{
-      autoFitPosition: false,
+      // autoFitPosition: false,
       position: 'bl',
-      trigger: 'click',
       ...triggerProps,
     }"
     ref="dropdownRef"
@@ -35,7 +34,7 @@
     </div>
     <template #content>
       <menu-pop-option
-        v-for="item in menuItemData"
+        v-for="item in menuItemData.slice(max)"
         :key="item.childTree[0].path"
         :child-node="item.childTree[0]"
         :mode="mode"
@@ -50,7 +49,7 @@
 </template>
 
 <script lang="ts" setup>
-import { toRefs, computed } from 'vue';
+import { ref, toRefs, computed } from 'vue';
 import { MenuItemData } from './hooks/useProvide';
 import { MenuMode, PopupMaxHeight } from './type';
 import { TriggerProps } from '@/components/Trigger';
@@ -58,6 +57,7 @@ import { IconMore, IconArrowDown } from '@shared/icons';
 import { isNumber } from '@shared/utils';
 import { MENU_ITEM_THEME_MAP } from '@shared/constants';
 import MenuPopOption from './MenuPopOption.vue';
+import { default as YcDropdown, DropdownInstance } from '@/components/Dropdown';
 const props = defineProps<{
   menuItemData: MenuItemData[];
   max: number;
@@ -67,20 +67,18 @@ const props = defineProps<{
   triggerProps: TriggerProps;
   popupMaxHeight: PopupMaxHeight;
 }>();
-const { popupMaxHeight } = toRefs(props);
+const emits = defineEmits<{
+  (e: 'select', value: string): void;
+}>();
+const { popupMaxHeight, computedSelectedKeys } = toRefs(props);
+// popup可见性
+const dropdownRef = ref<DropdownInstance>();
 // 计算最大height
 const maxHeight = computed(() => {
   return popupMaxHeight.value && isNumber(popupMaxHeight.value)
     ? popupMaxHeight.value
     : 167;
 });
-// const handleSelect = (value: any) => {
-//   if (computedSelectedKeys.value != (value as string)) {
-//     computedSelectedKeys.value = value as string;
-//     _emits('menuItemClick', value as string);
-//   }
-//   dropdownRef.value?.hide();
-// };
 </script>
 
 <style lang="less" scoped>

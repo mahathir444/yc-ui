@@ -7,9 +7,9 @@
   >
     <div class="yc-menu-inner" ref="menuRef">
       <slot />
-      <!-- v-if="mode == 'horizontal' && max < menuItemData.length" -->
       <!-- 省略内容  -->
       <menu-ellipsis
+        v-if="mode == 'horizontal' && max < menuItemData.length"
         :computed-selected-keys="computedSelectedKeys"
         :max="max"
         :menu-item-data="menuItemData"
@@ -17,6 +17,7 @@
         :theme="theme"
         :trigger-props="triggerProps"
         :popup-max-height="popupMaxHeight"
+        @select="handleSelect"
       />
     </div>
     <!-- 收缩按钮 -->
@@ -83,6 +84,10 @@ const {
 // 处理点击
 const handleClick = () => {
   computedCollapsed.value = !computedCollapsed.value;
+};
+const handleSelect = (value: string) => {
+  computedSelectedKeys.value = value;
+  emits('menuItemClick', value);
 };
 // 媒体查询
 mediaQueryHandler((_, order, i) => {
