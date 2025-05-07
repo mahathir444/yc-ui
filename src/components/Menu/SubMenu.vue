@@ -77,7 +77,7 @@ const { provideKeys, collectKeys } = useMenuLevel({
   computedSelectedKeys,
   menuItemRef: ref<HTMLDivElement | undefined>(),
   menuItemData: ref([]),
-  order: ref(0),
+  index: ref(0),
 });
 provideKeys();
 

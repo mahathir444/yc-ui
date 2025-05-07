@@ -12,7 +12,7 @@ import { MenuMode, PopupMaxHeight, MenuEmits } from '../type';
 import { useControlValue } from '@shared/hooks';
 import { Props } from '@shared/type';
 import { ChlidTreeNode } from './useMenuLevel';
-import useCalcMaxShow from './useCalcMaxShow';
+import useCalcMaxItems from './useCalcMaxItems';
 
 export const MENU_PROVIDE_KEY = 'menu-props';
 
@@ -31,7 +31,7 @@ interface MenuProvide {
   autoScrollIntoView: Ref<boolean>;
   scrollConfig: Ref<ScrollIntoViewOptions>;
   popupMaxHeight: Ref<PopupMaxHeight>;
-  order: Ref<number>;
+  index: Ref<number>;
   max: Ref<number>;
   menuItemData: Ref<MenuItemData[]>;
   emits: MenuEmits;
@@ -98,7 +98,7 @@ export default () => {
       }
     );
     // 计算能显示的menuItem数目
-    const { max, order, menuItemData } = useCalcMaxShow(menuRef);
+    const { max, index, menuItemData } = useCalcMaxItems(menuRef);
     _provide<MenuProvide>(MENU_PROVIDE_KEY, {
       computedSelectedKeys,
       computedOpenKeys,
@@ -113,7 +113,7 @@ export default () => {
       popupMaxHeight,
       autoScrollIntoView,
       scrollConfig,
-      order,
+      index,
       theme,
       menuItemData,
       max,
@@ -144,7 +144,7 @@ export default () => {
       popupMaxHeight: ref(167),
       autoScrollIntoView: ref(false),
       scrollConfig: ref({}),
-      order: ref(0),
+      index: ref(0),
       max: ref(0),
       menuItemData: ref([]),
       emits: () => {},

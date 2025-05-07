@@ -34,7 +34,7 @@ export type ChlidKey = {
 };
 
 // 构建menu-tree
-export function buildMenuTree(flatMenu: ChlidTreeNode[]): ChlidTreeNode[] {
+function buildMenuTree(flatMenu: ChlidTreeNode[]): ChlidTreeNode[] {
   // 首先对菜单按level排序，确保父节点在前
   const sortedMenu = [...flatMenu].sort((a, b) => a.level - b.level);
   const tree: ChlidTreeNode[] = [];
@@ -80,7 +80,7 @@ export function buildMenuTree(flatMenu: ChlidTreeNode[]): ChlidTreeNode[] {
 
 export default (params: {
   mode: 'submenu' | 'menuitem';
-  order: Ref<number>;
+  index: Ref<number>;
   menuItemData: Ref<MenuItemData[]>;
   menuItemRef: Ref<HTMLDivElement | undefined>;
   isSubmenu: Ref<boolean>;
@@ -92,7 +92,7 @@ export default (params: {
     isSubmenu,
     computedSelectedKeys,
     path,
-    order,
+    index,
     menuItemData,
     menuItemRef,
   } = params;
@@ -127,7 +127,7 @@ export default (params: {
     return computedSelectedKeys.value == path.value;
   });
   // 当前的order,用于计算横向情况下的隐藏
-  const curOrder = ref(!curLevel.value ? ++order.value : -1);
+  const curIndex = ref(!curLevel.value ? ++index.value : -1);
   // 收集keys
   const collectKeys = async (title: string) => {
     const target = childKeys.value.find((item) => item.path == path.value);
@@ -141,7 +141,11 @@ export default (params: {
     }
     await nextTick();
     if (mode != 'submenu') {
-      menuItemData.value[curOrder.value - 1] = {
+      // console.log(menuItemRef.value);
+      // const { width } = menuItemRef.value!.getBoundingClientRect();
+      // console.log(width, 'width');
+      // console.log(menuItemRef.value!.offsetWidth, 'width');
+      menuItemData.value[curIndex.value - 1] = {
         width: menuItemRef.value!.offsetWidth,
         childTree: [
           {
@@ -154,7 +158,6 @@ export default (params: {
         ],
       };
     }
-    // console.log(menuItemData.value);
   };
   // 注入值
   const provideKeys = () => {
@@ -172,7 +175,7 @@ export default (params: {
     childKeys,
     childLevel,
     childTree,
-    curOrder,
+    curIndex,
     popupMaxHeight,
     provideKeys,
     collectKeys,

@@ -85,19 +85,23 @@ useResizeObserver(
   throttle(() => {
     const width = listRef.value!.offsetWidth;
     let maxCount = 0;
-    let totalWidth = overFlowWidth.value;
-    for (let tag of tagRef.value) {
-      if (totalWidth - margin.value > width) {
-        maxCount--;
+    let totalWidth = 0;
+    for (let i = 0; i < tagRef.value.length; i++) {
+      console.log(tagRef.value[i]?.getRef()?.offsetWidth, 'width');
+    }
+    for (let i = 0; i < tagRef.value.length; i++) {
+      const gap = i > 0 ? margin.value : 0;
+      const newWidth =
+        totalWidth + gap + tagRef.value[i]?.getRef()?.offsetWidth;
+      if (newWidth > width) {
         break;
       }
-      totalWidth += tag?.getRef()?.offsetWidth + margin.value;
+      totalWidth += newWidth;
       maxCount++;
     }
-    console.log(maxCount, 'maxCount');
     max.value = maxCount > min.value ? maxCount : min.value;
     emits('change', overflowNumber.value);
-  }, 16.7)
+  }, 100)
 );
 </script>
 

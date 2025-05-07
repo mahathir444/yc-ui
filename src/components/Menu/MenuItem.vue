@@ -1,11 +1,10 @@
 <template>
   <div
-    v-show="mode != 'horizontal' || curOrder <= max"
+    v-show="mode != 'horizontal' || curIndex <= max"
     :class="{
       'yc-menu-item-wrapper': true,
       'yc-menu-item-mode-horizontal': mode == 'horizontal',
     }"
-    ref="menuItemRef"
   >
     <define-template>
       <div
@@ -16,6 +15,7 @@
           computedCollapsed ? 'yc-menu-item-collapsed' : '',
           MENU_ITEM_THEME_MAP[theme],
         ]"
+        ref="menuItemRef"
         @click="handleClick"
       >
         <div
@@ -55,8 +55,6 @@
       :popup-max-height="maxHeight"
       :trigger-props="{
         autoFitPosition: false,
-        autoFitPopupMinWidth: true,
-        needTransformOrigin: true,
         position: mode == 'horizontal' ? 'bl' : 'rt',
         animationName: 'zoom-in-fade-out',
         ...triggerProps,
@@ -67,7 +65,7 @@
       <reuse-template />
 
       <template #content>
-        <pop-option
+        <menu-pop-option
           v-for="item in childTree"
           :key="item.path"
           :child-node="item"
@@ -77,12 +75,12 @@
           :trigger-props="triggerProps"
         >
           {{ item.label }}
-        </pop-option>
+        </menu-pop-option>
       </template>
     </yc-dropdown>
     <!-- 选然tooltip -->
     <yc-tooltip
-      v-else-if="!isSubmenu && curLevel && computedCollapsed"
+      v-else-if="!isSubmenu && !curLevel && computedCollapsed"
       position="rt"
       :content="title"
       :trigger-props="{
@@ -106,7 +104,7 @@ import { getTextContent, isNumber } from '@shared/utils';
 import { MENU_ITEM_THEME_MAP } from '@shared/constants';
 import useProvide from './hooks/useProvide';
 import useMenuLevel from './hooks/useMenuLevel';
-import PopOption from './MenuPopOption.vue';
+import MenuPopOption from './MenuPopOption.vue';
 import { default as YcDropdown, DropdownInstance } from '@/components/Dropdown';
 import YcTooltip from '@/components/Tooltip';
 defineOptions({
@@ -132,7 +130,7 @@ const {
   autoOpenSelected,
   mode,
   theme,
-  order,
+  index,
   autoScrollIntoView,
   scrollConfig,
   popupMaxHeight: _popupMaxHeight,
@@ -164,14 +162,14 @@ const maxHeight = computed(() => {
 const {
   isSelected,
   curLevel,
-  curOrder,
+  curIndex,
   childTree,
   popupMaxHeight,
   collectKeys,
 } = useMenuLevel({
   path,
   isSubmenu,
-  order,
+  index,
   menuItemRef,
   menuItemData,
   mode: 'menuitem',
