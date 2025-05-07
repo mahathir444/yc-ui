@@ -207,7 +207,7 @@ const colors = [
 
 <style lang="less" scoped>
 .data-show {
-  height: 200vh;
+  height: 150vh;
   width: 100%;
   display: flex;
   flex-direction: column;

@@ -3,9 +3,11 @@
     :class="{
       'yc-collapse-item': true,
       'yc-collapse-item-disabled': disabled,
+      'yc-collapse-item-expand-icon-left': expandIconPosition == 'left',
+      'yc-collapse-item-expand-icon-right': expandIconPosition == 'right',
     }"
   >
-    <div class="yc-collapse-item-header" @click="handleClick">
+    <div role="button" class="yc-collapse-item-header" @click="handleClick">
       <yc-icon-button
         v-if="showExpandIcon && expandIconPosition == 'left'"
         class="yc-collapse-item-header-icon"
@@ -22,21 +24,17 @@
       <div v-if="$slots.extra" class="yc-collapse-item-header-extra">
         <slot name="extra" />
       </div>
-      <yc-icon-button
-        v-if="showExpandIcon && expandIconPosition == 'right'"
-        class="yc-collapse-item-header-icon"
-      >
-        <slot name="expand-icon">
-          <icon-right :rotate="computedActiveKey.includes(value) ? -90 : 180" />
-        </slot>
-      </yc-icon-button>
     </div>
-    <expand-transition
-      v-if="!destroyOnHide || computedActiveKey.includes(value)"
-      v-show="computedActiveKey.includes(value)"
-    >
-      <div class="yc-collapse-item-content">
-        <slot />
+    <expand-transition>
+      <div
+        v-if="!destroyOnHide || computedActiveKey.includes(value)"
+        v-show="computedActiveKey.includes(value)"
+        role="region"
+        class="yc-collapse-item-content"
+      >
+        <div class="yc-collapse-item-content-box">
+          <slot />
+        </div>
       </div>
     </expand-transition>
   </div>

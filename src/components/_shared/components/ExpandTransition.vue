@@ -18,7 +18,9 @@ const transitions: ObjectData = {
   },
   onAfterEnter(el: HTMLDivElement) {
     el.style.height = '';
+    el.style.opacity = '';
   },
+  // 收起的时候卡顿
   onBeforeLeave(el: HTMLDivElement) {
     el.style.height = `${el.scrollHeight}px`;
     el.style.opacity = '1';
@@ -29,12 +31,12 @@ const transitions: ObjectData = {
   },
   onAfterLeave(el: HTMLElement) {
     el.style.height = '';
+    el.style.opacity = '';
   },
 };
 </script>
 
 <style lang="less" scoped>
-// menu收缩动画
 .expand-enter-active,
 .expand-leave-active {
   transition:

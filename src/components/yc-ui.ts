@@ -67,6 +67,7 @@ import { default as Card, CardMeta, CardGrid } from './Card';
 import { default as Carousel, CarouselItem } from './Carousel';
 import { default as Image, ImagePreview, ImagePreviewAction } from './Image';
 import Comment from './Comment';
+import { default as Descriptions, DescriptionsItem } from './Descriptions';
 
 export const components: Record<string, Plugin> = {
   Button,
@@ -126,6 +127,7 @@ export const components: Record<string, Plugin> = {
   Carousel,
   Image,
   Comment,
+  Descriptions,
 };
 
 export default {
@@ -158,6 +160,7 @@ export default {
   CarouselItem,
   ImagePreview,
   ImagePreviewAction,
+  DescriptionsItem,
   install: (app: App) => {
     for (const key of Object.keys(components)) {
       app.use(components[key]);

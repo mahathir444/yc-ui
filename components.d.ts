@@ -94,6 +94,8 @@ declare module 'vue' {
     Comment: typeof import('./src/components/Comment/index.vue')['default']
     ConfigProvider: typeof import('./src/components/ConfigProvider/index.vue')['default']
     copy: typeof import('./src/components/_shared/icons/IconRotateLeft copy.vue')['default']
+    Descriptions: typeof import('./src/components/Descriptions/Descriptions.vue')['default']
+    DescriptionsItem: typeof import('./src/components/Descriptions/DescriptionsItem.vue')['default']
     Dgroup: typeof import('./src/components/Dropdown/Dgroup.vue')['default']
     Divider: typeof import('./src/components/Divider/index.vue')['default']
     Doption: typeof import('./src/components/Dropdown/Doption.vue')['default']
