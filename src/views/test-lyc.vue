@@ -1,71 +1,51 @@
 <template>
   <div class="test">
-    <yc-comment
-      author="Socrates"
-      avatar="https://p1-arco.byteimg.com/tos-cn-i-uwbnlip3yd/3ee5f13fb09879ecb5185e440cef6eb9.png~tplv-uwbnlip3yd-webp.webp"
-      content="Comment body content."
-      datetime="1 hour"
-    >
-      <template #actions>
-        <span class="action"> <IconMessage /> Reply </span>
-      </template>
-      <yc-comment
-        author="Balzac"
-        avatar="https://p1-arco.byteimg.com/tos-cn-i-uwbnlip3yd/9eeb1800d9b78349b24682c3518ac4a3.png~tplv-uwbnlip3yd-webp.webp"
-        content="Comment body content."
-        datetime="1 hour"
+    <a-descriptions title="User Info" :column="3" bordered size="small">
+      <a-descriptions-item
+        v-for="item of data"
+        :label="item.label"
+        :span="item.span ?? 1"
       >
-        <template #actions>
-          <span class="action"> <IconMessage /> Reply </span>
-        </template>
-        <yc-comment
-          author="Austen"
-          avatar="https://p1-arco.byteimg.com/tos-cn-i-uwbnlip3yd/8361eeb82904210b4f55fab888fe8416.png~tplv-uwbnlip3yd-webp.webp"
-          content="Reply content"
-          datetime="1 hour"
-        >
-          <template #actions>
-            <span class="action"> <IconMessage /> Reply </span>
-          </template>
-        </yc-comment>
-        <yc-comment
-          author="Plato"
-          avatar="https://p1-arco.byteimg.com/tos-cn-i-uwbnlip3yd/3ee5f13fb09879ecb5185e440cef6eb9.png~tplv-uwbnlip3yd-webp.webp"
-          content="Reply content"
-          datetime="1 hour"
-        >
-          <template #actions>
-            <span class="action"> <IconMessage /> Reply </span>
-          </template>
-        </yc-comment>
-      </yc-comment>
-    </yc-comment>
-    <yc-collapse style="width: fit-content; height: fit-content">
-      <yc-collapse-item title="Beijing Toutiao Technology Co., Ltd." value="1">
-        <div>Beijing Toutiao Technology Co., Ltd.</div>
-        <div>Beijing Toutiao Technology Co., Ltd.</div>
-        <div>Beijing Toutiao Technology Co., Ltd.</div>
-      </yc-collapse-item>
-      <yc-collapse-item
-        title="Beijing Toutiao Technology Co., Ltd."
-        :value="2"
-        disabled
+        <a-tag>{{ item.value }}</a-tag>
+      </a-descriptions-item>
+    </a-descriptions>
+    <yc-descriptions title="User Info" :column="3" bordered>
+      <yc-descriptions-item
+        v-for="item of data"
+        :label="item.label"
+        :span="item.span ?? 1"
       >
-        <div>Beijing Toutiao Technology Co., Ltd.</div>
-        <div>Beijing Toutiao Technology Co., Ltd.</div>
-        <div>Beijing Toutiao Technology Co., Ltd.</div>
-      </yc-collapse-item>
-      <yc-collapse-item title="Beijing Toutiao Technology Co., Ltd." value="3">
-        <div>Beijing Toutiao Technology Co., Ltd.</div>
-        <div>Beijing Toutiao Technology Co., Ltd.</div>
-        <div>Beijing Toutiao Technology Co., Ltd.</div>
-      </yc-collapse-item>
-    </yc-collapse>
+        <yc-tag>{{ item.value }}</yc-tag>
+      </yc-descriptions-item>
+    </yc-descriptions>
   </div>
 </template>
 
 <script lang="ts" setup>
 import { ref, reactive } from 'vue';
+const data = [
+  {
+    label: 'Name',
+    value: 'Socrates',
+    span: 6,
+  },
+  {
+    label: 'Mobile',
+    value: '123-1234-1234',
+  },
+  {
+    label: 'Residence',
+    value: 'Beijing',
+  },
+  {
+    label: 'Hometown',
+    value: 'Beijing',
+  },
+  {
+    label: 'Address',
+    value: 'Yingdu Building, Zhichun Road, Beijing',
+  },
+];
 </script>
 
 <style lang="less" scoped>

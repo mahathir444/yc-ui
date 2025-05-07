@@ -23,6 +23,8 @@ export const VERIFICATION_CODE_SIZE_CLASS = getComponentSizeMap(
   'yc-verification-code'
 );
 
+export const DESCRIPTIONS_SIZE_CLASS = getComponentSizeMap('yc-descriptions');
+
 export const SKELETON_SHAPE_SIZE_CLASS = getComponentSizeMap(
   'yc-skeleton-shape',
   ['small', 'medium', 'large']

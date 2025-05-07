@@ -1,12 +1,4 @@
-import {
-  ref,
-  toRefs,
-  ComputedRef,
-  Ref,
-  provide as _provide,
-  inject as _inject,
-  Reactive,
-} from 'vue';
+import { ref, Ref, provide as _provide, inject as _inject } from 'vue';
 
 export const LAYOUT_PROVIDE_KEY = 'layout-props';
 

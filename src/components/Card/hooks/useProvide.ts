@@ -4,7 +4,6 @@ import {
   inject as _inject,
   ref,
   Ref,
-  Reactive,
   Slots,
 } from 'vue';
 import { useConfigProvder } from '@shared/hooks';
