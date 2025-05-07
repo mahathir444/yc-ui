@@ -9,28 +9,28 @@ import { ObjectData } from '@shared/type';
 // 过渡时间
 const transitions: ObjectData = {
   onBeforeEnter(el: HTMLDivElement) {
-    el.style.height = '0';
+    el.style.maxHeight = '0';
     el.style.opacity = '0';
   },
   onEnter(el: HTMLDivElement) {
-    el.style.height = `${el.scrollHeight}px`;
+    el.style.maxHeight = `${el.scrollHeight}px`;
     el.style.opacity = '1';
   },
   onAfterEnter(el: HTMLDivElement) {
-    el.style.height = '';
+    el.style.maxHeight = '';
     el.style.opacity = '';
   },
   // 收起的时候卡顿
   onBeforeLeave(el: HTMLDivElement) {
-    el.style.height = `${el.scrollHeight}px`;
+    el.style.maxHeight = `${el.scrollHeight}px`;
     el.style.opacity = '1';
   },
   onLeave(el: HTMLDivElement) {
-    el.style.height = '0';
+    el.style.maxHeight = '0';
     el.style.opacity = '0';
   },
   onAfterLeave(el: HTMLElement) {
-    el.style.height = '';
+    el.style.maxHeight = '';
     el.style.opacity = '';
   },
 };
@@ -40,7 +40,7 @@ const transitions: ObjectData = {
 .expand-enter-active,
 .expand-leave-active {
   transition:
-    height 0.2s cubic-bezier(0.34, 0.69, 0.1, 1),
+    max-height 0.2s cubic-bezier(0.34, 0.69, 0.1, 1),
     opacity 0.2s cubic-bezier(0.3, 1.3, 0.3, 1);
 }
 </style>
