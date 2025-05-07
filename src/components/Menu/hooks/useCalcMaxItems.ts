@@ -13,6 +13,7 @@ export default (menuRef: Ref<HTMLDivElement | undefined>) => {
   useResizeObserver(
     menuRef,
     throttle(() => {
+      console.log(menuItemData.value);
       const menuWidth = menuRef.value!.offsetWidth - 52;
       let maxCount = 0;
       let totalWidth = 0;

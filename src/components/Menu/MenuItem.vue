@@ -56,7 +56,8 @@
       :trigger-props="{
         autoFitPosition: false,
         position: mode == 'horizontal' ? 'bl' : 'rt',
-        animationName: 'zoom-in-fade-out',
+        animationName:
+          mode == 'horizontal' ? 'slide-dynamic-origin' : 'zoom-in-fade-out',
         ...triggerProps,
       }"
       ref="dropdownRef"

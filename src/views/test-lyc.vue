@@ -1,7 +1,12 @@
 <template>
   <div class="test">
     <yc-menu mode="horizontal" default-selected-keys="1">
-      <yc-menu-item path="1">Home</yc-menu-item>
+      <yc-sub-menu path="s">
+        <template #title> 测试 </template>
+        <yc-menu-item path="5">Solution</yc-menu-item>
+        <yc-menu-item path="6">Cloud Service</yc-menu-item>
+        <yc-menu-item path="7">Cooperation</yc-menu-item>
+      </yc-sub-menu>
       <yc-menu-item path="2">Solution</yc-menu-item>
       <yc-menu-item path="3">Cloud Service</yc-menu-item>
       <yc-menu-item path="4">Cooperation</yc-menu-item>

@@ -1,20 +1,18 @@
 <template>
-  <!-- 省略内容  -->
-  <yc-dropdown
-    :popup-max-height="maxHeight"
-    :trigger-props="{
-      // autoFitPosition: false,
-      position: 'bl',
-      ...triggerProps,
-    }"
-    ref="dropdownRef"
-  >
-    <div
-      :class="{
-        'yc-menu-item-wrapper': true,
+  <div
+    :class="{
+      'yc-menu-item-wrapper': true,
 
-        'yc-menu-item-mode-horizontal': mode == 'horizontal',
+      'yc-menu-item-mode-horizontal': mode == 'horizontal',
+    }"
+  >
+    <yc-dropdown
+      :popup-max-height="maxHeight"
+      :trigger-props="{
+        position: 'bl',
+        ...triggerProps,
       }"
+      ref="dropdownRef"
     >
       <div
         :class="[
@@ -31,21 +29,21 @@
           <icon-arrow-down />
         </div>
       </div>
-    </div>
-    <template #content>
-      <menu-pop-option
-        v-for="item in menuItemData.slice(max)"
-        :key="item.childTree[0].path"
-        :child-node="item.childTree[0]"
-        :mode="mode"
-        :computed-selected-keys="computedSelectedKeys"
-        :popup-max-height="maxHeight"
-        :trigger-props="triggerProps"
-      >
-        {{ item.childTree[0].label }}
-      </menu-pop-option>
-    </template>
-  </yc-dropdown>
+      <template #content>
+        <menu-pop-option
+          v-for="item in menuItemData.slice(max)"
+          :key="item.childTree[0].path"
+          :child-node="item.childTree[0]"
+          :mode="mode"
+          :computed-selected-keys="computedSelectedKeys"
+          :popup-max-height="maxHeight"
+          :trigger-props="triggerProps"
+        >
+          {{ item.childTree[0].label }}
+        </menu-pop-option>
+      </template>
+    </yc-dropdown>
+  </div>
 </template>
 
 <script lang="ts" setup>
