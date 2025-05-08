@@ -26,6 +26,17 @@
     }
   }
 }
+//table-layout
+.yc-descriptions-table-layout-fixed {
+  .yc-descriptions-body {
+    .yc-descriptions-table {
+      table-layout: fixed;
+      .yc-descriptions-item-label {
+        width: auto;
+      }
+    }
+  }
+}
 // layout
 .yc-descriptions-layout-horizontal,
 .yc-descriptions-layout-vertical {
@@ -40,6 +51,7 @@
 }
 .yc-descriptions-layout-inline-horizontal {
   .yc-descriptions-item {
+    padding: 7px 20px;
     & > div {
       display: inline-block;
       &:last-child {
@@ -56,15 +68,24 @@
       }
     }
   }
-}
-//table-layout
-.yc-descriptions-table-layout-fixed {
-  .yc-descriptions-body {
-    .yc-descriptions-table {
-      table-layout: fixed;
-      .yc-descriptions-item-label {
-        width: auto;
-      }
+  &.yc-descriptions-size-mini {
+    .yc-descriptions-item {
+      padding: 8px 20px;
+    }
+  }
+  &.yc-descriptions-size-small {
+    .yc-descriptions-item {
+      padding: 8px 20px;
+    }
+  }
+  &.yc-descriptions-size-medium {
+    .yc-descriptions-item {
+      padding: 10px 20px;
+    }
+  }
+  &.yc-descriptions-size-large {
+    .yc-descriptions-item {
+      padding: 14px 20px;
     }
   }
 }
@@ -80,183 +101,47 @@
       }
     }
   }
+  .yc-descriptions-item {
+    border-right: 1px solid rgb(229, 230, 235);
+  }
+  .yc-descriptions-item-label,
+  .yc-descriptions-item-value {
+    border-right: 1px solid rgb(229, 230, 235);
+  }
+  .yc-descriptions-item-label {
+    background-color: rgb(247, 248, 250);
+  }
+  // 动态设置border不显示的位置
   &.yc-descriptions-layout-horizontal {
-    .yc-descriptions-item-label {
-      background-color: rgb(247, 248, 250);
-      border-right: 1px solid rgb(229, 230, 235);
-    }
-    .yc-descriptions-item-value:not(:last-child) {
-      border-right: 1px solid rgb(229, 230, 235);
+    .yc-descriptions-item-value:last-child {
+      border-right: none;
     }
   }
   &.yc-descriptions-layout-vertical {
-    .yc-descriptions-item-label {
-      background-color: rgb(247, 248, 250);
-      &:not(:last-child) {
-        border-right: 1px solid rgb(229, 230, 235);
+    .yc-descriptions-item-label,
+    .yc-descriptions-item-value {
+      &:last-child {
+        border-right: none;
       }
-    }
-    .yc-descriptions-item-value:not(:last-child) {
-      border-right: 1px solid rgb(229, 230, 235);
     }
   }
   &.yc-descriptions-layout-inline-vertical,
   &.yc-descriptions-layout-inline-horizontal {
-    .yc-descriptions-item:not(:last-child) {
-      border-right: 1px solid rgb(229, 230, 235);
+    .yc-descriptions-item:last-child {
+      border-right: none;
     }
   }
 }
 // size
 .yc-descriptions-size-mini {
   gap: 6px;
-  .yc-descriptions-item-label,
-  .yc-descriptions-item-value {
-    font-size: 12px;
-  }
-  &.yc-descriptions-layout-vertical,
-  &.yc-descriptions-layout-horizontal {
-    .yc-descriptions-item-label,
-    .yc-descriptions-item-value {
-      padding: 0 20px 2px 0;
-    }
-  }
-  &.yc-descriptions-layout-inline-vertical {
-    .yc-descriptions-item {
-      padding: 8px 20px;
-      .yc-descriptions-item-label,
-      .yc-descriptions-item-value {
-        padding: 0;
-      }
-    }
-  }
-  &.yc-descriptions-layout-inline-horizontal {
-    .yc-descriptions-item {
-      padding: 7px 20px;
-      .yc-descriptions-item-label,
-      .yc-descriptions-item-value {
-        padding: 0;
-      }
-    }
-  }
-  &.yc-descriptions-bordered {
-    .yc-descriptions-item-label,
-    .yc-descriptions-item-value {
-      padding: 3px 20px;
-    }
-  }
 }
 .yc-descriptions-size-small {
   gap: 8px;
-  .yc-descriptions-item-label,
-  .yc-descriptions-item-value {
-    font-size: 14px;
-  }
-  &.yc-descriptions-layout-vertical,
-  &.yc-descriptions-layout-horizontal {
-    .yc-descriptions-item-label,
-    .yc-descriptions-item-value {
-      padding: 0 20px 4px 0;
-    }
-  }
-  &.yc-descriptions-layout-inline-vertical {
-    .yc-descriptions-item {
-      padding: 8px 20px;
-      .yc-descriptions-item-label,
-      .yc-descriptions-item-value {
-        padding: 0;
-      }
-    }
-  }
-  &.yc-descriptions-layout-inline-horizontal {
-    .yc-descriptions-item {
-      padding: 7px 20px;
-      .yc-descriptions-item-label,
-      .yc-descriptions-item-value {
-        padding: 0;
-      }
-    }
-  }
-  &.yc-descriptions-bordered {
-    .yc-descriptions-item-label,
-    .yc-descriptions-item-value {
-      padding: 3px 20px;
-    }
-  }
 }
 .yc-descriptions-size-medium {
   gap: 10px;
-  .yc-descriptions-item-label,
-  .yc-descriptions-item-value {
-    font-size: 14px;
-  }
-  &.yc-descriptions-layout-vertical,
-  &.yc-descriptions-layout-horizontal {
-    .yc-descriptions-item-label,
-    .yc-descriptions-item-value {
-      padding: 0 20px 8px 0;
-    }
-  }
-  &.yc-descriptions-layout-inline-vertical {
-    .yc-descriptions-item {
-      padding: 10px 20px;
-      .yc-descriptions-item-label,
-      .yc-descriptions-item-value {
-        padding: 0;
-      }
-    }
-  }
-  &.yc-descriptions-layout-inline-horizontal {
-    .yc-descriptions-item {
-      padding: 7px 20px;
-      .yc-descriptions-item-label,
-      .yc-descriptions-item-value {
-        padding: 0;
-      }
-    }
-  }
-  &.yc-descriptions-bordered {
-    .yc-descriptions-item-label,
-    .yc-descriptions-item-value {
-      padding: 5px 20px;
-    }
-  }
 }
 .yc-descriptions-size-large {
   gap: 12px;
-  .yc-descriptions-item-label,
-  .yc-descriptions-item-value {
-    font-size: 14px;
-  }
-  &.yc-descriptions-layout-vertical,
-  &.yc-descriptions-layout-horizontal {
-    .yc-descriptions-item-label,
-    .yc-descriptions-item-value {
-      padding: 0 20px 16px 0;
-    }
-  }
-  &.yc-descriptions-layout-inline-vertical {
-    .yc-descriptions-item {
-      padding: 14px 20px;
-      .yc-descriptions-item-label,
-      .yc-descriptions-item-value {
-        padding: 0;
-      }
-    }
-  }
-  &.yc-descriptions-layout-inline-horizontal {
-    .yc-descriptions-item {
-      padding: 7px 20px;
-      .yc-descriptions-item-label,
-      .yc-descriptions-item-value {
-        padding: 0;
-      }
-    }
-  }
-  &.yc-descriptions-bordered {
-    .yc-descriptions-item-label,
-    .yc-descriptions-item-value {
-      padding: 9px 20px;
-    }
-  }
 }

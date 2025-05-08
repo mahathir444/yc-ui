@@ -6,19 +6,30 @@ import {
   computed,
   provide as _provide,
   inject as _inject,
+  CSSProperties,
+  Slots,
 } from 'vue';
-import { DescData, DescriptionsProps as _DescriptionsProps } from '../type';
+import {
+  Align,
+  DescData,
+  DescriptionsSlots,
+  DescriptionsProps as _DescriptionsProps,
+} from '../type';
 import { isNumber, mediaQueryHandler } from '@shared/utils';
 import { BreakpointName } from '@/components/Grid/type';
-import { Props, RequiredDeep } from '@shared/type';
+import { Props, RequiredDeep, Size } from '@shared/type';
 import { useConfigProvder } from '@shared/hooks';
 import { findComponentsFromVnodes } from '@shared/utils';
 import YcDescriptionsItem from '../DescriptionsItem.vue';
 
 export const DESCRIPTIONS_PROVIDE_KEY = 'radio-group-props';
 export interface DescriptionsProvide {
-  index: Ref<number>;
-  descData: Ref<any[]>;
+  labelStyle: Ref<CSSProperties>;
+  valueStyle: Ref<CSSProperties>;
+  align: Ref<Align>;
+  bordered: Ref<boolean>;
+  size: Ref<Size>;
+  slots: Slots;
 }
 export type DescriptionsProps = RequiredDeep<_DescriptionsProps>;
 
@@ -28,6 +39,10 @@ export default () => {
       data: _data,
       column: _column,
       layout,
+      labelStyle,
+      valueStyle,
+      bordered,
+      align,
     } = toRefs(props as DescriptionsProps);
     // 获取全局配置
     const { size } = useConfigProvder(props);
@@ -61,6 +76,14 @@ export default () => {
     mediaQueryHandler((name) => {
       breakpoint.value = name;
     });
+    _provide<DescriptionsProvide>(DESCRIPTIONS_PROVIDE_KEY, {
+      size,
+      bordered,
+      align,
+      labelStyle,
+      valueStyle,
+      slots,
+    });
     return {
       data,
       size,
@@ -69,7 +92,19 @@ export default () => {
     };
   };
 
+  const inject = () => {
+    return _inject<DescriptionsProvide>(DESCRIPTIONS_PROVIDE_KEY, {
+      size: ref('medium'),
+      bordered: ref(false),
+      align: ref('left'),
+      labelStyle: ref({}),
+      valueStyle: ref({}),
+      slots: {},
+    });
+  };
+
   return {
     provide,
+    inject,
   };
 };

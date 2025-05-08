@@ -24,6 +24,9 @@ export const VERIFICATION_CODE_SIZE_CLASS = getComponentSizeMap(
 );
 
 export const DESCRIPTIONS_SIZE_CLASS = getComponentSizeMap('yc-descriptions');
+export const DESCRIPTIONS_ITEM_SIZE_CLASS = getComponentSizeMap(
+  'yc-descriptions-item-cell'
+);
 
 export const SKELETON_SHAPE_SIZE_CLASS = getComponentSizeMap(
   'yc-skeleton-shape',

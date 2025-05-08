@@ -142,6 +142,8 @@ declare module 'vue' {
     Rate: typeof import('./src/components/Rate/index.vue')['default']
     ResizeBox: typeof import('./src/components/ResizeBox/index.vue')['default']
     Result: typeof import('./src/components/Result/index.vue')['default']
+    ReuseItem: typeof import('./src/components/Descriptions/ReuseItem.vue')['default']
+    ReuseTd: typeof import('./src/components/Descriptions/ReuseTd.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
     Scrollbar: typeof import('./src/components/Scrollbar/Scrollbar.vue')['default']
