@@ -1,6 +1,12 @@
 <template>
   <div class="test">
-    <a-descriptions title="User Info" :column="4" bordered size="small">
+    <a-descriptions
+      :column="3"
+      :data="data"
+      title="User Info"
+      bordered
+      size="small"
+    >
       <a-descriptions-item
         v-for="item of data"
         :label="item.label"
@@ -9,14 +15,20 @@
         <a-tag>{{ item.value }}</a-tag>
       </a-descriptions-item>
     </a-descriptions>
-    <yc-descriptions title="User Info" :column="4" bordered>
-      <yc-descriptions-item
+    <yc-descriptions
+      :column="3"
+      :data="data"
+      title="User Info"
+      bordered
+      size="small"
+    >
+      <!-- <yc-descriptions-item
         v-for="item of data"
         :label="item.label"
         :span="item.span ?? 1"
       >
         <yc-tag>{{ item.value }}</yc-tag>
-      </yc-descriptions-item>
+      </yc-descriptions-item> -->
     </yc-descriptions>
   </div>
 </template>

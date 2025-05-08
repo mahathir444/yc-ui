@@ -7,10 +7,12 @@ import {
   provide as _provide,
   inject as _inject,
   ComputedRef,
+  CSSProperties,
 } from 'vue';
 import {
   Align,
   Column,
+  Layout,
   DescriptionsProps as _DescriptionsProps,
 } from '../type';
 import { isNumber, mediaQueryHandler } from '@shared/utils';
@@ -23,14 +25,23 @@ import YcDescriptionsItem from '../DescriptionsItem.vue';
 export const DESCRIPTIONS_PROVIDE_KEY = 'radio-group-props';
 export interface DescriptionsProvide {
   align: Ref<Align>;
-  column: Ref<Column>;
   length: Ref<number>;
+  layout: Ref<Layout>;
+  labelStyle: Ref<CSSProperties>;
+  valueStyle: Ref<CSSProperties>;
 }
 export type DescriptionsProps = RequiredDeep<_DescriptionsProps>;
 
 export default () => {
   const provide = (props: Props) => {
-    const { align, column: _column } = toRefs(props as DescriptionsProps);
+    const {
+      align,
+      layout,
+      data,
+      column: _column,
+      labelStyle,
+      valueStyle,
+    } = toRefs(props as DescriptionsProps);
     // 获取全局配置
     const { size } = useConfigProvder(props);
     // 获取插槽内item
@@ -60,10 +71,14 @@ export default () => {
     // 提供给子组件
     _provide<DescriptionsProvide>(DESCRIPTIONS_PROVIDE_KEY, {
       align,
-      column,
       length,
+      layout,
+      labelStyle,
+      valueStyle,
     });
     return {
+      slots,
+      data,
       size,
       column,
       descriptionItems,
@@ -72,9 +87,11 @@ export default () => {
   const inject = () => {
     // 接收的值
     return _inject<DescriptionsProvide>(DESCRIPTIONS_PROVIDE_KEY, {
-      align: ref('left'),
-      column: ref(3),
       length: ref(0),
+      align: ref('left'),
+      layout: ref('horizontal'),
+      labelStyle: ref({}),
+      valueStyle: ref({}),
     });
   };
   return {

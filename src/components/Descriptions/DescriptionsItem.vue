@@ -1,7 +1,11 @@
 <template>
   <td
-    class="yc-descriptions-item-label yc-descriptions-item-label-block"
+    :class="{
+      'yc-descriptions-item-label': true,
+      'yc-descriptions-item-label-block': !layout.includes('inline'),
+    }"
     :style="{
+      ...labelStyle,
       textAlign: isObject(align) ? (align.label ?? 'left') : align,
     }"
   >
@@ -10,9 +14,13 @@
     </slot>
   </td>
   <td
-    class="yc-descriptions-item-value yc-descriptions-item-value-block"
     :colspan="span"
+    :class="{
+      'yc-descriptions-item-value': true,
+      'yc-descriptions-item-value-block': !layout.includes('inline'),
+    }"
     :style="{
+      ...valueStyle,
       textAlign: isObject(align) ? (align.label ?? 'left') : align,
     }"
   >
@@ -35,7 +43,7 @@ const props = withDefaults(defineProps<DescriptionsItemProps>(), {
 });
 // 接收注入
 const { inject } = useProvide();
-const { align, length } = inject();
+const { align, length, layout, labelStyle, valueStyle } = inject();
 // 计算span
 const span = computed(() => {
   const value = props.span * 2 - 1;

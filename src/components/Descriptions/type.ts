@@ -6,7 +6,7 @@ export interface DescriptionsProps {
   data?: DescData[];
   column?: Column;
   title?: string;
-  layout?: 'horizontal' | 'vertical' | 'inline-horizontal' | 'inline-vertical';
+  layout?: Layout;
   align?: Align;
   size?: Size;
   bordered?: boolean;
@@ -17,14 +17,14 @@ export interface DescriptionsProps {
 
 export interface DescriptionsSlots {
   default(): void;
-  value(): void;
-  label(): void;
+  value(params: { value: string; index: number; data: DescData }): void;
+  label(params: { label: string; index: number; data: DescData }): void;
   title(): void;
 }
 
 export interface DescriptionsItemProps {
   span?: number;
-  label: string;
+  label?: string;
 }
 
 export interface DescriptionsItemSlots {
@@ -41,3 +41,8 @@ export interface DescData {
 export type TextAlign = 'left' | 'right' | 'center';
 export type Align = TextAlign | { label?: TextAlign; value?: TextAlign };
 export type Column = number | ResponsiveValue;
+export type Layout =
+  | 'horizontal'
+  | 'vertical'
+  | 'inline-horizontal'
+  | 'inline-vertical';

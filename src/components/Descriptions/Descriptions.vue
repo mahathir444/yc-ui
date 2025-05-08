@@ -4,7 +4,9 @@
     :class="[
       'yc-descriptions',
       bordered ? 'yc-descriptions-bordered' : '',
+      tableLayout == 'fixed' ? 'yc-descriptions-table-layout-fixed ' : '',
       DESCRIPTIONS_SIZE_CLASS[size],
+      DESCRIPTIONS_DIRECTION_MAP[layout],
     ]"
   >
     <div v-if="$slots.title || title" class="yc-descriptions-title">
@@ -16,10 +18,30 @@
       <table class="yc-descriptions-table">
         <tbody>
           <tr v-for="(v, i) in rows" :key="i" class="yc-descriptions-row">
-            <component
-              v-for="item in descriptionItems.slice(...v)"
-              :is="item"
-            />
+            <template v-for="(item, i1) in v" :key="i1">
+              <!-- 自定义渲染node -->
+              <component
+                v-if="isNodeRender == 'node'"
+                :span="calcSpan(i1, v)"
+                :is="item"
+              />
+              <!-- data渲染 -->
+              <yc-descriptions-item v-else :span="getSpan(item)">
+                <template #label>
+                  <slot
+                    name="label"
+                    :label="item.label"
+                    :index="i1"
+                    :data="item"
+                  >
+                    <component :is="getSlotFunction(item.label)" />
+                  </slot>
+                </template>
+                <slot name="value" :value="item.value" :index="i1" :data="item">
+                  <component :is="getSlotFunction(item.value)" />
+                </slot>
+              </yc-descriptions-item>
+            </template>
           </tr>
         </tbody>
       </table>
@@ -30,8 +52,14 @@
 <script lang="ts" setup>
 import { computed } from 'vue';
 import { DescriptionsProps, DescriptionsSlots } from './type';
-import { DESCRIPTIONS_SIZE_CLASS } from '@shared/constants';
+import {
+  DESCRIPTIONS_SIZE_CLASS,
+  DESCRIPTIONS_DIRECTION_MAP,
+} from '@shared/constants';
+import { getSlotFunction } from '@shared/utils';
+import { ObjectData } from '@shared/type';
 import useProvide from './hooks/useProvide';
+import YcDescriptionsItem from './DescriptionsItem.vue';
 defineOptions({
   name: 'Descriptions',
 });
@@ -54,14 +82,19 @@ const props = withDefaults(defineProps<DescriptionsProps>(), {
 });
 // 注入
 const { provide } = useProvide();
-const { column, size, descriptionItems } = provide(props);
+const { column, size, descriptionItems, data } = provide(props);
+// 是否是node渲染
+const isNodeRender = computed(() =>
+  descriptionItems.value.length ? 'node' : 'data'
+);
 // 行数
 const rows = computed(() => {
-  const rowArray: number[][] = [];
   let count = 0;
-  for (let i = 0; i < descriptionItems.value.length; i++) {
-    const span = descriptionItems.value[i]?.props?.span || 1;
-    const newCount = count + span;
+  const rowArray: number[][] = [];
+  const array =
+    isNodeRender.value == 'node' ? descriptionItems.value : data.value;
+  for (let i = 0; i < array.length; i++) {
+    const newCount = count + getSpan(array[i]);
     if (newCount >= column.value) {
       count = 0;
       if (!rowArray.length) {
@@ -73,11 +106,28 @@ const rows = computed(() => {
       count = newCount;
     }
   }
-  if (rowArray[rowArray.length - 1][1] != column.value) {
+  if (rowArray.length && rowArray[rowArray.length - 1][1] != column.value) {
     rowArray.push([rowArray[rowArray.length - 1][1]]);
   }
-  return rowArray;
+  return rowArray.map((v) => array.slice(...v));
 });
+// 获取node的span
+function getSpan(node: ObjectData) {
+  return (isNodeRender.value == 'node' ? node?.props?.span : node?.span) || 1;
+}
+// 计算span
+const calcSpan = (i: number, nodeArr: ObjectData[]) => {
+  return i == nodeArr.length - 1
+    ? nodeArr.reduce((pre, cur, index) => {
+        if (index < nodeArr.length - 1) {
+          return pre + getSpan(cur);
+        } else {
+          const span = column.value - pre;
+          return span <= 1 ? 1 : span;
+        }
+      }, 0)
+    : getSpan(nodeArr[i]);
+};
 </script>
 
 <style lang="less" scoped>
@@ -105,6 +155,18 @@ const rows = computed(() => {
           unicode-bidi: isolate;
           border-color: inherit;
         }
+      }
+    }
+  }
+}
+// layout
+//table-layout
+.yc-descriptions-table-layout-fixed {
+  .yc-descriptions-body {
+    .yc-descriptions-table {
+      table-layout: fixed;
+      &:deep(.yc-descriptions-item-label) {
+        width: auto;
       }
     }
   }
