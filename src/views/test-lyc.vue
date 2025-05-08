@@ -1,6 +1,6 @@
 <template>
   <div class="test">
-    <a-descriptions title="User Info" :column="3" bordered size="small">
+    <a-descriptions title="User Info" :column="4" bordered size="small">
       <a-descriptions-item
         v-for="item of data"
         :label="item.label"
@@ -9,7 +9,7 @@
         <a-tag>{{ item.value }}</a-tag>
       </a-descriptions-item>
     </a-descriptions>
-    <yc-descriptions title="User Info" :column="3" bordered>
+    <yc-descriptions title="User Info" :column="4" bordered>
       <yc-descriptions-item
         v-for="item of data"
         :label="item.label"
@@ -27,7 +27,7 @@ const data = [
   {
     label: 'Name',
     value: 'Socrates',
-    span: 6,
+    span: 2,
   },
   {
     label: 'Mobile',

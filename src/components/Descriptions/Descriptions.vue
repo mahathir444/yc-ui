@@ -15,12 +15,9 @@
     <div class="yc-descriptions-body">
       <table class="yc-descriptions-table">
         <tbody>
-          <tr v-for="i in rows" :key="i" class="yc-descriptions-row">
+          <tr v-for="(v, i) in rows" :key="i" class="yc-descriptions-row">
             <component
-              v-for="item in descriptionItems.slice(
-                (i - 1) * column,
-                i * column
-              )"
+              v-for="item in descriptionItems.slice(...v)"
               :is="item"
             />
           </tr>
@@ -60,7 +57,26 @@ const { provide } = useProvide();
 const { column, size, descriptionItems } = provide(props);
 // 行数
 const rows = computed(() => {
-  return Math.ceil(descriptionItems.value.length / column.value);
+  const rowArray: number[][] = [];
+  let count = 0;
+  for (let i = 0; i < descriptionItems.value.length; i++) {
+    const span = descriptionItems.value[i]?.props?.span || 1;
+    const newCount = count + span;
+    if (newCount >= column.value) {
+      count = 0;
+      if (!rowArray.length) {
+        rowArray.push([0, i + 1]);
+      } else {
+        rowArray.push([rowArray[rowArray.length - 1][1], i + 1]);
+      }
+    } else {
+      count = newCount;
+    }
+  }
+  if (rowArray[rowArray.length - 1][1] != column.value) {
+    rowArray.push([rowArray[rowArray.length - 1][1]]);
+  }
+  return rowArray;
 });
 </script>
 
@@ -99,15 +115,15 @@ const rows = computed(() => {
     overflow: hidden;
     border: 1px solid rgb(229, 230, 235);
     border-radius: 4px;
-    .yc-descriptions-row {
-      &:not(&:last-child) {
+    &:deep(.yc-descriptions-row) {
+      &:not(:last-child) {
         border-bottom: 1px solid rgb(229, 230, 235);
       }
-      &:deep(.yc-descriptions-item-label-block) {
+      .yc-descriptions-item-label-block {
         background-color: rgb(247, 248, 250);
         border-right: 1px solid rgb(229, 230, 235);
       }
-      &:deep(.yc-descriptions-item-value-block) {
+      .yc-descriptions-item-value-block:not(:last-child) {
         border-right: 1px solid rgb(229, 230, 235);
       }
     }
