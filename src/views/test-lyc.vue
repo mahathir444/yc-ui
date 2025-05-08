@@ -3,32 +3,34 @@
     <a-descriptions
       :column="3"
       :data="data"
+      layout="inline-horizontal"
       title="User Info"
       bordered
-      size="small"
+      size="mini"
     >
       <a-descriptions-item
         v-for="item of data"
         :label="item.label"
         :span="item.span ?? 1"
       >
-        <a-tag>{{ item.value }}</a-tag>
+        <yc-tag>{{ item.value }}</yc-tag>
       </a-descriptions-item>
     </a-descriptions>
     <yc-descriptions
       :column="3"
       :data="data"
+      layout="inline-horizontal"
       title="User Info"
       bordered
       size="small"
     >
-      <!-- <yc-descriptions-item
+      <yc-descriptions-item
         v-for="item of data"
         :label="item.label"
         :span="item.span ?? 1"
       >
         <yc-tag>{{ item.value }}</yc-tag>
-      </yc-descriptions-item> -->
+      </yc-descriptions-item>
     </yc-descriptions>
   </div>
 </template>

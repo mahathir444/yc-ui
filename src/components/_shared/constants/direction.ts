@@ -25,9 +25,9 @@ export const MENU_DIRECTION_MAP = getComponentConstantsMap(
 export const CAROUSEL_DIRECTION_MAP = getComponentDirectionMap('yc-carousel');
 
 export const DESCRIPTIONS_DIRECTION_MAP = getComponentConstantsMap(
-  'yc-menu',
+  'yc-descriptions',
   ['inline-vertical', 'inline-horizontal', 'vertical', 'horizontal'],
-  'descriptions'
+  'layout'
 );
 
 // 内部组件

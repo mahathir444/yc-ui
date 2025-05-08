@@ -1,0 +1,262 @@
+.yc-descriptions {
+  display: flex;
+  flex-direction: column;
+  .yc-descriptions-title {
+    color: rgb(29, 33, 41);
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 1.5715;
+  }
+  .yc-descriptions-body {
+    .yc-descriptions-table {
+      width: 100%;
+      border-collapse: collapse;
+      tbody {
+        display: table-row-group;
+        vertical-align: middle;
+        unicode-bidi: isolate;
+        border-color: inherit;
+        tr {
+          display: table-row;
+          vertical-align: inherit;
+          unicode-bidi: isolate;
+          border-color: inherit;
+        }
+      }
+    }
+  }
+}
+// layout
+.yc-descriptions-layout-horizontal,
+.yc-descriptions-layout-vertical {
+  .yc-descriptions-item-label {
+    width: 1px;
+    white-space: nowrap;
+  }
+  .yc-descriptions-item-value {
+    white-space: pre-wrap;
+    word-break: break-word;
+  }
+}
+.yc-descriptions-layout-inline-horizontal {
+  .yc-descriptions-item {
+    & > div {
+      display: inline-block;
+      &:last-child {
+        margin-left: 4px;
+      }
+    }
+  }
+}
+.yc-descriptions-layout-inline-vertical {
+  .yc-descriptions-item {
+    & > div {
+      &:last-child {
+        margin-top: 2px;
+      }
+    }
+  }
+}
+//table-layout
+.yc-descriptions-table-layout-fixed {
+  .yc-descriptions-body {
+    .yc-descriptions-table {
+      table-layout: fixed;
+      .yc-descriptions-item-label {
+        width: auto;
+      }
+    }
+  }
+}
+// bordered
+.yc-descriptions-bordered {
+  .yc-descriptions-body {
+    overflow: hidden;
+    border: 1px solid rgb(229, 230, 235);
+    border-radius: 4px;
+    .yc-descriptions-row {
+      &:not(:last-child) {
+        border-bottom: 1px solid rgb(229, 230, 235);
+      }
+    }
+  }
+  &.yc-descriptions-layout-horizontal {
+    .yc-descriptions-item-label {
+      background-color: rgb(247, 248, 250);
+      border-right: 1px solid rgb(229, 230, 235);
+    }
+    .yc-descriptions-item-value:not(:last-child) {
+      border-right: 1px solid rgb(229, 230, 235);
+    }
+  }
+  &.yc-descriptions-layout-vertical {
+    .yc-descriptions-item-label {
+      background-color: rgb(247, 248, 250);
+      &:not(:last-child) {
+        border-right: 1px solid rgb(229, 230, 235);
+      }
+    }
+    .yc-descriptions-item-value:not(:last-child) {
+      border-right: 1px solid rgb(229, 230, 235);
+    }
+  }
+  &.yc-descriptions-layout-inline-vertical,
+  &.yc-descriptions-layout-inline-horizontal {
+    .yc-descriptions-item:not(:last-child) {
+      border-right: 1px solid rgb(229, 230, 235);
+    }
+  }
+}
+// size
+.yc-descriptions-size-mini {
+  gap: 6px;
+  .yc-descriptions-item-label,
+  .yc-descriptions-item-value {
+    font-size: 12px;
+  }
+  &.yc-descriptions-layout-vertical,
+  &.yc-descriptions-layout-horizontal {
+    .yc-descriptions-item-label,
+    .yc-descriptions-item-value {
+      padding: 0 20px 2px 0;
+    }
+  }
+  &.yc-descriptions-layout-inline-vertical {
+    .yc-descriptions-item {
+      padding: 8px 20px;
+      .yc-descriptions-item-label,
+      .yc-descriptions-item-value {
+        padding: 0;
+      }
+    }
+  }
+  &.yc-descriptions-layout-inline-horizontal {
+    .yc-descriptions-item {
+      padding: 7px 20px;
+      .yc-descriptions-item-label,
+      .yc-descriptions-item-value {
+        padding: 0;
+      }
+    }
+  }
+  &.yc-descriptions-bordered {
+    .yc-descriptions-item-label,
+    .yc-descriptions-item-value {
+      padding: 3px 20px;
+    }
+  }
+}
+.yc-descriptions-size-small {
+  gap: 8px;
+  .yc-descriptions-item-label,
+  .yc-descriptions-item-value {
+    font-size: 14px;
+  }
+  &.yc-descriptions-layout-vertical,
+  &.yc-descriptions-layout-horizontal {
+    .yc-descriptions-item-label,
+    .yc-descriptions-item-value {
+      padding: 0 20px 4px 0;
+    }
+  }
+  &.yc-descriptions-layout-inline-vertical {
+    .yc-descriptions-item {
+      padding: 8px 20px;
+      .yc-descriptions-item-label,
+      .yc-descriptions-item-value {
+        padding: 0;
+      }
+    }
+  }
+  &.yc-descriptions-layout-inline-horizontal {
+    .yc-descriptions-item {
+      padding: 7px 20px;
+      .yc-descriptions-item-label,
+      .yc-descriptions-item-value {
+        padding: 0;
+      }
+    }
+  }
+  &.yc-descriptions-bordered {
+    .yc-descriptions-item-label,
+    .yc-descriptions-item-value {
+      padding: 3px 20px;
+    }
+  }
+}
+.yc-descriptions-size-medium {
+  gap: 10px;
+  .yc-descriptions-item-label,
+  .yc-descriptions-item-value {
+    font-size: 14px;
+  }
+  &.yc-descriptions-layout-vertical,
+  &.yc-descriptions-layout-horizontal {
+    .yc-descriptions-item-label,
+    .yc-descriptions-item-value {
+      padding: 0 20px 8px 0;
+    }
+  }
+  &.yc-descriptions-layout-inline-vertical {
+    .yc-descriptions-item {
+      padding: 10px 20px;
+      .yc-descriptions-item-label,
+      .yc-descriptions-item-value {
+        padding: 0;
+      }
+    }
+  }
+  &.yc-descriptions-layout-inline-horizontal {
+    .yc-descriptions-item {
+      padding: 7px 20px;
+      .yc-descriptions-item-label,
+      .yc-descriptions-item-value {
+        padding: 0;
+      }
+    }
+  }
+  &.yc-descriptions-bordered {
+    .yc-descriptions-item-label,
+    .yc-descriptions-item-value {
+      padding: 5px 20px;
+    }
+  }
+}
+.yc-descriptions-size-large {
+  gap: 12px;
+  .yc-descriptions-item-label,
+  .yc-descriptions-item-value {
+    font-size: 14px;
+  }
+  &.yc-descriptions-layout-vertical,
+  &.yc-descriptions-layout-horizontal {
+    .yc-descriptions-item-label,
+    .yc-descriptions-item-value {
+      padding: 0 20px 16px 0;
+    }
+  }
+  &.yc-descriptions-layout-inline-vertical {
+    .yc-descriptions-item {
+      padding: 14px 20px;
+      .yc-descriptions-item-label,
+      .yc-descriptions-item-value {
+        padding: 0;
+      }
+    }
+  }
+  &.yc-descriptions-layout-inline-horizontal {
+    .yc-descriptions-item {
+      padding: 7px 20px;
+      .yc-descriptions-item-label,
+      .yc-descriptions-item-value {
+        padding: 0;
+      }
+    }
+  }
+  &.yc-descriptions-bordered {
+    .yc-descriptions-item-label,
+    .yc-descriptions-item-value {
+      padding: 9px 20px;
+    }
+  }
+}
