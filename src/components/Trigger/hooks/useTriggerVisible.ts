@@ -1,11 +1,13 @@
 import { nextTick, Ref, ref, toRefs, computed, watch } from 'vue';
 import { onClickOutside } from '@vueuse/core';
-import { TriggerProps, TriggerEmits } from '../type';
-import useTriggerNested, { TriggerPropsRequired } from './useTriggerNested';
+import { TriggerEmits } from '../type';
+import useTriggerNested, { TriggerProps } from './useTriggerNested';
+import { Props } from '@shared/type';
 import { useControlValue, useConfigProvder } from '@shared/hooks';
 import { findFirstScrollableParent, unrefElement } from '@shared/utils';
+
 export default (params: {
-  props: TriggerProps;
+  props: Props;
   emits: TriggerEmits;
   popupRef: Ref<HTMLDivElement | undefined>;
   triggerRef: Ref<HTMLElement | undefined>;
@@ -25,7 +27,7 @@ export default (params: {
     disabled,
     scrollToCloseDistance,
     autoSetPosition,
-  } = toRefs(props as TriggerPropsRequired);
+  } = toRefs(props as TriggerProps);
   // 接收全局属性
   const { scrollToClose } = useConfigProvder(props);
   // 处理事件
@@ -197,9 +199,13 @@ export default (params: {
       await nextTick();
       if (!scrollContainer.value) return;
       const { scrollTop, scrollLeft } = scrollContainer.value;
-      (oldScrollLeft = scrollLeft), (oldScrollTop = scrollTop);
+      oldScrollLeft = scrollLeft;
+      oldScrollTop = scrollTop;
     }
   );
+  // 处理关闭
+  handleClickOutsideClose();
+  handleScrollToClose();
   return {
     level,
     groupId,
@@ -211,7 +217,5 @@ export default (params: {
     handleMouseleave,
     handleFocus,
     handleBlur,
-    handleClickOutsideClose,
-    handleScrollToClose,
   };
 };

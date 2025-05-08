@@ -1,6 +1,6 @@
 import { ref, provide, inject, watch, computed, Ref } from 'vue';
 import { nanoid } from 'nanoid';
-import { TriggerType, TriggerProps } from '../type';
+import { TriggerType, TriggerProps as _TriggerProps } from '../type';
 import { RequiredDeep } from '@shared/type';
 
 export const TRIGGER_PROVIDE_KEY = 'trigger-props';
@@ -14,7 +14,7 @@ export type TriggerProvide = {
   hide?: () => void;
 };
 
-export type TriggerPropsRequired = RequiredDeep<TriggerProps>;
+export type TriggerProps = RequiredDeep<_TriggerProps>;
 
 export default (trigger: TriggerType, hideCallback?: () => void) => {
   // 组件标识，用于标识submenu是否处于一个嵌套中

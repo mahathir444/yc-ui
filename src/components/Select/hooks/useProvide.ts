@@ -14,7 +14,7 @@ import {
   SelectOptionData,
   FilterOption,
   SelectEmits,
-  SelectProps,
+  SelectProps as _SelectProps,
   SelectSlots,
 } from '../type';
 import { ObjectData, RequiredDeep, Props } from '@shared/type';
@@ -45,7 +45,7 @@ export interface SelectProvide {
   emits: SelectEmits;
 }
 
-type SelectPropsRequired = RequiredDeep<SelectProps>;
+type SelectProps = RequiredDeep<_SelectProps>;
 
 export default () => {
   const provide = (
@@ -70,9 +70,8 @@ export default () => {
       valueKey,
       hotkeys,
       options: provideOptions,
-    } = toRefs(props as SelectPropsRequired);
-    const { formatLabel, fallbackOption, filterOption } =
-      props as SelectPropsRequired;
+    } = toRefs(props as SelectProps);
+    const { formatLabel, fallbackOption, filterOption } = props as SelectProps;
     const { popupRef, inputRef } = refs;
     // popupVisible
     const computedVisible = useControlValue<boolean>(

@@ -21,13 +21,11 @@ import { findComponentsFromVnodes } from '@shared/utils';
 import YcDescriptionsItem from '../DescriptionsItem.vue';
 
 export const DESCRIPTIONS_PROVIDE_KEY = 'radio-group-props';
-
 export interface DescriptionsProvide {
   align: Ref<Align>;
   column: Ref<Column>;
   length: Ref<number>;
 }
-
 export type DescriptionsProps = RequiredDeep<_DescriptionsProps>;
 
 export default () => {

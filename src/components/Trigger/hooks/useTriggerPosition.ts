@@ -1,11 +1,12 @@
 import { computed, CSSProperties, Ref, ref, toRefs } from 'vue';
 import { useElementBounding, useElementSize } from '@vueuse/core';
-import { TriggerPostion, TriggerProps } from '../type';
-import { TriggerPropsRequired } from './useTriggerNested';
+import { TriggerPostion } from '../type';
+import { TriggerProps } from './useTriggerNested';
+import { Props } from '@shared/type';
 import { useConfigProvder } from '@shared/hooks';
 
 export default (params: {
-  props: TriggerProps;
+  props: Props;
   popupRef: Ref<HTMLDivElement | undefined>;
   triggerRef: Ref<HTMLElement | undefined>;
   mouseX: Ref<number>;
@@ -25,11 +26,19 @@ export default (params: {
     position: _position,
     arrowStyle: _arrowStyle,
     contentStyle: _contentStyle,
-  } = toRefs(props as TriggerPropsRequired);
+  } = toRefs(props as TriggerProps);
   // 接收provider传入的属性
   const { updateAtScroll } = useConfigProvder(props);
   // 动态计算当前的位置
   const position = ref<TriggerPostion>(_position.value);
+  // 获取popup的size
+  const { width: popupWidth, height: popupHeight } = useElementSize(
+    popupRef,
+    undefined,
+    {
+      box: 'border-box',
+    }
+  );
   // 获取trigger元素bounding
   const {
     left,
@@ -42,14 +51,6 @@ export default (params: {
     windowScroll: updateAtScroll.value,
     updateTiming: 'next-frame',
   });
-  // 获取弹出层元素的信息
-  const { width: popupWidth, height: popupHeight } = useElementSize(
-    popupRef,
-    undefined,
-    {
-      box: 'border-box',
-    }
-  );
   // 计算trigger的位置
   const popupStyle = computed(() => {
     // 计算偏移量
@@ -65,7 +66,7 @@ export default (params: {
       };
     }
     // 计算初始位置
-    const { offsetTop, offsetLeft } = calcPopupPosition({
+    const [offsetLeft, offsetTop] = calcPopupPosition({
       position: position.value,
       triggerWidth: triggerWidth.value,
       triggerHeight: triggerHeight.value,
@@ -84,7 +85,7 @@ export default (params: {
       };
     }
     // 边界检测
-    const { newTop, newLeft } = calcCurPopupPosition({
+    const [newLeft, newTop] = calcCurPopupPosition({
       offsetLeft,
       offsetTop,
       position: position.value,
@@ -99,17 +100,18 @@ export default (params: {
     position.value = calcPositionRef({
       offsetLeft: newLeft,
       offsetTop: newTop,
-      triggerWidth: triggerWidth.value,
-      triggerHeight: triggerHeight.value,
-      popupHeight: popupHeight.value,
-      popupWidth: popupWidth.value,
       top: top.value,
       left: left.value,
       right: right.value,
       bottom: bottom.value,
+      triggerWidth: triggerWidth.value,
+      triggerHeight: triggerHeight.value,
+      popupHeight: popupHeight.value,
+      popupWidth: popupWidth.value,
     }) as TriggerPostion;
     // 计算新的offset
     const [newOffsetX, newOffsetY] = calcPopupOffset();
+    // 返回最终结果
     return {
       left: `${newLeft + newOffsetX}px`,
       top: `${newTop + newOffsetY}px`,
@@ -198,10 +200,7 @@ export default (params: {
         offsetTop = bottom - popupHeight;
       }
     }
-    return {
-      offsetTop,
-      offsetLeft,
-    };
+    return [offsetLeft, offsetTop];
   };
   // 计算边界
   const calcCurPopupPosition = (params: {
@@ -238,8 +237,8 @@ export default (params: {
       ) {
         newTop = top - popupHeight;
       }
+      // 左右检测
       if (offsetLeft < 0) {
-        // 左右检测
         newLeft = left;
       } else if (offsetLeft + popupWidth > window.innerWidth) {
         newLeft = right - popupWidth;
@@ -261,10 +260,7 @@ export default (params: {
         newTop = top - popupHeight;
       }
     }
-    return {
-      newTop,
-      newLeft,
-    };
+    return [newLeft, newTop];
   };
   // 计算arrow的positon
   const calcArrowPosition = (params: {
@@ -356,8 +352,8 @@ export default (params: {
     });
     return target?.[2] ?? position.value;
   }
-
   return {
+    position,
     left,
     top,
     bottom,
@@ -366,7 +362,6 @@ export default (params: {
     popupHeight,
     triggerWidth,
     triggerHeight,
-    position,
     popupStyle,
     contentStyle,
     arrowStyle,

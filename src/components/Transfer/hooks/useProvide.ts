@@ -8,9 +8,13 @@ import {
   computed,
 } from 'vue';
 import { InputProps } from '@/components/Input';
-import { TransferEmits, TransferItem, TransferProps } from '../type';
-import { useControlValue } from '@shared/hooks';
+import {
+  TransferEmits,
+  TransferItem,
+  TransferProps as _TransferProps,
+} from '../type';
 import { RequiredDeep, Props } from '@/components/_shared/type';
+import { useControlValue } from '@shared/hooks';
 
 export const TRANSFER_PROVIDE_KEY = 'transfer-props';
 
@@ -32,7 +36,7 @@ export interface TransferProvide {
   emits: any;
 }
 
-export type TransferPropsRquired = RequiredDeep<TransferProps>;
+export type TransferProps = RequiredDeep<_TransferProps>;
 
 export default () => {
   const provide = (props: Props, emits: TransferEmits) => {
@@ -50,7 +54,7 @@ export default () => {
       showSelectAll,
       disabled,
       title,
-    } = toRefs(props as TransferPropsRquired);
+    } = toRefs(props as TransferProps);
     // dataMap
     const dataMap = computed(() => {
       return Object.fromEntries(data.value.map((item) => [item.value, item]));

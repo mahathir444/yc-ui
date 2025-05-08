@@ -166,7 +166,7 @@ const {
   handleInput,
   handleComposition,
 } = useLimitedInput({
-  props: props as any,
+  props,
   emits,
   inputRef,
 });

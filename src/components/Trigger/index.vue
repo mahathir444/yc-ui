@@ -130,8 +130,6 @@ const {
   handleMouseleave,
   handleFocus,
   handleBlur,
-  handleClickOutsideClose,
-  handleScrollToClose,
 } = useTriggerVisible({
   props,
   emits,
@@ -159,34 +157,30 @@ const {
   mouseX,
   mouseY,
 });
-// 处理点击到外层关闭
-handleClickOutsideClose();
-// 处理滚动关闭
-handleScrollToClose();
 // 强制重新获取位置
 watch(
   () => computedVisible.value,
   async (val) => {
     if (!val) return;
     await sleep(0);
-    // const {
-    //   left: _left,
-    //   right: _right,
-    //   top: _top,
-    //   bottom: _bottom,
-    //   width: _triggerWidth,
-    //   height: _triggerHeight,
-    // } = unrefElement(triggerRef)!.getBoundingClientRect();
-    // const { offsetWidth: _popupWidth, offsetHeight: _popupHeight } =
-    //   unrefElement(popupRef)!;
-    // left.value = _left;
-    // right.value = _right;
-    // top.value = _top;
-    // bottom.value = _bottom;
-    // triggerWidth.value = _triggerWidth;
-    // triggerHeight.value = _triggerHeight;
-    // popupWidth.value = _popupWidth;
-    // popupHeight.value = _popupHeight;
+    const {
+      left: _left,
+      right: _right,
+      top: _top,
+      bottom: _bottom,
+      width: _triggerWidth,
+      height: _triggerHeight,
+    } = unrefElement(triggerRef)!.getBoundingClientRect();
+    const { offsetWidth: _popupWidth, offsetHeight: _popupHeight } =
+      unrefElement(popupRef)!;
+    left.value = _left;
+    right.value = _right;
+    top.value = _top;
+    bottom.value = _bottom;
+    triggerWidth.value = _triggerWidth;
+    triggerHeight.value = _triggerHeight;
+    popupWidth.value = _popupWidth;
+    popupHeight.value = _popupHeight;
     position.value = props.position;
   }
 );

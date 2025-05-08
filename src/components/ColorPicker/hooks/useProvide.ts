@@ -7,14 +7,17 @@ import {
   inject as _inject,
 } from 'vue';
 import { RequiredDeep, Props } from '@shared/type';
-import { ColorPickerProps, ColorPickerEmits, ColorFormat } from '../type';
+import {
+  ColorPickerProps as _ColorPickerProps,
+  ColorPickerEmits,
+  ColorFormat,
+} from '../type';
 import { parseColor } from '@shared/utils';
 import { useControlValue, useConfigProvder } from '@shared/hooks';
 
 export const COLOR_PICKER_PROVIDE_KEY = 'color-picker-props';
-
 export type ColorPickerProvide = {
-  props?: ColorPickerPropsRequired;
+  props: Props;
   emits: ColorPickerEmits;
   popupVisible: Ref<boolean>;
   computedColor: WritableComputedRef<string> | Ref<string>;
@@ -22,12 +25,15 @@ export type ColorPickerProvide = {
   format: WritableComputedRef<ColorFormat> | Ref<ColorFormat>;
   alpha: Ref<number>;
 };
-
-export type ColorPickerPropsRequired = RequiredDeep<ColorPickerProps>;
+export type ColorPickerProps = RequiredDeep<_ColorPickerProps>;
 
 export default () => {
   const provide = (props: Props, emits: ColorPickerEmits) => {
-    const { modelValue, defaultValue, format: _format } = toRefs(props);
+    const {
+      modelValue,
+      defaultValue,
+      format: _format,
+    } = toRefs(props as ColorPickerProps);
     // 获取全局配置
     const { size } = useConfigProvder(props);
     // 当前的format
@@ -61,7 +67,7 @@ export default () => {
     const popupVisible = ref<boolean>(false);
     // 提供属性
     _provide<ColorPickerProvide>(COLOR_PICKER_PROVIDE_KEY, {
-      props: props as ColorPickerPropsRequired,
+      props,
       emits,
       popupVisible,
       computedColor,
@@ -78,6 +84,7 @@ export default () => {
   const inject = () => {
     // 接收的值
     return _inject<ColorPickerProvide>(COLOR_PICKER_PROVIDE_KEY, {
+      props: {},
       emits: () => {},
       popupVisible: ref(false),
       computedColor: ref(''),

@@ -8,7 +8,12 @@ import {
   computed,
 } from 'vue';
 import { Direction, Props, RequiredDeep } from '@shared/type';
-import { FormatTooltip, SliderEmits, SliderProps, SliderValue } from '../type';
+import {
+  FormatTooltip,
+  SliderEmits,
+  SliderProps as _SliderProps,
+  SliderValue,
+} from '../type';
 import { isArray } from '@shared/utils';
 import { useControlValue } from '@shared/hooks';
 
@@ -31,7 +36,7 @@ export interface SliderProvide {
   handleRangeValue: (value: number) => number;
 }
 
-export type SliderPropsRequired = RequiredDeep<SliderProps>;
+export type SliderProp = RequiredDeep<_SliderProps>;
 
 export default () => {
   const provide = (
@@ -50,8 +55,8 @@ export default () => {
       range,
       showTooltip,
       marks: _marks,
-    } = toRefs(props as SliderPropsRequired);
-    const { formatTooltip } = props as SliderPropsRequired;
+    } = toRefs(props as SliderProp);
+    const { formatTooltip } = props as SliderProp;
     // 控制值
     const computedValue = useControlValue<SliderValue>(
       modelValue,
