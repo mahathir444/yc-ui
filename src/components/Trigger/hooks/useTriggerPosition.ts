@@ -53,11 +53,7 @@ export default (params: {
   // 计算trigger的位置
   const popupStyle = computed(() => {
     // 计算偏移量
-    const { offsetX, offsetY } = calcOffset(
-      popupTranslate.value,
-      popupOffset.value,
-      position.value
-    );
+    const [offsetX, offsetY] = calcPopupOffset();
     // 是否是自由设置位置，或者跟随鼠标位置
     const isMousePosition =
       alignPoint.value && ['click', 'contextMenu'].includes(trigger.value);
@@ -92,13 +88,10 @@ export default (params: {
       offsetLeft,
       offsetTop,
       position: position.value,
-      originPosition: _position.value,
       top: top.value,
       left: left.value,
       right: right.value,
       bottom: bottom.value,
-      triggerWidth: triggerWidth.value,
-      triggerHeight: triggerHeight.value,
       popupHeight: popupHeight.value,
       popupWidth: popupWidth.value,
     });
@@ -116,11 +109,7 @@ export default (params: {
       bottom: bottom.value,
     }) as TriggerPostion;
     // 计算新的offset
-    const { offsetX: newOffsetX, offsetY: newOffsetY } = calcOffset(
-      popupTranslate.value,
-      popupOffset.value,
-      position.value
-    );
+    const [newOffsetX, newOffsetY] = calcPopupOffset();
     return {
       left: `${newLeft + newOffsetX}px`,
       top: `${newTop + newOffsetY}px`,
@@ -147,15 +136,32 @@ export default (params: {
       }),
     } as CSSProperties;
   });
+  // 计算offset
+  function calcPopupOffset() {
+    const [translateX, translateY] = popupTranslate.value;
+    // 计算偏移量
+    let offsetX = translateX;
+    let offsetY = translateY;
+    if (position.value.startsWith('t')) {
+      offsetY = -popupOffset.value;
+    } else if (position.value.startsWith('b')) {
+      offsetY = popupOffset.value;
+    } else if (position.value.startsWith('l')) {
+      offsetX = -popupOffset.value;
+    } else if (position.value.startsWith('r')) {
+      offsetX = popupOffset.value;
+    }
+    return [offsetX, offsetY];
+  }
   // 计算最初的pop位置
   const calcPopupPosition = (params: {
     position: TriggerPostion;
-    triggerWidth: number;
-    triggerHeight: number;
     top: number;
     bottom: number;
     left: number;
     right: number;
+    triggerWidth: number;
+    triggerHeight: number;
     popupHeight: number;
     popupWidth: number;
   }) => {
@@ -200,21 +206,17 @@ export default (params: {
   // 计算边界
   const calcCurPopupPosition = (params: {
     position: TriggerPostion;
-    originPosition: TriggerPostion;
     offsetLeft: number;
     offsetTop: number;
     top: number;
     bottom: number;
     left: number;
     right: number;
-    triggerWidth: number;
-    triggerHeight: number;
     popupHeight: number;
     popupWidth: number;
   }) => {
     const {
       position,
-      originPosition,
       offsetLeft,
       offsetTop,
       bottom,
@@ -223,8 +225,6 @@ export default (params: {
       top,
       popupHeight,
       popupWidth,
-      triggerWidth,
-      triggerHeight,
     } = params;
     let newLeft = offsetLeft;
     let newTop = offsetTop;
@@ -238,20 +238,6 @@ export default (params: {
       ) {
         newTop = top - popupHeight;
       }
-      //   else if (originPosition != position) {
-      //   const { offsetTop } = calcPopupPosition({
-      //     position: originPosition,
-      //     bottom,
-      //     left,
-      //     right,
-      //     top,
-      //     popupHeight,
-      //     popupWidth,
-      //     triggerWidth,
-      //     triggerHeight,
-      //   });
-      //   newTop = offsetTop;
-      // }
       if (offsetLeft < 0) {
         // 左右检测
         newLeft = left;
@@ -322,30 +308,6 @@ export default (params: {
     }
     return inset;
   };
-  // 计算偏移量
-  function calcOffset(
-    popupTranslate: number[],
-    popupOffset: number,
-    position: TriggerPostion
-  ) {
-    const [translateX, translateY] = popupTranslate;
-    // 计算偏移量
-    let offsetX = translateX;
-    let offsetY = translateY;
-    if (position.startsWith('t')) {
-      offsetY = -popupOffset;
-    } else if (position.startsWith('b')) {
-      offsetY = popupOffset;
-    } else if (position.startsWith('l')) {
-      offsetX = -popupOffset;
-    } else if (position.startsWith('r')) {
-      offsetX = popupOffset;
-    }
-    return {
-      offsetX,
-      offsetY,
-    };
-  }
   // 根据offsettop与offsetleft反向计算当前的位置
   function calcPositionRef(params: {
     offsetLeft: number;
@@ -371,35 +333,30 @@ export default (params: {
       popupHeight,
       popupWidth,
     } = params;
-    const epsilon = 0.00001; // 定义一个小的容差值
+    const epsilon = 0.00001;
     const dirArray = [
-      //上
       [top - popupHeight, left + (triggerWidth - popupWidth) / 2, 'top'],
       [top - popupHeight, left, 'tl'],
       [top - popupHeight, right - popupWidth, 'tr'],
-      //下
       [bottom, left + (triggerWidth - popupWidth) / 2, 'bottom'],
       [bottom, left, 'bl'],
       [bottom, right - popupWidth, 'br'],
-      //左
       [top + (triggerHeight - popupHeight) / 2, left - popupWidth, 'left'],
       [top, left - popupWidth, 'lt'],
       [bottom - popupHeight, left - popupWidth, 'lb'],
-      //右
       [top + (triggerHeight - popupHeight) / 2, right, 'right'],
       [top, right, 'rt'],
       [bottom - popupHeight, right, 'rb'],
     ];
-    for (const [finalTop, finalLeft, dir] of dirArray) {
-      if (
-        Math.abs((finalTop as number) - offsetTop) < epsilon &&
-        Math.abs((finalLeft as number) - offsetLeft) < epsilon
-      ) {
-        return dir;
-      }
-    }
-    return position.value;
+    const target = dirArray.find(([finalTop, finalLeft]) => {
+      return (
+        Math.abs((finalLeft as number) - offsetLeft) < epsilon &&
+        Math.abs((finalTop as number) - offsetTop) < epsilon
+      );
+    });
+    return target?.[2] ?? position.value;
   }
+
   return {
     left,
     top,
