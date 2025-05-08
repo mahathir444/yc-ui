@@ -10,6 +10,7 @@
       loading ? 'yc-tag-loading' : '',
       bordered ? 'yc-tag-bordered' : '',
       computedChecked ? 'yc-tag-checked' : '',
+      checkable ? 'yc-tag-checkable' : '',
       nowrap ? 'yc-tag-no-wrap' : 'yc-tag-wrap',
     ]"
     ref="tagRef"
