@@ -70,13 +70,13 @@ export const STEP_STATUS_CLASS = getComponentConstantsMap('yc-steps-item', [
   'error',
 ]);
 
-export const STEP_TYPE_CLASS = getComponentConstantsMap(
-  'yc-steps-item',
-  ['default', 'dot', 'arrow', 'navigation'],
-  'mode'
-);
-
 export const STEP_NEXT_STATUS_CLASS = getComponentConstantsMap(
   'yc-steps-item-next',
   ['finish', 'process', 'wait', 'error']
+);
+
+export const STEPS_TYPE_CLASS = getComponentConstantsMap(
+  'yc-steps',
+  ['default', 'dot', 'arrow', 'navigation'],
+  'mode'
 );

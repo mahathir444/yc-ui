@@ -1,35 +1,39 @@
-// status
-.yc-steps-item-wait {
-  .yc-steps-icon {
-    color: rgb(78, 89, 105);
-    background-color: rgb(242, 243, 245);
-    border: 1px solid transparent;
+.yc-steps-item {
+  position: relative;
+  &,
+  .yc-steps-item-title,
+  .yc-steps-item-description {
+    white-space: nowrap;
   }
-  .yc-steps-item-content {
-    .yc-steps-item-title {
-      color: rgb(78, 89, 105);
+  .yc-steps-item-node {
+    font-weight: 500;
+    font-size: 16px;
+    .yc-steps-icon {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
     }
   }
-}
-.yc-steps-item-process {
-  .yc-steps-icon {
-    color: #fff;
-    background-color: rgb(22, 93, 255);
-    border: 1px solid transparent;
-  }
-}
-.yc-steps-item-finish {
-  .yc-steps-icon {
-    color: rgb(22, 93, 255);
-    background-color: rgb(232, 243, 255);
-    border: 1px solid transparent;
-  }
-}
-.yc-steps-item-error {
-  .yc-steps-icon {
-    color: #fff;
-    background-color: rgb(245, 63, 63);
-    border: 1px solid transparent;
+  .yc-steps-item-content {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    .yc-steps-item-title {
+      width: fit-content;
+      line-height: 28px;
+      font-size: 16px;
+      color: rgb(29, 33, 41);
+      transition: all 0.1s cubic-bezier(0, 0, 1, 1);
+    }
+    .yc-steps-item-description {
+      max-width: 140px;
+      font-size: 12px;
+      color: rgb(134, 144, 156);
+      transition: all 0.1s cubic-bezier(0, 0, 1, 1);
+    }
   }
 }
 // next-status
@@ -86,233 +90,6 @@
       font-size: 14px;
       line-height: 24px;
     }
-  }
-}
-// labelPlacement
-.yc-steps-item-label-horizontal {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  overflow: hidden;
-
-  .yc-steps-item-node {
-    height: 100%;
-  }
-}
-.yc-steps-item-label-vertical {
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
-
-  &.yc-steps-item-size-small {
-    .yc-steps-item-node {
-      margin-left: 58px;
-    }
-  }
-
-  .yc-steps-item-node {
-    margin-left: 56px;
-  }
-
-  .yc-steps-item-content {
-    width: 140px;
-    align-items: center;
-  }
-}
-// position
-.yc-steps-item-vertical {
-  min-height: 90px;
-  .yc-steps-item-content {
-    height: 100%;
-  }
-  &::after {
-    content: '';
-    position: absolute;
-    left: 13.5px;
-    top: 34px;
-    bottom: 0;
-    width: 1px;
-  }
-  &.yc-steps-item-mode-dot {
-    &::after {
-      top: 21px;
-      left: 4.5px;
-    }
-  }
-  &.yc-steps-item-size-small {
-    &::after {
-      left: 11.5px;
-      top: 30px;
-      bottom: 6px;
-    }
-  }
-}
-.yc-steps-item-horizontal {
-  &:not(:last-child) {
-    flex: 1;
-  }
-  &.yc-steps-item-label-horizontal:not(.yc-steps-item-line-less) {
-    .yc-steps-item-title {
-      position: relative;
-      &::after {
-        content: '';
-        position: absolute;
-        top: 13.5px;
-        left: calc(100% + 12px);
-        width: 5000px;
-        height: 1px;
-      }
-    }
-    &.yc-steps-item-size-small {
-      .yc-steps-item-title {
-        &::after {
-          top: 11.5px;
-        }
-      }
-    }
-  }
-  &.yc-steps-item-label-vertical:not(.yc-steps-item-line-less) {
-    &::after {
-      content: '';
-      position: absolute;
-      top: 13.5px;
-      left: 96px;
-      right: -56px;
-      height: 1px;
-    }
-  }
-  &.yc-steps-item-size-small {
-    .yc-steps-item-title {
-      &::after {
-        top: 11.5px;
-        left: 94px;
-      }
-    }
-  }
-}
-// mode
-.yc-steps-item-mode-dot {
-  align-items: flex-start;
-  .yc-steps-item-node {
-    margin-top: 6px;
-    width: 10px;
-    height: 10px;
-    border-radius: 50%;
-  }
-  &.yc-steps-item-wait {
-    .yc-steps-item-node {
-      background-color: rgb(201, 205, 212);
-      border-color: rgb(201, 205, 212);
-    }
-  }
-  &.yc-steps-item-finish,
-  &.yc-steps-item-process {
-    .yc-steps-item-node {
-      background-color: rgb(22, 93, 255);
-      border-color: rgb(22, 93, 255);
-    }
-  }
-  &.yc-steps-item-error {
-    .yc-steps-item-node {
-      background-color: rgb(245, 63, 63);
-      border-color: rgb(245, 63, 63);
-    }
-  }
-}
-.yc-steps-item-mode-arrow {
-  flex: 1;
-  position: relative;
-  overflow: visible;
-  height: 72px;
-
-  &:not(:first-child)::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    z-index: 1;
-    width: 0;
-    height: 0;
-    border-top: 36px solid transparent;
-    border-bottom: 36px solid transparent;
-    border-left: 36px solid #fff;
-  }
-  &:not(:last-child)::after {
-    content: '';
-    position: absolute;
-    top: 0;
-    right: -36px;
-    z-index: 2;
-    width: 0;
-    height: 0;
-    background-color: transparent;
-    border-top: 36px solid transparent;
-    border-bottom: 36px solid transparent;
-  }
-  &:first-child {
-    .yc-steps-item-content {
-      padding-left: 16px;
-    }
-  }
-  .yc-steps-item-content {
-    flex: 1;
-    padding-left: 52px;
-    height: 72px;
-    justify-content: center;
-  }
-  &.yc-steps-item-wait {
-    background-color: rgb(247, 248, 250);
-    &::after {
-      border-left: 36px solid rgb(247, 248, 250);
-    }
-  }
-  &.yc-steps-item-finish {
-    background-color: rgb(232, 243, 255);
-    &::after {
-      border-left: 36px solid rgb(232, 243, 255);
-    }
-  }
-  &.yc-steps-item-process {
-    background-color: rgb(22, 93, 255);
-    &::after {
-      border-left: 36px solid rgb(22, 93, 255);
-    }
-  }
-  &.yc-steps-item-error {
-    background-color: rgb(245, 63, 63);
-    &::after {
-      border-left: 36px solid rgb(245, 63, 63);
-    }
-  }
-  &.yc-steps-item-process,
-  &.yc-steps-item-error {
-    .yc-steps-item-content {
-      .yc-steps-item-title,
-      .yc-steps-item-description {
-        color: #fff;
-      }
-    }
-  }
-}
-.yc-steps-item-mode-navigation {
-  flex: 1;
-  padding: 0 10px 0 20px;
-  &:not(.yc-steps-item-active):before {
-    content: '';
-    position: absolute;
-    top: 10px;
-    right: 30px;
-    width: 6px;
-    height: 6px;
-    border: 2px solid rgb(201, 205, 212);
-    border-bottom: none;
-    border-left: none;
-    background-color: #fff;
-    transform: rotate(45deg);
-  }
-
-  .yc-steps-item-content {
-    margin-bottom: 20px;
   }
 }
 // active

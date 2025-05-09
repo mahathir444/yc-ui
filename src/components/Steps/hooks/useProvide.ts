@@ -16,7 +16,6 @@ export interface StepsProvide {
   step: Ref<number>;
   computedCurrent: Ref<number>;
   lineLess: Ref<boolean>;
-  labelPlacement: Ref<Direction>;
   direction: Ref<Direction>;
   statusArr: Ref<Ref<string>[]>;
   small: Ref<boolean>;
@@ -33,7 +32,7 @@ export default () => {
       current,
       defaultCurrent,
       lineLess,
-      labelPlacement,
+      labelPlacement: _labelPlacement,
       direction: _direction,
       small,
       type,
@@ -57,6 +56,12 @@ export default () => {
         return 'horizontal';
       }
     });
+    // labelPlacement
+    const labelPlacement = computed(() => {
+      return type.value == 'default' && direction.value == 'horizontal'
+        ? _labelPlacement.value
+        : 'horizontal';
+    });
     // status
     const statusArr = ref<Ref<string>[]>([]);
     // step
@@ -65,7 +70,6 @@ export default () => {
       step,
       computedCurrent,
       lineLess,
-      labelPlacement,
       direction,
       statusArr,
       small,
@@ -75,6 +79,7 @@ export default () => {
     });
     return {
       direction,
+      labelPlacement,
       type,
     };
   };
@@ -84,7 +89,6 @@ export default () => {
       step: ref(0),
       computedCurrent: ref(0),
       lineLess: ref(false),
-      labelPlacement: ref('horizontal'),
       direction: ref('horizontal'),
       statusArr: ref([]),
       small: ref(false),

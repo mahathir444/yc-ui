@@ -8,9 +8,6 @@
       lineLess ? 'yc-steps-item-line-less' : '',
       small ? 'yc-steps-item-size-small' : '',
       changeable ? 'yc-steps-item-changeable' : '',
-      STEP_TYPE_CLASS[type],
-      STEP_LABEL_DIRECTION_MAP[labelPlacement],
-      STEP_DIRECTION_MAP[direction],
       STEP_STATUS_CLASS[status],
       STEP_NEXT_STATUS_CLASS[nextStatus],
     ]"
@@ -58,13 +55,7 @@
 import { toRefs, computed } from 'vue';
 import { StepProps, StepSlots } from './type';
 import { IconCheck, IconClose } from '@shared/icons';
-import {
-  STEP_STATUS_CLASS,
-  STEP_NEXT_STATUS_CLASS,
-  STEP_LABEL_DIRECTION_MAP,
-  STEP_DIRECTION_MAP,
-  STEP_TYPE_CLASS,
-} from '@shared/constants';
+import { STEP_STATUS_CLASS, STEP_NEXT_STATUS_CLASS } from '@shared/constants';
 import useProvide from './hooks/useProvide';
 defineOptions({
   name: 'Step',
@@ -83,22 +74,14 @@ const {
   curStep,
   computedCurrent,
   step,
-  direction,
-  lineLess: _lineLess,
-  labelPlacement: _labelPlacement,
-  small: _small,
   type,
   changeable,
   status,
   nextStatus,
+  lineLess: _lineLess,
+  small: _small,
   emits,
 } = inject(props);
-// labelPlacement
-const labelPlacement = computed(() => {
-  return type.value == 'default' && direction.value == 'horizontal'
-    ? STEP_LABEL_DIRECTION_MAP[_labelPlacement.value]
-    : 'horizontal';
-});
 // small
 const small = computed(() => {
   return type.value != 'dot' ? _small.value : false;
@@ -121,42 +104,5 @@ const handleClick = (e: Event) => {
 
 <style lang="less" scoped>
 @import './style/step.less';
-.yc-steps-item {
-  position: relative;
-  &,
-  .yc-steps-item-title,
-  .yc-steps-item-description {
-    white-space: nowrap;
-  }
-  .yc-steps-item-node {
-    font-weight: 500;
-    font-size: 16px;
-    .yc-steps-icon {
-      width: 28px;
-      height: 28px;
-      border-radius: 50%;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-    }
-  }
-  .yc-steps-item-content {
-    display: flex;
-    flex-direction: column;
-    gap: 2px;
-    .yc-steps-item-title {
-      width: fit-content;
-      line-height: 28px;
-      font-size: 16px;
-      color: rgb(29, 33, 41);
-      transition: all 0.1s cubic-bezier(0, 0, 1, 1);
-    }
-    .yc-steps-item-description {
-      max-width: 140px;
-      font-size: 12px;
-      color: rgb(134, 144, 156);
-      transition: all 0.1s cubic-bezier(0, 0, 1, 1);
-    }
-  }
-}
+@import './style/steps.less';
 </style>

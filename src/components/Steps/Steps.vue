@@ -1,10 +1,11 @@
 <template>
   <div
-    class="yc-steps"
-    :class="[STEPS_DIRECTION_MAP[direction]]"
-    :style="{
-      gap,
-    }"
+    :class="[
+      'yc-steps',
+      STEPS_DIRECTION_MAP[direction],
+      STEPS_TYPE_CLASS[type],
+      STEPS_LABEL_DIRECTION_MAP[labelPlacement],
+    ]"
   >
     <slot />
   </div>
@@ -13,7 +14,11 @@
 <script lang="ts" setup>
 import { computed } from 'vue';
 import { StepsProps, StepsEmits, StepsSlots } from './type';
-import { STEPS_DIRECTION_MAP } from '@shared/constants';
+import {
+  STEPS_TYPE_CLASS,
+  STEPS_LABEL_DIRECTION_MAP,
+  STEPS_DIRECTION_MAP,
+} from '@shared/constants';
 import useProvide from './hooks/useProvide';
 defineOptions({
   name: 'Steps',
@@ -33,19 +38,7 @@ const props = withDefaults(defineProps<StepsProps>(), {
 const emits = defineEmits<StepsEmits>();
 // 注入数据
 const { provide } = useProvide();
-const { direction, type } = provide(props, emits);
-const gap = computed(() => {
-  if (direction.value == 'horizontal') {
-    if (type.value == 'arrow') {
-      return '4px';
-    } else if (type.value == 'navigation') {
-      return '32px';
-    }
-    return '12px';
-  } else {
-    return '6px';
-  }
-});
+const { type, labelPlacement, direction } = provide(props, emits);
 </script>
 
 <style lang="less" scoped>
