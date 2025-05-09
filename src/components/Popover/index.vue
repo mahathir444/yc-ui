@@ -20,11 +20,10 @@
       <div v-if="$slots.title || title" class="yc-popover-title">
         <slot name="title"> {{ title }} </slot>
       </div>
-      <div class="'yc-popover-content'">
-        <slot v-if="$slots.content" name="content" />
-        <template v-else-if="!$slots.content && content">
+      <div class="yc-popover-content">
+        <slot name="content">
           {{ content }}
-        </template>
+        </slot>
       </div>
     </template>
   </yc-trigger>

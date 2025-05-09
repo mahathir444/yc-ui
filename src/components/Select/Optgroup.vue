@@ -1,6 +1,6 @@
 <template>
   <div class="yc-option-group-label text-ellipsis">
-    <slot v-if="$slots.label || label" name="label">
+    <slot name="label">
       {{ label }}
     </slot>
   </div>

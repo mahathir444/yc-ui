@@ -23,6 +23,6 @@ export interface ResizeBoxEmits {
 
 export interface ResizeBoxSlots {
   default(): void;
-  ['resize-trigger'](direction: string): void;
-  ['resize-trigger-icon'](direction: string): void;
+  ['resize-trigger'](params: { direction: DirectionType }): void;
+  ['resize-trigger-icon'](params: { direction: DirectionType }): void;
 }
