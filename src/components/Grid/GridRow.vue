@@ -18,14 +18,15 @@
 
 <script lang="ts" setup>
 import { toRefs, computed, CSSProperties } from 'vue';
-import { RowProps } from './type';
+import { GridRowProps, GridRowSlots } from './type';
 import { mediaQueryHandler } from '@shared/utils';
 import { ROW_ALIGN_MAP, ROW_JUSTIFY_MAP } from '@shared/constants';
 import useProvide from './hooks/useProvide';
 defineOptions({
   name: 'Row',
 });
-const props = withDefaults(defineProps<RowProps>(), {
+defineSlots<GridRowSlots>();
+const props = withDefaults(defineProps<GridRowProps>(), {
   gutter: 0,
   justify: 'start',
   align: 'start',

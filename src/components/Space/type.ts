@@ -6,3 +6,8 @@ export interface SpaceProps {
   fill?: boolean;
   size?: Size | number;
 }
+
+export interface SpaceSlots {
+  default(): void;
+  split(): void;
+}

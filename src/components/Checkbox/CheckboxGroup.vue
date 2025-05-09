@@ -13,7 +13,7 @@
         <slot name="checkbox" :checked="checked" :disabled="disabled" />
       </template>
       <!-- label -->
-      <slot v-if="$slots.label" name="label" :data="item">
+      <slot name="label" :data="item">
         {{ item.label }}
       </slot>
     </yc-checkbox>

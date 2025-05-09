@@ -29,6 +29,13 @@ export interface DrawerProps {
   onBeforeOk?: OnBeforeOk;
 }
 
+export interface DrawerSlots {
+  default(): void;
+  header(): void;
+  footer(): void;
+  title(): void;
+}
+
 export interface DrawerEmits {
   (e: 'update:visible', value: boolean): void;
   (e: 'ok'): void;

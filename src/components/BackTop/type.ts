@@ -6,3 +6,7 @@ export interface BackTopProps {
   easeing?: string;
   duration?: number;
 }
+
+export interface BackTopSlots {
+  default(): void;
+}

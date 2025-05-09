@@ -47,6 +47,7 @@ import { useControlValue } from '@shared/hooks';
 import { DSUBMENU_POSITION_MAP, DSUBMENU_TRIGGER_MAP } from '@shared/constants';
 import {
   DsubmenuProps,
+  DsubmenuSlots,
   DsubmenuEmits,
   DoptionInstance,
   Doption as YcDoption,
@@ -56,6 +57,7 @@ import YcScrollbar from '@/components/Scrollbar';
 defineOptions({
   name: 'Dsubmenu',
 });
+defineSlots<DsubmenuSlots>();
 const props = withDefaults(defineProps<DsubmenuProps>(), {
   popupVisible: undefined,
   defaultPopupVisible: false,

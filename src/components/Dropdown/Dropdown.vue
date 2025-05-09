@@ -33,7 +33,7 @@
 
 <script lang="ts" setup>
 import { toRefs, computed } from 'vue';
-import { DropdownProps, DoptionValue } from './type';
+import { DropdownProps, DoptionValue, DropdownSlots } from './type';
 import { DROPDOWN_POSITION_MAP } from '@shared/constants';
 import YcTrigger from '@/components/Trigger';
 import YcScrollbar from '@/components/Scrollbar';
@@ -41,6 +41,7 @@ import useProvide from './hooks/useProvide';
 defineOptions({
   name: 'Dropdown',
 });
+defineSlots<DropdownSlots>();
 const props = withDefaults(defineProps<DropdownProps>(), {
   popupVisible: undefined,
   defaultPopupVisible: false,

@@ -13,12 +13,23 @@ export interface CollapseEmits {
   (e: 'change', value: CollapseValue): void;
 }
 
+export interface CollapseSlots {
+  default(): void;
+}
+
 export interface CollapseItemProps {
   value?: CollapseValue;
-  title?: string;
+  header?: string;
   disabled?: boolean;
   showExpandIcon?: boolean;
   destroyOnHide?: boolean;
+}
+
+export interface CollapseItemSlots {
+  default(): void;
+  header(): void;
+  extra(): void;
+  ['expand-icon'](): void;
 }
 
 export type CollapseValue = string | number;

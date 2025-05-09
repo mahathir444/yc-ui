@@ -14,12 +14,13 @@
 
 <script lang="ts" setup>
 import { toRefs, computed } from 'vue';
+import { DividerProps, DividerSlots } from './type';
 import { DIVIDER_DIRECTION_MAP, DIVIDER_POSITION_MAP } from '@shared/constants';
 import { isUndefined } from '@shared/utils';
-import { DividerProps } from './type';
 defineOptions({
   name: 'Divider',
 });
+defineSlots<DividerSlots>();
 const props = withDefaults(defineProps<DividerProps>(), {
   direction: 'horizontal',
   orientation: 'left',

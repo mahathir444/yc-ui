@@ -1,9 +1,8 @@
 <template>
   <div class="yc-option-group-label text-ellipsis">
-    <slot v-if="$slots.label" name="label" />
-    <template v-else>
+    <slot v-if="$slots.label || label" name="label">
       {{ label }}
-    </template>
+    </slot>
   </div>
   <slot />
 </template>

@@ -7,3 +7,9 @@ export interface ConfigProviderProps {
   scrollToClose?: boolean;
   exchangeTime?: boolean;
 }
+
+export interface ConfigProviderSlots {
+  default(): void;
+  loading(): void;
+  empty(component: string): void;
+}

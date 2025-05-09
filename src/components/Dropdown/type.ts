@@ -19,11 +19,23 @@ export interface DropdownEmits {
   (e: 'select', value: DoptionValue, ev: MouseEvent): void;
 }
 
+export interface DropdownSlots {
+  default(): void;
+  content(): void;
+  footer(): void;
+}
+
 export interface DoptionProps {
   value?: DoptionValue;
   disabled?: boolean;
   isSubmenu?: boolean;
   isActive?: boolean;
+}
+
+export interface DoptionSlots {
+  default(): void;
+  icon(): void;
+  suffix(): void;
 }
 
 export interface DsubmenuProps {
@@ -41,8 +53,19 @@ export interface DsubmenuEmits {
   (e: 'popup-visible-change', value: boolean): void;
 }
 
+export interface DsubmenuSlots {
+  content(): void;
+  default(): void;
+  footer(): void;
+}
+
 export interface DgroupProps {
   title?: string;
+}
+
+export interface DgroupSlots {
+  title(): void;
+  default(): void;
 }
 
 export interface DropdownButtonProps {
@@ -56,6 +79,12 @@ export interface DropdownButtonProps {
   size?: Size;
   buttonProps?: ButtonProps;
   hideOnSelect?: boolean;
+}
+
+export interface DropdownButtonSlots {
+  content(): void;
+  default(): void;
+  icon(): void;
 }
 
 export type DoptionValue = string | number | boolean;

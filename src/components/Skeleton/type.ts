@@ -1,8 +1,11 @@
-import { Ref } from 'vue';
-
 export interface SkeletonProps {
   animation?: boolean;
   loading?: boolean;
+}
+
+export interface SkeletonSlots {
+  default(): void;
+  content(): void;
 }
 
 export interface SkeletonLineProps {

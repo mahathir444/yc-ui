@@ -19,13 +19,13 @@
 
 <script lang="ts" setup>
 import { ref, toRefs } from 'vue';
-import { AnchorLinkProps, AnchorLinkSlot } from './type';
+import { AnchorLinkProps, AnchorLinkSlots } from './type';
 import { isNumber, getElement } from '@shared/utils';
 import useProvide from './hooks/useProvide';
 defineOptions({
   name: 'AnchorLink',
 });
-defineSlots<AnchorLinkSlot>();
+defineSlots<AnchorLinkSlots>();
 const props = withDefaults(defineProps<AnchorLinkProps>(), {
   title: '',
   href: '',

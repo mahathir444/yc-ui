@@ -25,3 +25,9 @@ export interface PopoverEmits {
   (e: 'update:popupVisible', value: boolean): void;
   (e: 'popup-visible-change', value: boolean): void;
 }
+
+export interface PopoverSlots {
+  default(): void;
+  content(): void;
+  title(): void;
+}

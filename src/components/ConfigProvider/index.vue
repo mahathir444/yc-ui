@@ -4,7 +4,7 @@
 
 <script lang="ts" setup>
 import { toRefs, provide } from 'vue';
-import { ConfigProviderProps } from './type';
+import { ConfigProviderProps, ConfigProviderSlots } from './type';
 import {
   CONFIG_PROVIDER_PROVIDE_KEY,
   ConfigProviderProvide,
@@ -12,6 +12,7 @@ import {
 defineOptions({
   name: 'ConfigProvider',
 });
+defineSlots<ConfigProviderSlots>();
 const props = withDefaults(defineProps<ConfigProviderProps>(), {
   zIndex: 1001,
   size: 'medium',

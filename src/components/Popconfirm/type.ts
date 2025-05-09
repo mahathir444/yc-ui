@@ -32,4 +32,10 @@ export interface PopconfirmEmits {
   (e: 'cancel'): void;
 }
 
+export interface PopconfirmSlots {
+  default(): void;
+  content(): void;
+  icon(): void;
+}
+
 export type PopconfirmType = 'info' | 'success' | 'warning' | 'error';

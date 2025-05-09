@@ -6,6 +6,10 @@ export interface IconProps {
   spin?: boolean;
 }
 
+export interface IconSlots {
+  default(): void;
+}
+
 export interface IconFontOptions {
   src?: string;
   extraProps?: ObjectData;

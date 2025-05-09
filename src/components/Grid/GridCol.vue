@@ -11,13 +11,14 @@
 
 <script lang="ts" setup>
 import { toRefs, computed, CSSProperties } from 'vue';
-import { ColProps } from './type';
+import { GridColProps, GridColSlots } from './type';
 import { isNumber, isObject } from '@shared/utils';
 import useProvide from './hooks/useProvide';
 defineOptions({
   name: 'Col',
 });
-const props = withDefaults(defineProps<ColProps>(), {
+defineSlots<GridColSlots>();
+const props = withDefaults(defineProps<GridColProps>(), {
   span: 24,
   offset: 0,
 });

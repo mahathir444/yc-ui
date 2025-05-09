@@ -17,7 +17,7 @@
 
 <script lang="ts" setup>
 import { ref, toRefs, computed, onMounted, onBeforeUnmount } from 'vue';
-import { BackTopProps } from './type';
+import { BackTopProps, BackTopSlots } from './type';
 import { IconToTop } from '@shared/icons';
 import {
   getElement,
@@ -27,10 +27,10 @@ import {
 import { useConfigProvder } from '@shared/hooks';
 import BTween from 'b-tween';
 import YcButton from '@/components/Button';
-
 defineOptions({
   name: 'BackTop',
 });
+defineSlots<BackTopSlots>();
 const props = withDefaults(defineProps<BackTopProps>(), {
   visibleHeight: 200,
   easeing: 'quadOut',

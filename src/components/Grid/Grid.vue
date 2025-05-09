@@ -12,12 +12,13 @@
 
 <script lang="ts" setup>
 import { toRefs, computed } from 'vue';
-import { GridProps } from './type';
+import { GridProps, GridSlots } from './type';
 import { isNumber, mediaQueryHandler } from '@shared/utils';
 import useProvide from './hooks/useProvide';
 defineOptions({
   name: 'Grid',
 });
+defineSlots<GridSlots>();
 const props = withDefaults(defineProps<GridProps>(), {
   cols: 24,
   rowGap: 0,

@@ -17,11 +17,12 @@
 </template>
 
 <script lang="ts" setup>
-import { MenuItemGroupProps } from './type';
+import { MenuItemGroupProps, MenuItemGroupSlots } from './type';
 import useProvide from './hooks/useProvide';
 defineOptions({
   name: 'MenuItemGroup',
 });
+defineSlots<MenuItemGroupSlots>();
 withDefaults(defineProps<MenuItemGroupProps>(), {
   title: '',
 });

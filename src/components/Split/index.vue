@@ -16,8 +16,6 @@
         height: direction == 'horizontal' ? `${height}px` : '',
         width: direction == 'vertical' ? `${width}px` : '',
       }"
-      @mousedown="$emit('moving-start')"
-      @mouseup="$emit('move-end')"
       ref="triggerRef"
     >
       <slot name="resize-trigger">
@@ -40,7 +38,7 @@
 
 <script lang="ts" setup>
 import { ref, toRefs, computed, watch, onMounted } from 'vue';
-import { SplitProps, SplitEmits } from './type';
+import { SplitProps, SplitEmits, SplitSlots } from './type';
 import { sleep } from '@shared/utils';
 import { SPLIT_DIRECTION_MAP } from '@shared/constants';
 import { IconDragDotVertical, IconDragDot } from '@shared/icons';
@@ -49,6 +47,7 @@ import { useElementBounding, useDraggable } from '@vueuse/core';
 defineOptions({
   name: 'Split',
 });
+defineSlots<SplitSlots>();
 const props = withDefaults(defineProps<SplitProps>(), {
   component: 'div',
   direction: 'horizontal',
@@ -101,6 +100,12 @@ const { isDragging, x, y } = useDraggable(triggerRef, {
           ? y.value - top.value
           : getRate(y.value - top.value);
     }
+  },
+  onStart() {
+    emits('moving-start');
+  },
+  onEnd() {
+    emits('moving-end');
   },
 });
 // 获取具体的数值

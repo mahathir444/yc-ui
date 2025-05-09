@@ -51,7 +51,7 @@
 
 <script lang="ts" setup>
 import { ref, computed, toRefs } from 'vue';
-import { BreadcrumbItemProps } from './type';
+import { BreadcrumbItemProps, BreadcrumbItemSlots } from './type';
 import {
   default as YcDropdown,
   Doption as YcDoption,
@@ -66,6 +66,7 @@ import useProvide from './hooks/useProvide';
 defineOptions({
   name: 'BreadcrumbItem',
 });
+defineSlots<BreadcrumbItemSlots>();
 const props = withDefaults(defineProps<BreadcrumbItemProps>(), {
   separator: '',
   droplist: () => [],

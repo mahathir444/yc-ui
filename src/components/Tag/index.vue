@@ -32,7 +32,7 @@
       class="yc-tag-close-button"
       @click="handleEvent('close', $event)"
     >
-      <slot v-if="$slots.closeIcon" name="closeIcon" />
+      <slot v-if="$slots['close-icon']" name="close-icon" />
     </yc-icon-button>
     <!-- loading -->
     <yc-spin v-if="loading" :size="12" class="yc-tag-loading-icon" />
@@ -41,15 +41,15 @@
 
 <script lang="ts" setup>
 import { toRefs, computed, ref } from 'vue';
-import { TagProps, TagEmits } from './type';
+import { TagProps, TagEmits, TagSlots } from './type';
 import { TAG_SIZE_CLASS, TAG_COLOR_CLASS } from '@shared/constants';
 import YcSpin from '@/components/Spin';
 import { useControlValue, useConfigProvder } from '@shared/hooks';
 import { YcPreventFocus, YcIconButton } from '@shared/components';
-
 defineOptions({
   name: 'Tag',
 });
+defineSlots<TagSlots>();
 const props = withDefaults(defineProps<TagProps>(), {
   color: 'default',
   size: undefined,

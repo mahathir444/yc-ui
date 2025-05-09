@@ -39,15 +39,19 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, VNode } from 'vue';
-import { toRefs, useSlots, computed } from 'vue';
-import { OverflowListProps, OverflowListEmits } from './type';
+import { ref, VNode, toRefs, useSlots, computed } from 'vue';
+import {
+  OverflowListProps,
+  OverflowListEmits,
+  OverflowListSlots,
+} from './type';
 import { findComponentsFromVnodes, throttle } from '@shared/utils';
 import { useResizeObserver } from '@vueuse/core';
 import YcTag, { TagInstance } from '@/components/Tag';
 defineOptions({
   name: 'OverflowList',
 });
+defineSlots<OverflowListSlots>();
 const props = withDefaults(defineProps<OverflowListProps>(), {
   min: 0,
   margin: 8,

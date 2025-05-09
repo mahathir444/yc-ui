@@ -21,3 +21,8 @@ export interface TooltipEmits {
   (e: 'update:popupVisible', value: boolean): void;
   (e: 'popup-visible-change', value: boolean): void;
 }
+
+export interface TooltipSlots {
+  default(): void;
+  content(): void;
+}

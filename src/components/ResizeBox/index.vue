@@ -38,14 +38,20 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, computed, watch, toRefs } from 'vue';
-import { ResizeBoxProps, ResizeBoxEmits, DirectionType } from './type';
+import { ref, onMounted, computed, toRefs } from 'vue';
+import {
+  ResizeBoxProps,
+  ResizeBoxEmits,
+  ResizeBoxSlots,
+  DirectionType,
+} from './type';
 import { useResizeObserver, useEventListener } from '@vueuse/core';
 import { useControlValue } from '@shared/hooks';
 import { IconDragDot, IconDragDotVertical } from '@shared/icons';
 defineOptions({
   name: 'ResizeBox',
 });
+defineSlots<ResizeBoxSlots>();
 const props = withDefaults(defineProps<ResizeBoxProps>(), {
   directions: () => ['right'],
   component: 'div',

@@ -20,16 +20,17 @@
     <template #content>
       <div class="yc-popconfirm-body">
         <div class="yc-popconfirm-icon">
-          <slot v-if="$slots.icon" name="icon" />
-          <component
-            v-else
-            :is="TYPE_ICON_MAP[type]"
-            :color="TYPE_ICON_COLOR_MAP[type]"
-          />
+          <slot name="icon">
+            <component
+              :is="TYPE_ICON_MAP[type]"
+              :color="TYPE_ICON_COLOR_MAP[type]"
+            />
+          </slot>
         </div>
         <div class="yc-popconfirm-content">
-          <slot v-if="$slots.content" name="content" />
-          <template v-else>{{ content }}</template>
+          <slot name="content">
+            {{ content }}
+          </slot>
         </div>
       </div>
       <div class="yc-popconfirm-footer">
@@ -52,7 +53,7 @@
 
 <script lang="ts" setup>
 import { ref, toRefs } from 'vue';
-import { PopconfirmProps, PopconfirmEmits } from './type';
+import { PopconfirmProps, PopconfirmEmits, PopconfirmSlots } from './type';
 import { TYPE_ICON_MAP, TYPE_ICON_COLOR_MAP } from '@shared/constants';
 import { useControlValue } from '@shared/hooks';
 import useOnBeforeClose from '@/components/Modal/hooks/useOnBeforeClose';
@@ -61,6 +62,7 @@ import YcButton from '@/components/Button';
 defineOptions({
   name: 'Popconfirm',
 });
+defineSlots<PopconfirmSlots>();
 const props = withDefaults(defineProps<PopconfirmProps>(), {
   content: '',
   position: 'bottom',

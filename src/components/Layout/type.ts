@@ -1,8 +1,23 @@
-import { Ref } from 'vue';
 import { BreakpointName } from '@/components/Grid';
 
 export interface LayoutProps {
   hasSider?: boolean;
+}
+
+export interface LayoutSlots {
+  default(): void;
+}
+
+export interface LayoutHeaderSlots {
+  default(): void;
+}
+
+export interface LayoutContentSlots {
+  default(): void;
+}
+
+export interface LayoutFooterSlots {
+  default(): void;
 }
 
 export interface LayoutSiderProps {
@@ -26,4 +41,9 @@ export interface LayoutSiderEmits {
     type: 'clickTrigger' | 'responsive'
   ): void;
   (e: 'breakpoint', collapsed: boolean): void;
+}
+
+export interface LayoutSiderSlots {
+  default(): void;
+  trigger(): void;
 }

@@ -38,7 +38,7 @@
 
 <script lang="ts" setup>
 import { computed, toRefs, useSlots } from 'vue';
-import { ButtonProps, ButtonEmits } from './type';
+import { ButtonProps, ButtonEmits, ButtonSlots } from './type';
 import {
   BUTTON_SIZE_CLASS,
   BUTTON_SHAPE_CLASS,
@@ -50,6 +50,7 @@ import useInject from './hooks/useProvide';
 defineOptions({
   name: 'Button',
 });
+defineSlots<ButtonSlots>();
 const props = withDefaults(defineProps<ButtonProps>(), {
   type: 'secondary',
   status: 'normal',

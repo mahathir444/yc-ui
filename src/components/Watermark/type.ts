@@ -23,3 +23,7 @@ export interface WatermarkFont {
   textAlign?: 'start' | 'end' | 'left' | 'right' | 'center';
   fontWeight?: 'normal' | 'bold' | 'bolder' | 'lighter' | number;
 }
+
+export interface WatermarkSlots {
+  default(): void;
+}

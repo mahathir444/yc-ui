@@ -40,13 +40,14 @@
 </template>
 
 <script lang="ts" setup>
-import { toRefs, computed } from 'vue';
-import { ResultProps } from './type';
+import { toRefs } from 'vue';
+import { ResultProps, ResultSlots } from './type';
 import { TYPE_ICON_COLOR_MAP } from '@shared/constants';
 import { RESULT_ICON_MAP } from '@shared/constants';
 defineOptions({
   name: 'Result',
 });
+defineSlots<ResultSlots>();
 const props = withDefaults(defineProps<ResultProps>(), {
   status: 'info',
   title: '',

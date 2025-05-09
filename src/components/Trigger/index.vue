@@ -57,7 +57,7 @@
 
 <script lang="ts" setup>
 import { ref, computed, watch, useSlots } from 'vue';
-import { TriggerProps, TriggerEmits } from './type';
+import { TriggerProps, TriggerEmits, TriggerSlots } from './type';
 import { TRIGGER_POSITION_MAP } from '@shared/constants';
 import { findFirstLegitChild, unrefElement, sleep } from '@shared/utils';
 import { useConfigProvder } from '@shared/hooks';
@@ -68,6 +68,7 @@ defineOptions({
   name: 'Trigger',
   inheritAttrs: false,
 });
+defineSlots<TriggerSlots>();
 const props = withDefaults(defineProps<TriggerProps>(), {
   popupVisible: undefined,
   defaultPopupVisible: false,

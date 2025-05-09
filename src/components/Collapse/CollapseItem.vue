@@ -18,7 +18,7 @@
       </yc-icon-button>
       <div class="yc-collapse-item-header-title text-ellipsis">
         <slot name="header">
-          {{ title }}
+          {{ header }}
         </slot>
       </div>
       <div v-if="$slots.extra" class="yc-collapse-item-header-extra">
@@ -42,16 +42,17 @@
 
 <script lang="ts" setup>
 import { toRefs } from 'vue';
-import { CollapseItemProps } from './type';
+import { CollapseItemProps, CollapseItemSlots } from './type';
 import useProvide from './hooks/useProvide';
 import { IconRight } from '@shared/icons';
 import { YcIconButton, ExpandTransition } from '@shared/components';
 defineOptions({
   name: 'CollapseItem',
 });
+defineSlots<CollapseItemSlots>();
 const props = withDefaults(defineProps<CollapseItemProps>(), {
   value: '',
-  title: '',
+  header: '',
   disabled: false,
   showExpandIcon: true,
   destroyOnHide: false,

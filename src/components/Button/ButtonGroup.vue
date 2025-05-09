@@ -11,8 +11,7 @@
 </template>
 
 <script lang="ts" setup>
-import { toRefs } from 'vue';
-import { ButtonGroupProps } from './type';
+import { ButtonGroupProps, ButtonGroupSlots } from './type';
 import {
   BUTTON_GROUP_SHAPE_CLASS,
   BUTTON_GROUP_STAUTS_CLASS,
@@ -21,6 +20,7 @@ import useProvide from './hooks/useProvide';
 defineOptions({
   name: 'ButtonGroup',
 });
+defineSlots<ButtonGroupSlots>();
 const props = withDefaults(defineProps<ButtonGroupProps>(), {
   type: 'secondary',
   status: 'normal',
@@ -30,7 +30,6 @@ const props = withDefaults(defineProps<ButtonGroupProps>(), {
 });
 // 获取全局配置
 const { provide } = useProvide();
-
 provide(props);
 </script>
 

@@ -7,3 +7,12 @@ export interface PageHeaderProp {
 export interface PageHeaderEmits {
   (e: 'back', ev: Event): void;
 }
+
+export interface PageHeaderSlots {
+  default(): void;
+  breadcrumb(): void;
+  ['back-icon']: void;
+  title(): void;
+  subtitle(): void;
+  extra(): void;
+}

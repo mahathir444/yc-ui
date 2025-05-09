@@ -25,7 +25,7 @@
 
 <script lang="ts" setup>
 import { ref } from 'vue';
-import { MenuProps, MenuEmits } from './type';
+import { MenuProps, MenuEmits, MenuSlots } from './type';
 import { MENU_DIRECTION_MAP, MENU_THEME_MAP } from '@shared/constants';
 import { mediaQueryHandler } from '@shared/utils';
 import { IconMenuFold, IconMenuUnfold } from '@shared/icons';
@@ -34,6 +34,7 @@ import MenuEllipsis from './MenuEllipsis.vue';
 defineOptions({
   name: 'Menu',
 });
+defineSlots<MenuSlots>();
 const props = withDefaults(defineProps<MenuProps>(), {
   theme: 'light',
   mode: 'vertical',

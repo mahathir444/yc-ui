@@ -25,12 +25,13 @@
 
 <script lang="ts" setup>
 import { toRefs, computed, CSSProperties } from 'vue';
-import { TooltipProps, TooltipEmits } from './type';
+import { TooltipProps, TooltipEmits, TooltipSlots } from './type';
 import { useControlValue } from '@shared/hooks';
 import YcTrigger from '@/components/Trigger';
 defineOptions({
   name: 'Tooltip',
 });
+defineSlots<TooltipSlots>();
 const props = withDefaults(defineProps<TooltipProps>(), {
   popupVisible: undefined,
   defaultPopupVisible: false,

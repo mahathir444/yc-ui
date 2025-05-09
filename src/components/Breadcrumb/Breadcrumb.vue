@@ -32,12 +32,13 @@
 
 <script lang="ts" setup>
 import { toRefs } from 'vue';
-import { BreadcrumbProps } from './type';
+import { BreadcrumbProps, BreadcrumbSlots } from './type';
 import useProvide from './hooks/useProvide';
 import { BreadcrumbItem as YcBreadcrumbItem } from './index';
 defineOptions({
   name: 'Breadcrumb',
 });
+defineSlots<BreadcrumbSlots>();
 const props = withDefaults(defineProps<BreadcrumbProps>(), {
   maxCount: 0,
   routes: () => [],

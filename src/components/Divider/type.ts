@@ -6,3 +6,7 @@ export interface DividerProps {
   size?: number;
   margin?: number;
 }
+
+export interface DividerSlots {
+  default(): void;
+}

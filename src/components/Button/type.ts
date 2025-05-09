@@ -13,12 +13,21 @@ export interface ButtonProps {
   href?: string;
 }
 
+export interface ButtonSlots {
+  default(): void;
+  icon(): void;
+}
+
 export interface ButtonGroupProps {
   type?: ButtonType;
   status?: ButtonStatus;
   shape?: ButtonShape;
   size?: Size;
   disabled?: boolean;
+}
+
+export interface ButtonGroupSlots {
+  default(): void;
 }
 
 export type ButtonEmits = {

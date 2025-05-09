@@ -15,19 +15,28 @@
               <icon-arrow-right />
             </slot>
           </yc-icon-button>
-          <div class="yc-page-header-title text-ellipsis">
+          <div
+            v-if="$slots.title || title"
+            class="yc-page-header-title text-ellipsis"
+          >
             <slot name="title">
               {{ title }}
             </slot>
           </div>
-          <yc-divider :direction="'vertical'" />
-          <div class="yc-page-header-subtitle text-ellipsis">
+          <yc-divider
+            v-if="$slots.subtitle || subtitle"
+            :direction="'vertical'"
+          />
+          <div
+            v-if="$slots.subtitle || subtitle"
+            class="yc-page-header-subtitle text-ellipsis"
+          >
             <slot name="subtitle">
               {{ subtitle }}
             </slot>
           </div>
         </div>
-        <div class="yc-page-header-extra">
+        <div v-if="$slots.extra" class="yc-page-header-extra">
           <slot name="extra" />
         </div>
       </div>
@@ -39,13 +48,14 @@
 </template>
 
 <script lang="ts" setup>
-import { PageHeaderProp, PageHeaderEmits } from './type';
+import { PageHeaderProp, PageHeaderEmits, PageHeaderSlots } from './type';
 import { IconArrowRight } from '@shared/icons';
 import YcDivider from '@/components/Divider';
 import { YcIconButton } from '@shared/components';
 defineOptions({
   name: 'PageHeader',
 });
+defineSlots<PageHeaderSlots>();
 withDefaults(defineProps<PageHeaderProp>(), {
   title: '',
   subtitle: '',

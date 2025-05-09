@@ -20,4 +20,10 @@ export interface TagEmits {
   (e: 'check', value: boolean, ev: MouseEvent): void;
 }
 
+export interface TagSlots {
+  default(): void;
+  icon(): void;
+  ['close-icon'](): void;
+}
+
 export type TagSize = 'small' | 'medium' | 'large';

@@ -20,3 +20,9 @@ export interface ResizeBoxEmits {
     size: { width?: number; height?: number }
   ): void;
 }
+
+export interface ResizeBoxSlots {
+  default(): void;
+  ['resize-trigger'](direction: string): void;
+  ['resize-trigger-icon'](direction: string): void;
+}

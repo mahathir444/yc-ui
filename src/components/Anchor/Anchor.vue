@@ -16,12 +16,12 @@
 
 <script lang="ts" setup>
 import { computed, onMounted, ref } from 'vue';
-import { AnchorProps, AnchorSlot } from './type';
+import { AnchorProps, AnchorSlots } from './type';
 import useProvide from './hooks/useProvide';
 defineOptions({
   name: 'Anchor',
 });
-defineSlots<AnchorSlot>();
+defineSlots<AnchorSlots>();
 const props = withDefaults(defineProps<AnchorProps>(), {
   boundary: 'start',
   lineLess: false,

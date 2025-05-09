@@ -7,3 +7,8 @@ export interface OverflowListProps {
 export interface OverflowListEmits {
   (e: 'change', value: number): void;
 }
+
+export interface OverflowListSlots {
+  default(): void;
+  overflow(): void;
+}

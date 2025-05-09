@@ -13,7 +13,7 @@ export type ClassName =
   | Record<string, boolean>
   | (string | Record<string, boolean>)[];
 
-export type RenderContent = any | RenderFunction;
+export type RenderContent = string | ObjectData[] | RenderFunction;
 
 export type Props = Reactive<ObjectData>;
 

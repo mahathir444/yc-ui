@@ -6,12 +6,13 @@
 
 <script setup lang="ts">
 import { onMounted, ref, watch, computed, CSSProperties, toRefs } from 'vue';
-import { WatermarkProps } from './type';
+import { WatermarkProps, WatermarkSlots } from './type';
 import { useMutationObserver } from '@vueuse/core';
 import { isArray } from '@shared/utils';
 defineOptions({
   name: 'Watermark',
 });
+defineSlots<WatermarkSlots>();
 const props = withDefaults(defineProps<WatermarkProps>(), {
   content: '',
   image: '',

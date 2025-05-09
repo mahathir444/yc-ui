@@ -99,7 +99,7 @@
 <script lang="ts" setup>
 import { ref, toRefs, computed, onMounted } from 'vue';
 import { createReusableTemplate } from '@vueuse/core';
-import { MenuItemProps } from './type';
+import { MenuItemProps, MenuItemSlots } from './type';
 import { getTextContent, isNumber } from '@shared/utils';
 import { MENU_ITEM_THEME_MAP } from '@shared/constants';
 import useProvide from './hooks/useProvide';
@@ -110,6 +110,7 @@ import YcTooltip from '@/components/Tooltip';
 defineOptions({
   name: 'MenuItem',
 });
+defineSlots<MenuItemSlots>();
 const props = withDefaults(defineProps<MenuItemProps>(), {
   path: '',
   disabled: false,

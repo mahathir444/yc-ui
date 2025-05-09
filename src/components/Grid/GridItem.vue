@@ -6,12 +6,13 @@
 
 <script lang="ts" setup>
 import { toRefs, computed, CSSProperties } from 'vue';
-import { GridItemProps } from './type';
+import { GridItemProps, GridItemSlots } from './type';
 import { isNumber } from '@shared/utils';
 import useProvide from './hooks/useProvide';
 defineOptions({
   name: 'GridItem',
 });
+defineSlots<GridItemSlots>();
 const props = withDefaults(defineProps<GridItemProps>(), {
   span: 1,
   offset: 0,

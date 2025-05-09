@@ -7,6 +7,6 @@ export interface AffixProps {
   targetContainer?: TargetContainer;
 }
 
-export interface AffixSlot {
+export interface AffixSlots {
   default(): void;
 }

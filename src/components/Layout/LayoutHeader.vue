@@ -5,9 +5,11 @@
 </template>
 
 <script lang="ts" setup>
+import { LayoutHeaderSlots } from './type';
 defineOptions({
   name: 'LayoutHeader',
 });
+defineSlots<LayoutHeaderSlots>();
 </script>
 
 <style lang="less" scoped>

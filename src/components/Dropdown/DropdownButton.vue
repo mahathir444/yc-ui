@@ -23,20 +23,21 @@
         </template>
       </yc-button>
       <template #content>
-        <slot name="content"></slot>
+        <slot name="content" />
       </template>
     </yc-dropdown>
   </yc-button-group>
 </template>
 
 <script lang="ts" setup>
-import { DropdownButtonProps, DoptionValue } from './type';
+import { DropdownButtonProps, DoptionValue, DropdownButtonSlots } from './type';
 import YcDropdown from './Dropdown.vue';
 import YcButton, { ButtonGroup as YcButtonGroup } from '@/components/Button';
 import { IconMore } from '@shared/icons';
 defineOptions({
   name: 'DropdownButton',
 });
+defineSlots<DropdownButtonSlots>();
 withDefaults(defineProps<DropdownButtonProps>(), {
   popupVisible: undefined,
   defaultPopupVisible: false,

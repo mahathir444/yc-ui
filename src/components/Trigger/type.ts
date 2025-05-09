@@ -51,6 +51,11 @@ export interface TriggerEmits {
   (e: 'hide'): void;
 }
 
+export interface TriggerSlots {
+  default(): void;
+  content(): void;
+}
+
 export type TriggerPostion =
   | 'top'
   | 'tl'

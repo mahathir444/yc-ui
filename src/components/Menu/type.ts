@@ -1,4 +1,3 @@
-import { WritableComputedRef, Ref, ComputedRef } from 'vue';
 import { BreakpointName } from '@/components/Grid';
 import { TooltipProps } from '@/components/Tooltip';
 import { TriggerProps } from '@/components/Trigger';
@@ -39,6 +38,10 @@ export interface MenuEmits {
   (e: 'subMenuClick', key: string, openKeys: string[]): void;
 }
 
+export interface MenuSlots {
+  default(): void;
+}
+
 export interface SubMenuProps {
   path?: string;
   title?: string;
@@ -47,14 +50,33 @@ export interface SubMenuProps {
   popupMaxHeight?: PopupMaxHeight;
 }
 
+export interface SubMenuSlots {
+  default(): void;
+  title(): void;
+  icon(): void;
+  ['expand-icon-down'](): void;
+  ['expand-icon-right'](): void;
+}
+
 export interface MenuItemProps {
   path?: string;
   disabled?: boolean;
   isSubmenu?: boolean;
 }
 
+export interface MenuItemSlots {
+  default(): void;
+  icon(): void;
+  suffix(): void;
+}
+
 export interface MenuItemGroupProps {
   title?: string;
+}
+
+export interface MenuItemGroupSlots {
+  default(): void;
+  title(): void;
 }
 
 export type MenuMode = 'vertical' | 'pop' | 'horizontal';

@@ -13,5 +13,12 @@ export interface SplitEmits {
   (e: 'update:size', value: number): void;
   (e: 'moving-start'): void;
   (e: 'moving'): void;
-  (e: 'move-end'): void;
+  (e: 'moving-end'): void;
+}
+
+export interface SplitSlots {
+  ['resize-trigger-icon'](): void;
+  ['resize-trigger'](): void;
+  first(): void;
+  second(): void;
 }

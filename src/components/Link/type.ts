@@ -14,4 +14,9 @@ export interface LinkEmits {
   (e: 'contextmenu', event: MouseEvent): void;
 }
 
+export interface LinkSlots {
+  default(): void;
+  icon(): void;
+}
+
 export type LinkStatus = 'normal' | 'warning' | 'success' | 'danger';

@@ -41,12 +41,13 @@
 </template>
 
 <script lang="ts" setup>
-import { SpinProps } from './type';
+import { SpinProps, SpinSlots } from './type';
 import { YcPreventFocus } from '@shared/components';
 import { createReusableTemplate } from '@vueuse/core';
 defineOptions({
   name: 'Spin',
 });
+defineSlots<SpinSlots>();
 withDefaults(defineProps<SpinProps>(), {
   size: 20,
   loading: false,

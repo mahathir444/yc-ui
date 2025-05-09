@@ -6,3 +6,9 @@ export interface SpinProps {
   hideIcon?: boolean;
   preventFocus?: boolean;
 }
+
+export interface SpinSlots {
+  default(): void;
+  icon(): void;
+  tip(): void;
+}

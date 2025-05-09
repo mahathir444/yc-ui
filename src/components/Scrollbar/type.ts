@@ -14,4 +14,8 @@ export interface ScrollbarEmits {
   (e: 'reachRight'): void;
 }
 
+export interface ScrollbarSlots {
+  default(): void;
+}
+
 export type TackType = 'track' | 'embed';

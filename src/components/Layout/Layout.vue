@@ -11,12 +11,13 @@
 
 <script lang="ts" setup>
 import { toRefs, computed } from 'vue';
-import { LayoutProps } from './type';
+import { LayoutProps, LayoutSlots } from './type';
 import { isUndefined } from '@shared/utils';
 import useProvide from './hooks/useProvide';
 defineOptions({
   name: 'Layout',
 });
+defineSlots<LayoutSlots>();
 const props = withDefaults(defineProps<LayoutProps>(), {
   hasSider: undefined,
 });

@@ -12,10 +12,11 @@
 
 <script lang="ts" setup>
 import { toRefs } from 'vue';
-import { SkeletonProps } from './type';
+import { SkeletonProps, SkeletonSlots } from './type';
 defineOptions({
   name: 'Skeleton',
 });
+defineSlots<SkeletonSlots>();
 const props = withDefaults(defineProps<SkeletonProps>(), {
   animation: false,
   loading: true,

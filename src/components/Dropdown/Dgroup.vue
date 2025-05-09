@@ -1,18 +1,18 @@
 <template>
   <div class="yc-dropdown-group-title text-ellipsis">
-    <slot v-if="$slots.title" name="title" />
-    <template v-else>
+    <slot name="title">
       {{ title }}
-    </template>
+    </slot>
   </div>
   <slot />
 </template>
 
 <script lang="ts" setup>
-import { DgroupProps } from './type';
+import { DgroupProps, DgroupSlots } from './type';
 defineOptions({
   name: 'Dgroup',
 });
+defineSlots<DgroupSlots>();
 defineProps<DgroupProps>();
 </script>
 

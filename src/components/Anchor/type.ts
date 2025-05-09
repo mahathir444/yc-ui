@@ -8,7 +8,7 @@ export interface AnchorProps {
   smooth?: boolean;
 }
 
-export interface AnchorSlot {
+export interface AnchorSlots {
   default(): void;
 }
 
@@ -17,7 +17,7 @@ export interface AnchorLinkProps {
   href?: string;
 }
 
-export interface AnchorLinkSlot {
+export interface AnchorLinkSlots {
   default(): void;
   sublist(): void;
 }

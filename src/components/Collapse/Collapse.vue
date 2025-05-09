@@ -10,11 +10,12 @@
 </template>
 
 <script lang="ts" setup>
-import { CollapseProps, CollapseEmits } from './type';
+import { CollapseProps, CollapseEmits, CollapseSlots } from './type';
 import useProvide from './hooks/useProvide';
 defineOptions({
   name: 'Collapse',
 });
+defineSlots<CollapseSlots>();
 const props = withDefaults(defineProps<CollapseProps>(), {
   activeKey: undefined,
   defaultActiveKey: () => [],

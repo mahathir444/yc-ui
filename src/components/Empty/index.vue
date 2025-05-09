@@ -11,11 +11,12 @@
 </template>
 
 <script lang="ts" setup>
-import { EmptyProps } from './type';
+import { EmptyProps, EmptySlots } from './type';
 import { IconEmpty } from '@shared/icons';
 defineOptions({
   name: 'Empty',
 });
+defineSlots<EmptySlots>();
 withDefaults(defineProps<EmptyProps>(), {
   description: '暂无数据',
   imgSrc: '',

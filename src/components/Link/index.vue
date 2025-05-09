@@ -28,13 +28,14 @@
 
 <script lang="ts" setup>
 import { toRefs, computed } from 'vue';
-import { LinkProps, LinkEmits } from './type';
+import { LinkProps, LinkEmits, LinkSlots } from './type';
 import { LINK_STATUS_CLASS } from '@shared/constants';
 import YcSpin from '@/components/Spin';
 import { IconLink } from '@shared/icons';
 defineOptions({
   name: 'Link',
 });
+defineSlots<LinkSlots>();
 const props = withDefaults(defineProps<LinkProps>(), {
   href: '',
   status: 'normal',

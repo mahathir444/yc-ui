@@ -23,11 +23,12 @@
 
 <script lang="ts" setup>
 import { ref, toRefs } from 'vue';
-import { DoptionProps, DoptionValue } from './type';
+import { DoptionProps, DoptionValue, DoptionSlots } from './type';
 import useProvide from './hooks/useProvide';
 defineOptions({
   name: 'Doption',
 });
+defineSlots<DoptionSlots>();
 const props = withDefaults(defineProps<DoptionProps>(), {
   disabled: false,
   isSubmenu: false,

@@ -28,7 +28,7 @@ import {
   CSSProperties,
   onBeforeUnmount,
 } from 'vue';
-import { AffixProps, AffixSlot } from './type';
+import { AffixProps, AffixSlots } from './type';
 import { useResizeObserver } from '@vueuse/core';
 import {
   isUndefined,
@@ -39,7 +39,7 @@ import {
 defineOptions({
   name: 'Affix',
 });
-defineSlots<AffixSlot>();
+defineSlots<AffixSlots>();
 const props = withDefaults(defineProps<AffixProps>(), {
   offsetTop: 0,
   offsetBottom: undefined,

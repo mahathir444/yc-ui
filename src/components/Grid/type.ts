@@ -1,5 +1,3 @@
-import { ComputedRef, Ref } from 'vue';
-
 export interface GridProps {
   cols?: number | ResponsiveValue;
   rowGap?: number | ResponsiveValue;
@@ -8,13 +6,21 @@ export interface GridProps {
   collapsedRows?: number;
 }
 
+export interface GridSlots {
+  default(): void;
+}
+
 export interface GridItemProps {
   span?: number | ResponsiveValue;
   offset?: number | ResponsiveValue;
   suffix?: boolean;
 }
 
-export interface RowProps {
+export interface GridItemSlots {
+  default(): void;
+}
+
+export interface GridRowProps {
   gutter?: number | ResponsiveValue;
   justify?: 'start' | 'center' | 'end' | 'space-around' | 'space-between';
   align?: 'start' | 'center' | 'end' | 'stretch';
@@ -22,11 +28,19 @@ export interface RowProps {
   wrap?: boolean;
 }
 
-export interface ColProps {
+export interface GridRowSlots {
+  default(): void;
+}
+
+export interface GridColProps {
   span?: number | ResponsiveValue;
   offset?: number | ResponsiveValue;
   order?: number | ResponsiveValue;
   flex?: Flex | ResponsiveValue;
+}
+
+export interface GridColSlots {
+  default(): void;
 }
 
 export type ResponsiveValue<T = number | string> = {

@@ -40,7 +40,7 @@
               <!-- title -->
               <div class="yc-drawer-title text-ellipsis">
                 <slot name="title">
-                  <span>{{ title }}</span>
+                  {{ title }}
                 </slot>
               </div>
               <!-- close-btn -->
@@ -82,9 +82,9 @@
 </template>
 
 <script lang="ts" setup>
-import { toRefs, computed, CSSProperties, useAttrs, ref } from 'vue';
+import { toRefs, computed, CSSProperties, useAttrs } from 'vue';
 import { DRAWER_PLACEMENT_MAP } from '@shared/constants';
-import { DrawerProps, DrawerEmits } from './type';
+import { DrawerProps, DrawerEmits, DrawerSlots } from './type';
 import { useConfigProvder } from '@shared/hooks';
 import useDrawerClose from '@/components/Modal/hooks/useModalClose';
 import YcButton from '@/components/Button';
@@ -93,6 +93,7 @@ defineOptions({
   name: 'Drawer',
   inheritAttrs: false,
 });
+defineSlots<DrawerSlots>();
 const props = withDefaults(defineProps<DrawerProps>(), {
   visible: undefined,
   defaultVisible: false,

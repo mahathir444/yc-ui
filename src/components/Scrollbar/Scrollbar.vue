@@ -40,7 +40,7 @@
 
 <script lang="ts" setup>
 import { ref, computed, toRefs, provide, watch } from 'vue';
-import { ScrollbarProps, ScrollbarEmits } from './type';
+import { ScrollbarProps, ScrollbarEmits, ScrollbarSlots } from './type';
 import { useElementSize, useScroll } from '@vueuse/core';
 import { SCROLLBAR_PROVIDE_KEY, ScrollbarProvide } from './hooks/useProvide';
 import ScrollbarTrack from './ScrollbarTrack.vue';
@@ -48,6 +48,7 @@ defineOptions({
   name: 'Scrollbar',
   inheritAttrs: false,
 });
+defineSlots<ScrollbarSlots>();
 const props = withDefaults(defineProps<ScrollbarProps>(), {
   type: 'embed',
   outerClass: '',

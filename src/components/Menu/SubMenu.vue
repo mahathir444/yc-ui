@@ -41,7 +41,7 @@
 
 <script lang="ts" setup>
 import { ref, toRefs, onMounted } from 'vue';
-import { SubMenuProps } from './type';
+import { SubMenuProps, SubMenuSlots } from './type';
 import { IconArrowDown, IconArrowRight } from '@shared/icons';
 import { ExpandTransition } from '@shared/components';
 import { MenuItem as YcMenuItem, MenuItemInstance } from './index';
@@ -50,6 +50,7 @@ import useProvide from './hooks/useProvide';
 defineOptions({
   name: 'SubMenu',
 });
+defineSlots<SubMenuSlots>();
 const props = withDefaults(defineProps<SubMenuProps>(), {
   path: '',
   title: '',

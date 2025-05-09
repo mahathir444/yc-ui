@@ -17,9 +17,8 @@
   >
     <slot />
     <template #content>
-      <div v-if="$slots.title" class="yc-popover-title">
-        <slot v-if="$slots.title" name="title" />
-        <template v-else-if="!$slots.title && title">{{ title }}</template>
+      <div v-if="$slots.title || title" class="yc-popover-title">
+        <slot name="title"> {{ title }} </slot>
       </div>
       <div class="'yc-popover-content'">
         <slot v-if="$slots.content" name="content" />
@@ -33,12 +32,13 @@
 
 <script lang="ts" setup>
 import { toRefs } from 'vue';
-import { PopoverProps, PopoverEmits } from './type';
+import { PopoverProps, PopoverEmits, PopoverSlots } from './type';
 import YcTrigger from '@/components/Trigger';
 import { useControlValue } from '@shared/hooks';
 defineOptions({
   name: 'Popover',
 });
+defineSlots<PopoverSlots>();
 const props = withDefaults(defineProps<PopoverProps>(), {
   popupVisible: undefined,
   defaultPopupVisible: false,

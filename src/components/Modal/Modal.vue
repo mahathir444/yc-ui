@@ -47,27 +47,29 @@
             @click.stop=""
           >
             <!-- header -->
-            <div class="yc-modal-header" ref="headerRef">
-              <!-- title -->
-              <div
-                v-if="!hideTitle"
-                :class="{
-                  'yc-modal-title': true,
-                  'text-ellipsis': true,
-                  'title-align-center': titleAlign == 'center',
-                }"
-              >
-                <slot name="title">
-                  <span>{{ title }}</span>
-                </slot>
+            <slot name="header">
+              <div class="yc-modal-header" ref="headerRef">
+                <!-- title -->
+                <div
+                  v-if="!hideTitle"
+                  :class="{
+                    'yc-modal-title': true,
+                    'text-ellipsis': true,
+                    'title-align-center': titleAlign == 'center',
+                  }"
+                >
+                  <slot name="title">
+                    {{ title }}
+                  </slot>
+                </div>
+                <!-- close-btn -->
+                <yc-icon-button
+                  v-if="closable && !simple"
+                  class="yc-modal-close-button"
+                  @click="handleClose('closeBtn', $event)"
+                />
               </div>
-              <!-- close-btn -->
-              <yc-icon-button
-                v-if="closable && !simple"
-                class="yc-modal-close-button"
-                @click="handleClose('closeBtn', $event)"
-              />
-            </div>
+            </slot>
             <!-- body -->
             <div class="yc-modal-body" :class="bodyClass" :style="bodyStyle">
               <slot />
@@ -101,7 +103,7 @@
 
 <script lang="ts" setup>
 import { ref, toRefs, computed, CSSProperties, useAttrs } from 'vue';
-import { ModalProps, ModalEmits } from './type';
+import { ModalProps, ModalEmits, ModalSlots } from './type';
 import { useConfigProvder } from '@shared/hooks';
 import useModalClose from './hooks/useModalClose';
 import useModalDraggable from './hooks/useModalDraggable';
@@ -111,6 +113,7 @@ defineOptions({
   name: 'Modal',
   inheritAttrs: false,
 });
+defineSlots<ModalSlots>();
 const props = withDefaults(defineProps<ModalProps>(), {
   visible: undefined,
   defaultVisible: false,

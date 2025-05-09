@@ -24,12 +24,13 @@
 
 <script lang="ts" setup>
 import { toRefs, computed, useSlots } from 'vue';
-import { SpaceProps } from './type';
+import { SpaceProps, SpaceSlots } from './type';
 import { SPACE_DIRECTION_MAP, SPACE_ALIGN_MAP } from '@shared/constants';
 import { isNumber } from '@shared/utils';
 defineOptions({
   name: 'Space',
 });
+defineSlots<SpaceSlots>();
 const props = withDefaults(defineProps<SpaceProps>(), {
   align: 'start',
   direction: 'horizontal',

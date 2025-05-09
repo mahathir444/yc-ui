@@ -49,6 +49,13 @@ export interface ModalEmits {
   (e: 'beforeClose'): void;
 }
 
+export interface ModalSlots {
+  default(): void;
+  header(): void;
+  footer(): void;
+  title(): void;
+}
+
 export type ModalConfig = Omit<ModalProps, 'visible' | 'defaultVisible'> & {
   title?: RenderContent;
   content: RenderContent;
