@@ -8,7 +8,8 @@ export type CardGridInstance = InstanceType<typeof _CardGrid>;
 export * from './type';
 
 const Card = Object.assign(_Card, {
-  group: _CardMeta,
+  meta: _CardMeta,
+  grid: _CardGrid,
   install: (app: App) => {
     app.component('Yc' + _Card.name, _Card);
     app.component('Yc' + _CardMeta.name, _CardMeta);

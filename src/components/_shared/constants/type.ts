@@ -62,3 +62,14 @@ export const BADGE_STATUS_CLASS = getComponentStatusMap('yc-badge', [
   'warning',
   'danger',
 ]);
+
+export const STEP_STATUS_CLASS = getComponentConstantsMap('yc-steps-item', [
+  'finish',
+  'process',
+  'wait',
+  'error',
+]);
+export const STEP_NEXT_STATUS_CLASS = getComponentConstantsMap(
+  'yc-steps-item',
+  ['finish', 'process', 'wait', 'error']
+);

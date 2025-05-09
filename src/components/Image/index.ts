@@ -10,6 +10,8 @@ export type ImagePreviewActionInstance = InstanceType<
 export * from './type';
 
 const Image = Object.assign(_Image, {
+  preview: _ImagePreview,
+  action: _ImagePreviewAction,
   install: (app: App) => {
     app.component('Yc' + _Image.name, _Image);
     app.component('Yc' + _ImagePreview.name, _ImagePreview);

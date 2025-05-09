@@ -1,12 +1,4 @@
-import {
-  ref,
-  inject,
-  computed,
-  ComputedRef,
-  Ref,
-  provide,
-  nextTick,
-} from 'vue';
+import { ref, inject, computed, Ref, provide, nextTick } from 'vue';
 import { MenuItemData } from './useProvide';
 
 export const SUBMENU_PROVIDE_KEY = 'sub-menu-props';
@@ -15,7 +7,7 @@ export interface SubMenuProvide {
   childKeys: Ref<ChlidKey[]>;
   level: Ref<number>;
   childLevel: number;
-  popupMaxHeight: ComputedRef<number> | Ref<number>;
+  popupMaxHeight: Ref<number>;
 }
 export interface ChlidTreeNode {
   label: string;

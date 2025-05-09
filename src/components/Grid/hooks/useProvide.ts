@@ -1,7 +1,6 @@
 import {
   ref,
   toRefs,
-  ComputedRef,
   Ref,
   provide as _provide,
   inject as _inject,
@@ -16,9 +15,9 @@ export const GRID_PROVIDE_KEY = 'grid-props';
 export type GridProvide = {
   breakpoint: Ref<BreakpointName>;
   div: Ref<boolean>;
-  gutter: Ref<number> | ComputedRef<number>;
-  cols: Ref<number> | ComputedRef<number>;
-  colGap: Ref<number> | ComputedRef<number>;
+  gutter: Ref<number>;
+  cols: Ref<number>;
+  colGap: Ref<number>;
 };
 
 export default () => {

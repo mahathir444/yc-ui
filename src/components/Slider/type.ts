@@ -1,4 +1,3 @@
-import { Ref, WritableComputedRef } from 'vue';
 import { Direction } from '@shared/type';
 
 export interface SliderProps {

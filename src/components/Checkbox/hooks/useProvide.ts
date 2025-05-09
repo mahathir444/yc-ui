@@ -1,12 +1,4 @@
-import {
-  ref,
-  toRefs,
-  WritableComputedRef,
-  Ref,
-  provide as _provide,
-  inject as _inject,
-  Reactive,
-} from 'vue';
+import { ref, toRefs, Ref, provide as _provide, inject as _inject } from 'vue';
 import { CheckboxValue, CheckboxEmits } from '../type';
 import { useControlValue } from '@shared/hooks';
 import { Props } from '@shared/type';
@@ -14,7 +6,7 @@ import { Props } from '@shared/type';
 export const CHECKBOX_GROUP_PROVIDE_KEY = 'checkbox-group-props';
 
 interface CheckboxProvide {
-  computedValue: WritableComputedRef<CheckboxValue[]> | Ref<undefined>;
+  computedValue: Ref<undefined>;
   max: Ref<number | undefined>;
   disabled: Ref<boolean>;
 }

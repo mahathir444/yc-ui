@@ -1,6 +1,5 @@
 import {
   ref,
-  WritableComputedRef,
   Ref,
   inject as _inject,
   provide as _provide,
@@ -20,8 +19,8 @@ import { useControlValue } from '@shared/hooks';
 export const SLIDER_PROVIDE_KEY = 'slider-props';
 
 export interface SliderProvide {
-  startValue: WritableComputedRef<number> | Ref<number>;
-  endValue: WritableComputedRef<number> | Ref<number>;
+  startValue: Ref<number>;
+  endValue: Ref<number>;
   tempStartValue: Ref<number>;
   tempEndValue: Ref<number>;
   range: Ref<boolean>;

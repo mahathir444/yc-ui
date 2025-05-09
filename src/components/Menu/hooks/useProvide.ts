@@ -1,11 +1,4 @@
-import {
-  ref,
-  WritableComputedRef,
-  Ref,
-  provide as _provide,
-  inject as _inject,
-  toRefs,
-} from 'vue';
+import { ref, Ref, provide as _provide, inject as _inject, toRefs } from 'vue';
 import { TooltipProps } from '@/components/Tooltip';
 import { TriggerProps } from '@/components/Trigger';
 import { MenuMode, PopupMaxHeight, MenuEmits } from '../type';
@@ -17,9 +10,9 @@ import useCalcMaxItems from './useCalcMaxItems';
 export const MENU_PROVIDE_KEY = 'menu-props';
 
 interface MenuProvide {
-  computedSelectedKeys: WritableComputedRef<string> | Ref<string>;
-  computedOpenKeys: WritableComputedRef<string[]> | Ref<string[]>;
-  computedCollapsed: WritableComputedRef<string> | Ref<boolean>;
+  computedSelectedKeys: Ref<string>;
+  computedOpenKeys: Ref<string[]>;
+  computedCollapsed: Ref<boolean>;
   levelIndent: Ref<number>;
   accordion: Ref<boolean>;
   autoOpen: Ref<boolean>;

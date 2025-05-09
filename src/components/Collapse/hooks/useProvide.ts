@@ -1,11 +1,4 @@
-import {
-  ref,
-  toRefs,
-  WritableComputedRef,
-  Ref,
-  provide as _provide,
-  inject as _inject,
-} from 'vue';
+import { ref, toRefs, Ref, provide as _provide, inject as _inject } from 'vue';
 import { CollapseEmits, CollapseValue, ExpandIconPosition } from '../type';
 import { useControlValue } from '@shared/hooks';
 import { Props } from '@shared/type';
@@ -13,9 +6,7 @@ import { Props } from '@shared/type';
 export const COLLAPSE_PROVIDE_KEY = 'collapse-props';
 
 export type CollapseProvide = {
-  computedActiveKey:
-    | WritableComputedRef<CollapseValue[]>
-    | Ref<CollapseValue[]>;
+  computedActiveKey: Ref<CollapseValue[]>;
   accordion: Ref<boolean>;
   expandIconPosition: Ref<ExpandIconPosition>;
   showExpandIcon: Ref<boolean>;

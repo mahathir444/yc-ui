@@ -1,11 +1,4 @@
-import {
-  ref,
-  toRefs,
-  WritableComputedRef,
-  Ref,
-  provide as _provide,
-  inject as _inject,
-} from 'vue';
+import { ref, toRefs, Ref, provide as _provide, inject as _inject } from 'vue';
 import { RadioType, RadioGroupEmits, RadioValue } from '../type';
 import { Size, Props } from '@shared/type';
 import { useControlValue, useConfigProvder } from '@shared/hooks';
@@ -13,7 +6,7 @@ import { useControlValue, useConfigProvder } from '@shared/hooks';
 export const RADIO_GROUP_PROVIDE_KEY = 'radio-group-props';
 
 export interface RadioProvide {
-  computedValue: WritableComputedRef<RadioValue> | Ref<undefined>;
+  computedValue: Ref<RadioValue | undefined>;
   type: Ref<RadioType>;
   disabled: Ref<boolean>;
   size: Ref<Size>;

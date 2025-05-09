@@ -6,6 +6,7 @@ export type DescriptionsItemInstance = InstanceType<typeof _DescriptionsItem>;
 export * from './type';
 
 const Descriptions = Object.assign(_Descriptions, {
+  item: _DescriptionsItem,
   install: (app: App) => {
     app.component('Yc' + _Descriptions.name, _Descriptions);
     app.component('Yc' + _DescriptionsItem.name, _DescriptionsItem);

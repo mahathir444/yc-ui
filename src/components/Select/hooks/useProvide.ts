@@ -2,12 +2,10 @@ import {
   ref,
   computed,
   toRefs,
-  WritableComputedRef,
   Ref,
   provide as _provide,
   inject as _inject,
   useSlots,
-  ComputedRef,
 } from 'vue';
 import {
   SelectValue,
@@ -27,17 +25,15 @@ import useSelectHotkeys from './useSelectHotkeys';
 export const SELECT_PROVIDE_KEY = 'select-props';
 
 export interface SelectProvide {
-  computedValue:
-    | WritableComputedRef<SelectValue | SelectValue[]>
-    | Ref<undefined>;
-  computedInputValue: WritableComputedRef<string> | Ref<string>;
+  computedValue: Ref<SelectValue | SelectValue[] | undefined>;
+  computedInputValue: Ref<string>;
   multiple: Ref<boolean>;
   limit: Ref<number>;
   curIndex: Ref<number>;
   options: Ref<SelectOptionData[]>;
-  renderOptions: ComputedRef<ObjectData[]> | Ref<ObjectData[]>;
-  fieldKey: ComputedRef<Record<string, string>> | Ref<Record<string, string>>;
-  isEmpty: ComputedRef<boolean> | Ref<boolean>;
+  renderOptions: Ref<ObjectData[]>;
+  fieldKey: Ref<Record<string, string>>;
+  isEmpty: Ref<boolean>;
   slots: Partial<SelectSlots>;
   blur: () => void;
   filterOption: FilterOption;

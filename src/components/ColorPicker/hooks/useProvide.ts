@@ -1,11 +1,4 @@
-import {
-  ref,
-  toRefs,
-  WritableComputedRef,
-  Ref,
-  provide as _provide,
-  inject as _inject,
-} from 'vue';
+import { ref, toRefs, Ref, provide as _provide, inject as _inject } from 'vue';
 import { RequiredDeep, Props } from '@shared/type';
 import {
   ColorPickerProps as _ColorPickerProps,
@@ -20,9 +13,9 @@ export type ColorPickerProvide = {
   props: Props;
   emits: ColorPickerEmits;
   popupVisible: Ref<boolean>;
-  computedColor: WritableComputedRef<string> | Ref<string>;
+  computedColor: Ref<string>;
   baseColor: Ref<string>;
-  format: WritableComputedRef<ColorFormat> | Ref<ColorFormat>;
+  format: Ref<ColorFormat>;
   alpha: Ref<number>;
 };
 export type ColorPickerProps = RequiredDeep<_ColorPickerProps>;

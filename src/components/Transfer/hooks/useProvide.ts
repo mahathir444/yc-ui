@@ -1,7 +1,6 @@
 import {
   ref,
   toRefs,
-  WritableComputedRef,
   Ref,
   provide as _provide,
   inject as _inject,
@@ -19,8 +18,8 @@ import { useControlValue } from '@shared/hooks';
 export const TRANSFER_PROVIDE_KEY = 'transfer-props';
 
 export interface TransferProvide {
-  computedValue: WritableComputedRef<string[]> | Ref<string[]>;
-  computedSelected: WritableComputedRef<string[]> | Ref<string[]>;
+  computedValue: Ref<string[]>;
+  computedSelected: Ref<string[]>;
   targetChecked: Ref<string[]>;
   sourceChecked: Ref<string[]>;
   sourceOptions: Ref<TransferItem[]>;

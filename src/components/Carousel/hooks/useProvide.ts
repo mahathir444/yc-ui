@@ -1,11 +1,4 @@
-import {
-  ref,
-  toRefs,
-  provide as _provide,
-  inject as _inject,
-  Ref,
-  WritableComputedRef,
-} from 'vue';
+import { ref, toRefs, provide as _provide, inject as _inject, Ref } from 'vue';
 import { CarouselEmits, ShowArrow } from '../type';
 import { sleep } from '@shared/utils';
 import { useControlValue } from '@shared/hooks';
@@ -17,7 +10,7 @@ export type MoveType = 'positive' | 'negative';
 
 export interface CarouselProvide {
   length: Ref<number>;
-  computedCurrent: Ref<number> | WritableComputedRef<number>;
+  computedCurrent: Ref<number>;
   transitionTimingFunction: Ref<string>;
   animationName: Ref<'slide' | 'fade'>;
   moveType: Ref<MoveType>;

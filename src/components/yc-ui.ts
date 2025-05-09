@@ -68,6 +68,7 @@ import { default as Carousel, CarouselItem } from './Carousel';
 import { default as Image, ImagePreview, ImagePreviewAction } from './Image';
 import Comment from './Comment';
 import { default as Descriptions, DescriptionsItem } from './Descriptions';
+import { default as Steps, Step } from './Steps';
 
 export const components: Record<string, Plugin> = {
   Button,
@@ -128,6 +129,7 @@ export const components: Record<string, Plugin> = {
   Image,
   Comment,
   Descriptions,
+  Steps,
 };
 
 export default {
@@ -161,6 +163,7 @@ export default {
   ImagePreview,
   ImagePreviewAction,
   DescriptionsItem,
+  Step,
   install: (app: App) => {
     for (const key of Object.keys(components)) {
       app.use(components[key]);

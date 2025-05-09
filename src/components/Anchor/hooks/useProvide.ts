@@ -1,7 +1,6 @@
 import {
   ref,
   toRefs,
-  ComputedRef,
   Ref,
   computed,
   provide as _provide,
@@ -24,9 +23,7 @@ export interface AnchorProvide {
   boundary: Ref<string | number>;
   lineLess: Ref<boolean>;
   curHref: Ref<string>;
-  scrollContainer:
-    | ComputedRef<HTMLElement | undefined>
-    | Ref<HTMLElement | undefined>;
+  scrollContainer: Ref<HTMLElement | undefined>;
 }
 
 export default () => {

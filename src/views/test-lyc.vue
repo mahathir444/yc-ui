@@ -1,51 +1,20 @@
 <template>
   <div class="test">
-    <a-descriptions :column="3" :data="data" title="User Info" bordered>
-      <a-descriptions-item
-        v-for="item of data"
-        :label="item.label"
-        :span="item.span ?? 1"
-      >
-        <yc-tag>{{ item.value }}</yc-tag>
-      </a-descriptions-item>
-    </a-descriptions>
-    <yc-descriptions :column="3" :data="data" title="User Info" bordered>
-      <yc-descriptions-item
-        v-for="item of data"
-        :label="item.label"
-        :span="item.span ?? 1"
-      >
-        <yc-tag>{{ item.value }}</yc-tag>
-      </yc-descriptions-item>
-    </yc-descriptions>
+    <a-steps :current="2" label-placement="vertical">
+      <a-step description="This is a description">Succeeded</a-step>
+      <a-step description="This is a description">Processing</a-step>
+      <a-step description="This is a description">Pending</a-step>
+    </a-steps>
+    <yc-steps :current="2" label-placement="vertical">
+      <yc-step description="This is a description">Succeeded</yc-step>
+      <yc-step description="This is a description">Processing</yc-step>
+      <yc-step description="This is a description">Pending</yc-step>
+    </yc-steps>
   </div>
 </template>
 
 <script lang="ts" setup>
 import { ref, reactive } from 'vue';
-const data = [
-  {
-    label: 'Name',
-    value: 'Socrates',
-    span: 2,
-  },
-  {
-    label: 'Mobile',
-    value: '123-1234-1234',
-  },
-  {
-    label: 'Residence',
-    value: 'Beijing',
-  },
-  {
-    label: 'Hometown',
-    value: 'Beijing',
-  },
-  {
-    label: 'Address',
-    value: 'Yingdu Building, Zhichun Road, Beijing',
-  },
-];
 </script>
 
 <style lang="less" scoped>
@@ -54,8 +23,8 @@ const data = [
   width: 100%;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: center;
+  // align-items: center;
+  // justify-content: center;
   gap: 10px;
 }
 </style>

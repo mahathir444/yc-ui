@@ -205,6 +205,15 @@
         </yc-comment>
       </yc-comment>
     </yc-comment>
+    <yc-descriptions :column="3" :data="data" title="User Info" bordered>
+      <yc-descriptions-item
+        v-for="item of data"
+        :label="item.label"
+        :span="item.span ?? 1"
+      >
+        <yc-tag>{{ item.value }}</yc-tag>
+      </yc-descriptions-item>
+    </yc-descriptions>
     <!-- tooltip -->
     <yc-space>
       <yc-tooltip content="This is tooltip content">
@@ -243,6 +252,29 @@ const colors = [
   'pinkpurple',
   'magenta',
   'gray',
+];
+const data = [
+  {
+    label: 'Name',
+    value: 'Socrates',
+    span: 2,
+  },
+  {
+    label: 'Mobile',
+    value: '123-1234-1234',
+  },
+  {
+    label: 'Residence',
+    value: 'Beijing',
+  },
+  {
+    label: 'Hometown',
+    value: 'Beijing',
+  },
+  {
+    label: 'Address',
+    value: 'Yingdu Building, Zhichun Road, Beijing',
+  },
 ];
 </script>
 
