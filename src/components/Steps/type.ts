@@ -1,7 +1,7 @@
 import { Direction } from '../_shared/type';
 
 export interface StepsProps {
-  type?: 'default' | 'arrow' | 'dot' | 'navigation';
+  type?: StepType;
   direction?: Direction;
   labelPlacement?: Direction;
   current?: number;
@@ -36,3 +36,5 @@ export interface StepSlots {
 }
 
 export type StepStatus = 'wait' | 'process' | 'finish' | 'error';
+
+export type StepType = 'default' | 'arrow' | 'dot' | 'navigation';

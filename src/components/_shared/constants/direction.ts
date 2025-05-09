@@ -30,6 +30,19 @@ export const DESCRIPTIONS_DIRECTION_MAP = getComponentConstantsMap(
   'layout'
 );
 
+export const STEP_LABEL_DIRECTION_MAP = getComponentConstantsMap(
+  'yc-steps-item-label',
+  ['vertical', 'horizontal']
+);
+export const STEP_DIRECTION_MAP = getComponentConstantsMap('yc-steps-item', [
+  'vertical',
+  'horizontal',
+]);
+export const STEPS_DIRECTION_MAP = getComponentConstantsMap('yc-steps', [
+  'vertical',
+  'horizontal',
+]);
+
 // 内部组件
 export const TRACK_DIRECTION_MAP =
   getComponentDirectionMap('yc-scrollbar-track');

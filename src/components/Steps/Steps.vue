@@ -1,15 +1,12 @@
 <template>
-  <div
-    class="yc-steps-horizontal yc-steps-label-horizontal yc-steps-mode-default"
-    :class="['yc-steps']"
-  >
+  <div class="yc-steps" :class="[STEPS_DIRECTION_MAP[direction]]">
     <slot />
   </div>
 </template>
 
 <script lang="ts" setup>
-import { ref, reactive } from 'vue';
 import { StepsProps, StepsEmits, StepsSlots } from './type';
+import { STEPS_DIRECTION_MAP } from '@shared/constants';
 import useProvide from './hooks/useProvide';
 defineOptions({
   name: 'Steps',
@@ -35,6 +32,12 @@ provide(props, emits);
 <style lang="less" scoped>
 .yc-steps {
   display: flex;
+}
+.yc-steps-horizontal {
   gap: 12px;
+}
+.yc-steps-vertical {
+  flex-direction: column;
+  gap: 6px;
 }
 </style>

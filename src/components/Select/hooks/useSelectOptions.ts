@@ -1,12 +1,4 @@
-import {
-  computed,
-  ref,
-  Ref,
-  onMounted,
-  onUpdated,
-  useSlots,
-  ComputedRef,
-} from 'vue';
+import { computed, ref, Ref, onMounted, onUpdated, useSlots } from 'vue';
 import { nanoid } from 'nanoid';
 import { ObjectData } from '@shared/type';
 import {
@@ -24,8 +16,8 @@ import {
 } from '@shared/utils';
 
 export default (params: {
-  fieldKey: ComputedRef<Record<string, string>>;
-  selectValue: ComputedRef<ObjectData[]>;
+  fieldKey: Ref<Record<string, string>>;
+  selectValue: Ref<ObjectData[]>;
   provideOptions: Ref<SelectOptions>;
   showExtraOptions: Ref<boolean>;
   popupRef: Ref<TriggerInstance | undefined>;

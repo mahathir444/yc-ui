@@ -54,7 +54,12 @@
       </yc-radio-group>
     </div>
     <div style="width: 300px">
-      <yc-input-number placeholder="input-number" />
+      <yc-input-number
+        placeholder="input-number"
+        v-model="score"
+        :precision="1"
+        :min="0"
+      />
     </div>
     <div style="width: 300px">
       <yc-switch checked-text="启动" unchecked-text="关闭">
@@ -103,6 +108,7 @@
 
 <script lang="ts" setup>
 import { ref } from 'vue';
+import { isUndefined } from '@shared/utils';
 const options = ref<any[]>([]);
 for (let i = 0; i < 30; i++) {
   options.value.push({

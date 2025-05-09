@@ -1,4 +1,4 @@
-import { ComputedRef, ref, Ref, WritableComputedRef } from 'vue';
+import { ref, Ref } from 'vue';
 import { onKeyStroke } from '@vueuse/core';
 import { SelectEmits, SelectOptionData, SelectValue } from '../type';
 import { ObjectData } from '@shared/type';
@@ -7,9 +7,9 @@ export default (params: {
   hotkeys: Ref<boolean>;
   multiple: Ref<boolean>;
   limit: Ref<number>;
-  computedVisible: WritableComputedRef<boolean>;
-  computedValue: WritableComputedRef<SelectValue>;
-  options: ComputedRef<SelectOptionData[]>;
+  computedVisible: Ref<boolean>;
+  computedValue: Ref<SelectValue>;
+  options: Ref<SelectOptionData[]>;
   blur: () => void;
   emits: SelectEmits;
 }) => {

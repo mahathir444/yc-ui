@@ -2,19 +2,23 @@
   <div
     class="yc-steps-item"
     :class="[
-      !lineLess ? 'yc-steps-item-has-line' : '',
-      labelPlacement == 'vertical'
-        ? 'yc-steps-item-label-vertical'
-        : 'yc-steps-item-label-horizontal',
-      direction == 'vertical'
-        ? 'yc-steps-item-vertical'
-        : 'yc-steps-item-horizontal',
+      lineLess || curStep == step ? 'yc-steps-item-line-less' : '',
+      type == 'default' && small ? 'yc-steps-item-size-small' : '',
+      labelPositionClass,
+      STEP_TYPE_CLASS[type],
+      STEP_DIRECTION_MAP[direction],
       STEP_STATUS_CLASS[status],
+      STEP_LINE_STATUS_CLASS[nextStatus],
     ]"
   >
     <!-- icon -->
     <div class="yc-steps-item-node">
-      <slot name="icon" :status="status" :step="curStep">
+      <slot
+        v-if="type == 'default'"
+        name="icon"
+        :status="status"
+        :step="curStep"
+      >
         <div class="yc-steps-icon">
           <icon-check v-if="status == 'finish'" :stroke-width="1" />
           <icon-close v-else-if="status == 'error'" />
@@ -44,10 +48,16 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, computed, toRefs, onMounted } from 'vue';
+import { toRefs, computed } from 'vue';
 import { StepProps, StepSlots } from './type';
 import { IconCheck, IconClose } from '@shared/icons';
-import { STEP_STATUS_CLASS } from '@shared/constants';
+import {
+  STEP_STATUS_CLASS,
+  STEP_LINE_STATUS_CLASS,
+  STEP_LABEL_DIRECTION_MAP,
+  STEP_DIRECTION_MAP,
+  STEP_TYPE_CLASS,
+} from '@shared/constants';
 import useProvide from './hooks/useProvide';
 defineOptions({
   name: 'Step',
@@ -63,28 +73,35 @@ const { status: _status } = toRefs(props);
 // 接收注入
 const { inject } = useProvide();
 const {
-  step,
   curStep,
-  computedCurrent,
+  step,
   lineLess,
   labelPlacement,
   direction,
-  statusArr,
+  type,
+  status,
+  nextStatus,
+  small,
 } = inject(props);
+const labelPositionClass = computed(() => {
+  if (type.value == 'default') {
+    return direction.value == 'horizontal'
+      ? STEP_LABEL_DIRECTION_MAP[labelPlacement.value]
+      : STEP_LABEL_DIRECTION_MAP.horizontal;
+  } else if (type.value == 'dot') {
+    return STEP_LABEL_DIRECTION_MAP.horizontal;
+  }
+});
 </script>
 
 <style lang="less" scoped>
+@import './style/step.less';
 .yc-steps-item {
   position: relative;
-  overflow: hidden;
-  white-space: nowrap;
-  &:not(:last-child) {
-    flex: 1;
-  }
   &,
-  .yc-steps-item-node,
-  .yc-steps-item-content {
-    flex-shrink: 0;
+  .yc-steps-item-title,
+  .yc-steps-item-description {
+    white-space: nowrap;
   }
   .yc-steps-item-node {
     font-weight: 500;
@@ -102,11 +119,8 @@ const {
     display: flex;
     flex-direction: column;
     gap: 2px;
-    .yc-steps-item-title,
-    .yc-steps-item-description {
-      white-space: nowrap;
-    }
     .yc-steps-item-title {
+      width: fit-content;
       line-height: 28px;
       font-size: 16px;
       color: rgb(29, 33, 41);
@@ -118,85 +132,132 @@ const {
     }
   }
 }
-.yc-steps-item-has-line {
-  &:not(:last-child) {
-    &.yc-steps-item-label-horizontal {
-      .yc-steps-item-title {
-        &::after {
-          content: '';
-          position: absolute;
-          top: 13.5px;
-          left: calc(100% + 12px);
-          display: block;
-          width: 5000px;
-          height: 1px;
-          background-color: rgb(229, 230, 235);
-        }
-      }
+//
+.yc-steps-item-size-small {
+  .yc-steps-item-node {
+    font-size: 14px;
+    .yc-steps-icon {
+      width: 24px;
+      height: 24px;
     }
-
-    &.yc-steps-item-label-vertical {
+  }
+  .yc-steps-item-content {
+    .yc-steps-item-title {
+      font-size: 14px;
+      line-height: 24px;
     }
   }
 }
 // labelPlacement
-.yc-steps-item-label-vertical {
-  flex-direction: column;
-  gap: 2px;
-  align-items: center;
-  .yc-steps-item-content {
-    align-items: center;
-    width: fit-content;
-  }
-}
 .yc-steps-item-label-horizontal {
   display: flex;
-  gap: 12px;
   align-items: center;
+  gap: 12px;
+  overflow: hidden;
 
   .yc-steps-item-node {
     height: 100%;
   }
+}
+.yc-steps-item-label-vertical {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+
+  &.yc-steps-item-size-small {
+    .yc-steps-item-node {
+      margin-left: 58px;
+    }
+  }
+
+  .yc-steps-item-node {
+    margin-left: 56px;
+  }
+
   .yc-steps-item-content {
+    width: 140px;
+    align-items: center;
+  }
+}
+// position
+.yc-steps-item-vertical {
+  min-height: 90px;
+  .yc-steps-item-content {
+    height: 100%;
+  }
+  &::after {
+    content: '';
+    position: absolute;
+    left: 13.5px;
+    top: 34px;
+    bottom: 0;
+    width: 1px;
+  }
+  &.yc-steps-item-mode-dot {
+    &::after {
+      top: 21px;
+      left: 4.5px;
+    }
+  }
+  &.yc-steps-item-size-small {
+    &::after {
+      left: 11.5px;
+      top: 30px;
+      bottom: 6px;
+    }
+  }
+}
+.yc-steps-item-horizontal {
+  &:not(:last-child) {
+    flex: 1;
+  }
+  &.yc-steps-item-label-horizontal:not(.yc-steps-item-line-less) {
     .yc-steps-item-title {
       position: relative;
-      width: fit-content;
+      &::after {
+        content: '';
+        position: absolute;
+        top: 13.5px;
+        left: calc(100% + 12px);
+        width: 5000px;
+        height: 1px;
+      }
+    }
+    &.yc-steps-item-size-small {
+      .yc-steps-item-title {
+        &::after {
+          top: 11.5px;
+        }
+      }
     }
   }
-}
-
-// status
-.yc-steps-item-wait {
-  .yc-steps-icon {
-    color: rgb(78, 89, 105);
-    background-color: rgb(242, 243, 245);
-    border: 1px solid transparent;
+  &.yc-steps-item-label-vertical:not(.yc-steps-item-line-less) {
+    &::after {
+      content: '';
+      position: absolute;
+      top: 13.5px;
+      left: 96px;
+      right: -56px;
+      height: 1px;
+    }
   }
-  .yc-steps-item-content {
+  &.yc-steps-item-size-small {
     .yc-steps-item-title {
-      color: rgb(78, 89, 105);
+      &::after {
+        top: 11.5px;
+        left: 94px;
+      }
     }
   }
 }
-.yc-steps-item-process {
-  .yc-steps-icon {
-    color: #fff;
-    background-color: rgb(22, 93, 255);
-    border: 1px solid transparent;
-  }
-}
-.yc-steps-item-finish {
-  .yc-steps-icon {
-    color: rgb(22, 93, 255);
-    background-color: rgb(232, 243, 255);
-    border: 1px solid transparent;
-  }
-}
-.yc-steps-item-error {
-  .yc-steps-icon {
-    color: #fff;
-    background-color: rgb(245, 63, 63);
-    border: 1px solid transparent;
+// mode
+.yc-steps-item-mode-dot {
+  align-items: flex-start;
+  .yc-steps-item-node {
+    margin-top: 6px;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
   }
 }
 </style>

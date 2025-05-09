@@ -1,0 +1,84 @@
+// status
+.yc-steps-item-wait {
+  .yc-steps-icon {
+    color: rgb(78, 89, 105);
+    background-color: rgb(242, 243, 245);
+    border: 1px solid transparent;
+  }
+  .yc-steps-item-content {
+    .yc-steps-item-title {
+      color: rgb(78, 89, 105);
+    }
+  }
+  &.yc-steps-item-mode-dot {
+    .yc-steps-item-node {
+      background-color: rgb(201, 205, 212);
+      border-color: rgb(201, 205, 212);
+    }
+  }
+}
+.yc-steps-item-process {
+  .yc-steps-icon {
+    color: #fff;
+    background-color: rgb(22, 93, 255);
+    border: 1px solid transparent;
+  }
+  &.yc-steps-item-mode-dot {
+    .yc-steps-item-node {
+      background-color: rgb(22, 93, 255);
+      border: rgb(22, 93, 255);
+    }
+  }
+}
+.yc-steps-item-finish {
+  .yc-steps-icon {
+    color: rgb(22, 93, 255);
+    background-color: rgb(232, 243, 255);
+    border: 1px solid transparent;
+  }
+  &.yc-steps-item-mode-dot {
+    .yc-steps-item-node {
+      background-color: rgb(22, 93, 255);
+      border-color: rgb(22, 93, 255);
+    }
+  }
+}
+.yc-steps-item-error {
+  .yc-steps-icon {
+    color: #fff;
+    background-color: rgb(245, 63, 63);
+    border: 1px solid transparent;
+  }
+  &.yc-steps-item-mode-dot {
+    .yc-steps-item-node {
+      background-color: rgb(245, 63, 63);
+      border-color: rgb(245, 63, 63);
+    }
+  }
+}
+// line-status
+.yc-steps-item-line-wait {
+  &,
+  .yc-steps-item-title {
+    &::after {
+      background-color: rgb(229, 230, 235);
+    }
+  }
+}
+.yc-steps-item-line-process,
+.yc-steps-item-line-finish {
+  &,
+  .yc-steps-item-title {
+    &::after {
+      background-color: rgb(22, 93, 255);
+    }
+  }
+}
+.yc-steps-item-line-error {
+  &,
+  .yc-steps-item-title {
+    &::after {
+      background-color: rgb(245, 63, 63);
+    }
+  }
+}
