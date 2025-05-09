@@ -21,6 +21,8 @@ export interface StepsProvide {
   statusArr: Ref<Ref<string>[]>;
   small: Ref<boolean>;
   type: Ref<StepType>;
+  changeable: Ref<boolean>;
+  emits: StepsEmits;
 }
 
 type StepsProps = RequiredDeep<_StepsProps>;
@@ -32,9 +34,10 @@ export default () => {
       defaultCurrent,
       lineLess,
       labelPlacement,
-      direction,
+      direction: _direction,
       small,
       type,
+      changeable,
     } = toRefs(props as StepsProps);
     // current
     const computedCurrent = useControlValue<number>(
@@ -44,7 +47,19 @@ export default () => {
         emits('update:current', val);
       }
     );
+    // direction
+    const direction = computed(() => {
+      if (type.value == 'default') {
+        return _direction.value;
+      } else if (type.value == 'dot') {
+        return 'vertical';
+      } else {
+        return 'horizontal';
+      }
+    });
+    // status
     const statusArr = ref<Ref<string>[]>([]);
+    // step
     const step = ref<number>(0);
     _provide<StepsProvide>(STEPS_PROVIDE_KEY, {
       step,
@@ -55,7 +70,13 @@ export default () => {
       statusArr,
       small,
       type,
+      changeable,
+      emits,
     });
+    return {
+      direction,
+      type,
+    };
   };
   const inject = (props: Props) => {
     const { status: _status } = toRefs(props);
@@ -68,6 +89,8 @@ export default () => {
       statusArr: ref([]),
       small: ref(false),
       type: ref('default'),
+      changeable: ref(false),
+      emits: () => {},
     });
     const { step, computedCurrent, statusArr } = injection;
     const curStep = ref(++step.value);

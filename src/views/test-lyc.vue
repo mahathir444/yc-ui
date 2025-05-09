@@ -1,19 +1,15 @@
 <template>
   <div class="test">
-    <a-steps :current="1" direction="vertical">
-      <a-step description="This is a descriptiondesc">Succeeded</a-step>
+    <a-steps direction="vertical" type="navigation" changeable>
+      <a-step description="This is a description">Succeeded</a-step>
       <a-step description="This is a description">Processing</a-step>
-      <a-step description="This is a description" status="error"
-        >Pending</a-step
-      >
+      <a-step description="This is a description">Pending</a-step>
     </a-steps>
     <!-- label-placement="vertical" -->
-    <yc-steps :current="3" direction="vertical">
+    <yc-steps direction="vertical" type="navigation" changeable>
       <yc-step description="This is a description">Succeeded</yc-step>
       <yc-step description="This is a description">Processing</yc-step>
-      <yc-step description="This is a description" status="error">
-        Pending
-      </yc-step>
+      <yc-step description="This is a description"> Pending </yc-step>
     </yc-steps>
   </div>
 </template>

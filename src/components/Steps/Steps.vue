@@ -1,10 +1,17 @@
 <template>
-  <div class="yc-steps" :class="[STEPS_DIRECTION_MAP[direction]]">
+  <div
+    class="yc-steps"
+    :class="[STEPS_DIRECTION_MAP[direction]]"
+    :style="{
+      gap,
+    }"
+  >
     <slot />
   </div>
 </template>
 
 <script lang="ts" setup>
+import { computed } from 'vue';
 import { StepsProps, StepsEmits, StepsSlots } from './type';
 import { STEPS_DIRECTION_MAP } from '@shared/constants';
 import useProvide from './hooks/useProvide';
@@ -26,18 +33,21 @@ const props = withDefaults(defineProps<StepsProps>(), {
 const emits = defineEmits<StepsEmits>();
 // 注入数据
 const { provide } = useProvide();
-provide(props, emits);
+const { direction, type } = provide(props, emits);
+const gap = computed(() => {
+  if (direction.value == 'horizontal') {
+    if (type.value == 'arrow') {
+      return '4px';
+    } else if (type.value == 'navigation') {
+      return '32px';
+    }
+    return '12px';
+  } else {
+    return '6px';
+  }
+});
 </script>
 
 <style lang="less" scoped>
-.yc-steps {
-  display: flex;
-}
-.yc-steps-horizontal {
-  gap: 12px;
-}
-.yc-steps-vertical {
-  flex-direction: column;
-  gap: 6px;
-}
+@import './style/steps.less';
 </style>

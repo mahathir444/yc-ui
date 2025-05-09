@@ -1,33 +1,40 @@
 <template>
   <div
-    class="yc-steps-item"
     :class="[
-      lineLess || curStep == step ? 'yc-steps-item-line-less' : '',
-      type == 'default' && small ? 'yc-steps-item-size-small' : '',
-      labelPositionClass,
+      'yc-steps-item',
+      curStep == computedCurrent && type == 'navigation'
+        ? 'yc-steps-item-active'
+        : '',
+      lineLess ? 'yc-steps-item-line-less' : '',
+      small ? 'yc-steps-item-size-small' : '',
+      changeable ? 'yc-steps-item-changeable' : '',
       STEP_TYPE_CLASS[type],
+      STEP_LABEL_DIRECTION_MAP[labelPlacement],
       STEP_DIRECTION_MAP[direction],
       STEP_STATUS_CLASS[status],
-      STEP_LINE_STATUS_CLASS[nextStatus],
+      STEP_NEXT_STATUS_CLASS[nextStatus],
     ]"
+    @click="handleClick"
   >
     <!-- icon -->
-    <div class="yc-steps-item-node">
-      <slot
-        v-if="type == 'default'"
-        name="icon"
-        :status="status"
-        :step="curStep"
-      >
-        <div class="yc-steps-icon">
-          <icon-check v-if="status == 'finish'" :stroke-width="1" />
-          <icon-close v-else-if="status == 'error'" />
-          <template v-else>
-            {{ curStep }}
-          </template>
-        </div>
-      </slot>
-    </div>
+    <slot v-if="type != 'arrow'" name="node" :step="curStep" :status="status">
+      <div class="yc-steps-item-node">
+        <slot
+          v-if="['default', 'navigation'].includes(type)"
+          name="icon"
+          :status="status"
+          :step="curStep"
+        >
+          <div class="yc-steps-icon">
+            <icon-check v-if="status == 'finish'" :stroke-width="1" />
+            <icon-close v-else-if="status == 'error'" />
+            <template v-else>
+              {{ curStep }}
+            </template>
+          </div>
+        </slot>
+      </div>
+    </slot>
     <!-- content -->
     <div class="yc-steps-item-content">
       <div class="yc-steps-item-title">
@@ -53,7 +60,7 @@ import { StepProps, StepSlots } from './type';
 import { IconCheck, IconClose } from '@shared/icons';
 import {
   STEP_STATUS_CLASS,
-  STEP_LINE_STATUS_CLASS,
+  STEP_NEXT_STATUS_CLASS,
   STEP_LABEL_DIRECTION_MAP,
   STEP_DIRECTION_MAP,
   STEP_TYPE_CLASS,
@@ -69,29 +76,47 @@ const props = withDefaults(defineProps<StepProps>(), {
   status: undefined,
   disabled: false,
 });
-const { status: _status } = toRefs(props);
+const { disabled } = toRefs(props);
 // 接收注入
 const { inject } = useProvide();
 const {
   curStep,
+  computedCurrent,
   step,
-  lineLess,
-  labelPlacement,
   direction,
+  lineLess: _lineLess,
+  labelPlacement: _labelPlacement,
+  small: _small,
   type,
+  changeable,
   status,
   nextStatus,
-  small,
+  emits,
 } = inject(props);
-const labelPositionClass = computed(() => {
-  if (type.value == 'default') {
-    return direction.value == 'horizontal'
-      ? STEP_LABEL_DIRECTION_MAP[labelPlacement.value]
-      : STEP_LABEL_DIRECTION_MAP.horizontal;
-  } else if (type.value == 'dot') {
-    return STEP_LABEL_DIRECTION_MAP.horizontal;
-  }
+// labelPlacement
+const labelPlacement = computed(() => {
+  return type.value == 'default' && direction.value == 'horizontal'
+    ? STEP_LABEL_DIRECTION_MAP[_labelPlacement.value]
+    : 'horizontal';
 });
+// small
+const small = computed(() => {
+  return type.value != 'dot' ? _small.value : false;
+});
+// lineLess
+const lineLess = computed(() => {
+  return (
+    _lineLess.value ||
+    curStep.value == step.value ||
+    ['arrow', 'navigation'].includes(type.value)
+  );
+});
+// 处理点击
+const handleClick = (e: Event) => {
+  if (!changeable.value || disabled.value) return;
+  computedCurrent.value = curStep.value;
+  emits('change', computedCurrent.value, e);
+};
 </script>
 
 <style lang="less" scoped>
@@ -124,140 +149,14 @@ const labelPositionClass = computed(() => {
       line-height: 28px;
       font-size: 16px;
       color: rgb(29, 33, 41);
+      transition: all 0.1s cubic-bezier(0, 0, 1, 1);
     }
     .yc-steps-item-description {
       max-width: 140px;
       font-size: 12px;
       color: rgb(134, 144, 156);
+      transition: all 0.1s cubic-bezier(0, 0, 1, 1);
     }
-  }
-}
-//
-.yc-steps-item-size-small {
-  .yc-steps-item-node {
-    font-size: 14px;
-    .yc-steps-icon {
-      width: 24px;
-      height: 24px;
-    }
-  }
-  .yc-steps-item-content {
-    .yc-steps-item-title {
-      font-size: 14px;
-      line-height: 24px;
-    }
-  }
-}
-// labelPlacement
-.yc-steps-item-label-horizontal {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  overflow: hidden;
-
-  .yc-steps-item-node {
-    height: 100%;
-  }
-}
-.yc-steps-item-label-vertical {
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
-
-  &.yc-steps-item-size-small {
-    .yc-steps-item-node {
-      margin-left: 58px;
-    }
-  }
-
-  .yc-steps-item-node {
-    margin-left: 56px;
-  }
-
-  .yc-steps-item-content {
-    width: 140px;
-    align-items: center;
-  }
-}
-// position
-.yc-steps-item-vertical {
-  min-height: 90px;
-  .yc-steps-item-content {
-    height: 100%;
-  }
-  &::after {
-    content: '';
-    position: absolute;
-    left: 13.5px;
-    top: 34px;
-    bottom: 0;
-    width: 1px;
-  }
-  &.yc-steps-item-mode-dot {
-    &::after {
-      top: 21px;
-      left: 4.5px;
-    }
-  }
-  &.yc-steps-item-size-small {
-    &::after {
-      left: 11.5px;
-      top: 30px;
-      bottom: 6px;
-    }
-  }
-}
-.yc-steps-item-horizontal {
-  &:not(:last-child) {
-    flex: 1;
-  }
-  &.yc-steps-item-label-horizontal:not(.yc-steps-item-line-less) {
-    .yc-steps-item-title {
-      position: relative;
-      &::after {
-        content: '';
-        position: absolute;
-        top: 13.5px;
-        left: calc(100% + 12px);
-        width: 5000px;
-        height: 1px;
-      }
-    }
-    &.yc-steps-item-size-small {
-      .yc-steps-item-title {
-        &::after {
-          top: 11.5px;
-        }
-      }
-    }
-  }
-  &.yc-steps-item-label-vertical:not(.yc-steps-item-line-less) {
-    &::after {
-      content: '';
-      position: absolute;
-      top: 13.5px;
-      left: 96px;
-      right: -56px;
-      height: 1px;
-    }
-  }
-  &.yc-steps-item-size-small {
-    .yc-steps-item-title {
-      &::after {
-        top: 11.5px;
-        left: 94px;
-      }
-    }
-  }
-}
-// mode
-.yc-steps-item-mode-dot {
-  align-items: flex-start;
-  .yc-steps-item-node {
-    margin-top: 6px;
-    width: 10px;
-    height: 10px;
-    border-radius: 50%;
   }
 }
 </style>
