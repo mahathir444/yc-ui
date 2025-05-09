@@ -2,6 +2,7 @@
   <div
     :class="[
       'yc-steps',
+      changeable ? 'yc-steps-item-changeable' : '',
       STEPS_DIRECTION_MAP[direction],
       STEPS_TYPE_CLASS[type],
       STEPS_LABEL_DIRECTION_MAP[labelPlacement],

@@ -36,46 +36,6 @@
     }
   }
 }
-// next-status
-.yc-steps-item-next-wait {
-  &,
-  .yc-steps-item-title {
-    &::after {
-      background-color: rgb(229, 230, 235);
-    }
-  }
-}
-.yc-steps-item-next-process,
-.yc-steps-item-next-finish {
-  &,
-  .yc-steps-item-title {
-    &::after {
-      background-color: rgb(22, 93, 255);
-    }
-  }
-}
-.yc-steps-item-next-error {
-  &,
-  .yc-steps-item-title {
-    &::after {
-      background-color: rgb(245, 63, 63);
-    }
-  }
-}
-//changeable
-.yc-steps-item-changeable {
-  &:not(.yc-steps-item-process) {
-    cursor: pointer;
-    &:hover {
-      .yc-steps-item-content {
-        .yc-steps-item-title,
-        .yc-steps-item-description {
-          color: rgb(22, 93, 255);
-        }
-      }
-    }
-  }
-}
 //size
 .yc-steps-item-size-small {
   .yc-steps-item-node {
@@ -121,6 +81,32 @@
   &.yc-steps-item-process {
     &::after {
       background-color: rgb(22, 93, 255);
+    }
+  }
+}
+// next-status
+.yc-steps-item-next-wait {
+  &,
+  .yc-steps-item-title {
+    &::after {
+      background-color: rgb(229, 230, 235);
+    }
+  }
+}
+.yc-steps-item-next-process,
+.yc-steps-item-next-finish {
+  &,
+  .yc-steps-item-title {
+    &::after {
+      background-color: rgb(22, 93, 255);
+    }
+  }
+}
+.yc-steps-item-next-error {
+  &,
+  .yc-steps-item-title {
+    &::after {
+      background-color: rgb(245, 63, 63);
     }
   }
 }

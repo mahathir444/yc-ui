@@ -7,7 +7,6 @@
         : '',
       lineLess ? 'yc-steps-item-line-less' : '',
       small ? 'yc-steps-item-size-small' : '',
-      changeable ? 'yc-steps-item-changeable' : '',
       STEP_STATUS_CLASS[status],
       STEP_NEXT_STATUS_CLASS[nextStatus],
     ]"

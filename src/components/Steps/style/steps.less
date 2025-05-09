@@ -91,25 +91,6 @@
       height: 10px;
       border-radius: 50%;
     }
-    &.yc-steps-item-wait {
-      .yc-steps-item-node {
-        background-color: rgb(201, 205, 212);
-        border-color: rgb(201, 205, 212);
-      }
-    }
-    &.yc-steps-item-finish,
-    &.yc-steps-item-process {
-      .yc-steps-item-node {
-        background-color: rgb(22, 93, 255);
-        border-color: rgb(22, 93, 255);
-      }
-    }
-    &.yc-steps-item-error {
-      .yc-steps-item-node {
-        background-color: rgb(245, 63, 63);
-        border-color: rgb(245, 63, 63);
-      }
-    }
   }
 }
 .yc-steps-mode-arrow {
@@ -154,39 +135,6 @@
       padding-left: 52px;
       height: 72px;
       justify-content: center;
-    }
-    &.yc-steps-item-wait {
-      background-color: rgb(247, 248, 250);
-      &::after {
-        border-left: 36px solid rgb(247, 248, 250);
-      }
-    }
-    &.yc-steps-item-finish {
-      background-color: rgb(232, 243, 255);
-      &::after {
-        border-left: 36px solid rgb(232, 243, 255);
-      }
-    }
-    &.yc-steps-item-process {
-      background-color: rgb(22, 93, 255);
-      &::after {
-        border-left: 36px solid rgb(22, 93, 255);
-      }
-    }
-    &.yc-steps-item-error {
-      background-color: rgb(245, 63, 63);
-      &::after {
-        border-left: 36px solid rgb(245, 63, 63);
-      }
-    }
-    &.yc-steps-item-process,
-    &.yc-steps-item-error {
-      .yc-steps-item-content {
-        .yc-steps-item-title,
-        .yc-steps-item-description {
-          color: #fff;
-        }
-      }
     }
   }
 }
@@ -249,7 +197,6 @@
     }
   }
 }
-
 // status
 .yc-steps-item-wait {
   .yc-steps-icon {
@@ -262,12 +209,50 @@
       color: rgb(78, 89, 105);
     }
   }
+  // dot
+  &.yc-steps-mode-dot {
+    .yc-steps-item-node {
+      background-color: rgb(201, 205, 212);
+      border-color: rgb(201, 205, 212);
+    }
+  }
+  // arrow
+  &.yc-steps-mode-arrow {
+    .yc-steps-item {
+      background-color: rgb(247, 248, 250);
+      &::after {
+        border-left: 36px solid rgb(247, 248, 250);
+      }
+    }
+  }
 }
 .yc-steps-item-process {
   .yc-steps-icon {
     color: #fff;
     background-color: rgb(22, 93, 255);
     border: 1px solid transparent;
+  }
+  // dot
+  &.yc-steps-mode-dot {
+    .yc-steps-item-node {
+      background-color: rgb(22, 93, 255);
+      border-color: rgb(22, 93, 255);
+    }
+  }
+  // arrow
+  &.yc-steps-mode-arrow {
+    .yc-steps-item {
+      background-color: rgb(22, 93, 255);
+      &::after {
+        border-left: 36px solid rgb(22, 93, 255);
+      }
+      .yc-steps-item-content {
+        .yc-steps-item-title,
+        .yc-steps-item-description {
+          color: #fff;
+        }
+      }
+    }
   }
 }
 .yc-steps-item-finish {
@@ -276,11 +261,65 @@
     background-color: rgb(232, 243, 255);
     border: 1px solid transparent;
   }
+  // dot
+  &.yc-steps-mode-dot {
+    .yc-steps-item-node {
+      background-color: rgb(22, 93, 255);
+      border-color: rgb(22, 93, 255);
+    }
+  }
+  // arrow
+  &.yc-steps-mode-arrow {
+    .yc-steps-item {
+      background-color: rgb(232, 243, 255);
+      &::after {
+        border-left: 36px solid rgb(232, 243, 255);
+      }
+    }
+  }
 }
 .yc-steps-item-error {
   .yc-steps-icon {
     color: #fff;
     background-color: rgb(245, 63, 63);
     border: 1px solid transparent;
+  }
+  // dot
+  &.yc-steps-mode-dot {
+    .yc-steps-item-node {
+      background-color: rgb(245, 63, 63);
+      border-color: rgb(245, 63, 63);
+    }
+  }
+  // arrow
+  &.yc-steps-mode-arrow {
+    .yc-steps-item {
+      background-color: rgb(245, 63, 63);
+      &::after {
+        border-left: 36px solid rgb(245, 63, 63);
+      }
+      .yc-steps-item-content {
+        .yc-steps-item-title,
+        .yc-steps-item-description {
+          color: #fff;
+        }
+      }
+    }
+  }
+}
+//changeable
+.yc-steps-item-changeable {
+  .yc-steps-item {
+    &:not(.yc-steps-item-process) {
+      cursor: pointer;
+      &:hover {
+        .yc-steps-item-content {
+          .yc-steps-item-title,
+          .yc-steps-item-description {
+            color: rgb(22, 93, 255);
+          }
+        }
+      }
+    }
   }
 }
