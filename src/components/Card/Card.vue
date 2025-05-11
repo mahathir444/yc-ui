@@ -35,7 +35,7 @@
       <slot name="cover" />
     </div>
     <div class="yc-card-body" :style="bodyStyle">
-      <yc-spin v-if="loading" loading>
+      <yc-spin v-if="loading" is-size-inherit loading>
         <slot />
       </yc-spin>
       <slot v-else />

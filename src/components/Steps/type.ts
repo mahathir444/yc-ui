@@ -1,4 +1,4 @@
-import { Direction } from '../_shared/type';
+import { Direction } from '@shared/type';
 
 export interface StepsProps {
   type?: StepType;

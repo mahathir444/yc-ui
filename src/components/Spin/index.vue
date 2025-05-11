@@ -10,11 +10,16 @@
         }"
       >
         <slot name="icon">
-          <icon-loading
-            v-if="!dot"
-            name="loading"
-            :size="$slots.default ? size : undefined"
-          />
+          <template v-if="!dot">
+            <component
+              v-if="$slots.loading"
+              :is="getSlotFunction(slots.loading)"
+            />
+            <icon-loading
+              name="loading"
+              :size="!isSizeInherit ? size : undefined"
+            />
+          </template>
           <div v-else class="yc-dot-loading">
             <div v-for="i in 5" :key="i" class="yc-dot-loading-item"></div>
           </div>
@@ -42,8 +47,11 @@
 
 <script lang="ts" setup>
 import { SpinProps, SpinSlots } from './type';
-import { YcPreventFocus } from '@shared/components';
 import { createReusableTemplate } from '@vueuse/core';
+import { useConfigProvder } from '@shared/hooks';
+import { getSlotFunction } from '@shared/utils';
+import { YcPreventFocus } from '@shared/components';
+
 defineOptions({
   name: 'Spin',
 });
@@ -55,11 +63,16 @@ withDefaults(defineProps<SpinProps>(), {
   tip: '',
   hideIcon: false,
   preventFocus: false,
+  isSizeInherit: false,
 });
 const { define: DefineTemplate, reuse: ReuseTemplate } =
   createReusableTemplate();
+const { slots } = useConfigProvder();
 </script>
 
 <style lang="less" scoped>
 @import './style/spin.less';
+.a {
+  color: inherit;
+}
 </style>

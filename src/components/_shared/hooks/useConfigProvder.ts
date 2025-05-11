@@ -1,4 +1,5 @@
-import { toRefs, inject, ref, isReactive, reactive, Ref } from 'vue';
+import { toRefs, inject, ref, isReactive, reactive, Ref, useSlots } from 'vue';
+import { ConfigProviderSlots } from '@/components/ConfigProvider';
 import { PopupContainer, Props, Size } from '@shared/type';
 import { isUndefined } from '../utils';
 
@@ -11,12 +12,17 @@ export interface ConfigProviderProvide {
   updateAtScroll: Ref<boolean>;
   scrollToClose: Ref<boolean>;
   exchangeTime: Ref<boolean>;
+  slots: Partial<ConfigProviderSlots>;
 }
+
+const getVar = (value: Ref<any>, _value: Ref<any>) => {
+  return isUndefined(value?.value) ? _value : value;
+};
 
 export default (props: Props = {}) => {
   // 接收值
   const {
-    zIndex: _zIndex,
+    zIndex,
     size: _size,
     updateAtScroll: _updateAtScroll,
     scrollToClose: _scrollToClose,
@@ -29,24 +35,19 @@ export default (props: Props = {}) => {
     scrollToClose: ref(false),
     exchangeTime: ref(true),
     popupContainer: ref('body'),
+    slots: {},
   });
+  const slots = useSlots();
   // 接收属性
   const { size, updateAtScroll, scrollToClose, exchangeTime, popupContainer } =
     toRefs(isReactive(props) ? props : reactive(props));
   return {
-    zIndex: _zIndex,
-    size: !isUndefined(size?.value) ? size : _size,
-    updateAtScroll: !isUndefined(updateAtScroll?.value)
-      ? updateAtScroll
-      : _updateAtScroll,
-    scrollToClose: !isUndefined(scrollToClose?.value)
-      ? scrollToClose
-      : _scrollToClose,
-    popupContainer: !isUndefined(popupContainer?.value)
-      ? popupContainer
-      : _popupContainer,
-    exchangeTime: !isUndefined(exchangeTime?.value)
-      ? exchangeTime
-      : _exchangeTime,
+    slots,
+    zIndex,
+    size: getVar(size, _size),
+    updateAtScroll: getVar(updateAtScroll, _updateAtScroll),
+    scrollToClose: getVar(scrollToClose, _scrollToClose),
+    popupContainer: getVar(popupContainer, _popupContainer),
+    exchangeTime: getVar(exchangeTime, _exchangeTime),
   };
 };

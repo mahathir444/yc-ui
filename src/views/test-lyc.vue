@@ -5,12 +5,6 @@
       <a-step description="This is a description">Processing</a-step>
       <a-step description="This is a description">Pending</a-step>
     </a-steps>
-    <!-- label-placement="vertical" -->
-    <yc-steps direction="vertical" type="arrow" small changeable>
-      <yc-step description="This is a description">Succeeded</yc-step>
-      <yc-step description="This is a description">Processing</yc-step>
-      <yc-step description="This is a description"> Pending </yc-step>
-    </yc-steps>
   </div>
 </template>
 

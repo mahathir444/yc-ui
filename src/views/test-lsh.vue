@@ -15,11 +15,6 @@
 
 <script setup lang="ts">
 import { ref, onMounted, h, reactive } from 'vue';
-import { Message, Notification } from '@arco-design/web-vue';
-import YcMessage from '@/components/Message/index.ts';
-import YcNotifi from '@/components/Notification/index.ts';
-import YcResizeBox from '@/components/ResizeBox/index.vue';
-import YcTimePicker from '@/components/TimePicker/index.vue';
 onMounted(() => {});
 const resizeBox = reactive({
   width: 0,

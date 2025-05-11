@@ -1,7 +1,7 @@
 import { computed, ref, Ref } from 'vue';
 import { useResizeObserver } from '@vueuse/core';
 import { MenuItemData } from './useProvide';
-import { throttle } from '@/components/_shared/utils';
+import { throttle } from '@shared/utils';
 import { MenuMode } from '../type';
 export default (menuRef: Ref<HTMLDivElement | undefined>, mode: MenuMode) => {
   // 顺序

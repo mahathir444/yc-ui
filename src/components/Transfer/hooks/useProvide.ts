@@ -12,7 +12,7 @@ import {
   TransferItem,
   TransferProps as _TransferProps,
 } from '../type';
-import { RequiredDeep, Props } from '@/components/_shared/type';
+import { RequiredDeep, Props } from '@shared/type';
 import { useControlValue } from '@shared/hooks';
 
 export const TRANSFER_PROVIDE_KEY = 'transfer-props';
