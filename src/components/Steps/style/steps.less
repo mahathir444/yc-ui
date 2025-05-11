@@ -92,6 +92,30 @@
       border-radius: 50%;
     }
   }
+  .yc-steps-item-wait {
+    .yc-steps-item-node {
+      background-color: rgb(201, 205, 212);
+      border-color: rgb(201, 205, 212);
+    }
+  }
+  .yc-steps-item-process {
+    .yc-steps-item-node {
+      background-color: rgb(22, 93, 255);
+      border-color: rgb(22, 93, 255);
+    }
+  }
+  .yc-steps-item-finish {
+    .yc-steps-item-node {
+      background-color: rgb(22, 93, 255);
+      border-color: rgb(22, 93, 255);
+    }
+  }
+  .yc-steps-item-error {
+    .yc-steps-item-node {
+      background-color: rgb(245, 63, 63);
+      border-color: rgb(245, 63, 63);
+    }
+  }
 }
 .yc-steps-mode-arrow {
   gap: 4px;
@@ -137,7 +161,9 @@
       justify-content: center;
     }
   }
-  .yc-steps-item-size-small {
+  // small
+  &.yc-steps-item-size-small {
+    height: 40px;
     &:not(:first-child)::before {
       border-top: 20px solid transparent;
       border-bottom: 20px solid transparent;
@@ -152,6 +178,43 @@
       height: 40px;
       .yc-steps-item-description {
         display: none;
+      }
+    }
+  }
+  // status
+  .yc-steps-item-wait {
+    background-color: rgb(247, 248, 250);
+    &::after {
+      border-left: 36px solid rgb(247, 248, 250);
+    }
+  }
+  .yc-steps-item-process {
+    background-color: rgb(22, 93, 255);
+    &::after {
+      border-left: 36px solid rgb(22, 93, 255);
+    }
+    .yc-steps-item-content {
+      .yc-steps-item-title,
+      .yc-steps-item-description {
+        color: #fff;
+      }
+    }
+  }
+  .yc-steps-item-finish {
+    background-color: rgb(232, 243, 255);
+    &::after {
+      border-left: 36px solid rgb(232, 243, 255);
+    }
+  }
+  .yc-steps-item-error {
+    background-color: rgb(245, 63, 63);
+    &::after {
+      border-left: 36px solid rgb(245, 63, 63);
+    }
+    .yc-steps-item-content {
+      .yc-steps-item-title,
+      .yc-steps-item-description {
+        color: #fff;
       }
     }
   }
@@ -212,116 +275,6 @@
     .yc-steps-item-content {
       width: 140px;
       align-items: center;
-    }
-  }
-}
-// status
-.yc-steps-item-wait {
-  .yc-steps-icon {
-    color: rgb(78, 89, 105);
-    background-color: rgb(242, 243, 245);
-    border: 1px solid transparent;
-  }
-  .yc-steps-item-content {
-    .yc-steps-item-title {
-      color: rgb(78, 89, 105);
-    }
-  }
-  // dot
-  &.yc-steps-mode-dot {
-    .yc-steps-item-node {
-      background-color: rgb(201, 205, 212);
-      border-color: rgb(201, 205, 212);
-    }
-  }
-  // arrow
-  &.yc-steps-mode-arrow {
-    .yc-steps-item {
-      background-color: rgb(247, 248, 250);
-      &::after {
-        border-left: 36px solid rgb(247, 248, 250);
-      }
-    }
-  }
-}
-.yc-steps-item-process {
-  .yc-steps-icon {
-    color: #fff;
-    background-color: rgb(22, 93, 255);
-    border: 1px solid transparent;
-  }
-  // dot
-  &.yc-steps-mode-dot {
-    .yc-steps-item-node {
-      background-color: rgb(22, 93, 255);
-      border-color: rgb(22, 93, 255);
-    }
-  }
-  // arrow
-  &.yc-steps-mode-arrow {
-    .yc-steps-item {
-      background-color: rgb(22, 93, 255);
-      &::after {
-        border-left: 36px solid rgb(22, 93, 255);
-      }
-      .yc-steps-item-content {
-        .yc-steps-item-title,
-        .yc-steps-item-description {
-          color: #fff;
-        }
-      }
-    }
-  }
-}
-.yc-steps-item-finish {
-  .yc-steps-icon {
-    color: rgb(22, 93, 255);
-    background-color: rgb(232, 243, 255);
-    border: 1px solid transparent;
-  }
-  // dot
-  &.yc-steps-mode-dot {
-    .yc-steps-item-node {
-      background-color: rgb(22, 93, 255);
-      border-color: rgb(22, 93, 255);
-    }
-  }
-  // arrow
-  &.yc-steps-mode-arrow {
-    .yc-steps-item {
-      background-color: rgb(232, 243, 255);
-      &::after {
-        border-left: 36px solid rgb(232, 243, 255);
-      }
-    }
-  }
-}
-.yc-steps-item-error {
-  .yc-steps-icon {
-    color: #fff;
-    background-color: rgb(245, 63, 63);
-    border: 1px solid transparent;
-  }
-  // dot
-  &.yc-steps-mode-dot {
-    .yc-steps-item-node {
-      background-color: rgb(245, 63, 63);
-      border-color: rgb(245, 63, 63);
-    }
-  }
-  // arrow
-  &.yc-steps-mode-arrow {
-    .yc-steps-item {
-      background-color: rgb(245, 63, 63);
-      &::after {
-        border-left: 36px solid rgb(245, 63, 63);
-      }
-      .yc-steps-item-content {
-        .yc-steps-item-title,
-        .yc-steps-item-description {
-          color: #fff;
-        }
-      }
     }
   }
 }

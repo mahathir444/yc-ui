@@ -9,11 +9,11 @@
           <template v-if="status">
             <img
               v-if="['403', '404', '500'].includes(status)"
-              :src="RESULT_ICON_MAP[status]"
+              :src="TYPE_ICON_MAP[`result-${status}`]"
             />
             <component
               v-else
-              :is="RESULT_ICON_MAP[status]"
+              :is="TYPE_ICON_MAP[`result-${status}`]"
               :color="TYPE_ICON_COLOR_MAP[status]"
             />
           </template>
@@ -43,7 +43,7 @@
 import { toRefs } from 'vue';
 import { ResultProps, ResultSlots } from './type';
 import { TYPE_ICON_COLOR_MAP } from '@shared/constants';
-import { RESULT_ICON_MAP } from '@shared/constants';
+import { TYPE_ICON_MAP } from '@shared/constants';
 defineOptions({
   name: 'Result',
 });

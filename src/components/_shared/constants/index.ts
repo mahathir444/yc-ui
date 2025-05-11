@@ -1,5 +1,8 @@
 import { SelectOptions } from '@/components/Select';
 import { ObjectData } from '@shared/type';
+import Icon403 from '@shared/icons/Icon403.svg';
+import Icon404 from '@shared/icons/Icon404.svg';
+import Icon500 from '@shared/icons/Icon500.svg';
 import {
   IconInfo,
   IconWarning,
@@ -10,19 +13,6 @@ import {
   IconClose,
   IconCheck,
 } from '@shared/icons';
-import Icon403 from '@shared/icons/Icon403.svg';
-import Icon404 from '@shared/icons/Icon404.svg';
-import Icon500 from '@shared/icons/Icon500.svg';
-
-export const RESULT_ICON_MAP: ObjectData = {
-  info: IconInfoLine,
-  warning: IconInfoLine,
-  error: IconClose,
-  success: IconCheck,
-  403: Icon403,
-  404: Icon404,
-  500: Icon500,
-};
 
 // icon映射
 export const TYPE_ICON_MAP: ObjectData = {
@@ -31,6 +21,13 @@ export const TYPE_ICON_MAP: ObjectData = {
   error: IconError,
   info: IconInfo,
   loading: IconLoading,
+  'result-403': Icon403,
+  'result-404': Icon404,
+  'result-500': Icon500,
+  'result-info': IconInfoLine,
+  'result-warning': IconInfoLine,
+  'result-error': IconClose,
+  'result-success': IconCheck,
 };
 
 export const TYPE_ICON_COLOR_MAP: Record<string, string> = {
@@ -48,13 +45,6 @@ export const SIZE_MAP: Record<string, number> = {
   medium: 32,
   large: 36,
 };
-
-export const RESIZE_BOX_POSITION_MAP = [
-  'left',
-  'right',
-  'top',
-  'bottom',
-] as const;
 
 export const TAG_PRESET_COLORS = [
   'default',
@@ -100,7 +90,7 @@ export const COLOR_PICKER_PRESET_COLORS = [
   '#9FD4FD',
 ];
 
-export const FORMAT_OPTIONS: SelectOptions = [
+export const COLOR_PICKER_FORMAT_OPTIONS: SelectOptions = [
   {
     label: 'RGB',
     value: 'rgb',

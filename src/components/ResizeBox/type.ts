@@ -1,6 +1,4 @@
-import { RESIZE_BOX_POSITION_MAP } from '@shared/constants';
-
-export type DirectionType = (typeof RESIZE_BOX_POSITION_MAP)[number];
+export type DirectionType = 'left' | 'right' | 'top' | 'bottom';
 
 export interface ResizeBoxProps {
   directions?: DirectionType[];

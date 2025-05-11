@@ -3,7 +3,7 @@
     <div class="yc-color-picker-format">
       <yc-select
         :model-value="format"
-        :options="FORMAT_OPTIONS"
+        :options="COLOR_PICKER_FORMAT_OPTIONS"
         :trigger-props="{
           contentClass: 'yc-color-picker-format-popup-content',
         }"
@@ -81,7 +81,7 @@
 import { ref, toRefs, watch } from 'vue';
 import { parseColor } from '@shared/utils';
 import { ColorFormat } from '@/components/ColorPicker/type';
-import { FORMAT_OPTIONS } from '@shared/constants';
+import { COLOR_PICKER_FORMAT_OPTIONS } from '@shared/constants';
 import { ObjectData } from '@shared/type';
 import YcInputNumber from '@/components/InputNumber';
 const props = defineProps<{

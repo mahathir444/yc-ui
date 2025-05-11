@@ -8,7 +8,11 @@
     >
       <span v-if="hasIcon" :class="['yc-message-icon', type]">
         <slot name="icon">
-          <component :is="TYPE_ICON_MAP[type]" :spin="type == 'loading'" />
+          <component
+            :is="TYPE_ICON_MAP[type]"
+            :spin="type == 'loading'"
+            :color="TYPE_ICON_COLOR_MAP[type]"
+          />
         </slot>
       </span>
       <span class="yc-message-content">{{ content }}</span>
@@ -25,7 +29,7 @@
 import { onMounted, onUpdated, ref, computed, useSlots } from 'vue';
 import { MessageProps } from './type';
 import { useTimeoutFn } from '@vueuse/core';
-import { TYPE_ICON_MAP } from '@shared/constants';
+import { TYPE_ICON_MAP, TYPE_ICON_COLOR_MAP } from '@shared/constants';
 import { YcIconButton } from '@shared/components';
 
 defineOptions({
