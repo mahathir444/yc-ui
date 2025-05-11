@@ -2,17 +2,13 @@
   <div
     :class="[
       'yc-skeleton-shape',
-      SKELETON_SHAPE_SIZE_CLASS[size] ?? SKELETON_SHAPE_SIZE_CLASS['medium'],
-      SKELETON_SHAPE_CLASS[shape],
+      `yc-skeleton-shape-shape-${shape}`,
+      `yc-skeleton-shape-size-${['small', 'medium', 'large'].includes(size) ? size : 'medium'}`,
     ]"
   ></div>
 </template>
 
 <script lang="ts" setup>
-import {
-  SKELETON_SHAPE_SIZE_CLASS,
-  SKELETON_SHAPE_CLASS,
-} from '@shared/constants';
 import { SkeletonShapeProps } from './type';
 import { useConfigProvder } from '@shared/hooks';
 defineOptions({

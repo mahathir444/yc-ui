@@ -3,7 +3,7 @@
     tag="label"
     :prevent-focus="preventFocus"
     :class="[
-      RADIO_SIZE_CLASS[size],
+      `yc-radio-button-size-${size}`,
       type == 'radio' ? 'yc-radio' : 'yc-radio-button',
       disabled ? 'yc-radio-disabled' : '',
       computedChecked ? 'yc-radio-checked' : 'yc-radio-unchecked',
@@ -41,7 +41,6 @@
 <script lang="ts" setup>
 import { toRefs, computed } from 'vue';
 import { RadioProps, RadioEmits, RadioSlots, RadioValue } from './type';
-import { RADIO_SIZE_CLASS } from '@shared/constants';
 import { isUndefined } from '@shared/utils';
 import { useControlValue } from '@shared/hooks';
 import useProvide from './hooks/useProvide';

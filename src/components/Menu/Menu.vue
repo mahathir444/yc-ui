@@ -1,6 +1,6 @@
 <template>
   <div
-    :class="['yc-menu', MENU_DIRECTION_MAP[mode], MENU_THEME_MAP[theme]]"
+    :class="['yc-menu', `yc-menu-mode-${mode}`, `yc-menu-theme-${theme}`]"
     :style="{
       width:
         computedCollapsed && mode != 'horizontal' ? `${collapsedWidth}px` : '',
@@ -26,7 +26,6 @@
 <script lang="ts" setup>
 import { ref } from 'vue';
 import { MenuProps, MenuEmits, MenuSlots } from './type';
-import { MENU_DIRECTION_MAP, MENU_THEME_MAP } from '@shared/constants';
 import { mediaQueryHandler } from '@shared/utils';
 import { IconMenuFold, IconMenuUnfold } from '@shared/icons';
 import useProvide from './hooks/useProvide';

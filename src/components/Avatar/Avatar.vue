@@ -1,6 +1,6 @@
 <template>
   <div
-    :class="['yc-avatar', AVATAR_SHAPE_CLASS[shape]]"
+    :class="['yc-avatar', `yc-avatar-shape-${shape}`]"
     :style="{
       width: size + 'px',
       height: size + 'px',
@@ -48,8 +48,7 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, toRefs } from 'vue';
-import { AVATAR_SHAPE_CLASS } from '@shared/constants';
+import { ref } from 'vue';
 import { useResizeObserver } from '@vueuse/core';
 import { IconImageClose } from '@shared/icons';
 import { AvatarProps, AvatarSlots, AvatarEmits } from './type';

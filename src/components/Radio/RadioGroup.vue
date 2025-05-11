@@ -2,7 +2,9 @@
   <div
     :class="[
       type == 'radio' ? 'yc-radio-group' : 'yc-radio-button-group',
-      type == 'radio' ? RADIO_DIRECTION_MAP[direction] : RADIO_SIZE_CLASS[size],
+      type == 'radio'
+        ? `yc-radio-group-direction-${direction}`
+        : `yc-radio-button-group-size-${size}`,
     ]"
   >
     <slot />
@@ -26,8 +28,6 @@
 
 <script lang="ts" setup>
 import { RadioGroupProps, RadioGroupEmits, RadioGroupSlots } from './type';
-import { RADIO_SIZE_CLASS } from '@shared/constants';
-import { RADIO_DIRECTION_MAP } from '@shared/constants';
 import useProvide from './hooks/useProvide';
 import YcRadio from './Radio.vue';
 defineOptions({

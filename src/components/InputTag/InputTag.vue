@@ -2,11 +2,11 @@
   <yc-prevent-focus
     :class="[
       'yc-input-tag',
+      `yc-input-tag-size-${size}`,
       !computedValue.length ? 'yc-input-tag-no-value' : '',
       disabled ? 'yc-input-tag-disabled' : '',
       error ? 'yc-input-tag-error' : '',
       $slots.suffix || showClearBtn ? 'yc-input-tag-has-suffix' : '',
-      INPUT_TAG_SIZE_CLASS[size],
     ]"
     @click="inputRef?.focus()"
   >
@@ -71,7 +71,6 @@
 
 <script lang="ts" setup>
 import { ref, computed, toRefs } from 'vue';
-import { INPUT_TAG_SIZE_CLASS } from '@shared/constants';
 import {
   InputTagProps,
   InputTagValue,

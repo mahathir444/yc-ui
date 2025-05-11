@@ -2,11 +2,11 @@
   <button
     :class="[
       'yc-switch',
+      `yc-switch-shape-${type}`,
+      `yc-switch-size-${['medium', 'small'].includes(size) ? size : 'medium'}`,
       compuedChecked ? 'yc-switch-checked' : 'yc-switch-unchecked',
       loading ? 'yc-switch-loading' : '',
       disabled ? 'yc-switch-disabled' : '',
-      SWITCH_SHAPE_CLASS[type],
-      SWITCH_SIZE_CLASS[size] ?? SWITCH_SIZE_CLASS['medium'],
     ]"
     :aria-checked="compuedChecked"
     role="switch"
@@ -39,7 +39,6 @@
 <script lang="ts" setup>
 import { toRefs, computed } from 'vue';
 import { SwitchProps, SwitchEmits, SwitchSlots, SwitchValue } from './type';
-import { SWITCH_SIZE_CLASS, SWITCH_SHAPE_CLASS } from '@shared/constants';
 import { isBoolean } from '@shared/utils';
 import { useControlValue, useConfigProvder } from '@shared/hooks';
 import YcSpin from '@/components/Spin';

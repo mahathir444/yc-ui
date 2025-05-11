@@ -2,13 +2,13 @@
   <div
     :class="[
       'yc-steps-item',
+      `yc-steps-item-${status}`,
+      `yc-steps-item-next-${nextStatus}`,
       curStep == computedCurrent && type == 'navigation'
         ? 'yc-steps-item-active'
         : '',
       lineLess ? 'yc-steps-item-line-less' : '',
       small ? 'yc-steps-item-size-small' : '',
-      STEP_STATUS_CLASS[status],
-      STEP_NEXT_STATUS_CLASS[nextStatus],
     ]"
     @click="handleClick"
   >
@@ -54,7 +54,6 @@
 import { toRefs, computed } from 'vue';
 import { StepProps, StepSlots } from './type';
 import { IconCheck, IconClose } from '@shared/icons';
-import { STEP_STATUS_CLASS, STEP_NEXT_STATUS_CLASS } from '@shared/constants';
 import useProvide from './hooks/useProvide';
 defineOptions({
   name: 'Step',

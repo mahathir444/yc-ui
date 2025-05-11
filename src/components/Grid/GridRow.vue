@@ -5,9 +5,9 @@
         ? []
         : [
             'yc-row',
+            `yc-row-justify-${justify}`,
+            `yc-row-align-${align}`
             wrap ? 'flex-row-wrap' : '',
-            ROW_JUSTIFY_MAP[justify],
-            ROW_ALIGN_MAP[align],
           ]
     "
     :style="style"
@@ -20,7 +20,6 @@
 import { toRefs, computed, CSSProperties } from 'vue';
 import { GridRowProps, GridRowSlots } from './type';
 import { mediaQueryHandler } from '@shared/utils';
-import { ROW_ALIGN_MAP, ROW_JUSTIFY_MAP } from '@shared/constants';
 import useProvide from './hooks/useProvide';
 defineOptions({
   name: 'Row',

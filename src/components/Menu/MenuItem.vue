@@ -10,10 +10,10 @@
       <div
         :class="[
           'yc-menu-item',
+          `yc-menu-item-theme-${theme}`,
           isSelected ? 'yc-menu-item-selected' : '',
           disabled ? 'yc-menu-item-disabled' : '',
           computedCollapsed ? 'yc-menu-item-collapsed' : '',
-          MENU_ITEM_THEME_MAP[theme],
         ]"
         ref="menuItemRef"
         @click="handleClick"
@@ -101,7 +101,6 @@ import { ref, toRefs, computed, onMounted } from 'vue';
 import { createReusableTemplate } from '@vueuse/core';
 import { MenuItemProps, MenuItemSlots } from './type';
 import { getTextContent, isNumber } from '@shared/utils';
-import { MENU_ITEM_THEME_MAP } from '@shared/constants';
 import useProvide from './hooks/useProvide';
 import useMenuLevel from './hooks/useMenuLevel';
 import MenuPopOption from './MenuPopOption.vue';

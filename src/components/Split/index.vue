@@ -1,5 +1,5 @@
 <template>
-  <div :class="['yc-split', SPLIT_DIRECTION_MAP[direction]]" ref="splitRef">
+  <div :class="['yc-split', `yc-split-direction-${direction}`]" ref="splitRef">
     <!-- first -->
     <div
       class="yc-split-pane yc-split-pane-first"
@@ -40,7 +40,6 @@
 import { ref, toRefs, computed, watch, onMounted } from 'vue';
 import { SplitProps, SplitEmits, SplitSlots } from './type';
 import { sleep } from '@shared/utils';
-import { SPLIT_DIRECTION_MAP } from '@shared/constants';
 import { IconDragDotVertical, IconDragDot } from '@shared/icons';
 import { useControlValue } from '@shared/hooks';
 import { useElementBounding, useDraggable } from '@vueuse/core';

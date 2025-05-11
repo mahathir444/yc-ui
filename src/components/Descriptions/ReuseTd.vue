@@ -4,8 +4,8 @@
       type == 'label'
         ? 'yc-descriptions-item-label'
         : 'yc-descriptions-item-value',
+      `yc-descriptions-item-cell-size-${size}`
       bordered ? 'yc-descriptions-item-cell-bordered' : '',
-      DESCRIPTIONS_ITEM_SIZE_CLASS[size],
     ]"
     :style="{
       ...(type == 'label' ? labelStyle : valueStyle),
@@ -42,7 +42,6 @@
 
 <script lang="ts" setup>
 import { DescData } from './type';
-import { DESCRIPTIONS_ITEM_SIZE_CLASS } from '@shared/constants';
 import { getSlotFunction, isObject } from '@shared/utils';
 import useProvide from './hooks/useProvide';
 defineProps<{

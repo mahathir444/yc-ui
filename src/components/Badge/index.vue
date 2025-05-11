@@ -5,8 +5,8 @@
       <div
         :class="[
           'yc-badge-stauts-dot',
-          color ? BADGE_COLOR_CLASS[color] : '',
-          status ? BADGE_STATUS_CLASS[status] : '',
+          `yc-badge-status-${status}`,
+          `yc-badge-color-${color}`,
         ]"
       ></div>
       <div class="yc-badge-status-text">
@@ -22,7 +22,6 @@
 <script lang="ts" setup>
 import { computed, toRefs } from 'vue';
 import { BadgeProps, BadgeSlots } from './type';
-import { BADGE_COLOR_CLASS, BADGE_STATUS_CLASS } from '@shared/constants';
 defineOptions({
   name: 'Badge',
 });

@@ -2,8 +2,8 @@
   <div
     :class="[
       'yc-carousel-indicator',
-      INDICATOR_POSITION_MAP[indicatorPosition],
-      INDICATOR_SHAPE_CLASS[indicatorType],
+      `yc-carousel-indicator-shape-${indicatorType}`,
+      `yc-carousel-indicator-position-${indicatorPosition}`
       indicatorClass,
     ]"
   >
@@ -38,10 +38,6 @@
 </template>
 
 <script lang="ts" setup>
-import {
-  INDICATOR_POSITION_MAP,
-  INDICATOR_SHAPE_CLASS,
-} from '@shared/constants';
 import { IndicatorTrigger, IndicatorType, IndicatorPosition } from './type';
 import useProvide from './hooks/useProvide';
 defineProps<{

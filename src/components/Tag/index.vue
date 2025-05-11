@@ -4,9 +4,13 @@
     :prevent-focus="preventFocus"
     :class="[
       'yc-tag',
-      TAG_SIZE_CLASS[size] ?? TAG_SIZE_CLASS['medium'],
-      TAG_COLOR_CLASS[color],
-      TAG_COLOR_CLASS[color] ? 'yc-tag-preset-color' : 'yc-tag-custom-color',
+      `yc-tag-color-${color}`,
+      `yc-tag-size-${
+        ['small', 'medium', 'large'].includes(size) ? size : 'medium'
+      }`,
+      TAG_PRESET_COLORS.includes(color)
+        ? 'yc-tag-preset-color'
+        : 'yc-tag-custom-color',
       loading ? 'yc-tag-loading' : '',
       bordered ? 'yc-tag-bordered' : '',
       computedChecked ? 'yc-tag-checked' : '',
@@ -42,7 +46,7 @@
 <script lang="ts" setup>
 import { toRefs, computed, ref } from 'vue';
 import { TagProps, TagEmits, TagSlots } from './type';
-import { TAG_SIZE_CLASS, TAG_COLOR_CLASS } from '@shared/constants';
+import { TAG_PRESET_COLORS } from '@shared/constants';
 import YcSpin from '@/components/Spin';
 import { useControlValue, useConfigProvder } from '@shared/hooks';
 import { YcPreventFocus, YcIconButton } from '@shared/components';
@@ -92,7 +96,7 @@ const computedChecked = useControlValue<boolean>(
 );
 // 背景色
 const background = computed(() => {
-  return TAG_COLOR_CLASS[color.value] ? '#fff' : color.value;
+  return TAG_PRESET_COLORS.includes(color.value) ? '#fff' : color.value;
 });
 // 处理事件
 const handleEvent = (type: 'close' | 'check', ev: MouseEvent) => {

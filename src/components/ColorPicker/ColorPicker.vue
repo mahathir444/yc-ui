@@ -10,7 +10,7 @@
     v-bind="triggerProps"
     @popupVisibleChange="(v: boolean) => $emit('popupVisibleChange', v)"
   >
-    <div :class="['yc-color-picker', COLOR_PICKER_SIZE_CLASS[size]]">
+    <div :class="['yc-color-picker', `yc-color-picker-size-${size}`]">
       <div
         class="yc-color-picker-preview"
         :style="{
@@ -31,7 +31,6 @@
 <script lang="ts" setup>
 import { PRESET_COLORS } from '@shared/constants';
 import { ColorPickerProps, ColorPickerEmits } from './type';
-import { COLOR_PICKER_SIZE_CLASS } from '@shared/constants';
 import useProvide from './hooks/useProvide';
 import ColorPanel from './ColorPanel.vue';
 import YcTrigger from '@/components/Trigger';

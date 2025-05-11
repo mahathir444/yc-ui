@@ -1,11 +1,14 @@
 <template>
   <div
-    :class="['yc-scrollbar-track', TRACK_DIRECTION_MAP[direction]]"
+    :class="['yc-scrollbar-track', `yc-scrollbar-track-direction-${direction}`]"
     ref="trackRef"
     @click.self="handleClick"
   >
     <div
-      :class="['yc-scrollbar-thumb', THUMB_DIRECTION_MAP[direction]]"
+      :class="[
+        'yc-scrollbar-thumb',
+        `yc-scrollbar-thumb-direction-${direction}`,
+      ]"
       :style="thmubStyle"
       ref="dragRef"
     >
@@ -23,7 +26,6 @@
 import { ref, toRefs, computed } from 'vue';
 import { useDraggable, useResizeObserver } from '@vueuse/core';
 import { Direction } from '@shared/type';
-import { TRACK_DIRECTION_MAP, THUMB_DIRECTION_MAP } from '@shared/constants';
 import useProvide from './hooks/useProvide';
 const props = withDefaults(
   defineProps<{

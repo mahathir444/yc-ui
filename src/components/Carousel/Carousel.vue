@@ -2,12 +2,12 @@
   <div
     :class="[
       'yc-carousel',
+      `yc-carousel-animation-${animationName}`,
       indicatorPosition == 'outer' ? 'yc-carousel-indicator-outer' : '',
-      CAROUSEL_ANIMATION_CLASS[animationName],
     ]"
   >
     <div
-      :class="['yc-carousel-slide', CAROUSEL_DIRECTION_MAP[direction]]"
+      :class="['yc-carousel-slide', `yc-carousel-direction-${direction}`]"
       @mouseenter="autoPlay?.hoverToPause && stopAutoPlay()"
       @mouseleave="autoPlay?.hoverToPause && setAutoPlay()"
     >
@@ -32,10 +32,6 @@
 <script lang="ts" setup>
 import { watch, onBeforeUnmount } from 'vue';
 import { CarouselProps, CarouselEmits, CarouselSlots } from './type';
-import {
-  CAROUSEL_DIRECTION_MAP,
-  CAROUSEL_ANIMATION_CLASS,
-} from '@shared/constants';
 import useProvide from './hooks/useProvide';
 import CarouselArrow from './CarouselArrow.vue';
 import CarouselIndicator from './CarouselIndicator.vue';

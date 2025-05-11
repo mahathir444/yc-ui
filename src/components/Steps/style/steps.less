@@ -137,6 +137,24 @@
       justify-content: center;
     }
   }
+  .yc-steps-item-size-small {
+    &:not(:first-child)::before {
+      border-top: 20px solid transparent;
+      border-bottom: 20px solid transparent;
+      border-left: 20px solid #fff;
+    }
+    &:not(:last-child)::after {
+      right: -20px;
+      border-top: 20px solid transparent;
+      border-bottom: 20px solid transparent;
+    }
+    .yc-steps-item-content {
+      height: 40px;
+      .yc-steps-item-description {
+        display: none;
+      }
+    }
+  }
 }
 .yc-steps-mode-navigation {
   gap: 32px;

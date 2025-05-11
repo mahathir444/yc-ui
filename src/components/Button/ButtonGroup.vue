@@ -2,8 +2,8 @@
   <div
     :class="[
       'yc-button-group',
-      BUTTON_GROUP_SHAPE_CLASS[type],
-      BUTTON_GROUP_STAUTS_CLASS[status],
+      `yc-button-group-${type}`,
+      `yc-button-group-status-${status}`,
     ]"
   >
     <slot />
@@ -12,10 +12,6 @@
 
 <script lang="ts" setup>
 import { ButtonGroupProps, ButtonGroupSlots } from './type';
-import {
-  BUTTON_GROUP_SHAPE_CLASS,
-  BUTTON_GROUP_STAUTS_CLASS,
-} from '@shared/constants';
 import useProvide from './hooks/useProvide';
 defineOptions({
   name: 'ButtonGroup',

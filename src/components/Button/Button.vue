@@ -39,12 +39,6 @@
 <script lang="ts" setup>
 import { computed, toRefs, useSlots } from 'vue';
 import { ButtonProps, ButtonEmits, ButtonSlots } from './type';
-import {
-  BUTTON_SIZE_CLASS,
-  BUTTON_SHAPE_CLASS,
-  BUTTON_TYPE_CLASS,
-  BUTTON_STATUS_CLASS,
-} from '@shared/constants';
 import YcSpin from '@/components/Spin';
 import useInject from './hooks/useProvide';
 defineOptions({
@@ -90,13 +84,13 @@ const btnClass = computed(() => {
     // no-padding
     shape.value == 'circle' ? 'yc-button-no-padding' : '',
     // size
-    BUTTON_SIZE_CLASS[size.value],
+    `yc-button-size-${size.value}`,
     // type
-    BUTTON_TYPE_CLASS[type.value],
+    `yc-button-${type.value}`,
     // status
-    BUTTON_STATUS_CLASS[status.value],
+    `yc-button-status-${status.value}`,
     // shape
-    BUTTON_SHAPE_CLASS[shape.value],
+    `yc-button-shape-${shape.value}`,
   ];
 });
 // 拦截事件

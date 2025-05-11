@@ -3,9 +3,9 @@
     <div
       :class="[
         'yc-input-wrapper',
+        `yc-input-size-${size}`,
         disabled ? 'yc-input-disabled' : '',
         error ? 'yc-input-error' : '',
-        INPUT_SIZE_CLASS[size],
       ]"
     >
       <!-- prefix-icon -->
@@ -70,10 +70,10 @@
     v-if="$slots.append || $slots.prepend"
     :class="[
       'yc-input-outer',
+      `yc-input-outer-size-${size}`,
       disabled ? 'yc-input-outer-disabled' : '',
       $slots.prepend ? 'yc-input-has-prepend' : '',
       $slots.append ? 'yc-input-has-append' : '',
-      INPUT_OUTER_SIZE_CLASS[size],
     ]"
     v-bind="$attrs"
   >
@@ -95,7 +95,6 @@
 <script lang="ts" setup>
 import { ref, toRefs, computed } from 'vue';
 import { InputProps, InputEmits, InputSlots } from './type';
-import { INPUT_OUTER_SIZE_CLASS, INPUT_SIZE_CLASS } from '@shared/constants';
 import { createReusableTemplate } from '@vueuse/core';
 import { useControlValue, useConfigProvder } from '@shared/hooks';
 import useLimitedInput from './hooks/useLimitedInput';

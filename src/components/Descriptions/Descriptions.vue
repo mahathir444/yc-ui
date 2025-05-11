@@ -1,12 +1,11 @@
 <template>
-  <!-- yc-descriptions-layout-horizontal -->
   <div
     :class="[
       'yc-descriptions',
+      `yc-descriptions-size-${size}`,
+      `yc-descriptions-layout-${layout}`,
       bordered ? 'yc-descriptions-bordered' : '',
       tableLayout == 'fixed' ? 'yc-descriptions-table-layout-fixed ' : '',
-      DESCRIPTIONS_SIZE_CLASS[size],
-      DESCRIPTIONS_DIRECTION_MAP[layout],
     ]"
   >
     <div v-if="$slots.title || title" class="yc-descriptions-title">
@@ -87,10 +86,6 @@
 <script lang="ts" setup>
 import { computed } from 'vue';
 import { DescriptionsProps, DescriptionsSlots, DescData } from './type';
-import {
-  DESCRIPTIONS_SIZE_CLASS,
-  DESCRIPTIONS_DIRECTION_MAP,
-} from '@shared/constants';
 import ReuseTd from './ReuseTd.vue';
 import ReuseItem from './ReuseItem.vue';
 import useProvide from './hooks/useProvide';

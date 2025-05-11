@@ -2,7 +2,7 @@
   <div
     :class="[
       'yc-slider',
-      SLIDER_DIRECTION_MAP[direction],
+      `yc-slider-direction-${direction}`
       disabled ? 'yc-slider-disabled' : '',
     ]"
   >
@@ -36,7 +36,6 @@
 <script lang="ts" setup>
 import { ref, computed } from 'vue';
 import { SliderProps, SliderEmits, PositionData } from './type';
-import { SLIDER_DIRECTION_MAP } from '@shared/constants';
 import useProvide from './hooks/useProvide';
 import YcSliderTicks from './SliderTicks.vue';
 import YcSliderBtn from './SliderBtn.vue';

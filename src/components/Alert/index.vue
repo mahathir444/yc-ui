@@ -4,10 +4,11 @@
       v-if="visible"
       :class="[
         'yc-alert',
+        `yc-alert-${type}`
         title || $slots.title ? 'yc-alert-has-title' : '',
         center || banner ? 'yc-alert-center' : '',
         banner ? 'yc-alert-banner' : '',
-        ALERT_TYPE_CLASS[type],
+  
       ]"
     >
       <div v-if="showIcon" class="yc-alert-icon">
@@ -43,11 +44,7 @@
 <script lang="ts" setup>
 import { ref } from 'vue';
 import { AlertProps, AlertEmits, AlertSlots } from './type';
-import {
-  TYPE_ICON_MAP,
-  TYPE_ICON_COLOR_MAP,
-  ALERT_TYPE_CLASS,
-} from '@shared/constants';
+import { TYPE_ICON_MAP, TYPE_ICON_COLOR_MAP } from '@shared/constants';
 import { YcIconButton } from '@shared/components';
 defineOptions({
   name: 'Alert',

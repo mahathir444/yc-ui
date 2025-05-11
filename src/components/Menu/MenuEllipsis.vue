@@ -19,8 +19,8 @@
         :class="[
           'yc-menu-item',
           'yc-menu-item-ellipsis',
+          `yc-menu-item-theme-${theme}`
           isSelected ? 'yc-menu-item-selected' : '',
-          MENU_ITEM_THEME_MAP[theme],
         ]"
       >
         <div class="yc-menu-item-title">
@@ -51,7 +51,6 @@
 import { ref, computed } from 'vue';
 import { IconMore, IconArrowDown } from '@shared/icons';
 import { isNumber } from '@shared/utils';
-import { MENU_ITEM_THEME_MAP } from '@shared/constants';
 import useProvide from './hooks/useProvide';
 import { flattenMenuTree } from './hooks/useMenuLevel';
 import MenuPopOption from './MenuPopOption.vue';

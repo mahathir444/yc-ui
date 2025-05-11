@@ -2,8 +2,8 @@
   <div
     :class="[
       'yc-space',
-      SPACE_DIRECTION_MAP[direction],
-      SPACE_ALIGN_MAP[align],
+      `yc-space-align-${align}`,
+      `yc-space-direction-${direction}`,
       wrap ? 'yc-space-wrap' : '',
       fill ? 'yc-space-fill' : '',
     ]"
@@ -25,7 +25,6 @@
 <script lang="ts" setup>
 import { toRefs, computed, useSlots } from 'vue';
 import { SpaceProps, SpaceSlots } from './type';
-import { SPACE_DIRECTION_MAP, SPACE_ALIGN_MAP } from '@shared/constants';
 import { isNumber } from '@shared/utils';
 defineOptions({
   name: 'Space',

@@ -1,7 +1,154 @@
-export * from './size';
-export * from './shape';
-export * from './direction';
-export * from './type';
-export * from './color';
-export * from './position';
-export * from './other';
+import { SelectOptions } from '@/components/Select';
+import { ObjectData } from '@shared/type';
+import {
+  IconInfo,
+  IconWarning,
+  IconError,
+  IconSuccess,
+  IconLoading,
+  IconInfoLine,
+  IconClose,
+  IconCheck,
+} from '@shared/icons';
+import Icon403 from '@shared/icons/Icon403.svg';
+import Icon404 from '@shared/icons/Icon404.svg';
+import Icon500 from '@shared/icons/Icon500.svg';
+
+export const RESULT_ICON_MAP: ObjectData = {
+  info: IconInfoLine,
+  warning: IconInfoLine,
+  error: IconClose,
+  success: IconCheck,
+  403: Icon403,
+  404: Icon404,
+  500: Icon500,
+};
+
+// icon映射
+export const TYPE_ICON_MAP: ObjectData = {
+  success: IconSuccess,
+  warning: IconWarning,
+  error: IconError,
+  info: IconInfo,
+  loading: IconLoading,
+};
+
+export const TYPE_ICON_COLOR_MAP: Record<string, string> = {
+  info: 'rgb(22, 93, 255)',
+  success: ' rgb(0, 180, 42)',
+  warning: 'rgb(255, 125, 0)',
+  error: 'rgb(245, 63, 63)',
+  loading: 'rgb(22, 93, 225)',
+  normal: 'rgb(201,205,212)',
+};
+
+export const SIZE_MAP: Record<string, number> = {
+  mini: 24,
+  small: 28,
+  medium: 32,
+  large: 36,
+};
+
+export const NOFITICATION_TYPE = [
+  'info',
+  'warning',
+  'success',
+  'error',
+] as const;
+
+export const MESSAGE_TYPE = [
+  'info',
+  'warning',
+  'success',
+  'error',
+  'loading',
+  'normal',
+] as const;
+
+export const RESIZE_BOX_POSITION_MAP = [
+  'left',
+  'right',
+  'top',
+  'bottom',
+] as const;
+
+export const NOTIFICATION_POSITION = [
+  'topLeft',
+  'topRight',
+  'bottomLeft',
+  'bottomRight',
+] as const;
+
+export const DROPDOWN_POSITION_MAP: Record<string, string> = {
+  top: 'top',
+  tl: 'tl',
+  tr: 'tr',
+  bottom: 'bottom',
+  bl: 'bl',
+  br: 'br',
+};
+
+export const DSUBMENU_POSITION_MAP: Record<string, string> = {
+  rt: 'rt',
+  rb: 'rb',
+};
+
+export const DSUBMENU_TRIGGER_MAP: Record<string, string> = {
+  click: 'click',
+  hover: 'hover',
+};
+
+export const TAG_PRESET_COLORS = [
+  'default',
+  'red',
+  'orangered',
+  'orange',
+  'gold',
+  'lime',
+  'green',
+  'cyan',
+  'blue',
+  'arcoblue',
+  'purple',
+  'pinkpurple',
+  'magent',
+  'gray',
+  'white',
+  'default',
+];
+
+export const COLOR_PICKER_PRESET_COLORS = [
+  '#00B42A',
+  '#3C7EFF',
+  '#FF7D00',
+  '#F76965',
+  '#F7BA1E',
+  '#F5319D',
+  '#D91AD9',
+  '#9FDB1D',
+  '#FADC19',
+  '#722ED1',
+  '#3491FA',
+  '#7BE188',
+  '#93BEFF',
+  '#FFCF8B',
+  '#FBB0A7',
+  '#FCE996',
+  '#FB9DC7',
+  '#F08EE6',
+  '#DCF190',
+  '#FDFA94',
+  '#C396ED',
+  '#9FD4FD',
+];
+
+export const FORMAT_OPTIONS: SelectOptions = [
+  {
+    label: 'RGB',
+    value: 'rgb',
+  },
+  {
+    label: 'Hex',
+    value: 'hex',
+  },
+];

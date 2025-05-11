@@ -1,5 +1,5 @@
 <template>
-  <div :class="[TICKS_TYPE_CLASS[type]]">
+  <div :class="`yc-slider-${type}`">
     <span
       v-for="{ label, value } in data"
       :key="value"
@@ -8,7 +8,7 @@
         bottom: direction == 'vertical' ? getPosition(value) : '',
       }"
       :class="[
-        TICK_TYPE_CLASS[type.replace('s', '')],
+      `yc-slider-${type.replace('s', '')}`
         type == 'dots' && isInRange(value) ? 'yc-slider-dot-active' : '',
         type == 'ticks' && isInRange(value) ? 'yc-slider-tick-active' : '',
       ]"
@@ -22,7 +22,6 @@
 <script lang="ts" setup>
 import { toRefs } from 'vue';
 import { ObjectData } from '@shared/type';
-import { TICK_TYPE_CLASS, TICKS_TYPE_CLASS } from '@shared/constants';
 import useProvide from './hooks/useProvide';
 const props = defineProps<{
   type: 'dots' | 'marks' | 'ticks';

@@ -5,10 +5,10 @@
       v-show="outerVisible"
       :class="[
         'yc-drawer-wrapper',
+        `yc-drawer-placement-${placement}`,
         popupContainer || !renderToBody
           ? 'yc-drawer-wrapper-position-absolute'
           : '',
-        DRAWER_PLACEMENT_MAP[placement],
       ]"
     >
       <!-- mask -->
@@ -83,7 +83,6 @@
 
 <script lang="ts" setup>
 import { toRefs, computed, CSSProperties, useAttrs } from 'vue';
-import { DRAWER_PLACEMENT_MAP } from '@shared/constants';
 import { DrawerProps, DrawerEmits, DrawerSlots } from './type';
 import { useConfigProvder } from '@shared/hooks';
 import useDrawerClose from '@/components/Modal/hooks/useModalClose';

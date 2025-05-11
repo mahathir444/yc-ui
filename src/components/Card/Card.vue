@@ -2,11 +2,11 @@
   <div
     :class="[
       'yc-card',
+      `yc-card-size-${['small', 'medium'].includes(size) ? size : 'medium'}`,
       bordered ? 'yc-card-bordered' : '',
       hoverable ? 'yc-card-hoverable' : '',
       loading ? 'yc-card-loading' : '',
       hasGrid ? 'yc-card-contain-grid' : '',
-      CARD_SIZE_CLASS[size] || 'yc-card-size-medium ',
     ]"
   >
     <div
@@ -50,7 +50,6 @@
 
 <script lang="ts" setup>
 import { CardProps, CardSlots } from './type';
-import { CARD_SIZE_CLASS } from '@shared/constants';
 import YcSpin from '@/components/Spin';
 import useProvide from './hooks/useProvide';
 defineOptions({

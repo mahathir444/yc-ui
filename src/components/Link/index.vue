@@ -10,7 +10,7 @@
       // disabled
       disabled ? 'yc-link-disabled' : '',
       // status
-      LINK_STATUS_CLASS[status],
+      `yc-link-status-${status}`,
     ]"
     @click="handleEvent('click', $event)"
     @dblclick="handleEvent('dblclick', $event)"
@@ -29,7 +29,6 @@
 <script lang="ts" setup>
 import { toRefs, computed } from 'vue';
 import { LinkProps, LinkEmits, LinkSlots } from './type';
-import { LINK_STATUS_CLASS } from '@shared/constants';
 import YcSpin from '@/components/Spin';
 import { IconLink } from '@shared/icons';
 defineOptions({

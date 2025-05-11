@@ -2,10 +2,10 @@
   <div
     :class="[
       'yc-steps',
+      `yc-steps-mode-${type}`,
+      `yc-steps-direction-${direction}`,
+      `yc-steps-label-direction-${labelPlacement}`
       changeable ? 'yc-steps-item-changeable' : '',
-      STEPS_DIRECTION_MAP[direction],
-      STEPS_TYPE_CLASS[type],
-      STEPS_LABEL_DIRECTION_MAP[labelPlacement],
     ]"
   >
     <slot />
@@ -13,13 +13,7 @@
 </template>
 
 <script lang="ts" setup>
-import { computed } from 'vue';
 import { StepsProps, StepsEmits, StepsSlots } from './type';
-import {
-  STEPS_TYPE_CLASS,
-  STEPS_LABEL_DIRECTION_MAP,
-  STEPS_DIRECTION_MAP,
-} from '@shared/constants';
 import useProvide from './hooks/useProvide';
 defineOptions({
   name: 'Steps',
