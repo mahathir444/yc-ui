@@ -2,7 +2,6 @@ import { App, render, ref, createVNode, reactive } from 'vue';
 import _Message from './Message.vue';
 import _MessageContainer from './MessageContainer.vue';
 import { MessageConfig, MessageList, MessageType } from './type';
-import { MESSAGE_TYPE } from '@shared/constants';
 export type MessageInstance = InstanceType<typeof _Message>;
 export * from './type';
 
@@ -55,7 +54,9 @@ const openMessage = (type: MessageType, config: MessageConfig) => {
   };
 };
 
-const messageMethod = MESSAGE_TYPE.reduce(
+const messageMethod = (
+  ['info', 'warning', 'success', 'error', 'loading', 'normal'] as MessageType[]
+).reduce(
   (acc, type) => {
     acc[type] = (config: MessageConfig) => openMessage(type, config);
     return acc;

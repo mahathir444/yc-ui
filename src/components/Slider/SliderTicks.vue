@@ -1,5 +1,5 @@
 <template>
-  <div :class="`yc-slider-${type}`">
+  <div :class="[`yc-slider-${type}`]">
     <span
       v-for="{ label, value } in data"
       :key="value"
@@ -8,7 +8,7 @@
         bottom: direction == 'vertical' ? getPosition(value) : '',
       }"
       :class="[
-      `yc-slider-${type.replace('s', '')}`
+        `yc-slider-${type.replace('s', '')}`,
         type == 'dots' && isInRange(value) ? 'yc-slider-dot-active' : '',
         type == 'ticks' && isInRange(value) ? 'yc-slider-tick-active' : '',
       ]"

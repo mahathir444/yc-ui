@@ -3,7 +3,7 @@
     :class="[
       'yc-carousel-indicator',
       `yc-carousel-indicator-shape-${indicatorType}`,
-      `yc-carousel-indicator-position-${indicatorPosition}`
+      `yc-carousel-indicator-position-${indicatorPosition}`,
       indicatorClass,
     ]"
   >

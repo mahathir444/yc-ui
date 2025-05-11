@@ -4,7 +4,7 @@
       type == 'label'
         ? 'yc-descriptions-item-label'
         : 'yc-descriptions-item-value',
-      `yc-descriptions-item-cell-size-${size}`
+      `yc-descriptions-item-cell-size-${size}`,
       bordered ? 'yc-descriptions-item-cell-bordered' : '',
     ]"
     :style="{

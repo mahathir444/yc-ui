@@ -34,7 +34,6 @@
 <script lang="ts" setup>
 import { toRefs, computed } from 'vue';
 import { DropdownProps, DoptionValue, DropdownSlots } from './type';
-import { DROPDOWN_POSITION_MAP } from '@shared/constants';
 import YcTrigger from '@/components/Trigger';
 import YcScrollbar from '@/components/Scrollbar';
 import useProvide from './hooks/useProvide';
@@ -65,7 +64,9 @@ const { provide } = useProvide();
 const { computedVisible } = provide(props, emits);
 // 位置
 const position = computed(() => {
-  return DROPDOWN_POSITION_MAP[_position.value] || 'bottom';
+  return ['top', 'tl', 'tr', 'bottom', 'bl', 'br'].includes(_position.value)
+    ? _position.value
+    : 'bottom';
 });
 defineExpose({
   show() {

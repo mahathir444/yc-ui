@@ -4,11 +4,10 @@
       v-if="visible"
       :class="[
         'yc-alert',
-        `yc-alert-${type}`
+        `yc-alert-${type}`,
         title || $slots.title ? 'yc-alert-has-title' : '',
         center || banner ? 'yc-alert-center' : '',
         banner ? 'yc-alert-banner' : '',
-  
       ]"
     >
       <div v-if="showIcon" class="yc-alert-icon">

@@ -29,7 +29,7 @@
 </template>
 
 <script lang="ts" setup>
-import { PRESET_COLORS } from '@shared/constants';
+import { COLOR_PICKER_PRESET_COLORS } from '@shared/constants';
 import { ColorPickerProps, ColorPickerEmits } from './type';
 import useProvide from './hooks/useProvide';
 import ColorPanel from './ColorPanel.vue';
@@ -53,7 +53,7 @@ const props = withDefaults(defineProps<ColorPickerProps>(), {
     return {};
   },
   historyColors: () => [],
-  presetColors: () => PRESET_COLORS,
+  presetColors: () => COLOR_PICKER_PRESET_COLORS,
 });
 const emits = defineEmits<ColorPickerEmits>();
 // 注入

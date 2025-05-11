@@ -6,7 +6,7 @@
         : [
             'yc-row',
             `yc-row-justify-${justify}`,
-            `yc-row-align-${align}`
+            `yc-row-align-${align}`,
             wrap ? 'flex-row-wrap' : '',
           ]
     "

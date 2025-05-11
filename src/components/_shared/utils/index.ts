@@ -1,5 +1,4 @@
 export * from './color';
-export * from './compt';
 export * from './dom';
 export * from './fn';
 export * from './is';

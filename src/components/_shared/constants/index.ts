@@ -49,54 +49,12 @@ export const SIZE_MAP: Record<string, number> = {
   large: 36,
 };
 
-export const NOFITICATION_TYPE = [
-  'info',
-  'warning',
-  'success',
-  'error',
-] as const;
-
-export const MESSAGE_TYPE = [
-  'info',
-  'warning',
-  'success',
-  'error',
-  'loading',
-  'normal',
-] as const;
-
 export const RESIZE_BOX_POSITION_MAP = [
   'left',
   'right',
   'top',
   'bottom',
 ] as const;
-
-export const NOTIFICATION_POSITION = [
-  'topLeft',
-  'topRight',
-  'bottomLeft',
-  'bottomRight',
-] as const;
-
-export const DROPDOWN_POSITION_MAP: Record<string, string> = {
-  top: 'top',
-  tl: 'tl',
-  tr: 'tr',
-  bottom: 'bottom',
-  bl: 'bl',
-  br: 'br',
-};
-
-export const DSUBMENU_POSITION_MAP: Record<string, string> = {
-  rt: 'rt',
-  rb: 'rb',
-};
-
-export const DSUBMENU_TRIGGER_MAP: Record<string, string> = {
-  click: 'click',
-  hover: 'hover',
-};
 
 export const TAG_PRESET_COLORS = [
   'default',

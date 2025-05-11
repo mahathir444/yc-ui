@@ -1,5 +1,4 @@
 import { ClassName, RenderContent } from '@shared/type';
-import { NOTIFICATION_POSITION, NOFITICATION_TYPE } from '@shared/constants';
 import { CSSProperties, RenderFunction } from 'vue';
 
 export interface NotificationProps {
@@ -26,5 +25,9 @@ export interface NotificationConfig extends NotificationProps {
 export interface NotificationReturn {
   close: () => void;
 }
-export type NotificationType = (typeof NOFITICATION_TYPE)[number];
-export type NotificationPosition = (typeof NOTIFICATION_POSITION)[number];
+export type NotificationType = 'info' | 'warning' | 'success' | 'error';
+export type NotificationPosition =
+  | 'topLeft'
+  | 'topRight'
+  | 'bottomLeft'
+  | 'bottomRight';

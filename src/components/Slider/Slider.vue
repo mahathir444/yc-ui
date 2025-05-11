@@ -2,7 +2,7 @@
   <div
     :class="[
       'yc-slider',
-      `yc-slider-direction-${direction}`
+      `yc-slider-direction-${direction}`,
       disabled ? 'yc-slider-disabled' : '',
     ]"
   >

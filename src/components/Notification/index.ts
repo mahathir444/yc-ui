@@ -6,7 +6,6 @@ import {
   NotificationType,
   NotificationPosition,
 } from './type';
-import { NOTIFICATION_POSITION, NOFITICATION_TYPE } from '@shared/constants';
 import { isString } from '@shared/utils';
 
 export type NotificationInstance = InstanceType<typeof _Notification>;
@@ -16,7 +15,16 @@ const config = {
   containerId: 'ycServiceNotificationContainer',
 };
 
-const notifManager = NOTIFICATION_POSITION.reduce(
+const position: NotificationPosition[] = [
+  'topLeft',
+  'topRight',
+  'bottomLeft',
+  'bottomRight',
+];
+
+const types: NotificationType[] = ['info', 'warning', 'success', 'error'];
+
+const notifManager = position.reduce(
   (result, item) => {
     const list = ref<NotificationConfig[]>([]);
     result[item] = {
@@ -81,7 +89,7 @@ const add = (type: NotificationType, config: NotificationConfig) => {
   };
 };
 
-const notificationMethod = NOFITICATION_TYPE.reduce(
+const notificationMethod = types.reduce(
   (acc, type) => {
     acc[type] = (config: string | NotificationConfig) => {
       const calcCofig = isString(config) ? { content: config } : config;
@@ -97,13 +105,13 @@ const notificationMethod = NOFITICATION_TYPE.reduce(
   >
 );
 
-const Message = Object.assign(_Notification, {
+const Notification = Object.assign(_Notification, {
   install: (app: App) => {
     app.component('Yc' + _Notification.name, _Notification);
   },
   clear: (pos?: NotificationPosition | undefined) => {
     if (!pos) {
-      NOTIFICATION_POSITION.forEach((item) => {
+      position.forEach((item) => {
         notifManager[item].list.value.splice(0);
       });
       return;
@@ -114,4 +122,4 @@ const Message = Object.assign(_Notification, {
   ...notificationMethod,
 });
 
-export default Message;
+export default Notification;

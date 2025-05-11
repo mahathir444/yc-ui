@@ -44,7 +44,6 @@
 import { ref, computed, toRefs, nextTick } from 'vue';
 import { IconArrowRight } from '@shared/icons';
 import { useControlValue } from '@shared/hooks';
-import { DSUBMENU_POSITION_MAP, DSUBMENU_TRIGGER_MAP } from '@shared/constants';
 import {
   DsubmenuProps,
   DsubmenuSlots,
@@ -91,11 +90,11 @@ const computedVisible = useControlValue<boolean>(
 );
 // 位置
 const position = computed(() => {
-  return DSUBMENU_POSITION_MAP[_position.value] || 'rt';
+  return ['rt', 'lt'].includes(_position.value) ? _position.value : 'rt';
 });
 // 触发方式
 const trigger = computed(() => {
-  return DSUBMENU_TRIGGER_MAP[_trigger.value] || 'rt';
+  return ['hover', 'click'].includes(_trigger.value) ? _trigger.value : 'hover';
 });
 // 处理计算style
 const handleCalcStyle = async () => {
