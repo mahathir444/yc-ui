@@ -6,7 +6,7 @@ export interface SpinProps {
   hideIcon?: boolean;
   preventFocus?: boolean;
   // 大小是否继承
-  isSizeInherit: boolean;
+  isSizeInherit?: boolean;
 }
 
 export interface SpinSlots {

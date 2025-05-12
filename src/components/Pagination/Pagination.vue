@@ -1,22 +1,25 @@
 <template>
   <div
     v-if="!hideOnSinglePage || (hideOnSinglePage && pageNumber <= 1)"
-    :class="[
-      'yc-pagination',
-      `yc-pagination-size-${size}`,
-      simple ? 'yc-pagination-simple' : '',
-    ]"
+    :class="['yc-pagination', `yc-pagination-size-${size}`]"
   >
     <!-- total -->
     <span v-if="showTotal" class="yc-pagination-total">共 50 条</span>
     <!-- page-list -->
-    <ul class="yc-pagination-list">
+    <ul :class="[simple ? 'yc-pagination-simple' : 'yc-pagination-list']">
       <!-- pre -->
       <pagination-item type="pre" class="yc-pagination-item-previous" />
       <!-- item -->
       <template v-if="!simple">
-        <pagination-item v-for="i in pageNumber" type="item" :key="i" :page="i">
-          {{ i }}
+        <pagination-item
+          v-for="i in pages"
+          :type="isNumber(i) ? 'item' : 'more'"
+          :key="<string>i"
+          :page="isNumber(i) ? i : -1"
+        >
+          <template v-if="isNumber(i)">
+            {{ i }}
+          </template>
         </pagination-item>
       </template>
       <span v-else class="yc-pagination-jumper yc-pagination-jumper-simple">
@@ -63,6 +66,7 @@
 
 <script lang="ts" setup>
 import { PaginationProps, PaginationEmits, PaginationSlots } from './type';
+import { isNumber } from '@shared/utils';
 import useProvide from './hooks/useProvide';
 import PaginationItem from './PaginationItem.vue';
 import YcSelect from '@/components/Select';
@@ -101,10 +105,8 @@ const props = withDefaults(defineProps<PaginationProps>(), {
 });
 const emits = defineEmits<PaginationEmits>();
 const { provide } = useProvide();
-const { computedCurrent, pageNumber, computedPageSize, size, sizes } = provide(
-  props,
-  emits
-);
+const { computedCurrent, pageNumber, pages, computedPageSize, size, sizes } =
+  provide(props, emits);
 </script>
 
 <style lang="less" scoped>

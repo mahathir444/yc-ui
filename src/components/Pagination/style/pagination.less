@@ -11,42 +11,60 @@
     display: flex;
     align-items: center;
     gap: 8px;
-    .yc-pagination-item {
-      outline: 0;
-      cursor: pointer;
-      user-select: none;
-      padding: 0 8px;
-      border-radius: 2px;
-      background-color: transparent;
-      color: rgb(78, 89, 105);
-      transition:
-        color 0.2s cubic-bezier(0, 0, 1, 1),
-        background-color 0.2s cubic-bezier(0, 0, 1, 1);
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      &:not(.yc-pagination-item-disabled):hover {
-        color: rgb(78, 89, 105);
-        background-color: rgb(247, 248, 250);
+  }
+  .yc-pagination-simple {
+    display: flex;
+    align-items: center;
+    .yc-pagination-jumper-simple {
+      gap: 0;
+      padding: 0 4px;
+      .yc-pagination-jumper-separator {
+        padding: 0 12px;
       }
-    }
-    .yc-pagination-item-previous,
-    .yc-pagination-item-next {
-      &:not(.yc-pagination-item-disabled):hover {
-        color: rgb(22, 93, 255);
+      .yc-pagination-jumper-total-page {
+        padding-right: 8px;
       }
-    }
-    .yc-pagination-item-disabled {
-      color: rgb(201, 205, 212);
-      cursor: not-allowed;
-      background-color: transparent;
-    }
-    .yc-pagination-item-active {
-      color: rgb(22, 93, 255);
-      background-color: rgb(232, 243, 255);
     }
   }
-
+  .yc-pagination-item {
+    outline: 0;
+    cursor: pointer;
+    user-select: none;
+    padding: 0 8px;
+    border-radius: 2px;
+    background-color: transparent;
+    color: rgb(78, 89, 105);
+    transition:
+      color 0.2s cubic-bezier(0, 0, 1, 1),
+      background-color 0.2s cubic-bezier(0, 0, 1, 1);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    &:not(.yc-pagination-item-disabled):hover {
+      color: rgb(78, 89, 105);
+      background-color: rgb(247, 248, 250);
+    }
+  }
+  .yc-pagination-item-previous,
+  .yc-pagination-item-next {
+    &:not(.yc-pagination-item-disabled):hover {
+      color: rgb(22, 93, 255);
+    }
+  }
+  .yc-pagination-item-disabled {
+    color: rgb(201, 205, 212);
+    cursor: not-allowed;
+    background-color: transparent;
+  }
+  .yc-pagination-item-active {
+    color: rgb(22, 93, 255);
+    background-color: rgb(232, 243, 255);
+  }
+  .yc-pagination-options {
+    &:deep(.yc-select) {
+      width: 100px;
+    }
+  }
   .yc-pagination-jumper {
     display: flex;
     align-items: center;
@@ -65,44 +83,17 @@
     }
   }
 }
-// simple
-.yc-pagination-simple {
-  .yc-pagination-jumper-separator {
-    padding: 0 12px;
-  }
-}
 // size
 .yc-pagination-size-mini {
   .yc-pagination-total {
     font-size: 12px;
     line-height: 24px;
   }
-  .yc-pagination-list {
-    .yc-pagination-item {
-      min-width: 24px;
-      height: 24px;
-      font-size: 12px;
-      line-height: 24px;
-    }
-  }
-  .yc-pagination-jumper {
-    .yc-pagination-jumper-text-goto {
-      font-size: 12px;
-    }
-  }
-}
-.yc-pagination-size-mini {
-  .yc-pagination-total {
+  .yc-pagination-item {
+    min-width: 24px;
+    height: 24px;
     font-size: 12px;
     line-height: 24px;
-  }
-  .yc-pagination-list {
-    .yc-pagination-item {
-      min-width: 24px;
-      height: 24px;
-      font-size: 12px;
-      line-height: 24px;
-    }
   }
   .yc-pagination-jumper {
     & > span {
@@ -115,13 +106,11 @@
     font-size: 14px;
     line-height: 28px;
   }
-  .yc-pagination-list {
-    .yc-pagination-item {
-      min-width: 28px;
-      height: 28px;
-      font-size: 14px;
-      line-height: 28px;
-    }
+  .yc-pagination-item {
+    min-width: 28px;
+    height: 28px;
+    font-size: 14px;
+    line-height: 28px;
   }
   .yc-pagination-jumper {
     & > span {
@@ -134,13 +123,11 @@
     font-size: 14px;
     line-height: 32px;
   }
-  .yc-pagination-list {
-    .yc-pagination-item {
-      min-width: 32px;
-      height: 32px;
-      font-size: 14px;
-      line-height: 32px;
-    }
+  .yc-pagination-item {
+    min-width: 32px;
+    height: 32px;
+    font-size: 14px;
+    line-height: 32px;
   }
   .yc-pagination-jumper {
     & > span {
@@ -153,13 +140,11 @@
     font-size: 14px;
     line-height: 36px;
   }
-  .yc-pagination-list {
-    .yc-pagination-item {
-      min-width: 36px;
-      height: 36px;
-      font-size: 14px;
-      line-height: 36px;
-    }
+  .yc-pagination-item {
+    min-width: 36px;
+    height: 36px;
+    font-size: 14px;
+    line-height: 36px;
   }
   .yc-pagination-jumper {
     & > span {

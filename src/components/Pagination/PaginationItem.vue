@@ -42,8 +42,8 @@ const {
   pageNumber,
   pageItemStyle,
   activePageItemStyle,
-  disabled: _disabled,
   baseSize,
+  disabled: _disabled,
 } = inject();
 const active = computed(() => {
   return type.value == 'item' ? computedCurrent.value == page.value : false;
@@ -81,7 +81,7 @@ const handleClick = () => {
   ) {
     return;
   }
-  computedCurrent.value = page.value;
+  computedCurrent.value = i;
 };
 </script>
 

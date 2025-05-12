@@ -71,7 +71,4 @@ const { slots } = useConfigProvder();
 
 <style lang="less" scoped>
 @import './style/spin.less';
-.a {
-  color: inherit;
-}
 </style>

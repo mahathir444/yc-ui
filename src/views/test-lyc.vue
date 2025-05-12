@@ -1,23 +1,7 @@
 <template>
   <div class="test">
-    <a-pagination
-      :total="100"
-      show-more
-      show-total
-      show-jumper
-      show-page-size
-      simple
-      size="mini"
-    />
-    <yc-pagination
-      :total="50"
-      show-more
-      show-total
-      show-jumper
-      show-page-size
-      simple
-      size="mini"
-    />
+    <a-pagination :total="100" show-total show-jumper show-page-size />
+    <yc-pagination :total="100" show-total show-jumper show-page-size />
   </div>
 </template>
 

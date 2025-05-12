@@ -53,7 +53,7 @@
           <!-- suffix -->
           <template #suffix>
             <select-icon
-              :popup-visible="popupVisible"
+              :popup-visible="computedVisible"
               :allow-search="allowSearch"
               :loading="loading"
               :show-clear-btn="showClearBtn"
