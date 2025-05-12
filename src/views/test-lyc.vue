@@ -6,6 +6,7 @@
       show-jumper
       show-page-size
       :bufferSize="3"
+      size="large"
     />
     <yc-pagination
       :total="200"

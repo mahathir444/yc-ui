@@ -26,53 +26,6 @@ export interface PaginationProvide {
 
 export type PaginationProps = RequiredDeep<_PaginationProps>;
 
-function calculatePagination(params: {
-  total: number;
-  pagesize: number;
-  current: number;
-  baseSize: number;
-  bufferSize: number;
-}) {
-  const { total, pagesize, current, baseSize, bufferSize } = params;
-  const totalPages = Math.ceil(total / pagesize);
-  if (totalPages <= 1) {
-    return [1];
-  }
-  if (totalPages < baseSize) {
-    return new Array(totalPages).fill(undefined).map((_, i) => i + 1);
-  }
-  const result = [];
-  // 计算左侧省略
-  const showLeftMore = current - bufferSize > 1;
-  // 计算右侧省略
-  const showRightMore = current + bufferSize < totalPages;
-  // 计算开始索引
-  const start = showLeftMore ? current - bufferSize : 2;
-  let end = 0;
-  if (showRightMore) {
-    end = showLeftMore ? current + bufferSize : 1 + 2 * bufferSize;
-  } else {
-    end = totalPages - 1;
-  }
-  // 始终显示第一页
-  result.push(1);
-  // 添加左侧省略号
-  if (showLeftMore) {
-    result.push('more-left');
-  }
-  // 添加中间页码
-  for (let i = start; i <= end; i++) {
-    result.push(i);
-  }
-  // 添加右侧省略号
-  if (showRightMore) {
-    result.push('more-right');
-  }
-  // 始终显示最后一页
-  result.push(totalPages);
-  return result;
-}
-
 export default () => {
   const provide = (props: Props, emits: PaginationEmits) => {
     const {
@@ -91,17 +44,55 @@ export default () => {
     const { size } = useConfigProvder(props);
     // 页数
     const pages = computed(() => {
-      return Math.ceil(total.value / computedPageSize.value);
+      const value = Math.ceil(total.value / computedPageSize.value);
+      return value <= 1 ? 1 : value;
     });
-    const pagesArray = computed(() =>
-      calculatePagination({
-        total: total.value,
-        pagesize: computedPageSize.value,
-        current: computedCurrent.value,
-        baseSize: baseSize.value - 1,
-        bufferSize: bufferSize.value,
-      })
-    );
+    // pageArray
+    const pagesArray = computed(() => {
+      if (pages.value < baseSize.value) {
+        return new Array(pages.value).fill(undefined).map((_, i) => i + 1);
+      }
+      const result = [];
+      // 计算左侧省略
+      const showLeftMore = computedCurrent.value - bufferSize.value > 1;
+      // 计算右侧省略
+      const showRightMore =
+        computedCurrent.value + bufferSize.value < pages.value;
+      // 计算开始索引
+      let start = 0;
+      if (showLeftMore) {
+        start = showRightMore
+          ? computedCurrent.value - bufferSize.value
+          : pages.value - 2 * bufferSize.value;
+      } else {
+        start = 2;
+      }
+      let end = 0;
+      if (showRightMore) {
+        end = showLeftMore
+          ? computedCurrent.value + bufferSize.value
+          : 1 + 2 * bufferSize.value;
+      } else {
+        end = pages.value - 1;
+      }
+      // 始终显示第一页
+      result.push(1);
+      // 添加左侧省略号
+      if (showLeftMore) {
+        result.push('more-left');
+      }
+      // 添加中间页码
+      for (let i = start; i <= end; i++) {
+        result.push(i);
+      }
+      // 添加右侧省略号
+      if (showRightMore) {
+        result.push('more-right');
+      }
+      // 始终显示最后一页
+      result.push(pages.value);
+      return result;
+    });
     // current
     const computedCurrent = useControlValue<number>(
       current,

@@ -4,7 +4,7 @@
     :class="['yc-pagination', `yc-pagination-size-${size}`]"
   >
     <!-- total -->
-    <span v-if="showTotal" class="yc-pagination-total">共 50 条</span>
+    <span v-if="showTotal" class="yc-pagination-total">共 {{ total }} 条</span>
     <!-- page-list -->
     <ul :class="[simple ? 'yc-pagination-simple' : 'yc-pagination-list']">
       <!-- pre -->
