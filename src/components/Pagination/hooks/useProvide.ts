@@ -8,10 +8,10 @@ import {
   CSSProperties,
 } from 'vue';
 import { PaginationProps as _PaginationProps, PaginationEmits } from '../type';
-import { Size, Props, RequiredDeep } from '@shared/type';
+import { Props, RequiredDeep } from '@shared/type';
 import { useControlValue, useConfigProvder } from '@shared/hooks';
 
-export const PAGINATION_GROUP_PROVIDE_KEY = 'pagination-group-props';
+export const PAGINATION_PROVIDE_KEY = 'pagination-props';
 
 export interface PaginationProvide {
   computedCurrent: Ref<number>;
@@ -121,7 +121,7 @@ export default () => {
       });
     });
     // 提供给子组件
-    _provide<PaginationProvide>(PAGINATION_GROUP_PROVIDE_KEY, {
+    _provide<PaginationProvide>(PAGINATION_PROVIDE_KEY, {
       computedCurrent,
       computedPageSize,
       disabled,
@@ -142,7 +142,7 @@ export default () => {
   };
   const inject = () => {
     // 接收的值
-    return _inject<PaginationProvide>(PAGINATION_GROUP_PROVIDE_KEY, {
+    return _inject<PaginationProvide>(PAGINATION_PROVIDE_KEY, {
       computedCurrent: ref(1),
       computedPageSize: ref(10),
       disabled: ref(false),

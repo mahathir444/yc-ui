@@ -46,7 +46,7 @@ const menus = [
     path: 'feedback',
   },
   {
-    title: '导航(4/6)',
+    title: '导航(6/6)',
     path: 'navigation',
   },
   {

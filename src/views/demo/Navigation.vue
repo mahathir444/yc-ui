@@ -100,6 +100,13 @@
         </yc-radio-group>
       </template>
     </yc-page-header>
+    <yc-pagination
+      :total="200"
+      show-total
+      show-jumper
+      show-page-size
+      :bufferSize="3"
+    />
     <!-- label-placement="vertical" -->
     <div style="width: 700px">
       <yc-steps direction="vertical" type="arrow" small changeable>
