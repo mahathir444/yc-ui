@@ -72,8 +72,8 @@ import {
   SelectOptions,
   SelectInstance,
 } from '@/components/Select';
-import YcTextarea, { TextareaInstance } from '@/components/Textarea';
-import YcInput, { InputInstance } from '@/components/Input';
+import { default as YcTextarea, TextareaInstance } from '@/components/Textarea';
+import { default as YcInput, InputInstance } from '@/components/Input';
 defineOptions({
   name: 'AutoComplete',
 });

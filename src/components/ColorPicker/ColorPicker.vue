@@ -34,7 +34,6 @@ import { ColorPickerProps, ColorPickerEmits } from './type';
 import useProvide from './hooks/useProvide';
 import ColorPanel from './ColorPanel.vue';
 import YcTrigger from '@/components/Trigger';
-
 defineOptions({
   name: 'ColorPicker',
 });

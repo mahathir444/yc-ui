@@ -107,7 +107,7 @@ import { InputNumberProps, InputNumberEmits, InputNumberValue } from './type';
 import { isNumber, isString, isFunction } from '@shared/utils';
 import { useControlValue } from '@shared/hooks';
 import YcOperaBtn from './InputOperaBtn.vue';
-import YcInput, { InputInstance } from '@/components/Input';
+import { default as YcInput, InputInstance } from '@/components/Input';
 defineOptions({
   name: 'InputNumber',
 });

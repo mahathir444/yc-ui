@@ -118,9 +118,13 @@ import { sleep } from '@shared/utils';
 import useProvide from './hooks/useProvide';
 import SelectIcon from './SelectIcon.vue';
 import SelectView from './SelectView.vue';
-import YcInput, { InputInstance } from '@/components/Input';
-import YcInputTag, { TagData, InputTagValue } from '@/components/InputTag';
-import YcTrigger, { TriggerInstance } from '@/components/Trigger';
+import { default as YcInput, InputInstance } from '@/components/Input';
+import {
+  default as YcInputTag,
+  TagData,
+  InputTagValue,
+} from '@/components/InputTag';
+import { default as YcTrigger, TriggerInstance } from '@/components/Trigger';
 defineOptions({
   name: 'Select',
 });

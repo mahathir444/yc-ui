@@ -47,8 +47,8 @@
 import { toRefs, computed, ref } from 'vue';
 import { TagProps, TagEmits, TagSlots } from './type';
 import { TAG_PRESET_COLORS } from '@shared/constants';
-import YcSpin from '@/components/Spin';
 import { useControlValue, useConfigProvder } from '@shared/hooks';
+import YcSpin from '@/components/Spin';
 import { YcPreventFocus, YcIconButton } from '@shared/components';
 defineOptions({
   name: 'Tag',

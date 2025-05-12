@@ -24,8 +24,8 @@
 
 <script lang="ts" setup>
 import { CheckboxGroupProps, CheckboxEmits, CheckboxGroupSlots } from './type';
-import YcCheckbox from './Checkbox.vue';
 import useProvide from './hooks/useProvide';
+import YcCheckbox from './Checkbox.vue';
 defineOptions({
   name: 'CheckboxGroup',
 });

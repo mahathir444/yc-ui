@@ -121,8 +121,8 @@ import useProvide from './hooks/useProvide';
 import YcEmpty from '@/components/Empty';
 import YcCheckbox from '@/components/Checkbox';
 import YcScrollbar from '@/components/Scrollbar';
-import { YcIconButton } from '@shared/components';
 import YcInput from '@/components/Input';
+import { YcIconButton } from '@shared/components';
 defineSlots<TransferPanelSlots>();
 const props = defineProps<{
   type: 'source' | 'target';

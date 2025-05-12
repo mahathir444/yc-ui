@@ -42,11 +42,11 @@
 <script lang="ts" setup>
 import { ref, toRefs, onMounted } from 'vue';
 import { SubMenuProps, SubMenuSlots } from './type';
+import useMenuLevel from './hooks/useMenuLevel';
+import useProvide from './hooks/useProvide';
 import { IconArrowDown, IconArrowRight } from '@shared/icons';
 import { ExpandTransition } from '@shared/components';
 import { MenuItem as YcMenuItem, MenuItemInstance } from './index';
-import useMenuLevel from './hooks/useMenuLevel';
-import useProvide from './hooks/useProvide';
 defineOptions({
   name: 'SubMenu',
 });

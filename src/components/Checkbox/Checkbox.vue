@@ -40,9 +40,9 @@
 import { toRefs, computed, ref } from 'vue';
 import { CheckboxProps, CheckboxEmits, CheckboxSlots } from './type';
 import { useControlValue } from '@shared/hooks';
+import useProvide from './hooks/useProvide';
 import { IconCheck } from '@shared/icons';
 import { YcPreventFocus, YcIconButton } from '@shared/components';
-import useProvide from './hooks/useProvide';
 defineOptions({
   name: 'Checkbox',
 });

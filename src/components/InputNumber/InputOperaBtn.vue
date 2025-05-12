@@ -23,6 +23,7 @@ import { computed, toRefs } from 'vue';
 import { InputNumberMode, InputNumberValue } from './type';
 import { Size } from '@shared/type';
 import { IconArrowDown, IconArrowUp, IconPlus, IconMinus } from '@shared/icons';
+import YcButton from '@/components/Button';
 const props = defineProps<{
   mode: InputNumberMode;
   type: 'minus' | 'plus';

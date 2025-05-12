@@ -35,6 +35,7 @@ import { VirtualListProps } from './type';
 import useProvide from './hooks/useProvide';
 import SelectVirtualList from './SelectVirtualList.vue';
 import SelectList from './SelectList.vue';
+import YcSpin from '@/components/Spin';
 defineProps<{
   loading: boolean;
   scrollbar: boolean;

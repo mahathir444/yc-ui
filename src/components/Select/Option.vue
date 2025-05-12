@@ -43,7 +43,6 @@ import { ObjectData } from '@shared/type';
 import { isUndefined } from '@shared/utils';
 import useProvide from './hooks/useProvide';
 import YcCheckbox from '@/components/Checkbox';
-
 defineOptions({
   name: 'Option',
 });

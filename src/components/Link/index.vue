@@ -29,8 +29,8 @@
 <script lang="ts" setup>
 import { toRefs, computed } from 'vue';
 import { LinkProps, LinkEmits, LinkSlots } from './type';
-import YcSpin from '@/components/Spin';
 import { IconLink } from '@shared/icons';
+import YcSpin from '@/components/Spin';
 defineOptions({
   name: 'Link',
 });

@@ -35,11 +35,11 @@
 
 <script lang="ts" setup>
 import { ref, toRefs, watch, h } from 'vue';
+import { useVirtualList, useScroll } from '@vueuse/core';
 import { ObjectData } from '@shared/type';
 import { getSlotFunction } from '@shared/utils';
 import useProvide from './hooks/useProvide';
 import { Option as YcOption, VirtualListProps } from './index';
-import { useVirtualList, useScroll } from '@vueuse/core';
 import YcEmpty from '@/components/Empty';
 const props = defineProps<{
   virtualListProps: VirtualListProps;

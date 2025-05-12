@@ -51,7 +51,6 @@ import { createReusableTemplate } from '@vueuse/core';
 import { useConfigProvder } from '@shared/hooks';
 import { getSlotFunction } from '@shared/utils';
 import { YcPreventFocus } from '@shared/components';
-
 defineOptions({
   name: 'Spin',
 });

@@ -58,9 +58,9 @@ import { ref, toRefs } from 'vue';
 import { LayoutSiderProps, LayoutSiderEmits, LayoutSiderSlots } from './type';
 import { useControlValue } from '@shared/hooks';
 import { mediaQueryHandler } from '@shared/utils';
-import { YcIconButton } from '@shared/components';
-import { IconArrowRight } from '@shared/icons';
 import useProvide from './hooks/useProvide';
+import { IconArrowRight } from '@shared/icons';
+import { YcIconButton } from '@shared/components';
 import YcResizeBox from '@/components/ResizeBox';
 defineOptions({
   name: 'LayoutSider',

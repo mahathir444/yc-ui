@@ -83,6 +83,8 @@ import { parseColor } from '@shared/utils';
 import { ColorFormat } from '@/components/ColorPicker/type';
 import { COLOR_PICKER_FORMAT_OPTIONS } from '@shared/constants';
 import { ObjectData } from '@shared/type';
+import YcSelect from '@/components/Select';
+import YcInput from '@/components/Input';
 import YcInputNumber from '@/components/InputNumber';
 const props = defineProps<{
   color: string;

@@ -52,17 +52,17 @@
 <script lang="ts" setup>
 import { ref, computed, toRefs } from 'vue';
 import { BreadcrumbItemProps, BreadcrumbItemSlots } from './type';
-import {
-  default as YcDropdown,
-  Doption as YcDoption,
-} from '@/components/Dropdown';
+import useProvide from './hooks/useProvide';
 import {
   IconArrowDown,
   IconArrowUp,
   IconMore,
   IconSeparator,
 } from '@shared/icons';
-import useProvide from './hooks/useProvide';
+import {
+  default as YcDropdown,
+  Doption as YcDoption,
+} from '@/components/Dropdown';
 defineOptions({
   name: 'BreadcrumbItem',
 });

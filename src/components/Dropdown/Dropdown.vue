@@ -34,9 +34,9 @@
 <script lang="ts" setup>
 import { toRefs, computed } from 'vue';
 import { DropdownProps, DoptionValue, DropdownSlots } from './type';
+import useProvide from './hooks/useProvide';
 import YcTrigger from '@/components/Trigger';
 import YcScrollbar from '@/components/Scrollbar';
-import useProvide from './hooks/useProvide';
 defineOptions({
   name: 'Dropdown',
 });

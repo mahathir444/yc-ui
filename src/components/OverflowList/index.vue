@@ -47,7 +47,7 @@ import {
 } from './type';
 import { findComponentsFromVnodes, throttle } from '@shared/utils';
 import { useResizeObserver } from '@vueuse/core';
-import YcTag, { TagInstance } from '@/components/Tag';
+import { default as YcTag, TagInstance } from '@/components/Tag';
 defineOptions({
   name: 'OverflowList',
 });

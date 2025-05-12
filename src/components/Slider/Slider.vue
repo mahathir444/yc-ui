@@ -40,7 +40,6 @@ import useProvide from './hooks/useProvide';
 import YcSliderTicks from './SliderTicks.vue';
 import YcSliderBtn from './SliderBtn.vue';
 import YcSliderInput from './SliderInput.vue';
-
 defineOptions({
   name: 'Slider',
 });

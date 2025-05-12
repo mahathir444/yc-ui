@@ -51,7 +51,7 @@ import {
   DoptionInstance,
   Doption as YcDoption,
 } from './index';
-import YcTrigger, { TriggerInstance } from '@/components/Trigger';
+import { default as YcTrigger, TriggerInstance } from '@/components/Trigger';
 import YcScrollbar from '@/components/Scrollbar';
 defineOptions({
   name: 'Dsubmenu',

@@ -46,6 +46,7 @@ import useProvide from './hooks/useProvide';
 import YcEmpty from '@/components/Empty';
 import YcOption from './Option.vue';
 import YcOptgroup from './Optgroup.vue';
+import YcScrollbar from '@/components/Scrollbar';
 defineProps<{
   scrollbar: boolean;
 }>();

@@ -37,10 +37,11 @@ import { MentionProps, MentionEmits, MentionSlots } from './type';
 import { ObjectData } from '@shared/type';
 import { isNull, isArray, debounce } from '@shared/utils';
 import { useControlValue, useCursor } from '@shared/hooks';
-import YcAutoComplete, {
+import { SelectValue } from '@/components/Select';
+import {
+  default as YcAutoComplete,
   AutoCompleteInstance,
 } from '@/components/AutoComplete';
-import { SelectValue } from '@/components/Select';
 defineOptions({
   name: 'Mention',
 });

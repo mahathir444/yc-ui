@@ -38,7 +38,6 @@ import { NotificationProps } from './type';
 import { useTimeoutFn } from '@vueuse/core';
 import { TYPE_ICON_MAP, TYPE_ICON_COLOR_MAP } from '@shared/constants';
 import { YcIconButton } from '@shared/components';
-
 defineOptions({
   name: 'Notification',
 });

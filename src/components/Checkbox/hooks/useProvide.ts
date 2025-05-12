@@ -6,7 +6,7 @@ import { Props } from '@shared/type';
 export const CHECKBOX_GROUP_PROVIDE_KEY = 'checkbox-group-props';
 
 interface CheckboxProvide {
-  computedValue: Ref<undefined>;
+  computedValue: Ref<CheckboxValue[] | undefined>;
   max: Ref<number | undefined>;
   disabled: Ref<boolean>;
 }
@@ -33,8 +33,8 @@ export default () => {
     const { disabled: _disabled } = toRefs(props);
     // 接收的值
     return _inject<CheckboxProvide>(CHECKBOX_GROUP_PROVIDE_KEY, {
-      computedValue: ref(undefined),
-      max: ref(undefined),
+      computedValue: ref(),
+      max: ref(),
       disabled: _disabled,
     });
   };

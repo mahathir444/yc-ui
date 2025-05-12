@@ -30,7 +30,7 @@ import { VerificationCodeProps, VerificationCodeEmits } from './type';
 import { useControlValue, useConfigProvder } from '@shared/hooks';
 import { sleep } from '@shared/utils';
 import { nanoid } from 'nanoid';
-import YcInput, { InputInstance } from '@/components/Input';
+import { default as YcInput, InputInstance } from '@/components/Input';
 defineOptions({
   name: 'VerificationCode',
 });

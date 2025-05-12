@@ -50,8 +50,8 @@
 
 <script lang="ts" setup>
 import { CardProps, CardSlots } from './type';
-import YcSpin from '@/components/Spin';
 import useProvide from './hooks/useProvide';
+import YcSpin from '@/components/Spin';
 defineOptions({
   name: 'Card',
 });
