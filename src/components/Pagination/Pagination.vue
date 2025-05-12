@@ -45,7 +45,7 @@
     <span v-if="showPageSize" class="yc-pagination-options">
       <yc-select
         v-model="computedPageSize"
-        :options="sizes"
+        :options="sizeOptions"
         :size="size"
         v-bind="pageSizeProps"
         :disabled="disabled"
@@ -104,8 +104,15 @@ const props = withDefaults(defineProps<PaginationProps>(), {
 });
 const emits = defineEmits<PaginationEmits>();
 const { provide } = useProvide();
-const { computedCurrent, pages, pagesArray, computedPageSize, size, sizes } =
-  provide(props, emits);
+const {
+  computedCurrent,
+  pages,
+  pagesArray,
+  computedPageSize,
+  size,
+  total,
+  sizeOptions,
+} = provide(props, emits);
 </script>
 
 <style lang="less" scoped>

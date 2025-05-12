@@ -22,6 +22,7 @@ declare module 'vue' {
     BreadcrumbItem: typeof import('./src/components/Breadcrumb/BreadcrumbItem.vue')['default']
     Button: typeof import('./src/components/Button/Button.vue')['default']
     ButtonGroup: typeof import('./src/components/Button/ButtonGroup.vue')['default']
+    Calendar: typeof import('./src/components/Calendar/index.vue')['default']
     Card: typeof import('./src/components/Card/Card.vue')['default']
     CardGrid: typeof import('./src/components/Card/CardGrid.vue')['default']
     CardMeta: typeof import('./src/components/Card/CardMeta.vue')['default']

@@ -42,7 +42,6 @@ const {
   pages,
   pageItemStyle,
   activePageItemStyle,
-  baseSize,
   bufferSize,
   disabled: _disabled,
 } = inject();

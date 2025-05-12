@@ -29,7 +29,6 @@ export type PaginationProps = RequiredDeep<_PaginationProps>;
 export default () => {
   const provide = (props: Props, emits: PaginationEmits) => {
     const {
-      total,
       disabled,
       current,
       defaultCurrent,
@@ -40,8 +39,15 @@ export default () => {
       activePageItemStyle,
       baseSize,
       bufferSize,
+      autoAdjust,
+      total: _total,
     } = toRefs(props as PaginationProps);
     const { size } = useConfigProvder(props);
+    // total
+    const total = useControlValue(
+      autoAdjust.value ? _total : ref(),
+      autoAdjust.value ? 0 : _total.value
+    );
     // 页数
     const pages = computed(() => {
       const value = Math.ceil(total.value / computedPageSize.value);
@@ -112,7 +118,7 @@ export default () => {
         emits('page-size-change', val);
       }
     );
-    const sizes = computed(() => {
+    const sizeOptions = computed(() => {
       return pageSizeOptions.value.map((item) => {
         return {
           label: `${item}条/页`,
@@ -132,12 +138,13 @@ export default () => {
       bufferSize,
     });
     return {
+      total,
       size,
       pages,
       pagesArray,
       computedCurrent,
       computedPageSize,
-      sizes,
+      sizeOptions,
     };
   };
   const inject = () => {

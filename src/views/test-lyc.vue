@@ -5,6 +5,7 @@
       show-total
       show-jumper
       show-page-size
+      :base-size="100"
       :bufferSize="3"
       size="large"
     />

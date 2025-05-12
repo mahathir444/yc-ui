@@ -10,9 +10,7 @@ import {
 } from './Dropdown';
 import Input from './Input';
 import Link from './Link';
-import Message from './Message';
 import Modal from './Modal';
-import Notification from './Notification';
 import Popconfirm from './Popconfirm';
 import Popover from './Popover';
 import ResizeBox from './ResizeBox';
@@ -70,6 +68,7 @@ import Comment from './Comment';
 import { default as Descriptions, DescriptionsItem } from './Descriptions';
 import { default as Steps, Step } from './Steps';
 import Pagination from './Pagination';
+import Calendar from './Calendar';
 
 export const components: Record<string, Plugin> = {
   Button,
@@ -77,8 +76,6 @@ export const components: Record<string, Plugin> = {
   Dropdown,
   Input,
   Link,
-  Message,
-  Notification,
   Modal,
   Popconfirm,
   Popover,
@@ -132,6 +129,7 @@ export const components: Record<string, Plugin> = {
   Descriptions,
   Steps,
   Pagination,
+  Calendar,
 };
 
 export default {
