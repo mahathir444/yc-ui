@@ -1,6 +1,6 @@
 <template>
   <div
-    v-if="!hideOnSinglePage || (hideOnSinglePage && pageNumber <= 1)"
+    v-if="!hideOnSinglePage || (hideOnSinglePage && pages <= 1)"
     :class="['yc-pagination', `yc-pagination-size-${size}`]"
   >
     <!-- total -->
@@ -12,8 +12,8 @@
       <!-- item -->
       <template v-if="!simple">
         <pagination-item
-          v-for="i in pages"
-          :type="isNumber(i) ? 'item' : 'more'"
+          v-for="i in pagesArray"
+          :type="isNumber(i) ? 'item' : i"
           :key="<string>i"
           :page="isNumber(i) ? i : -1"
         >
@@ -30,12 +30,12 @@
           :disabled="disabled"
         />
         <span class="yc-pagination-jumper-separator">/</span>
-        <span class="yc-pagination-jumper-total-page">{{ pageNumber }}</span>
+        <span class="yc-pagination-jumper-total-page">{{ pages }}</span>
       </span>
       <!-- more -->
       <pagination-item
         v-if="showMore && !simple"
-        type="more"
+        type="more-right"
         class="'yc-pagination-item-ellipsis'"
       />
       <!-- next -->
@@ -98,14 +98,13 @@ const props = withDefaults(defineProps<PaginationProps>(), {
   activePageItemStyle: () => {
     return {};
   },
-  //
   baseSize: 6,
   bufferSize: 2,
   autoAdjust: true,
 });
 const emits = defineEmits<PaginationEmits>();
 const { provide } = useProvide();
-const { computedCurrent, pageNumber, pages, computedPageSize, size, sizes } =
+const { computedCurrent, pages, pagesArray, computedPageSize, size, sizes } =
   provide(props, emits);
 </script>
 

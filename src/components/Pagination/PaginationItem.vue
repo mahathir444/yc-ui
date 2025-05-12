@@ -16,7 +16,7 @@
         v-if="['pre', 'next'].includes(type)"
         :rotate="type == 'pre' ? 180 : 0"
       />
-      <icon-more v-else-if="type == 'more'" />
+      <icon-more v-else-if="type.includes('more')" />
     </slot>
   </li>
 </template>
@@ -27,7 +27,7 @@ import { IconArrowRight, IconMore } from '@shared/icons';
 import useProvide from './hooks/useProvide';
 const props = withDefaults(
   defineProps<{
-    type: 'item' | 'pre' | 'next' | 'more';
+    type: 'item' | 'pre' | 'next' | 'more-right' | 'more-left' | string;
     page?: number;
   }>(),
   {
@@ -39,10 +39,11 @@ const { type, page } = toRefs(props);
 const { inject } = useProvide();
 const {
   computedCurrent,
-  pageNumber,
+  pages,
   pageItemStyle,
   activePageItemStyle,
   baseSize,
+  bufferSize,
   disabled: _disabled,
 } = inject();
 const active = computed(() => {
@@ -50,12 +51,12 @@ const active = computed(() => {
 });
 // 处理禁用
 const disabled = computed(() => {
-  if (['item', 'more'].includes(type.value)) {
+  if (['item', 'more-right', 'more-left'].includes(type.value)) {
     return _disabled.value;
   } else if (type.value == 'pre') {
     return computedCurrent.value <= 1;
   } else {
-    return computedCurrent.value >= pageNumber.value;
+    return computedCurrent.value >= pages.value;
   }
 });
 // 处理点击
@@ -68,16 +69,19 @@ const handleClick = () => {
   } else if (type.value == 'next') {
     i = computedCurrent.value + 1;
   } else {
+    const addSize = 2 * bufferSize.value + 1;
     i =
-      computedCurrent.value + baseSize.value >= pageNumber.value
-        ? pageNumber.value
-        : computedCurrent.value + baseSize.value;
+      type.value == 'more-left'
+        ? computedCurrent.value - addSize
+        : computedCurrent.value + addSize;
+    i = type.value == 'more-left' && i <= 1 ? 1 : i;
+    i = type.value == 'more-right' && i >= pages.value ? pages.value : i;
   }
   if (
     disabled.value ||
     (type.value == 'item' && i == computedCurrent.value) ||
     (type.value == 'pre' && i < 1) ||
-    (type.value == 'next' && i > pageNumber.value)
+    (type.value == 'next' && i > pages.value)
   ) {
     return;
   }

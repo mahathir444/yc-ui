@@ -40,25 +40,23 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    &:not(.yc-pagination-item-disabled):hover {
+    &:not(.yc-pagination-item-disabled):not(.yc-pagination-item-active):hover {
       color: rgb(78, 89, 105);
       background-color: rgb(247, 248, 250);
+      &.yc-pagination-item-previous,
+      &.yc-pagination-item-next {
+        color: rgb(22, 93, 255);
+      }
     }
-  }
-  .yc-pagination-item-previous,
-  .yc-pagination-item-next {
-    &:not(.yc-pagination-item-disabled):hover {
+    &.yc-pagination-item-disabled {
+      color: rgb(201, 205, 212);
+      cursor: not-allowed;
+      background-color: transparent;
+    }
+    &.yc-pagination-item-active {
       color: rgb(22, 93, 255);
+      background-color: rgb(232, 243, 255);
     }
-  }
-  .yc-pagination-item-disabled {
-    color: rgb(201, 205, 212);
-    cursor: not-allowed;
-    background-color: transparent;
-  }
-  .yc-pagination-item-active {
-    color: rgb(22, 93, 255);
-    background-color: rgb(232, 243, 255);
   }
   .yc-pagination-options {
     &:deep(.yc-select) {

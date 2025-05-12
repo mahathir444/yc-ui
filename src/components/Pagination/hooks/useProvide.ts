@@ -19,8 +19,9 @@ export interface PaginationProvide {
   disabled: Ref<boolean>;
   pageItemStyle: Ref<CSSProperties>;
   activePageItemStyle: Ref<CSSProperties>;
-  pageNumber: Ref<number>;
+  pages: Ref<number>;
   baseSize: Ref<number>;
+  bufferSize: Ref<number>;
 }
 
 export type PaginationProps = RequiredDeep<_PaginationProps>;
@@ -34,57 +35,38 @@ function calculatePagination(params: {
 }) {
   const { total, pagesize, current, baseSize, bufferSize } = params;
   const totalPages = Math.ceil(total / pagesize);
+  if (totalPages <= 1) {
+    return [1];
+  }
+  if (totalPages < baseSize) {
+    return new Array(totalPages).fill(undefined).map((_, i) => i + 1);
+  }
   const result = [];
-  if (totalPages <= 1) return [1];
-  // 当总页数 ≤ baseSize 时，显示所有页码，不显示省略号
-  if (totalPages <= baseSize) {
-    for (let i = 1; i <= totalPages; i++) {
-      result.push(i);
-    }
-    return result;
+  // 计算左侧省略
+  const showLeftMore = current - bufferSize > 1;
+  // 计算右侧省略
+  const showRightMore = current + bufferSize < totalPages;
+  // 计算开始索引
+  const start = showLeftMore ? current - bufferSize : 2;
+  let end = 0;
+  if (showRightMore) {
+    end = showLeftMore ? current + bufferSize : 1 + 2 * bufferSize;
+  } else {
+    end = totalPages - 1;
   }
   // 始终显示第一页
   result.push(1);
-  // 计算左侧省略
-  const leftHidden = current - bufferSize - 2; // 2代表第一页和可能的省略号
-  const showLeftEllipsis = leftHidden > 0;
-  // 计算右侧省略
-  const rightHidden = totalPages - (current + bufferSize + 1);
-  const showRightEllipsis = rightHidden > 0;
-  // 计算中间页码范围
-  let start = 2;
-  let end = totalPages - 1;
-  if (showLeftEllipsis && showRightEllipsis) {
-    // 两侧都有省略号
-    start = current - bufferSize;
-    end = current + bufferSize;
-  } else if (showLeftEllipsis) {
-    // 只有左侧有省略号
-    start = totalPages - (baseSize - 1);
-    end = totalPages - 1;
-  } else if (showRightEllipsis) {
-    // 只有右侧有省略号
-    start = 2;
-    end = baseSize;
-  } else {
-    // 无省略号，显示全部页码
-    start = 2;
-    end = totalPages - 1;
-  }
-  // 确保范围有效
-  start = Math.max(2, start);
-  end = Math.min(totalPages - 1, end);
   // 添加左侧省略号
-  if (showLeftEllipsis) {
-    result.push('ellipsis-left');
+  if (showLeftMore) {
+    result.push('more-left');
   }
   // 添加中间页码
   for (let i = start; i <= end; i++) {
     result.push(i);
   }
   // 添加右侧省略号
-  if (showRightEllipsis) {
-    result.push('ellipsis-right');
+  if (showRightMore) {
+    result.push('more-right');
   }
   // 始终显示最后一页
   result.push(totalPages);
@@ -108,10 +90,10 @@ export default () => {
     } = toRefs(props as PaginationProps);
     const { size } = useConfigProvder(props);
     // 页数
-    const pageNumber = computed(() => {
+    const pages = computed(() => {
       return Math.ceil(total.value / computedPageSize.value);
     });
-    const pages = computed(() =>
+    const pagesArray = computed(() =>
       calculatePagination({
         total: total.value,
         pagesize: computedPageSize.value,
@@ -154,16 +136,17 @@ export default () => {
       disabled,
       pageItemStyle,
       activePageItemStyle,
-      pageNumber,
+      pages,
       baseSize,
+      bufferSize,
     });
     return {
       size,
-      pageNumber,
+      pages,
+      pagesArray,
       computedCurrent,
       computedPageSize,
       sizes,
-      pages,
     };
   };
   const inject = () => {
@@ -174,8 +157,9 @@ export default () => {
       disabled: ref(false),
       pageItemStyle: ref({}),
       activePageItemStyle: ref({}),
-      pageNumber: ref(0),
+      pages: ref(0),
       baseSize: ref(6),
+      bufferSize: ref(2),
     });
   };
   return {
