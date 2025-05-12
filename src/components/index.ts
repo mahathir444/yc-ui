@@ -152,3 +152,27 @@ export { default as Menu } from './Menu';
 
 export * from './Collapse';
 export { default as Collapse } from './Collapse';
+
+export * from './Avatar';
+export { default as Avatar } from './Avatar';
+
+export * from './Badge';
+export { default as Badge } from './Badge';
+
+export * from './Card';
+export { default as Card } from './Card';
+
+export * from './Carousel';
+export { default as Carousel } from './Carousel';
+
+export * from './Image';
+export { default as Image } from './Image';
+
+export * from './Comment';
+export { default as Comment } from './Comment';
+
+export * from './Descriptions';
+export { default as Descriptions } from './Descriptions';
+
+export * from './Descriptions';
+export { default as Steps } from './Steps';

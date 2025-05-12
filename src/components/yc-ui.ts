@@ -69,6 +69,7 @@ import { default as Image, ImagePreview, ImagePreviewAction } from './Image';
 import Comment from './Comment';
 import { default as Descriptions, DescriptionsItem } from './Descriptions';
 import { default as Steps, Step } from './Steps';
+import Pagination from './Pagination';
 
 export const components: Record<string, Plugin> = {
   Button,
@@ -130,6 +131,7 @@ export const components: Record<string, Plugin> = {
   Comment,
   Descriptions,
   Steps,
+  Pagination,
 };
 
 export default {

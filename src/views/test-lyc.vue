@@ -1,10 +1,23 @@
 <template>
   <div class="test">
-    <a-steps direction="vertical" type="arrow" small changeable>
-      <a-step description="This is a description">Succeeded</a-step>
-      <a-step description="This is a description">Processing</a-step>
-      <a-step description="This is a description">Pending</a-step>
-    </a-steps>
+    <a-pagination
+      :total="100"
+      show-more
+      show-total
+      show-jumper
+      show-page-size
+      simple
+      size="mini"
+    />
+    <yc-pagination
+      :total="50"
+      show-more
+      show-total
+      show-jumper
+      show-page-size
+      simple
+      size="mini"
+    />
   </div>
 </template>
 
