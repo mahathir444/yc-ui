@@ -1,72 +1,35 @@
 <template>
-  <teleport :to="popupContainer">
-    <div
-      v-if="outerVisible"
-      class="yc-image-preview"
-      :style="{
-        zIndex,
-      }"
-    >
-      <transition name="fade">
-        <div v-show="innerVisible" class="yc-image-preview-mask"></div>
-      </transition>
-      <!-- body -->
-      <transition name="fade" @after-leave="handleAfterLeave">
-        <div
-          v-show="innerVisible"
-          class="yc-image-preview-wrapper"
-          @click.self="handleClose('mask', $event)"
-        >
-          <!-- img -->
-          <div
-            :style="{
-              transform: `scale(${scale}, ${scale})`,
-            }"
-            class="yc-image-preview-img-container"
-          >
-            <img
-              :src="src"
-              :style="{
-                transform: `translate(-50%,-50%) rotate(${rotate}deg)`,
-              }"
-              class="yc-image-preview-img"
-              ref="imageRef"
-            />
-          </div>
-          <!-- arrow -->
-          <div class="yc-image-preview-arrow">
-            <image-preview-arrow type="left" @click="handleChange('pre')" />
-            <image-preview-arrow type="right" @click="handleChange('next')" />
-          </div>
-          <!-- toolbar -->
-          <image-preview-toolbar
-            :actionsLayout="actionsLayout"
-            @click="handleAction"
-          />
-          <!-- close-btn -->
-          <image-preview-close-btn
-            v-if="closable"
-            @click="handleClose('closeBtn', $event)"
-          />
-        </div>
-      </transition>
-    </div>
-  </teleport>
+  <image-preview
+    v-bind="props"
+    :src="src"
+    @update:visible="handleVisibleChange"
+  >
+    <template #arrow>
+      <div class="yc-image-preview-arrow">
+        <image-preview-arrow type="left" @click="handleCurrentChange('pre')" />
+        <image-preview-arrow
+          type="right"
+          @click="handleCurrentChange('next')"
+        />
+      </div>
+    </template>
+    <template v-if="$slots.actions" #actions>
+      <slot name="actions" />
+    </template>
+  </image-preview>
 </template>
 
 <script lang="ts" setup>
-import { ref, toRefs, computed } from 'vue';
+import { toRefs, computed } from 'vue';
 import {
   ImagePreviewGroupProps,
   ImagePreviewGroupEmits,
   ImagePreviewGroupSlots,
 } from './type';
+import ImagePreview from './ImagePreview.vue';
+import ImagePreviewArrow from './ImagePreviewArrow.vue';
 import { onKeyStroke } from '@vueuse/core';
 import { useControlValue } from '@shared/hooks';
-import useImagePreview from './hooks/useImagePreview';
-import ImagePreviewToolbar from './ImagePreviewToolbar.vue';
-import ImagePreviewCloseBtn from './ImagePreviewCloseBtn.vue';
-import ImagePreviewArrow from './ImagePreviewArrow.vue';
 defineOptions({
   name: 'ImagePreviewGroup',
 });
@@ -92,10 +55,11 @@ const props = withDefaults(defineProps<ImagePreviewGroupProps>(), {
   zoomRate: 1.1,
   srcList: () => [],
   current: undefined,
-  defaultCurrent: 1,
+  defaultCurrent: 0,
   infinite: false,
 });
 const emits = defineEmits<ImagePreviewGroupEmits>();
+// 解构属性
 const { current, defaultCurrent, srcList, infinite, keyboard } = toRefs(props);
 // 当前的链接
 const computedCurrent = useControlValue<number>(
@@ -108,22 +72,8 @@ const computedCurrent = useControlValue<number>(
 );
 // src
 const src = computed(() => srcList.value[computedCurrent.value]);
-// imageRef
-const imageRef = ref<HTMLImageElement>();
-// 预览hook
-const {
-  scale,
-  rotate,
-  outerVisible,
-  innerVisible,
-  popupContainer,
-  zIndex,
-  handleClose,
-  handleAfterLeave,
-  handleAction,
-} = useImagePreview(props, emits, imageRef);
 // 处理index发生改变
-const handleChange = (type: string) => {
+const handleCurrentChange = (type: string) => {
   let index = 0;
   if (
     !infinite.value &&
@@ -141,6 +91,11 @@ const handleChange = (type: string) => {
   }
   computedCurrent.value = index;
 };
+// 处理visibleChange
+const handleVisibleChange = (val: boolean) => {
+  emits('update:visible', val);
+  emits('visible-change', val);
+};
 const intLisenter = () => {
   if (keyboard.value) {
     const map: Record<string, string> = {
@@ -148,13 +103,9 @@ const intLisenter = () => {
       ArrowRight: 'next',
     };
     onKeyStroke(['ArrowLeft', 'ArrowRight'], (e) => {
-      handleChange(map[e.key]);
+      handleCurrentChange(map[e.key]);
     });
   }
 };
 intLisenter();
 </script>
-
-<style lang="less" scoped>
-@import './style/image-preview.less';
-</style>

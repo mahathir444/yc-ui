@@ -10,6 +10,7 @@ declare module 'vue' {
     _Icon: typeof import('./src/components/_shared/icons/_Icon.vue')['default']
     ACalendar: typeof import('@arco-design/web-vue')['Calendar']
     Affix: typeof import('./src/components/Affix/index.vue')['default']
+    AImagePreview: typeof import('@arco-design/web-vue')['ImagePreview']
     Alert: typeof import('./src/components/Alert/index.vue')['default']
     Anchor: typeof import('./src/components/Anchor/Anchor.vue')['default']
     AnchorLink: typeof import('./src/components/Anchor/AnchorLink.vue')['default']

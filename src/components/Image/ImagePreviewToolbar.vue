@@ -1,16 +1,15 @@
 <template>
   <div v-if="actionsLayout.length" class="yc-image-preview-toolbar">
-    <slot name="actions">
-      <template v-for="action in actionsLayout" :key="action">
-        <image-preview-action
-          v-if="actionMap[action]"
-          :name="actionMap[action].name"
-          @click="(ev) => $emit('click', action, ev)"
-        >
-          <component :is="actionMap[action].icon" />
-        </image-preview-action>
-      </template>
-    </slot>
+    <template v-for="action in actionsLayout" :key="action">
+      <image-preview-action
+        v-if="actionMap[action]"
+        :name="actionMap[action].name"
+        @click="(ev) => $emit('click', action, ev)"
+      >
+        <component :is="actionMap[action].icon" />
+      </image-preview-action>
+    </template>
+    <slot name="actions" />
   </div>
 </template>
 

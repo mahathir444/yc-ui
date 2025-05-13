@@ -51,6 +51,7 @@ export interface ImagePreviewEmits {
 
 export interface ImagePreviewSlots {
   actions(): void;
+  arrow(): void;
 }
 
 export interface ImagePreviewGroupProps extends Omit<ImagePreviewProps, 'src'> {
