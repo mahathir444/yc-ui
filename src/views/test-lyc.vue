@@ -1,21 +1,7 @@
 <template>
   <div class="test">
-    <a-pagination
-      :total="200"
-      show-total
-      show-jumper
-      show-page-size
-      :base-size="100"
-      :bufferSize="3"
-      size="large"
-    />
-    <yc-pagination
-      :total="200"
-      show-total
-      show-jumper
-      show-page-size
-      :bufferSize="3"
-    />
+    <a-calendar />
+    <yc-calendar />
   </div>
 </template>
 
@@ -25,7 +11,7 @@ import { ref, reactive } from 'vue';
 
 <style lang="less" scoped>
 .test {
-  height: 100%;
+  height: 200vh;
   width: 100%;
   display: flex;
   flex-direction: column;

@@ -8,6 +8,7 @@ export {}
 declare module 'vue' {
   export interface GlobalComponents {
     _Icon: typeof import('./src/components/_shared/icons/_Icon.vue')['default']
+    ACalendar: typeof import('@arco-design/web-vue')['Calendar']
     Affix: typeof import('./src/components/Affix/index.vue')['default']
     Alert: typeof import('./src/components/Alert/index.vue')['default']
     Anchor: typeof import('./src/components/Anchor/Anchor.vue')['default']
@@ -23,6 +24,7 @@ declare module 'vue' {
     Button: typeof import('./src/components/Button/Button.vue')['default']
     ButtonGroup: typeof import('./src/components/Button/ButtonGroup.vue')['default']
     Calendar: typeof import('./src/components/Calendar/index.vue')['default']
+    CalendarCell: typeof import('./src/components/Calendar/CalendarCell.vue')['default']
     Card: typeof import('./src/components/Card/Card.vue')['default']
     CardGrid: typeof import('./src/components/Card/CardGrid.vue')['default']
     CardMeta: typeof import('./src/components/Card/CardMeta.vue')['default']
@@ -30,6 +32,7 @@ declare module 'vue' {
     CarouselArrow: typeof import('./src/components/Carousel/CarouselArrow.vue')['default']
     CarouselIndicator: typeof import('./src/components/Carousel/CarouselIndicator.vue')['default']
     CarouselItem: typeof import('./src/components/Carousel/CarouselItem.vue')['default']
+    Cell: typeof import('./src/components/Calendar/Cell.vue')['default']
     Checkbox: typeof import('./src/components/Checkbox/Checkbox.vue')['default']
     CheckboxGroup: typeof import('./src/components/Checkbox/CheckboxGroup.vue')['default']
     Collapse: typeof import('./src/components/Collapse/Collapse.vue')['default']
@@ -127,6 +130,7 @@ declare module 'vue' {
     MessageContainer: typeof import('./src/components/Message/MessageContainer.vue')['default']
     Modal: typeof import('./src/components/Modal/Modal.vue')['default']
     ModalService: typeof import('./src/components/Modal/ModalService.vue')['default']
+    MonthCalendar: typeof import('./src/components/Calendar/MonthCalendar.vue')['default']
     Notification: typeof import('./src/components/Notification/Notification.vue')['default']
     NotificationContainer: typeof import('./src/components/Notification/NotificationContainer.vue')['default']
     Optgroup: typeof import('./src/components/Select/Optgroup.vue')['default']
@@ -178,5 +182,7 @@ declare module 'vue' {
     Trigger: typeof import('./src/components/Trigger/index.vue')['default']
     VerificationCode: typeof import('./src/components/VerificationCode/index.vue')['default']
     Watermark: typeof import('./src/components/Watermark/index.vue')['default']
+    YearCalendar: typeof import('./src/components/Calendar/YearCalendar.vue')['default']
+    YearCalenday: typeof import('./src/components/Calendar/YearCalenday.vue')['default']
   }
 }

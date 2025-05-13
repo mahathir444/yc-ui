@@ -1,17 +1,21 @@
 export interface CalendarProps {
-  modelValue?: string;
-  detaultValue?: string;
-  mode?: 'month' | 'year';
-  defaultMode?: 'month' | 'year';
-  modes?: ('month' | 'year')[];
+  modelValue?: Date;
+  defaultValue?: Date;
+  mode?: CalendarMode;
+  defaultMode?: CalendarMode;
+  modes?: CalendarMode[];
 }
 
 export interface CalendarEmits {
-  (e: 'change', date: string): void;
-  (e: 'panel-change', date: string): void;
+  (e: 'update:modelValue', value: Date): void;
+  (e: 'update:mode', mode: CalendarMode): void;
+  (e: 'change', value: Date): void;
+  (e: 'panel-change', value: Date): void;
 }
 
 export interface CalendarSlots {
   header(params: { year: number; month: number }): void;
-  default(params: { year: number; month: number; date: number }): void;
+  default(params: { year: number; month: number; value: number }): void;
 }
+
+export type CalendarMode = 'month' | 'year';
