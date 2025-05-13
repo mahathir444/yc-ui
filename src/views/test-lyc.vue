@@ -1,6 +1,11 @@
 <template>
   <div class="test">
-    <a-calendar />
+    <a-calendar>
+      <template #default>
+        <span>{{ 'test' }}</span>
+      </template>
+      <template #header> dsa </template>
+    </a-calendar>
     <yc-calendar />
   </div>
 </template>

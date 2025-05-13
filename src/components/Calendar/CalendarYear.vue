@@ -12,7 +12,11 @@
           small
           class="yc-calendar-year-cell-body"
           @cell-click="(v) => $emit('cell-click', v)"
-        />
+        >
+          <template v-if="$slots.default" #default="{ year, month, day }">
+            <slot :year="year" :month="month" :day="day" />
+          </template>
+        </month-calendar>
       </div>
     </div>
   </div>
@@ -21,7 +25,7 @@
 <script lang="ts" setup>
 import { ref, watch, toRefs } from 'vue';
 import { generateMonthCalendar, CalendarCellData } from '@shared/utils';
-import MonthCalendar from './MonthCalendar.vue';
+import MonthCalendar from './CalendarMonth.vue';
 const props = defineProps<{
   computedValue: Date;
   recordDate: Record<string, number>;

@@ -12,8 +12,11 @@
         >
           <icon-arrow-right :rotate="180" />
         </yc-icon-button>
+
         <div class="yc-calendar-header-value">
-          {{ recordDate.year }} 年 {{ recordDate.month }} 月
+          <slot name="header" :year="recordDate.year" :month="recordDate.month">
+            {{ recordDate.year }} 年 {{ recordDate.month }} 月
+          </slot>
         </div>
         <yc-icon-button
           role="button"
@@ -44,13 +47,21 @@
         :computed-value="computedValue"
         :recordDate="recordDate"
         @cell-click="handleClick"
-      />
+      >
+        <template v-if="$slots.default" #default="{ year, month, day }">
+          <slot :year="year" :month="month" :day="day" />
+        </template>
+      </month-calendar>
       <year-calendar
         v-else
         :computed-value="computedValue"
         :record-date="recordDate"
         @cell-click="handleClick"
-      />
+      >
+        <template v-if="$slots.default" #default="{ year, month, day }">
+          <slot :year="year" :month="month" :day="day" />
+        </template>
+      </year-calendar>
     </div>
   </div>
 </template>
@@ -70,8 +81,8 @@ import { RadioGroup as YcRadioGroup } from '@/components/Radio';
 import { IconArrowRight } from '@shared/icons';
 import { YcIconButton } from '@shared/components';
 import { CalendarCellData } from '@shared/utils';
-import MonthCalendar from './MonthCalendar.vue';
-import YearCalendar from './YearCalendar.vue';
+import MonthCalendar from './CalendarMonth.vue';
+import YearCalendar from './CalendarYear.vue';
 defineOptions({
   name: 'Calendar',
 });

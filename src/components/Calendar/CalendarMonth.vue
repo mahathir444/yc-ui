@@ -27,13 +27,15 @@
           }"
           @click="$emit('cell-click', col)"
         >
-          <div class="yc-calendar-date">
-            <div class="yc-calendar-date-value">
-              <div class="yc-calendar-date-circle">
-                {{ col.day }}
+          <slot :year="col.year" :month="col.month" :day="col.day">
+            <div class="yc-calendar-date">
+              <div class="yc-calendar-date-value">
+                <div class="yc-calendar-date-circle">
+                  {{ col.day }}
+                </div>
               </div>
             </div>
-          </div>
+          </slot>
         </div>
       </div>
     </div>

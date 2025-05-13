@@ -15,7 +15,7 @@ export interface CalendarEmits {
 
 export interface CalendarSlots {
   header(params: { year: number; month: number }): void;
-  default(params: { year: number; month: number; value: number }): void;
+  default(params: { year: number; month: number; day: number }): void;
 }
 
 export type CalendarMode = 'month' | 'year';
