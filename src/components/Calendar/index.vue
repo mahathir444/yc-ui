@@ -1,5 +1,5 @@
 <template>
-  <div class="yc-calendar yc-calendar-mode-month">
+  <div :class="['yc-calendar', `yc-calendar-mode-${computedMode}`]">
     <div class="yc-calendar-header">
       <div class="yc-calendar-header-left">
         <yc-icon-button
@@ -13,7 +13,7 @@
           <icon-arrow-right :rotate="180" />
         </yc-icon-button>
         <div class="yc-calendar-header-value">
-          {{ computedValue.year }} 年 {{ computedValue.month }} 月
+          {{ recordDate.year }} 年 {{ recordDate.month }} 月
         </div>
         <yc-icon-button
           role="button"
@@ -21,7 +21,7 @@
           class="yc-calendar-header-icon"
           :size="28"
           :hover-size="28"
-          @click="handleDateChange('pre')"
+          @click="handleDateChange('next')"
         >
           <icon-arrow-right />
         </yc-icon-button>
@@ -40,7 +40,15 @@
     </div>
     <div class="yc-calendar-body">
       <month-calendar
+        v-if="computedMode == 'month'"
         :computed-value="computedValue"
+        :recordDate="recordDate"
+        @cell-click="handleClick"
+      />
+      <year-calendar
+        v-else
+        :computed-value="computedValue"
+        :record-date="recordDate"
         @cell-click="handleClick"
       />
     </div>
@@ -48,7 +56,7 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, toRefs } from 'vue';
+import { computed, toRefs, ref, watch } from 'vue';
 import dayjs from 'dayjs';
 import {
   CalendarProps,
@@ -63,6 +71,7 @@ import { IconArrowRight } from '@shared/icons';
 import { YcIconButton } from '@shared/components';
 import { CalendarCellData } from '@shared/utils';
 import MonthCalendar from './MonthCalendar.vue';
+import YearCalendar from './YearCalendar.vue';
 defineOptions({
   name: 'Calendar',
 });
@@ -89,14 +98,22 @@ const computedValue = useControlValue<Date>(
   (val) => {
     emits('update:modelValue', val);
     emits('change', val);
-  },
+  }
+);
+// 记录的date
+const recordDate = ref<Record<string, number>>({});
+watch(
+  () => computedValue.value,
   (val) => {
     const date = val ? dayjs(val) : dayjs();
-    return {
+    recordDate.value = {
       year: date.year(),
       month: date.month() + 1,
       day: date.date(),
     };
+  },
+  {
+    immediate: true,
   }
 );
 // mode
@@ -105,6 +122,7 @@ const computedMode = useControlValue<CalendarMode>(
   defaultMode.value,
   (val) => {
     emits('update:mode', val);
+    emits('panel-change', computedValue.value);
   }
 );
 // 数组
@@ -130,44 +148,23 @@ const handleDateChange = (type: string) => {
     computedValue.value = new Date();
     return;
   }
-  const { year: _year, month: _month, day } = computedValue.value;
-  if (type == 'pre') {
-    const year = computedMode.value == 'year' ? _year + 1 : _year;
-    const month = computedMode.value == 'year' ? _month + 1 : _month;
-    computedValue.value = new Date(year, month, day);
+  const { year, month } = recordDate.value;
+  if (type == 'next') {
+    const tempMonth = month + 1 > 12 ? 1 : month + 1;
+    const tempYear = month + 1 > 12 || computedMode.value == 'year' ? 1 : 0;
+    recordDate.value.year = year + tempYear;
+    if (computedMode.value == 'year') return;
+    recordDate.value.month = tempMonth;
   } else {
-    const year = computedMode.value == 'year' ? _year - 1 : _year;
-    const month = computedMode.value == 'year' ? _month - 1 : _month;
-    computedValue.value = new Date(year, month, day);
+    const tempMonth = month - 1 < 1 ? 12 : month - 1;
+    const tempYear = month - 1 < 1 || computedMode.value == 'year' ? -1 : 0;
+    recordDate.value.year = year + tempYear;
+    if (computedMode.value == 'year') return;
+    recordDate.value.month = tempMonth;
   }
 };
 </script>
 
 <style lang="less" scoped>
-.yc-calendar {
-  border: 1px solid rgb(229, 230, 235);
-  display: flex;
-  flex-direction: column;
-  .yc-calendar-header {
-    padding: 24px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    .yc-calendar-header-left {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      .yc-calendar-header-icon {
-        font-size: 12px;
-      }
-      .yc-calendar-header-value {
-        color: rgb(29, 33, 41);
-        font-weight: 500;
-        font-size: 20px;
-      }
-    }
-  }
-  .yc-calendar-body {
-  }
-}
+@import './style/calendar.less';
 </style>

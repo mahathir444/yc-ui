@@ -8,6 +8,9 @@
         'yc-modal-position-absolute': popupContainer || !renderToBody,
         'yc-modal-simple': simple,
       }"
+      :style="{
+        zIndex,
+      }"
     >
       <!-- mask -->
       <transition :name="maskAnimationName" appear>
@@ -220,7 +223,4 @@ const style = computed(() => {
 
 <style lang="less" scoped>
 @import './style/modal.less';
-.yc-modal-container {
-  z-index: v-bind(zIndex);
-}
 </style>

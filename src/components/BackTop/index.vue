@@ -3,6 +3,9 @@
     <div
       v-show="curScroll >= visibleHeight"
       class="yc-back-top"
+      :style="{
+        zIndex,
+      }"
       ref="buttonRef"
       @click="handleTop"
     >
@@ -76,7 +79,4 @@ onBeforeUnmount(() => {
 
 <style lang="less" scoped>
 @import './style/back-top.less';
-.yc-back-top {
-  z-index: v-bind(zIndex);
-}
 </style>

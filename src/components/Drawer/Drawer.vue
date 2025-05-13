@@ -10,6 +10,9 @@
           ? 'yc-drawer-wrapper-position-absolute'
           : '',
       ]"
+      :style="{
+        zIndex,
+      }"
     >
       <!-- mask -->
       <transition name="fade" appear>
@@ -146,7 +149,7 @@ const { onBeforeOk, onBeforeCancel } = props;
 // attrs
 const attrs = useAttrs();
 // 接收configProvider
-const { popupContainer, zIndex } = useConfigProvder(props);
+const { zIndex, popupContainer } = useConfigProvder(props);
 // drawer绝对定位的left,top
 const drawerStyle = computed(() => {
   return {
@@ -178,7 +181,4 @@ const { outerVisible, innerVisible, handleClose, handleAfterLeave } =
 
 <style lang="less" scoped>
 @import './style/drawer.less';
-.yc-drawer-wrapper {
-  z-index: v-bind(zIndex);
-}
 </style>
