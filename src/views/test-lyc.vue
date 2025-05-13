@@ -1,12 +1,15 @@
 <template>
   <div class="test">
-    <a-calendar>
-      <template #default>
-        <span>{{ 'test' }}</span>
-      </template>
-      <template #header> dsa </template>
-    </a-calendar>
-    <yc-calendar />
+    <yc-image-preview-group
+      :visible="true"
+      infinite
+      :srcList="[
+        'https://p1-arco.byteimg.com/tos-cn-i-uwbnlip3yd/cd7a1aaea8e1c5e3d26fe2591e561798.png~tplv-uwbnlip3yd-webp.webp',
+        'https://p1-arco.byteimg.com/tos-cn-i-uwbnlip3yd/6480dbc69be1b5de95010289787d64f1.png~tplv-uwbnlip3yd-webp.webp',
+        'https://p1-arco.byteimg.com/tos-cn-i-uwbnlip3yd/0265a04fddbd77a19602a15d9d55d797.png~tplv-uwbnlip3yd-webp.webp',
+        'https://p1-arco.byteimg.com/tos-cn-i-uwbnlip3yd/24e0dd27418d2291b65db1b21aa62254.png~tplv-uwbnlip3yd-webp.webp',
+      ]"
+    />
   </div>
 </template>
 

@@ -107,6 +107,8 @@ declare module 'vue' {
     Image: typeof import('./src/components/Image/Image.vue')['default']
     ImagePreview: typeof import('./src/components/Image/ImagePreview.vue')['default']
     ImagePreviewAction: typeof import('./src/components/Image/ImagePreviewAction.vue')['default']
+    ImagePreviewArrow: typeof import('./src/components/Image/ImagePreviewArrow.vue')['default']
+    ImagePreviewBtn: typeof import('./src/components/Image/ImagePreviewBtn.vue')['default']
     ImagePreviewCloseBtn: typeof import('./src/components/Image/ImagePreviewCloseBtn.vue')['default']
     ImagePreviewGroup: typeof import('./src/components/Image/ImagePreviewGroup.vue')['default']
     ImagePreviewToolbar: typeof import('./src/components/Image/ImagePreviewToolbar.vue')['default']

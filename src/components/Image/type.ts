@@ -46,10 +46,28 @@ export interface ImagePreviewProps {
 
 export interface ImagePreviewEmits {
   (e: 'update:visible', value: boolean): void;
-  (e: 'update:close'): void;
+  (e: 'close'): void;
 }
 
 export interface ImagePreviewSlots {
+  actions(): void;
+}
+
+export interface ImagePreviewGroupProps extends Omit<ImagePreviewProps, 'src'> {
+  srcList?: string[];
+  current?: number;
+  defaultCurrent?: number;
+  infinite?: boolean;
+}
+
+export interface ImagePreviewGroupEmits {
+  (e: 'update:visible', value: boolean): void;
+  (e: 'update:current', index: number): void;
+  (e: 'change', index: number): void;
+  (e: 'visible-change', value: boolean): void;
+}
+
+export interface ImagePreviewGroupSlots {
   actions(): void;
 }
 
