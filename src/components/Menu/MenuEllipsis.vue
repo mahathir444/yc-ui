@@ -20,7 +20,9 @@
           'yc-menu-item',
           'yc-menu-item-ellipsis',
           `yc-menu-item-theme-${theme}`,
-          isSelected ? 'yc-menu-item-selected' : '',
+          {
+            'yc-menu-item-selected': isSelected,
+          },
         ]"
       >
         <div class="yc-menu-item-title">

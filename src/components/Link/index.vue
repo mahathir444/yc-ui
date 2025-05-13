@@ -3,14 +3,12 @@
     :href="resultHref"
     :class="[
       'yc-link',
-      // link是否hoverable
-      hoverable && !disabled && !loading ? 'yc-link-hoverable' : '',
-      // loading
-      loading ? 'yc-link-loading' : '',
-      // disabled
-      disabled ? 'yc-link-disabled' : '',
-      // status
       `yc-link-status-${status}`,
+      {
+        'yc-link-hoverable': hoverable && !disabled && !loading,
+        'yc-link-loading': loading,
+        'yc-link-disabled': disabled,
+      },
     ]"
     @click="handleEvent('click', $event)"
     @dblclick="handleEvent('dblclick', $event)"

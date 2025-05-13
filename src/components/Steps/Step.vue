@@ -4,11 +4,12 @@
       'yc-steps-item',
       `yc-steps-item-${status}`,
       `yc-steps-item-next-${nextStatus}`,
-      curStep == computedCurrent && type == 'navigation'
-        ? 'yc-steps-item-active'
-        : '',
-      lineLess ? 'yc-steps-item-line-less' : '',
-      small ? 'yc-steps-item-size-small' : '',
+      {
+        'yc-steps-item-active':
+          curStep == computedCurrent && type == 'navigation',
+        'yc-steps-item-line-less': lineLess,
+        'yc-steps-item-size-small': small,
+      },
     ]"
     @click="handleClick"
   >

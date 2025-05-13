@@ -3,7 +3,9 @@
     :class="[
       'yc-slider',
       `yc-slider-direction-${direction}`,
-      disabled ? 'yc-slider-disabled' : '',
+      {
+        'yc-slider-disabled': disabled,
+      },
     ]"
   >
     <div class="yc-slider-track" ref="trackRef">

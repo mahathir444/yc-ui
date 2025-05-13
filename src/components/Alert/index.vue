@@ -5,9 +5,11 @@
       :class="[
         'yc-alert',
         `yc-alert-${type}`,
-        title || $slots.title ? 'yc-alert-has-title' : '',
-        center || banner ? 'yc-alert-center' : '',
-        banner ? 'yc-alert-banner' : '',
+        {
+          'yc-alert-has-title': title || $slots.title,
+          'yc-alert-center': center || banner,
+          'yc-alert-banner': banner,
+        },
       ]"
     >
       <div v-if="showIcon" class="yc-alert-icon">

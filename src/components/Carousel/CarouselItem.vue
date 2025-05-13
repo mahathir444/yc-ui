@@ -2,14 +2,11 @@
   <div
     :class="[
       'yc-carousel-item',
-      index == computedCurrent ? 'yc-carousel-item-current' : '',
-      index == getValidIndex(computedCurrent - 1)
-        ? 'yc-carousel-item-prev'
-        : '',
-      index == getValidIndex(computedCurrent + 1)
-        ? 'yc-carousel-item-next'
-        : '',
       slideClass,
+      {
+        'yc-carousel-item-prev': index == getValidIndex(computedCurrent - 1),
+        'yc-carousel-item-next': index == getValidIndex(computedCurrent + 1),
+      },
     ]"
     :style="{
       transitionTimingFunction,

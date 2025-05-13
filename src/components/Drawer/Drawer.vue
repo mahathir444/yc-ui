@@ -6,9 +6,10 @@
       :class="[
         'yc-drawer-wrapper',
         `yc-drawer-placement-${placement}`,
-        popupContainer || !renderToBody
-          ? 'yc-drawer-wrapper-position-absolute'
-          : '',
+        {
+          'yc-drawer-wrapper-position-absolute':
+            popupContainer || !renderToBody,
+        },
       ]"
       :style="{
         zIndex,

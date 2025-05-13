@@ -4,8 +4,10 @@
       'yc-descriptions',
       `yc-descriptions-size-${size}`,
       `yc-descriptions-layout-${layout}`,
-      bordered ? 'yc-descriptions-bordered' : '',
-      tableLayout == 'fixed' ? 'yc-descriptions-table-layout-fixed ' : '',
+      {
+        'yc-descriptions-bordered': bordered,
+        'yc-descriptions-table-layout-fixed ': tableLayout == 'fixed',
+      },
     ]"
   >
     <div v-if="$slots.title || title" class="yc-descriptions-title">

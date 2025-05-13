@@ -4,8 +4,10 @@
       'yc-space',
       `yc-space-align-${align}`,
       `yc-space-direction-${direction}`,
-      wrap ? 'yc-space-wrap' : '',
-      fill ? 'yc-space-fill' : '',
+      {
+        'yc-space-wrap': wrap,
+        'yc-space-fill': fill,
+      },
     ]"
   >
     <template v-for="(node, index) in nodes" :key="index">

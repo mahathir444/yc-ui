@@ -26,8 +26,10 @@
         :class="[
           'yc-trigger',
           `yc-trigger-position-${position}`,
-          needTransformOrigin ? 'yc-trigger-transform-origin' : '',
-          $attrs.class ?? '',
+          $attrs.class,
+          {
+            'yc-trigger-transform-origin': needTransformOrigin,
+          },
         ]"
         :style="{
           ...popupStyle,

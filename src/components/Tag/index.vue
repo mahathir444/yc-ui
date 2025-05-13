@@ -11,11 +11,13 @@
       TAG_PRESET_COLORS.includes(color)
         ? 'yc-tag-preset-color'
         : 'yc-tag-custom-color',
-      loading ? 'yc-tag-loading' : '',
-      bordered ? 'yc-tag-bordered' : '',
-      computedChecked ? 'yc-tag-checked' : '',
-      checkable ? 'yc-tag-checkable' : '',
       nowrap ? 'yc-tag-no-wrap' : 'yc-tag-wrap',
+      {
+        'yc-tag-loading': loading,
+        'yc-tag-bordered': bordered,
+        'yc-tag-checked': computedChecked,
+        'yc-tag-checkable': checkable,
+      },
     ]"
     ref="tagRef"
     @click="handleEvent('check', $event)"

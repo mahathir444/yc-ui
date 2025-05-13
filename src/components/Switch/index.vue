@@ -5,8 +5,10 @@
       `yc-switch-shape-${type}`,
       `yc-switch-size-${['medium', 'small'].includes(size) ? size : 'medium'}`,
       compuedChecked ? 'yc-switch-checked' : 'yc-switch-unchecked',
-      loading ? 'yc-switch-loading' : '',
-      disabled ? 'yc-switch-disabled' : '',
+      {
+        'yc-switch-loading': loading,
+        'yc-switch-disabled': disabled,
+      },
     ]"
     :aria-checked="compuedChecked"
     role="switch"

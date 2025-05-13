@@ -36,14 +36,16 @@
             v-show="innerVisible"
             :class="[
               'yc-modal',
-              // 全屏
-              fullscreen ? 'yc-modal-fullscreen' : '',
-              // 拖拽
-              isDraggable ? 'yc-modal-draggable' : '',
               // 外被类名
               modalClass,
               // 外面传入的类名
               $attrs.class,
+              {
+                // 拖拽
+                'yc-modal-draggable': isDraggable,
+                // 全屏
+                'yc-modal-fullscreen': fullscreen,
+              },
             ]"
             :style="style"
             ref="modalRef"

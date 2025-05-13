@@ -3,10 +3,12 @@
     :class="[
       'yc-input-tag',
       `yc-input-tag-size-${size}`,
-      !computedValue.length ? 'yc-input-tag-no-value' : '',
-      disabled ? 'yc-input-tag-disabled' : '',
-      error ? 'yc-input-tag-error' : '',
-      $slots.suffix || showClearBtn ? 'yc-input-tag-has-suffix' : '',
+      {
+        'yc-input-tag-no-value': !computedValue.length,
+        'yc-input-tag-disabled': disabled,
+        'yc-input-tag-error': error,
+        'yc-input-tag-has-suffix': $slots.suffix || showClearBtn,
+      },
     ]"
     @click="inputRef?.focus()"
   >

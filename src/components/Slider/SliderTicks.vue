@@ -9,8 +9,10 @@
       }"
       :class="[
         `yc-slider-${type.replace('s', '')}`,
-        type == 'dots' && isInRange(value) ? 'yc-slider-dot-active' : '',
-        type == 'ticks' && isInRange(value) ? 'yc-slider-tick-active' : '',
+        {
+          'yc-slider-dot-active': type == 'dots' && isInRange(value),
+          'yc-slider-tick-active': type == 'ticks' && isInRange(value),
+        },
       ]"
       @click="$emit('labelClick', value)"
     >

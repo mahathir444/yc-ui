@@ -5,8 +5,10 @@
     :class="[
       `yc-radio-button-size-${size}`,
       type == 'radio' ? 'yc-radio' : 'yc-radio-button',
-      disabled ? 'yc-radio-disabled' : '',
       computedChecked ? 'yc-radio-checked' : 'yc-radio-unchecked',
+      {
+        'yc-radio-disabled': disabled,
+      },
     ]"
   >
     <input

@@ -5,7 +5,9 @@
       `yc-steps-mode-${type}`,
       `yc-steps-direction-${direction}`,
       `yc-steps-label-direction-${labelPlacement}`,
-      changeable ? 'yc-steps-item-changeable' : '',
+      {
+        'yc-steps-item-changeable': changeable,
+      },
     ]"
   >
     <slot />

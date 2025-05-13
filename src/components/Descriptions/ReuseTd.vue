@@ -5,7 +5,9 @@
         ? 'yc-descriptions-item-label'
         : 'yc-descriptions-item-value',
       `yc-descriptions-item-cell-size-${size}`,
-      bordered ? 'yc-descriptions-item-cell-bordered' : '',
+      {
+        'yc-descriptions-item-cell-bordered': bordered,
+      },
     ]"
     :style="{
       ...(type == 'label' ? labelStyle : valueStyle),

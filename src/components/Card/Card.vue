@@ -3,10 +3,12 @@
     :class="[
       'yc-card',
       `yc-card-size-${['small', 'medium'].includes(size) ? size : 'medium'}`,
-      bordered ? 'yc-card-bordered' : '',
-      hoverable ? 'yc-card-hoverable' : '',
-      loading ? 'yc-card-loading' : '',
-      hasGrid ? 'yc-card-contain-grid' : '',
+      {
+        'yc-card-bordered': bordered,
+        'yc-card-hoverable': hoverable,
+        'yc-card-loading': loading,
+        'yc-card-contain-grid': hasGrid,
+      },
     ]"
   >
     <div

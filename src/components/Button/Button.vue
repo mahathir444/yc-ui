@@ -73,16 +73,6 @@ const { size, disabled, type, status, shape } = inject(props);
 const btnClass = computed(() => {
   return [
     'yc-button',
-    // long
-    long.value ? 'yc-button-long' : '',
-    // loading
-    loading.value ? 'yc-button-loading' : '',
-    // disabled
-    disabled.value ? 'yc-button-disabled' : '',
-    // only-icon
-    !slots.default ? 'yc-button-only-icon' : '',
-    // no-padding
-    shape.value == 'circle' ? 'yc-button-no-padding' : '',
     // size
     `yc-button-size-${size.value}`,
     // type
@@ -91,6 +81,18 @@ const btnClass = computed(() => {
     `yc-button-status-${status.value}`,
     // shape
     `yc-button-shape-${shape.value}`,
+    {
+      // long
+      'yc-button-long': long.value,
+      // loading
+      'yc-button-loading': loading.value,
+      // disabled
+      'yc-button-disabled': disabled.value,
+      // only-icon
+      'yc-button-only-icon': !slots.default,
+      // no-padding
+      'yc-button-no-padding': shape.value == 'circle',
+    },
   ];
 });
 // 拦截事件

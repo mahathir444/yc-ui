@@ -2,9 +2,11 @@
   <div
     :class="[
       'yc-carousel-arrow',
-      showArrow == 'hover' ? 'yc-carousel-arrow-show-hover' : '',
       positionClass,
       arrowClass,
+      {
+        'yc-carousel-arrow-show-hover': showArrow == 'hover',
+      },
     ]"
     @click="
       $emit(
@@ -30,7 +32,7 @@ defineEmits<{
 const { type } = toRefs(props);
 // 接收注入
 const { inject } = useProvide();
-const { showArrow, direction, arrowClass, computedCurrent, slideTo } = inject();
+const { showArrow, direction, arrowClass, computedCurrent } = inject();
 // 旋转角度
 const rotate = computed(() => {
   if (type.value == 'next') {

@@ -3,10 +3,7 @@
   <yc-resize-box
     v-if="resizeDirections.length"
     v-model:width="width"
-    :class="[
-      'yc-layout-sider',
-      theme == 'light' ? 'yc-layout-sider-light' : 'yc-layout-sider-dark',
-    ]"
+    :class="['yc-layout-sider', `yc-layout-sider-${theme}`]"
     :style="{
       minWidth: `${collapsedWidth}px`,
     }"
@@ -31,7 +28,7 @@
     :class="[
       'yc-layout-sider',
       'yc-layout-sider-translation',
-      theme == 'light' ? 'yc-layout-sider-light' : 'yc-layout-sider-dark',
+      `yc-layout-sider-${theme}`,
     ]"
     :style="{
       width: `${computedCollapsed ? collapsedWidth : width}px`,

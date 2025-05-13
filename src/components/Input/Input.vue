@@ -4,8 +4,11 @@
       :class="[
         'yc-input-wrapper',
         `yc-input-size-${size}`,
-        disabled ? 'yc-input-disabled' : '',
-        error ? 'yc-input-error' : '',
+
+        {
+          'yc-input-disabled': disabled,
+          'yc-input-error': error,
+        },
       ]"
     >
       <!-- prefix-icon -->
@@ -71,9 +74,11 @@
     :class="[
       'yc-input-outer',
       `yc-input-outer-size-${size}`,
-      disabled ? 'yc-input-outer-disabled' : '',
-      $slots.prepend ? 'yc-input-has-prepend' : '',
-      $slots.append ? 'yc-input-has-append' : '',
+      {
+        'yc-input-outer-disabled': disabled,
+        'yc-input-has-prepend': $slots.prepend,
+        'yc-input-has-append': $slots.append,
+      },
     ]"
     v-bind="$attrs"
   >

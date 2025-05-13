@@ -3,7 +3,9 @@
     :class="[
       'yc-carousel',
       `yc-carousel-animation-${animationName}`,
-      indicatorPosition == 'outer' ? 'yc-carousel-indicator-outer' : '',
+      {
+        'yc-carousel-indicator-outer': indicatorPosition == 'outer',
+      },
     ]"
   >
     <div

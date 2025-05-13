@@ -4,7 +4,7 @@
       v-if="$slots.icon || status"
       :class="['yc-result-icon', `yc-result-icon-${status}`]"
     >
-      <div :class="['yc-result-icon-tip']">
+      <div class="yc-result-icon-tip">
         <slot name="icon">
           <template v-if="status">
             <img

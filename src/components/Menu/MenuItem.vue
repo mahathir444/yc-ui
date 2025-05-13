@@ -11,9 +11,11 @@
         :class="[
           'yc-menu-item',
           `yc-menu-item-theme-${theme}`,
-          isSelected ? 'yc-menu-item-selected' : '',
-          disabled ? 'yc-menu-item-disabled' : '',
-          computedCollapsed ? 'yc-menu-item-collapsed' : '',
+          {
+            'yc-menu-item-selected': isSelected,
+            'yc-menu-item-disabled': disabled,
+            'yc-menu-item-collapsed': computedCollapsed,
+          },
         ]"
         ref="menuItemRef"
         @click="handleClick"
