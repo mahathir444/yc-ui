@@ -1,9 +1,6 @@
 .yc-steps-item {
-  position: relative;
-  &,
-  .yc-steps-item-title,
-  .yc-steps-item-description {
-    white-space: nowrap;
+  .yc-steps-item-tail {
+    position: absolute;
   }
   .yc-steps-item-node {
     font-weight: 500;
@@ -22,7 +19,6 @@
     flex-direction: column;
     gap: 2px;
     .yc-steps-item-title {
-      width: fit-content;
       line-height: 28px;
       font-size: 16px;
       color: rgb(29, 33, 41);
@@ -33,22 +29,6 @@
       font-size: 12px;
       color: rgb(134, 144, 156);
       transition: all 0.1s cubic-bezier(0, 0, 1, 1);
-    }
-  }
-}
-//size
-.yc-steps-item-size-small {
-  .yc-steps-item-node {
-    font-size: 14px;
-    .yc-steps-icon {
-      width: 24px;
-      height: 24px;
-    }
-  }
-  .yc-steps-item-content {
-    .yc-steps-item-title {
-      font-size: 14px;
-      line-height: 24px;
     }
   }
 }
@@ -84,44 +64,11 @@
     }
   }
 }
-// status
-.yc-steps-item-wait {
-  .yc-steps-icon {
-    color: rgb(78, 89, 105);
-    background-color: rgb(242, 243, 245);
-    border: 1px solid transparent;
-  }
-  .yc-steps-item-content {
-    .yc-steps-item-title {
-      color: rgb(78, 89, 105);
-    }
-  }
-}
-.yc-steps-item-process {
-  .yc-steps-icon {
-    color: #fff;
-    background-color: rgb(22, 93, 255);
-    border: 1px solid transparent;
-  }
-}
-.yc-steps-item-finish {
-  .yc-steps-icon {
-    color: rgb(22, 93, 255);
-    background-color: rgb(232, 243, 255);
-    border: 1px solid transparent;
-  }
-}
-.yc-steps-item-error {
-  .yc-steps-icon {
-    color: #fff;
-    background-color: rgb(245, 63, 63);
-    border: 1px solid transparent;
-  }
-}
 // next-status
 .yc-steps-item-next-wait {
   &,
-  .yc-steps-item-title {
+  .yc-steps-item-title,
+  .yc-steps-item-tail {
     &::after {
       background-color: rgb(229, 230, 235);
     }
@@ -130,7 +77,8 @@
 .yc-steps-item-next-process,
 .yc-steps-item-next-finish {
   &,
-  .yc-steps-item-title {
+  .yc-steps-item-title,
+  .yc-steps-item-tail {
     &::after {
       background-color: rgb(22, 93, 255);
     }
@@ -138,7 +86,8 @@
 }
 .yc-steps-item-next-error {
   &,
-  .yc-steps-item-title {
+  .yc-steps-item-title,
+  .yc-steps-item-tail {
     &::after {
       background-color: rgb(245, 63, 63);
     }

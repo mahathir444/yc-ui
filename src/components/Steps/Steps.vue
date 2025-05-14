@@ -6,7 +6,7 @@
       `yc-steps-${direction}`,
       `yc-steps-label-${labelPlacement}`,
       {
-        'yc-steps-item-changeable': changeable,
+        'yc-steps-changeable': changeable,
       },
     ]"
   >

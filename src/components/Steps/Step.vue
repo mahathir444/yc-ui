@@ -2,6 +2,8 @@
   <div
     :class="[
       'yc-steps-item',
+      `yc-steps-item-${direction}`,
+      `yc-steps-item-label-${labelPlacement}`,
       `yc-steps-item-${status}`,
       `yc-steps-item-next-${nextStatus}`,
       {
@@ -13,6 +15,14 @@
     ]"
     @click="handleClick"
   >
+    <div
+      v-if="
+        (type == 'default' &&
+          (direction == 'vertical' || labelPlacement == 'vertical')) ||
+        type == 'dot'
+      "
+      class="yc-steps-item-tail"
+    ></div>
     <!-- icon -->
     <slot v-if="type != 'arrow'" name="node" :step="curStep" :status="status">
       <div class="yc-steps-item-node">
@@ -77,6 +87,8 @@ const {
   changeable,
   status,
   nextStatus,
+  direction,
+  labelPlacement,
   lineLess: _lineLess,
   small: _small,
   emits,

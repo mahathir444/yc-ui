@@ -17,6 +17,7 @@ export interface StepsProvide {
   computedCurrent: Ref<number>;
   lineLess: Ref<boolean>;
   direction: Ref<Direction>;
+  labelPlacement: Ref<Direction>;
   statusArr: Ref<Ref<string>[]>;
   small: Ref<boolean>;
   type: Ref<StepType>;
@@ -48,19 +49,21 @@ export default () => {
     );
     // direction
     const direction = computed(() => {
-      if (type.value == 'default') {
+      if (['default', 'dot'].includes(type.value)) {
         return _direction.value;
-      } else if (type.value == 'dot') {
-        return 'vertical';
       } else {
         return 'horizontal';
       }
     });
     // labelPlacement
     const labelPlacement = computed(() => {
-      return type.value == 'default' && direction.value == 'horizontal'
-        ? _labelPlacement.value
-        : 'horizontal';
+      if (type.value == 'default' && direction.value == 'horizontal') {
+        return _labelPlacement.value;
+      } else if (type.value == 'dot') {
+        return direction.value == 'vertical' ? 'horizontal' : 'vertical';
+      } else {
+        return 'horizontal';
+      }
     });
     // status
     const statusArr = ref<Ref<string>[]>([]);
@@ -75,6 +78,7 @@ export default () => {
       small,
       type,
       changeable,
+      labelPlacement,
       emits,
     });
     return {
@@ -94,6 +98,7 @@ export default () => {
       small: ref(false),
       type: ref('default'),
       changeable: ref(false),
+      labelPlacement: ref('horizontal'),
       emits: () => {},
     });
     const { step, computedCurrent, statusArr } = injection;

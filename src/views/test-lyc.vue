@@ -1,24 +1,23 @@
 <template>
   <div class="test">
-    <yc-steps changeable label-placement="vertical">
-      <yc-step description="This is a description">Succeeded</yc-step>
-      <yc-step description="This is a description">Processing</yc-step>
-      <yc-step description="This is a description"> Pending </yc-step>
-    </yc-steps>
-    <yc-progress
-      type="circle"
-      :percent="1"
-      :color="{
-        '0%': 'rgb(22, 93, 255)',
-        '100%': 'rgb(0, 180, 42)',
-      }"
-    />
+    <div style="width: 600px">
+      <yc-steps type="default" changeable>
+        <yc-step description="This is a description">Succeeded</yc-step>
+        <yc-step description="This is a description">Processing</yc-step>
+        <yc-step description="This is a description"> Pending </yc-step>
+      </yc-steps>
+      <a-steps style="margin-top: 50px" type="navigation" small changeable>
+        <a-step description="This is a description">Succeeded</a-step>
+        <a-step description="This is a description">Processing</a-step>
+        <a-step description="This is a description"> Pending </a-step>
+      </a-steps>
+    </div>
   </div>
 </template>
 
 <script lang="ts" setup>
 import { ref, reactive } from 'vue';
-import { IconCheck } from '@shared/icons';
+
 const visible = ref<boolean>(false);
 </script>
 
