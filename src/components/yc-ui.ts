@@ -70,6 +70,7 @@ import { default as Steps, Step } from './Steps';
 import Pagination from './Pagination';
 import Calendar from './Calendar';
 import Progress from './Progress';
+import { default as Statistic, Countdown } from './Statistic';
 
 export const components: Record<string, Plugin> = {
   Button,
@@ -132,6 +133,7 @@ export const components: Record<string, Plugin> = {
   Pagination,
   Calendar,
   Progress,
+  Statistic,
 };
 
 export default {
@@ -166,6 +168,7 @@ export default {
   ImagePreviewAction,
   DescriptionsItem,
   Step,
+  Countdown,
   install: (app: App) => {
     for (const key of Object.keys(components)) {
       app.use(components[key]);

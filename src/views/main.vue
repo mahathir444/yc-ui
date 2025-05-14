@@ -13,8 +13,9 @@
 
 <script lang="ts" setup>
 import { ref, watch } from 'vue';
-import { useRouter } from 'vue-router';
+import { useRouter, useRoute } from 'vue-router';
 const router = useRouter();
+const route = useRoute();
 const keys = ref('lyc');
 const menus = [
   {
@@ -61,6 +62,16 @@ watch(
     router.push({
       name: keys.value,
     });
+  }
+);
+
+watch(
+  () => route.name,
+  () => {
+    keys.value = route.name as string;
+  },
+  {
+    immediate: true,
   }
 );
 </script>

@@ -1,24 +1,27 @@
 <template>
   <div class="test">
-    <div style="width: 600px">
-      <yc-steps type="default" changeable>
-        <yc-step description="This is a description">Succeeded</yc-step>
-        <yc-step description="This is a description">Processing</yc-step>
-        <yc-step description="This is a description"> Pending </yc-step>
-      </yc-steps>
-      <a-steps style="margin-top: 50px" type="navigation" small changeable>
-        <a-step description="This is a description">Succeeded</a-step>
-        <a-step description="This is a description">Processing</a-step>
-        <a-step description="This is a description"> Pending </a-step>
-      </a-steps>
-    </div>
+    <yc-countdown title="Countdown" format="HH:mm:ss.SSS" :start="false" />
+    <yc-statistic
+      title="User Growth Rate"
+      :value="50.52"
+      :start="start"
+      :precision="2"
+      :value-from="0"
+      animation
+    >
+      <template #prefix>
+        <icon-arrow-rise />
+      </template>
+      <template #suffix>%</template>
+    </yc-statistic>
+    <a-button @click="start = !start">开启动画</a-button>
   </div>
 </template>
 
 <script lang="ts" setup>
-import { ref, reactive } from 'vue';
-
-const visible = ref<boolean>(false);
+import { ref } from 'vue';
+const textRef = ref<HTMLDivElement>();
+const start = ref<boolean>(false);
 </script>
 
 <style lang="less" scoped>

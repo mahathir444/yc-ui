@@ -1,35 +1,29 @@
 // fade过渡
 .fade-enter-from,
-.fade-appear-from,
 .fade-leave-to {
   opacity: 0;
 }
 .fade-enter-to,
-.fade-appear-to,
 .fade-leave-from {
   opacity: 1;
 }
 .fade-enter-active,
-.fade-appear-active,
 .fade-leave-active {
   transition: opacity 0.4s cubic-bezier(0.3, 1.3, 0.3, 1);
 }
 
 // used by popover,tooltip,popconfirm
 .zoom-in-fade-out-enter-from,
-.zoom-in-fade-out-appear-from,
 .zoom-in-fade-out-leave-to {
   transform: scale(0.5, 0.5);
   opacity: 0;
 }
 .zoom-in-fade-out-enter-to,
-.zoom-in-fade-out-appear-to,
 .zoom-in-fade-out-leave-from {
   transform: scale(1, 1);
   opacity: 1;
 }
 .zoom-in-fade-out-enter-active,
-.zoom-in-fade-out-appear-active,
 .zoom-in-fade-out-leave-active {
   transition:
     opacity 0.3s cubic-bezier(0.3, 1.3, 0.3, 1),
@@ -38,21 +32,18 @@
 
 // used by select,picker,dropdown
 .slide-dynamic-origin-enter-from,
-.slide-dynamic-origin-appear-from,
 .slide-dynamic-origin-leave-to {
   transform: scaleY(0.9);
   transform-origin: 0 0;
   opacity: 0;
 }
 .slide-dynamic-origin-enter-to,
-.slide-dynamic-origin-appear-to,
 .slide-dynamic-origin-leave-from {
   transform: scaleY(1);
   transform-origin: 0 0;
   opacity: 1;
 }
 .slide-dynamic-origin-enter-active,
-.slide-dynamic-origin-appear-active,
 .slide-dynamic-origin-leave-active {
   transition:
     transform 0.2s cubic-bezier(0.34, 0.69, 0.1, 1),
@@ -61,19 +52,16 @@
 
 // used by modal
 .zoom-modal-enter-from,
-.zoom-modal-appear-from,
 .zoom-modal-leave-to {
   transform: scale(0.5, 0.5);
   opacity: 0;
 }
 .zoom-modal-enter-to,
-.zoom-modal-appear-to,
 .zoom-modal-leave-from {
   transform: scale(1, 1);
   opacity: 1;
 }
 .zoom-modal-enter-active,
-.zoom-modal-appear-active,
 .zoom-modal-leave-active {
   transition:
     opacity 0.4s cubic-bezier(0.3, 1.3, 0.3, 1),
@@ -82,63 +70,51 @@
 
 // used by drawer
 .slide-drawer-left-enter-from,
-.slide-drawer-left-leave-to,
-.slide-drawer-left-appear-from {
+.slide-drawer-left-leave-to {
   transform: translateX(-100%);
 }
 .slide-drawer-left-enter-to,
-.slide-drawer-left-leave-from,
-.slide-drawer-left-appear-to {
+.slide-drawer-left-leave-from {
   transform: translateX(0);
 }
 .slide-drawer-left-enter-active,
-.slide-drawer-left-leave-active,
-.slide-drawer-left-appear-active {
+.slide-drawer-left-leave-active {
   transition: transform 0.3s cubic-bezier(0.34, 0.69, 0.1, 1);
 }
 .slide-drawer-right-enter-from,
-.slide-drawer-right-leave-to,
-.slide-drawer-right-appear-from {
+.slide-drawer-right-leave-to {
   transform: translateX(100%);
 }
 .slide-drawer-right-enter-to,
-.slide-drawer-right-leave-from,
-.slide-drawer-right-appear-to {
+.slide-drawer-right-leave-from {
   transform: translateX(0);
 }
 .slide-drawer-right-enter-active,
-.slide-drawer-right-leave-active,
-.slide-drawer-right-appear-active {
+.slide-drawer-right-leave-active {
   transition: transform 0.3s cubic-bezier(0.34, 0.69, 0.1, 1);
 }
 .slide-drawer-top-enter-from,
-.slide-drawer-top-leave-to,
-.slide-drawer-top-appear-from {
+.slide-drawer-top-leave-to {
   transform: translateY(-100%);
 }
 .slide-drawer-top-enter-to,
-.slide-drawer-top-leave-from,
-.slide-drawer-top-appear-to {
+.slide-drawer-top-leave-from {
   transform: translateY(0);
 }
 .slide-drawer-top-enter-active,
-.slide-drawer-top-leave-active,
-.slide-drawer-top-appear-active {
+.slide-drawer-top-leave-active {
   transition: transform 0.3s cubic-bezier(0.34, 0.69, 0.1, 1);
 }
 .slide-drawer-bottom-enter-from,
-.slide-drawer-bottom-leave-to,
-.slide-drawer-bottom-appear-from {
+.slide-drawer-bottom-leave-to {
   transform: translateY(100%);
 }
 .slide-drawer-bottom-enter-to,
-.slide-drawer-bottom-leave-from,
-.slide-drawer-bottom-appear-to {
+.slide-drawer-bottom-leave-from {
   transform: translateY(0);
 }
 .slide-drawer-bottom-enter-active,
-.slide-drawer-bottom-leave-active,
-.slide-drawer-bottom-appear-active {
+.slide-drawer-bottom-leave-active {
   transition: transform 0.3s cubic-bezier(0.34, 0.69, 0.1, 1);
 }
 
@@ -163,4 +139,3 @@
 .input-tag-zoom-move {
   transition: all 0.3s cubic-bezier(0.3, 1.3, 0.3, 1);
 }
-
