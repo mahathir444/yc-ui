@@ -35,6 +35,7 @@ export const TYPE_ICON_COLOR_MAP: Record<string, string> = {
   success: ' rgb(0, 180, 42)',
   warning: 'rgb(255, 125, 0)',
   error: 'rgb(245, 63, 63)',
+  danger: 'rgb(245, 63, 63)',
   loading: 'rgb(22, 93, 225)',
   normal: 'rgb(201,205,212)',
 };

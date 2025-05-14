@@ -109,7 +109,7 @@
     />
     <!-- label-placement="vertical" -->
     <div style="width: 700px">
-      <yc-steps direction="vertical" type="arrow" small changeable>
+      <yc-steps type="dot" small changeable>
         <yc-step description="This is a description">Succeeded</yc-step>
         <yc-step description="This is a description">Processing</yc-step>
         <yc-step description="This is a description"> Pending </yc-step>

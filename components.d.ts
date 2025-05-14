@@ -8,10 +8,12 @@ export {}
 declare module 'vue' {
   export interface GlobalComponents {
     _Icon: typeof import('./src/components/_shared/icons/_Icon.vue')['default']
+    AButton: typeof import('@arco-design/web-vue')['Button']
     Affix: typeof import('./src/components/Affix/index.vue')['default']
     Alert: typeof import('./src/components/Alert/index.vue')['default']
     Anchor: typeof import('./src/components/Anchor/Anchor.vue')['default']
     AnchorLink: typeof import('./src/components/Anchor/AnchorLink.vue')['default']
+    APopover: typeof import('@arco-design/web-vue')['Popover']
     AProgress: typeof import('@arco-design/web-vue')['Progress']
     AutoComplete: typeof import('./src/components/AutoComplete/index.vue')['default']
     Avatar: typeof import('./src/components/Avatar/Avatar.vue')['default']

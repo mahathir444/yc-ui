@@ -9,7 +9,10 @@
   >
     <icon-check
       v-if="type === 'circle' && size === 'mini' && status === 'success'"
-      :style="{ fontSize: width - 2, color }"
+      :style="{
+        fontSize: width - 2,
+        color: color ?? TYPE_ICON_COLOR_MAP.success,
+      }"
     />
     <svg
       v-else
@@ -60,7 +63,10 @@
           :is="TYPE_ICON_MAP.danger"
           :color="TYPE_ICON_COLOR_MAP.danger"
         />
-        <icon-check v-else-if="status === 'success'" />
+        <icon-check
+          v-else-if="status === 'success'"
+          :color="color ?? TYPE_ICON_COLOR_MAP.success"
+        />
         <template v-else>
           {{ text }}
         </template>
