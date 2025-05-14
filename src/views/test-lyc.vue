@@ -1,13 +1,10 @@
 <template>
   <div class="test">
-    <a-progress
-      type="circle"
-      :percent="1"
-      :color="{
-        '0%': 'rgb(22, 93, 255)',
-        '100%': 'rgb(0, 180, 42)',
-      }"
-    />
+    <yc-steps changeable label-placement="vertical">
+      <yc-step description="This is a description">Succeeded</yc-step>
+      <yc-step description="This is a description">Processing</yc-step>
+      <yc-step description="This is a description"> Pending </yc-step>
+    </yc-steps>
     <yc-progress
       type="circle"
       :percent="1"
@@ -16,8 +13,6 @@
         '100%': 'rgb(0, 180, 42)',
       }"
     />
-    <!-- <a-progress type="line" status="danger" size="small" /> -->
-    <icon-check color="rgb(0, 180, 42)" />
   </div>
 </template>
 

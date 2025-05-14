@@ -23,7 +23,7 @@
           :step="curStep"
         >
           <div class="yc-steps-icon">
-            <icon-check v-if="status == 'finish'" :stroke-width="1" />
+            <icon-check v-if="status == 'finish'" />
             <icon-close v-else-if="status == 'error'" />
             <template v-else>
               {{ curStep }}

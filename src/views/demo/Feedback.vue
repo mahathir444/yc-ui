@@ -113,6 +113,15 @@
         </yc-space>
       </yc-skeleton>
     </yc-space>
+    <yc-progress
+      type="circle"
+      :percent="1"
+      :width="100"
+      :color="{
+        '0%': 'rgb(22, 93, 255)',
+        '100%': 'rgb(0, 180, 42)',
+      }"
+    />
   </div>
 </template>
 

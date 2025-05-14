@@ -3,8 +3,8 @@
     :class="[
       'yc-steps',
       `yc-steps-mode-${type}`,
-      `yc-steps-direction-${direction}`,
-      `yc-steps-label-direction-${labelPlacement}`,
+      `yc-steps-${direction}`,
+      `yc-steps-label-${labelPlacement}`,
       {
         'yc-steps-item-changeable': changeable,
       },
