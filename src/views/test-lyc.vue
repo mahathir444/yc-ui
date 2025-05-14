@@ -1,11 +1,29 @@
 <template>
   <div class="test">
-    <a-progress :steps="3" status="danger" size="small" :percent="0.3" />
+    <a-progress
+      type="circle"
+      :percent="1"
+      :color="{
+        '0%': 'rgb(22, 93, 255)',
+        '100%': 'rgb(0, 180, 42)',
+      }"
+    />
+    <yc-progress
+      type="circle"
+      :percent="1"
+      :color="{
+        '0%': 'rgb(22, 93, 255)',
+        '100%': 'rgb(0, 180, 42)',
+      }"
+    />
+    <!-- <a-progress type="line" status="danger" size="small" /> -->
+    <icon-check color="rgb(0, 180, 42)" />
   </div>
 </template>
 
 <script lang="ts" setup>
 import { ref, reactive } from 'vue';
+import { IconCheck } from '@shared/icons';
 const visible = ref<boolean>(false);
 </script>
 

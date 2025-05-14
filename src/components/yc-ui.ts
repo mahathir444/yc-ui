@@ -69,6 +69,7 @@ import { default as Descriptions, DescriptionsItem } from './Descriptions';
 import { default as Steps, Step } from './Steps';
 import Pagination from './Pagination';
 import Calendar from './Calendar';
+import Progress from './Progress';
 
 export const components: Record<string, Plugin> = {
   Button,
@@ -130,6 +131,7 @@ export const components: Record<string, Plugin> = {
   Steps,
   Pagination,
   Calendar,
+  Progress,
 };
 
 export default {

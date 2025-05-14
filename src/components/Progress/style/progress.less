@@ -1,0 +1,190 @@
+.yc-progress {
+  position: relative;
+  line-height: 1;
+  font-size: 12px;
+  // steps
+  .yc-progress-steps-wrapper {
+    width: 100%;
+    max-width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    .yc-progress-steps {
+      width: 100%;
+      display: flex;
+      gap: 3px;
+      .yc-progress-steps-item {
+        position: relative;
+        flex: 1;
+        flex-shrink: 0;
+        height: 100%;
+      }
+    }
+  }
+  // line
+  .yc-progress-line-wrapper {
+    height: 100%;
+    width: 100%;
+    max-width: 100%;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    .yc-progress-line {
+      overflow: hidden;
+      position: relative;
+      width: 100%;
+      border-radius: 100px;
+      .yc-progress-line-bar {
+        position: relative;
+        height: 100%;
+        border-radius: 100px;
+        transition:
+          width 0.6s cubic-bezier(0.34, 0.69, 0.1, 1),
+          background 0.3s cubic-bezier(0.34, 0.69, 0.1, 1);
+      }
+    }
+    .yc-progress-line-text {
+      min-width: 32px;
+    }
+  }
+  // circle
+  .yc-progress-circle-wrapper {
+    position: relative;
+    text-align: center;
+    line-height: 1;
+    display: inline-block;
+    vertical-align: text-bottom;
+    .yc-progress-circle-svg {
+      transform: rotate(-90deg);
+      .yc-progress-circle-bar {
+        transition:
+          stroke-dashoffset 0.6s cubic-bezier(0, 0, 1, 1) 0s,
+          stroke 0.6s cubic-bezier(0, 0, 1, 1);
+      }
+    }
+    .yc-progress-circle-text {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      color: rgb(134, 144, 156);
+    }
+  }
+  // 通用
+  .yc-progress-steps-item {
+    background-color: rgb(229, 230, 235);
+  }
+  .yc-progress-line {
+    background-color: rgb(229, 230, 235);
+  }
+  .yc-progress-circle-bg {
+    stroke: rgb(229, 230, 235);
+  }
+  .yc-progress-steps-text,
+  .yc-progress-line-text,
+  .yc-progress-circle-text {
+    flex-shrink: 0;
+    font-size: 12px;
+    color: rgb(78, 89, 105);
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+}
+
+.yc-progress-type-line,
+.yc-progress-type-steps {
+  display: inline-block;
+  max-width: 100%;
+  width: 100%;
+}
+// size
+.yc-progress-size-small {
+  .yc-progress-line-text,
+  .yc-progress-circle-text {
+    font-size: 12px;
+  }
+}
+.yc-progress-size-medium {
+  .yc-progress-line-text {
+    font-size: 12px;
+  }
+  .yc-progress-circle-text {
+    font-size: 14px;
+  }
+}
+.yc-progress-size-large {
+  .yc-progress-line-text,
+  .yc-progress-circle-text {
+    font-size: 16px;
+    .yc-icon {
+      font-size: 14px;
+    }
+  }
+}
+// status
+.yc-progress-status-normal {
+  .yc-progress-steps-item-active {
+    background-color: rgb(22, 93, 255);
+  }
+  .yc-progress-line-bar {
+    background-color: rgb(22, 93, 255);
+  }
+  .yc-progress-circle-bar {
+    stroke: rgb(22, 93, 255);
+  }
+  &.yc-progress-size-mini {
+    .yc-progress-circle-bg {
+      stroke: rgb(148, 191, 255);
+    }
+  }
+}
+.yc-progress-status-success {
+  .yc-progress-steps-item-active {
+    background-color: rgb(0, 180, 42);
+  }
+  .yc-progress-line-bar {
+    background-color: rgb(0, 180, 42);
+  }
+  .yc-progress-circle-bar {
+    stroke: rgb(0, 180, 42);
+  }
+  .yc-progress-circle-text {
+    .yc-icon {
+      color: rgb(0, 180, 42);
+    }
+  }
+}
+.yc-progress-status-warning {
+  .yc-progress-steps-item-active {
+    background-color: rgb(255, 125, 0);
+  }
+  .yc-progress-line-bar {
+    background-color: rgb(255, 125, 0);
+  }
+  .yc-progress-circle-bar {
+    stroke: rgb(255, 125, 0);
+  }
+  &.yc-progress-size-mini {
+    .yc-progress-circle-bg {
+      stroke: rgb(255, 207, 139);
+    }
+  }
+}
+.yc-progress-status-danger {
+  .yc-progress-steps-item-active {
+    background-color: rgb(245, 63, 63);
+  }
+  .yc-progress-line-bar {
+    background-color: rgb(245, 63, 63);
+  }
+  .yc-progress-circle-bar {
+    stroke: rgb(245, 63, 63);
+  }
+  &.yc-progress-size-mini {
+    .yc-progress-circle-bg {
+      stroke: rgb(251, 172, 163);
+    }
+  }
+}

@@ -26,7 +26,7 @@
         "
       >
         <span class="yc-checkbox-icon">
-          <icon-check :size="[8, 10]" />
+          <icon-checkbox-checked :size="[8, 10]" />
         </span>
       </yc-icon-button>
       <span class="yc-checkbox-label text-ellipsis">
@@ -41,7 +41,7 @@ import { toRefs, computed, ref } from 'vue';
 import { CheckboxProps, CheckboxEmits, CheckboxSlots } from './type';
 import { useControlValue } from '@shared/hooks';
 import useProvide from './hooks/useProvide';
-import { IconCheck } from '@shared/icons';
+import { IconCheckboxChecked } from '@shared/icons';
 import { YcPreventFocus, YcIconButton } from '@shared/components';
 defineOptions({
   name: 'Checkbox',

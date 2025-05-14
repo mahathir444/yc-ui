@@ -8,8 +8,8 @@
   >
     <div class="yc-progress-steps" :style="{ height: `${strokeWidth}px` }">
       <div
-        v-for="(active, index) of stepList"
-        :key="index"
+        v-for="(active, i) of stepList"
+        :key="i"
         :class="[
           'yc-progress-steps-item',
           {
@@ -17,46 +17,56 @@
           },
         ]"
         :style="{
-          backgroundColor: active ? color : trackColor,
+          backgroundColor: active ? (color as string) : trackColor,
         }"
       />
     </div>
     <div v-if="showText" class="yc-progress-steps-text">
       <slot name="text" :percent="percent">
         {{ text }}
-        <!-- <icon-exclamation-circle-fill v-if="status === 'danger'" /> -->
+        <component
+          v-if="status === 'danger'"
+          :is="TYPE_ICON_MAP.danger"
+          :color="TYPE_ICON_COLOR_MAP.danger"
+        />
       </slot>
     </div>
   </div>
 </template>
 
-<script lang="ts">
+<script lang="ts" setup>
 import { computed, toRefs } from 'vue';
+import { ProgressColor } from './type';
 import { Size } from '@shared/type';
+import { TYPE_ICON_MAP, TYPE_ICON_COLOR_MAP } from '@shared/constants';
 const props = defineProps<{
   steps: number;
   percent: number;
   size: Size;
-  color: string | Record<string, string>;
-  trackColor: string;
-  strokeWidth: number;
-  status: string;
+  text: string;
   showText: boolean;
+  color?: ProgressColor;
+  trackColor?: string;
+  strokeWidth?: number;
+  status?: string;
 }>();
-const { strokeWidth: _strokeWidth, size, steps, percent } = toRefs(props);
-// strokes
+const { steps, percent, size, strokeWidth: _strokeWidth } = toRefs(props);
+// strokewidth
 const strokeWidth = computed(() => {
-  if (_strokeWidth.value) return _strokeWidth.value;
-  return size.value === 'small' ? 8 : 4;
+  return _strokeWidth.value ?? (size.value == 'small' ? 8 : 4);
 });
 // stepList
 const stepList = computed(() => {
-  return [...Array(steps.value)].map((_, i) => {
-    {
-      return percent.value > 0 && percent.value > (1 / steps.value) * i;
-    }
-  });
+  return Array(steps.value)
+    .fill(0)
+    .map((_, i) => {
+      {
+        return percent.value > 0 && percent.value > (1 / steps.value) * i;
+      }
+    });
 });
-// text
-const text = computed(() => `${(percent.value * 100).toFixed(0)}%`);
 </script>
+
+<style lang="less">
+@import './style/progress.less';
+</style>

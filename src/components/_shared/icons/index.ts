@@ -1,6 +1,7 @@
 export { default as IconArrowRight } from './IconArrowRight.vue';
 export { default as IconArrowUp } from './IconArrowUp.vue';
 export { default as IconArrowDown } from './IconArrowDown.vue';
+export { default as IconCheckboxChecked } from './IconCheckboxChecked.vue';
 export { default as IconCheck } from './IconCheck.vue';
 export { default as IconClose } from './IconClose.vue';
 export { default as IconDragDot } from './IconDragDot.vue';
