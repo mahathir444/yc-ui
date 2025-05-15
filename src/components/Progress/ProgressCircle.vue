@@ -65,7 +65,7 @@
         />
         <icon-check
           v-else-if="status === 'success'"
-          :color="color ?? TYPE_ICON_COLOR_MAP.success"
+          :color="TYPE_ICON_COLOR_MAP.success"
         />
         <template v-else>
           {{ text }}
@@ -99,12 +99,13 @@ const props = defineProps<{
 const {
   size,
   width,
+  color,
   strokeWidth: _strokeWidth,
   pathStrokeWidth: _pathStrokeWidth,
 } = toRefs(props);
 let __YC_PROGRESS_SEED = 0;
 // 是否是渐变
-const isLinearGradient = isObject(props.color);
+const isLinearGradient = computed(() => isObject(color.value));
 // strokeWidth;
 const strokeWidth = computed(() => {
   const map = {
