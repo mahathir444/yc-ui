@@ -1,6 +1,8 @@
-import dayjs from 'dayjs';
+import dayjs, { Dayjs } from 'dayjs';
+import duration from 'dayjs/plugin/duration';
 import toObject from 'dayjs/plugin/toObject';
 dayjs.extend(toObject);
+dayjs.extend(duration);
 type options = { value: string; disabled: boolean }[];
 export function generateTimeOptions(config: {
   format: string;
@@ -226,3 +228,15 @@ export function generateMonthCalendar(year: number, month: number) {
   }
   return calendar;
 }
+
+export const formatSeconds = (
+  time: number,
+  format: string,
+  type: dayjs.UnitType = 'milliseconds'
+) => {
+  return dayjs.duration(time, type as any).format(format);
+};
+
+export const formatDate = (value: string | number | Date, format: string) => {
+  return dayjs(value).format(format);
+};

@@ -30,8 +30,13 @@
 
 <script lang="ts" setup>
 import { ref, toRefs, computed, watch } from 'vue';
-import { isNumber, isUndefined } from '@shared/utils';
 import { StatisticProps, StatisticEmits, StatisticSlots } from './type';
+import {
+  isNumber,
+  formatSeconds,
+  isUndefined,
+  formatDate,
+} from '@shared/utils';
 import dayjs from 'dayjs';
 import Btween from 'b-tween';
 defineOptions({
@@ -74,10 +79,9 @@ const {
 const valueRef = ref<HTMLDivElement>();
 // 整数部分
 const showValue = computed(() => {
-  if (isUndefined(value.value)) return placeholder.value;
-  return isNumber(value.value) && !isCountdown.value
-    ? value.value.toFixed(precision.value)
-    : dayjs(value.value).format(format.value);
+  return isUndefined(value.value)
+    ? placeholder.value
+    : getFormatValue(value.value);
 });
 watch(
   [start, animation, valueFrom, value],
@@ -101,10 +105,7 @@ watch(
       duration: animationDuration.value,
       easeing: easeing.value,
       onUpdate: (current: Record<string, any>) => {
-        valueRef.value!.textContent =
-          isNumber(value.value) && !isCountdown.value
-            ? current.textContent.toFixed(precision.value)
-            : dayjs(current.textContent).format(format.value);
+        valueRef.value!.textContent = getFormatValue(current.textContent);
       },
       onFinish() {
         emits('finish');
@@ -116,6 +117,16 @@ watch(
     immediate: true,
   }
 );
+// 获取格式化的value
+function getFormatValue(value: number | Date) {
+  if (isNumber(value) && !isCountdown.value) {
+    return value.toFixed(precision.value);
+  }
+  if (isCountdown.value) {
+    return formatSeconds(value as number, format.value);
+  }
+  return formatDate(value, format.value);
+}
 </script>
 
 <style lang="less" scoped>

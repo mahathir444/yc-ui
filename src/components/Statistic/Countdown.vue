@@ -13,17 +13,16 @@
     @finish="handleFinish"
   >
     <template #value>
-      {{ dayjs(value - now).format(format) }}
+      {{ formatSeconds(value - now, format) }}
     </template>
   </yc-statistic>
 </template>
 
 <script lang="ts" setup>
 import { ref, toRefs, watch } from 'vue';
-import { isUndefined, sleep } from '@shared/utils';
+import { isUndefined, sleep, formatSeconds } from '@shared/utils';
 import { CountdownProps, CountDownEmits, CountdownSlots } from './type';
 import YcStatistic from './Statistic.vue';
-import dayjs from 'dayjs';
 defineOptions({
   name: 'Countdown',
 });
@@ -61,11 +60,13 @@ const handleFinish = () => {
 watch(
   () => start.value,
   async (val) => {
-    value.value = isUndefined(_value.value)
-      ? Date.now() + 5 * 60 * 1000
-      : _value.value;
-    now.value = isUndefined(_now.value) ? Date.now() : _now.value;
-    startValue.value = value.value - now.value;
+    if (!animation.value) {
+      value.value = isUndefined(_value.value)
+        ? Date.now() + 5 * 60 * 1000
+        : _value.value;
+      now.value = isUndefined(_now.value) ? Date.now() : _now.value;
+      startValue.value = value.value - now.value;
+    }
     if (!val) return;
     await sleep(0);
     animation.value = true;
