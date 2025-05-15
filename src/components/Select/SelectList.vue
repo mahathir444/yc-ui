@@ -56,14 +56,15 @@ const { fieldKey, isEmpty, renderOptions, slots, emits } = inject();
 // 渲染label
 const renderLabel = (option: ObjectData) => {
   if (slots.option) {
-    return (
+    return () =>
       slots.option?.({
         data: option,
-      }) || []
-    );
+      }) || [];
   }
   const { render, label } = fieldKey.value;
-  return option[render] ?? getSlotFunction(option[label]);
+  return option[render]
+    ? getSlotFunction(option[render])
+    : getSlotFunction(option[label]);
 };
 // renderEmpty
 const renderEmpty = () => {

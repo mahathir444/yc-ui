@@ -72,7 +72,9 @@ const renderLabel = (option: ObjectData) => {
       }) || [];
   }
   const { render, label } = fieldKey.value;
-  return option[render] ?? getSlotFunction(option[label]);
+  return option[render]
+    ? getSlotFunction(option[render])
+    : getSlotFunction(option[label]);
 };
 // renderEmpty
 const renderEmpty = () => {
