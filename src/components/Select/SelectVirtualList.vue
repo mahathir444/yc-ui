@@ -38,6 +38,7 @@ import { ref, toRefs, watch, h } from 'vue';
 import { useVirtualList, useScroll } from '@vueuse/core';
 import { ObjectData } from '@shared/type';
 import { getSlotFunction } from '@shared/utils';
+import { useConfigProvder } from '@shared/hooks';
 import useProvide from './hooks/useProvide';
 import { Option as YcOption, VirtualListProps } from './index';
 import YcEmpty from '@/components/Empty';
@@ -48,6 +49,8 @@ const { virtualListProps } = toRefs(props);
 // 接收注入
 const { inject } = useProvide();
 const { fieldKey, isEmpty, renderOptions, slots, emits } = inject();
+// configprovider
+const { slots: providerSlots } = useConfigProvder();
 // 滚动ref
 const scrollRef = ref<HTMLDivElement>();
 // 初始化虚拟滚动
@@ -78,7 +81,9 @@ const renderLabel = (option: ObjectData) => {
 };
 // renderEmpty
 const renderEmpty = () => {
-  return slots.empty ? slots.empty : h(YcEmpty);
+  return (
+    slots.empty ?? providerSlots.empty?.({ component: 'Select' }) ?? h(YcEmpty)
+  );
 };
 </script>
 

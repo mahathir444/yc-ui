@@ -78,16 +78,19 @@
           </template>
         </div>
       </yc-scrollbar>
-      <yc-empty v-else />
+      <!-- 渲染empty -->
+      <component :is="renderEmpty" />
     </div>
   </div>
 </template>
 
 <script lang="ts" setup>
-import { ref, toRefs, computed } from 'vue';
+import { ref, toRefs, computed, h } from 'vue';
 import { TransferItem, TransferPanelSlots } from './type';
 import { IconDelete, IconClose } from '@shared/icons';
+import { useConfigProvder } from '@shared/hooks';
 import useProvide from './hooks/useProvide';
+import Transfer from './Transfer.vue';
 import YcEmpty from '@/components/Empty';
 import YcCheckbox from '@/components/Checkbox';
 import YcScrollbar from '@/components/Scrollbar';
@@ -98,6 +101,8 @@ const props = defineProps<{
   type: 'source' | 'target';
 }>();
 const { type } = toRefs(props);
+// configProvider
+const { slots: providerSlots } = useConfigProvder();
 // 接收注入
 const { inject } = useProvide();
 const {
@@ -229,6 +234,14 @@ const renderItem = (item: TransferItem) => {
     label: item.label,
     value: item.value,
   });
+};
+// 渲染empty
+const renderEmpty = () => {
+  return (
+    providerSlots.empty?.({
+      component: Transfer.name,
+    }) ?? h(YcEmpty)
+  );
 };
 </script>
 

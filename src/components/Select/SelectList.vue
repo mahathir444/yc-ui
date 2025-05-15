@@ -42,6 +42,7 @@
 import { h } from 'vue';
 import { ObjectData } from '@shared/type';
 import { getSlotFunction } from '@shared/utils';
+import { useConfigProvder } from '@shared/hooks';
 import useProvide from './hooks/useProvide';
 import YcEmpty from '@/components/Empty';
 import YcOption from './Option.vue';
@@ -53,6 +54,8 @@ defineProps<{
 // 接收注入
 const { inject } = useProvide();
 const { fieldKey, isEmpty, renderOptions, slots, emits } = inject();
+// configprovider
+const { slots: providerSlots } = useConfigProvder();
 // 渲染label
 const renderLabel = (option: ObjectData) => {
   if (slots.option) {
@@ -68,7 +71,9 @@ const renderLabel = (option: ObjectData) => {
 };
 // renderEmpty
 const renderEmpty = () => {
-  return slots.empty ? slots.empty : h(YcEmpty);
+  return (
+    slots.empty ?? providerSlots.empty?.({ component: 'Select' }) ?? h(YcEmpty)
+  );
 };
 </script>
 
