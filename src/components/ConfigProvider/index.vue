@@ -3,7 +3,7 @@
 </template>
 
 <script lang="ts" setup>
-import { toRefs, provide } from 'vue';
+import { toRefs, provide, useSlots } from 'vue';
 import { ConfigProviderProps, ConfigProviderSlots } from './type';
 import {
   CONFIG_PROVIDER_PROVIDE_KEY,
@@ -29,7 +29,9 @@ const {
   exchangeTime,
   popupContainer,
 } = toRefs(props);
+const slots = useSlots();
 provide<ConfigProviderProvide>(CONFIG_PROVIDER_PROVIDE_KEY, {
+  slots,
   zIndex,
   size,
   updateAtScroll,

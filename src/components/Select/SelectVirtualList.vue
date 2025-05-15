@@ -29,7 +29,10 @@
       </yc-option>
     </div>
     <!-- 空插槽 -->
-    <component v-if="isEmpty" :is="renderEmpty" />
+    <template v-if="isEmpty">
+      <component v-if="slots.empty || providerSlots.empty" :is="renderEmpty" />
+      <yc-empty v-else />
+    </template>
   </div>
 </template>
 
@@ -81,9 +84,7 @@ const renderLabel = (option: ObjectData) => {
 };
 // renderEmpty
 const renderEmpty = () => {
-  return (
-    slots.empty ?? providerSlots.empty?.({ component: 'Select' }) ?? h(YcEmpty)
-  );
+  return slots.empty ?? providerSlots.empty?.({ component: 'Select' });
 };
 </script>
 

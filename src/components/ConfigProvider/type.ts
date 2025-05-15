@@ -11,5 +11,5 @@ export interface ConfigProviderProps {
 export interface ConfigProviderSlots {
   default(): void;
   loading(): void;
-  empty(component: string): void;
+  empty(params: { component: string }): void;
 }

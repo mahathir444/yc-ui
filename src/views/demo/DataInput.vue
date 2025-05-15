@@ -54,12 +54,7 @@
       </yc-radio-group>
     </div>
     <div style="width: 300px">
-      <yc-input-number
-        placeholder="input-number"
-        v-model="score"
-        :precision="1"
-        :min="0"
-      />
+      <yc-input-number placeholder="input-number" :precision="1" :min="0" />
     </div>
     <div style="width: 300px">
       <yc-switch checked-text="启动" unchecked-text="关闭">

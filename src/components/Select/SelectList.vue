@@ -33,13 +33,18 @@
         </template>
       </template>
       <!-- 空插槽 -->
-      <component v-if="isEmpty" :is="renderEmpty" />
+      <template v-if="isEmpty">
+        <component
+          v-if="slots.empty || providerSlots.empty"
+          :is="renderEmpty"
+        />
+        <yc-empty v-else />
+      </template>
     </div>
   </yc-scrollbar>
 </template>
 
 <script lang="ts" setup>
-import { h } from 'vue';
 import { ObjectData } from '@shared/type';
 import { getSlotFunction } from '@shared/utils';
 import { useConfigProvder } from '@shared/hooks';
@@ -71,9 +76,7 @@ const renderLabel = (option: ObjectData) => {
 };
 // renderEmpty
 const renderEmpty = () => {
-  return (
-    slots.empty ?? providerSlots.empty?.({ component: 'Select' }) ?? h(YcEmpty)
-  );
+  return slots.empty ?? providerSlots.empty?.({ component: 'Select' });
 };
 </script>
 

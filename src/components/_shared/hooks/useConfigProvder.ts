@@ -22,6 +22,7 @@ const getVar = (value: Ref<any>, _value: Ref<any>) => {
 export default (props: Props = {}) => {
   // 接收值
   const {
+    slots,
     zIndex,
     size: _size,
     updateAtScroll: _updateAtScroll,
@@ -37,7 +38,6 @@ export default (props: Props = {}) => {
     popupContainer: ref('body'),
     slots: {},
   });
-  const slots = useSlots();
   // 接收属性
   const { size, updateAtScroll, scrollToClose, exchangeTime, popupContainer } =
     toRefs(isReactive(props) ? props : reactive(props));
