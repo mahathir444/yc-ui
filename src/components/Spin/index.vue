@@ -13,7 +13,6 @@
           <div v-if="dot" class="yc-dot-loading">
             <div v-for="i in 5" :key="i" class="yc-dot-loading-item"></div>
           </div>
-          <compt-spin v-else :is-size-inherit="isSizeInherit" :size="size" />
           <slot-render :render="slots.loading">
             <icon-loading
               v-if="!slots.loading"

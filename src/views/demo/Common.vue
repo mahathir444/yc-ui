@@ -1,7 +1,7 @@
 <template>
   <div class="common">
     <yc-space>
-      <yc-button type="primary">Primary</yc-button>
+      <yc-button status="success">Primary</yc-button>
       <yc-button>Secondary</yc-button>
       <yc-button type="dashed">Dashed</yc-button>
       <yc-button type="outline">Outline</yc-button>

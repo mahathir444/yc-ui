@@ -5,8 +5,8 @@
 </template>
 
 <script lang="ts" setup>
-import { VNode, Slot } from 'vue';
+import { VNode } from 'vue';
 defineProps<{
-  render: ((...args: any) => any) | Slot | VNode;
+  render?: ((...args: any) => any) | VNode;
 }>();
 </script>
