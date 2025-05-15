@@ -6,6 +6,7 @@ export interface StatisticProps {
   format?: string;
   extra?: string;
   start?: boolean;
+  easeing?: string;
   precision?: number;
   separator?: string;
   showGroupSeparator?: boolean;
@@ -14,6 +15,12 @@ export interface StatisticProps {
   valueFrom?: number;
   placeholder?: string;
   valueStyle?: CSSProperties;
+  // 是否是倒计时
+  isCountdown?: boolean;
+}
+
+export interface StatisticEmits {
+  (e: 'finish'): void;
 }
 
 export interface StatisticSlots {
@@ -30,6 +37,7 @@ export interface CountdownProps {
   now?: number;
   format?: string;
   start?: boolean;
+  easeing?: string;
   valueStyle?: CSSProperties;
 }
 

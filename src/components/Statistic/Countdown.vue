@@ -1,9 +1,19 @@
 <template>
-  <yc-statistic :title="title" :value-style="valueStyle" :start="false">
+  <yc-statistic
+    :title="title"
+    :value="startValue - 1000"
+    :value-from="startValue"
+    :start="start"
+    :animation="animation"
+    :format="format"
+    :value-style="valueStyle"
+    :easeing="easeing"
+    :animation-duration="1000"
+    is-countdown
+    @finish="handleFinish"
+  >
     <template #value>
-      <span ref="valueRef">
-        {{ dayjs(value - now).format(format) }}
-      </span>
+      {{ dayjs(value - now).format(format) }}
     </template>
   </yc-statistic>
 </template>
@@ -13,7 +23,6 @@ import { ref, toRefs, watch } from 'vue';
 import { isUndefined, sleep } from '@shared/utils';
 import { CountdownProps, CountDownEmits, CountdownSlots } from './type';
 import YcStatistic from './Statistic.vue';
-import Btween from 'b-tween';
 import dayjs from 'dayjs';
 defineOptions({
   name: 'Countdown',
@@ -25,45 +34,28 @@ const props = withDefaults(defineProps<CountdownProps>(), {
   now: undefined,
   format: 'HH:mm:ss',
   start: true,
+  easeing: 'quadOut',
   valueStyle: () => {
     return {};
   },
 });
 const emits = defineEmits<CountDownEmits>();
 const { value: _value, now: _now, format, start } = toRefs(props);
-// valueRef
-const valueRef = ref<HTMLDivElement>();
 // value
 const value = ref<number>(0);
 // now
 const now = ref<number>(0);
 // 开始的时候的value
-let startValue: number = value.value;
-// 开启及时动画
-const startCount = () => {
-  if (startValue <= now.value) {
+const startValue = ref<number>(value.value);
+// 是否开启动画
+const animation = ref<boolean>(false);
+// 处理finish
+const handleFinish = () => {
+  if (startValue.value <= 0) {
+    animation.value = false;
     return emits('finish');
   }
-  const animation = new Btween({
-    from: {
-      textContent: startValue,
-    },
-    to: {
-      textContent: startValue - 1000,
-    },
-    duration: 1000,
-    easeing: 'quadOut',
-    onUpdate: (current: Record<string, any>) => {
-      valueRef.value!.textContent = dayjs(
-        current.textContent - now.value
-      ).format(format.value);
-    },
-    onFinish() {
-      startCount();
-    },
-  });
-  animation.start();
-  startValue -= 1000;
+  startValue.value -= 1000;
 };
 // 检测start开启动画
 watch(
@@ -73,10 +65,10 @@ watch(
       ? Date.now() + 5 * 60 * 1000
       : _value.value;
     now.value = isUndefined(_now.value) ? Date.now() : _now.value;
-    startValue = value.value;
-    await sleep(0);
+    startValue.value = value.value - now.value;
     if (!val) return;
-    startCount();
+    await sleep(0);
+    animation.value = true;
   },
   {
     immediate: true,

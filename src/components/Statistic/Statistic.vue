@@ -10,11 +10,11 @@
         <span v-if="$slots.prefix" class="yc-statistic-prefix">
           <slot name="prefix" />
         </span>
-        <slot name="value">
-          <span class="yc-statistic-value-integer" ref="valueRef">
+        <span class="yc-statistic-value-integer" ref="valueRef">
+          <slot name="value">
             {{ showValue }}
-          </span>
-        </slot>
+          </slot>
+        </span>
         <span v-if="$slots.suffix" class="yc-statistic-suffix">
           <slot name="suffix" />
         </span>
@@ -31,7 +31,7 @@
 <script lang="ts" setup>
 import { ref, toRefs, computed, watch } from 'vue';
 import { isNumber, isUndefined } from '@shared/utils';
-import { StatisticProps, StatisticSlots } from './type';
+import { StatisticProps, StatisticEmits, StatisticSlots } from './type';
 import dayjs from 'dayjs';
 import Btween from 'b-tween';
 defineOptions({
@@ -51,10 +51,13 @@ const props = withDefaults(defineProps<StatisticProps>(), {
   animationDuration: 2000,
   valueFrom: undefined,
   placeholder: '',
+  easeing: 'quadOut',
   valueStyle: () => {
     return {};
   },
+  isCountdown: false,
 });
+const emits = defineEmits<StatisticEmits>();
 const {
   value,
   precision,
@@ -64,13 +67,15 @@ const {
   placeholder,
   animation,
   animationDuration,
+  easeing,
+  isCountdown,
 } = toRefs(props);
 // valueRef
 const valueRef = ref<HTMLDivElement>();
 // 整数部分
 const showValue = computed(() => {
   if (isUndefined(value.value)) return placeholder.value;
-  return isNumber(value.value)
+  return isNumber(value.value) && !isCountdown.value
     ? value.value.toFixed(precision.value)
     : dayjs(value.value).format(format.value);
 });
@@ -94,11 +99,15 @@ watch(
         textContent: value.value,
       },
       duration: animationDuration.value,
-      easeing: 'quadOut',
+      easeing: easeing.value,
       onUpdate: (current: Record<string, any>) => {
-        valueRef.value!.textContent = isNumber(value.value)
-          ? current.textContent.toFixed(precision.value)
-          : dayjs(current.textContent).format(format.value);
+        valueRef.value!.textContent =
+          isNumber(value.value) && !isCountdown.value
+            ? current.textContent.toFixed(precision.value)
+            : dayjs(current.textContent).format(format.value);
+      },
+      onFinish() {
+        emits('finish');
       },
     });
     between.start();
