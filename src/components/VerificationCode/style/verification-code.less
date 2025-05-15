@@ -25,23 +25,19 @@
 }
 
 // size
-.yc-verification-code-size-mini {
-  &:deep(.yc-input-wrapper) {
-    width: 24px;
+@size-map: {
+  mini: 24px;
+  small: 28px;
+  medium: 32px;
+  large: 36px;
+};
+.set-verification-code-size(@size, @width) {
+  .yc-verification-code-size-@{size} {
+    &:deep(.yc-input-wrapper) {
+      width: @width;
+    }
   }
 }
-.yc-verification-code-size-small {
-  &:deep(.yc-input-wrapper) {
-    width: 28px;
-  }
-}
-.yc-verification-code-size-medium {
-  &:deep(.yc-input-wrapper) {
-    width: 32px;
-  }
-}
-.yc-verification-code-size-large {
-  &:deep(.yc-input-wrapper) {
-    width: 36px;
-  }
-}
+each(@size-map, {
+  .set-verification-code-size(@key, @value);
+});
