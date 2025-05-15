@@ -1,7 +1,6 @@
 import { ref, toRefs, provide as _provide, inject as _inject, Ref } from 'vue';
 import { CarouselEmits, ShowArrow } from '../type';
-import { sleep } from '@shared/utils';
-import { useControlValue } from '@shared/hooks';
+import { useControlValue, sleep } from '@shared/utils';
 import { Direction, Props } from '@shared/type';
 
 export const CAROUSEL_PROVIDE_KEY = 'carousel-props';

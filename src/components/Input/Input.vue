@@ -101,7 +101,7 @@
 import { ref, toRefs, computed } from 'vue';
 import { InputProps, InputEmits, InputSlots } from './type';
 import { createReusableTemplate } from '@vueuse/core';
-import { useControlValue, useConfigProvder } from '@shared/hooks';
+import { useControlValue, getGlobalConfig } from '@shared/utils';
 import useLimitedInput from './hooks/useLimitedInput';
 import { YcPreventFocus } from '@shared/components';
 import InputSuffix from './InputSuffix.vue';
@@ -143,7 +143,7 @@ const { visibility, defaultVisibility } = toRefs(props);
 // 定义重用模板
 const { define: DefineCompt, reuse: ReuseCompt } = createReusableTemplate();
 // 获取全局属性
-const { size } = useConfigProvder(props);
+const { size } = getGlobalConfig(props);
 // 输入实例
 const inputRef = ref<HTMLInputElement>();
 // 非受控的vis

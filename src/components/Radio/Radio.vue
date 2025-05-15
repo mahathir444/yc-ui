@@ -43,8 +43,7 @@
 <script lang="ts" setup>
 import { toRefs, computed } from 'vue';
 import { RadioProps, RadioEmits, RadioSlots, RadioValue } from './type';
-import { isUndefined } from '@shared/utils';
-import { useControlValue } from '@shared/hooks';
+import { useControlValue, isUndefined } from '@shared/utils';
 import useProvide from './hooks/useProvide';
 import { YcPreventFocus, YcIconButton } from '@shared/components';
 defineOptions({

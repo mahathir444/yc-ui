@@ -66,7 +66,7 @@ import {
   ImagePreviewSlots,
 } from './type';
 import { IconClose } from '@shared/icons';
-import { useConfigProvder, useControlValue } from '@shared/hooks';
+import { getGlobalConfig, useControlValue } from '@shared/utils';
 import { useEventListener, onKeyStroke } from '@vueuse/core';
 import useModalClose from '@/components/Modal/hooks/useModalClose';
 import ImagePreviewToolbar from './ImagePreviewToolbar.vue';
@@ -106,7 +106,7 @@ const {
   wheelZoom,
   keyboard,
 } = toRefs(props);
-const { zIndex, popupContainer } = useConfigProvder(props);
+const { zIndex, popupContainer } = getGlobalConfig(props);
 // imageRef
 const imageRef = ref<HTMLImageElement>();
 // scale

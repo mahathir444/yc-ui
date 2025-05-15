@@ -26,8 +26,8 @@ import {
   getElement,
   isUndefined,
   findFirstScrollableParent,
+  getGlobalConfig,
 } from '@shared/utils';
-import { useConfigProvder } from '@shared/hooks';
 import BTween from 'b-tween';
 import YcButton from '@/components/Button';
 defineOptions({
@@ -41,7 +41,7 @@ const props = withDefaults(defineProps<BackTopProps>(), {
 });
 const { targetContainer: _targetContainer, easeing, duration } = toRefs(props);
 // 接收configProvier的属性
-const { zIndex } = useConfigProvder(props);
+const { zIndex } = getGlobalConfig(props);
 // buttonRef
 const buttonRef = ref<HTMLDivElement>();
 // 当前的滚动

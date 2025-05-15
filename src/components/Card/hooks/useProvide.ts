@@ -6,7 +6,7 @@ import {
   Ref,
   Slots,
 } from 'vue';
-import { useConfigProvder } from '@shared/hooks';
+import { getGlobalConfig } from '@shared/utils';
 import { Props } from '@shared/type';
 
 export const CARD_PROVIDE_KEY = 'card-props';
@@ -25,7 +25,7 @@ export default () => {
     // 是否grid
     const hasGrid = ref<boolean>(false);
     // size
-    const { size } = useConfigProvder(props);
+    const { size } = getGlobalConfig(props);
     _provide<CardProvide>(CARD_PROVIDE_KEY, {
       slots,
       hasMeta,

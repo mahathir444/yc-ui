@@ -15,7 +15,7 @@ import {
   TransferProps as _TransferProps,
 } from '../type';
 import { RequiredDeep, Props } from '@shared/type';
-import { useControlValue, useConfigProvder } from '@shared/hooks';
+import { useControlValue } from '@shared/utils';
 
 export const TRANSFER_PROVIDE_KEY = 'transfer-props';
 

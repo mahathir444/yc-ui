@@ -1,9 +1,9 @@
 import { computed, Ref, ref, toRefs } from 'vue';
-import { isFunction, isNumber } from '@shared/utils';
-import { useControlValue, useCursor } from '@shared/hooks';
 import { Props, RequiredDeep } from '@shared/type';
 import { TextareaEmits } from '@/components/Textarea';
 import { InputProps as _InputProps, InputEmits } from '@/components/Input';
+import { isFunction, isNumber, useControlValue } from '@shared/utils';
+import useCursor from './useCursor';
 
 export type InputProps = RequiredDeep<_InputProps>;
 

@@ -80,7 +80,7 @@
 <script lang="ts" setup>
 import { ref, toRefs, watch } from 'vue';
 import { ImageProps, ImageEmits, ImageSlots } from './type';
-import { useControlValue } from '@shared/hooks';
+import { useControlValue } from '@shared/utils';
 import { IconImageClose } from '@shared/icons';
 import YcSpin from '@/components/Spin';
 import ImagePreview from './ImagePreview.vue';

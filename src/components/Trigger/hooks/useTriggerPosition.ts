@@ -3,7 +3,7 @@ import { useElementBounding, useElementSize } from '@vueuse/core';
 import { TriggerPostion } from '../type';
 import { TriggerProps } from './useTriggerNested';
 import { Props } from '@shared/type';
-import { useConfigProvder } from '@shared/hooks';
+import { getGlobalConfig } from '@shared/utils';
 
 export default (params: {
   props: Props;
@@ -28,7 +28,7 @@ export default (params: {
     contentStyle: _contentStyle,
   } = toRefs(props as TriggerProps);
   // 接收provider传入的属性
-  const { updateAtScroll } = useConfigProvder(props);
+  const { updateAtScroll } = getGlobalConfig(props);
   // 动态计算当前的位置
   const position = ref<TriggerPostion>(_position.value);
   // 获取popup的size

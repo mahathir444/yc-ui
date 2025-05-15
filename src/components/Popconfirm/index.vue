@@ -55,7 +55,7 @@
 import { ref, toRefs } from 'vue';
 import { PopconfirmProps, PopconfirmEmits, PopconfirmSlots } from './type';
 import { TYPE_ICON_MAP, TYPE_ICON_COLOR_MAP } from '@shared/constants';
-import { useControlValue } from '@shared/hooks';
+import { useControlValue } from '@shared/utils';
 import useOnBeforeClose from '@/components/Modal/hooks/useOnBeforeClose';
 import { default as YcTrigger, TriggerInstance } from '@/components/Trigger';
 import YcButton from '@/components/Button';

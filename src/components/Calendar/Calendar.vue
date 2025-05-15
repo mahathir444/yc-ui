@@ -75,7 +75,7 @@ import {
   CalendarSlots,
   CalendarMode,
 } from './type';
-import { useControlValue } from '@shared/hooks';
+import { useControlValue } from '@shared/utils';
 import YcButton from '@/components/Button';
 import { RadioGroup as YcRadioGroup } from '@/components/Radio';
 import { IconArrowRight } from '@shared/icons';

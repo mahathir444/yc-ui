@@ -1,7 +1,7 @@
 import { ref, toRefs, Ref, provide as _provide, inject as _inject } from 'vue';
 import { CheckboxValue, CheckboxEmits } from '../type';
-import { useControlValue } from '@shared/hooks';
 import { Props } from '@shared/type';
+import { useControlValue } from '@shared/utils';
 
 export const CHECKBOX_GROUP_PROVIDE_KEY = 'checkbox-group-props';
 

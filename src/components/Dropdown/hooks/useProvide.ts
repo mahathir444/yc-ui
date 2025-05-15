@@ -1,7 +1,7 @@
 import { toRefs, provide as _provide, inject as _inject } from 'vue';
 import { DoptionValue, DropdownEmits } from '../type';
-import { useControlValue } from '@shared/hooks';
 import { Props } from '@shared/type';
+import { useControlValue } from '@shared/utils';
 
 export const DROPDOWN_PROVIDE_KEY = 'dropdown-props';
 

@@ -29,7 +29,9 @@
       </yc-option>
     </div>
     <!-- 空插槽 -->
-    <compt-empty v-if="isEmpty" name="Select" />
+    <slot-render v-if="isEmpty" :render="slots.empty || renderEmpty">
+      <yc-empty v-if="!slots.empty && !providerSlots" />
+    </slot-render>
   </div>
 </template>
 
@@ -37,10 +39,9 @@
 import { ref, toRefs, watch } from 'vue';
 import { useVirtualList, useScroll } from '@vueuse/core';
 import { ObjectData } from '@shared/type';
-import { getSlotFunction } from '@shared/utils';
+import { getSlotFunction, getGlobalConfig } from '@shared/utils';
 import useProvide from './hooks/useProvide';
 import { Option as YcOption, VirtualListProps } from './index';
-import { ComptEmpty } from '@shared/components';
 const props = defineProps<{
   virtualListProps: VirtualListProps;
 }>();
@@ -48,6 +49,8 @@ const { virtualListProps } = toRefs(props);
 // 接收注入
 const { inject } = useProvide();
 const { fieldKey, isEmpty, renderOptions, slots, emits } = inject();
+// configProvider
+const { slots: providerSlots } = getGlobalConfig();
 // 滚动ref
 const scrollRef = ref<HTMLDivElement>();
 // 初始化虚拟滚动
@@ -75,6 +78,12 @@ const renderLabel = (option: ObjectData) => {
   return option[render]
     ? getSlotFunction(option[render])
     : getSlotFunction(option[label]);
+};
+// 渲染empty
+const renderEmpty = () => {
+  return providerSlots.empty?.({
+    component: 'Select',
+  });
 };
 </script>
 

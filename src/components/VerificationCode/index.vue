@@ -27,8 +27,7 @@
 <script lang="ts" setup>
 import { ref, toRefs, computed } from 'vue';
 import { VerificationCodeProps, VerificationCodeEmits } from './type';
-import { useControlValue, useConfigProvder } from '@shared/hooks';
-import { sleep } from '@shared/utils';
+import { useControlValue, getGlobalConfig, sleep } from '@shared/utils';
 import { nanoid } from 'nanoid';
 import { default as YcInput, InputInstance } from '@/components/Input';
 defineOptions({
@@ -48,7 +47,7 @@ const emits = defineEmits<VerificationCodeEmits>();
 const { modelValue, defaultValue, length: _length } = toRefs(props);
 const { formatter } = props;
 // 接收传入的属性
-const { size } = useConfigProvder(props);
+const { size } = getGlobalConfig(props);
 // 受控值
 const computedValue = useControlValue<string>(
   modelValue,

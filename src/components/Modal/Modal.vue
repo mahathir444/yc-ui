@@ -109,7 +109,7 @@
 <script lang="ts" setup>
 import { ref, toRefs, computed, CSSProperties, useAttrs } from 'vue';
 import { ModalProps, ModalEmits, ModalSlots } from './type';
-import { useConfigProvder } from '@shared/hooks';
+import { getGlobalConfig } from '@shared/utils';
 import useModalClose from './hooks/useModalClose';
 import useModalDraggable from './hooks/useModalDraggable';
 import YcButton from '@/components/Button';
@@ -186,7 +186,7 @@ const {
 const { onBeforeOk, onBeforeCancel } = props;
 const attrs = useAttrs();
 // 接收属性
-const { popupContainer, zIndex } = useConfigProvder(props);
+const { popupContainer, zIndex } = getGlobalConfig(props);
 // 处理组件关闭开启
 const { outerVisible, innerVisible, handleClose, handleAfterLeave } =
   useModalClose({

@@ -5,7 +5,7 @@ import {
   OnBeforeOk,
 } from '@/components/Modal/type';
 import { onKeyStroke } from '@vueuse/core';
-import { useControlValue } from '@shared/hooks';
+import { useControlValue } from '@shared/utils';
 import useOnBeforeClose from './useOnBeforeClose';
 
 export default (params: {

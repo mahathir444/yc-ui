@@ -41,8 +41,7 @@
 <script lang="ts" setup>
 import { toRefs, computed } from 'vue';
 import { SwitchProps, SwitchEmits, SwitchSlots, SwitchValue } from './type';
-import { isBoolean } from '@shared/utils';
-import { useControlValue, useConfigProvder } from '@shared/hooks';
+import { useControlValue, getGlobalConfig, isBoolean } from '@shared/utils';
 import YcSpin from '@/components/Spin';
 defineOptions({
   name: 'Switch',
@@ -81,7 +80,7 @@ const {
 } = toRefs(props);
 const { beforeChange } = props;
 // 获取全局配置
-const { size } = useConfigProvder(props);
+const { size } = getGlobalConfig(props);
 // 计算值
 const computedValue = useControlValue<SwitchValue>(
   modelValue,

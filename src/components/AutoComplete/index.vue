@@ -64,8 +64,7 @@ import {
   AutoCompleteEmits,
   AutoCompleteSlots,
 } from './type';
-import { sleep } from '@shared/utils';
-import { useControlValue } from '@shared/hooks';
+import { sleep, useControlValue } from '@shared/utils';
 import {
   default as YcSelect,
   SelectOptionData,

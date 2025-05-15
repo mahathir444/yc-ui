@@ -18,7 +18,7 @@ import {
 import { isNumber, mediaQueryHandler } from '@shared/utils';
 import { BreakpointName } from '@/components/Grid/type';
 import { Props, RequiredDeep, Size } from '@shared/type';
-import { useConfigProvder } from '@shared/hooks';
+import { getGlobalConfig } from '@shared/utils';
 import { findComponentsFromVnodes } from '@shared/utils';
 import YcDescriptionsItem from '../DescriptionsItem.vue';
 
@@ -45,7 +45,7 @@ export default () => {
       align,
     } = toRefs(props as DescriptionsProps);
     // 获取全局配置
-    const { size } = useConfigProvder(props);
+    const { size } = getGlobalConfig(props);
     // 获取插槽内item
     const slots = useSlots();
     // 查找所有的descriptionItems

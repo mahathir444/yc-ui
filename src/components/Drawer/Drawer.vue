@@ -88,7 +88,7 @@
 <script lang="ts" setup>
 import { toRefs, computed, CSSProperties, useAttrs } from 'vue';
 import { DrawerProps, DrawerEmits, DrawerSlots } from './type';
-import { useConfigProvder } from '@shared/hooks';
+import { getGlobalConfig } from '@shared/utils';
 import useDrawerClose from '@/components/Modal/hooks/useModalClose';
 import YcButton from '@/components/Button';
 import { YcIconButton } from '@shared/components';
@@ -150,7 +150,7 @@ const { onBeforeOk, onBeforeCancel } = props;
 // attrs
 const attrs = useAttrs();
 // 接收configProvider
-const { zIndex, popupContainer } = useConfigProvder(props);
+const { zIndex, popupContainer } = getGlobalConfig(props);
 // drawer绝对定位的left,top
 const drawerStyle = computed(() => {
   return {

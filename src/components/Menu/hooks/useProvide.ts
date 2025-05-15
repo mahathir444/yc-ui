@@ -2,9 +2,9 @@ import { ref, Ref, provide as _provide, inject as _inject, toRefs } from 'vue';
 import { TooltipProps } from '@/components/Tooltip';
 import { TriggerProps } from '@/components/Trigger';
 import { MenuMode, PopupMaxHeight, MenuEmits } from '../type';
-import { useControlValue } from '@shared/hooks';
 import { Props } from '@shared/type';
 import { ChlidTreeNode } from './useMenuLevel';
+import { useControlValue } from '@shared/utils';
 import useCalcMaxItems from './useCalcMaxItems';
 
 export const MENU_PROVIDE_KEY = 'menu-props';

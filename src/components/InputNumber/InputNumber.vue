@@ -104,8 +104,7 @@
 <script lang="ts" setup>
 import { ref, toRefs, computed } from 'vue';
 import { InputNumberProps, InputNumberEmits, InputNumberValue } from './type';
-import { isNumber, isString, isFunction } from '@shared/utils';
-import { useControlValue } from '@shared/hooks';
+import { isNumber, isString, isFunction, useControlValue } from '@shared/utils';
 import YcOperaBtn from './InputOperaBtn.vue';
 import { default as YcInput, InputInstance } from '@/components/Input';
 defineOptions({

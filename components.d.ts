@@ -179,6 +179,7 @@ declare module 'vue' {
     SliderBtn: typeof import('./src/components/Slider/SliderBtn.vue')['default']
     SliderInput: typeof import('./src/components/Slider/SliderInput.vue')['default']
     SliderTicks: typeof import('./src/components/Slider/SliderTicks.vue')['default']
+    SlotRender: typeof import('./src/components/_shared/components/SlotRender.vue')['default']
     Space: typeof import('./src/components/Space/index.vue')['default']
     Spin: typeof import('./src/components/Spin/index.vue')['default']
     Split: typeof import('./src/components/Split/index.vue')['default']

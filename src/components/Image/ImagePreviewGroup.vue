@@ -26,10 +26,11 @@ import {
   ImagePreviewGroupEmits,
   ImagePreviewGroupSlots,
 } from './type';
+import { onKeyStroke } from '@vueuse/core';
+import { useControlValue } from '@shared/utils';
 import ImagePreview from './ImagePreview.vue';
 import ImagePreviewArrow from './ImagePreviewArrow.vue';
-import { onKeyStroke } from '@vueuse/core';
-import { useControlValue } from '@shared/hooks';
+
 defineOptions({
   name: 'ImagePreviewGroup',
 });

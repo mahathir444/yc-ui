@@ -82,10 +82,14 @@ import {
   InputTagSlots,
 } from './type';
 import { ObjectData } from '@shared/type';
-import { isBoolean, isObject } from '@shared/utils';
 import { nanoid } from 'nanoid';
 import { useElementSize } from '@vueuse/core';
-import { useControlValue, useConfigProvder } from '@shared/hooks';
+import {
+  useControlValue,
+  getGlobalConfig,
+  isBoolean,
+  isObject,
+} from '@shared/utils';
 import TagOverflowList from './InputTagList.vue';
 import { YcPreventFocus, YcIconButton } from '@shared/components';
 defineOptions({
@@ -135,7 +139,7 @@ const {
   tagNowrap,
 } = toRefs(props);
 // 获取全局配置
-const { size } = useConfigProvder(props);
+const { size } = getGlobalConfig(props);
 // 输入实例
 const inputRef = ref<HTMLInputElement>();
 // div的ref

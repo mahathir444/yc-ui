@@ -8,7 +8,7 @@ import {
 } from 'vue';
 import { Props, Direction, RequiredDeep } from '@shared/type';
 import { StepsProps as _StepsProps, StepsEmits, StepType } from '../type';
-import { useControlValue } from '@shared/hooks';
+import { useControlValue } from '@shared/utils';
 
 export const STEPS_PROVIDE_KEY = 'card-props';
 

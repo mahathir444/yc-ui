@@ -130,16 +130,16 @@ import {
   generateTimeOptions,
   parseTimeStrByFormat,
   timeObjToStr,
+  getGlobalConfig,
 } from '@shared/utils';
 import YcScrollbar from '@/components/Scrollbar/Scrollbar.vue';
 import { useTemplateRefsList } from '@vueuse/core';
-import { useControlValue } from '@shared/hooks';
+import { useControlValue } from '@shared/utils';
 import dayjs from 'dayjs';
 import isSameOrBefore from 'dayjs/plugin/isSameOrBefore';
 import BTween from 'b-tween';
 import { YcIconButton, YcPreventFocus } from '@shared/components';
 import { IconTime } from '@shared/icons';
-import { useConfigProvder } from '@shared/hooks';
 defineOptions({
   name: 'TimePicker',
 });
@@ -167,7 +167,7 @@ const emit = defineEmits<TimePickerEmits>();
 const { defaultValue, modelValue, popupVisible, defaultPopupVisible } =
   toRefs(props);
 // 获取全局配置
-const { size, exchangeTime } = useConfigProvder(props);
+const { size, exchangeTime } = getGlobalConfig(props);
 const activeIndex = ref(0);
 const inputRefs = useTemplateRefsList<HTMLDivElement>();
 const scrollRefs = ref(new Map());

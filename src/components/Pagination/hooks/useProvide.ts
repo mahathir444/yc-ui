@@ -9,7 +9,7 @@ import {
 } from 'vue';
 import { PaginationProps as _PaginationProps, PaginationEmits } from '../type';
 import { Props, RequiredDeep } from '@shared/type';
-import { useControlValue, useConfigProvder } from '@shared/hooks';
+import { useControlValue, getGlobalConfig } from '@shared/utils';
 
 export const PAGINATION_PROVIDE_KEY = 'pagination-props';
 
@@ -42,7 +42,7 @@ export default () => {
       autoAdjust,
       total: _total,
     } = toRefs(props as PaginationProps);
-    const { size } = useConfigProvder(props);
+    const { size } = getGlobalConfig(props);
     // total
     const total = useControlValue(
       autoAdjust.value ? _total : ref(),

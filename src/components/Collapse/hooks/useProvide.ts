@@ -1,7 +1,7 @@
 import { ref, toRefs, Ref, provide as _provide, inject as _inject } from 'vue';
 import { CollapseEmits, CollapseValue, ExpandIconPosition } from '../type';
-import { useControlValue } from '@shared/hooks';
 import { Props } from '@shared/type';
+import { useControlValue } from '@shared/utils';
 
 export const COLLAPSE_PROVIDE_KEY = 'collapse-props';
 

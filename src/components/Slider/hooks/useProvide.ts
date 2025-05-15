@@ -13,8 +13,7 @@ import {
   SliderProps as _SliderProps,
   SliderValue,
 } from '../type';
-import { isArray } from '@shared/utils';
-import { useControlValue } from '@shared/hooks';
+import { useControlValue, isArray } from '@shared/utils';
 
 export const SLIDER_PROVIDE_KEY = 'slider-props';
 

@@ -33,16 +33,18 @@
         </template>
       </template>
       <!-- 空插槽 -->
-      <compt-empty v-if="isEmpty" name="Select" />
+      <slot-render v-if="isEmpty" :render="slots.empty || renderEmpty">
+        <yc-empty v-if="!slots.empty && !providerSlots" />
+      </slot-render>
     </div>
   </yc-scrollbar>
 </template>
 
 <script lang="ts" setup>
 import { ObjectData } from '@shared/type';
-import { getSlotFunction } from '@shared/utils';
+import { getSlotFunction, getGlobalConfig } from '@shared/utils';
+import { SlotRender } from '@shared/components';
 import useProvide from './hooks/useProvide';
-import { ComptEmpty } from '@shared/components';
 import YcOption from './Option.vue';
 import YcOptgroup from './Optgroup.vue';
 import YcScrollbar from '@/components/Scrollbar';
@@ -52,6 +54,8 @@ defineProps<{
 // 接收注入
 const { inject } = useProvide();
 const { fieldKey, isEmpty, renderOptions, slots, emits } = inject();
+// configProvider
+const { slots: providerSlots } = getGlobalConfig();
 // 渲染label
 const renderLabel = (option: ObjectData) => {
   if (slots.option) {
@@ -64,6 +68,12 @@ const renderLabel = (option: ObjectData) => {
   return option[render]
     ? getSlotFunction(option[render])
     : getSlotFunction(option[label]);
+};
+// 渲染empty
+const renderEmpty = () => {
+  return providerSlots.empty?.({
+    component: 'Select',
+  });
 };
 </script>
 

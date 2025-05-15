@@ -53,8 +53,7 @@
 <script lang="ts" setup>
 import { ref, toRefs } from 'vue';
 import { LayoutSiderProps, LayoutSiderEmits, LayoutSiderSlots } from './type';
-import { useControlValue } from '@shared/hooks';
-import { mediaQueryHandler } from '@shared/utils';
+import { useControlValue, mediaQueryHandler } from '@shared/utils';
 import useProvide from './hooks/useProvide';
 import { IconArrowRight } from '@shared/icons';
 import { YcIconButton } from '@shared/components';

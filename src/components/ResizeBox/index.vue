@@ -46,7 +46,7 @@ import {
   DirectionType,
 } from './type';
 import { useResizeObserver, useEventListener } from '@vueuse/core';
-import { useControlValue } from '@shared/hooks';
+import { useControlValue } from '@shared/utils';
 import { IconDragDot, IconDragDotVertical } from '@shared/icons';
 defineOptions({
   name: 'ResizeBox',

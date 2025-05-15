@@ -3,8 +3,12 @@ import { onClickOutside } from '@vueuse/core';
 import { TriggerEmits } from '../type';
 import useTriggerNested, { TriggerProps } from './useTriggerNested';
 import { Props } from '@shared/type';
-import { useControlValue, useConfigProvder } from '@shared/hooks';
-import { findFirstScrollableParent, unrefElement } from '@shared/utils';
+import {
+  findFirstScrollableParent,
+  unrefElement,
+  useControlValue,
+  getGlobalConfig,
+} from '@shared/utils';
 
 export default (params: {
   props: Props;
@@ -29,7 +33,7 @@ export default (params: {
     autoSetPosition,
   } = toRefs(props as TriggerProps);
   // 接收全局属性
-  const { scrollToClose } = useConfigProvder(props);
+  const { scrollToClose } = getGlobalConfig(props);
   // 处理事件
   const {
     onTriggerMouseclick,

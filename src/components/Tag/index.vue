@@ -49,7 +49,7 @@
 import { toRefs, computed, ref } from 'vue';
 import { TagProps, TagEmits, TagSlots } from './type';
 import { TAG_PRESET_COLORS } from '@shared/constants';
-import { useControlValue, useConfigProvder } from '@shared/hooks';
+import { useControlValue, getGlobalConfig } from '@shared/utils';
 import YcSpin from '@/components/Spin';
 import { YcPreventFocus, YcIconButton } from '@shared/components';
 defineOptions({
@@ -81,7 +81,7 @@ const {
   color,
 } = toRefs(props);
 // 获取全局配置
-const { size } = useConfigProvder(props);
+const { size } = getGlobalConfig(props);
 // tagRef
 const tagRef = ref<InstanceType<typeof YcPreventFocus>>();
 // visible

@@ -32,7 +32,7 @@
 <script lang="ts" setup>
 import { toRefs } from 'vue';
 import { PopoverProps, PopoverEmits, PopoverSlots } from './type';
-import { useControlValue } from '@shared/hooks';
+import { useControlValue } from '@shared/utils';
 import YcTrigger from '@/components/Trigger';
 defineOptions({
   name: 'Popover',

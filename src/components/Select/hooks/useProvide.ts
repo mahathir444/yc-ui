@@ -16,9 +16,9 @@ import {
   SelectProps as _SelectProps,
 } from '../type';
 import { ObjectData, RequiredDeep, Props } from '@shared/type';
-import { useControlValue } from '@shared/hooks';
 import { TriggerInstance } from '@/components/Trigger';
 import { InputInstance } from '@/components/Input';
+import { useControlValue } from '@shared/utils';
 import useSelectOptions from './useSelectOptions';
 import useSelectHotkeys from './useSelectHotkeys';
 

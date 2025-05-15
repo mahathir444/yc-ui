@@ -79,7 +79,9 @@
         </div>
       </yc-scrollbar>
       <!-- 渲染empty -->
-      <compt-empty v-else name="Transfer" />
+      <slot-render :render="renderEmpty">
+        <yc-empty v-if="!providerSlots.empty" />
+      </slot-render>
     </div>
   </div>
 </template>
@@ -89,7 +91,7 @@ import { ref, toRefs, computed } from 'vue';
 import { TransferItem, TransferPanelSlots } from './type';
 import { IconDelete, IconClose } from '@shared/icons';
 import useProvide from './hooks/useProvide';
-import { ComptEmpty } from '@shared/components';
+import { getGlobalConfig } from '@shared/utils';
 import YcCheckbox from '@/components/Checkbox';
 import YcScrollbar from '@/components/Scrollbar';
 import YcInput from '@/components/Input';
@@ -99,6 +101,8 @@ const props = defineProps<{
   type: 'source' | 'target';
 }>();
 const { type } = toRefs(props);
+// configProvider
+const { slots: providerSlots } = getGlobalConfig();
 // 接收注入
 const { inject } = useProvide();
 const {
@@ -229,6 +233,12 @@ const renderItem = (item: TransferItem) => {
   return slots.item?.({
     label: item.label,
     value: item.value,
+  });
+};
+// 渲染empty
+const renderEmpty = () => {
+  return providerSlots.empty?.({
+    component: 'Transfer',
   });
 };
 </script>

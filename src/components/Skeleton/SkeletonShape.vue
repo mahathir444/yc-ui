@@ -10,7 +10,7 @@
 
 <script lang="ts" setup>
 import { SkeletonShapeProps } from './type';
-import { useConfigProvder } from '@shared/hooks';
+import { getGlobalConfig } from '@shared/utils';
 defineOptions({
   name: 'SkeletonShape',
 });
@@ -19,7 +19,7 @@ const props = withDefaults(defineProps<SkeletonShapeProps>(), {
   size: undefined,
 });
 // 获取全局配置
-const { size } = useConfigProvder(props);
+const { size } = getGlobalConfig(props);
 </script>
 
 <style lang="less" scoped>

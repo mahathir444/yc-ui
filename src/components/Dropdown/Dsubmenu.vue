@@ -43,7 +43,7 @@
 <script lang="ts" setup>
 import { ref, computed, toRefs, nextTick } from 'vue';
 import { IconArrowRight } from '@shared/icons';
-import { useControlValue } from '@shared/hooks';
+import { useControlValue } from '@shared/utils';
 import {
   DsubmenuProps,
   DsubmenuSlots,

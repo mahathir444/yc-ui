@@ -1,7 +1,7 @@
 import { ref, toRefs, Ref, provide as _provide, inject as _inject } from 'vue';
 import { RadioType, RadioGroupEmits, RadioValue } from '../type';
 import { Size, Props } from '@shared/type';
-import { useControlValue, useConfigProvder } from '@shared/hooks';
+import { useControlValue, getGlobalConfig } from '@shared/utils';
 
 export const RADIO_GROUP_PROVIDE_KEY = 'radio-group-props';
 
@@ -16,7 +16,7 @@ export default () => {
   const provide = (props: Props, emits: RadioGroupEmits) => {
     const { modelValue, defaultValue, disabled, type } = toRefs(props);
     // 获取全局配置
-    const { size } = useConfigProvder(props);
+    const { size } = getGlobalConfig(props);
     // 受控值
     const computedValue = useControlValue<RadioValue>(
       modelValue,

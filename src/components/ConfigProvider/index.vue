@@ -8,7 +8,7 @@ import { ConfigProviderProps, ConfigProviderSlots } from './type';
 import {
   CONFIG_PROVIDER_PROVIDE_KEY,
   ConfigProviderProvide,
-} from '@shared/hooks/useConfigProvder';
+} from '@shared/utils';
 defineOptions({
   name: 'ConfigProvider',
 });

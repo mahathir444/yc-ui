@@ -64,7 +64,7 @@
 <script lang="ts" setup>
 import { computed, toRefs } from 'vue';
 import { ProgressProps } from './type';
-import useConfigProvder from '@shared/hooks/useConfigProvder';
+import { getGlobalConfig } from '@shared/utils';
 import ProgressLine from './ProgressLine.vue';
 import ProgressSteps from './ProgressSteps.vue';
 import ProgressCircle from './ProgressCircle.vue';
@@ -89,7 +89,7 @@ const {
   strokeWidth: _strokeWidth,
 } = toRefs(props);
 // 获取size
-const { size } = useConfigProvder(props);
+const { size } = getGlobalConfig(props);
 // type
 const type = computed(() => (steps.value > 0 ? 'steps' : _type.value));
 // status

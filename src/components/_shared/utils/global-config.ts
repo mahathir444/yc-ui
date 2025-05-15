@@ -19,7 +19,7 @@ const getVar = (value: Ref<any>, _value: Ref<any>) => {
   return isUndefined(value?.value) ? _value : value;
 };
 
-export default (props: Props = {}) => {
+export const getGlobalConfig = (props: Props = {}) => {
   // 接收值
   const {
     slots,

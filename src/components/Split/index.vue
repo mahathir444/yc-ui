@@ -39,9 +39,8 @@
 <script lang="ts" setup>
 import { ref, toRefs, computed, watch, onMounted } from 'vue';
 import { SplitProps, SplitEmits, SplitSlots } from './type';
-import { sleep } from '@shared/utils';
 import { IconDragDotVertical, IconDragDot } from '@shared/icons';
-import { useControlValue } from '@shared/hooks';
+import { useControlValue, sleep } from '@shared/utils';
 import { useElementBounding, useDraggable } from '@vueuse/core';
 defineOptions({
   name: 'Split',

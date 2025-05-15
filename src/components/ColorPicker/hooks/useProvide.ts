@@ -5,8 +5,7 @@ import {
   ColorPickerEmits,
   ColorFormat,
 } from '../type';
-import { parseColor } from '@shared/utils';
-import { useControlValue, useConfigProvder } from '@shared/hooks';
+import { useControlValue, parseColor, getGlobalConfig } from '@shared/utils';
 
 export const COLOR_PICKER_PROVIDE_KEY = 'color-picker-props';
 export type ColorPickerProvide = {
@@ -28,7 +27,7 @@ export default () => {
       format: _format,
     } = toRefs(props as ColorPickerProps);
     // 获取全局配置
-    const { size } = useConfigProvder(props);
+    const { size } = getGlobalConfig(props);
     // 当前的format
     const format = useControlValue<string>(ref(undefined), _format.value);
     // 透明度

@@ -14,6 +14,12 @@
             <div v-for="i in 5" :key="i" class="yc-dot-loading-item"></div>
           </div>
           <compt-spin v-else :is-size-inherit="isSizeInherit" :size="size" />
+          <slot-render :render="slots.loading">
+            <icon-loading
+              v-if="!slots.loading"
+              :size="!isSizeInherit ? size : undefined"
+            />
+          </slot-render>
         </slot>
       </div>
       <div v-if="tip" class="yc-spin-tip">
@@ -39,7 +45,8 @@
 <script lang="ts" setup>
 import { SpinProps, SpinSlots } from './type';
 import { createReusableTemplate } from '@vueuse/core';
-import { YcPreventFocus, ComptSpin } from '@shared/components';
+import { getGlobalConfig } from '@shared/utils';
+import { YcPreventFocus, SlotRender } from '@shared/components';
 defineOptions({
   name: 'Spin',
 });
@@ -55,6 +62,7 @@ withDefaults(defineProps<SpinProps>(), {
 });
 const { define: DefineTemplate, reuse: ReuseTemplate } =
   createReusableTemplate();
+const { slots } = getGlobalConfig();
 </script>
 
 <style lang="less" scoped>

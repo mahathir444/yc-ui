@@ -35,8 +35,8 @@
 import { ref, toRefs, onMounted, computed, nextTick } from 'vue';
 import { MentionProps, MentionEmits, MentionSlots } from './type';
 import { ObjectData } from '@shared/type';
-import { isNull, isArray, debounce } from '@shared/utils';
-import { useControlValue, useCursor } from '@shared/hooks';
+import { isNull, isArray, debounce, useControlValue } from '@shared/utils';
+import useCursor from '@/components/Input/hooks/useCursor';
 import { SelectValue } from '@/components/Select';
 import {
   default as YcAutoComplete,

@@ -7,7 +7,7 @@ import {
   ButtonGroupProps as _ButtonGroupProps,
 } from '../type';
 import { Size, RequiredDeep, Props } from '@shared/type';
-import { useConfigProvder } from '@shared/hooks';
+import { getGlobalConfig } from '@shared/utils';
 
 const BUTTON_GROUP_PROVIDE_KEY = 'button-group-props';
 export interface ButtonProvide {
@@ -24,7 +24,7 @@ export default () => {
   const provide = (props: Props) => {
     const { type, status, shape, disabled } = toRefs(props as ButtonGroupProps);
     // 获取全局配置
-    const { size } = useConfigProvder(props);
+    const { size } = getGlobalConfig(props);
     //   注入
     _provide<ButtonProvide>(BUTTON_GROUP_PROVIDE_KEY, {
       type,
@@ -42,7 +42,7 @@ export default () => {
       shape: _shape,
     } = toRefs(props as ButtonProps);
     // 获取全局配置
-    const { size: _size } = useConfigProvder(props);
+    const { size: _size } = getGlobalConfig(props);
     // buttonGroup接收的属性
     return _inject<ButtonProvide>(BUTTON_GROUP_PROVIDE_KEY, {
       size: _size,

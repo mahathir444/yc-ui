@@ -60,8 +60,12 @@
 <script lang="ts" setup>
 import { ref, computed, watch, useSlots } from 'vue';
 import { TriggerProps, TriggerEmits, TriggerSlots } from './type';
-import { findFirstLegitChild, unrefElement, sleep } from '@shared/utils';
-import { useConfigProvder } from '@shared/hooks';
+import {
+  findFirstLegitChild,
+  unrefElement,
+  sleep,
+  getGlobalConfig,
+} from '@shared/utils';
 import useTriggerVisible from './hooks/useTriggerVisible';
 import useTriggerPosition from './hooks/useTriggerPosition';
 import { YcPreventFocus } from '@shared/components';
@@ -111,7 +115,7 @@ const props = withDefaults(defineProps<TriggerProps>(), {
 });
 const emits = defineEmits<TriggerEmits>();
 // 接收属性
-const { zIndex, popupContainer } = useConfigProvder(props);
+const { zIndex, popupContainer } = getGlobalConfig(props);
 // 弹出层的ref
 const popupRef = ref<HTMLDivElement>();
 // trigger的ref

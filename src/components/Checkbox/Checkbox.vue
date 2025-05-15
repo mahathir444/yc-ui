@@ -37,9 +37,9 @@
 </template>
 
 <script lang="ts" setup>
-import { toRefs, computed, ref } from 'vue';
+import { toRefs, computed } from 'vue';
 import { CheckboxProps, CheckboxEmits, CheckboxSlots } from './type';
-import { useControlValue } from '@shared/hooks';
+import { useControlValue } from '@shared/utils';
 import useProvide from './hooks/useProvide';
 import { IconCheckboxChecked } from '@shared/icons';
 import { YcPreventFocus, YcIconButton } from '@shared/components';
