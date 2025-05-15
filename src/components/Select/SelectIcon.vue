@@ -7,13 +7,13 @@
     class="yc-select-loading-icon"
   >
     <template v-if="$slots['loading-icon']" #icon>
-      <component :is="slots['loading-icon']" />
+      <component :is="renderIcon('loading-icon')" />
     </template>
   </yc-spin>
   <template v-else>
     <!-- default -->
     <yc-prevent-focus class="yc-select-suffix-icon">
-      <component v-if="slots['arrow-icon']" :is="slots['arrow-icon']" />
+      <component v-if="slots['arrow-icon']" :is="renderIcon('arrow-icon')" />
       <template v-else>
         <icon-arrow-up v-if="popupVisible" />
         <icon-arrow-down v-else />
@@ -21,7 +21,7 @@
     </yc-prevent-focus>
     <!-- search -->
     <yc-prevent-focus v-if="allowSearch" class="yc-select-search-icon">
-      <component v-if="slots['search-icon']" :is="slots['search-icon']" />
+      <component v-if="slots['search-icon']" :is="renderIcon('search-icon')" />
       <icon-search v-else />
     </yc-prevent-focus>
     <!-- clear -->
@@ -47,6 +47,10 @@ defineProps<{
 // 接收注入
 const { inject } = useProvide();
 const { slots, emits } = inject();
+// 渲染icon
+const renderIcon = (name: string) => {
+  return slots[name];
+};
 </script>
 
 <style lang="less" scoped>

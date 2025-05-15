@@ -7,33 +7,7 @@
     }"
   >
     <!-- target -->
-    <transfer-panel type="source">
-      <template v-if="$slots.soruce" #default="{ selectedKeys, data }">
-        <slot name="source" :data="data" :selectedKeys="selectedKeys" />
-      </template>
-      <template v-if="$slots['item']" #item="{ label, value }">
-        <slot name="item" :label="label" :value="value" />
-      </template>
-      <template
-        v-if="$slots['source-title']"
-        #title="{
-          countTotal,
-          countSelected,
-          searchValue,
-          checked,
-          indeterminate,
-        }"
-      >
-        <slot
-          name="source-title"
-          :countTotal="countTotal"
-          :countSelected="countSelected"
-          :searchValue="searchValue"
-          :checked="checked"
-          :indeterminate="indeterminate"
-        />
-      </template>
-    </transfer-panel>
+    <transfer-panel type="source" />
     <!-- operations -->
     <div v-if="!simple" class="yc-transfer-operations">
       <!-- to-target -->
@@ -63,33 +37,7 @@
       </yc-button>
     </div>
     <!-- target -->
-    <transfer-panel type="target">
-      <template v-if="$slots.target" #default="{ selectedKeys, data }">
-        <slot name="target" :data="data" :selectedKeys="selectedKeys" />
-      </template>
-      <template v-if="$slots['item']" #item="{ label, value }">
-        <slot name="item" :label="label" :value="value" />
-      </template>
-      <template
-        v-if="$slots['target-title']"
-        #title="{
-          countTotal,
-          countSelected,
-          searchValue,
-          checked,
-          indeterminate,
-        }"
-      >
-        <slot
-          name="target-title"
-          :countTotal="countTotal"
-          :countSelected="countSelected"
-          :searchValue="searchValue"
-          :checked="checked"
-          :indeterminate="indeterminate"
-        />
-      </template>
-    </transfer-panel>
+    <transfer-panel type="target" />
   </div>
 </template>
 

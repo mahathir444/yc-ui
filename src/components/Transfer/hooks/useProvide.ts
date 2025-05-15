@@ -5,6 +5,8 @@ import {
   provide as _provide,
   inject as _inject,
   computed,
+  useSlots,
+  Slots,
 } from 'vue';
 import { InputProps } from '@/components/Input';
 import {
@@ -32,7 +34,8 @@ export interface TransferProvide {
   showSearch: Ref<boolean>;
   oneWay: Ref<boolean>;
   simple: Ref<boolean>;
-  emits: any;
+  slots: Slots;
+  emits: TransferEmits;
 }
 
 export type TransferProps = RequiredDeep<_TransferProps>;
@@ -54,6 +57,7 @@ export default () => {
       disabled,
       title,
     } = toRefs(props as TransferProps);
+    const slots = useSlots();
     // dataMap
     const dataMap = computed(() => {
       return Object.fromEntries(data.value.map((item) => [item.value, item]));
@@ -124,6 +128,7 @@ export default () => {
       showSelectAll,
       disabled,
       title,
+      slots,
       emits,
     });
     return {
@@ -150,6 +155,7 @@ export default () => {
       showSelectAll: ref(false),
       sourceInputSearchProps: ref({}),
       targetInputSearchProps: ref({}),
+      slots: {},
       emits: () => {},
     });
   };

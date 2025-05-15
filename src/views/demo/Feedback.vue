@@ -135,6 +135,7 @@ const animation = ref(false);
 
 <style lang="less" scoped>
 .feedback {
+  height: 100%;
   width: 100%;
   overflow: auto;
   display: flex;

@@ -11,8 +11,8 @@
       :indeterminate="item.indeterminate"
     >
       <!-- checkbox -->
-      <template v-if="$slots.checkbox" #checkbox="{ checked, disabled }">
-        <slot name="checkbox" :checked="checked" :disabled="disabled" />
+      <template v-if="$slots.checkbox" #checkbox="scope">
+        <slot name="checkbox" v-bind="scope" />
       </template>
       <!-- label -->
       <slot name="label" :data="item">

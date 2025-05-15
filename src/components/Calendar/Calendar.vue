@@ -48,8 +48,8 @@
         :recordDate="recordDate"
         @cell-click="handleClick"
       >
-        <template v-if="$slots.default" #default="{ year, month, day }">
-          <slot :year="year" :month="month" :day="day" />
+        <template v-if="$slots.default" #default="scope">
+          <slot v-bind="scope" />
         </template>
       </month-calendar>
       <year-calendar
@@ -58,8 +58,8 @@
         :record-date="recordDate"
         @cell-click="handleClick"
       >
-        <template v-if="$slots.default" #default="{ year, month, day }">
-          <slot :year="year" :month="month" :day="day" />
+        <template v-if="$slots.default" #default="scope">
+          <slot v-bind="scope" />
         </template>
       </year-calendar>
     </div>

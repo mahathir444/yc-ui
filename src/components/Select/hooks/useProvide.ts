@@ -6,6 +6,7 @@ import {
   provide as _provide,
   inject as _inject,
   useSlots,
+  Slots,
 } from 'vue';
 import {
   SelectValue,
@@ -13,7 +14,6 @@ import {
   FilterOption,
   SelectEmits,
   SelectProps as _SelectProps,
-  SelectSlots,
 } from '../type';
 import { ObjectData, RequiredDeep, Props } from '@shared/type';
 import { useControlValue } from '@shared/hooks';
@@ -34,7 +34,7 @@ export interface SelectProvide {
   renderOptions: Ref<ObjectData[]>;
   fieldKey: Ref<Record<string, string>>;
   isEmpty: Ref<boolean>;
-  slots: Partial<SelectSlots>;
+  slots: Slots;
   blur: () => void;
   filterOption: FilterOption;
   getValue: (value: SelectValue | ObjectData) => SelectValue;

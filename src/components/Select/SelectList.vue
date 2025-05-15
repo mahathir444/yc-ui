@@ -18,7 +18,7 @@
               :disabled="v[fieldKey.disabled]"
               :tag-props="v[fieldKey.tagProps]"
             >
-              <component :is="getLabelRender(v)" />
+              <component :is="renderLabel(v)" />
             </yc-option>
           </yc-optgroup>
         </template>
@@ -28,18 +28,18 @@
             :disabled="option[fieldKey.disabled]"
             :tag-props="option[fieldKey.tagProps]"
           >
-            <component :is="getLabelRender(option)" />
+            <component :is="renderLabel(option)" />
           </yc-option>
         </template>
       </template>
       <!-- 空插槽 -->
-      <component v-if="isEmpty" :is="getEmptyRender" />
+      <component v-if="isEmpty" :is="renderEmpty" />
     </div>
   </yc-scrollbar>
 </template>
 
 <script lang="ts" setup>
-import { toRefs, h } from 'vue';
+import { h } from 'vue';
 import { ObjectData } from '@shared/type';
 import { getSlotFunction } from '@shared/utils';
 import useProvide from './hooks/useProvide';
@@ -54,23 +54,20 @@ defineProps<{
 const { inject } = useProvide();
 const { fieldKey, isEmpty, renderOptions, slots, emits } = inject();
 // 渲染label
-const getLabelRender = (option: ObjectData) => {
+const renderLabel = (option: ObjectData) => {
   if (slots.option) {
-    return () =>
+    return (
       slots.option?.({
         data: option,
-      }) || [];
+      }) || []
+    );
   }
   const { render, label } = fieldKey.value;
   return option[render] ?? getSlotFunction(option[label]);
 };
-// 渲染empty插槽
-const getEmptyRender = () => {
-  return slots.empty
-    ? slots.empty
-    : h(YcEmpty, {
-        description: '暂无数据',
-      });
+// renderEmpty
+const renderEmpty = () => {
+  return slots.empty ? slots.empty : h(YcEmpty);
 };
 </script>
 

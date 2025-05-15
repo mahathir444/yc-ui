@@ -31,13 +31,13 @@
 <script lang="ts" setup>
 import { ref, toRefs, computed, watch } from 'vue';
 import { StatisticProps, StatisticEmits, StatisticSlots } from './type';
+import { ObjectData } from '@shared/type';
 import {
   isNumber,
   formatSeconds,
   isUndefined,
   formatDate,
 } from '@shared/utils';
-import dayjs from 'dayjs';
 import Btween from 'b-tween';
 defineOptions({
   name: 'Statistic',
@@ -104,7 +104,7 @@ watch(
       },
       duration: animationDuration.value,
       easeing: easeing.value,
-      onUpdate: (current: Record<string, any>) => {
+      onUpdate: (current: ObjectData) => {
         valueRef.value!.textContent = getFormatValue(current.textContent);
       },
       onFinish() {

@@ -14,7 +14,7 @@
         :value="v[fieldKey.value]"
         :disabled="v[fieldKey.disabled]"
       >
-        <component :is="getLabelRender(v)" />
+        <component :is="renderLabel(v)" />
       </yc-option>
     </div>
     <!-- 渲染虚拟列表 -->
@@ -25,11 +25,11 @@
         :value="v[fieldKey.value]"
         :disabled="v[fieldKey.disabled]"
       >
-        <component :is="getLabelRender(v)" />
+        <component :is="renderLabel(v)" />
       </yc-option>
     </div>
     <!-- 空插槽 -->
-    <component v-if="isEmpty" :is="getEmptyRender" />
+    <component v-if="isEmpty" :is="renderEmpty" />
   </div>
 </template>
 
@@ -64,7 +64,7 @@ watch(arrivedState, () => {
   }
 });
 // 渲染label
-const getLabelRender = (option: ObjectData) => {
+const renderLabel = (option: ObjectData) => {
   if (slots.option) {
     return () =>
       slots.option?.({
@@ -74,13 +74,9 @@ const getLabelRender = (option: ObjectData) => {
   const { render, label } = fieldKey.value;
   return option[render] ?? getSlotFunction(option[label]);
 };
-// 渲染emtpy
-const getEmptyRender = () => {
-  return slots.empty
-    ? slots.empty
-    : h(YcEmpty, {
-        description: '暂无数据',
-      });
+// renderEmpty
+const renderEmpty = () => {
+  return slots.empty ? slots.empty : h(YcEmpty);
 };
 </script>
 

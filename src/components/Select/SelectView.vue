@@ -1,7 +1,7 @@
 <template>
   <yc-spin :loading="loading" class="yc-select-dropdown-loading">
     <template v-if="$slots['loading-icon']" #icon>
-      <component v-if="slots['loading-icon']" :is="slots['loading-icon']" />
+      <component :is="renderSlots('loading-icon')" />
     </template>
     <!--dropdown -->
     <div class="yc-select-dropdown">
@@ -10,7 +10,7 @@
         v-if="slots.header && (showHeaderOnEmpty || !isEmpty)"
         class="yc-select-dropdown-header"
       >
-        <component :is="slots.header" />
+        <component :is="renderSlots('header')" />
       </div>
       <!-- 虚拟列表 -->
       <select-virtual-list
@@ -24,7 +24,7 @@
         v-if="slots.footer && (showFooterOnEmpty || !isEmpty)"
         class="yc-select-dropdown-footer"
       >
-        <component :is="slots.footer" />
+        <component :is="renderSlots('footer')" />
       </div>
     </div>
   </yc-spin>
@@ -46,6 +46,10 @@ defineProps<{
 // 接收注入
 const { inject } = useProvide();
 const { slots, isEmpty } = inject();
+// 渲染插槽
+const renderSlots = (name: string) => {
+  return slots[name];
+};
 </script>
 
 <style lang="less" scoped>

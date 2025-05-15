@@ -13,7 +13,8 @@
     <!-- 多选 -->
     <yc-checkbox
       v-if="multiple"
-      v-model="modelValue"
+      :model-value="value"
+      @update:model-value="handleMuti"
       class="yc-select-option-content"
     >
       <slot>
@@ -66,28 +67,12 @@ const {
   getValue,
   emits,
 } = inject();
-//  选项的值
-const modelValue = computed({
-  get() {
-    if (!multiple.value) return false;
-    const index = (computedValue.value as ObjectData[]).findIndex((item) => {
-      return getValue(item) === getValue(optionValue.value);
-    });
-    return index != -1;
-  },
-  set(v) {
-    const curValue = computedValue.value as ObjectData[];
-    const { value } = optionValue;
-    if (!v) {
-      computedValue.value = curValue.filter((item) => item != value);
-    } else {
-      if (limit.value > 0 && curValue.length == limit.value) {
-        return emits('exceedLimit', value);
-      }
-      emits('select', optionValue.value);
-      computedValue.value = [...curValue, value];
-    }
-  },
+const value = computed(() => {
+  if (!multiple.value) return false;
+  const index = (computedValue.value as ObjectData[]).findIndex((item) => {
+    return getValue(item) === getValue(optionValue.value);
+  });
+  return index != -1;
 });
 // 处理单选
 const handleSingle = () => {
@@ -95,6 +80,20 @@ const handleSingle = () => {
   computedValue.value = optionValue.value;
   emits('select', optionValue.value);
   blur();
+};
+// 处理多选
+const handleMuti = (v: boolean) => {
+  const curValue = computedValue.value as ObjectData[];
+  const { value } = optionValue;
+  if (!v) {
+    computedValue.value = curValue.filter((item) => item != value);
+  } else {
+    if (limit.value > 0 && curValue.length == limit.value) {
+      return emits('exceedLimit', value);
+    }
+    emits('select', optionValue.value);
+    computedValue.value = [...curValue, value];
+  }
 };
 </script>
 

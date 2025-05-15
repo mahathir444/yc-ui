@@ -15,8 +15,8 @@
       :disabled="item.disabled"
     >
       <!-- radio -->
-      <template v-if="$slots.radio" #radio="{ checked, disabled }">
-        <slot name="radio" :checked="checked" :disabled="disabled" />
+      <template v-if="$slots.radio" #radio="scope">
+        <slot name="radio" v-bind="scope" />
       </template>
       <!-- label -->
       <slot name="label" :data="item">

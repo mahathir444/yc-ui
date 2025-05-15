@@ -89,7 +89,7 @@
           height: '240px',
         }"
       >
-        <yc-carousel-item v-for="image in images">
+        <yc-carousel-item v-for="image in images" :key="image">
           <img
             :src="image"
             :style="{
@@ -144,13 +144,13 @@
     </yc-space>
     <!-- collapse -->
     <yc-collapse style="width: fit-content; height: fit-content">
-      <yc-collapse-item title="Beijing Toutiao Technology Co., Ltd." value="1">
+      <yc-collapse-item header="Beijing Toutiao Technology Co., Ltd." value="1">
         <div>Beijing Toutiao Technology Co., Ltd.</div>
         <div>Beijing Toutiao Technology Co., Ltd.</div>
         <div>Beijing Toutiao Technology Co., Ltd.</div>
       </yc-collapse-item>
       <yc-collapse-item
-        title="Beijing Toutiao Technology Co., Ltd."
+        header="Beijing Toutiao Technology Co., Ltd."
         :value="2"
         disabled
       >
@@ -158,7 +158,7 @@
         <div>Beijing Toutiao Technology Co., Ltd.</div>
         <div>Beijing Toutiao Technology Co., Ltd.</div>
       </yc-collapse-item>
-      <yc-collapse-item title="Beijing Toutiao Technology Co., Ltd." value="3">
+      <yc-collapse-item header="Beijing Toutiao Technology Co., Ltd." value="3">
         <div>Beijing Toutiao Technology Co., Ltd.</div>
         <div>Beijing Toutiao Technology Co., Ltd.</div>
         <div>Beijing Toutiao Technology Co., Ltd.</div>
@@ -205,6 +205,10 @@
         </yc-comment>
       </yc-comment>
     </yc-comment>
+    <div style="display: flex; flex-direction: column; align-items: center">
+      <yc-countdown title="Countdown" format="HH:mm:ss.SSS" :start="start" />
+      <yc-button @click="start = !start">点击开启及时</yc-button>
+    </div>
     <yc-descriptions :column="3" :data="data" title="User Info" bordered>
       <yc-descriptions-item
         v-for="item of data"
@@ -276,6 +280,7 @@ const data = [
     value: 'Yingdu Building, Zhichun Road, Beijing',
   },
 ];
+const start = ref<boolean>(false);
 </script>
 
 <style lang="less" scoped>

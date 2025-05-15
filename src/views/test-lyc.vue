@@ -1,13 +1,9 @@
 <template>
-  <div class="test">
-    <yc-countdown title="Countdown" format="HH:mm:ss.SSS" :start="start" />
-    <a-button @click="start = !start">开启动画</a-button>
-  </div>
+  <div class="test"></div>
 </template>
 
 <script lang="ts" setup>
 import { ref } from 'vue';
-const start = ref<boolean>(false);
 </script>
 
 <style lang="less" scoped>
