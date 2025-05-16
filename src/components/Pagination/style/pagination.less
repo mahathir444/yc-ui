@@ -82,7 +82,16 @@
   }
 }
 // size
-.set-pagination-size(@font-size, @line-height, @item-size) {
+@pagination-sizes: {
+  mini: 12px, 24px;
+  small: 14px, 28px;
+  medium: 14px, 32px;
+  large: 14px, 36px;
+};
+each(@pagination-sizes, {
+  @font-size:extract(@value,1);
+  @item-size:extrat(@value,2);
+  @line-height:extract(@value,2);
   .yc-pagination-total {
     font-size: @font-size;
     line-height: @line-height;
@@ -98,23 +107,11 @@
       font-size: @font-size;
     }
   }
-  // Special case for mini size
-  & when (@item-size = 24px) {
+  & when (@key = mini) {
     .yc-pagination-options {
       &:deep(.yc-select) {
         width: 102px;
       }
     }
-  }
-}
-@pagination-sizes: {
-  mini: .set-pagination-size(12px, 24px, 24px);
-  small: .set-pagination-size(14px, 28px, 28px);
-  medium: .set-pagination-size(14px, 32px, 32px);
-  large: .set-pagination-size(14px, 36px, 36px);
-};
-each(@pagination-sizes, {
-  .yc-pagination-size-@{key} {
-    @value();
   }
 });

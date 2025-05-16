@@ -160,20 +160,17 @@
 }
 
 //size
-.set-radio-button-size(@font-size, @line-height) {
-  font-size: @font-size;
-  line-height: @line-height;
-}
 @radio-button-sizes: {
-  mini: .set-radio-button-size(12px, 18px);
-  small: .set-radio-button-size(14px, 22px);
-  medium: .set-radio-button-size(12px, 26px);
-  large: .set-radio-button-size(14px, 30px);
+  mini: 12px, 18px;
+  small: 14px, 22px;
+  medium: 12px, 26px;
+  large: 14px, 30px;
 };
 each(@radio-button-sizes, {
   .yc-radio-button{
     &.yc-radio-button-size-@{key} {
-      @value();
+      font-size: extract(@value,1);
+      line-height: extract(@value,2);
     }
   }
 });

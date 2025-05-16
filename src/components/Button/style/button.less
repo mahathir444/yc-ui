@@ -292,31 +292,26 @@ each(@type,.(@type-key) {
     }
   });
 
-// 定义尺寸映射表
+// size
 @size: {
-  mini: .set-button-size(24px, 11px, 12px, 12px, 4px);
-  small: .set-button-size(28px, 15px, 14px, 14px, 6px);
-  medium: .set-button-size(32px, 15px, 14px, 14px, 8px);
-  large: .set-button-size(36px, 19px, 14px, 14px, 8px);
+  mini: 24px, 11px, 12px, 12px, 4px;
+  small: 28px, 15px, 14px, 14px, 6px;
+  medium: 32px, 15px, 14px, 14px, 8px;
+  large: 36px, 19px, 14px, 14px, 8px;
 };
-// 使用each循环生成不同尺寸的按钮
 each(@size, {
       .yc-button-size-@{key} {
-        @value();
+        height: extract(@value,1);
+        padding: 0  extract(@value,2);
+        font-size:  extract(@value,3);
+        .yc-button-icon {
+          width: extract(@value,4);
+          height: extract(@value,4);
+          margin-right: extract(@value,5);
+        }
       }
     });
-// size
-.set-button-size(@height, @padding, @font-size, @icon-size, @icon-margin) {
-  height: @height;
-  padding: 0 @padding;
-  font-size: @font-size;
-  .yc-button-icon {
-    width: @icon-size;
-    height: @icon-size;
-    margin-right: @icon-margin;
-  }
-}
-
+// shape
 @shape: {
   square: 2px;
   round: 30px;

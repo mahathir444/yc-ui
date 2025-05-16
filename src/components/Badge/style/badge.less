@@ -75,7 +75,6 @@ each(@status,{
   magenta: rgb(245, 49, 157);
   gray: rgb(134, 144, 156);
 }
-// 使用循环遍历生成对应的样式
 each(@colors, {
   .yc-badge-color-@{key} {
     background-color: @value;

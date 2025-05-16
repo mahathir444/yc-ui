@@ -100,57 +100,50 @@
   width: 100%;
 }
 // size
-.set-progress-size(@line-text-size, @circle-text-size, @icon-size: null) {
-  .yc-progress-line-text {
-    font-size: @line-text-size;
-  }
-  .yc-progress-circle-text {
-    font-size: @circle-text-size;
-
-    & when not (@icon-size = null) {
-      .yc-icon {
-        font-size: @icon-size;
-      }
-    }
-  }
-}
 @progress-sizes: {
-  small: .set-progress-size(12px, 12px);
-  medium: .set-progress-size(12px, 14px);
-  large: .set-progress-size(16px, 16px, 14px);
+  small: 12px, 12px;
+  medium: 12px, 14px;
+  large: 16px, 16px, 14px;
 };
 each(@progress-sizes, {
   .yc-progress-size-@{key} {
-    @value();
-  }
-});
-// status
-.set-progress-status(@color, @mini-bg-color: null) {
-  .yc-progress-steps-item-active,
-  .yc-progress-line-bar {
-    background-color: @color;
-  }
-
-  .yc-progress-circle-bar {
-    stroke: @color;
-  }
-
-  & when not (@mini-bg-color = null) {
-    &.yc-progress-size-mini {
-      .yc-progress-circle-bg {
-        stroke: @mini-bg-color;
+    .yc-progress-line-text {
+      font-size: extract(@value,1);
+    }
+    .yc-progress-circle-text {
+      font-size: extract(@value,2);
+      & when (@key = large) {
+        .yc-icon {
+          font-size: 14px;
+        }
       }
     }
   }
-}
-@progress-statuses: {
-  normal: .set-progress-status(rgb(22, 93, 255), rgb(148, 191, 255));
-  success: .set-progress-status(rgb(0, 180, 42));
-  warning: .set-progress-status(rgb(255, 125, 0), rgb(255, 207, 139));
-  danger: .set-progress-status(rgb(245, 63, 63), rgb(251, 172, 163));
+});
+// status
+@progress-status: {
+  normal: rgb(22, 93, 255), rgb(148, 191, 255);
+  success: rgb(0, 180, 42);
+  warning: rgb(255, 125, 0), rgb(255, 207, 139);
+  danger: rgb(245, 63, 63), rgb(251, 172, 163);
 };
-each(@progress-statuses, {
+each(@progress-status, {
+  @color:extract(@value,0);
+  @mini-bg-color:extract(@value,1);
   .yc-progress-status-@{key} {
-    @value();
+    .yc-progress-steps-item-active,
+    .yc-progress-line-bar {
+      background-color: @color;
+    }
+    .yc-progress-circle-bar {
+      stroke: @color;
+    }
+    & when not (@key = success) {
+      &.yc-progress-size-mini {
+        .yc-progress-circle-bg {
+          stroke: @mini-bg-color;
+        }
+      }
+    }
   }
 });

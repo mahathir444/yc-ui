@@ -63,26 +63,18 @@
   position: absolute;
 }
 // placement
-.set-drawer-placement(@position) {
-  .yc-drawer-container {
-    top: if(@position = top or @position = left or @position = right, 0, auto);
-    left: if(
-      @position = left or @position = top or @position = bottom,
-      0,
-      auto
-    );
-    right: if(@position = right, 0, auto);
-    bottom: if(@position = bottom, 0, auto);
-  }
-}
-@drawer-placements: {
-  left: .set-drawer-placement(left);
-  right: .set-drawer-placement(right);
-  top: .set-drawer-placement(top);
-  bottom: .set-drawer-placement(bottom);
-};
+@drawer-placements: left, right, bottom, top;
 each(@drawer-placements, {
   .yc-drawer-placement-@{key} {
-    .set-drawer-placement(@key)
+    .yc-drawer-container {
+      left: if(
+        @key = left or @key = top or @key = bottom,
+        0,
+        unset
+      );
+      right: if(@key = right, 0, unset);
+      top: if(@key = top or @key = left or @key = right, 0, unset);
+      bottom: if(@key = bottom, 0, unset);
+    }
   }
 });

@@ -243,19 +243,19 @@
   }
 }
 // size
-.set-color-picker-size(@height, @font-size, @padding) {
-  height: @height;
-  font-size: @font-size;
-  padding: @padding;
-}
-@color-picker-sizes: {
-  mini: .set-color-picker-size(24px, 12px, 4px);
-  small: .set-color-picker-size(28px, 14px, 3px 4px);
-  medium: .set-color-picker-size(32px, 14px, 4px);
-  large: .set-color-picker-size(36px, 14px, 5px);
+@descriptions-item-cell-sizes: {
+  mini: 12px, 2px, 3px;
+  small: 14px, 4px, 3px;
+  medium: 14px, 8px, 5px;
+  large: 14px, 16px, 9px;
 };
-each(@color-picker-sizes, {
-  .yc-color-picker-size-@{key} {
-    @value();
+each(@descriptions-item-cell-sizes, {
+  .yc-descriptions-item-cell-size-@{key} {
+    font-size: extract(@value, 1);
+    padding: 0 20px extract(@value, 2) 0;
+    
+    &.yc-descriptions-item-cell-bordered {
+      padding: extract(@value, 3) 20px;
+    }
   }
 });

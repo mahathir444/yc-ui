@@ -9,7 +9,12 @@ import { ref } from 'vue';
 </script>
 
 <style lang="less" scoped>
+@list: {
+  a: blue, black, pinl, orange;
+};
+
 .test {
+  background-color: extract(@list[a], 1);
   height: 100%;
   width: 100%;
   display: flex;

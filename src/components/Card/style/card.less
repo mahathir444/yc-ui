@@ -80,23 +80,20 @@
   }
 }
 // size
-.set-card-size(@height,@padding,@body-padding) {
-  .yc-card-header {
-    height: 46px;
-    padding: @padding 16px;
-  }
-  .yc-card-body {
-    padding: @body-padding 16px;
-  }
-}
 @card-sizes: {
-  mini: .set-card-size(40px, 10px, 16px);
-  small: .set-card-size(40px, 8px, 12px);
-  medium: .set-card-size(40px, 10px, 16px);
-  large: .set-card-size(40px, 10px, 16px);
+  mini: 40px, 10px, 16px;
+  small: 40px, 8px, 12px;
+  medium: 46px, 10px, 16px;
+  large: 40px, 10px, 16px;
 };
 each(@card-sizes, {
   .yc-card-size-@{key} {
-    @value();
+    .yc-card-header {
+      height: extract(@value, 1);
+      padding: extract(@value, 2) 16px;
+    }
+    .yc-card-body {
+      padding: extract(@value, 3) 16px;
+    }
   }
 });

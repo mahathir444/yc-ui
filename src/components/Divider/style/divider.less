@@ -26,10 +26,6 @@
   max-width: 1px;
 }
 // text-direction+2
-.set-divider-text-position(@horizontal-position, @transform-x) {
-  @{horizontal-position}: if(@horizontal-position = center, 50%, 24px);
-  transform: translate(@transform-x, -50%);
-}
 @divider-text-positions: {
   left: 0;
   center: -50%;
@@ -37,6 +33,7 @@
 };
 each(@divider-text-positions, {
   .yc-divider-text-position-@{key} {
-    .set-divider-text-position(@key, @value)
+    @{key}: if(key = center, 50%, 24px);
+    transform: translate(@value, -50%);
   }
 });
