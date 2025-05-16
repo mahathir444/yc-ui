@@ -65,6 +65,19 @@
   line-height: 18px;
 }
 // color
+.yc-tag-preset-color {
+  color: rgb(29, 33, 41);
+  background-color: #fff;
+  &:hover {
+    background-color: rgb(242, 243, 245);
+  }
+  &.yc-tag-bordered {
+    border-color: rgb(229, 230, 235);
+  }
+}
+.yc-tag-custom-color {
+  color: #fff;
+}
 .yc-tag-color-default {
   &.yc-tag-checked {
     color: rgb(29, 33, 41);
@@ -274,18 +287,4 @@
       border-color: rgb(134, 144, 156);
     }
   }
-}
-// preset与custom
-.yc-tag-preset-color {
-  color: rgb(29, 33, 41);
-  background-color: #fff;
-  &:hover {
-    background-color: rgb(242, 243, 245);
-  }
-  &.yc-tag-bordered {
-    border-color: rgb(229, 230, 235);
-  }
-}
-.yc-tag-custom-color {
-  color: #fff;
 }
