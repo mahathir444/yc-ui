@@ -205,22 +205,21 @@
       text-active: @colors[danger-active];
     };
   };
+  @text: {
+    @normal: {
+      text: @colors[primary];
+    };
+    @warning: {
+      text: @colors[warning];
+    };
+    @success: {
+      text: @colors[success];
+    };
+    @danger: {
+      text: @colors[danger];
+    };
+  };
 };
-@text: {
-  @normal: {
-    text: @colors[primary];
-  };
-  @warning: {
-    text: @colors[warning];
-  };
-  @success: {
-    text: @colors[success];
-  };
-  @danger: {
-    text: @colors[danger];
-  };
-};
-// 生成按钮样式
 each(@types, .(@type-value, @type-name) {
   @type-key: replace(~"@{type-name}", "@", "");
   .yc-button.yc-button-@{type-key} {
@@ -228,31 +227,44 @@ each(@types, .(@type-value, @type-name) {
       @status-key: replace(~"@{status-name}", "@", "");
       &.yc-button-status-@{status-key} {
         color: @status-value[text];
-        background-color: @status-value[bg];
-        & when(@type-key = outline) , (type-key=dashed){
-          border-color: @status-value[border];
-        }
-        &:not(.yc-button-disabled):not(.yc-button-loading) {
-          &:hover {
-            & when not(@type-key = outline){
-              background-color: @status-value[hover];
+        & when not(@type-key = text){
+          background-color: @status-value[bg];
+          & when(@type-key = outline) , (type-key=dashed){
+            border-color: @status-value[border];
+          }
+          &:not(.yc-button-disabled):not(.yc-button-loading) {
+            &:hover {
+              & when not(@type-key = outline){
+                background-color: @status-value[hover];
+              }
+              & when(@type-key = outline){
+                color: @status-value[text-hover];
+              }
+              & when(@type-key = outline) , (@type-key = dashed){
+                border-color: @status-value[border-hover];
+              }
             }
-            & when(@type-key = outline){
-              color: @status-value[text-hover];
-            }
-            & when(@type-key = outline) , (@type-key = dashed){
-              border-color: @status-value[border-hover];
+            &:active {
+              & when(@type-key = outline) , (@type-key = dashed){
+                border-color: @status-value[border-active];
+              }
+              & when(@type-key = outline){
+                color: @status-value[text-active];
+              }
+              & when not(@type-key = outline){
+                background-color: @status-value[active];
+              }
             }
           }
-          &:active {
-            & when(@type-key = outline) , (@type-key = dashed){
-              border-color: @status-value[border-active];
+        }
+        & when(@type-key = text){
+          background-color: transparent;
+          &:not(.yc-button-disabled):not(.yc-button-loading) {
+            &:hover {
+              background-color: @colors[text-hover];
             }
-            & when(@type-key = outline){
-              color: @status-value[text-active];
-            }
-            & when not(@type-key = outline){
-              background-color: @status-value[active];
+            &:active {
+              background-color: @colors[text-active];
             }
           }
         }
@@ -261,25 +273,6 @@ each(@types, .(@type-value, @type-name) {
     )
   }
 });
-// text的样式单独处理
-.yc-button-text {
-  background-color: transparent;
-  &:not(.yc-button-disabled):not(.yc-button-loading) {
-    &:hover {
-      background-color: @colors[text-hover];
-    }
-    &:active {
-      background-color: @colors[text-active];
-    }
-  }
-  each(@text, .(@status-value, @status-name) {
-    @status-key: replace(~"@{status-name}", "@", "");
-    &.yc-button-status-@{status-key} {
-      color: @status-value[text];
-    }
-  }
-  );
-}
 // size
 @size: {
   @mini: {
