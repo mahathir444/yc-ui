@@ -77,20 +77,24 @@
   transform: translateY(-50%);
 }
 // theme
-.set-theme(@color,@bg) {
-  &:not(.yc-menu-item-disabled) {
-    color: @color;
-    &:hover {
-      background-color: @bg;
-    }
-  }
-}
 @theme: {
-  light: .set-theme(rgb(78, 89, 105), rgb(242, 243, 245));
-  dark: .set-theme(rgb(201, 205, 212), rgba(255, 255, 255, 0.04));
+  @light: {
+    color: rgb(78, 89, 105);
+    hover-bg: rgb(242, 243, 245);
+  };
+  @dark: {
+    color: rgb(201, 205, 212);
+    hover-bg: rgba(255, 255, 255, 0.04);
+  };
 };
-each(@theme,{
-  .yc-menu-item-theme-@{key}{
-    @value();
+each(@theme, .(@value,@name){
+  @key:replace(~"@{name}", "@", "");
+  .yc-menu-item-theme-@{key} {
+    &:not(.yc-menu-item-disabled) {
+      color: @value[color];
+      &:hover {
+        background-color: @value[hover-bg];
+      }
+    }
   }
 });

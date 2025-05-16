@@ -26,12 +26,12 @@
   max-width: 1px;
 }
 // text-direction+2
-@divider-text-positions: {
+@position: {
   left: 0;
   center: -50%;
   right: 0;
 };
-each(@divider-text-positions, {
+each(@position, {
   .yc-divider-text-position-@{key} {
     @{key}: if(key = center, 50%, 24px);
     transform: translate(@value, -50%);

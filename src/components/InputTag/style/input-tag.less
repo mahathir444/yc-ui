@@ -132,19 +132,41 @@
   }
 }
 // size
-@input-tag-sizes: {
-  mini: 24px, 12px, 4px, 1px;
-  small: 28px, 14px, 4px, 2px;
-  medium: 32px, 14px, 4px, 2px;
-  large: 36px, 14px, 6px, 2px;
+@size: {
+  @mini: {
+    height: 24px;
+    font-size: 12px;
+    padding-x: 4px;
+    inner-padding: 1px;
+  };
+  @small: {
+    height: 28px;
+    font-size: 14px;
+    padding-x: 4px;
+    inner-padding: 2px;
+  };
+  @medium: {
+    height: 32px;
+    font-size: 14px;
+    padding-x: 4px;
+    inner-padding: 2px;
+  };
+  @large: {
+    height: 36px;
+    font-size: 14px;
+    padding-x: 6px;
+    inner-padding: 2px;
+  };
 };
-each(@input-tag-sizes, {
+each(@size, .(@value,@name){
+  @key:replace(~"@{name}", "@", "");
   .yc-input-tag-size-@{key} {
-    min-height: extract(@value,1);
-    font-size:extract(@value,2);
-    padding: 0 extract(@value,3);
+    min-height: @value[height];
+    font-size: @value[font-size];
+    padding: 0 @value[padding-x];
+    
     .yc-input-tag-inner {
-      padding: extract(@value,4) 0;
+      padding: @value[inner-padding] 0;
       & when  (@key = large) {
         .yc-tag-size-large {
           min-height: 28px;

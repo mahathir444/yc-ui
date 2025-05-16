@@ -65,13 +65,13 @@
   }
 }
 // next-status
-@steps-item-next-status: {
+@next-status: {
   wait: rgb(229, 230, 235);
   process: rgb(22, 93, 255);
   finish: rgb(22, 93, 255);
   error: rgb(245, 63, 63);
 };
-each(@steps-item-next-status, {
+each(@next-status, {
   .yc-steps-item-next-@{key} {
     &,
     .yc-steps-item-title,

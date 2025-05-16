@@ -58,13 +58,13 @@
 
 // status
 
-@link-status-colors: {
+@status: {
   normal: rgb(22, 93, 255);
   warning: rgb(255, 125, 0);
   success: rgb(0, 180, 42);
   danger: rgb(245, 63, 63);
 };
-each(@link-status-colors, {
+each(@status, {
   .yc-link-status-@{key} {
     color: @value;
   }

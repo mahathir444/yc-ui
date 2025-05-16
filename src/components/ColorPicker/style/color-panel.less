@@ -243,19 +243,36 @@
   }
 }
 // size
-@descriptions-item-cell-sizes: {
-  mini: 12px, 2px, 3px;
-  small: 14px, 4px, 3px;
-  medium: 14px, 8px, 5px;
-  large: 14px, 16px, 9px;
+@size: {
+  @mini: {
+    font-size: 12px;
+    padding-bottom: 2px;
+    bordered-padding: 3px;
+  };
+  @small: {
+    font-size: 14px;
+    padding-bottom: 4px;
+    bordered-padding: 3px;
+  };
+  @medium: {
+    font-size: 14px;
+    padding-bottom: 8px;
+    bordered-padding: 5px;
+  };
+  @large: {
+    font-size: 14px;
+    padding-bottom: 16px;
+    bordered-padding: 9px;
+  };
 };
-each(@descriptions-item-cell-sizes, {
+each(@size, .(@value,@name){
+  @key:replace(~"@{name}", "@", "");
   .yc-descriptions-item-cell-size-@{key} {
-    font-size: extract(@value, 1);
-    padding: 0 20px extract(@value, 2) 0;
+    font-size: @value[font-size];
+    padding: 0 20px @value[padding-bottom] 0;
     
     &.yc-descriptions-item-cell-bordered {
-      padding: extract(@value, 3) 20px;
+      padding: @value[bordered-padding] 20px;
     }
   }
 });

@@ -46,27 +46,30 @@
   }
 }
 // theme
-.set-theme(@bg,@btn-color,@btn-bg,@btn-hover-bg) {
-  background-color: @bg;
-  .yc-menu-collapse-button {
-    color: @btn-color;
-    background-color: @btn-bg;
-    &:hover {
-      background-color: @btn-hover-bg;
-    }
-  }
-}
-@theme: {
-  light: .set-theme(#232324, #fff, rgb(22, 93, 255), rgb(14, 66, 210));
-  dark: .set-theme(
-    #fff,
-    rgb(134, 144, 156),
-    rgb(247, 248, 250),
-    rgb(229, 230, 235)
-  );
+@menu-themes: {
+  @light: {
+    bg: #232324;
+    btn-color: #fff;
+    btn-bg: rgb(22, 93, 255);
+    btn-hover-bg: rgb(14, 66, 210);
+  };
+  @dark: {
+    bg: #fff;
+    btn-color: rgb(134, 144, 156);
+    btn-bg: rgb(247, 248, 250);
+    btn-hover-bg: rgb(229, 230, 235);
+  };
 };
-each(@theme,{
-  .yc-menu-item-theme-@{key}{
-    @value();
+each(@menu-themes, .(@value,@name){
+  @key:replace(~"@{name}", "@", "");
+  .yc-menu-item-theme-@{key} {
+    background-color: @value[bg];
+    .yc-menu-collapse-button {
+      color: @value[btn-color];
+      background-color: @value[btn-bg];
+      &:hover {
+        background-color: @value[btn-hover-bg];
+      }
+    }
   }
 });

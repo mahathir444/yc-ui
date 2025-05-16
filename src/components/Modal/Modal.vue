@@ -5,8 +5,8 @@
       v-show="outerVisible"
       :class="{
         'yc-modal-container': true,
-        'yc-modal-position-absolute': popupContainer || !renderToBody,
         'yc-modal-simple': simple,
+        'yc-modal-position-absolute': popupContainer || !renderToBody,
       }"
       :style="{
         zIndex,

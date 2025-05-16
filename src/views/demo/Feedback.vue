@@ -35,7 +35,7 @@
       >
     </yc-space>
     <yc-button @click="visible = true">Open Modal</yc-button>
-    <yc-modal v-model:visible="visible">
+    <yc-modal>
       <template #title> Title </template>
       <div>
         You can customize modal body text by the current situation. This modal

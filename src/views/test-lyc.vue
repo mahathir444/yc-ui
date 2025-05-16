@@ -1,6 +1,6 @@
 <template>
   <div class="test">
-    <yc-button type="primary" size="medium" status="danger">测试</yc-button>
+    <yc-button type="text" size="medium" status="danger">测试</yc-button>
   </div>
 </template>
 
@@ -9,12 +9,7 @@ import { ref } from 'vue';
 </script>
 
 <style lang="less" scoped>
-@list: {
-  a: blue, black, pinl, orange;
-};
-
 .test {
-  background-color: extract(@list[a], 1);
   height: 100%;
   width: 100%;
   display: flex;

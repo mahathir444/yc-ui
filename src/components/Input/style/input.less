@@ -161,20 +161,43 @@
   }
 }
 //size
-@input-sizes: {
-  mini: 12px, 24px, 1px, 1.667;
-  small: 14px, 28px, 2px, 1.5715;
-  medium: 14px, 32px, 4px, 1.5715;
-  large: 14px, 36px, 6px, 1.5715;
+@sizes: {
+  @mini: {
+    font-size: 12px;
+    height: 24px;
+    padding: 1px;
+    line-height: 1.667;
+  };
+  @small: {
+    font-size: 14px;
+    height: 28px;
+    padding: 2px;
+    line-height: 1.5715;
+  };
+  @medium: {
+    font-size: 14px;
+    height: 32px;
+    padding: 4px;
+    line-height: 1.5715;
+  };
+  @large: {
+    font-size: 14px;
+    height: 36px;
+    padding: 6px;
+    line-height: 1.5715;
+  };
 };
-each(@input-sizes, {
+
+each(@sizes, .(@value, @name) {
+  @key: replace(~"@{name}", "@", "");
   .yc-input-size-@{key},
   .yc-input-outer-size-@{key} {
-    font-size:extract(@value,1);
-    height: extract(@value,2);
-  .yc-input {
-    padding: extract(@value,3) 0;
-    line-height: extract(@value,4);
-  }
+    font-size: @value[font-size];
+    height: @value[height];
+    
+    .yc-input {
+      padding: @value[padding] 0;
+      line-height: @value[line-height];
+    }
   }
 });

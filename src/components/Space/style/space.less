@@ -31,13 +31,13 @@
   display: flex;
 }
 // align
-@space-alignments: {
+@align: {
   start: flex-start;
   center: center;
-  end: end;
-  stretch: flex-start;
+  end: flex-end;
+  stretch: stretch;
 };
-each(@space-alignments, {
+each(@align, {
   .yc-space-align-@{key} {
     align-items: @value;
   }

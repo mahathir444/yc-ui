@@ -100,48 +100,77 @@
   width: 100%;
 }
 // size
-@progress-sizes: {
-  small: 12px, 12px;
-  medium: 12px, 14px;
-  large: 16px, 16px, 14px;
+@size: {
+  @small: {
+    line-text-size: 12px;
+    circle-text-size: 12px;
+    icon-size: null;
+  };
+  @medium: {
+    line-text-size: 12px;
+    circle-text-size: 14px;
+    icon-size: null;
+  };
+  @large: {
+    line-text-size: 16px;
+    circle-text-size: 16px;
+    icon-size: 14px;
+  };
 };
-each(@progress-sizes, {
+each(@size, .(@size,@name){
+  @key:replace(~"@{name}", "@", "");
   .yc-progress-size-@{key} {
     .yc-progress-line-text {
-      font-size: extract(@value,1);
+      font-size: @size[line-text-size];
     }
+    
     .yc-progress-circle-text {
-      font-size: extract(@value,2);
-      & when (@key = large) {
+      font-size: @size[circle-text-size];
+      
+      & when not (@size[icon-size] = null) {
         .yc-icon {
-          font-size: 14px;
+          font-size: @size[icon-size];
         }
       }
     }
   }
 });
 // status
-@progress-status: {
-  normal: rgb(22, 93, 255), rgb(148, 191, 255);
-  success: rgb(0, 180, 42);
-  warning: rgb(255, 125, 0), rgb(255, 207, 139);
-  danger: rgb(245, 63, 63), rgb(251, 172, 163);
+@status: {
+  @normal: {
+    color: rgb(22, 93, 255);
+    mini-bg-color: rgb(148, 191, 255);
+  };
+  @success: {
+    color: rgb(0, 180, 42);
+    mini-bg-color: null;
+  };
+  @warning: {
+    color: rgb(255, 125, 0);
+    mini-bg-color: rgb(255, 207, 139);
+  };
+  @danger: {
+    color: rgb(245, 63, 63);
+    mini-bg-color: rgb(251, 172, 163);
+  };
 };
-each(@progress-status, {
-  @color:extract(@value,0);
-  @mini-bg-color:extract(@value,1);
+each(@status, {
+  @status: @value;
+  
   .yc-progress-status-@{key} {
     .yc-progress-steps-item-active,
     .yc-progress-line-bar {
-      background-color: @color;
+      background-color: @status[color];
     }
+    
     .yc-progress-circle-bar {
-      stroke: @color;
+      stroke: @status[color];
     }
-    & when not (@key = success) {
+    
+    & when not (@key = success) and not (@status[mini-bg-color] = null) {
       &.yc-progress-size-mini {
         .yc-progress-circle-bg {
-          stroke: @mini-bg-color;
+          stroke: @status[mini-bg-color];
         }
       }
     }

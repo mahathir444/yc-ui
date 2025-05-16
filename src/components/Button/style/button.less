@@ -53,261 +53,274 @@
 }
 
 // type
-.set-button-status(@color) {
-  color: @color;
-  &:hover {
-    color: @color;
+@colors: {
+  primary: rgb(22, 93, 255);
+  primary-hover: rgb(64, 128, 255);
+  primary-active: rgb(14, 66, 210);
+  warning: rgb(255, 125, 0);
+  warning-hover: rgb(255, 154, 46);
+  warning-active: rgb(210, 95, 0);
+  success: rgb(0, 180, 42);
+  success-hover: rgb(35, 195, 67);
+  success-active: rgb(0, 154, 41);
+  danger: rgb(245, 63, 63);
+  danger-hover: rgb(247, 101, 96);
+  danger-active: rgb(203, 39, 45);
+  text: rgb(78, 89, 105);
+  text-hover: rgb(242, 243, 245);
+  text-active: rgb(229, 230, 235);
+  secondary-bg: rgb(242, 243, 245);
+  secondary-hover: rgb(229, 230, 235);
+  secondary-active: rgb(201, 205, 212);
+  dashed-border: rgb(229, 230, 235);
+  dashed-border-hover: rgb(201, 205, 212);
+  dashed-border-active: rgb(169, 174, 184);
+};
+@types: {
+  @primary: {
+    @normal: {
+      bg: @colors[primary];
+      hover: @colors[primary-hover];
+      active: @colors[primary-active];
+      text: #fff;
+    };
+    @warning: {
+      bg: @colors[warning];
+      hover: @colors[warning-hover];
+      active: @colors[warning-active];
+      text: #fff;
+    };
+    @success: {
+      bg: @colors[success];
+      hover: @colors[success-hover];
+      active: @colors[success-active];
+      text: #fff;
+    };
+    @danger: {
+      bg: @colors[danger];
+      hover: @colors[danger-hover];
+      active: @colors[danger-active];
+      text: #fff;
+    };
+  };
+  @secondary: {
+    @normal: {
+      bg: @colors[secondary-bg];
+      hover: @colors[secondary-hover];
+      active: @colors[secondary-active];
+      text: @colors[text];
+    };
+    @warning: {
+      bg: rgb(255, 247, 232);
+      hover: rgb(255, 228, 186);
+      active: rgb(255, 207, 139);
+      text: @colors[warning];
+    };
+    @success: {
+      bg: rgb(232, 255, 234);
+      hover: rgb(175, 240, 181);
+      active: rgb(123, 225, 136);
+      text: @colors[success];
+    };
+    @danger: {
+      bg: rgb(255, 236, 232);
+      hover: rgb(253, 205, 197);
+      active: rgb(251, 172, 163);
+      text: @colors[danger];
+    };
+  };
+  @dashed: {
+    @normal: {
+      bg: @colors[secondary-bg];
+      hover: @colors[secondary-hover];
+      active: @colors[secondary-active];
+      border: @colors[dashed-border];
+      border-hover: @colors[dashed-border-hover];
+      border-active: @colors[dashed-border-active];
+      text: @colors[text];
+    };
+    @warning: {
+      bg: rgb(255, 247, 232);
+      hover: rgb(255, 228, 186);
+      active: rgb(255, 207, 139);
+      border: rgb(255, 228, 186);
+      border-hover: rgb(255, 207, 139);
+      border-active: rgb(255, 182, 93);
+      text: @colors[warning];
+    };
+    @success: {
+      bg: rgb(232, 255, 234);
+      hover: rgb(175, 240, 181);
+      active: rgb(123, 225, 136);
+      border: rgb(175, 240, 181);
+      border-hover: rgb(123, 225, 136);
+      border-active: rgb(76, 210, 99);
+      text: @colors[success];
+    };
+    @danger: {
+      bg: rgb(255, 236, 232);
+      hover: rgb(253, 205, 197);
+      active: rgb(251, 172, 163);
+      border: rgb(253, 205, 197);
+      border-hover: rgb(251, 172, 163);
+      border-active: rgb(249, 137, 129);
+      text: @colors[danger];
+    };
+  };
+  @outline: {
+    @normal: {
+      bg: transparent;
+      border: @colors[primary];
+      border-hover: @colors[primary-hover];
+      border-active: @colors[primary-active];
+      text: @colors[primary];
+      text-hover: @colors[primary-hover];
+      text-active: @colors[primary-active];
+    };
+    @warning: {
+      bg: transparent;
+      border: @colors[warning];
+      border-hover: @colors[warning-hover];
+      border-active: @colors[warning-active];
+      text: @colors[warning];
+      text-hover: @colors[warning-hover];
+      text-active: @colors[warning-active];
+    };
+    @success: {
+      bg: transparent;
+      border: @colors[success];
+      border-hover: @colors[success-hover];
+      border-active: @colors[success-active];
+      text: @colors[success];
+      text-hover: @colors[success-hover];
+      text-active: @colors[success-active];
+    };
+    @danger: {
+      bg: transparent;
+      border: @colors[danger];
+      border-hover: @colors[danger-hover];
+      border-active: @colors[danger-active];
+      text: @colors[danger];
+      text-hover: @colors[danger-hover];
+      text-active: @colors[danger-active];
+    };
+  };
+};
+@text: {
+  @normal: {
+    text: @colors[primary];
+  };
+  @warning: {
+    text: @colors[warning];
+  };
+  @success: {
+    text: @colors[success];
+  };
+  @danger: {
+    text: @colors[danger];
+  };
+};
+// 生成按钮样式
+each(@types, .(@type-value, @type-name) {
+  @type-key: replace(~"@{type-name}", "@", "");
+  .yc-button.yc-button-@{type-key} {
+    each(@type-value, .(@status-value, @status-name) {
+      @status-key: replace(~"@{status-name}", "@", "");
+      &.yc-button-status-@{status-key} {
+        color: @status-value[text];
+        background-color: @status-value[bg];
+        & when(@type-key = outline) , (type-key=dashed){
+          border-color: @status-value[border];
+        }
+        &:not(.yc-button-disabled):not(.yc-button-loading) {
+          &:hover {
+            & when not(@type-key = outline){
+              background-color: @status-value[hover];
+            }
+            & when(@type-key = outline){
+              color: @status-value[text-hover];
+            }
+            & when(@type-key = outline) , (@type-key = dashed){
+              border-color: @status-value[border-hover];
+            }
+          }
+          &:active {
+            & when(@type-key = outline) , (@type-key = dashed){
+              border-color: @status-value[border-active];
+            }
+            & when(@type-key = outline){
+              color: @status-value[text-active];
+            }
+            & when not(@type-key = outline){
+              background-color: @status-value[active];
+            }
+          }
+        }
+      }
+    }
+    )
   }
-  &:active {
-    color: @color;
-  }
-}
-.set-button-variant(
-    @bg-color,
-    @hover-bg,
-    @active-bg,
-    @border-color: transparent,
-    @hover-border: @border-color,
-    @active-border: @border-color,
-    @text-color: #fff,
-    @hover-text: @text-color,
-    @active-text: @text-color
-  ) {
-  background-color: @bg-color;
-  border-color: @border-color;
-  color: @text-color;
-
+});
+// text的样式单独处理
+.yc-button-text {
+  background-color: transparent;
   &:not(.yc-button-disabled):not(.yc-button-loading) {
     &:hover {
-      background-color: @hover-bg;
-      border-color: @hover-border;
-      color: @hover-text;
+      background-color: @colors[text-hover];
     }
     &:active {
-      background-color: @active-bg;
-      border-color: @active-border;
-      color: @active-text;
+      background-color: @colors[text-active];
     }
   }
-}
-.generate-status(@status-map) {
-  each(@status-map, .(@status-value,@status-key) {
-      &.yc-button-status-@{status-key} {
-        @status-value();
-      }
-    });
-}
-@type: primary, secondary, dashed, outline, text;
-each(@type,.(@type-key) {
-    .yc-button.yc-button-@{type-key} {
-      & when(@type-key = primary) {
-        .set-button-status(#fff);
-        @status-map: {
-          normal: .set-button-variant(
-            rgb(22, 93, 255),
-            rgb(64, 128, 255),
-            rgb(14, 66, 210)
-          );
-          warning: .set-button-variant(
-            rgb(255, 125, 0),
-            rgb(255, 154, 46),
-            rgb(210, 95, 0)
-          );
-          success: .set-button-variant(
-            rgb(0, 180, 42),
-            rgb(35, 195, 67),
-            rgb(0, 154, 41)
-          );
-          danger: .set-button-variant(
-            rgb(245, 63, 63),
-            rgb(247, 101, 96),
-            rgb(203, 39, 45)
-          );
-        };
-        .generate-status(@status-map);
-      }
-      & when(@type-key = secondary) {
-        @status-map: {
-          normal:    .set-button-variant(
-            rgb(242, 243, 245),
-            rgb(229, 230, 235),
-            rgb(201, 205, 212),
-            transparent,
-            transparent,
-            transparent,
-            rgb(78, 89, 105)
-          );
-          warning: .set-button-variant(
-            rgb(255, 247, 232),
-            rgb(255, 228, 186),
-            rgb(255, 207, 139),
-            transparent,
-            transparent,
-            transparent,
-            rgb(255, 125, 0)
-          );
-          success:     .set-button-variant(
-            rgb(232, 255, 234),
-            rgb(175, 240, 181),
-            rgb(123, 225, 136),
-            transparent,
-            transparent,
-            transparent,
-            rgb(0, 180, 42)
-          );
-          danger:    .set-button-variant(
-            rgb(255, 236, 232),
-            rgb(253, 205, 197),
-            rgb(251, 172, 163),
-            transparent,
-            transparent,
-            transparent,
-            rgb(245, 63, 63)
-          );
-        };
-        each(@status-map, .(@status-value,@status-key) {
-          &.yc-button-status-@{status-key} {
-            @status-value();
-          }
-        });
-      }
-      & when(@type-key = dashed) {
-        @status-map: {
-          normal:      .set-button-variant(
-            rgb(242, 243, 245),
-            rgb(229, 230, 235),
-            rgb(201, 205, 212),
-            rgb(229, 230, 235),
-            rgb(201, 205, 212),
-            rgb(169, 174, 184),
-            rgb(78, 89, 105)
-          );
-          warning:   .set-button-variant(
-            rgb(255, 247, 232),
-            rgb(255, 228, 186),
-            rgb(255, 207, 139),
-            rgb(255, 228, 186),
-            rgb(255, 207, 139),
-            rgb(255, 182, 93),
-            rgb(255, 125, 0)
-          );
-          success:     .set-button-variant(
-            rgb(232, 255, 234),
-            rgb(175, 240, 181),
-            rgb(123, 225, 136),
-            rgb(175, 240, 181),
-            rgb(123, 225, 136),
-            rgb(76, 210, 99),
-            rgb(0, 180, 42)
-          );
-          danger:  .set-button-variant(
-            rgb(255, 236, 232),
-            rgb(253, 205, 197),
-            rgb(251, 172, 163),
-            rgb(253, 205, 197),
-            rgb(251, 172, 163),
-            rgb(249, 137, 129),
-            rgb(245, 63, 63)
-          );
-        };
-        .generate-status(@status-map);
-      }
-      & when(@type-key = outline) {
-        @status-map: {
-          normal: .set-button-variant(
-            transparent,
-            transparent,
-            transparent,
-            rgb(22, 93, 255),
-            rgb(64, 128, 255),
-            rgb(14, 66, 210),
-            rgb(22, 93, 255),
-            rgb(64, 128, 255),
-            rgb(14, 66, 210)
-          );
-          warning: .set-button-variant(
-            transparent,
-            transparent,
-            transparent,
-            rgb(255, 125, 0),
-            rgb(255, 154, 46),
-            rgb(210, 95, 0),
-            rgb(255, 125, 0),
-            rgb(255, 154, 46),
-            rgb(210, 95, 0)
-          );
-          success: .set-button-variant(
-            transparent,
-            transparent,
-            transparent,
-            rgb(0, 180, 42),
-            rgb(35, 195, 67),
-            rgb(0, 154, 41),
-            rgb(0, 180, 42),
-            rgb(35, 195, 67),
-            rgb(0, 154, 41)
-          );
-          danger: .set-button-variant(
-            transparent,
-            transparent,
-            transparent,
-            rgb(245, 63, 63),
-            rgb(247, 101, 96),
-            rgb(203, 39, 45),
-            rgb(245, 63, 63),
-            rgb(247, 101, 96),
-            rgb(203, 39, 45)
-          );
-        };
-        .generate-status(@status-map);
-      }
-      & when(@type-key = text) {
-        background-color: transparent;
-      &:not(.yc-button-disabled):not(.yc-button-loading) {
-        &:hover {
-          background-color: rgb(242, 243, 245);
-        }
-        &:active {
-          background-color: rgb(229, 230, 235);
-        }
-      }
-      @status-map:{
-        normal:  .set-button-status(
-          rgb(22, 93, 255),
-        );
-        warning:    .set-button-status(
-          rgb(255, 125, 0),
-        
-        );
-        success:  .set-button-status(
-          rgb(0, 180, 42),
-        
-        );
-        danger: .set-button-status(
-          rgb(245, 63, 63),
-        );
-            };
-            .generate-status(@status-map);
-      }
+  each(@text, .(@status-value, @status-name) {
+    @status-key: replace(~"@{status-name}", "@", "");
+    &.yc-button-status-@{status-key} {
+      color: @status-value[text];
     }
-  });
-
+  }
+  );
+}
 // size
 @size: {
-  mini: 24px, 11px, 12px, 12px, 4px;
-  small: 28px, 15px, 14px, 14px, 6px;
-  medium: 32px, 15px, 14px, 14px, 8px;
-  large: 36px, 19px, 14px, 14px, 8px;
+  @mini: {
+    height: 24px;
+    padding: 11px;
+    font-size: 12px;
+    margin-right: 4px;
+  };
+  @small: {
+    height: 28px;
+    padding: 15px;
+    font-size: 14px;
+    margin-right: 6px;
+  };
+  @medium: {
+    height: 32px;
+    padding: 15px;
+    font-size: 14px;
+    margin-right: 8px;
+  };
+  @large: {
+    height: 36px;
+    padding: 19px;
+    font-size: 14px;
+    margin-right: 8px;
+  };
 };
-each(@size, {
+each(@size,.(@value,@name){
+       @key: replace(~"@{name}", "@", "");
       .yc-button-size-@{key} {
-        height: extract(@value,1);
-        padding: 0  extract(@value,2);
-        font-size:  extract(@value,3);
+        height: @value[height];
+        padding: 0  @value[padding];
+        font-size: @value[font-size];
         .yc-button-icon {
-          width: extract(@value,4);
-          height: extract(@value,4);
-          margin-right: extract(@value,5);
+          width: @value[font-size];
+          height: @value[font-size];
+          margin-right: @value[margin-right];
+        }
+        &.yc-button-shape-circle{
+          width: @value[height];
+          padding: 0;
         }
       }
     });
@@ -317,22 +330,8 @@ each(@size, {
   round: 30px;
   circle: 50%;
 };
-@shape-width: {
-  mini: 24px;
-  small: 28px;
-  medium: 32px;
-  large: 36px;
-};
 each(@shape, {
       .yc-button-shape-@{key} {
         border-radius: @value;
-        & when (@key = circle) {
-          each(@shape-width, .(@width-value, @size-key) {
-            &.yc-button-size-@{size-key} {
-              width: @width-value;
-              padding: 0; 
-            }
-          });
-        }
       }
-    });
+});

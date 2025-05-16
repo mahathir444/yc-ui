@@ -82,35 +82,44 @@
   }
 }
 // size
-@pagination-sizes: {
-  mini: 12px, 24px;
-  small: 14px, 28px;
-  medium: 14px, 32px;
-  large: 14px, 36px;
+@size: {
+  @mini: {
+    font-size: 12px;
+    item-size: 24px;
+  };
+  @small: {
+    font-size: 14px;
+    item-size: 28px;
+  };
+  @medium: {
+    font-size: 14px;
+    item-size: 32px;
+  };
+  @large: {
+    font-size: 14px;
+    item-size: 36px;
+  };
 };
-each(@pagination-sizes, {
-  @font-size:extract(@value,1);
-  @item-size:extrat(@value,2);
-  @line-height:extract(@value,2);
-  .yc-pagination-total {
-    font-size: @font-size;
-    line-height: @line-height;
-  }
-  .yc-pagination-item {
-    min-width: @item-size;
-    height: @item-size;
-    font-size: @font-size;
-    line-height: @line-height;
-  }
-  .yc-pagination-jumper {
-    & > span {
-      font-size: @font-size;
+each(@size, .(@value,@name){
+  @key:replace(~"@{name}", "@", "");
+  .yc-pagination-size-@{key} {
+    .yc-pagination-total {
+      font-size:  @value[font-size];
+      line-height:  @value[item-size];
     }
-  }
-  & when (@key = mini) {
-    .yc-pagination-options {
-      &:deep(.yc-select) {
-        width: 102px;
+    .yc-pagination-item {
+      min-width:  @value[item-size];
+      height:  @value[item-size];
+      font-size:  @value[font-size];
+      line-height:  @value[item-size];
+    }
+    .yc-pagination-jumper > span {
+      font-size:  @value[font-size];
+    }
+    
+    & when (@key = mini) {
+      .yc-pagination-options:deep(.yc-select) {
+        width:  102px;
       }
     }
   }

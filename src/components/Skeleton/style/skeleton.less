@@ -3,25 +3,25 @@
   background-color: rgb(242, 243, 245);
 }
 // size
-@skeleton-shape-sizes: {
+@size: {
   mini: 48px;
   small: 36px;
   medium: 48px;
   large: 60px;
 };
 // Generate Size Classes
-each(@skeleton-shape-sizes, {
+each(@size, {
   .yc-skeleton-shape-size-@{key} {
     width: @value;
     height:@value;
   }
 });
 // shape
-@skeleton-shapes: {
+@shape: {
   square: 2px;
   circle: 50%;
 };
-each(@skeleton-shapes, {
+each(@shape, {
   .yc-skeleton-shape-@{key} {
     border-radius: @value;
   }

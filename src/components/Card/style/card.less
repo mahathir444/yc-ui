@@ -80,20 +80,37 @@
   }
 }
 // size
-@card-sizes: {
-  mini: 40px, 10px, 16px;
-  small: 40px, 8px, 12px;
-  medium: 46px, 10px, 16px;
-  large: 40px, 10px, 16px;
+@size: {
+  @mini: {
+    header-height: 40px;
+    header-padding: 10px;
+    body-padding: 16px;
+  };
+  @small: {
+    header-height: 40px;
+    header-padding: 8px;
+    body-padding: 12px;
+  };
+  @medium: {
+    header-height: 46px;
+    header-padding: 10px;
+    body-padding: 16px;
+  };
+  @large: {
+    header-height: 40px;
+    header-padding: 10px;
+    body-padding: 16px;
+  };
 };
-each(@card-sizes, {
+each(@size, .(@value,@name){
+  @key:replace(~"@{name}", "@", "");
   .yc-card-size-@{key} {
     .yc-card-header {
-      height: extract(@value, 1);
-      padding: extract(@value, 2) 16px;
+      height: @value[header-height];
+      padding: @value[header-padding] 16px;
     }
     .yc-card-body {
-      padding: extract(@value, 3) 16px;
+      padding: @value[body-padding] 16px;
     }
   }
 });

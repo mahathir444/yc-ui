@@ -113,18 +113,31 @@
   }
 }
 // size
-@descriptions-sizes: {
-  mini: 6px, 8px;
-  small: 8px, 8px;
-  medium: 10px, 10px;
-  large: 12px, 14px;
+@sizes: {
+  @mini: {
+    gap: 6px;
+    item-padding: 8px;
+  };
+  @small: {
+    gap: 8px;
+    item-padding: 8px;
+  };
+  @medium: {
+    gap: 10px;
+    item-padding: 10px;
+  };
+  @large: {
+    gap: 12px;
+    item-padding: 14px;
+  };
 };
-each(@descriptions-sizes, {
+each(@sizes, .(@value,@name){
+  @key:replace(~"@{name}", "@", "");
   .yc-descriptions-size-@{key} {
-    gap: extract(@value,1);
+    gap: @value[gap];
     &.yc-descriptions-layout-inline-vertical {
       .yc-descriptions-item {
-        padding: extract(@value,2) 20px;
+        padding: @value[item-padding] 20px;
       }
     }
   }

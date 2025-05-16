@@ -69,13 +69,13 @@
   }
 }
 
-@result-icon-types: {
+@type: {
   info: rgb(232, 243, 255);
   success: rgb(232, 255, 234);
   warning: rgb(255, 247, 232);
   error: rgb(255, 236, 232);
 };
-each(@result-icon-types, {
+each(@type, {
   .yc-result{
     &.yc-result-icon-@{key} {
       .yc-result-icon-tip {
