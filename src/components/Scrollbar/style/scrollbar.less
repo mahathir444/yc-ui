@@ -20,6 +20,17 @@
     }
   }
 }
+// 自动填充
+.yc-scrollbar-auto-fill {
+  flex: 1;
+  display: flex;
+  height: 100%;
+  .yc-scrollbar-container {
+    flex: 1;
+    flex-shrink: 0;
+    height: 100%;
+  }
+}
 // 双向轨道
 .yc-scrollbar-both-track {
   &::before {
@@ -57,18 +68,6 @@
     border-bottom: 1px solid rgb(229, 230, 235);
   }
 }
-// 自动填充
-.yc-scrollbar-auto-fill {
-  flex: 1;
-  display: flex;
-  height: 100%;
-  .yc-scrollbar-container {
-    flex: 1;
-    flex-shrink: 0;
-    height: 100%;
-  }
-}
-
 // track
 .yc-scrollbar-track {
   position: absolute;

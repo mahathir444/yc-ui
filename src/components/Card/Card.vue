@@ -2,7 +2,7 @@
   <div
     :class="[
       'yc-card',
-      `yc-card-size-${['small', 'medium'].includes(size) ? size : 'medium'}`,
+      `yc-card-size-${size}`,
       {
         'yc-card-bordered': bordered,
         'yc-card-hoverable': hoverable,

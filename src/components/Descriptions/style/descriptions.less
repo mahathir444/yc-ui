@@ -68,26 +68,6 @@
       }
     }
   }
-  &.yc-descriptions-size-mini {
-    .yc-descriptions-item {
-      padding: 8px 20px;
-    }
-  }
-  &.yc-descriptions-size-small {
-    .yc-descriptions-item {
-      padding: 8px 20px;
-    }
-  }
-  &.yc-descriptions-size-medium {
-    .yc-descriptions-item {
-      padding: 10px 20px;
-    }
-  }
-  &.yc-descriptions-size-large {
-    .yc-descriptions-item {
-      padding: 14px 20px;
-    }
-  }
 }
 // bordered
 .yc-descriptions-bordered {
@@ -133,15 +113,22 @@
   }
 }
 // size
-.yc-descriptions-size-mini {
-  gap: 6px;
+.set-descriptions-size(@gap, @padding) {
+  gap: @gap;
+  &.yc-descriptions-layout-inline-vertical {
+    .yc-descriptions-item {
+      padding: @padding 20px;
+    }
+  }
 }
-.yc-descriptions-size-small {
-  gap: 8px;
-}
-.yc-descriptions-size-medium {
-  gap: 10px;
-}
-.yc-descriptions-size-large {
-  gap: 12px;
-}
+@descriptions-sizes: {
+  mini: .set-descriptions-size(6px, 8px);
+  small: .set-descriptions-size(8px, 8px);
+  medium: .set-descriptions-size(10px, 10px);
+  large: .set-descriptions-size(12px, 14px);
+};
+each(@descriptions-sizes, {
+  .yc-descriptions-size-@{key} {
+    @value();
+  }
+});

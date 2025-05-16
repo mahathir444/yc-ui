@@ -26,15 +26,17 @@
   max-width: 1px;
 }
 // text-direction+2
-.yc-divider-text-position-left {
-  left: 24px;
-  transform: translate(0, -50%);
+.set-divider-text-position(@horizontal-position, @transform-x) {
+  @{horizontal-position}: if(@horizontal-position = center, 50%, 24px);
+  transform: translate(@transform-x, -50%);
 }
-.yc-divider-text-position-center {
-  left: 50%;
-  transform: translate(-50%, -50%);
-}
-.yc-divider-text-position-right {
-  right: 24px;
-  transform: translate(0, -50%);
-}
+@divider-text-positions: {
+  left: 0;
+  center: -50%;
+  right: 0;
+};
+each(@divider-text-positions, {
+  .yc-divider-text-position-@{key} {
+    .set-divider-text-position(@key, @value)
+  }
+});

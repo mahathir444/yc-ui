@@ -80,21 +80,23 @@
   }
 }
 // size
-.yc-card-size-medium {
+.set-card-size(@height,@padding,@body-padding) {
   .yc-card-header {
     height: 46px;
-    padding: 10px 16px;
+    padding: @padding 16px;
   }
   .yc-card-body {
-    padding: 16px;
+    padding: @body-padding 16px;
   }
 }
-.yc-card-size-small {
-  .yc-card-header {
-    height: 40px;
-    padding: 8px 16px;
+@card-sizes: {
+  mini: .set-card-size(40px, 10px, 16px);
+  small: .set-card-size(40px, 8px, 12px);
+  medium: .set-card-size(40px, 10px, 16px);
+  large: .set-card-size(40px, 10px, 16px);
+};
+each(@card-sizes, {
+  .yc-card-size-@{key} {
+    @value();
   }
-  .yc-card-body {
-    padding: 12px 16px;
-  }
-}
+});

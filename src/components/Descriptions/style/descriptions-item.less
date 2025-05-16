@@ -11,31 +11,21 @@
   font-weight: 400;
 }
 // size
-.yc-descriptions-item-cell-size-mini {
-  font-size: 12px;
-  padding: 0 20px 2px 0;
+.set-descriptions-item-cell-size(@font-size, @padding-bottom, @bordered-padding) {
+  font-size: @font-size;
+  padding: 0 20px @padding-bottom 0;
   &.yc-descriptions-item-cell-bordered {
-    padding: 3px 20px;
+    padding: @bordered-padding 20px;
   }
 }
-.yc-descriptions-item-cell-size-small {
-  font-size: 14px;
-  padding: 0 20px 4px 0;
-  &.yc-descriptions-item-cell-bordered {
-    padding: 3px 20px;
+@descriptions-item-cell-sizes: {
+  mini: .set-descriptions-item-cell-size(12px, 2px, 3px);
+  small: .set-descriptions-item-cell-size(14px, 4px, 3px);
+  medium: .set-descriptions-item-cell-size(14px, 8px, 5px);
+  large: .set-descriptions-item-cell-size(14px, 16px, 9px);
+};
+each(@descriptions-item-cell-sizes, {
+  .yc-descriptions-item-cell-size-@{key} {
+    @value();
   }
-}
-.yc-descriptions-item-cell-size-medium {
-  font-size: 14px;
-  padding: 0 20px 8px 0;
-  &.yc-descriptions-item-cell-bordered {
-    padding: 5px 20px;
-  }
-}
-.yc-descriptions-item-cell-size-large {
-  font-size: 14px;
-  padding: 0 20px 16px 0;
-  &.yc-descriptions-item-cell-bordered {
-    padding: 9px 20px;
-  }
-}
+});

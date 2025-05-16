@@ -161,39 +161,23 @@
   }
 }
 //size
-.yc-input-size-mini,
-.yc-input-outer-size-mini {
-  font-size: 12px;
-  height: 24px;
+.set-input-size(@font-size, @height, @padding, @line-height) {
+  font-size: @font-size;
+  height: @height;
   .yc-input {
-    padding: 1px 0;
-    line-height: 1.667;
+    padding: @padding 0;
+    line-height: @line-height;
   }
 }
-.yc-input-size-small,
-.yc-input-outer-size-small {
-  font-size: 14px;
-  height: 28px;
-  .yc-input {
-    padding: 2px 0;
-    line-height: 1.5715;
+@input-sizes: {
+  mini: .set-input-size(12px, 24px, 1px, 1.667);
+  small: .set-input-size(14px, 28px, 2px, 1.5715);
+  medium: .set-input-size(14px, 32px, 4px, 1.5715);
+  large: .set-input-size(14px, 36px, 6px, 1.5715);
+};
+each(@input-sizes, {
+  .yc-input-size-@{key},
+  .yc-input-outer-size-@{key} {
+    @value();
   }
-}
-.yc-input-size-medium,
-.yc-input-outer-size-medium {
-  font-size: 14px;
-  height: 32px;
-  .yc-input {
-    padding: 4px 0;
-    line-height: 1.5715;
-  }
-}
-.yc-input-size-large,
-.yc-input-outer-size-large {
-  font-size: 14px;
-  height: 36px;
-  .yc-input {
-    padding: 6px 0;
-    line-height: 1.5715;
-  }
-}
+});

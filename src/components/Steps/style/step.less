@@ -65,31 +65,20 @@
   }
 }
 // next-status
-.yc-steps-item-next-wait {
-  &,
-  .yc-steps-item-title,
-  .yc-steps-item-tail {
-    &::after {
-      background-color: rgb(229, 230, 235);
+@steps-item-next-statuses: {
+  wait: rgb(229, 230, 235);
+  process: rgb(22, 93, 255);
+  finish: rgb(22, 93, 255);
+  error: rgb(245, 63, 63);
+};
+each(@steps-item-next-statuses, {
+  .yc-steps-item-next-@{key} {
+    &,
+    .yc-steps-item-title,
+    .yc-steps-item-tail {
+      &::after {
+        background-color: @value;
+      }
     }
   }
-}
-.yc-steps-item-next-process,
-.yc-steps-item-next-finish {
-  &,
-  .yc-steps-item-title,
-  .yc-steps-item-tail {
-    &::after {
-      background-color: rgb(22, 93, 255);
-    }
-  }
-}
-.yc-steps-item-next-error {
-  &,
-  .yc-steps-item-title,
-  .yc-steps-item-tail {
-    &::after {
-      background-color: rgb(245, 63, 63);
-    }
-  }
-}
+});

@@ -63,27 +63,26 @@
   position: absolute;
 }
 // placement
-.yc-drawer-placement-left {
+.set-drawer-placement(@position) {
   .yc-drawer-container {
-    top: 0;
-    left: 0;
+    top: if(@position = top or @position = left or @position = right, 0, auto);
+    left: if(
+      @position = left or @position = top or @position = bottom,
+      0,
+      auto
+    );
+    right: if(@position = right, 0, auto);
+    bottom: if(@position = bottom, 0, auto);
   }
 }
-.yc-drawer-placement-right {
-  .yc-drawer-container {
-    top: 0;
-    right: 0;
+@drawer-placements: {
+  left: .set-drawer-placement(left);
+  right: .set-drawer-placement(right);
+  top: .set-drawer-placement(top);
+  bottom: .set-drawer-placement(bottom);
+};
+each(@drawer-placements, {
+  .yc-drawer-placement-@{key} {
+    .set-drawer-placement(@key)
   }
-}
-.yc-drawer-placement-top {
-  .yc-drawer-container {
-    top: 0;
-    left: 0;
-  }
-}
-.yc-drawer-placement-bottom {
-  .yc-drawer-container {
-    left: 0;
-    bottom: 0;
-  }
-}
+});

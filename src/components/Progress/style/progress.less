@@ -100,86 +100,57 @@
   width: 100%;
 }
 // size
-.yc-progress-size-small {
-  .yc-progress-line-text,
-  .yc-progress-circle-text {
-    font-size: 12px;
-  }
-}
-.yc-progress-size-medium {
+.set-progress-size(@line-text-size, @circle-text-size, @icon-size: null) {
   .yc-progress-line-text {
-    font-size: 12px;
+    font-size: @line-text-size;
   }
   .yc-progress-circle-text {
-    font-size: 14px;
-  }
-}
-.yc-progress-size-large {
-  .yc-progress-line-text,
-  .yc-progress-circle-text {
-    font-size: 16px;
-    .yc-icon {
-      font-size: 14px;
+    font-size: @circle-text-size;
+
+    & when not (@icon-size = null) {
+      .yc-icon {
+        font-size: @icon-size;
+      }
     }
   }
 }
+@progress-sizes: {
+  small: .set-progress-size(12px, 12px);
+  medium: .set-progress-size(12px, 14px);
+  large: .set-progress-size(16px, 16px, 14px);
+};
+each(@progress-sizes, {
+  .yc-progress-size-@{key} {
+    @value();
+  }
+});
 // status
-.yc-progress-status-normal {
-  .yc-progress-steps-item-active {
-    background-color: rgb(22, 93, 255);
-  }
+.set-progress-status(@color, @mini-bg-color: null) {
+  .yc-progress-steps-item-active,
   .yc-progress-line-bar {
-    background-color: rgb(22, 93, 255);
+    background-color: @color;
   }
+
   .yc-progress-circle-bar {
-    stroke: rgb(22, 93, 255);
+    stroke: @color;
   }
-  &.yc-progress-size-mini {
-    .yc-progress-circle-bg {
-      stroke: rgb(148, 191, 255);
+
+  & when not (@mini-bg-color = null) {
+    &.yc-progress-size-mini {
+      .yc-progress-circle-bg {
+        stroke: @mini-bg-color;
+      }
     }
   }
 }
-.yc-progress-status-success {
-  .yc-progress-steps-item-active {
-    background-color: rgb(0, 180, 42);
+@progress-statuses: {
+  normal: .set-progress-status(rgb(22, 93, 255), rgb(148, 191, 255));
+  success: .set-progress-status(rgb(0, 180, 42));
+  warning: .set-progress-status(rgb(255, 125, 0), rgb(255, 207, 139));
+  danger: .set-progress-status(rgb(245, 63, 63), rgb(251, 172, 163));
+};
+each(@progress-statuses, {
+  .yc-progress-status-@{key} {
+    @value();
   }
-  .yc-progress-line-bar {
-    background-color: rgb(0, 180, 42);
-  }
-  .yc-progress-circle-bar {
-    stroke: rgb(0, 180, 42);
-  }
-}
-.yc-progress-status-warning {
-  .yc-progress-steps-item-active {
-    background-color: rgb(255, 125, 0);
-  }
-  .yc-progress-line-bar {
-    background-color: rgb(255, 125, 0);
-  }
-  .yc-progress-circle-bar {
-    stroke: rgb(255, 125, 0);
-  }
-  &.yc-progress-size-mini {
-    .yc-progress-circle-bg {
-      stroke: rgb(255, 207, 139);
-    }
-  }
-}
-.yc-progress-status-danger {
-  .yc-progress-steps-item-active {
-    background-color: rgb(245, 63, 63);
-  }
-  .yc-progress-line-bar {
-    background-color: rgb(245, 63, 63);
-  }
-  .yc-progress-circle-bar {
-    stroke: rgb(245, 63, 63);
-  }
-  &.yc-progress-size-mini {
-    .yc-progress-circle-bg {
-      stroke: rgb(251, 172, 163);
-    }
-  }
-}
+});

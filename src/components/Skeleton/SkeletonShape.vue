@@ -3,7 +3,7 @@
     :class="[
       'yc-skeleton-shape',
       `yc-skeleton-shape-shape-${shape}`,
-      `yc-skeleton-shape-size-${['small', 'medium', 'large'].includes(size) ? size : 'medium'}`,
+      `yc-skeleton-shape-size-${size}`,
     ]"
   ></div>
 </template>

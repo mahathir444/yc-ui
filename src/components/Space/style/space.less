@@ -22,19 +22,6 @@
     width: 100%;
   }
 }
-// align
-.yc-space-align-start {
-  align-items: flex-start;
-}
-.yc-space-align-center {
-  align-items: center;
-}
-.yc-space-align-end {
-  align-items: end;
-}
-.yc-space-align-stretch {
-  align-items: flex-start;
-}
 // wrap
 .yc-space-wrap {
   flex-wrap: wrap;
@@ -43,3 +30,15 @@
 .yc-space-fill {
   display: flex;
 }
+// align
+@space-alignments: {
+  start: flex-start;
+  center: center;
+  end: end;
+  stretch: flex-start;
+};
+each(@space-alignments, {
+  .yc-space-align-@{key} {
+    align-items: @value;
+  }
+});

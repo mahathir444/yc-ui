@@ -64,19 +64,17 @@
 .yc-alert-banner {
   border-radius: 0;
 }
+
 // type
-.yc-alert-info {
-  background-color: rgb(232, 243, 255);
-}
-.yc-alert-success {
-  background-color: rgb(232, 255, 234);
-}
-.yc-alert-warning {
-  background-color: rgb(255, 247, 232);
-}
-.yc-alert-error {
-  background-color: rgb(255, 236, 232);
-}
-.yc-alert-normal {
-  background-color: rgb(242, 243, 245);
-}
+@type: {
+  info: rgb(232, 243, 255);
+  success: rgb(232, 243, 255);
+  warning: rgb(255, 247, 232);
+  error: rgb(255, 236, 232);
+  normal: rgb(242, 243, 245);
+};
+each(@type,{
+  .yc-alert-@{key}{
+    background-color: @value;
+  }
+});

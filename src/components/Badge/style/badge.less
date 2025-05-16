@@ -46,58 +46,38 @@
 }
 
 // status
-.yc-badge-status-normal {
-  background-color: rgb(201, 205, 212);
-}
-.yc-badge-status-success {
-  background-color: rgb(0, 180, 42);
-}
-.yc-badge-status-danger {
-  background-color: rgb(245, 63, 63);
-}
-.yc-badge-status-processing {
-  background-color: rgb(22, 93, 255);
-}
-.yc-badge-status-warning {
-  background-color: rgb(255, 125, 0);
-}
+@status: {
+  normal: rgb(201, 205, 212);
+  success: rgb(0, 180, 42);
+  danger: rgb(245, 63, 63);
+  processing: rgb(22, 93, 255);
+  warning: rgb(255, 125, 0);
+};
+// status
+each(@status,{
+  .yc-badge-status-@{key}{
+    background-color: @value;
+  }
+})
 // color
-.yc-badge-color-red {
-  background-color: rgb(245, 63, 63);
+@colors: {
+  red: rgb(245, 63, 63);
+  orangered: rgb(247, 114, 52);
+  orange: rgb(255, 125, 0);
+  gold: rgb(247, 186, 30);
+  lime: rgb(159, 219, 29);
+  green: rgb(0, 180, 134);
+  cyan: rgb(20, 201, 201);
+  blue: rgb(52, 145, 250);
+  arcoblue: rgb(22, 93, 255);
+  purple: rgb(144, 46, 209);
+  pinkpurple: rgb(217, 26, 217);
+  magenta: rgb(245, 49, 157);
+  gray: rgb(134, 144, 156);
 }
-.yc-badge-color-orangered {
-  background-color: rgb(247, 114, 52);
-}
-.yc-badge-color-orange {
-  background-color: rgb(255, 125, 0);
-}
-.yc-badge-color-gold {
-  background-color: rgb(247, 186, 30);
-}
-.yc-badge-color-lime {
-  background-color: rgb(159, 219, 29);
-}
-.yc-badge-color-green {
-  background-color: rgb(0, 180, 134);
-}
-.yc-badge-color-cyan {
-  background-color: rgb(20, 201, 201);
-}
-.yc-badge-color-blue {
-  background-color: rgb(52, 145, 250);
-}
-.yc-badge-color-arcoblue {
-  background-color: rgb(22, 93, 255);
-}
-.yc-badge-color-purple {
-  background-color: rgb(144, 46, 209);
-}
-.yc-badge-color-pinkpurple {
-  background-color: rgb(217, 26, 217);
-}
-.yc-badge-color-magenta {
-  background-color: rgb(245, 49, 157);
-}
-.yc-badge-color-gray {
-  background-color: rgb(134, 144, 156);
-}
+// 使用循环遍历生成对应的样式
+each(@colors, {
+  .yc-badge-color-@{key} {
+    background-color: @value;
+  }
+});

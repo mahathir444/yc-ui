@@ -160,21 +160,20 @@
 }
 
 //size
-.yc-radio-button {
-  &.yc-radio-button-size-mini {
-    font-size: 12px;
-    line-height: 18px;
-  }
-  &.yc-radio-button-size-small {
-    font-size: 14px;
-    line-height: 22px;
-  }
-  &.yc-radio-button-size-medium {
-    font-size: 12px;
-    line-height: 26px;
-  }
-  &.yc-radio-button-size-large {
-    font-size: 14px;
-    line-height: 30px;
-  }
+.set-radio-button-size(@font-size, @line-height) {
+  font-size: @font-size;
+  line-height: @line-height;
 }
+@radio-button-sizes: {
+  mini: .set-radio-button-size(12px, 18px);
+  small: .set-radio-button-size(14px, 22px);
+  medium: .set-radio-button-size(12px, 26px);
+  large: .set-radio-button-size(14px, 30px);
+};
+each(@radio-button-sizes, {
+  .yc-radio-button{
+    &.yc-radio-button-size-@{key} {
+      @value();
+    }
+  }
+});
