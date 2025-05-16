@@ -23,23 +23,6 @@
     margin-left: 16px;
   }
 }
-// theme
-.yc-menu-item-theme-light {
-  &:not(.yc-menu-item-disabled) {
-    color: rgb(78, 89, 105);
-    &:hover {
-      background-color: rgb(242, 243, 245);
-    }
-  }
-}
-.yc-menu-item-theme-dark {
-  &:not(.yc-menu-item-disabled) {
-    color: rgb(201, 205, 212);
-    &:hover {
-      background-color: rgba(255, 255, 255, 0.04);
-    }
-  }
-}
 // 选中
 .yc-menu-item-selected {
   font-weight: 500;
@@ -93,3 +76,21 @@
   top: 50%;
   transform: translateY(-50%);
 }
+// theme
+.set-theme(@color,@bg) {
+  &:not(.yc-menu-item-disabled) {
+    color: @color;
+    &:hover {
+      background-color: @bg;
+    }
+  }
+}
+@theme: {
+  light: .set-theme(rgb(78, 89, 105), rgb(242, 243, 245));
+  dark: .set-theme(rgb(201, 205, 212), rgba(255, 255, 255, 0.04));
+};
+each(@theme,{
+  .yc-menu-item-theme-@{key}{
+    @value();
+  }
+});

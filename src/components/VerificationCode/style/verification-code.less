@@ -1,4 +1,3 @@
-@import './var.less';
 .yc-verification-code {
   width: 100%;
   display: flex;
@@ -23,3 +22,18 @@
     }
   }
 }
+
+// size
+@size-map: {
+  mini: 24px;
+  small: 28px;
+  medium: 32px;
+  large: 36px;
+};
+each(@size-map, {
+    .yc-verification-code-size-@{key} {
+      &:deep(.yc-input-wrapper) {
+        width: @value;
+      }
+    }
+  });

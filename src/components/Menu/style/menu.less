@@ -46,23 +46,27 @@
   }
 }
 // theme
-.yc-menu-theme-light {
-  background-color: #fff;
+.set-theme(@bg,@btn-color,@btn-bg,@btn-hover) {
+  background-color: @bg;
   .yc-menu-collapse-button {
-    color: rgb(134, 144, 156);
-    background-color: rgb(247, 248, 250);
+    color: @btn-color;
+    background-color: @btn-bg;
     &:hover {
-      background-color: rgb(229, 230, 235);
+      background-color: @btn-hover;
     }
   }
 }
-.yc-menu-theme-dark {
-  background-color: #232324;
-  .yc-menu-collapse-button {
-    background-color: rgb(22, 93, 255);
-    color: #fff;
-    &:hover {
-      background-color: rgb(14, 66, 210);
-    }
+@theme: {
+  light: .set-theme(#232324, #fff, rgb(22, 93, 255), rgb(14, 66, 210));
+  dark: .set-theme(
+    #fff,
+    rgb(134, 144, 156),
+    rgb(247, 248, 250),
+    rgb(229, 230, 235)
+  );
+};
+each(@theme,{
+  .yc-menu-item-theme-@{key}{
+    @value();
   }
-}
+});

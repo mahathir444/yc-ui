@@ -3,7 +3,7 @@
     :class="[
       'yc-switch',
       `yc-switch-shape-${type}`,
-      `yc-switch-size-${['medium', 'small'].includes(size) ? size : 'medium'}`,
+      `yc-switch-size-${size}`,
       compuedChecked ? 'yc-switch-checked' : 'yc-switch-unchecked',
       {
         'yc-switch-loading': loading,
