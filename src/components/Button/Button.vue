@@ -90,8 +90,6 @@ const btnClass = computed(() => {
       'yc-button-disabled': disabled.value,
       // only-icon
       'yc-button-only-icon': !slots.default,
-      // no-padding
-      'yc-button-no-padding': shape.value == 'circle',
     },
   ];
 });

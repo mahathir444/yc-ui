@@ -1,219 +1,289 @@
-.yc-button {
-    cursor: pointer;
-    user-select: none;
-    outline: none;
-    border: 1px solid transparent;
-    font-weight: 400;
-    transition: all 0.1s cubic-bezier(0, 0, 1, 1);
-    display: inline-flex;
-    justify-content: center;
-    align-items: center;
-  
-    .yc-button-icon {
-      flex-shrink: 0;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      .yc-spin {
-        font-size: inherit;
-        color: inherit;
-      }
-    }
-  }
-  
-  .set-button-status(@color, @hover, @active) {
+// type
+.set-button-status(@color) {
+  color: @color;
+  &:hover {
     color: @color;
+  }
+  &:active {
+    color: @color;
+  }
+}
+.set-button-variant(
+    @bg-color,
+    @hover-bg,
+    @active-bg,
+    @border-color: transparent,
+    @hover-border: @border-color,
+    @active-border: @border-color,
+    @text-color: #fff,
+    @hover-text: @text-color,
+    @active-text: @text-color
+  ) {
+  background-color: @bg-color;
+  border-color: @border-color;
+  color: @text-color;
+
+  &:not(.yc-button-disabled):not(.yc-button-loading) {
     &:hover {
-      color: @hover;
+      background-color: @hover-bg;
+      border-color: @hover-border;
+      color: @hover-text;
     }
     &:active {
-      color: @active;
+      background-color: @active-bg;
+      border-color: @active-border;
+      color: @active-text;
     }
   }
-  
-  .set-button-variant(@bg, @hover-bg, @active-bg, @border: transparent, @text: #fff) {
-    background: @bg;
-    border-color: @border;
-    color: @text;
-  
-    &:not(.yc-button-disabled):not(.yc-button-loading) {
-      &:hover {
-        background: @hover-bg;
-        border-color: lighten(@border, 10%);
-      }
-      &:active {
-        background: @active-bg;
-        border-color: darken(@border, 10%);
-      }
-    }
-  }
-  
-  .set-button-size(@height, @padding, @font-size, @icon-size, @icon-margin) {
-    height: @height;
-    padding: 0 @padding;
-    font-size: @font-size;
-    .yc-button-icon {
-      width: @icon-size;
-      height: @icon-size;
-      margin-right: @icon-margin;
-    }
-  }
-  
-  .set-button-shape(@radius, @width: auto) {
-    border-radius: @radius;
-    width: @width;
-  }
-  
-  @status-map: {
-    normal: rgb(22, 93, 255);
-    warning: rgb(255, 125, 0);
-    success: rgb(0, 180, 42);
-    danger: rgb(245, 63, 63);
-  };
-  
-  @variant-map: {
-    primary: {
-      bg: @color;
-      hover: lighten(@color, 10%);
-      active: darken(@color, 10%);
-      text: #fff;
-    };
-    secondary: {
-      bg: lighten(@color, 40%);
-      hover: lighten(@color, 30%);
-      active: lighten(@color, 20%);
-      text: @color;
-    };
-    dashed: {
-      bg: lighten(@color, 40%);
-      hover: lighten(@color, 30%);
-      active: lighten(@color, 20%);
-      border: lighten(@color, 20%);
-      text: @color;
-    };
-    outline: {
-      bg: transparent;
-      hover: transparent;
-      active: transparent;
-      border: @color;
-      text: @color;
-    };
-    text: {
-      bg: transparent;
-      hover: rgb(242, 243, 245);
-      active: rgb(229, 230, 235);
-      text: @color;
-    };
-  };
-  
-  @size-map: {
-    mini:   { height: 24px, padding: 11px, font: 12px, icon: 12px, margin: 4px };
-    small:  { height: 28px, padding: 15px, font: 14px, icon: 14px, margin: 6px };
-    medium: { height: 32px, padding: 15px, font: 14px, icon: 14px, margin: 8px };
-    large:  { height: 36px, padding: 19px, font: 14px, icon: 14px, margin: 8px };
-  };
-  
-  @shape-map: {
-    circle: { radius: 50%,  width: true  };
-    round:  { radius: 30px, width: false };
-    square: { radius: 2px,  width: false };
-  };
-  
-  
-  each(@status-map, {
-    @status: @key;
-    @color: @value;
-  
-    // 生成每种状态的变体
-    each(@variant-map, {
-      @variant: @key;
-      @config: @value;
-  
-      .yc-button.yc-button-status-@{status}.yc-button-@{variant} {
-        .set-button-variant(
-          @config[bg],
-          @config[hover],
-          @config[active],
-          if(@config[border], @config[border], transparent),
-          @config[text]
-        );
-  
-        // 特殊处理 text 变体的 hover 背景
-        & when (@variant = text) {
-          &:not(.yc-button-disabled):not(.yc-button-loading) {
-            &:hover { background: @config[hover]; }
-            &:active { background: @config[active]; }
-          }
-        }
+}
+.generate-status(@status-map) {
+  each(@status-map, .(@status-value,@status-key) {
+      &.yc-button-status-@{status-key} {
+        @status-value();
       }
     });
-  });
-  
-  each(@size-map, {
-    @size: @key;
-    @config: @value;
-  
-    .yc-button-size-@{size} {
-      .set-button-size(
-        @config[height],
-        @config[padding],
-        @config[font],
-        @config[icon],
-        @config[margin]
-      );
-    }
-  });
-  
-  each(@shape-map, {
-    @shape: @key;
-    @config: @value;
-  
-    .yc-button-shape-@{shape} {
-      .set-button-shape(@config[radius]);
-  
-      // 圆形按钮需要设置宽度等于高度
-      & when (@config[width]) {
-        each(@size-map, {
-          &.yc-button-size-@{key} {
-            width: @value[height];
+}
+@type: primary, secondary, dashed, outline, text;
+each(@type,.(@type-key) {
+    .yc-button.yc-button-@{type-key} {
+      & when(@type-key = primary) {
+        .set-button-status(#fff);
+        @status-map: {
+          normal: .set-button-variant(
+            rgb(22, 93, 255),
+            rgb(64, 128, 255),
+            rgb(14, 66, 210)
+          );
+          warning: .set-button-variant(
+            rgb(255, 125, 0),
+            rgb(255, 154, 46),
+            rgb(210, 95, 0)
+          );
+          success: .set-button-variant(
+            rgb(0, 180, 42),
+            rgb(35, 195, 67),
+            rgb(0, 154, 41)
+          );
+          danger: .set-button-variant(
+            rgb(245, 63, 63),
+            rgb(247, 101, 96),
+            rgb(203, 39, 45)
+          );
+        };
+        .generate-status(@status-map);
+      }
+      & when(@type-key = secondary) {
+        @status-map: {
+          normal:    .set-button-variant(
+            rgb(242, 243, 245),
+            rgb(229, 230, 235),
+            rgb(201, 205, 212),
+            transparent,
+            transparent,
+            transparent,
+            rgb(78, 89, 105)
+          );
+          warning: .set-button-variant(
+            rgb(255, 247, 232),
+            rgb(255, 228, 186),
+            rgb(255, 207, 139),
+            transparent,
+            transparent,
+            transparent,
+            rgb(255, 125, 0)
+          );
+          success:     .set-button-variant(
+            rgb(232, 255, 234),
+            rgb(175, 240, 181),
+            rgb(123, 225, 136),
+            transparent,
+            transparent,
+            transparent,
+            rgb(0, 180, 42)
+          );
+          danger:    .set-button-variant(
+            rgb(255, 236, 232),
+            rgb(253, 205, 197),
+            rgb(251, 172, 163),
+            transparent,
+            transparent,
+            transparent,
+            rgb(245, 63, 63)
+          );
+        };
+        each(@status-map, .(@status-value,@status-key) {
+          &.yc-button-status-@{status-key} {
+            @status-value();
           }
         });
       }
+      & when(@type-key = dashed) {
+        @status-map: {
+          normal:      .set-button-variant(
+            rgb(242, 243, 245),
+            rgb(229, 230, 235),
+            rgb(201, 205, 212),
+            rgb(229, 230, 235),
+            rgb(201, 205, 212),
+            rgb(169, 174, 184),
+            rgb(78, 89, 105)
+          );
+          warning:   .set-button-variant(
+            rgb(255, 247, 232),
+            rgb(255, 228, 186),
+            rgb(255, 207, 139),
+            rgb(255, 228, 186),
+            rgb(255, 207, 139),
+            rgb(255, 182, 93),
+            rgb(255, 125, 0)
+          );
+          success:     .set-button-variant(
+            rgb(232, 255, 234),
+            rgb(175, 240, 181),
+            rgb(123, 225, 136),
+            rgb(175, 240, 181),
+            rgb(123, 225, 136),
+            rgb(76, 210, 99),
+            rgb(0, 180, 42)
+          );
+          danger:  .set-button-variant(
+            rgb(255, 236, 232),
+            rgb(253, 205, 197),
+            rgb(251, 172, 163),
+            rgb(253, 205, 197),
+            rgb(251, 172, 163),
+            rgb(249, 137, 129),
+            rgb(245, 63, 63)
+          );
+        };
+        .generate-status(@status-map);
+      }
+      & when(@type-key = outline) {
+        @status-map: {
+          normal: .set-button-variant(
+            transparent,
+            transparent,
+            transparent,
+            rgb(22, 93, 255),
+            rgb(64, 128, 255),
+            rgb(14, 66, 210),
+            rgb(22, 93, 255),
+            rgb(64, 128, 255),
+            rgb(14, 66, 210)
+          );
+          warning: .set-button-variant(
+            transparent,
+            transparent,
+            transparent,
+            rgb(255, 125, 0),
+            rgb(255, 154, 46),
+            rgb(210, 95, 0),
+            rgb(255, 125, 0),
+            rgb(255, 154, 46),
+            rgb(210, 95, 0)
+          );
+          success: .set-button-variant(
+            transparent,
+            transparent,
+            transparent,
+            rgb(0, 180, 42),
+            rgb(35, 195, 67),
+            rgb(0, 154, 41),
+            rgb(0, 180, 42),
+            rgb(35, 195, 67),
+            rgb(0, 154, 41)
+          );
+          danger: .set-button-variant(
+            transparent,
+            transparent,
+            transparent,
+            rgb(245, 63, 63),
+            rgb(247, 101, 96),
+            rgb(203, 39, 45),
+            rgb(245, 63, 63),
+            rgb(247, 101, 96),
+            rgb(203, 39, 45)
+          );
+        };
+        .generate-status(@status-map);
+      }
+      & when(@type-key = text) {
+        background-color: transparent;
+      &:not(.yc-button-disabled):not(.yc-button-loading) {
+        &:hover {
+          background-color: rgb(242, 243, 245);
+        }
+        &:active {
+          background-color: rgb(229, 230, 235);
+        }
+      }
+      @status-map:{
+        normal:  .set-button-status(
+          rgb(22, 93, 255),
+        );
+        warning:    .set-button-status(
+          rgb(255, 125, 0),
+        
+        );
+        success:  .set-button-status(
+          rgb(0, 180, 42),
+        
+        );
+        danger: .set-button-status(
+          rgb(245, 63, 63),
+        );
+            };
+            .generate-status(@status-map);
+      }
     }
   });
-  
-  .yc-button-loading,
-  .yc-button-disabled {
-    cursor: default;
-    position: relative;
-  
-    &::before {
-      content: '';
-      display: block;
-      z-index: 1;
-      position: absolute;
-      inset: -1px;
-      background-color: #fff;
-      opacity: 0.4;
-    }
-  
-    &.yc-button-disabled {
-      cursor: not-allowed;
-    }
+
+// 定义尺寸映射表
+@size: {
+  mini: .set-button-size(24px, 11px, 12px, 12px, 4px);
+  small: .set-button-size(28px, 15px, 14px, 14px, 6px);
+  medium: .set-button-size(32px, 15px, 14px, 14px, 8px);
+  large: .set-button-size(36px, 19px, 14px, 14px, 8px);
+};
+// 使用each循环生成不同尺寸的按钮
+each(@size, {
+      .yc-button-size-@{key} {
+        @value();
+      }
+    });
+// size
+.set-button-size(@height, @padding, @font-size, @icon-size, @icon-margin) {
+  height: @height;
+  padding: 0 @padding;
+  font-size: @font-size;
+  .yc-button-icon {
+    width: @icon-size;
+    height: @icon-size;
+    margin-right: @icon-margin;
   }
-  
-  .yc-button-long {
-    width: 100%;
-  }
-  
-  .yc-button-no-padding {
-    padding: 0;
-  }
-  
-  .yc-button-only-icon {
-    padding: 0;
-    .yc-button-icon {
-      margin: 0;
-    }
-  }
-  
+}
+
+@shape: {
+  square: 2px;
+  round: 30px;
+  circle: 50%;
+};
+@shape-width: {
+  mini: 24px;
+  small: 28px;
+  medium: 32px;
+  large: 36px;
+};
+each(@shape, {
+      .yc-button-shape-@{key} {
+        border-radius: @value;
+        & when (@key = circle) {
+          each(@shape-width, .(@width-value, @size-key) {
+            &.yc-button-size-@{size-key} {
+              width: @width-value;
+              padding: 0; 
+            }
+          });
+        }
+      }
+    });

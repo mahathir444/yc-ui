@@ -1,5 +1,7 @@
 <template>
-  <div class="test"></div>
+  <div class="test">
+    <yc-button type="primary" size="medium" status="danger">测试</yc-button>
+  </div>
 </template>
 
 <script lang="ts" setup>

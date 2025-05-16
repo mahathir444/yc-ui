@@ -1,4 +1,4 @@
-// Verification code base styles
+@import './var.less';
 .yc-verification-code {
   width: 100%;
   display: flex;
@@ -23,21 +23,3 @@
     }
   }
 }
-
-// size
-@size-map: {
-  mini: 24px;
-  small: 28px;
-  medium: 32px;
-  large: 36px;
-};
-.set-verification-code-size(@size, @width) {
-  .yc-verification-code-size-@{size} {
-    &:deep(.yc-input-wrapper) {
-      width: @width;
-    }
-  }
-}
-each(@size-map, {
-  .set-verification-code-size(@key, @value);
-});
