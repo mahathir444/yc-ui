@@ -19,6 +19,9 @@
         'yc-tag-checkable': checkable,
       },
     ]"
+    :style="{
+      background,
+    }"
     ref="tagRef"
     @click="handleEvent('check', $event)"
   >
@@ -120,7 +123,4 @@ defineExpose({
 
 <style lang="less" scoped>
 @import './style/tag.less';
-.yc-tag {
-  background: v-bind(background);
-}
 </style>

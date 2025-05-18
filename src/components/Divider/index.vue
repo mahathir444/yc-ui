@@ -2,6 +2,11 @@
   <div
     role="separator"
     :class="['yc-divider', `yc-divider-direction-${direction}`]"
+    :style="{
+      margin,
+      borderLeft: direction == 'vertical' ? border : '',
+      borderBottom: direction == 'horizontal' ? border : '',
+    }"
   >
     <div
       v-if="$slots.default && direction != 'vertical'"
@@ -44,13 +49,4 @@ const border = computed(
 
 <style lang="less" scoped>
 @import './style/divider.less';
-.yc-divider {
-  margin: v-bind(margin);
-  &.yc-divider-direction-horizontal {
-    border-bottom: v-bind(border);
-  }
-  &.yc-divider-direction-vertical {
-    border-left: v-bind(border);
-  }
-}
 </style>

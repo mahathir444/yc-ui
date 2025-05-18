@@ -9,6 +9,9 @@
         'yc-space-fill': fill,
       },
     ]"
+    :style="{
+      gap,
+    }"
   >
     <template v-for="(node, index) in nodes" :key="index">
       <div class="yc-space-item">
@@ -61,7 +64,4 @@ const nodes = computed(() => slots.default?.() || []);
 
 <style lang="less" scoped>
 @import './style/space.less';
-.yc-space {
-  gap: v-bind(gap);
-}
 </style>

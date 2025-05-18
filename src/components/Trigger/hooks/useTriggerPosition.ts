@@ -28,7 +28,7 @@ export default (params: {
     contentStyle: _contentStyle,
   } = toRefs(props as TriggerProps);
   // 接收provider传入的属性
-  const { updateAtScroll } = getGlobalConfig(props);
+  const { updateAtScroll, zIndex } = getGlobalConfig(props);
   // 动态计算当前的位置
   const position = ref<TriggerPostion>(_position.value);
   // 获取popup的size
@@ -63,6 +63,7 @@ export default (params: {
       return {
         top: `${mouseY.value + offsetY}px`,
         left: `${mouseX.value - (autoFitPosition.value ? 0 : popupWidth.value / 2) + offsetX}px`,
+        zIndex,
       };
     }
     // 计算初始位置
@@ -82,6 +83,7 @@ export default (params: {
       return {
         top: `${offsetTop + offsetY}px`,
         left: `${offsetLeft + offsetX}px`,
+        zIndex,
       };
     }
     // 边界检测
@@ -115,6 +117,7 @@ export default (params: {
     return {
       left: `${newLeft + newOffsetX}px`,
       top: `${newTop + newOffsetY}px`,
+      zIndex,
     };
   });
   // contentStyle

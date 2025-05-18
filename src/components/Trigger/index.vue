@@ -31,10 +31,7 @@
             'yc-trigger-transform-origin': needTransformOrigin,
           },
         ]"
-        :style="{
-          ...popupStyle,
-          zIndex,
-        }"
+        :style="popupStyle"
         ref="popupRef"
         @mouseenter="handleMouseenter"
         @mouseleave="handleMouseleave"
@@ -115,7 +112,7 @@ const props = withDefaults(defineProps<TriggerProps>(), {
 });
 const emits = defineEmits<TriggerEmits>();
 // 接收属性
-const { zIndex, popupContainer } = getGlobalConfig(props);
+const { popupContainer } = getGlobalConfig(props);
 // 弹出层的ref
 const popupRef = ref<HTMLDivElement>();
 // trigger的ref

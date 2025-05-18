@@ -1,17 +1,11 @@
 <template>
   <div
-    :class="
-      div
-        ? []
-        : [
-            'yc-row',
-            `yc-row-justify-${justify}`,
-            `yc-row-align-${align}`,
-            {
-              'flex-row-wrap': wrap,
-            },
-          ]
-    "
+    :class="{
+      'yc-row': !div,
+      [`yc-row-align-${align}`]: !div,
+      [`yc-row-justify-${justify}`]: !div,
+      'yc-row-wrap': wrap && !div,
+    }"
     :style="style"
   >
     <slot />

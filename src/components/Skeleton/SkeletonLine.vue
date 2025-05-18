@@ -7,6 +7,7 @@
       :style="{
         height: `${lineHeight}px`,
         width: widths[i] ? `${widths[i]}px` : '100%',
+        gap,
       }"
     ></div>
   </div>
@@ -31,7 +32,4 @@ const gap = computed(() => `${lineSpacing.value}px`);
 
 <style lang="less" scoped>
 @import './style/skeleton.less';
-.yc-skeleton-line {
-  gap: v-bind(gap);
-}
 </style>
