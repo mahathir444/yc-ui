@@ -53,67 +53,27 @@
     }
   }
 }
-
 // transform-origin
+@trigger-positions: {
+  top: 50% 100%;
+  tl: 0 100%;
+  tr: 100% 100%;
+  bottom: 50% 0;
+  bl: 0 0;
+  br: 100% 0;
+  right: 0 50%;
+  rt: 0 50%;
+  rb: 0 100%;
+  left: 100% 50%;
+  lt: 100% 0;
+  lb: 100% 100%;
+};
 .yc-trigger-transform-origin {
-  &.yc-trigger-position-top {
-    .yc-trigger-content {
-      transform-origin: 50% 100%;
+  each(@trigger-positions, .(@origin, @position) {
+    &.yc-trigger-position-@{position} {
+      .yc-trigger-content {
+        transform-origin: @origin;
+      }
     }
-  }
-  &.yc-trigger-position-tl {
-    .yc-trigger-content {
-      transform-origin: 0 100%;
-    }
-  }
-  &.yc-trigger-position-tr {
-    .yc-trigger-content {
-      transform-origin: 100% 100%;
-    }
-  }
-  &.yc-trigger-position-bottom {
-    .yc-trigger-content {
-      transform-origin: 50% 0;
-    }
-  }
-  &.yc-trigger-position-bl {
-    .yc-trigger-content {
-      transform-origin: 0 0;
-    }
-  }
-  &.yc-trigger-position-br {
-    .yc-trigger-content {
-      transform-origin: 100% 0;
-    }
-  }
-  &.yc-trigger-position-right {
-    .yc-trigger-content {
-      transform-origin: 0 0;
-    }
-  }
-  &.yc-trigger-position-rt {
-    .yc-trigger-content {
-      transform-origin: 0 50%;
-    }
-  }
-  &.yc-trigger-position-rb {
-    .yc-trigger-content {
-      transform-origin: 0 100%;
-    }
-  }
-  &.yc-trigger-position-left {
-    .yc-trigger-content {
-      transform-origin: 100% 50%;
-    }
-  }
-  &.yc-trigger-position-lt {
-    .yc-trigger-content {
-      transform-origin: 100% 0;
-    }
-  }
-  &.yc-trigger-position-lb {
-    .yc-trigger-content {
-      transform-origin: 100% 100%;
-    }
-  }
+  });
 }

@@ -60,7 +60,7 @@ each(@status,{
   }
 })
 // color
-@colors: {
+@color: {
   red: rgb(245, 63, 63);
   orangered: rgb(247, 114, 52);
   orange: rgb(255, 125, 0);
@@ -75,7 +75,7 @@ each(@status,{
   magenta: rgb(245, 49, 157);
   gray: rgb(134, 144, 156);
 }
-each(@colors, {
+each(@color, {
   .yc-badge-color-@{key} {
     background-color: @value;
   }

@@ -76,7 +76,7 @@
   dashed-border-hover: rgb(201, 205, 212);
   dashed-border-active: rgb(169, 174, 184);
 };
-@types: {
+@type: {
   @primary: {
     @normal: {
       bg: @colors[primary];
@@ -220,43 +220,43 @@
     };
   };
 };
-each(@types, .(@type-value, @type-name) {
+each(@type, .(@type-value, @type-name) {
   @type-key: replace(~"@{type-name}", "@", "");
   .yc-button.yc-button-@{type-key} {
     each(@type-value, .(@status-value, @status-name) {
       @status-key: replace(~"@{status-name}", "@", "");
       &.yc-button-status-@{status-key} {
         color: @status-value[text];
-        & when not(@type-key = text){
+        & when(isdefined(@status-value[bg])){
           background-color: @status-value[bg];
-          & when(@type-key = outline) , (type-key=dashed){
-            border-color: @status-value[border];
-          }
-          &:not(.yc-button-disabled):not(.yc-button-loading) {
+        }
+        & when(isdefined(@status-value[border])){
+          border-color: @status-value[border];
+        }
+         &:not(.yc-button-disabled):not(.yc-button-loading) {
             &:hover {
-              & when not(@type-key = outline){
+              & when(isdefined(@status-value[hover])){
                 background-color: @status-value[hover];
               }
-              & when(@type-key = outline){
+              & when(isdefined(@status-value[text-hover])){
                 color: @status-value[text-hover];
               }
-              & when(@type-key = outline) , (@type-key = dashed){
+              & when(isdefined(@status-value[border-hover])){
                 border-color: @status-value[border-hover];
               }
             }
             &:active {
-              & when(@type-key = outline) , (@type-key = dashed){
+              & when(isdefined(@status-value[border-active])){
                 border-color: @status-value[border-active];
               }
-              & when(@type-key = outline){
+              & when(isdefined(@status-value[text-active])){
                 color: @status-value[text-active];
               }
-              & when not(@type-key = outline){
+              & when(isdefined(@status-value[active])){
                 background-color: @status-value[active];
               }
             }
           }
-        }
         & when(@type-key = text){
           background-color: transparent;
           &:not(.yc-button-disabled):not(.yc-button-loading) {

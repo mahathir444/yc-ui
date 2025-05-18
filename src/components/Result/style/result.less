@@ -37,26 +37,19 @@
 
 // icon-type
 .yc-result {
-  .yc-result-icon-info {
-    .yc-result-icon-tip {
-      background-color: rgb(232, 243, 255);
+  @type: {
+    info: rgb(232, 243, 255);
+    success: rgb(232, 255, 234);
+    warning: rgb(255, 247, 232);
+    error: rgb(255, 236, 232);
+  };
+  each(@type, {
+    &.yc-result-icon-@{key} {
+      .yc-result-icon-tip {
+        background-color: @value;
+      }
     }
-  }
-  .yc-result-icon-success {
-    .yc-result-icon-tip {
-      background-color: rgb(232, 255, 234);
-    }
-  }
-  .yc-result-icon-warning {
-    .yc-result-icon-tip {
-      background-color: rgb(255, 247, 232);
-    }
-  }
-  .yc-result-icon-error {
-    .yc-result-icon-tip {
-      background-color: rgb(255, 236, 232);
-    }
-  }
+  });
   .yc-result-icon-403,
   .yc-result-icon-404,
   .yc-result-icon-500 {
@@ -68,19 +61,3 @@
     }
   }
 }
-
-@type: {
-  info: rgb(232, 243, 255);
-  success: rgb(232, 255, 234);
-  warning: rgb(255, 247, 232);
-  error: rgb(255, 236, 232);
-};
-each(@type, {
-  .yc-result{
-    &.yc-result-icon-@{key} {
-      .yc-result-icon-tip {
-        background-color: @value;
-      }
-    }
-  }
-});

@@ -77,7 +77,7 @@
   transform: translateY(-50%);
 }
 // theme
-@theme: {
+@item-themes: {
   @light: {
     color: rgb(78, 89, 105);
     hover-bg: rgb(242, 243, 245);
@@ -87,7 +87,7 @@
     hover-bg: rgba(255, 255, 255, 0.04);
   };
 };
-each(@theme, .(@value,@name){
+each(@item-themes, .(@value,@name){
   @key:replace(~"@{name}", "@", "");
   .yc-menu-item-theme-@{key} {
     &:not(.yc-menu-item-disabled) {

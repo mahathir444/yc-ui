@@ -64,17 +64,21 @@
 }
 // placement
 @drawer-placements: left, right, bottom, top;
-each(@drawer-placements, {
+each(@drawer-placements, .(@key){
   .yc-drawer-placement-@{key} {
     .yc-drawer-container {
-      left: if(
-        @key = left or @key = top or @key = bottom,
-        0,
-        unset
-      );
-      right: if(@key = right, 0, unset);
-      top: if(@key = top or @key = left or @key = right, 0, unset);
-      bottom: if(@key = bottom, 0, unset);
+      & when (@key = left),(@key = top),(@key = bottom){
+        left: 0;
+      }
+      & when (@key = right){
+        right: 0;
+      }
+      & when(@key = left),(@key = right),(@key = top){
+        top: 0;
+      }
+      & when(@key = bottom){
+        bottom: 0;
+      }
     }
   }
 });
