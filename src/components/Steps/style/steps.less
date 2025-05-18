@@ -198,6 +198,35 @@
       }
     }
   }
+  // status
+  .set-steps-item-status(@icon-color, @icon-bg-color, @title-color: null) {
+    .yc-steps-icon {
+      color: @icon-color;
+      background-color: @icon-bg-color;
+    }
+    & when not (@title-color = null) {
+      .yc-steps-item-content {
+        .yc-steps-item-title {
+          color: @title-color;
+        }
+      }
+    }
+  }
+  @steps-item-status: {
+    wait: .set-steps-item-status(
+      rgb(78, 89, 105),
+      rgb(242, 243, 245),
+      rgb(78, 89, 105)
+    );
+    process: .set-steps-item-status(#fff, rgb(22, 93, 255));
+    finish: .set-steps-item-status(rgb(22, 93, 255), rgb(232, 243, 255));
+    error: .set-steps-item-status(#fff, rgb(245, 63, 63));
+  };
+  each(@steps-item-status, {
+        .yc-steps-item-@{key} {
+          @value();
+        }
+      });
 }
 .yc-steps-mode-dot {
   .yc-steps-item {
@@ -297,6 +326,26 @@
       }
     }
   }
+  //status
+  @steps-item-status: {
+    wait: rgb(201, 205, 212);
+    process: rgb(22, 93, 255);
+    finish: rgb(22, 93, 255);
+    error: rgb(245, 63, 63);
+  };
+  each(@steps-item-status, {
+    .yc-steps-item-@{key} {
+      .yc-steps-item-node {
+        background-color: @value;
+        border-color: @value;
+        
+        & when (@key = process) {
+          width: 10px;
+          height: 10px;
+        }
+      }
+    }
+  });
 }
 .yc-steps-mode-arrow {
   gap: 4px;
@@ -362,6 +411,31 @@
       }
     }
   }
+  .set-steps-item-status(@bg-color, @text-color: null) {
+    background-color: @bg-color;
+    &::after {
+      border-left: 36px solid @bg-color;
+    }
+    & when not (@text-color = null) {
+      .yc-steps-item-content {
+        .yc-steps-item-title,
+        .yc-steps-item-description {
+          color: @text-color;
+        }
+      }
+    }
+  }
+  @steps-item-status: {
+    wait: .set-steps-item-status(rgb(247, 248, 250));
+    process: .set-steps-item-status(rgb(22, 93, 255), #fff);
+    finish: .set-steps-item-status(rgb(232, 243, 255));
+    error: .set-steps-item-status(rgb(245, 63, 63), #fff);
+  };
+  each(@steps-item-status, {
+      .yc-steps-item-@{key} {
+        @value();
+      }
+    });
 }
 .yc-steps-mode-navigation {
   gap: 32px;
@@ -406,86 +480,4 @@
       }
     }
   }
-}
-//status
-.yc-steps-mode-default,
-.yc-steps-mode-navigation {
-  // status
-  .set-steps-item-status(@icon-color, @icon-bg-color, @title-color: null) {
-    .yc-steps-icon {
-      color: @icon-color;
-      background-color: @icon-bg-color;
-    }
-    & when not (@title-color = null) {
-      .yc-steps-item-content {
-        .yc-steps-item-title {
-          color: @title-color;
-        }
-      }
-    }
-  }
-  @steps-item-status: {
-    wait: .set-steps-item-status(
-      rgb(78, 89, 105),
-      rgb(242, 243, 245),
-      rgb(78, 89, 105)
-    );
-    process: .set-steps-item-status(#fff, rgb(22, 93, 255));
-    finish: .set-steps-item-status(rgb(22, 93, 255), rgb(232, 243, 255));
-    error: .set-steps-item-status(#fff, rgb(245, 63, 63));
-  };
-  each(@steps-item-status, {
-        .yc-steps-item-@{key} {
-          @value();
-        }
-      });
-}
-.yc-steps-mode-dot {
-  //status
-  @steps-item-status: {
-    wait: rgb(201, 205, 212);
-    process: rgb(22, 93, 255);
-    finish: rgb(22, 93, 255);
-    error: rgb(245, 63, 63);
-  };
-  each(@steps-item-status, {
-    .yc-steps-item-@{key} {
-      .yc-steps-item-node {
-        background-color: @value;
-        border-color: @value;
-        
-        & when (@key = process) {
-          width: 10px;
-          height: 10px;
-        }
-      }
-    }
-  });
-}
-.yc-steps-mode-arrow {
-  .set-steps-item-status(@bg-color, @text-color: null) {
-    background-color: @bg-color;
-    &::after {
-      border-left: 36px solid @bg-color;
-    }
-    & when not (@text-color = null) {
-      .yc-steps-item-content {
-        .yc-steps-item-title,
-        .yc-steps-item-description {
-          color: @text-color;
-        }
-      }
-    }
-  }
-  @steps-item-status: {
-    wait: .set-steps-item-status(rgb(247, 248, 250));
-    process: .set-steps-item-status(rgb(22, 93, 255), #fff);
-    finish: .set-steps-item-status(rgb(232, 243, 255));
-    error: .set-steps-item-status(rgb(245, 63, 63), #fff);
-  };
-  each(@steps-item-status, {
-      .yc-steps-item-@{key} {
-        @value();
-      }
-    });
 }

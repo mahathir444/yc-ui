@@ -2,7 +2,12 @@ import { computed, Ref, ref, toRefs } from 'vue';
 import { Props, RequiredDeep } from '@shared/type';
 import { TextareaEmits } from '@/components/Textarea';
 import { InputProps as _InputProps, InputEmits } from '@/components/Input';
-import { isFunction, isNumber, useControlValue } from '@shared/utils';
+import {
+  isFunction,
+  isNumber,
+  isUndefined,
+  useControlValue,
+} from '@shared/utils';
 import useCursor from './useCursor';
 
 export type InputProps = RequiredDeep<_InputProps>;
@@ -104,7 +109,12 @@ export default (params: {
     const { value, selectionStart, selectionEnd } =
       e.target as HTMLInputElement;
     isComposition.value = e.type !== 'compositionend';
-    if (isComposition.value) return;
+    if (isComposition.value) {
+      if (!isUndefined(maxLength.value)) {
+        emits('input', value, e);
+      }
+      return;
+    }
     if (
       maxLength.value &&
       !maxLengthErrorOnly.value &&

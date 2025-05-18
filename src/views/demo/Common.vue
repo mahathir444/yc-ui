@@ -2,7 +2,9 @@
   <div class="common">
     <yc-space>
       <yc-button status="success">Primary</yc-button>
+      <a-button status="success">Primary</a-button>
       <yc-button>Secondary</yc-button>
+      <a-button>Secondary</a-button>
       <yc-button type="dashed">Dashed</yc-button>
       <yc-button type="outline">Outline</yc-button>
       <yc-button type="text">Text</yc-button>

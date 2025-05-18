@@ -69,54 +69,41 @@
 }
 
 // used by drawer
-.slide-drawer-left-enter-from,
-.slide-drawer-left-leave-to {
-  transform: translateX(-100%);
-}
-.slide-drawer-left-enter-to,
-.slide-drawer-left-leave-from {
-  transform: translateX(0);
-}
-.slide-drawer-left-enter-active,
-.slide-drawer-left-leave-active {
-  transition: transform 0.3s cubic-bezier(0.34, 0.69, 0.1, 1);
-}
-.slide-drawer-right-enter-from,
-.slide-drawer-right-leave-to {
-  transform: translateX(100%);
-}
-.slide-drawer-right-enter-to,
-.slide-drawer-right-leave-from {
-  transform: translateX(0);
-}
-.slide-drawer-right-enter-active,
-.slide-drawer-right-leave-active {
-  transition: transform 0.3s cubic-bezier(0.34, 0.69, 0.1, 1);
-}
-.slide-drawer-top-enter-from,
-.slide-drawer-top-leave-to {
-  transform: translateY(-100%);
-}
-.slide-drawer-top-enter-to,
-.slide-drawer-top-leave-from {
-  transform: translateY(0);
-}
-.slide-drawer-top-enter-active,
-.slide-drawer-top-leave-active {
-  transition: transform 0.3s cubic-bezier(0.34, 0.69, 0.1, 1);
-}
-.slide-drawer-bottom-enter-from,
-.slide-drawer-bottom-leave-to {
-  transform: translateY(100%);
-}
-.slide-drawer-bottom-enter-to,
-.slide-drawer-bottom-leave-from {
-  transform: translateY(0);
-}
-.slide-drawer-bottom-enter-active,
-.slide-drawer-bottom-leave-active {
-  transition: transform 0.3s cubic-bezier(0.34, 0.69, 0.1, 1);
-}
+@slide-directions: {
+  @left: {
+    enter-from: translateX(-100%);
+    leave-to: translateX(-100%);
+  };
+  @right: {
+    enter-from: translateX(100%);
+    leave-to: translateX(100%);
+  };
+  @top: {
+    enter-from: translateY(-100%);
+    leave-to: translateY(-100%);
+  };
+  @bottom: {
+    enter-from: translateY(100%);
+    leave-to: translateY(100%);
+  };
+};
+each(@slide-directions, .(@transform, @key) {
+  @direction:replace(~"@{key}", "@", "");
+  // 进入/离开的起始和结束状态
+  .slide-drawer-@{direction}-enter-from,
+  .slide-drawer-@{direction}-leave-to {
+    transform: @transform[enter-from];
+  }
+  .slide-drawer-@{direction}-enter-to,
+  .slide-drawer-@{direction}-leave-from {
+    transform: translate(0);
+  }
+  // 动画激活状态
+  .slide-drawer-@{direction}-enter-active,
+  .slide-drawer-@{direction}-leave-active {
+    transition: transform 0.3s cubic-bezier(0.34, 0.69, 0.1, 1);
+  }
+});
 
 // used by input-tag
 .input-tag-zoom-enter-from,
