@@ -1,5 +1,6 @@
 import { App } from 'vue';
 import _Badge from './index.vue';
+
 export type BadgeInstance = InstanceType<typeof _Badge>;
 export * from './type';
 

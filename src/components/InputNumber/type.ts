@@ -42,10 +42,10 @@ export interface InputNumberSlots {
   label(): void;
 }
 
-export type InputExpose = {
+export interface InputExpose {
   focus(): void;
   blur(): void;
-};
+}
 
 export type InputNumberValue = number | string;
 

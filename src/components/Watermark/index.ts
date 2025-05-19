@@ -1,5 +1,6 @@
 import { App } from 'vue';
 import _Watermark from './index.vue';
+
 export type WatermarkInstance = InstanceType<typeof _Watermark>;
 export * from './type';
 

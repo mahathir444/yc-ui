@@ -1,5 +1,6 @@
 import { App } from 'vue';
 import _PageHeader from './index.vue';
+
 export type PageHeaderInstance = InstanceType<typeof _PageHeader>;
 export * from './type';
 

@@ -1,5 +1,6 @@
 import { App } from 'vue';
 import _ConfigProvider from './index.vue';
+
 export type ConfigProviderInstance = InstanceType<typeof _ConfigProvider>;
 export * from './type';
 

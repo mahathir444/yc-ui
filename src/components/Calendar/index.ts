@@ -1,5 +1,6 @@
 import { App } from 'vue';
 import _Calendar from './Calendar.vue';
+
 export type CalendarInstance = InstanceType<typeof _Calendar>;
 export * from './type';
 

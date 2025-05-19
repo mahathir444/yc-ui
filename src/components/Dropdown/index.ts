@@ -4,6 +4,7 @@ import _Doption from './Doption.vue';
 import _Dgroup from './Dgroup.vue';
 import _DropdownButton from './DropdownButton.vue';
 import _Dsubmenu from './Dsubmenu.vue';
+
 export type DropdownInstance = InstanceType<typeof _Dropdown>;
 export type DoptionInstance = InstanceType<typeof _Doption>;
 export type DgroupInstance = InstanceType<typeof _Dgroup>;
@@ -24,6 +25,7 @@ const Dropdown = Object.assign(_Dropdown, {
     app.component('Yc' + _Dsubmenu.name, _Dsubmenu);
   },
 });
+
 export {
   _Doption as Doption,
   _Dgroup as Dgroup,

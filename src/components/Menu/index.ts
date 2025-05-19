@@ -3,6 +3,7 @@ import _Menu from './Menu.vue';
 import _MenuItem from './MenuItem.vue';
 import _SubMenu from './SubMenu.vue';
 import _MenuItemGroup from './MenuItemGroup.vue';
+
 export type MenuInstance = InstanceType<typeof _Menu>;
 export type MenuItemInstance = InstanceType<typeof _MenuItem>;
 export type SubMenuInstance = InstanceType<typeof _SubMenu>;
@@ -29,7 +30,7 @@ export {
 
 declare module 'vue' {
   export interface GlobalComponents {
-    YcMenu: typeof _Menu;
+    YcMenu: typeof Menu;
     YcSubMenu: typeof _SubMenu;
     YcMenuItem: typeof _MenuItem;
     YcMenuItemGroup: typeof _MenuItemGroup;

@@ -1,5 +1,4 @@
 import { Size, ObjectData } from '@shared/type';
-import { ButtonProps } from '@/components/Button';
 
 export interface InputProps {
   modelValue?: string;
@@ -45,11 +44,11 @@ export interface InputSlots {
   label(): void;
 }
 
-export type InputExpose = {
+export interface InputExpose {
   focus(): void;
   blur(): void;
   getInputRef(): HTMLInputElement;
-};
+}
 
 export type WordSlice = (value: string, maxLength: number) => string;
 

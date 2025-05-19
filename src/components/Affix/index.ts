@@ -1,5 +1,6 @@
 import { App } from 'vue';
 import _Affix from './index.vue';
+
 export type AffixInstance = InstanceType<typeof _Affix>;
 export * from './type';
 

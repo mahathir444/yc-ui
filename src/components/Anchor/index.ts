@@ -1,6 +1,7 @@
 import { App } from 'vue';
 import _Anchor from './Anchor.vue';
 import _AnchorLink from './AnchorLink.vue';
+
 export type AnchorInstance = InstanceType<typeof _Anchor>;
 export type AnchorLinkInstance = InstanceType<typeof _AnchorLink>;
 export * from './type';
@@ -17,7 +18,7 @@ export { _AnchorLink as AnchorLink };
 
 declare module 'vue' {
   export interface GlobalComponents {
-    YcAnchor: typeof _Anchor;
+    YcAnchor: typeof Anchor;
     YcAnchorLink: typeof _AnchorLink;
   }
 }

@@ -2,6 +2,7 @@ import { App, render, h } from 'vue';
 import { DrawerConfig, DrawerServiceData } from './type';
 import _Drawer from './Drawer.vue';
 import _DrawerService from './DrawerService.vue';
+
 export type DrawerInstance = InstanceType<typeof _Drawer>;
 export * from './type';
 

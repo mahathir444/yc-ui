@@ -3,6 +3,7 @@ import _Col from './GridCol.vue';
 import _Row from './GridRow.vue';
 import _Grid from './Grid.vue';
 import _GridItem from './GridItem.vue';
+
 export type RowInstance = InstanceType<typeof _Row>;
 export type ColInstance = InstanceType<typeof _Col>;
 export * from './type';
@@ -23,9 +24,9 @@ export { _Col as GridCol, _Row as GridRow, _GridItem as GridItem };
 
 declare module 'vue' {
   export interface GlobalComponents {
+    YcGrid: typeof Grid;
     YcCol: typeof _Col;
     YcRow: typeof _Row;
-    YcGrid: typeof _Grid;
     YcGridItem: typeof _GridItem;
   }
 }

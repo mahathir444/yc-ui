@@ -1,5 +1,6 @@
 import { App } from 'vue';
 import _Mention from './index.vue';
+
 export type MentionInstance = InstanceType<typeof _Mention>;
 export * from './type';
 

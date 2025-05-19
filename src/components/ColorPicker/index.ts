@@ -1,5 +1,6 @@
 import { App } from 'vue';
 import _ColorPicker from './ColorPicker.vue';
+
 export type ColorPickerInstance = InstanceType<typeof _ColorPicker>;
 export * from './type';
 

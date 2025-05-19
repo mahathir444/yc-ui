@@ -1,5 +1,6 @@
 import { App } from 'vue';
 import _Pagination from './Pagination.vue';
+
 export type PaginationInstance = InstanceType<typeof _Pagination>;
 export * from './type';
 

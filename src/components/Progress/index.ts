@@ -1,5 +1,6 @@
 import { App } from 'vue';
 import _Progress from './Progress.vue';
+
 export type ProgressInstance = InstanceType<typeof _Progress>;
 export * from './type';
 

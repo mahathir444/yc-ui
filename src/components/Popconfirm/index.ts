@@ -1,5 +1,6 @@
 import { App } from 'vue';
 import _Popconfirm from './index.vue';
+
 export type PopconfirmInstance = InstanceType<typeof _Popconfirm>;
 export * from './type';
 

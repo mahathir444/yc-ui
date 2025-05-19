@@ -1,6 +1,7 @@
 import { App } from 'vue';
 import _Descriptions from './Descriptions.vue';
 import _DescriptionsItem from './DescriptionsItem.vue';
+
 export type DescriptionsInstance = InstanceType<typeof _Descriptions>;
 export type DescriptionsItemInstance = InstanceType<typeof _DescriptionsItem>;
 export * from './type';

@@ -1,5 +1,6 @@
 import { App } from 'vue';
 import _Input from './Input.vue';
+
 export type InputInstance = InstanceType<typeof _Input>;
 export * from './type';
 

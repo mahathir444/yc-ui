@@ -61,12 +61,7 @@
 
 <script lang="ts" setup>
 import { ref, toRefs } from 'vue';
-import {
-  TextareaProps,
-  TextareaEmits,
-  TextareaExpose,
-  ResizeRange,
-} from './type';
+import { TextareaProps, TextareaEmits, TextareaExpose } from './type';
 import useTextareaHeight from './hooks/useTextareaHeight';
 import useLimitedInput from '@/components/Input/hooks/useLimitedInput';
 import { YcPreventFocus, YcIconButton } from '@shared/components';
@@ -114,7 +109,7 @@ const {
   inputRef,
 });
 // 计算textare高度
-const { style } = useTextareaHeight(mirrorRef, autoSize.value as ResizeRange);
+const { style } = useTextareaHeight(mirrorRef, autoSize.value);
 // 处理输入，改变和清除
 const handleEvent = async (type: string, e: Event) => {
   switch (type) {

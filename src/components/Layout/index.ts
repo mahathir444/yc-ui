@@ -1,38 +1,44 @@
 import { App } from 'vue';
 import _Layout from './Layout.vue';
-import _Header from './LayoutHeader.vue';
-import _Footer from './LayoutFooter.vue';
-import _Content from './LayoutContent.vue';
-import _Sider from './LayoutSider.vue';
+import _LayoutHeader from './LayoutHeader.vue';
+import _LayoutFooter from './LayoutFooter.vue';
+import _LayoutContent from './LayoutContent.vue';
+import _LayoutSider from './LayoutSider.vue';
+
 export type LayoutInstance = InstanceType<typeof _Layout>;
+export type LayoutHeaderInstance = InstanceType<typeof _LayoutHeader>;
+export type LayoutFooterInstance = InstanceType<typeof _LayoutFooter>;
+export type LayoutContentInstance = InstanceType<typeof _LayoutContent>;
+export type LayoutSiderInstance = InstanceType<typeof _LayoutSider>;
+export * from './type';
 
 const Layout = Object.assign(_Layout, {
-  content: _Content,
-  Header: _Header,
-  Footer: _Footer,
-  Sider: _Sider,
+  content: _LayoutContent,
+  header: _LayoutHeader,
+  footer: _LayoutFooter,
+  sider: _LayoutSider,
   install: (app: App) => {
     app.component('Yc' + _Layout.name, _Layout);
-    app.component('Yc' + _Header.name, _Header);
-    app.component('Yc' + _Footer.name, _Footer);
-    app.component('Yc' + _Content.name, _Content);
-    app.component('Yc' + _Sider.name, _Sider);
+    app.component('Yc' + _LayoutHeader.name, _LayoutHeader);
+    app.component('Yc' + _LayoutFooter.name, _LayoutFooter);
+    app.component('Yc' + _LayoutContent.name, _LayoutContent);
+    app.component('Yc' + _LayoutSider.name, _LayoutSider);
   },
 });
 
 export {
-  _Sider as LayoutSider,
-  _Footer as LayoutFooter,
-  _Content as LayoutContent,
+  _LayoutSider as LayoutSider,
+  _LayoutFooter as LayoutFooter,
+  _LayoutContent as LayoutContent,
 };
 
 declare module 'vue' {
   export interface GlobalComponents {
-    YcLayout: typeof _Layout;
-    YcLayoutHeader: typeof _Header;
-    YcLayoutFooter: typeof _Footer;
-    YcLayoutContent: typeof _Content;
-    YcLayoutSider: typeof _Sider;
+    YcLayout: typeof Layout;
+    YcLayoutHeader: typeof _LayoutHeader;
+    YcLayoutFooter: typeof _LayoutFooter;
+    YcLayoutContent: typeof _LayoutContent;
+    YcLayoutSider: typeof _LayoutSider;
   }
 }
 

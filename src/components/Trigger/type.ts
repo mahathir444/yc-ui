@@ -1,6 +1,6 @@
 import { CSSProperties } from 'vue';
 import { PopupContainer } from '@shared/type';
-export type TriggerProps = {
+export interface TriggerProps {
   popupVisible?: boolean;
   defaultPopupVisible?: boolean;
   trigger?: TriggerType;
@@ -42,7 +42,7 @@ export type TriggerProps = {
   onTriggerMouseclick?: () => void;
   onTriggerFocus?: () => void;
   onTriggerBlur?: () => void;
-};
+}
 
 export interface TriggerEmits {
   (e: 'update:popupVisible', value: boolean): void;

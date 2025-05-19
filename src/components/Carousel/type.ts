@@ -24,11 +24,11 @@ export interface CarouselSlots {
   default(): void;
 }
 
+export interface CarouselItemSlots {
+  default(): void;
+}
+
 export type ShowArrow = 'always' | 'hover' | 'never';
 export type IndicatorPosition = 'bottom' | 'top' | 'left' | 'right' | 'outer';
 export type IndicatorType = 'line' | 'dot' | 'slider' | 'never';
 export type IndicatorTrigger = 'click' | 'hover';
-
-export interface CarouselItemSlots {
-  default(): void;
-}

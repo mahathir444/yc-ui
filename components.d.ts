@@ -200,6 +200,8 @@ declare module 'vue' {
     Steps: typeof import('./src/components/Steps/Steps.vue')['default']
     SubMenu: typeof import('./src/components/Menu/SubMenu.vue')['default']
     Switch: typeof import('./src/components/Switch/index.vue')['default']
+    Tab: typeof import('./src/components/Tab/Tab.vue')['default']
+    TabPane: typeof import('./src/components/Tab/TabPane.vue')['default']
     Tag: typeof import('./src/components/Tag/index.vue')['default']
     Textarea: typeof import('./src/components/Textarea/index.vue')['default']
     TimePicker: typeof import('./src/components/TimePicker/index.vue')['default']

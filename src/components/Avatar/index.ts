@@ -1,6 +1,7 @@
 import { App } from 'vue';
 import _Avatar from './Avatar.vue';
 import _AvatarGroup from './AvatarGroup.vue';
+
 export type AvatarInstance = InstanceType<typeof _Avatar>;
 export type AvatarGroupInstance = InstanceType<typeof _AvatarGroup>;
 export * from './type';
@@ -15,7 +16,7 @@ const Avatar = Object.assign(_Avatar, {
 
 declare module 'vue' {
   export interface GlobalComponents {
-    YcAvatar: typeof _Avatar;
+    YcAvatar: typeof Avatar;
     YcAvatarGroup: typeof _AvatarGroup;
   }
 }

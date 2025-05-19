@@ -23,7 +23,7 @@ export interface AutoCompleteProps {
   type?: 'textarea' | 'input';
 }
 
-export type AutoCompleteEmits = {
+export interface AutoCompleteEmits {
   (e: 'update:modelValue', value: string): void;
   (e: 'change', value: string): void;
   (e: 'search', value: string): void;
@@ -35,7 +35,7 @@ export type AutoCompleteEmits = {
   (e: 'focus', ev: FocusEvent): void;
   (e: 'input', value: string, ev: Event): void;
   (e: 'keydown', ev: KeyboardEvent): void;
-};
+}
 
 export interface AutoCompleteSlots {
   option(data: ObjectData): void;

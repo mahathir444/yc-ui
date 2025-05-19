@@ -1,10 +1,11 @@
 import { Ref, computed } from 'vue';
-import { ResizeRange } from '../type';
+import { AutoSize } from '../type';
 import { useElementSize } from '@vueuse/core';
+import { ObjectData } from '@shared/type';
 
 export default (
   mirrorRef: Ref<HTMLDivElement | undefined>,
-  autoSize: ResizeRange
+  autoSize: AutoSize
 ) => {
   if (!autoSize) {
     return {};
@@ -19,7 +20,7 @@ export default (
   };
   // 高度范围
   const style = computed(() => {
-    const { minRows: min = 1, maxRows: max = 10000 } = autoSize;
+    const { minRows: min = 1, maxRows: max = 10000 } = autoSize as ObjectData;
     const minRows = min <= 1 ? 1 : min;
     const minHeight = calcHeightFromRows(min);
     const maxRows = max <= minRows ? minRows : max;

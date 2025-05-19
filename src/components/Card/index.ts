@@ -2,6 +2,7 @@ import { App } from 'vue';
 import _Card from './Card.vue';
 import _CardMeta from './CardMeta.vue';
 import _CardGrid from './CardGrid.vue';
+
 export type CardInstance = InstanceType<typeof _Card>;
 export type CardMetaInstance = InstanceType<typeof _CardMeta>;
 export type CardGridInstance = InstanceType<typeof _CardGrid>;
@@ -16,11 +17,12 @@ const Card = Object.assign(_Card, {
     app.component('Yc' + _CardGrid.name, _CardGrid);
   },
 });
+
 export { _CardMeta as CardMeta, _CardGrid as CardGrid };
 
 declare module 'vue' {
   export interface GlobalComponents {
-    YcCard: typeof _Card;
+    YcCard: typeof Card;
     YcCardMeta: typeof _CardMeta;
     YcCardGrid: typeof _CardGrid;
   }

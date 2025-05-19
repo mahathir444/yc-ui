@@ -5,16 +5,17 @@ export interface TextareaProps {
   defaultValue?: string;
   placeholder?: string;
   disabled?: boolean;
-  error?: boolean;
+  error?: AutoSize;
   maxLength?: MaxLength;
   showWordLimit?: boolean;
   allowClear?: boolean;
   readonly?: boolean;
-  autoSize?: TextareaResize;
+  autoSize?: AutoSize;
   wordLength?: WordLength;
   wordSlice?: WordSlice;
   // 是否阻止enter的默认行为
   enterPrevent?: boolean;
+  // 是否展示mirror
   showMirror?: boolean;
 }
 
@@ -35,9 +36,9 @@ export type TextareaExpose = {
   getMirrorRef(): HTMLDivElement;
 };
 
-export interface ResizeRange {
-  minRows?: number;
-  maxRows?: number;
-}
-
-export type TextareaResize = boolean | ResizeRange;
+export type AutoSize =
+  | boolean
+  | {
+      minRows?: number;
+      maxRows?: number;
+    };

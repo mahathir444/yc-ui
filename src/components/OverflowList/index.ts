@@ -1,5 +1,6 @@
 import { App } from 'vue';
 import _OverflowList from './index.vue';
+
 export type OverflowListInstance = InstanceType<typeof _OverflowList>;
 export * from './type';
 

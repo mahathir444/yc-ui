@@ -1,5 +1,6 @@
 import { App } from 'vue';
 import _BackTop from './index.vue';
+
 export type BackTopInstance = InstanceType<typeof _BackTop>;
 export * from './type';
 

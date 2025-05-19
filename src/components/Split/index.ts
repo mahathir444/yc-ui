@@ -1,5 +1,6 @@
 import { App } from 'vue';
 import _Split from './index.vue';
+
 export type SplitInstance = InstanceType<typeof _Split>;
 export * from './type';
 

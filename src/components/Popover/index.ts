@@ -1,5 +1,6 @@
 import { App } from 'vue';
 import _Popover from './index.vue';
+
 export type PopoverInstance = InstanceType<typeof _Popover>;
 export * from './type';
 
