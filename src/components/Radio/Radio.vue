@@ -44,7 +44,7 @@
 import { toRefs, computed } from 'vue';
 import { RadioProps, RadioEmits, RadioSlots, RadioValue } from './type';
 import { useControlValue, isUndefined } from '@shared/utils';
-import useProvide from './hooks/useProvide';
+import useContext from './hooks/useContext';
 import { YcPreventFocus, YcIconButton } from '@shared/components';
 defineOptions({
   name: 'Radio',
@@ -61,7 +61,7 @@ const props = withDefaults(defineProps<RadioProps>(), {
 const emits = defineEmits<RadioEmits>();
 const { modelValue, defaultChecked, value: radioValue } = toRefs(props);
 // 接收注入
-const { inject } = useProvide();
+const { inject } = useContext();
 const { computedValue, disabled, type, size } = inject(props);
 // checkbox受控的值
 const _computedValue = useControlValue<RadioValue>(

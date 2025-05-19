@@ -38,7 +38,7 @@
 <script lang="ts" setup>
 import { ref, computed } from 'vue';
 import { SliderProps, SliderEmits, PositionData } from './type';
-import useProvide from './hooks/useProvide';
+import useContext from './hooks/useContext';
 import YcSliderTicks from './SliderTicks.vue';
 import YcSliderBtn from './SliderBtn.vue';
 import YcSliderInput from './SliderInput.vue';
@@ -68,7 +68,7 @@ const emits = defineEmits<SliderEmits>();
 // trackRef
 const trackRef = ref<HTMLDivElement>();
 // 注入
-const { provide } = useProvide();
+const { provide } = useContext();
 const { ticks, marks, range, direction, min, handleRangeValue } = provide(
   props,
   emits,

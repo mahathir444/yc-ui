@@ -11,7 +11,7 @@
 
 <script lang="ts" setup>
 import { CardGridProps, CardGridSlots } from './type';
-import useProvide from './hooks/useProvide';
+import useContext from './hooks/useContext';
 defineOptions({
   name: 'CardGrid',
 });
@@ -20,7 +20,7 @@ withDefaults(defineProps<CardGridProps>(), {
   hoverable: false,
 });
 // 接收注入
-const { inject } = useProvide();
+const { inject } = useContext();
 inject('grid');
 </script>
 

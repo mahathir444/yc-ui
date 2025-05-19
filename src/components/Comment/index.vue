@@ -61,7 +61,7 @@
 <script lang="ts" setup>
 import { CommentProps, CommentSlots } from './type';
 import { isObject } from '@shared/utils';
-import useProvide from './hooks/useProvide';
+import useContext from './hooks/useContext';
 import YcAvatar from '@/components/Avatar';
 defineOptions({
   name: 'Comment',
@@ -74,7 +74,7 @@ withDefaults(defineProps<CommentProps>(), {
   datetime: '',
   align: 'left',
 });
-const { level } = useProvide();
+const { level } = useContext();
 </script>
 
 <style lang="less" scoped>

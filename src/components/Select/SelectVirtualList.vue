@@ -40,14 +40,14 @@ import { ref, toRefs, watch } from 'vue';
 import { useVirtualList, useScroll } from '@vueuse/core';
 import { ObjectData } from '@shared/type';
 import { getSlotFunction, getGlobalConfig } from '@shared/utils';
-import useProvide from './hooks/useProvide';
+import useContext from './hooks/useContext';
 import { Option as YcOption, VirtualListProps } from './index';
 const props = defineProps<{
   virtualListProps: VirtualListProps;
 }>();
 const { virtualListProps } = toRefs(props);
 // 接收注入
-const { inject } = useProvide();
+const { inject } = useContext();
 const { fieldKey, isEmpty, renderOptions, slots, emits } = inject();
 // configProvider
 const { slots: providerSlots } = getGlobalConfig();

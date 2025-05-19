@@ -22,7 +22,7 @@
 <script lang="ts" setup>
 import { ref, computed, watch, toRefs } from 'vue';
 import { PositionData } from './type';
-import useProvide from './hooks/useProvide';
+import useContext from './hooks/useContext';
 import useSliderDraggable from './hooks/useSliderDraggable';
 import YcTooltip from '@/components/Tooltip';
 const props = defineProps<{
@@ -38,7 +38,7 @@ const popupVisible = ref<boolean>(false);
 // 触发dom
 const triggerRef = ref<HTMLDivElement>();
 // 解构父级属性通用
-const { inject } = useProvide();
+const { inject } = useContext();
 const {
   trackRef,
   min,

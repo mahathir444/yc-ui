@@ -72,13 +72,13 @@
 
 <script lang="ts" setup>
 import { ref, toRefs } from 'vue';
-import useProvide from './hooks/useProvide';
+import useContext from './hooks/useContext';
 import ColorPalette from './ColorPalette.vue';
 import ColorInput from './ColorInput.vue';
 import ColorList from './ColorList.vue';
 import ColorControl from './ColorControl.vue';
 // 注入值
-const { inject } = useProvide();
+const { inject } = useContext();
 const { props, popupVisible, computedColor, baseColor, alpha, format } =
   inject();
 const {

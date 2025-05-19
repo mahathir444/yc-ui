@@ -103,7 +103,7 @@ import { ref, toRefs, computed, onMounted } from 'vue';
 import { createReusableTemplate } from '@vueuse/core';
 import { MenuItemProps, MenuItemSlots } from './type';
 import { getTextContent, isNumber } from '@shared/utils';
-import useProvide from './hooks/useProvide';
+import useContext from './hooks/useContext';
 import useMenuLevel from './hooks/useMenuLevel';
 import MenuPopOption from './MenuPopOption.vue';
 import { default as YcDropdown, DoptionValue } from '@/components/Dropdown';
@@ -119,7 +119,7 @@ const props = withDefaults(defineProps<MenuItemProps>(), {
 });
 const { path, disabled, isSubmenu } = toRefs(props);
 // 接收menu注入
-const { inject } = useProvide();
+const { inject } = useContext();
 const {
   computedSelectedKeys,
   computedOpenKeys,

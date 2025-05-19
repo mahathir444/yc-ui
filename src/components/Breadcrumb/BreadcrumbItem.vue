@@ -52,7 +52,7 @@
 <script lang="ts" setup>
 import { ref, computed, toRefs } from 'vue';
 import { BreadcrumbItemProps, BreadcrumbItemSlots } from './type';
-import useProvide from './hooks/useProvide';
+import useContext from './hooks/useContext';
 import {
   IconArrowDown,
   IconArrowUp,
@@ -77,7 +77,7 @@ const props = withDefaults(defineProps<BreadcrumbItemProps>(), {
 });
 const { separator } = toRefs(props);
 // 接收数据
-const { inject } = useProvide();
+const { inject } = useContext();
 const { index, maxCount, separator: _separator } = inject();
 // popupVisible
 const popupVisible = ref<boolean>(false);

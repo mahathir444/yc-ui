@@ -27,8 +27,15 @@
             <!-- slot -->
             <slot />
             <!-- render-list -->
-            <template v-for="(item, i) in curData" :key="i">
-              <slot name="item" :index="i" :item="item" />
+            <yc-grid v-if="gridProps" v-bind="gridProps">
+              <yc-grid-item v-for="(item, i) in curData" :key="i">
+                <slot name="item" :index="i" :item="item" />
+              </yc-grid-item>
+            </yc-grid>
+            <template v-else>
+              <template v-for="(item, i) in curData" :key="i">
+                <slot name="item" :index="i" :item="item" />
+              </template>
             </template>
             <!-- empty -->
             <slot name="empty">
@@ -40,6 +47,7 @@
           </div>
         </div>
       </yc-scrollbar>
+      <!-- 分页 -->
       <yc-pagination
         v-if="paginationProps"
         v-model:current="computedCurrent"
@@ -51,9 +59,10 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, toRefs, computed } from 'vue';
+import { toRefs, computed } from 'vue';
 import { ListProps, ListEmits, ListSlots } from './type';
 import { getGlobalConfig, useControlValue } from '@shared/utils';
+import { default as YcGrid, GridItem as YcGridItem } from '@/components/Grid';
 import YcSpin from '@/components/Spin';
 import YcEmpty from '@/components/Empty';
 import YcScrollbar from '@/components/Scrollbar';
@@ -70,9 +79,7 @@ const props = withDefaults(defineProps<ListProps>(), {
   loading: false,
   hoverable: false,
   paginationProps: undefined,
-  gridProps: () => {
-    return {};
-  },
+  gridProps: undefined,
   maxHeight: 0,
   scrollbar: true,
 });
@@ -101,6 +108,7 @@ const computedPageSize = useControlValue<number>(
 );
 // 当前展示的data
 const curData = computed(() => {
+  if (!paginationProps.value) return data.value;
   return data.value.slice(
     (computedCurrent.value - 1) * computedPageSize.value,
     computedCurrent.value * computedPageSize.value
@@ -109,91 +117,5 @@ const curData = computed(() => {
 </script>
 
 <style lang="less" scoped>
-.yc-list-wrapper {
-  .yc-list-spin {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-end;
-    gap: 24px;
-    .yc-scrollbar {
-      &:deep(.yc-scrollbar-container) {
-        .yc-scrollbar-content {
-          width: 100%;
-          border-radius: 4px;
-        }
-      }
-    }
-    .yc-list-content-wrapper {
-      display: flex;
-      flex-direction: column;
-      color: rgb(29, 33, 41);
-      font-size: 14px;
-      line-height: 1.5715;
-      .yc-list-header {
-        font-weight: 500;
-        font-size: 16px;
-        line-height: 1.5;
-      }
-      .yc-list-content {
-        display: flex;
-        flex-direction: column;
-      }
-    }
-  }
-}
-// bordered
-.yc-list-bordered {
-  .yc-scrollbar {
-    &:deep(.yc-scrollbar-container) {
-      border: 1px solid rgb(229, 230, 235);
-    }
-  }
-}
-.yc-list-split {
-  .yc-list-header {
-    border-bottom: 1px solid rgb(229, 230, 235);
-  }
-  .yc-list-footer {
-    border-top: 1px solid rgb(229, 230, 235);
-  }
-  &:deep(.yc-list-item) {
-    &:not(:last-child) {
-      border-bottom: 1px solid rgb(229, 230, 235);
-    }
-  }
-}
-// hoverable
-.yc-list-hoverable {
-  &:deep(.yc-list-item) {
-    &:hover {
-      background-color: rgb(247, 248, 250);
-    }
-  }
-}
-//size
-@size: {
-  @small: {
-    header-padding: 8px 20px;
-    item-padding: 9px 20px;
-  };
-  @medium: {
-    header-padding: 12px 20px;
-    item-padding: 13px 20px;
-  };
-  @large: {
-    header-padding: 16px 20px;
-    item-padding: 17px 20px;
-  };
-};
-each(@size, .(@value,@name){
-  @key:replace(~"@{name}", "@", "");
-  .yc-list-size-@{key} {
-   .yc-list-header,.yc-list-footer{
-    padding: @value[header-padding];
-   }
-   &:deep(.yc-list-item){
-    padding: @value[item-padding];
-   }
-  }
-});
+@import './style/list.less';
 </style>

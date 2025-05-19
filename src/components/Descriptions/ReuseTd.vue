@@ -45,14 +45,14 @@
 <script lang="ts" setup>
 import { DescData } from './type';
 import { getSlotFunction, isObject } from '@shared/utils';
-import useProvide from './hooks/useProvide';
+import useContext from './hooks/useContext';
 defineProps<{
   data: DescData;
   index: number;
   type: 'label' | 'value';
   colspan?: number;
 }>();
-const { inject } = useProvide();
+const { inject } = useContext();
 const { labelStyle, valueStyle, bordered, size, align, slots } = inject();
 </script>
 

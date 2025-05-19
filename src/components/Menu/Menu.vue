@@ -28,7 +28,7 @@ import { ref } from 'vue';
 import { MenuProps, MenuEmits, MenuSlots } from './type';
 import { mediaQueryHandler } from '@shared/utils';
 import { IconMenuFold, IconMenuUnfold } from '@shared/icons';
-import useProvide from './hooks/useProvide';
+import useContext from './hooks/useContext';
 import MenuEllipsis from './MenuEllipsis.vue';
 defineOptions({
   name: 'Menu',
@@ -63,7 +63,7 @@ const emits = defineEmits<MenuEmits>();
 // menuredf
 const menuRef = ref<HTMLDivElement>();
 // 注入数据
-const { provide } = useProvide();
+const { provide } = useContext();
 const { computedCollapsed, collapsedWidth, breakpoint, max, menuItemData } =
   provide(props, emits, menuRef);
 // 处理点击

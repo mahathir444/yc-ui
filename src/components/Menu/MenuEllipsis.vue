@@ -53,7 +53,7 @@
 import { ref, computed } from 'vue';
 import { IconMore, IconArrowDown } from '@shared/icons';
 import { isNumber } from '@shared/utils';
-import useProvide from './hooks/useProvide';
+import useContext from './hooks/useContext';
 import { flattenMenuTree } from './hooks/useMenuLevel';
 import MenuPopOption from './MenuPopOption.vue';
 import {
@@ -62,7 +62,7 @@ import {
   DoptionValue,
 } from '@/components/Dropdown';
 // 接收menu注入
-const { inject } = useProvide();
+const { inject } = useContext();
 const {
   computedSelectedKeys,
   mode,

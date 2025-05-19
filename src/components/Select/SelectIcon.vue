@@ -34,7 +34,7 @@
 </template>
 
 <script lang="ts" setup>
-import useProvide from './hooks/useProvide';
+import useContext from './hooks/useContext';
 import { IconArrowDown, IconArrowUp } from '@shared/icons';
 import { YcIconButton, YcPreventFocus } from '@shared/components';
 import YcSpin from '@/components/Spin';
@@ -45,7 +45,7 @@ defineProps<{
   allowSearch: boolean;
 }>();
 // 接收注入
-const { inject } = useProvide();
+const { inject } = useContext();
 const { slots, emits } = inject();
 // 渲染icon
 const renderIcon = (name: string) => {

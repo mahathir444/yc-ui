@@ -21,7 +21,7 @@
 import { ref, toRefs } from 'vue';
 import { AnchorLinkProps, AnchorLinkSlots } from './type';
 import { isNumber, getElement } from '@shared/utils';
-import useProvide from './hooks/useProvide';
+import useContext from './hooks/useContext';
 defineOptions({
   name: 'AnchorLink',
 });
@@ -32,7 +32,7 @@ const props = withDefaults(defineProps<AnchorLinkProps>(), {
 });
 const { href } = toRefs(props);
 // 接收注入
-const { inject } = useProvide();
+const { inject } = useContext();
 const {
   smooth,
   boundary,

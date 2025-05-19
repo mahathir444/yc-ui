@@ -67,7 +67,7 @@
 <script lang="ts" setup>
 import { PaginationProps, PaginationEmits, PaginationSlots } from './type';
 import { isNumber } from '@shared/utils';
-import useProvide from './hooks/useProvide';
+import useContext from './hooks/useContext';
 import PaginationItem from './PaginationItem.vue';
 import YcSelect from '@/components/Select';
 import YcInputNumber from '@/components/InputNumber';
@@ -103,7 +103,7 @@ const props = withDefaults(defineProps<PaginationProps>(), {
   autoAdjust: true,
 });
 const emits = defineEmits<PaginationEmits>();
-const { provide } = useProvide();
+const { provide } = useContext();
 const {
   computedCurrent,
   pages,

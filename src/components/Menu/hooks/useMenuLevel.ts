@@ -1,5 +1,5 @@
 import { ref, inject, computed, Ref, provide, nextTick } from 'vue';
-import { MenuItemData } from './useProvide';
+import { MenuItemData } from './useContext';
 
 export const SUBMENU_PROVIDE_KEY = 'sub-menu-props';
 

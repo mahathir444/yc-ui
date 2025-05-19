@@ -34,7 +34,7 @@
 <script lang="ts" setup>
 import { CardMetaProps, CardMetaSlots } from './type';
 import { getSlotFunction } from '@shared/utils';
-import useProvide from './hooks/useProvide';
+import useContext from './hooks/useContext';
 defineOptions({
   name: 'CardMeta',
 });
@@ -44,7 +44,7 @@ withDefaults(defineProps<CardMetaProps>(), {
   description: '',
 });
 // 接收注入
-const { inject } = useProvide();
+const { inject } = useContext();
 const { slots } = inject('meta');
 </script>
 

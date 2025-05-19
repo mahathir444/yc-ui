@@ -12,7 +12,6 @@ import {
 import {
   Align,
   DescData,
-  DescriptionsSlots,
   DescriptionsProps as _DescriptionsProps,
 } from '../type';
 import { isNumber, mediaQueryHandler } from '@shared/utils';

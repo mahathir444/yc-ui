@@ -14,7 +14,7 @@
 import { toRefs, computed } from 'vue';
 import { GridProps, GridSlots } from './type';
 import { isNumber, mediaQueryHandler } from '@shared/utils';
-import useProvide from './hooks/useProvide';
+import useContext from './hooks/useContext';
 defineOptions({
   name: 'Grid',
 });
@@ -28,8 +28,8 @@ const props = withDefaults(defineProps<GridProps>(), {
 });
 const { rowGap: _rowGap } = toRefs(props);
 // 注入
-const { provide } = useProvide();
-const { breakpoint } = provide(props);
+const { provide } = useContext();
+const { breakpoint, cols } = provide(props);
 // gap
 const rowGap = computed(() => {
   return isNumber(_rowGap.value)

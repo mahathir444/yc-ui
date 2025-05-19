@@ -116,7 +116,7 @@ import {
   SelectOptionData,
 } from './type';
 import { sleep } from '@shared/utils';
-import useProvide from './hooks/useProvide';
+import useContext from './hooks/useContext';
 import SelectIcon from './SelectIcon.vue';
 import SelectView from './SelectView.vue';
 import { default as YcInput, InputInstance } from '@/components/Input';
@@ -196,7 +196,7 @@ const inputRef = ref<InputInstance>();
 // triggerRef
 const popupRef = ref<TriggerInstance>();
 // 注入值
-const { provide } = useProvide();
+const { provide } = useContext();
 const { computedVisible, computedValue, computedInputValue, selectOptions } =
   provide(props, emits, {
     popupRef,

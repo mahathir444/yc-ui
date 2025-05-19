@@ -90,7 +90,7 @@ import { computed } from 'vue';
 import { DescriptionsProps, DescriptionsSlots, DescData } from './type';
 import ReuseTd from './ReuseTd.vue';
 import ReuseItem from './ReuseItem.vue';
-import useProvide from './hooks/useProvide';
+import useContext from './hooks/useContext';
 defineOptions({
   name: 'Descriptions',
 });
@@ -112,7 +112,7 @@ const props = withDefaults(defineProps<DescriptionsProps>(), {
   tableLayout: 'auto',
 });
 // 注入
-const { provide } = useProvide();
+const { provide } = useContext();
 const { column, size, data, layout } = provide(props);
 // 行数
 const renderArr = computed(() => {

@@ -22,7 +22,7 @@
 <script lang="ts" setup>
 import { toRefs, computed } from 'vue';
 import { IconArrowRight } from '@shared/icons';
-import useProvide from './hooks/useProvide';
+import useContext from './hooks/useContext';
 const props = defineProps<{
   type: 'pre' | 'next';
 }>();
@@ -31,7 +31,7 @@ defineEmits<{
 }>();
 const { type } = toRefs(props);
 // 接收注入
-const { inject } = useProvide();
+const { inject } = useContext();
 const { showArrow, direction, arrowClass, computedCurrent } = inject();
 // 旋转角度
 const rotate = computed(() => {

@@ -54,7 +54,7 @@
 import { ref, toRefs } from 'vue';
 import { LayoutSiderProps, LayoutSiderEmits, LayoutSiderSlots } from './type';
 import { useControlValue, mediaQueryHandler } from '@shared/utils';
-import useProvide from './hooks/useProvide';
+import useContext from './hooks/useContext';
 import { IconArrowRight } from '@shared/icons';
 import { YcIconButton } from '@shared/components';
 import YcResizeBox from '@/components/ResizeBox';
@@ -86,7 +86,7 @@ const {
   collapsedWidth,
 } = toRefs(props);
 // 注入数据
-const { inject } = useProvide();
+const { inject } = useContext();
 inject();
 // 宽度
 const width = useControlValue<number>(ref(), _width.value);

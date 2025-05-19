@@ -12,7 +12,7 @@
 
 <script lang="ts" setup>
 import { ButtonGroupProps, ButtonGroupSlots } from './type';
-import useProvide from './hooks/useProvide';
+import useContext from './hooks/useContext';
 defineOptions({
   name: 'ButtonGroup',
 });
@@ -25,7 +25,7 @@ const props = withDefaults(defineProps<ButtonGroupProps>(), {
   disabled: false,
 });
 // 获取全局配置
-const { provide } = useProvide();
+const { provide } = useContext();
 provide(props);
 </script>
 

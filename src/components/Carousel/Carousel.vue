@@ -34,7 +34,7 @@
 <script lang="ts" setup>
 import { watch, onBeforeUnmount } from 'vue';
 import { CarouselProps, CarouselEmits, CarouselSlots } from './type';
-import useProvide from './hooks/useProvide';
+import useContext from './hooks/useContext';
 import CarouselArrow from './CarouselArrow.vue';
 import CarouselIndicator from './CarouselIndicator.vue';
 defineOptions({
@@ -58,7 +58,7 @@ const props = withDefaults(defineProps<CarouselProps>(), {
 });
 const emits = defineEmits<CarouselEmits>();
 // 注入
-const { provide } = useProvide();
+const { provide } = useContext();
 const { slideTo, computedCurrent, autoPlay } = provide(props, emits);
 // 自动播放的timer
 let autoPlayTimer: any = null;

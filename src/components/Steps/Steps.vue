@@ -16,7 +16,7 @@
 
 <script lang="ts" setup>
 import { StepsProps, StepsEmits, StepsSlots } from './type';
-import useProvide from './hooks/useProvide';
+import useContext from './hooks/useContext';
 defineOptions({
   name: 'Steps',
 });
@@ -34,7 +34,7 @@ const props = withDefaults(defineProps<StepsProps>(), {
 });
 const emits = defineEmits<StepsEmits>();
 // 注入数据
-const { provide } = useProvide();
+const { provide } = useContext();
 const { type, labelPlacement, direction } = provide(props, emits);
 </script>
 

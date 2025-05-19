@@ -16,7 +16,7 @@
 import { toRefs, computed, CSSProperties } from 'vue';
 import { GridRowProps, GridRowSlots } from './type';
 import { mediaQueryHandler } from '@shared/utils';
-import useProvide from './hooks/useProvide';
+import useContext from './hooks/useContext';
 defineOptions({
   name: 'Row',
 });
@@ -30,7 +30,7 @@ const props = withDefaults(defineProps<GridRowProps>(), {
 });
 const { div, wrap, justify, align } = toRefs(props);
 // 注入
-const { provide } = useProvide();
+const { provide } = useContext();
 const { breakpoint } = provide(props);
 // style
 const style = computed<CSSProperties>(() => {

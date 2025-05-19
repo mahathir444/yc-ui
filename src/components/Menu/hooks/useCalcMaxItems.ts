@@ -1,6 +1,6 @@
 import { computed, ref, Ref } from 'vue';
 import { useResizeObserver } from '@vueuse/core';
-import { MenuItemData } from './useProvide';
+import { MenuItemData } from './useContext';
 import { throttle } from '@shared/utils';
 import { MenuMode } from '../type';
 export default (menuRef: Ref<HTMLDivElement | undefined>, mode: MenuMode) => {

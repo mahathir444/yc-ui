@@ -43,7 +43,7 @@
 <script lang="ts" setup>
 import { toRefs } from 'vue';
 import { CollapseItemProps, CollapseItemSlots } from './type';
-import useProvide from './hooks/useProvide';
+import useContext from './hooks/useContext';
 import { IconRight } from '@shared/icons';
 import { YcIconButton, ExpandTransition } from '@shared/components';
 defineOptions({
@@ -59,7 +59,7 @@ const props = withDefaults(defineProps<CollapseItemProps>(), {
 });
 const { value, disabled } = toRefs(props);
 // 注入数据
-const { inject } = useProvide();
+const { inject } = useContext();
 const {
   computedActiveKey,
   accordion,

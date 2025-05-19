@@ -34,26 +34,5 @@ withDefaults(defineProps<ListItemMetaProps>(), {
 </script>
 
 <style lang="less" scoped>
-.yc-list-item-meta {
-  overflow: hidden;
-  padding: 4px 0;
-  display: flex;
-  align-items: center;
-  gap: 16px;
-  .yc-list-item-avatar {
-    flex-shrink: 0;
-  }
-  .yc-list-item-meta-content {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    .yc-list-item-meta-title {
-      color: rgb(29, 33, 41);
-      font-weight: 500;
-    }
-    .yc-list-item-meta-description {
-      color: rgb(78, 89, 105);
-    }
-  }
-}
+@import './style/list-item-meta.less';
 </style>

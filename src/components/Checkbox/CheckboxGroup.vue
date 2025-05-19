@@ -24,7 +24,7 @@
 
 <script lang="ts" setup>
 import { CheckboxGroupProps, CheckboxEmits, CheckboxGroupSlots } from './type';
-import useProvide from './hooks/useProvide';
+import useContext from './hooks/useContext';
 import YcCheckbox from './Checkbox.vue';
 defineOptions({
   name: 'CheckboxGroup',
@@ -40,7 +40,7 @@ const props = withDefaults(defineProps<CheckboxGroupProps>(), {
 });
 const emits = defineEmits<CheckboxEmits>();
 // 注入数据
-const { provide } = useProvide();
+const { provide } = useContext();
 provide(props, emits);
 </script>
 

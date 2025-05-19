@@ -24,7 +24,7 @@
 <script lang="ts" setup>
 import { ref, toRefs } from 'vue';
 import { DoptionProps, DoptionValue, DoptionSlots } from './type';
-import useProvide from './hooks/useProvide';
+import useContext from './hooks/useContext';
 defineOptions({
   name: 'Doption',
 });
@@ -39,7 +39,7 @@ const emits = defineEmits<{
 }>();
 const { value: optionValue, disabled, isSubmenu } = toRefs(props);
 // dropdown传递的值
-const { inject } = useProvide();
+const { inject } = useContext();
 const { select } = inject();
 // 自身实例
 const doptionRef = ref<HTMLDivElement>();

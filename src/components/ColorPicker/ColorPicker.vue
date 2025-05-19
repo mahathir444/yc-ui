@@ -31,7 +31,7 @@
 <script lang="ts" setup>
 import { COLOR_PICKER_PRESET_COLORS } from '@shared/constants';
 import { ColorPickerProps, ColorPickerEmits } from './type';
-import useProvide from './hooks/useProvide';
+import useContext from './hooks/useContext';
 import ColorPanel from './ColorPanel.vue';
 import YcTrigger from '@/components/Trigger';
 defineOptions({
@@ -56,7 +56,7 @@ const props = withDefaults(defineProps<ColorPickerProps>(), {
 });
 const emits = defineEmits<ColorPickerEmits>();
 // 注入
-const { provide } = useProvide();
+const { provide } = useContext();
 const { popupVisible, computedColor, size } = provide(props, emits);
 </script>
 

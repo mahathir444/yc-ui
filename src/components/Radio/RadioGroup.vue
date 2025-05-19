@@ -28,7 +28,7 @@
 
 <script lang="ts" setup>
 import { RadioGroupProps, RadioGroupEmits, RadioGroupSlots } from './type';
-import useProvide from './hooks/useProvide';
+import useContext from './hooks/useContext';
 import YcRadio from './Radio.vue';
 defineOptions({
   name: 'RadioGroup',
@@ -45,7 +45,7 @@ const props = withDefaults(defineProps<RadioGroupProps>(), {
 });
 const emits = defineEmits<RadioGroupEmits>();
 // 注入数据
-const { provide } = useProvide();
+const { provide } = useContext();
 provide(props, emits);
 </script>
 

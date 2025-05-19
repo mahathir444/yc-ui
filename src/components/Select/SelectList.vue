@@ -44,7 +44,7 @@
 import { ObjectData } from '@shared/type';
 import { getSlotFunction, getGlobalConfig } from '@shared/utils';
 import { SlotRender } from '@shared/components';
-import useProvide from './hooks/useProvide';
+import useContext from './hooks/useContext';
 import YcOption from './Option.vue';
 import YcOptgroup from './Optgroup.vue';
 import YcScrollbar from '@/components/Scrollbar';
@@ -52,7 +52,7 @@ defineProps<{
   scrollbar: boolean;
 }>();
 // 接收注入
-const { inject } = useProvide();
+const { inject } = useContext();
 const { fieldKey, isEmpty, renderOptions, slots, emits } = inject();
 // configProvider
 const { slots: providerSlots } = getGlobalConfig();

@@ -39,7 +39,7 @@
 <script lang="ts" setup>
 import { computed, toRefs, useSlots } from 'vue';
 import { ButtonProps, ButtonEmits, ButtonSlots } from './type';
-import useProvide from './hooks/useProvide';
+import useContext from './hooks/useContext';
 import YcSpin from '@/components/Spin';
 defineOptions({
   name: 'Button',
@@ -67,7 +67,7 @@ const {
 } = toRefs(props);
 const slots = useSlots();
 // 呼求注入
-const { inject } = useProvide();
+const { inject } = useContext();
 const { size, disabled, type, status, shape } = inject(props);
 // button的class
 const btnClass = computed(() => {

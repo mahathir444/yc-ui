@@ -52,7 +52,7 @@ import { ref } from 'vue';
 import { useResizeObserver } from '@vueuse/core';
 import { IconImageClose } from '@shared/icons';
 import { AvatarProps, AvatarSlots, AvatarEmits } from './type';
-import useProvide from './hooks/useProvide';
+import useContext from './hooks/useContext';
 defineOptions({
   name: 'Avatar',
 });
@@ -70,7 +70,7 @@ const props = withDefaults(defineProps<AvatarProps>(), {
 });
 const emits = defineEmits<AvatarEmits>();
 // 接收注入
-const { inject } = useProvide();
+const { inject } = useContext();
 const { size, autoFixFontSize, shape } = inject(props);
 // 是否加载错误
 const isLoadError = ref<boolean>(false);

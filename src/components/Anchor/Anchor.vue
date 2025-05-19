@@ -17,7 +17,7 @@
 <script lang="ts" setup>
 import { computed, onMounted, ref } from 'vue';
 import { AnchorProps, AnchorSlots } from './type';
-import useProvide from './hooks/useProvide';
+import useContext from './hooks/useContext';
 defineOptions({
   name: 'Anchor',
 });
@@ -34,7 +34,7 @@ const listRef = ref<HTMLDivElement>();
 // listRef
 const linkRefs = ref<HTMLDivElement[]>([]);
 // 注入
-const { provide } = useProvide();
+const { provide } = useContext();
 const { curHref, hrefs } = provide(props, listRef);
 // 计算top
 const top = computed(() => {

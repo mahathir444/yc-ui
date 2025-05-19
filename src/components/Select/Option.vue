@@ -42,7 +42,7 @@ import { toRefs, computed } from 'vue';
 import { OptionProps } from './type';
 import { ObjectData } from '@shared/type';
 import { isUndefined } from '@shared/utils';
-import useProvide from './hooks/useProvide';
+import useContext from './hooks/useContext';
 import YcCheckbox from '@/components/Checkbox';
 defineOptions({
   name: 'Option',
@@ -54,7 +54,7 @@ const props = withDefaults(defineProps<OptionProps>(), {
 });
 const { label, value: optionValue, disabled } = toRefs(props);
 // 解构父级provide的属性
-const { inject } = useProvide();
+const { inject } = useContext();
 const {
   computedValue,
   computedInputValue,

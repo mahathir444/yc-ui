@@ -65,7 +65,7 @@
 import { toRefs, computed } from 'vue';
 import { StepProps, StepSlots } from './type';
 import { IconCheck, IconClose } from '@shared/icons';
-import useProvide from './hooks/useProvide';
+import useContext from './hooks/useContext';
 defineOptions({
   name: 'Step',
 });
@@ -78,7 +78,7 @@ const props = withDefaults(defineProps<StepProps>(), {
 });
 const { disabled } = toRefs(props);
 // 接收注入
-const { inject } = useProvide();
+const { inject } = useContext();
 const {
   curStep,
   computedCurrent,

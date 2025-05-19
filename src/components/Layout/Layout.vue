@@ -13,7 +13,7 @@
 import { toRefs, computed } from 'vue';
 import { LayoutProps, LayoutSlots } from './type';
 import { isUndefined } from '@shared/utils';
-import useProvide from './hooks/useProvide';
+import useContext from './hooks/useContext';
 defineOptions({
   name: 'Layout',
 });
@@ -23,7 +23,7 @@ const props = withDefaults(defineProps<LayoutProps>(), {
 });
 const { hasSider: _hasSider } = toRefs(props);
 // 注入
-const { provide } = useProvide();
+const { provide } = useContext();
 const { hasSider, curLevel } = provide();
 // 是否有sider
 const computedHasSider = computed(() => {

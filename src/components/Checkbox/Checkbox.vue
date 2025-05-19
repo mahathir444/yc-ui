@@ -40,7 +40,7 @@
 import { toRefs, computed } from 'vue';
 import { CheckboxProps, CheckboxEmits, CheckboxSlots } from './type';
 import { useControlValue } from '@shared/utils';
-import useProvide from './hooks/useProvide';
+import useContext from './hooks/useContext';
 import { IconCheckboxChecked } from '@shared/icons';
 import { YcPreventFocus, YcIconButton } from '@shared/components';
 defineOptions({
@@ -63,7 +63,7 @@ const {
   value: checkboxValue,
 } = toRefs(props);
 // 接收注入
-const { inject } = useProvide();
+const { inject } = useContext();
 const { computedValue, max, disabled: injectDisabled } = inject(props);
 // checkbox受控的值
 const _checked = useControlValue<boolean>(

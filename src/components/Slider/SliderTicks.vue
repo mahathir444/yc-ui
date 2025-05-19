@@ -24,7 +24,7 @@
 <script lang="ts" setup>
 import { toRefs } from 'vue';
 import { ObjectData } from '@shared/type';
-import useProvide from './hooks/useProvide';
+import useContext from './hooks/useContext';
 const props = defineProps<{
   type: 'dots' | 'marks' | 'ticks';
   data: ObjectData[];
@@ -34,7 +34,7 @@ defineEmits<{
 }>();
 const { type } = toRefs(props);
 // 接收注入
-const { inject } = useProvide();
+const { inject } = useContext();
 const { min, max, startValue, endValue, range, direction, handleRangeValue } =
   inject();
 // 计算position

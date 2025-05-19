@@ -43,7 +43,7 @@
 
 <script lang="ts" setup>
 import { TransferProps, TransferEmits, TransferSlots } from './type';
-import useProvide from './hooks/useProvide';
+import useContext from './hooks/useContext';
 import { IconArrowRight } from '@shared/icons';
 import TransferPanel from './TransferPanel.vue';
 import YcButton from '@/components/Button';
@@ -72,7 +72,7 @@ const props = withDefaults(defineProps<TransferProps>(), {
 });
 const emits = defineEmits<TransferEmits>();
 // 注入数据
-const { provide } = useProvide();
+const { provide } = useContext();
 const { computedValue, targetChecked, computedSelected, sourceChecked } =
   provide(props, emits);
 // 处理添加

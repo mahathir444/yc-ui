@@ -39,7 +39,7 @@
 
 <script lang="ts" setup>
 import { IndicatorTrigger, IndicatorType, IndicatorPosition } from './type';
-import useProvide from './hooks/useProvide';
+import useContext from './hooks/useContext';
 defineProps<{
   trigger: IndicatorTrigger;
   indicatorType: IndicatorType;
@@ -50,7 +50,7 @@ defineEmits<{
   (e: 'change', index: number): void;
 }>();
 // 接收注入
-const { inject } = useProvide();
+const { inject } = useContext();
 const { length, computedCurrent } = inject();
 </script>
 

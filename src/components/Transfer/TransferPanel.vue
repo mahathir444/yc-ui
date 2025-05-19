@@ -93,7 +93,7 @@
 import { ref, toRefs, computed } from 'vue';
 import { TransferItem, TransferPanelSlots } from './type';
 import { IconDelete, IconClose } from '@shared/icons';
-import useProvide from './hooks/useProvide';
+import useContext from './hooks/useContext';
 import { getGlobalConfig } from '@shared/utils';
 import YcCheckbox from '@/components/Checkbox';
 import YcScrollbar from '@/components/Scrollbar';
@@ -107,7 +107,7 @@ const { type } = toRefs(props);
 // configProvider
 const { slots: providerSlots } = getGlobalConfig();
 // 接收注入
-const { inject } = useProvide();
+const { inject } = useContext();
 const {
   computedValue,
   computedSelected,

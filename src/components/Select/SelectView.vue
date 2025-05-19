@@ -32,7 +32,7 @@
 
 <script lang="ts" setup>
 import { VirtualListProps } from './type';
-import useProvide from './hooks/useProvide';
+import useContext from './hooks/useContext';
 import SelectVirtualList from './SelectVirtualList.vue';
 import SelectList from './SelectList.vue';
 import YcSpin from '@/components/Spin';
@@ -44,7 +44,7 @@ defineProps<{
   virtualListProps?: VirtualListProps;
 }>();
 // 接收注入
-const { inject } = useProvide();
+const { inject } = useContext();
 const { slots, isEmpty } = inject();
 // 渲染插槽
 const renderSlots = (name: string) => {

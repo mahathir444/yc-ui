@@ -33,7 +33,7 @@
 <script lang="ts" setup>
 import { toRefs } from 'vue';
 import { BreadcrumbProps, BreadcrumbSlots } from './type';
-import useProvide from './hooks/useProvide';
+import useContext from './hooks/useContext';
 import { BreadcrumbItem as YcBreadcrumbItem } from './index';
 defineOptions({
   name: 'Breadcrumb',
@@ -47,7 +47,7 @@ const props = withDefaults(defineProps<BreadcrumbProps>(), {
 });
 const { routes } = toRefs(props);
 // 注入数据
-const { provide } = useProvide();
+const { provide } = useContext();
 provide(props);
 // 获取path
 const getPaths = (index: number) => {

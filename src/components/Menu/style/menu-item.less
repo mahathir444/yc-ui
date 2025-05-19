@@ -23,23 +23,6 @@
     margin-left: 16px;
   }
 }
-// 选中
-.yc-menu-item-selected {
-  font-weight: 500;
-  &.yc-menu-item-theme-light {
-    color: rgb(22, 93, 255);
-    background-color: rgb(242, 243, 245);
-  }
-  &.yc-menu-item-theme-dark {
-    color: #fff;
-    background-color: rgba(255, 255, 255, 0.04);
-  }
-}
-// 禁用
-.yc-menu-item-disabled {
-  color: rgb(201, 205, 212);
-  background-color: #fff;
-}
 // collapsed
 .yc-menu-item-collapsed {
   .yc-menu-icon {
@@ -80,10 +63,14 @@
 @item-themes: {
   @light: {
     color: rgb(78, 89, 105);
+    selected-color: rgb(22, 93, 255);
+    disabled-color: rgb(201, 205, 212);
     hover-bg: rgb(242, 243, 245);
   };
   @dark: {
     color: rgb(201, 205, 212);
+    selected-color: #fff;
+    disabled-color: rgb(201, 205, 212);
     hover-bg: rgba(255, 255, 255, 0.04);
   };
 };
@@ -95,6 +82,14 @@ each(@item-themes, .(@value,@name){
       &:hover {
         background-color: @value[hover-bg];
       }
+    }
+    &.yc-menu-item-selected{
+      font-weight: 500;
+      color: @value[selected-color];
+      background-color: @value[hover-bg];
+    }
+    &.yc-menu-item-disabled{
+      color: @value[disabled-color];
     }
   }
 });

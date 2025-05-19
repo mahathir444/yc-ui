@@ -22,13 +22,13 @@
 <script lang="ts" setup>
 import { computed } from 'vue';
 import { CarouselItemSlots } from './type';
-import useProvide from './hooks/useProvide';
+import useContext from './hooks/useContext';
 defineOptions({
   name: 'CarouselItem',
 });
 defineSlots<CarouselItemSlots>();
 // 接收注入
-const { inject } = useProvide();
+const { inject } = useContext();
 const {
   moveType,
   index,

@@ -40,7 +40,7 @@
 import { toRefs, computed, useSlots } from 'vue';
 import { AvatarGroupProps, AvatarGroupSlots } from './type';
 import { findComponentsFromVnodes } from '@shared/utils';
-import useProvide from './hooks/useProvide';
+import useContext from './hooks/useContext';
 import YcAvatar from './index';
 import YcPopover from '@/components/Popover';
 defineOptions({
@@ -62,7 +62,7 @@ const props = withDefaults(defineProps<AvatarGroupProps>(), {
 });
 const { maxCount } = toRefs(props);
 // 注入
-const { provide } = useProvide();
+const { provide } = useContext();
 provide(props);
 // 获取插槽内元素
 const slots = useSlots();

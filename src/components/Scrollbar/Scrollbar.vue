@@ -47,7 +47,7 @@ import {
   ScrollbarExpose,
 } from './type';
 import { useElementSize } from '@vueuse/core';
-import { SCROLLBAR_PROVIDE_KEY, ScrollbarProvide } from './hooks/useProvide';
+import { SCROLLBAR_PROVIDE_KEY, ScrollbarProvide } from './hooks/useContext';
 import ScrollbarTrack from './ScrollbarTrack.vue';
 defineOptions({
   name: 'Scrollbar',

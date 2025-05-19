@@ -26,7 +26,7 @@
 import { ref, toRefs, computed } from 'vue';
 import { useDraggable, useResizeObserver } from '@vueuse/core';
 import { Direction } from '@shared/type';
-import useProvide from './hooks/useProvide';
+import useContext from './hooks/useContext';
 const props = withDefaults(
   defineProps<{
     direction?: Direction;
@@ -41,7 +41,7 @@ const emits = defineEmits<{
 }>();
 const { direction } = toRefs(props);
 // 接受值
-const { inject } = useProvide();
+const { inject } = useContext();
 const {
   scrollRef,
   thumbHeight,

@@ -24,7 +24,7 @@
 <script lang="ts" setup>
 import { toRefs, computed } from 'vue';
 import { IconArrowRight, IconMore } from '@shared/icons';
-import useProvide from './hooks/useProvide';
+import useContext from './hooks/useContext';
 const props = withDefaults(
   defineProps<{
     type: 'item' | 'pre' | 'next' | 'more-right' | 'more-left' | string;
@@ -36,7 +36,7 @@ const props = withDefaults(
 );
 const { type, page } = toRefs(props);
 // 接收注入
-const { inject } = useProvide();
+const { inject } = useContext();
 const {
   computedCurrent,
   pages,

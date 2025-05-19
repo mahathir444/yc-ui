@@ -39,7 +39,7 @@ import {
   DropdownSlots,
   DropdownExpose,
 } from './type';
-import useProvide from './hooks/useProvide';
+import useContext from './hooks/useContext';
 import YcTrigger from '@/components/Trigger';
 import YcScrollbar from '@/components/Scrollbar';
 defineOptions({
@@ -65,7 +65,7 @@ const emits = defineEmits<{
 }>();
 const { trigger, position: _position } = toRefs(props);
 // 注入
-const { provide } = useProvide();
+const { provide } = useContext();
 const { computedVisible } = provide(props, emits);
 // 位置
 const position = computed(() => {

@@ -11,14 +11,14 @@
 
 <script lang="ts" setup>
 import { toRefs, computed } from 'vue';
-import useProvide from './hooks/useProvide';
+import useContext from './hooks/useContext';
 import YcInputNumber from '@/components/InputNumber';
 const props = defineProps<{
   type: 'start' | 'end';
 }>();
 const { type } = toRefs(props);
 // 接收注入
-const { inject } = useProvide();
+const { inject } = useContext();
 const {
   min,
   max,

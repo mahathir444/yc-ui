@@ -43,7 +43,7 @@
 import { ref, toRefs, onMounted } from 'vue';
 import { SubMenuProps, SubMenuSlots } from './type';
 import useMenuLevel from './hooks/useMenuLevel';
-import useProvide from './hooks/useProvide';
+import useContext from './hooks/useContext';
 import { IconArrowDown, IconArrowRight } from '@shared/icons';
 import { ExpandTransition } from '@shared/components';
 import { MenuItem as YcMenuItem, MenuItemInstance } from './index';
@@ -62,7 +62,7 @@ const { path, title } = toRefs(props);
 // headerRef
 const headerRef = ref<MenuItemInstance>();
 // 接收父级注入的属性
-const { inject } = useProvide();
+const { inject } = useContext();
 const {
   mode,
   computedOpenKeys,

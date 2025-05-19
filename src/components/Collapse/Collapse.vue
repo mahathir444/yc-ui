@@ -11,7 +11,7 @@
 
 <script lang="ts" setup>
 import { CollapseProps, CollapseEmits, CollapseSlots } from './type';
-import useProvide from './hooks/useProvide';
+import useContext from './hooks/useContext';
 defineOptions({
   name: 'Collapse',
 });
@@ -27,7 +27,7 @@ const props = withDefaults(defineProps<CollapseProps>(), {
 });
 const emits = defineEmits<CollapseEmits>();
 // 注入数据
-const { provide } = useProvide();
+const { provide } = useContext();
 provide(props, emits);
 </script>
 

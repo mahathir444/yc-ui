@@ -52,7 +52,7 @@
 
 <script lang="ts" setup>
 import { CardProps, CardSlots } from './type';
-import useProvide from './hooks/useProvide';
+import useContext from './hooks/useContext';
 import YcSpin from '@/components/Spin';
 defineOptions({
   name: 'Card',
@@ -73,7 +73,7 @@ const props = withDefaults(defineProps<CardProps>(), {
   extra: '',
 });
 // 注入
-const { provide } = useProvide();
+const { provide } = useContext();
 const { hasMeta, hasGrid, size } = provide(props);
 </script>
 

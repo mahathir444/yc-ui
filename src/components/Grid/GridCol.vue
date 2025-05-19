@@ -13,7 +13,7 @@
 import { toRefs, computed, CSSProperties } from 'vue';
 import { GridColProps, GridColSlots } from './type';
 import { isNumber, isObject } from '@shared/utils';
-import useProvide from './hooks/useProvide';
+import useContext from './hooks/useContext';
 defineOptions({
   name: 'Col',
 });
@@ -29,7 +29,7 @@ const {
   flex: _flex,
 } = toRefs(props);
 // 接收注入属性
-const { inject } = useProvide();
+const { inject } = useContext();
 const { gutter, breakpoint, div } = inject();
 // col-style
 const style = computed<CSSProperties>(() => {

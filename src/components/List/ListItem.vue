@@ -1,8 +1,5 @@
 <template>
-  <div
-    role="listitem"
-    :class="['yc-list-item', `yc-list-item-${actionLayout}`]"
-  >
+  <div role="listitem" class="yc-list-item">
     <!-- main -->
     <div class="yc-list-item-main">
       <!-- meta -->
@@ -29,14 +26,13 @@
       <slot name="actions" />
     </div>
     <!-- extra -->
-    <div class="list-item-extra">
+    <div v-if="$slots.extra" class="list-item-extra">
       <slot name="extra" />
     </div>
   </div>
 </template>
 
 <script lang="ts" setup>
-import { ref, reactive } from 'vue';
 import { ListItemProps, ListItemSlots } from './type';
 defineOptions({
   name: 'ListItem',
@@ -48,22 +44,5 @@ withDefaults(defineProps<ListItemProps>(), {
 </script>
 
 <style lang="less" scoped>
-.yc-list-item {
-  overflow: hidden;
-  width: 100%;
-  display: flex;
-  justify-content: space-between;
-  .yc-list-item-main {
-    flex: 1;
-  }
-  .yc-list-item-action {
-    display: flex;
-    align-items: center;
-    gap: 20px;
-  }
-}
-.yc-list-item-horizontal {
-}
-.yc-list-item-vertical {
-}
+@import './style/list-item.less';
 </style>
