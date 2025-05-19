@@ -9,9 +9,9 @@ import {
 import { getGlobalConfig } from '@shared/utils';
 import { Props } from '@shared/type';
 
-export const CARD_PROVIDE_KEY = 'card-props';
+export const CARD_PROVIDE_KEY = 'card-context';
 
-export interface CardProvide {
+export interface CardContext {
   slots: Slots;
   hasMeta: Ref<boolean>;
   hasGrid: Ref<boolean>;
@@ -26,7 +26,7 @@ export default () => {
     const hasGrid = ref<boolean>(false);
     // size
     const { size } = getGlobalConfig(props);
-    _provide<CardProvide>(CARD_PROVIDE_KEY, {
+    _provide<CardContext>(CARD_PROVIDE_KEY, {
       slots,
       hasMeta,
       hasGrid,
@@ -38,7 +38,7 @@ export default () => {
     };
   };
   const inject = (type: 'meta' | 'grid') => {
-    const { hasMeta, hasGrid, slots } = _inject<CardProvide>(CARD_PROVIDE_KEY, {
+    const { hasMeta, hasGrid, slots } = _inject<CardContext>(CARD_PROVIDE_KEY, {
       slots: {},
       hasMeta: ref(false),
       hasGrid: ref(false),

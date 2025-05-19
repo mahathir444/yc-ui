@@ -22,9 +22,9 @@ import { useControlValue } from '@shared/utils';
 import useSelectOptions from './useSelectOptions';
 import useSelectHotkeys from './useSelectHotkeys';
 
-export const SELECT_PROVIDE_KEY = 'select-props';
+export const SELECT_PROVIDE_KEY = 'select-context';
 
-export interface SelectProvide {
+export interface SelectContext {
   computedValue: Ref<SelectValue | SelectValue[] | undefined>;
   computedInputValue: Ref<string>;
   multiple: Ref<boolean>;
@@ -161,7 +161,7 @@ export default () => {
     function blur() {
       inputRef.value.blur();
     }
-    _provide<SelectProvide>(SELECT_PROVIDE_KEY, {
+    _provide<SelectContext>(SELECT_PROVIDE_KEY, {
       computedValue,
       computedInputValue,
       limit,
@@ -186,7 +186,7 @@ export default () => {
     };
   };
   const inject = () => {
-    return _inject<SelectProvide>(SELECT_PROVIDE_KEY, {
+    return _inject<SelectContext>(SELECT_PROVIDE_KEY, {
       computedValue: ref(undefined),
       computedInputValue: ref(''),
       multiple: ref(false),

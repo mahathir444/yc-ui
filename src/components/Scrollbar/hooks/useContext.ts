@@ -1,8 +1,8 @@
 import { Ref, provide as _provide, inject as _inject, ref } from 'vue';
 
-export const SCROLLBAR_PROVIDE_KEY = 'scrollbar-props';
+export const SCROLLBAR_PROVIDE_KEY = 'scrollbar-context';
 
-export interface ScrollbarProvide {
+export interface ScrollbarContext {
   curTop: Ref<number>;
   curLeft: Ref<number>;
   movableLeft: Ref<number>;
@@ -14,7 +14,7 @@ export interface ScrollbarProvide {
 
 export default () => {
   const inject = () => {
-    return _inject<ScrollbarProvide>(SCROLLBAR_PROVIDE_KEY, {
+    return _inject<ScrollbarContext>(SCROLLBAR_PROVIDE_KEY, {
       curTop: ref(0),
       curLeft: ref(0),
       movableLeft: ref(0),

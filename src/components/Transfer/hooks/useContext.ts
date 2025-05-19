@@ -17,9 +17,9 @@ import {
 import { RequiredDeep, Props } from '@shared/type';
 import { useControlValue } from '@shared/utils';
 
-export const TRANSFER_PROVIDE_KEY = 'transfer-props';
+export const TRANSFER_PROVIDE_KEY = 'transfer-context';
 
-export interface TransferProvide {
+export interface TransferContext {
   computedValue: Ref<string[]>;
   computedSelected: Ref<string[]>;
   targetChecked: Ref<string[]>;
@@ -113,7 +113,7 @@ export default () => {
       );
     });
     // 提供给子组件
-    _provide<TransferProvide>(TRANSFER_PROVIDE_KEY, {
+    _provide<TransferContext>(TRANSFER_PROVIDE_KEY, {
       computedValue,
       computedSelected,
       targetChecked,
@@ -140,7 +140,7 @@ export default () => {
   };
   const inject = () => {
     // 接收的值
-    return _inject<TransferProvide>(TRANSFER_PROVIDE_KEY, {
+    return _inject<TransferContext>(TRANSFER_PROVIDE_KEY, {
       computedValue: ref([]),
       computedSelected: ref([]),
       targetChecked: ref([]),

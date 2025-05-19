@@ -13,6 +13,8 @@ const Tab = Object.assign(_Tab, {
   },
 });
 
+export { _TabPane as TabPane };
+
 declare module 'vue' {
   export interface GlobalComponents {
     YcTab: typeof Tab;

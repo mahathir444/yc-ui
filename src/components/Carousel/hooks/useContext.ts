@@ -3,11 +3,11 @@ import { CarouselEmits, ShowArrow } from '../type';
 import { useControlValue, sleep } from '@shared/utils';
 import { Direction, Props } from '@shared/type';
 
-export const CAROUSEL_PROVIDE_KEY = 'carousel-props';
+export const CAROUSEL_PROVIDE_KEY = 'carousel-context';
 
 export type MoveType = 'positive' | 'negative';
 
-export interface CarouselProvide {
+export interface CarouselContext {
   length: Ref<number>;
   computedCurrent: Ref<number>;
   transitionTimingFunction: Ref<string>;
@@ -71,7 +71,7 @@ export default () => {
       timer = null;
     };
     // 提供给子组件
-    _provide<CarouselProvide>(CAROUSEL_PROVIDE_KEY, {
+    _provide<CarouselContext>(CAROUSEL_PROVIDE_KEY, {
       length,
       computedCurrent,
       transitionTimingFunction,
@@ -93,7 +93,7 @@ export default () => {
   };
   const inject = (isItem: boolean = false) => {
     // 接收的值
-    const injection = _inject<CarouselProvide>(CAROUSEL_PROVIDE_KEY, {
+    const injection = _inject<CarouselContext>(CAROUSEL_PROVIDE_KEY, {
       length: ref(0),
       computedCurrent: ref(1),
       transitionTimingFunction: ref('cubic-bezier(0.34, 0.69, 0.1, 1)'),

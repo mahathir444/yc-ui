@@ -13,9 +13,9 @@ import {
 } from '@shared/utils';
 import { Props } from '@shared/type';
 
-export const ANCHOR_PROVIDE_KEY = 'anchor-props';
+export const ANCHOR_PROVIDE_KEY = 'anchor-context';
 
-export interface AnchorProvide {
+export interface AnchorContext {
   hrefs: Ref<string[]>;
   order: Ref<number>;
   changeHash: Ref<boolean>;
@@ -47,7 +47,7 @@ export default () => {
         ? findFirstScrollableParent(listRef.value)
         : getElement(_scrollContainer.value);
     });
-    _provide<AnchorProvide>(ANCHOR_PROVIDE_KEY, {
+    _provide<AnchorContext>(ANCHOR_PROVIDE_KEY, {
       hrefs,
       order,
       changeHash,
@@ -70,7 +70,7 @@ export default () => {
   };
   const inject = () => {
     // 接收的值
-    return _inject<AnchorProvide>(ANCHOR_PROVIDE_KEY, {
+    return _inject<AnchorContext>(ANCHOR_PROVIDE_KEY, {
       hrefs: ref<string[]>([]),
       order: ref(0),
       changeHash: ref(true),

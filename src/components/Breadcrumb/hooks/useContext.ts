@@ -8,9 +8,9 @@ import {
 } from 'vue';
 import { Props } from '@shared/type';
 
-export const BREADCRUMB_PROVIDE_KEY = 'breadcrumb-props';
+export const BREADCRUMB_PROVIDE_KEY = 'breadcrumb-context';
 
-export interface BreadcrumbProvide {
+export interface BreadcrumbContext {
   index: Ref<number>;
   maxCount: Ref<number>;
   separator: Ref<string | number>;
@@ -22,14 +22,14 @@ export default () => {
     // 次序
     const index = ref<number>(-1);
     // 发放数据
-    _provide<BreadcrumbProvide>(BREADCRUMB_PROVIDE_KEY, {
+    _provide<BreadcrumbContext>(BREADCRUMB_PROVIDE_KEY, {
       index,
       maxCount,
       separator,
     });
   };
   const inject = () => {
-    return _inject<BreadcrumbProvide>(BREADCRUMB_PROVIDE_KEY, {
+    return _inject<BreadcrumbContext>(BREADCRUMB_PROVIDE_KEY, {
       index: ref(-1),
       maxCount: ref(0),
       separator: ref(''),

@@ -7,9 +7,9 @@ import { ChlidTreeNode } from './useMenuLevel';
 import { useControlValue } from '@shared/utils';
 import useCalcMaxItems from './useCalcMaxItems';
 
-export const MENU_PROVIDE_KEY = 'menu-props';
+export const MENU_PROVIDE_KEY = 'menu-context';
 
-interface MenuProvide {
+interface MenuContext {
   computedSelectedKeys: Ref<string>;
   computedOpenKeys: Ref<string[]>;
   computedCollapsed: Ref<boolean>;
@@ -93,7 +93,7 @@ export default () => {
     // 计算能显示的menuItem数目
     const { max, index, menuItemData } = useCalcMaxItems(menuRef, mode.value);
     // 注入
-    _provide<MenuProvide>(MENU_PROVIDE_KEY, {
+    _provide<MenuContext>(MENU_PROVIDE_KEY, {
       computedSelectedKeys,
       computedOpenKeys,
       computedCollapsed,
@@ -122,7 +122,7 @@ export default () => {
     };
   };
   const inject = () => {
-    return _inject<MenuProvide>(MENU_PROVIDE_KEY, {
+    return _inject<MenuContext>(MENU_PROVIDE_KEY, {
       computedSelectedKeys: ref(''),
       computedOpenKeys: ref([]),
       levelIndent: ref(20),
