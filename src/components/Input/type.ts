@@ -45,6 +45,12 @@ export interface InputSlots {
   label(): void;
 }
 
+export type InputExpose = {
+  focus(): void;
+  blur(): void;
+  getInputRef(): HTMLInputElement;
+};
+
 export type WordSlice = (value: string, maxLength: number) => string;
 
 export type WordLength = (value: string) => number;

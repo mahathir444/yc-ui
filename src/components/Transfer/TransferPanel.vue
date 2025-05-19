@@ -42,41 +42,44 @@
     <!--body-->
     <div class="yc-transfer-view-body">
       <yc-scrollbar v-if="curData.length" auto-fill>
-        <component v-if="$slots[type]" :is="renderList" />
-        <div v-else role="list" class="yc-transfer-list">
-          <template v-for="item in curData" :key="item.value">
-            <component v-if="slots.item" :is="renderItem" />
-            <div
-              v-else
-              role="listitem"
-              :class="{
-                'yc-transfer-list-item': true,
-                'yc-transfer-list-item-disabled': item.disabled || disabled,
-              }"
-              @click="handleClick(item)"
-            >
-              <!-- checkbox -->
-              <yc-checkbox
-                v-if="(!oneWay || (oneWay && type == 'source')) && !simple"
-                :model-value="curSeleced.includes(item.value as string)"
-                :disabled="item.disabled || disabled"
-                @change="
-                  (isSelected) => handleCheck(isSelected, item.value as string)
-                "
-              >
-                {{ item.label }}
-              </yc-checkbox>
-              <template v-else>
-                <span class="yc-transfer-list-item-content text-ellipsis">
-                  {{ item.label }}
-                </span>
-                <yc-icon-button v-if="type == 'target'" :hover-size="20">
-                  <icon-close />
-                </yc-icon-button>
-              </template>
-            </div>
-          </template>
-        </div>
+        <slot-render :render="renderList">
+          <div v-if="!slots[type]" role="list" class="yc-transfer-list">
+            <template v-for="item in curData" :key="item.value">
+              <slot-render :render="renderItem">
+                <div
+                  v-if="!slots.item"
+                  role="listitem"
+                  :class="{
+                    'yc-transfer-list-item': true,
+                    'yc-transfer-list-item-disabled': item.disabled || disabled,
+                  }"
+                  @click="handleClick(item)"
+                >
+                  <!-- checkbox -->
+                  <yc-checkbox
+                    v-if="(!oneWay || (oneWay && type == 'source')) && !simple"
+                    :model-value="curSeleced.includes(item.value as string)"
+                    :disabled="item.disabled || disabled"
+                    @change="
+                      (isSelected) =>
+                        handleCheck(isSelected, item.value as string)
+                    "
+                  >
+                    {{ item.label }}
+                  </yc-checkbox>
+                  <template v-else>
+                    <span class="yc-transfer-list-item-content text-ellipsis">
+                      {{ item.label }}
+                    </span>
+                    <yc-icon-button v-if="type == 'target'" :hover-size="20">
+                      <icon-close />
+                    </yc-icon-button>
+                  </template>
+                </div>
+              </slot-render>
+            </template>
+          </div>
+        </slot-render>
       </yc-scrollbar>
       <!-- 渲染empty -->
       <slot-render :render="renderEmpty">
@@ -95,7 +98,7 @@ import { getGlobalConfig } from '@shared/utils';
 import YcCheckbox from '@/components/Checkbox';
 import YcScrollbar from '@/components/Scrollbar';
 import YcInput from '@/components/Input';
-import { YcIconButton } from '@shared/components';
+import { YcIconButton, SlotRender } from '@shared/components';
 defineSlots<TransferPanelSlots>();
 const props = defineProps<{
   type: 'source' | 'target';

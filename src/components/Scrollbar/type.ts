@@ -6,6 +6,8 @@ export interface ScrollbarProps {
   outerStyle?: CSSProperties;
   style?: CSSProperties;
   autoFill?: boolean;
+  offsetBottom?: number;
+  offsetRight?: number;
 }
 
 export interface ScrollbarEmits {
@@ -16,6 +18,13 @@ export interface ScrollbarEmits {
 
 export interface ScrollbarSlots {
   default(): void;
+}
+
+export interface ScrollbarExpose {
+  scrollTo(options: ScrollOptions): void;
+  scrollLeft(left: number): void;
+  scrollTop(top: number): void;
+  getScrollRef(): HTMLDivElement;
 }
 
 export type TackType = 'track' | 'embed';

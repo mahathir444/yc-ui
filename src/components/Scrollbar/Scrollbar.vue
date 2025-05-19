@@ -40,8 +40,13 @@
 
 <script lang="ts" setup>
 import { ref, computed, toRefs, provide, watch } from 'vue';
-import { ScrollbarProps, ScrollbarEmits, ScrollbarSlots } from './type';
-import { useElementSize, useScroll } from '@vueuse/core';
+import {
+  ScrollbarProps,
+  ScrollbarEmits,
+  ScrollbarSlots,
+  ScrollbarExpose,
+} from './type';
+import { useElementSize } from '@vueuse/core';
 import { SCROLLBAR_PROVIDE_KEY, ScrollbarProvide } from './hooks/useProvide';
 import ScrollbarTrack from './ScrollbarTrack.vue';
 defineOptions({
@@ -59,9 +64,11 @@ const props = withDefaults(defineProps<ScrollbarProps>(), {
     return {};
   },
   autoFill: false,
+  offsetBottom: 0,
+  offsetRight: 0,
 });
 const emits = defineEmits<ScrollbarEmits>();
-const { type } = toRefs(props);
+const { type, offsetBottom, offsetRight } = toRefs(props);
 // contentRef
 const contentRef = ref<HTMLElement>();
 // scrollRef
@@ -69,18 +76,6 @@ const scrollRef = ref<HTMLDivElement>();
 // 轨道的信息
 const trackWidth = ref<number>(0);
 const trackHeight = ref<number>(0);
-// 滚动状态
-const { arrivedState } = useScroll(scrollRef);
-// 判断是否触底
-watch(arrivedState, () => {
-  if (scrollRef.value?.scrollTop && arrivedState.bottom) {
-    emits('reachBottom');
-  }
-  if (scrollRef.value?.scrollLeft && arrivedState.right) {
-    emits('reachRight');
-  }
-});
-// 初始化需要计算的属性
 // 获取内容的高度
 const { width: contentWidth, height: contentHeight } = useElementSize(
   contentRef,
@@ -151,7 +146,19 @@ provide<ScrollbarProvide>(SCROLLBAR_PROVIDE_KEY, {
 });
 // 处理容器滚动
 const handleScroll = (e: Event) => {
-  const { scrollTop, scrollLeft } = e.target as HTMLDivElement;
+  const {
+    scrollTop,
+    scrollLeft,
+    scrollWidth: _scrollWidth,
+    scrollHeight: _scrollHeight,
+  } = e.target as HTMLDivElement;
+  // 处理触底逻辑
+  if (_scrollHeight - scrollTop <= offsetBottom.value) {
+    emits('reachBottom');
+  }
+  if (_scrollWidth - scrollLeft <= offsetRight.value) {
+    emits('reachRight');
+  }
   emits('scroll', scrollLeft, scrollTop);
   //计算top
   const top =
@@ -186,7 +193,7 @@ const handleDrag = (isVertical: boolean, value: number) => {
   }
 };
 // 暴露方法
-defineExpose({
+defineExpose<ScrollbarExpose>({
   scrollTo(options: ScrollOptions) {
     scrollRef.value?.scrollTo(options);
   },
@@ -201,7 +208,7 @@ defineExpose({
     });
   },
   getScrollRef() {
-    return scrollRef.value;
+    return scrollRef.value as HTMLDivElement;
   },
 });
 </script>

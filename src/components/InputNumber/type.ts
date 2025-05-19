@@ -32,6 +32,7 @@ export interface InputNumberEmits {
 }
 
 export interface InputNumberSlots {
+  plus(): void;
   minus(): void;
   suffix(): void;
   prefix(): void;
@@ -40,6 +41,11 @@ export interface InputNumberSlots {
   append(): void;
   label(): void;
 }
+
+export type InputExpose = {
+  focus(): void;
+  blur(): void;
+};
 
 export type InputNumberValue = number | string;
 

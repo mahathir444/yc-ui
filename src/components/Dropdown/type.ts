@@ -25,6 +25,11 @@ export interface DropdownSlots {
   footer(): void;
 }
 
+export interface DropdownExpose {
+  show(): void;
+  hide(): void;
+}
+
 export interface DoptionProps {
   value?: DoptionValue;
   disabled?: boolean;

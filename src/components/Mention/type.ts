@@ -23,6 +23,11 @@ export interface MentionEmits {
   (e: 'input', value: string, ev: Event): void;
 }
 
+export type MentionExpose = {
+  focus(): void;
+  blur(): void;
+};
+
 export interface MentionSlots {
   option(data: ObjectData): void;
 }

@@ -39,6 +39,11 @@ export interface InputTagSlots {
   suffix(): void;
 }
 
+export interface InputTagExpose {
+  focus(): void;
+  blur(): void;
+}
+
 export type TagData =
   | {
       id?: string;

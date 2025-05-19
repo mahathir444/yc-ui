@@ -33,7 +33,12 @@
 
 <script lang="ts" setup>
 import { ref, toRefs, onMounted, computed, nextTick } from 'vue';
-import { MentionProps, MentionEmits, MentionSlots } from './type';
+import {
+  MentionProps,
+  MentionEmits,
+  MentionSlots,
+  MentionExpose,
+} from './type';
 import { ObjectData } from '@shared/type';
 import { isNull, isArray, debounce, useControlValue } from '@shared/utils';
 import useCursor from '@/components/Input/hooks/useCursor';
@@ -200,7 +205,7 @@ onMounted(() => {
   inputRef.value = autoCompleteRef.value?.getInputRef();
 });
 
-defineExpose({
+defineExpose<MentionExpose>({
   focus() {
     inputRef.value?.focus();
   },

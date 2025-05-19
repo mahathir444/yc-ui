@@ -80,6 +80,7 @@ import {
   InputRetainValue,
   InputTagEmits,
   InputTagSlots,
+  InputTagExpose,
 } from './type';
 import { ObjectData } from '@shared/type';
 import { nanoid } from 'nanoid';
@@ -272,15 +273,12 @@ const handleEvent = (type: string, e: Event, id?: string) => {
   }
 };
 // 暴露方法
-defineExpose({
+defineExpose<InputTagExpose>({
   focus() {
     inputRef.value?.focus();
   },
   blur() {
     inputRef.value?.blur();
-  },
-  getValue() {
-    return computedValue.value;
   },
 });
 </script>

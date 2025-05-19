@@ -33,7 +33,12 @@
 
 <script lang="ts" setup>
 import { toRefs, computed } from 'vue';
-import { DropdownProps, DoptionValue, DropdownSlots } from './type';
+import {
+  DropdownProps,
+  DoptionValue,
+  DropdownSlots,
+  DropdownExpose,
+} from './type';
 import useProvide from './hooks/useProvide';
 import YcTrigger from '@/components/Trigger';
 import YcScrollbar from '@/components/Scrollbar';
@@ -68,7 +73,7 @@ const position = computed(() => {
     ? _position.value
     : 'bottom';
 });
-defineExpose({
+defineExpose<DropdownExpose>({
   show() {
     computedVisible.value = true;
   },

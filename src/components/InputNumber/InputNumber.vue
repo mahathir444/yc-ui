@@ -103,13 +103,20 @@
 
 <script lang="ts" setup>
 import { ref, toRefs, computed } from 'vue';
-import { InputNumberProps, InputNumberEmits, InputNumberValue } from './type';
+import {
+  InputNumberProps,
+  InputNumberEmits,
+  InputNumberSlots,
+  InputExpose,
+  InputNumberValue,
+} from './type';
 import { isNumber, isString, isFunction, useControlValue } from '@shared/utils';
 import YcOperaBtn from './InputOperaBtn.vue';
 import { default as YcInput, InputInstance } from '@/components/Input';
 defineOptions({
   name: 'InputNumber',
 });
+defineSlots<InputNumberSlots>();
 const props = withDefaults(defineProps<InputNumberProps>(), {
   modelValue: undefined,
   defaultValue: '',
@@ -231,7 +238,7 @@ const handleInput = (v: string, e: Event) => {
   emits('input', handleValue, e);
 };
 // 暴漏方法
-defineExpose({
+defineExpose<InputExpose>({
   focus() {
     inputRef.value?.focus();
   },

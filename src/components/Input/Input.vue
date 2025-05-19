@@ -99,7 +99,7 @@
 
 <script lang="ts" setup>
 import { ref, toRefs, computed } from 'vue';
-import { InputProps, InputEmits, InputSlots } from './type';
+import { InputProps, InputEmits, InputSlots, InputExpose } from './type';
 import { createReusableTemplate } from '@vueuse/core';
 import { useControlValue, getGlobalConfig } from '@shared/utils';
 import useLimitedInput from './hooks/useLimitedInput';
@@ -210,7 +210,7 @@ const handleEvent = async (type: string, e: Event) => {
   }
 };
 // 暴露方法
-defineExpose({
+defineExpose<InputExpose>({
   focus() {
     inputRef.value?.focus();
   },
@@ -218,10 +218,7 @@ defineExpose({
     inputRef.value?.blur();
   },
   getInputRef() {
-    return inputRef.value;
-  },
-  getInputValue() {
-    return computedValue.value;
+    return inputRef.value as HTMLInputElement;
   },
 });
 </script>

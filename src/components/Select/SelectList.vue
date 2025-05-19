@@ -34,7 +34,7 @@
       </template>
       <!-- 空插槽 -->
       <slot-render v-if="isEmpty" :render="slots.empty || renderEmpty">
-        <yc-empty v-if="!slots.empty && !providerSlots" />
+        <yc-empty v-if="!slots.empty && !providerSlots.empty" />
       </slot-render>
     </div>
   </yc-scrollbar>

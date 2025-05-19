@@ -71,6 +71,7 @@ import Pagination from './Pagination';
 import Calendar from './Calendar';
 import Progress from './Progress';
 import { default as Statistic, Countdown } from './Statistic';
+import { default as List, ListItem, ListItemMeta } from './List';
 
 export const components: Record<string, Plugin> = {
   Button,
@@ -134,6 +135,7 @@ export const components: Record<string, Plugin> = {
   Calendar,
   Progress,
   Statistic,
+  List,
 };
 
 export default {
@@ -169,6 +171,8 @@ export default {
   DescriptionsItem,
   Step,
   Countdown,
+  ListItem,
+  ListItemMeta,
   install: (app: App) => {
     for (const key of Object.keys(components)) {
       app.use(components[key]);

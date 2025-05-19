@@ -28,6 +28,13 @@ export interface TextareaEmits {
   (e: 'keydown', ev: KeyboardEvent): void;
 }
 
+export type TextareaExpose = {
+  focus(): void;
+  blur(): void;
+  getInputRef(): HTMLTextAreaElement;
+  getMirrorRef(): HTMLDivElement;
+};
+
 export interface ResizeRange {
   minRows?: number;
   maxRows?: number;

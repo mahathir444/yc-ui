@@ -112,6 +112,7 @@ import {
   SelectProps,
   SelectEmits,
   SelectSlots,
+  SelectExpose,
   SelectOptionData,
 } from './type';
 import { sleep } from '@shared/utils';
@@ -183,7 +184,6 @@ const {
   allowClear,
   disabled,
   loading,
-  popupVisible,
   searchDelay,
   showFooterOnEmpty,
   showHeaderOnEmpty,
@@ -253,7 +253,7 @@ const handleEvent = async (
   }
 };
 
-defineExpose({
+defineExpose<SelectExpose>({
   focus() {
     inputRef.value?.focus();
   },
@@ -261,7 +261,7 @@ defineExpose({
     inputRef.value?.blur();
   },
   getPopupRef() {
-    return popupRef.value;
+    return popupRef.value as TriggerInstance;
   },
 });
 </script>

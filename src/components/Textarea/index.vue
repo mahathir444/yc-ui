@@ -61,7 +61,12 @@
 
 <script lang="ts" setup>
 import { ref, toRefs } from 'vue';
-import { TextareaProps, TextareaEmits, ResizeRange } from './type';
+import {
+  TextareaProps,
+  TextareaEmits,
+  TextareaExpose,
+  ResizeRange,
+} from './type';
 import useTextareaHeight from './hooks/useTextareaHeight';
 import useLimitedInput from '@/components/Input/hooks/useLimitedInput';
 import { YcPreventFocus, YcIconButton } from '@shared/components';
@@ -138,9 +143,9 @@ const handleEvent = async (type: string, e: Event) => {
   }
 };
 // 暴露方法
-defineExpose({
+defineExpose<TextareaExpose>({
   getInputRef() {
-    return inputRef.value;
+    return inputRef.value as HTMLTextAreaElement;
   },
   getMirrorRef() {
     return mirrorRef.value as HTMLDivElement;

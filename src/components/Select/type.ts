@@ -1,5 +1,5 @@
 import { ObjectData, RenderContent, Size, PopupContainer } from '@shared/type';
-import { TriggerProps } from '../Trigger';
+import { TriggerInstance, TriggerProps } from '../Trigger';
 import { TagProps } from '../Tag';
 
 export interface SelectProps {
@@ -71,6 +71,12 @@ export interface SelectSlots {
   option(data: ObjectData): void;
   empty(): void;
 }
+
+export type SelectExpose = {
+  focus(): void;
+  blur(): void;
+  getPopupRef(): TriggerInstance;
+};
 
 export interface OptionProps {
   id?: string;

@@ -34,15 +34,15 @@
     border-radius: 2px;
     background-color: transparent;
     color: rgb(78, 89, 105);
-    transition:
-      color 0.2s cubic-bezier(0, 0, 1, 1),
-      background-color 0.2s cubic-bezier(0, 0, 1, 1);
     display: flex;
     justify-content: center;
     align-items: center;
     &:not(.yc-pagination-item-disabled):not(.yc-pagination-item-active):hover {
       color: rgb(78, 89, 105);
       background-color: rgb(247, 248, 250);
+      transition:
+        color 0.2s cubic-bezier(0, 0, 1, 1),
+        background-color 0.2s cubic-bezier(0, 0, 1, 1);
       &.yc-pagination-item-previous,
       &.yc-pagination-item-next {
         color: rgb(22, 93, 255);
