@@ -31,9 +31,12 @@
             v-if="isVirtualList"
             :data="data"
             :virtual-list-props="virtualListProps"
+            :offset-bottom="bottomOffset"
             :style="{
               maxHeight,
             }"
+            @reach-bottom="$emit('reach-bottom')"
+            @scroll="$emit('scroll')"
           >
             <template #item="scope">
               <slot name="item" v-bind="scope" />
@@ -101,6 +104,7 @@ const props = withDefaults(defineProps<ListProps>(), {
   gridProps: undefined,
   maxHeight: 0,
   virtualListProps: undefined,
+  bottomOffset: 0,
   scrollbar: true,
 });
 const emits = defineEmits<ListEmits>();

@@ -50,6 +50,7 @@ import {
 import { useElementSize } from '@vueuse/core';
 import { SCROLLBAR_PROVIDE_KEY, ScrollbarProvide } from './hooks/useContext';
 import ScrollbarTrack from './ScrollbarTrack.vue';
+import useScrollReach from './hooks/useScrollReach';
 defineOptions({
   name: 'Scrollbar',
   inheritAttrs: false,
@@ -91,7 +92,63 @@ const {
   movableLeft,
   movableTop,
 } = initScrollbar();
-// 出书画scrollbar
+// 判断是否触底
+const { isReach } = useScrollReach({
+  offsetBottom,
+  offsetRight,
+  reachBottomCb: () => {
+    emits('reachBottom');
+  },
+  reachRightCb: () => {
+    emits('reachRight');
+  },
+});
+// 处理容器滚动
+const handleScroll = (e: Event) => {
+  const {
+    scrollTop,
+    scrollLeft,
+    scrollWidth: _scrollWidth,
+    scrollHeight: _scrollHeight,
+  } = e.target as HTMLDivElement;
+  // 处理触底逻辑
+  isReach(e);
+  if (!scrollbar.value) {
+    return;
+  }
+  //计算top
+  const top =
+    (scrollTop / (contentHeight.value - scrollHeight.value)) * movableTop.value;
+  curTop.value = top <= movableTop.value ? top : movableTop.value;
+  // 计算left
+  const left =
+    (scrollLeft / (contentWidth.value - scrollWidth.value)) * movableLeft.value;
+  curLeft.value = left <= movableLeft.value ? left : movableLeft.value;
+};
+// 处理滑块拖动
+const handleDrag = (isVertical: boolean, value: number) => {
+  if (isVertical) {
+    curTop.value = value;
+    // 计算最大可位移的top
+    const maxScrollbarMoveTop = contentHeight.value - scrollHeight.value;
+    // 反向计算scrollTop
+    const scrollTop = (curTop.value / movableTop.value) * maxScrollbarMoveTop;
+    // 设置scrollTop
+    scrollRef.value!.scrollTop =
+      scrollTop >= maxScrollbarMoveTop ? maxScrollbarMoveTop : scrollTop;
+  } else {
+    curLeft.value = value;
+    // 计算最大可位移的left
+    const maxScrollbarMoveLeft = contentWidth.value - scrollWidth.value;
+    // 反向计算scrollLeft
+    const scrollLeft =
+      (curLeft.value / movableLeft.value) * maxScrollbarMoveLeft;
+    // 设置scrollLeft
+    scrollRef.value!.scrollLeft =
+      scrollLeft >= maxScrollbarMoveLeft ? maxScrollbarMoveLeft : scrollLeft;
+  }
+};
+// 初始化scrollbar
 function initScrollbar() {
   if (!scrollbar.value)
     return {
@@ -194,57 +251,6 @@ function initScrollbar() {
     curLeft,
   };
 }
-// 处理容器滚动
-const handleScroll = (e: Event) => {
-  const {
-    scrollTop,
-    scrollLeft,
-    scrollWidth: _scrollWidth,
-    scrollHeight: _scrollHeight,
-  } = e.target as HTMLDivElement;
-  // 处理触底逻辑
-  if (_scrollHeight - scrollTop <= offsetBottom.value) {
-    emits('reachBottom');
-  }
-  if (_scrollWidth - scrollLeft <= offsetRight.value) {
-    emits('reachRight');
-  }
-  emits('scroll', scrollLeft, scrollTop);
-  if (!scrollbar.value) {
-    return;
-  }
-  //计算top
-  const top =
-    (scrollTop / (contentHeight.value - scrollHeight.value)) * movableTop.value;
-  curTop.value = top <= movableTop.value ? top : movableTop.value;
-  // 计算left
-  const left =
-    (scrollLeft / (contentWidth.value - scrollWidth.value)) * movableLeft.value;
-  curLeft.value = left <= movableLeft.value ? left : movableLeft.value;
-};
-// 处理滑块拖动
-const handleDrag = (isVertical: boolean, value: number) => {
-  if (isVertical) {
-    curTop.value = value;
-    // 计算最大可位移的top
-    const maxScrollbarMoveTop = contentHeight.value - scrollHeight.value;
-    // 反向计算scrollTop
-    const scrollTop = (curTop.value / movableTop.value) * maxScrollbarMoveTop;
-    // 设置scrollTop
-    scrollRef.value!.scrollTop =
-      scrollTop >= maxScrollbarMoveTop ? maxScrollbarMoveTop : scrollTop;
-  } else {
-    curLeft.value = value;
-    // 计算最大可位移的left
-    const maxScrollbarMoveLeft = contentWidth.value - scrollWidth.value;
-    // 反向计算scrollLeft
-    const scrollLeft =
-      (curLeft.value / movableLeft.value) * maxScrollbarMoveLeft;
-    // 设置scrollLeft
-    scrollRef.value!.scrollLeft =
-      scrollLeft >= maxScrollbarMoveLeft ? maxScrollbarMoveLeft : scrollLeft;
-  }
-};
 // 暴露方法
 defineExpose<ScrollbarExpose>({
   scrollTo(options: ScrollOptions) {

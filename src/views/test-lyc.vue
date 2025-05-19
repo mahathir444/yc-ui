@@ -2,14 +2,9 @@
   <div class="test">
     <a-list
       :style="{ width: `600px` }"
-      :virtual-list-props="{
-        height: 560,
-      }"
-      :paginationProps="{
-        defaultCurrent: 1,
-        total: list.length,
-      }"
+      :maxHeight="560"
       :data="list"
+      @reach-bottom="handleReach"
     >
       <template #item="{ item, index }">
         <a-list-item :key="index">
@@ -21,11 +16,12 @@
         </a-list-item>
       </template>
     </a-list>
-    <yc-list
+    <!-- <yc-list
       :max-height="560"
       :scrollbar="false"
       :data="list"
       :style="{ width: `600px` }"
+      @reach-bottom="handleReach"
     >
       <template #item="{ item, index }">
         <yc-list-item :key="index">
@@ -39,7 +35,7 @@
           </yc-list-item-meta>
         </yc-list-item>
       </template>
-    </yc-list>
+    </yc-list> -->
   </div>
 </template>
 
@@ -56,6 +52,9 @@ const list = reactive(
       };
     })
 );
+const handleReach = () => {
+  console.log('触底了');
+};
 </script>
 
 <style lang="less" scoped>
