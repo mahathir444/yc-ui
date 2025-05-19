@@ -42,7 +42,7 @@ export interface InputNumberSlots {
   label(): void;
 }
 
-export interface InputExpose {
+export interface InputNumberExpose {
   focus(): void;
   blur(): void;
 }

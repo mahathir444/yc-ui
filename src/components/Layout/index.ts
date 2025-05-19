@@ -27,6 +27,7 @@ const Layout = Object.assign(_Layout, {
 });
 
 export {
+  _LayoutHeader as LayoutHeader,
   _LayoutSider as LayoutSider,
   _LayoutFooter as LayoutFooter,
   _LayoutContent as LayoutContent,

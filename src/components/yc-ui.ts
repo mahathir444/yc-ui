@@ -1,5 +1,23 @@
 import { App, Plugin } from 'vue';
+import Affix from './Affix';
+import Alert from './Alert';
+import { default as Anchor, AnchorLink } from './Anchor';
+import AutoComplete from './AutoComplete';
+import Avatar from './Avatar';
+import BackTop from './BackTop';
+import Badge from './Badge';
 import Button, { ButtonGroup } from './Button';
+import { default as Breadcrumb, BreadcrumbItem } from './Breadcrumb';
+import { default as Card, CardMeta, CardGrid } from './Card';
+import Calendar from './Calendar';
+import { default as Carousel, CarouselItem } from './Carousel';
+import { default as Checkbox, CheckboxGroup } from './Checkbox';
+import Collapse, { CollapseItem } from './Collapse';
+import ColorPicker from './ColorPicker';
+import Comment from './Comment';
+import ConfigProvider from './ConfigProvider';
+import { default as Descriptions, DescriptionsItem } from './Descriptions';
+import Divider from './Divider';
 import Drawer from './Drawer';
 import {
   default as Dropdown,
@@ -8,171 +26,159 @@ import {
   Dgroup,
   Dsubmenu,
 } from './Dropdown';
-import Input from './Input';
-import Link from './Link';
-import Modal from './Modal';
-import Popconfirm from './Popconfirm';
-import Popover from './Popover';
-import ResizeBox from './ResizeBox';
-import Scrollbar from './Scrollbar';
-import Textarea from './Textarea';
-import Tooltip from './Tooltip';
-import Trigger from './Trigger';
-import Spin from './Spin';
-import Tag from './Tag';
-import { default as Select, Option, Optgroup } from './Select';
 import Empty from './Empty';
-import { default as Checkbox, CheckboxGroup } from './Checkbox';
-import InputTag from './InputTag';
-import AutoComplete from './AutoComplete';
-import Radio, { RadioGroup } from './Radio';
-import Switch from './Switch';
-import InputNumber from './InputNumber';
-import Rate from './Rate';
-import Slider from './Slider';
-import OverflowList from './OverflowList';
-import Mention from './Mention';
-import Icon from './Icon';
-import ColorPicker from './ColorPicker';
-import BackTop from './BackTop';
-import Alert from './Alert';
-import Result from './Result';
-import Space from './Space';
-import Divider from './Divider';
-import { default as Skeleton, SkeletonLine, SkeletonShape } from './Skeleton';
-import Affix from './Affix';
-import TimePicker from './TimePicker';
-import { default as Breadcrumb, BreadcrumbItem } from './Breadcrumb';
-import PageHeader from './PageHeader';
 import { default as Grid, GridItem, GridRow, GridCol } from './Grid';
-import Transfer from './Transfer';
-import VerificationCode from './VerificationCode';
+import Icon from './Icon';
+import {
+  default as Image,
+  ImagePreview,
+  ImagePreviewGroup,
+  ImagePreviewAction,
+} from './Image';
+import Input from './Input';
+import InputNumber from './InputNumber';
+import InputTag from './InputTag';
 import {
   default as Layout,
   LayoutContent,
   LayoutFooter,
   LayoutSider,
+  LayoutHeader,
 } from './Layout';
-import ConfigProvider from './ConfigProvider';
-import Watermark from './Watermark';
-import { default as Anchor, AnchorLink } from './Anchor';
-import Split from './Split';
-import { default as Menu, MenuItem, SubMenu, MenuItemGroup } from './Menu';
-import { default as Collapse, CollapseItem } from './Collapse';
-import Avatar from './Avatar';
-import Badge from './Badge';
-import { default as Card, CardMeta, CardGrid } from './Card';
-import { default as Carousel, CarouselItem } from './Carousel';
-import { default as Image, ImagePreview, ImagePreviewAction } from './Image';
-import Comment from './Comment';
-import { default as Descriptions, DescriptionsItem } from './Descriptions';
-import { default as Steps, Step } from './Steps';
-import Pagination from './Pagination';
-import Calendar from './Calendar';
-import Progress from './Progress';
-import { default as Statistic, Countdown } from './Statistic';
+import Link from './Link';
 import { default as List, ListItem, ListItemMeta } from './List';
+import { default as Menu, MenuItem, SubMenu, MenuItemGroup } from './Menu';
+import Mention from './Mention';
+import Modal from './Modal';
+import OverflowList from './OverflowList';
+import PageHeader from './PageHeader';
+import Pagination from './Pagination';
+import Popconfirm from './Popconfirm';
+import Popover from './Popover';
+import Progress from './Progress';
+import Radio, { RadioGroup } from './Radio';
+import Rate from './Rate';
+import ResizeBox from './ResizeBox';
+import Result from './Result';
+import Scrollbar from './Scrollbar';
+import { default as Select, Option, Optgroup } from './Select';
+import { default as Skeleton, SkeletonLine, SkeletonShape } from './Skeleton';
+import Slider from './Slider';
+import Space from './Space';
+import Split from './Split';
+import { default as Statistic, Countdown } from './Statistic';
+import { default as Steps, Step } from './Steps';
+import Switch from './Switch';
+import Tag from './Tag';
+import Textarea from './Textarea';
+import TimePicker from './TimePicker';
+import Tooltip from './Tooltip';
+import Transfer from './Transfer';
+import Trigger from './Trigger';
+import VerificationCode from './VerificationCode';
+import Watermark from './Watermark';
 
 export const components: Record<string, Plugin> = {
+  Affix,
+  Alert,
+  Anchor,
+  AutoComplete,
+  Avatar,
+  BackTop,
+  Badge,
   Button,
+  Breadcrumb,
+  Card,
+  Calendar,
+  Carousel,
+  Checkbox,
+  Collapse,
+  ColorPicker,
+  Comment,
+  ConfigProvider,
+  Descriptions,
+  Divider,
   Drawer,
   Dropdown,
+  Empty,
+  Grid,
+  Icon,
+  Image,
   Input,
+  InputNumber,
+  InputTag,
+  Layout,
   Link,
+  List,
+  Menu,
+  Mention,
   Modal,
+  OverflowList,
+  PageHeader,
+  Pagination,
   Popconfirm,
   Popover,
-  ResizeBox,
-  Scrollbar,
-  Textarea,
-  Tooltip,
-  Trigger,
-  Spin,
-  Tag,
-  Select,
-  Empty,
-  Checkbox,
-  InputTag,
-  AutoComplete,
-  Radio,
-  Switch,
-  InputNumber,
-  Rate,
-  Slider,
-  Mention,
-  OverflowList,
-  Icon,
-  ColorPicker,
-  BackTop,
-  Alert,
-  Result,
-  Space,
-  Divider,
-  Skeleton,
-  Affix,
-  TimePicker,
-  Breadcrumb,
-  PageHeader,
-  Grid,
-  Transfer,
-  VerificationCode,
-  Layout,
-  Watermark,
-  ConfigProvider,
-  Anchor,
-  Split,
-  Menu,
-  Collapse,
-  Avatar,
-  Badge,
-  Card,
-  Carousel,
-  Image,
-  Comment,
-  Descriptions,
-  Steps,
-  Pagination,
-  Calendar,
   Progress,
+  Radio,
+  Rate,
+  ResizeBox,
+  Result,
+  Scrollbar,
+  Select,
+  Skeleton,
+  Slider,
+  Space,
+  Split,
   Statistic,
-  List,
+  Steps,
+  Switch,
+  Tag,
+  Textarea,
+  TimePicker,
+  Tooltip,
+  Transfer,
+  Trigger,
+  VerificationCode,
+  Watermark,
 };
 
 export default {
   ...components,
+  AnchorLink,
   ButtonGroup,
+  BreadcrumbItem,
+  CardGrid,
+  CardMeta,
+  CarouselItem,
+  CheckboxGroup,
+  CollapseItem,
+  Countdown,
+  DescriptionsItem,
   DropdownButton,
   Doption,
   Dgroup,
   Dsubmenu,
+  GridCol,
+  GridItem,
+  GridRow,
+  ImagePreview,
+  ImagePreviewAction,
+  ImagePreviewGroup,
+  LayoutContent,
+  LayoutFooter,
+  LayoutHeader,
+  LayoutSider,
+  ListItem,
+  ListItemMeta,
+  MenuItem,
+  MenuItemGroup,
   Option,
   Optgroup,
-  CheckboxGroup,
   RadioGroup,
   SkeletonLine,
   SkeletonShape,
-  BreadcrumbItem,
-  GridCol,
-  GridRow,
-  GridItem,
-  LayoutFooter,
-  LayoutSider,
-  LayoutContent,
-  AnchorLink,
-  MenuItem,
-  SubMenu,
-  MenuItemGroup,
-  CollapseItem,
-  CardMeta,
-  CardGrid,
-  CarouselItem,
-  ImagePreview,
-  ImagePreviewAction,
-  DescriptionsItem,
   Step,
-  Countdown,
-  ListItem,
-  ListItemMeta,
+  SubMenu,
   install: (app: App) => {
     for (const key of Object.keys(components)) {
       app.use(components[key]);

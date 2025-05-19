@@ -107,7 +107,7 @@ import {
   InputNumberProps,
   InputNumberEmits,
   InputNumberSlots,
-  InputExpose,
+  InputNumberExpose,
   InputNumberValue,
 } from './type';
 import { isNumber, isString, isFunction, useControlValue } from '@shared/utils';
@@ -238,7 +238,7 @@ const handleInput = (v: string, e: Event) => {
   emits('input', handleValue, e);
 };
 // 暴漏方法
-defineExpose<InputExpose>({
+defineExpose<InputNumberExpose>({
   focus() {
     inputRef.value?.focus();
   },

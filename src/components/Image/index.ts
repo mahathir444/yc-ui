@@ -26,6 +26,7 @@ const Image = Object.assign(_Image, {
 
 export {
   _ImagePreview as ImagePreview,
+  _ImagePreviewGroup as ImagePreviewGroup,
   _ImagePreviewAction as ImagePreviewAction,
 };
 
