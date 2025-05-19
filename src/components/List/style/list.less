@@ -1,5 +1,7 @@
 .yc-list-wrapper {
+  position: relative;
   width: 100%;
+
   .yc-list-spin {
     width: 100%;
     display: flex;
@@ -28,6 +30,12 @@
       .yc-list-content {
         display: flex;
         flex-direction: column;
+      }
+      .yc-list-scroll-loading {
+        position: absolute;
+        left: 0;
+        right: 0;
+        bottom: 0;
       }
     }
   }
@@ -81,7 +89,7 @@
 each(@size, .(@value,@name){
     @key:replace(~"@{name}", "@", "");
     .yc-list-size-@{key} {
-     .yc-list-header,.yc-list-footer{
+     .yc-list-header,.yc-list-footer,.yc-list-scroll-loading{
       padding: @value[header-padding];
      }
      &:deep(.yc-list-item){

@@ -40,7 +40,7 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, computed, toRefs, provide, watch } from 'vue';
+import { ref, computed, toRefs, provide } from 'vue';
 import {
   ScrollbarProps,
   ScrollbarEmits,
@@ -77,6 +77,22 @@ const { type, offsetBottom, offsetRight, scrollbar } = toRefs(props);
 const contentRef = ref<HTMLElement>();
 // scrollRef
 const scrollRef = ref<HTMLDivElement>();
+// 判断是否触底
+const { isReach } = useScrollReach({
+  offsetBottom,
+  offsetRight,
+  scrolCb: (params) => {
+    const { scrollLeft, scrollTop, isBottomReached, isRightReached } = params;
+    console.log(isBottomReached, 'isBottomReached');
+    emits('scroll', scrollLeft, scrollTop, isRightReached, isBottomReached);
+  },
+  reachBottomCb: () => {
+    emits('reachBottom');
+  },
+  reachRightCb: () => {
+    emits('reachRight');
+  },
+});
 // 初始化bar
 const {
   hasVerticalBar = ref(false),
@@ -92,17 +108,6 @@ const {
   movableLeft,
   movableTop,
 } = initScrollbar();
-// 判断是否触底
-const { isReach } = useScrollReach({
-  offsetBottom,
-  offsetRight,
-  reachBottomCb: () => {
-    emits('reachBottom');
-  },
-  reachRightCb: () => {
-    emits('reachRight');
-  },
-});
 // 处理容器滚动
 const handleScroll = (e: Event) => {
   const {

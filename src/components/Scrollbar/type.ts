@@ -14,7 +14,13 @@ export interface ScrollbarProps {
 }
 
 export interface ScrollbarEmits {
-  (e: 'scroll', left: number, top: number): void;
+  (
+    e: 'scroll',
+    left: number,
+    top: number,
+    isRightReached: boolean,
+    isBottomReached: boolean
+  ): void;
   (e: 'reachBottom'): void;
   (e: 'reachRight'): void;
 }

@@ -30,6 +30,7 @@ export interface ListSlots {
   header(): void;
   footer(): void;
   default(): void;
+  ['scroll-loading'](): void;
   item(params: { index: number; item: ObjectData }): void;
 }
 

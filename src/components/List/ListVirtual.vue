@@ -1,6 +1,6 @@
 <template>
-  <div class="yc-virtual-list" v-bind="containerProps">
-    <div class="yc-list-content" v-bind="wrapperProps" @scroll="handleScroll">
+  <div class="yc-virtual-list" v-bind="containerProps" @scroll="isReach">
+    <div class="yc-list-content" v-bind="wrapperProps">
       <!-- 虚拟列表 -->
       <template v-for="{ data, index: i } in list" :key="i">
         <slot name="item" :index="i" :item="data" />
@@ -21,7 +21,7 @@ const props = defineProps<{
   virtualListProps: VirtualListProps;
 }>();
 const emits = defineEmits<{
-  (e: 'scroll'): void;
+  (e: 'scroll', isBottomReached: boolean): void;
   (e: 'reachBottom'): void;
 }>();
 const { data, virtualListProps, offsetBottom } = toRefs(props);
@@ -34,12 +34,13 @@ const { list, containerProps, wrapperProps } = useVirtualList(data, {
 const { isReach } = useScrollReach({
   offsetBottom,
   offsetRight: ref(0),
+  scrolCb: (params) => {
+    const { isBottomReached } = params;
+    console.log(isBottomReached, 'isBottomReached');
+    emits('scroll', isBottomReached);
+  },
   reachBottomCb: () => emits('reachBottom'),
 });
-const handleScroll = (e: Event) => {
-  emits('scroll');
-  isReach(e);
-};
 </script>
 
 <style lang="less">

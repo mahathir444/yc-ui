@@ -19,7 +19,7 @@
         :offset-bottom="bottomOffset"
         :scrollbar="scrollbar"
         class="yc-list"
-        @scroll="$emit('scroll')"
+        @scroll="(_v, _v1, _v2, v) => handleScroll(v)"
         @reach-bottom="$emit('reach-bottom')"
       >
         <div class="yc-list-content-wrapper">
@@ -36,7 +36,7 @@
               maxHeight,
             }"
             @reach-bottom="$emit('reach-bottom')"
-            @scroll="$emit('scroll')"
+            @scroll="handleScroll"
           >
             <template #item="scope">
               <slot name="item" v-bind="scope" />
@@ -67,6 +67,13 @@
           <div v-if="$slots.footer" class="yc-list-footer">
             <slot name="footer" />
           </div>
+          <!-- loading -->
+          <div
+            v-if="$slots['scroll-loading'] && isBottomReached"
+            class="yc-list-scroll-loading"
+          >
+            <slot name="scroll-loading" />
+          </div>
         </div>
       </yc-scrollbar>
       <!-- 分页 -->
@@ -81,7 +88,7 @@
 </template>
 
 <script lang="ts" setup>
-import { toRefs, computed } from 'vue';
+import { ref, toRefs, computed } from 'vue';
 import { ListProps, ListEmits, ListSlots } from './type';
 import { getGlobalConfig, useControlValue } from '@shared/utils';
 import YcSpin from '@/components/Spin';
@@ -118,6 +125,8 @@ const {
 // 注入全局属性
 const { size } = getGlobalConfig(props);
 const maxHeight = computed(() => `${_maxHeight.value}px`);
+// 是否触底
+const isBottomReached = ref<boolean>(false);
 // current
 const current = computed(() => paginationProps.value?.current);
 const computedCurrent = useControlValue<number>(
@@ -156,6 +165,11 @@ const isVirtualList = computed(() => {
       (virtualListProps.value.threshold as number) > data.value.length)
   );
 });
+// 处理滚动
+const handleScroll = (v: boolean) => {
+  isBottomReached.value = v;
+  emits('scroll');
+};
 </script>
 
 <style lang="less" scoped>

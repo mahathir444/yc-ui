@@ -1,8 +1,15 @@
-import { Ref } from 'vue';
+import { Ref, ref } from 'vue';
 
+type ScrollParams = {
+  scrollLeft: number;
+  scrollTop: number;
+  isBottomReached: boolean;
+  isRightReached: boolean;
+};
 export default (params: {
   offsetBottom: Ref<number>;
   offsetRight: Ref<number>;
+  scrolCb?: (params: ScrollParams) => void;
   reachBottomCb?: () => void;
   reachRightCb?: () => void;
 }) => {
@@ -11,28 +18,32 @@ export default (params: {
   let lastScrollLeft = 0;
   let isBottomReached = false;
   let isRightReached = false;
-  const { offsetBottom, offsetRight, reachBottomCb, reachRightCb } = params;
+  const { offsetBottom, offsetRight, reachBottomCb, reachRightCb, scrolCb } =
+    params;
   // 是否触底
   const isReach = (e: Event) => {
     const {
       scrollTop,
       scrollLeft,
-      scrollWidth: _scrollWidth,
-      scrollHeight: _scrollHeight,
-      clientWidth,
+      offsetWidth,
       clientHeight,
+      offsetHeight,
+      scrollHeight,
+      scrollWidth,
     } = e.target as HTMLDivElement;
     // 判断滚动方向
-    const isScrollingDown = scrollTop > lastScrollTop;
-    const isScrollingRight = scrollLeft > lastScrollLeft;
+    const isScrollingDown = scrollTop >= lastScrollTop;
+    const isScrollingRight = scrollLeft >= lastScrollLeft;
+    console.log(offsetHeight, clientHeight, scrollHeight);
+    console.log(lastScrollTop, scrollTop, 'top');
     // 处理触底逻辑 - 只有向下滚动时才检查
     if (
       isScrollingDown &&
-      _scrollHeight - (scrollTop + clientHeight) <= offsetBottom.value
+      scrollHeight - (scrollTop + offsetHeight) <= offsetBottom.value
     ) {
       if (!isBottomReached) {
-        reachBottomCb?.();
         isBottomReached = true;
+        reachBottomCb?.();
       }
     } else {
       isBottomReached = false;
@@ -40,7 +51,7 @@ export default (params: {
     // 处理触右逻辑 - 只有向右滚动时才检查
     if (
       isScrollingRight &&
-      _scrollWidth - (scrollLeft + clientWidth) <= offsetRight.value
+      scrollWidth - (scrollLeft + offsetWidth) <= offsetRight.value
     ) {
       if (!isRightReached) {
         reachRightCb?.();
@@ -49,6 +60,14 @@ export default (params: {
     } else {
       isRightReached = false;
     }
+    lastScrollTop = scrollTop;
+    lastScrollLeft = scrollLeft;
+    scrolCb?.({
+      scrollLeft,
+      scrollTop,
+      isBottomReached,
+      isRightReached,
+    });
   };
   return {
     isReach,
