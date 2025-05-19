@@ -1,5 +1,10 @@
 <template>
-  <div class="yc-virtual-list" v-bind="containerProps" @scroll="isReach">
+  <div
+    class="yc-virtual-list"
+    v-bind="containerProps"
+    @scroll="isReach"
+    ref="listRef"
+  >
     <div class="yc-list-content" v-bind="wrapperProps">
       <!-- 虚拟列表 -->
       <template v-for="{ data, index: i } in list" :key="i">
@@ -10,7 +15,7 @@
 </template>
 
 <script lang="ts" setup>
-import { toRefs, ref } from 'vue';
+import { toRefs, ref, watch, nextTick } from 'vue';
 import { useVirtualList } from '@vueuse/core';
 import { VirtualListProps } from '@/components/Select';
 import { ObjectData } from '@shared/type';
@@ -25,6 +30,7 @@ const emits = defineEmits<{
   (e: 'reachBottom'): void;
 }>();
 const { data, virtualListProps, offsetBottom } = toRefs(props);
+const listRef = ref<HTMLDivElement>();
 // 虚拟列表
 const { list, containerProps, wrapperProps } = useVirtualList(data, {
   itemHeight: virtualListProps.value?.itemHeight || 40,
@@ -36,11 +42,20 @@ const { isReach } = useScrollReach({
   offsetRight: ref(0),
   scrolCb: (params) => {
     const { isBottomReached } = params;
-    console.log(isBottomReached, 'isBottomReached');
     emits('scroll', isBottomReached);
   },
   reachBottomCb: () => emits('reachBottom'),
 });
+
+watch(
+  () => data.value.length,
+  async () => {
+    await nextTick();
+    isReach({
+      e: listRef.value as HTMLDivElement,
+    } as unknown as Event);
+  }
+);
 </script>
 
 <style lang="less">

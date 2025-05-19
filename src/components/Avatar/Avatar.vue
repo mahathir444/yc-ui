@@ -48,7 +48,7 @@
 </template>
 
 <script lang="ts" setup>
-import { ref } from 'vue';
+import { ref, onBeforeUnmount } from 'vue';
 import { useResizeObserver } from '@vueuse/core';
 import { IconImageClose } from '@shared/icons';
 import { AvatarProps, AvatarSlots, AvatarEmits } from './type';
@@ -81,7 +81,7 @@ const textRef = ref<HTMLDivElement>();
 // avatart
 const avatarRef = ref<HTMLDivElement>();
 // 检测text的大小从而动态计算字体大小
-useResizeObserver(textRef, () => {
+const { stop } = useResizeObserver(textRef, () => {
   if (!autoFixFontSize.value) return;
   const avatarWidth = size.value ?? avatarRef.value!.offsetWidth;
   const textWidth = textRef.value!.offsetWidth;
@@ -93,6 +93,9 @@ const handleError = () => {
   isLoadError.value = true;
   emits('error');
 };
+onBeforeUnmount(() => {
+  stop();
+});
 </script>
 
 <style lang="less" scoped>

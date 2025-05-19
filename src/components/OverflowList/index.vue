@@ -39,7 +39,7 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, VNode, toRefs, useSlots, computed } from 'vue';
+import { ref, VNode, toRefs, useSlots, computed, onBeforeUnmount } from 'vue';
 import {
   OverflowListProps,
   OverflowListEmits,
@@ -84,7 +84,7 @@ const overflowNumber = computed(() => {
 // 最多能展示的组件数量
 const max = ref<number>(min.value);
 // 动态计算
-useResizeObserver(
+const { stop } = useResizeObserver(
   listRef,
   throttle(() => {
     const width = listRef.value!.offsetWidth;
@@ -107,6 +107,10 @@ useResizeObserver(
     emits('change', overflowNumber.value);
   }, 100)
 );
+
+onBeforeUnmount(() => {
+  stop();
+});
 </script>
 
 <style lang="less" scoped>

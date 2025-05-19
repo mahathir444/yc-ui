@@ -40,14 +40,14 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, computed, toRefs, provide } from 'vue';
+import { ref, computed, toRefs, provide, onBeforeUnmount } from 'vue';
 import {
   ScrollbarProps,
   ScrollbarEmits,
   ScrollbarSlots,
   ScrollbarExpose,
 } from './type';
-import { useElementSize } from '@vueuse/core';
+import { useElementSize, useResizeObserver } from '@vueuse/core';
 import { SCROLLBAR_PROVIDE_KEY, ScrollbarProvide } from './hooks/useContext';
 import ScrollbarTrack from './ScrollbarTrack.vue';
 import useScrollReach from './hooks/useScrollReach';
@@ -83,7 +83,6 @@ const { isReach } = useScrollReach({
   offsetRight,
   scrolCb: (params) => {
     const { scrollLeft, scrollTop, isBottomReached, isRightReached } = params;
-    console.log(isBottomReached, 'isBottomReached');
     emits('scroll', scrollLeft, scrollTop, isRightReached, isBottomReached);
   },
   reachBottomCb: () => {
@@ -93,14 +92,23 @@ const { isReach } = useScrollReach({
     emits('reachRight');
   },
 });
+// 获取内容的高度
+const contentWidth = ref(0);
+const contentHeight = ref(0);
+const { stop } = useResizeObserver(contentRef, () => {
+  const { offsetWidth, offsetHeight } = contentRef.value as HTMLDivElement;
+  contentWidth.value = offsetWidth;
+  contentHeight.value = offsetHeight;
+  isReach({
+    target: contentRef.value as HTMLDivElement,
+  } as unknown as Event);
+});
 // 初始化bar
 const {
   hasVerticalBar = ref(false),
   hashorizontalBar = ref(false),
   trackHeight = ref(0),
   trackWidth = ref(0),
-  contentWidth,
-  contentHeight,
   scrollWidth,
   scrollHeight,
   curLeft,
@@ -173,14 +181,6 @@ function initScrollbar() {
   // 轨道的信息
   const trackWidth = ref<number>(0);
   const trackHeight = ref<number>(0);
-  // 获取内容的高度
-  const { width: contentWidth, height: contentHeight } = useElementSize(
-    contentRef,
-    undefined,
-    {
-      box: 'border-box',
-    }
-  );
   // 获取滚动的高度
   const { width: scrollWidth, height: scrollHeight } = useElementSize(
     scrollRef,
@@ -256,6 +256,10 @@ function initScrollbar() {
     curLeft,
   };
 }
+// 取消检测
+onBeforeUnmount(() => {
+  stop();
+});
 // 暴露方法
 defineExpose<ScrollbarExpose>({
   scrollTo(options: ScrollOptions) {

@@ -119,6 +119,31 @@
         </div>
       </template>
     </yc-image>
+    <yc-list
+      :max-height="560"
+      :scrollbar="false"
+      :data="list"
+      :style="{ width: `600px` }"
+      @reach-bottom="handleReach"
+    >
+      <template #scroll-loading>
+        <yc-spin :loading="true" style="width: 100%">
+          <div style="height: 30px; width: 100%"></div>
+        </yc-spin>
+      </template>
+      <template #item="{ item, index }">
+        <yc-list-item :key="index">
+          <yc-list-item-meta
+            :title="item.title"
+            :description="item.description"
+          >
+            <template #avatar>
+              <yc-avatar shape="square"> A </yc-avatar>
+            </template>
+          </yc-list-item-meta>
+        </yc-list-item>
+      </template>
+    </yc-list>
     <!-- popover -->
     <yc-space>
       <yc-popover title="Title">
@@ -281,6 +306,33 @@ const data = [
   },
 ];
 const start = ref<boolean>(false);
+const list = reactive(
+  Array(10)
+    .fill(null)
+    .map((_, index) => {
+      const prefix = `0000${index}`.slice(-5);
+      return {
+        title: 'Beijing Bytedance Technology Co., Ltd.',
+        description: `(${prefix}) Beijing ByteDance Technology Co., Ltd. is an enterprise located in China.`,
+      };
+    })
+);
+const handleReach = () => {
+  setTimeout(() => {
+    list.push(
+      ...Array(10)
+        .fill(null)
+        .map((_, index) => {
+          const prefix = `0000${index}`.slice(-5);
+          return {
+            title: 'Beijing Bytedance Technology Co., Ltd.',
+            description: `(${prefix}) Beijing ByteDance Technology Co., Ltd. is an enterprise located in China.`,
+          };
+        })
+    );
+  }, 2000);
+  console.log('触底了');
+};
 </script>
 
 <style lang="less" scoped>

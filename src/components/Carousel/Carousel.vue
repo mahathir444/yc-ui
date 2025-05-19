@@ -64,6 +64,7 @@ const { slideTo, computedCurrent, autoPlay } = provide(props, emits);
 let autoPlayTimer: any = null;
 // 设置自动播放
 const setAutoPlay = () => {
+  if (!autoPlay.value) return;
   autoPlayTimer = setInterval(() => {
     slideTo(computedCurrent.value + 1);
   }, autoPlay.value?.interval ?? 3000);

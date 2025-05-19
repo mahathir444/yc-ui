@@ -1,4 +1,4 @@
-import { computed, ref, Ref } from 'vue';
+import { onBeforeUnmount, ref, Ref } from 'vue';
 import { useResizeObserver } from '@vueuse/core';
 import { MenuItemData } from './useContext';
 import { throttle } from '@shared/utils';
@@ -12,7 +12,7 @@ export default (menuRef: Ref<HTMLDivElement | undefined>, mode: MenuMode) => {
   const menuItemData = ref<MenuItemData[]>([]);
   // 计算最大能展示元素的个数
   if (mode == 'horizontal') {
-    useResizeObserver(
+    const { stop } = useResizeObserver(
       menuRef,
       throttle(() => {
         const menuWidth = menuRef.value!.offsetWidth - 52;
@@ -30,6 +30,9 @@ export default (menuRef: Ref<HTMLDivElement | undefined>, mode: MenuMode) => {
         max.value = maxCount;
       }, 200)
     );
+    onBeforeUnmount(() => {
+      stop();
+    });
   }
   return {
     index,

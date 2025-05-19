@@ -4,6 +4,7 @@
       'yc-carousel-item',
       slideClass,
       {
+        'yc-carousel-item-current': index == getValidIndex(computedCurrent),
         'yc-carousel-item-prev': index == getValidIndex(computedCurrent - 1),
         'yc-carousel-item-next': index == getValidIndex(computedCurrent + 1),
       },

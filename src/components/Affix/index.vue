@@ -76,7 +76,7 @@ const style = ref<CSSProperties>({});
 const width = ref<number>(0);
 const height = ref<number>(0);
 // 监听改变
-useResizeObserver(
+const { stop } = useResizeObserver(
   affixRef,
   () => {
     const { width: w, height: h } = affixRef.value!.getBoundingClientRect();
@@ -111,5 +111,6 @@ onMounted(() => {
 });
 onBeforeUnmount(() => {
   target.value?.removeEventListener('scroll', handleScroll);
+  stop();
 });
 </script>
