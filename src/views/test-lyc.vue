@@ -1,43 +1,43 @@
 <template>
   <div class="test">
     <a-list
-      :grid-props="{ gutter: [20, 20], sm: 24, md: 12, lg: 8, xl: 6 }"
-      :data="dataSource"
-      :bordered="false"
-      style="width: 100%"
+      :style="{ width: `600px` }"
+      :virtual-list-props="{
+        height: 560,
+      }"
+      :paginationProps="{
+        defaultCurrent: 1,
+        total: list.length,
+      }"
+      :data="list"
     >
-      <template #item="{ item }">
-        <a-list :data="item.data">
-          <template #header>{{ item.title }}</template>
-          <template #item="{ item: subItem }">
-            <a-list-item>{{ subItem }}</a-list-item>
-          </template>
-        </a-list>
+      <template #item="{ item, index }">
+        <a-list-item :key="index">
+          <a-list-item-meta :title="item.title" :description="item.description">
+            <template #avatar>
+              <yc-avatar shape="square"> A </yc-avatar>
+            </template>
+          </a-list-item-meta>
+        </a-list-item>
       </template>
     </a-list>
     <yc-list
-      :grid-props="{
-        cols: {
-          xs: 1,
-          sm: 2,
-          md: 3,
-          lg: 4,
-          xl: 5,
-          xxl: 6,
-        },
-        colGap: 20,
-        rowGap: 20,
-      }"
-      :data="dataSource"
-      :bordered="false"
+      :max-height="560"
+      :scrollbar="false"
+      :data="list"
+      :style="{ width: `600px` }"
     >
-      <template #item="{ item }">
-        <yc-list :data="item.data">
-          <template #header>{{ item.title }}</template>
-          <template #item="{ item: subItem }">
-            <yc-list-item>{{ subItem }}</yc-list-item>
-          </template>
-        </yc-list>
+      <template #item="{ item, index }">
+        <yc-list-item :key="index">
+          <yc-list-item-meta
+            :title="item.title"
+            :description="item.description"
+          >
+            <template #avatar>
+              <yc-avatar shape="square"> A </yc-avatar>
+            </template>
+          </yc-list-item-meta>
+        </yc-list-item>
       </template>
     </yc-list>
   </div>
@@ -45,49 +45,22 @@
 
 <script lang="ts" setup>
 import { ref, reactive } from 'vue';
-const dataSource = [
-  {
-    title: 'Platform',
-    data: ['iOS', 'Android', 'Web'],
-  },
-  {
-    title: 'Framework',
-    data: ['Angular', 'Vue', 'React'],
-  },
-  {
-    title: 'Language',
-    data: ['C++', 'JavaScript', 'Python'],
-  },
-  {
-    title: 'Component',
-    data: ['Button', 'Breadcrumb', 'Transfer'],
-  },
-  {
-    title: 'Design',
-    data: ['Figma', 'Sketch', 'Adobe XD'],
-  },
-  {
-    title: 'Plugin',
-    data: ['Edu Tools', 'BashSupport', 'GitToolBox'],
-  },
-  {
-    title: 'Platform',
-    data: ['iOS', 'Android', 'Web'],
-  },
-  {
-    title: 'Framework',
-    data: ['Angular', 'Vue', 'React'],
-  },
-  {
-    title: 'Language',
-    data: ['C++', 'JavaScript', 'Python'],
-  },
-];
+const list = reactive(
+  Array(100)
+    .fill(null)
+    .map((_, index) => {
+      const prefix = `0000${index}`.slice(-5);
+      return {
+        title: 'Beijing Bytedance Technology Co., Ltd.',
+        description: `(${prefix}) Beijing ByteDance Technology Co., Ltd. is an enterprise located in China.`,
+      };
+    })
+);
 </script>
 
 <style lang="less" scoped>
 .test {
-  height: 100vh;
+  height: 100%;
   width: 100%;
   display: flex;
   flex-direction: column;

@@ -11,7 +11,7 @@
 
 <script lang="ts" setup>
 import { toRefs, computed, CSSProperties } from 'vue';
-import { GridColProps, GridColSlots } from './type';
+import { GridColProps, GridColSlots, ResponsiveValue } from './type';
 import { isNumber, isObject } from '@shared/utils';
 import useContext from './hooks/useContext';
 defineOptions({
@@ -31,6 +31,21 @@ const {
 // 接收注入属性
 const { inject } = useContext();
 const { gutter, breakpoint, div } = inject();
+// 获取响应式数据
+const getBreakpointValue = (value: ResponsiveValue) => {
+  if (isNumber(value)) {
+    return value;
+  }
+  const order = ['xs', 'sm', 'md', 'lg', 'xl', 'xxl'];
+  const map = {
+    xs: 0,
+    sm: 1,
+    md: 2,
+    lg: 3,
+    xl: 4,
+    xxl: 5,
+  };
+};
 // col-style
 const style = computed<CSSProperties>(() => {
   const span = isNumber(_span.value)

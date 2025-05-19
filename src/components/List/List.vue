@@ -11,11 +11,14 @@
     ]"
   >
     <yc-spin :loading="loading" class="yc-list-spin">
+      <!-- 渲染真实列表 -->
       <yc-scrollbar
         :style="{
-          maxHeight: maxHeight ? maxHeight + 'px' : '',
+          maxHeight: isVirtualList ? '' : maxHeight,
         }"
         :offset-bottom="bottomOffset"
+        :scrollbar="scrollbar"
+        class="yc-list"
         @scroll="$emit('scroll')"
         @reach-bottom="$emit('reach-bottom')"
       >
@@ -23,25 +26,41 @@
           <div v-if="$slots.header" class="yc-list-header">
             <slot name="header" />
           </div>
-          <div role="list" class="yc-list-content">
+          <!-- 渲染虚拟列表 -->
+          <virtual-list
+            v-if="isVirtualList"
+            :data="data"
+            :virtual-list-props="virtualListProps"
+            :style="{
+              maxHeight,
+            }"
+          >
+            <template #item="scope">
+              <slot name="item" v-bind="scope" />
+            </template>
+          </virtual-list>
+          <!-- 渲染普通列表 -->
+          <div v-else role="list" class="yc-list-content">
             <!-- slot -->
             <slot />
-            <!-- render-list -->
+            <!-- grid -->
             <yc-grid v-if="gridProps" v-bind="gridProps">
-              <yc-grid-item v-for="(item, i) in curData" :key="i">
+              <yc-grid-item v-for="(item, i) in curList" :key="i">
                 <slot name="item" :index="i" :item="item" />
               </yc-grid-item>
             </yc-grid>
+            <!-- list -->
             <template v-else>
-              <template v-for="(item, i) in curData" :key="i">
+              <template v-for="(item, i) in curList" :key="i">
                 <slot name="item" :index="i" :item="item" />
               </template>
             </template>
-            <!-- empty -->
-            <slot name="empty">
-              <yc-empty v-if="!$slots.default && !data.length" />
-            </slot>
           </div>
+          <!-- empty -->
+          <slot name="empty">
+            <yc-empty v-if="!$slots.default && !curList.length" />
+          </slot>
+          <!-- footer -->
           <div v-if="$slots.footer" class="yc-list-footer">
             <slot name="footer" />
           </div>
@@ -62,11 +81,11 @@
 import { toRefs, computed } from 'vue';
 import { ListProps, ListEmits, ListSlots } from './type';
 import { getGlobalConfig, useControlValue } from '@shared/utils';
-import { default as YcGrid, GridItem as YcGridItem } from '@/components/Grid';
 import YcSpin from '@/components/Spin';
 import YcEmpty from '@/components/Empty';
 import YcScrollbar from '@/components/Scrollbar';
 import YcPagination from '@/components/Pagination';
+import VirtualList from './ListVirtual.vue';
 defineOptions({
   name: 'List',
 });
@@ -81,12 +100,20 @@ const props = withDefaults(defineProps<ListProps>(), {
   paginationProps: undefined,
   gridProps: undefined,
   maxHeight: 0,
+  virtualListProps: undefined,
   scrollbar: true,
 });
 const emits = defineEmits<ListEmits>();
-const { paginationProps, data } = toRefs(props);
+const {
+  data,
+  paginationProps,
+  virtualListProps,
+  gridProps,
+  maxHeight: _maxHeight,
+} = toRefs(props);
 // 注入全局属性
 const { size } = getGlobalConfig(props);
+const maxHeight = computed(() => `${_maxHeight.value}px`);
 // current
 const current = computed(() => paginationProps.value?.current);
 const computedCurrent = useControlValue<number>(
@@ -107,11 +134,22 @@ const computedPageSize = useControlValue<number>(
   }
 );
 // 当前展示的data
-const curData = computed(() => {
+const curList = computed(() => {
   if (!paginationProps.value) return data.value;
   return data.value.slice(
     (computedCurrent.value - 1) * computedPageSize.value,
     computedCurrent.value * computedPageSize.value
+  );
+});
+// 是否是虚拟列表
+const isVirtualList = computed(() => {
+  if (!virtualListProps.value || paginationProps.value || gridProps.value) {
+    return false;
+  }
+  return (
+    virtualListProps.value.itemHeight &&
+    (!virtualListProps.value.threshold ||
+      (virtualListProps.value.threshold as number) > data.value.length)
   );
 });
 </script>

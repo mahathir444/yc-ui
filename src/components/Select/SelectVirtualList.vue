@@ -1,24 +1,7 @@
 <template>
-  <div class="yc-select-dropdown-list-wrapper" v-bind="containerProps">
-    <!-- 选然正常列表 -->
-    <div
-      v-if="
-        renderOptions.length <= (virtualListProps?.threshold as number) ||
-        !virtualListProps?.itemHeight
-      "
-      class="yc-select-dropdown-list"
-    >
-      <yc-option
-        v-for="v in renderOptions"
-        :key="v[fieldKey.value]"
-        :value="v[fieldKey.value]"
-        :disabled="v[fieldKey.disabled]"
-      >
-        <component :is="renderLabel(v)" />
-      </yc-option>
-    </div>
+  <div class="yc-select-dropdown-virtual-list" v-bind="containerProps">
     <!-- 渲染虚拟列表 -->
-    <div v-else class="yc-select-dropdown-list" v-bind="wrapperProps">
+    <div class="yc-select-dropdown-list" v-bind="wrapperProps">
       <yc-option
         v-for="{ data: v } in list"
         :key="v[fieldKey.value]"
@@ -28,10 +11,6 @@
         <component :is="renderLabel(v)" />
       </yc-option>
     </div>
-    <!-- 空插槽 -->
-    <slot-render v-if="isEmpty" :render="slots.empty || renderEmpty">
-      <yc-empty v-if="!slots.empty && !providerSlots.empty" />
-    </slot-render>
   </div>
 </template>
 
@@ -39,7 +18,7 @@
 import { ref, toRefs, watch } from 'vue';
 import { useVirtualList, useScroll } from '@vueuse/core';
 import { ObjectData } from '@shared/type';
-import { getSlotFunction, getGlobalConfig } from '@shared/utils';
+import { getSlotFunction } from '@shared/utils';
 import useContext from './hooks/useContext';
 import { Option as YcOption, VirtualListProps } from './index';
 const props = defineProps<{
@@ -48,9 +27,8 @@ const props = defineProps<{
 const { virtualListProps } = toRefs(props);
 // 接收注入
 const { inject } = useContext();
-const { fieldKey, isEmpty, renderOptions, slots, emits } = inject();
-// configProvider
-const { slots: providerSlots } = getGlobalConfig();
+const { fieldKey, renderOptions, slots, emits } = inject();
+
 // 滚动ref
 const scrollRef = ref<HTMLDivElement>();
 // 初始化虚拟滚动
@@ -78,12 +56,6 @@ const renderLabel = (option: ObjectData) => {
   return option[render]
     ? getSlotFunction(option[render])
     : getSlotFunction(option[label]);
-};
-// 渲染empty
-const renderEmpty = () => {
-  return providerSlots.empty?.({
-    component: 'Select',
-  });
 };
 </script>
 

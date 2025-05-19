@@ -6,8 +6,11 @@ export interface ScrollbarProps {
   outerStyle?: CSSProperties;
   style?: CSSProperties;
   autoFill?: boolean;
+  // 触底偏移量
   offsetBottom?: number;
   offsetRight?: number;
+  // 是否真实srollbar
+  scrollbar?: boolean;
 }
 
 export interface ScrollbarEmits {

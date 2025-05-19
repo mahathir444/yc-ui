@@ -14,11 +14,15 @@
       </div>
       <!-- 虚拟列表 -->
       <select-virtual-list
-        v-if="virtualListProps"
-        :virtual-list-props="virtualListProps"
+        v-if="isVirtualList"
+        :virtual-list-props="virtualListProps!"
       />
       <!-- list -->
-      <select-list v-else :scrollbar="scrollbar" />
+      <select-real-list v-else :scrollbar="scrollbar" />
+      <!-- empty -->
+      <slot-render v-if="isEmpty" :render="slots.empty || renderEmpty">
+        <yc-empty v-if="!slots.empty && !providerSlots.empty" />
+      </slot-render>
       <!-- footer -->
       <div
         v-if="slots.footer && (showFooterOnEmpty || !isEmpty)"
@@ -31,24 +35,47 @@
 </template>
 
 <script lang="ts" setup>
+import { toRefs, computed } from 'vue';
 import { VirtualListProps } from './type';
+import { getGlobalConfig } from '@shared/utils';
 import useContext from './hooks/useContext';
 import SelectVirtualList from './SelectVirtualList.vue';
-import SelectList from './SelectList.vue';
+import SelectRealList from './SelectRealList.vue';
 import YcSpin from '@/components/Spin';
-defineProps<{
+import { SlotRender } from '@shared/components';
+const props = defineProps<{
   loading: boolean;
   scrollbar: boolean;
   showFooterOnEmpty: boolean;
   showHeaderOnEmpty: boolean;
   virtualListProps?: VirtualListProps;
 }>();
+const { virtualListProps } = toRefs(props);
 // 接收注入
 const { inject } = useContext();
-const { slots, isEmpty } = inject();
+const { slots, isEmpty, options } = inject();
+// configProvider
+const { slots: providerSlots } = getGlobalConfig();
+// 是否是虚拟列表
+const isVirtualList = computed(() => {
+  if (!virtualListProps.value) {
+    return false;
+  }
+  return (
+    virtualListProps.value.itemHeight &&
+    (!virtualListProps.value.threshold ||
+      (virtualListProps.value.threshold as number) > options.value.length)
+  );
+});
 // 渲染插槽
 const renderSlots = (name: string) => {
   return slots[name];
+};
+// 渲染empty
+const renderEmpty = () => {
+  return providerSlots.empty?.({
+    component: 'Select',
+  });
 };
 </script>
 

@@ -136,8 +136,10 @@ declare module 'vue' {
     LayoutSider: typeof import('./src/components/Layout/LayoutSider.vue')['default']
     Link: typeof import('./src/components/Link/index.vue')['default']
     List: typeof import('./src/components/List/List.vue')['default']
+    ListBase: typeof import('./src/components/List/ListBase.vue')['default']
     ListItem: typeof import('./src/components/List/ListItem.vue')['default']
     ListItemMeta: typeof import('./src/components/List/ListItemMeta.vue')['default']
+    ListVirtual: typeof import('./src/components/List/ListVirtual.vue')['default']
     Mention: typeof import('./src/components/Mention/index.vue')['default']
     Menu: typeof import('./src/components/Menu/Menu.vue')['default']
     MenuEllipsis: typeof import('./src/components/Menu/MenuEllipsis.vue')['default']
@@ -177,6 +179,7 @@ declare module 'vue' {
     Select: typeof import('./src/components/Select/Select.vue')['default']
     SelectIcon: typeof import('./src/components/Select/SelectIcon.vue')['default']
     SelectList: typeof import('./src/components/Select/SelectList.vue')['default']
+    SelectRealList: typeof import('./src/components/Select/SelectRealList.vue')['default']
     SelectView: typeof import('./src/components/Select/SelectView.vue')['default']
     SelectVirtualList: typeof import('./src/components/Select/SelectVirtualList.vue')['default']
     Skeleton: typeof import('./src/components/Skeleton/Skeleton.vue')['default']
@@ -205,6 +208,7 @@ declare module 'vue' {
     TransferPanel: typeof import('./src/components/Transfer/TransferPanel.vue')['default']
     Trigger: typeof import('./src/components/Trigger/index.vue')['default']
     VerificationCode: typeof import('./src/components/VerificationCode/index.vue')['default']
+    VirtualList: typeof import('./src/components/List/VirtualList.vue')['default']
     Watermark: typeof import('./src/components/Watermark/index.vue')['default']
   }
 }
