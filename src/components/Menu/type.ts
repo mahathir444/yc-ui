@@ -3,7 +3,7 @@ import { TooltipProps } from '@/components/Tooltip';
 import { TriggerProps } from '@/components/Trigger';
 
 export interface MenuProps {
-  theme?: 'light' | 'dark';
+  theme?: Theme;
   mode?: MenuMode;
   levelIndent?: number;
   autoOpen?: boolean;
@@ -82,3 +82,5 @@ export interface MenuItemGroupSlots {
 export type MenuMode = 'vertical' | 'pop' | 'horizontal';
 
 export type PopupMaxHeight = boolean | number;
+
+export type Theme = 'light' | 'dark';

@@ -22,8 +22,8 @@ export interface GridItemSlots {
 
 export interface GridRowProps {
   gutter?: number | ResponsiveValue;
-  justify?: 'start' | 'center' | 'end' | 'space-around' | 'space-between';
-  align?: 'start' | 'center' | 'end' | 'stretch';
+  justify?: GridRowJustify;
+  align?: GridRowAlign;
   div?: boolean;
   wrap?: boolean;
 }
@@ -36,7 +36,7 @@ export interface GridColProps {
   span?: number | ResponsiveValue;
   offset?: number | ResponsiveValue;
   order?: number | ResponsiveValue;
-  flex?: Flex | ResponsiveValue;
+  flex?: GridColFlex | ResponsiveValue;
 }
 
 export interface GridColSlots {
@@ -51,7 +51,12 @@ export type ResponsiveValue<T = number | string> = {
   xl?: T;
   xxl?: T;
 };
-
+export type GridRowJustify =
+  | 'start'
+  | 'center'
+  | 'end'
+  | 'space-around'
+  | 'space-between';
+export type GridRowAlign = 'start' | 'center' | 'end' | 'stretch';
 export type BreakpointName = 'xxl' | 'xl' | 'lg' | 'md' | 'sm' | 'xs';
-
-export type Flex = number | string | 'initial' | 'auto' | 'none';
+export type GridColFlex = number | string | 'initial' | 'auto' | 'none';

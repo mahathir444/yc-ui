@@ -8,10 +8,11 @@
 </template>
 
 <script lang="ts" setup>
-import { OptgroupProps } from './type';
+import { OptgroupProps, OptgroupSlots } from './type';
 defineOptions({
   name: 'Optgroup',
 });
+defineSlots<OptgroupSlots>();
 defineProps<OptgroupProps>();
 </script>
 

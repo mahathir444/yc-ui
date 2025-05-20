@@ -2,7 +2,7 @@ import { CSSProperties } from 'vue';
 
 export interface StatisticProps {
   title?: string;
-  value?: number | Date;
+  value?: StatisticValue;
   format?: string;
   extra?: string;
   start?: boolean;
@@ -48,3 +48,5 @@ export interface CountDownEmits {
 export interface CountdownSlots {
   title(): void;
 }
+
+export type StatisticValue = number | Date;

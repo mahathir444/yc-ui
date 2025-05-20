@@ -30,7 +30,7 @@ export interface LayoutSiderProps {
   reverseArrow?: boolean;
   breakpoint?: BreakpointName;
   hideTrigger?: boolean;
-  resizeDirections?: Array<'left' | 'right' | 'top' | 'bottom'>;
+  resizeDirections?: ResizeDirections;
 }
 
 export interface LayoutSiderEmits {
@@ -47,3 +47,5 @@ export interface LayoutSiderSlots {
   default(): void;
   trigger(): void;
 }
+
+export type ResizeDirections = Array<'left' | 'right' | 'top' | 'bottom'>;

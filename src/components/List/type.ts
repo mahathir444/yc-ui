@@ -5,7 +5,7 @@ import { VirtualListProps } from '../Select';
 
 export interface ListProps {
   data?: ObjectData[];
-  size?: 'small' | 'medium' | 'large';
+  size?: ListSize;
   bordered?: boolean;
   split?: boolean;
   loading?: boolean;
@@ -55,3 +55,5 @@ export interface ListItemMetaSlots {
   title(): void;
   description(): void;
 }
+
+export type ListSize = 'small' | 'medium' | 'large';

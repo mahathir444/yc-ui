@@ -2,12 +2,12 @@ import { Direction } from '@shared/type';
 export interface CarouselProps {
   current?: number;
   defaultCurrent?: number;
-  autoPlay?: boolean | { interval?: number; hoverToPause?: boolean };
+  autoPlay?: AutoPlay;
   moveSpeed?: number;
-  animationName?: 'slide' | 'fade' | 'card';
+  animationName?: CarouselAnimationName;
   trigger?: IndicatorTrigger;
   direction?: Direction;
-  showArrow?: ShowArrow;
+  showArrow?: CarouselShowArrow;
   arrowClass?: string;
   indicatorType?: IndicatorType;
   indicatorPosition?: IndicatorPosition;
@@ -28,7 +28,9 @@ export interface CarouselItemSlots {
   default(): void;
 }
 
-export type ShowArrow = 'always' | 'hover' | 'never';
+export type CarouselAnimationName = 'slide' | 'fade' | 'card';
+export type CarouselShowArrow = 'always' | 'hover' | 'never';
+export type AutoPlay = boolean | { interval?: number; hoverToPause?: boolean };
 export type IndicatorPosition = 'bottom' | 'top' | 'left' | 'right' | 'outer';
 export type IndicatorType = 'line' | 'dot' | 'slider' | 'never';
 export type IndicatorTrigger = 'click' | 'hover';

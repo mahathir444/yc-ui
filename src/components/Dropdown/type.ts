@@ -6,7 +6,7 @@ export interface DropdownProps {
   popupVisible?: boolean;
   defaultPopupVisible?: boolean;
   trigger?: TriggerType;
-  position?: 'top' | 'tr' | 'tl' | 'bottom' | 'br' | 'bl';
+  position?: DropdownPosition;
   popupContainer?: PopupContainer;
   hideOnSelect?: boolean;
   triggerProps?: TriggerProps;
@@ -45,8 +45,8 @@ export interface DoptionSlots {
 
 export interface DsubmenuProps {
   disabled?: boolean;
-  trigger?: 'hover' | 'click';
-  position?: 'rt' | 'lt';
+  trigger?: DsubmenuTrigger;
+  position?: DsubmenuPosition;
   popupVisible?: boolean;
   defaultPopupVisible?: boolean;
   triggerProps?: TriggerProps;
@@ -77,7 +77,7 @@ export interface DropdownButtonProps {
   popupVisible?: boolean;
   defaultPopupVisible?: boolean;
   trigger?: TriggerType;
-  position?: 'top' | 'tr' | 'tl' | 'bottom' | 'br' | 'bl';
+  position?: DropdownPosition;
   popupContainer?: PopupContainer;
   disabled?: boolean;
   type?: ButtonType;
@@ -93,3 +93,6 @@ export interface DropdownButtonSlots {
 }
 
 export type DoptionValue = string | number | boolean;
+export type DropdownPosition = 'top' | 'tr' | 'tl' | 'bottom' | 'br' | 'bl';
+export type DsubmenuTrigger = 'hover' | 'click';
+export type DsubmenuPosition = 'rt' | 'lt';

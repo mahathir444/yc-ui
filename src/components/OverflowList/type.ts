@@ -1,7 +1,7 @@
 export interface OverflowListProps {
   min?: number;
   margin?: number;
-  from?: 'start' | 'end';
+  from?: OverflowListFrom;
 }
 
 export interface OverflowListEmits {
@@ -12,3 +12,5 @@ export interface OverflowListSlots {
   default(): void;
   overflow(): void;
 }
+
+export type OverflowListFrom = 'start' | 'end';

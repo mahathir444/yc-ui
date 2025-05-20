@@ -23,7 +23,7 @@ export interface InputProps {
   showInput?: boolean;
 }
 
-export type InputEmits = {
+export interface InputEmits {
   (e: 'update:modelValue', value: string): void;
   (e: 'update:visibility', value: boolean): void;
   (e: 'input', value: string, ev: Event): void;
@@ -34,7 +34,7 @@ export type InputEmits = {
   (e: 'clear', ev: MouseEvent): void;
   (e: 'focus', ev: FocusEvent): void;
   (e: 'blur', ev: FocusEvent): void;
-};
+}
 
 export interface InputSlots {
   prefix(): void;
@@ -51,7 +51,5 @@ export interface InputExpose {
 }
 
 export type WordSlice = (value: string, maxLength: number) => string;
-
 export type WordLength = (value: string) => number;
-
 export type MaxLength = number | { length: number; errorOnly?: boolean };

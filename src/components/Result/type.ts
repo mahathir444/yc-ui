@@ -4,6 +4,14 @@ export interface ResultProps {
   subtitle?: string;
 }
 
+export interface ResultSlots {
+  icon(): void;
+  title(): void;
+  subtitle(): void;
+  default(): void;
+  extra(): void;
+}
+
 export type ResultStatus =
   | 'info'
   | 'success'
@@ -13,11 +21,3 @@ export type ResultStatus =
   | '404'
   | '500'
   | null;
-
-export interface ResultSlots {
-  icon(): void;
-  title(): void;
-  subtitle(): void;
-  default(): void;
-  extra(): void;
-}

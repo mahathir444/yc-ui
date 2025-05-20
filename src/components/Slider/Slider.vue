@@ -37,7 +37,8 @@
 
 <script lang="ts" setup>
 import { ref, computed } from 'vue';
-import { SliderProps, SliderEmits, PositionData } from './type';
+import { SliderProps, SliderEmits } from './type';
+import { PositionData } from './hooks/useSliderDraggable';
 import useContext from './hooks/useContext';
 import YcSliderTicks from './SliderTicks.vue';
 import YcSliderBtn from './SliderBtn.vue';

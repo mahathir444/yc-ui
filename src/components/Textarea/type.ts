@@ -1,4 +1,5 @@
 import { WordLength, WordSlice, MaxLength } from '../Input';
+import { AutoSize } from './hooks/useTextareaHeight';
 
 export interface TextareaProps {
   modelValue?: string;
@@ -35,10 +36,3 @@ export type TextareaExpose = {
   getInputRef(): HTMLTextAreaElement;
   getMirrorRef(): HTMLDivElement;
 };
-
-export type AutoSize =
-  | boolean
-  | {
-      minRows?: number;
-      maxRows?: number;
-    };

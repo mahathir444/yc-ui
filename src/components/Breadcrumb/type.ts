@@ -1,5 +1,4 @@
 import { DropdownProps } from '@/components/Dropdown';
-import { Ref } from 'vue';
 export interface BreadcrumbProps {
   maxCount?: number;
   routes?: BreadcrumbRoute[];

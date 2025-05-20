@@ -1,8 +1,8 @@
 import { Direction } from '@shared/type';
 export interface DividerProps {
   direction?: Direction;
-  orientation?: 'left' | 'center' | 'right';
-  type?: 'solid' | 'dashed' | 'dotted' | 'double';
+  orientation?: Orientation;
+  type?: DividerType;
   size?: number;
   margin?: number;
 }
@@ -10,3 +10,6 @@ export interface DividerProps {
 export interface DividerSlots {
   default(): void;
 }
+
+export type Orientation = 'left' | 'center' | 'right';
+export type DividerType = 'solid' | 'dashed' | 'dotted' | 'double';

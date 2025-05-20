@@ -7,10 +7,17 @@ export interface BadgeProps {
   maxCount?: number;
   offset?: number[];
   color?: string;
-  status?: 'normal' | 'processing' | 'success' | 'warning' | 'danger';
+  status?: BadgeStatus;
   count?: number;
 }
 
 export interface BadgeSlots {
   default(): void;
 }
+
+export type BadgeStatus =
+  | 'normal'
+  | 'processing'
+  | 'success'
+  | 'warning'
+  | 'danger';

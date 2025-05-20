@@ -40,6 +40,12 @@ export interface TransferPanelSlots {
   item(params: { value: string; label: string }): void;
 }
 
+export interface TransferItem {
+  label?: string;
+  value?: string;
+  disabled?: boolean;
+}
+
 type TitleSlots = {
   countTotal: number;
   countSelected: number;
@@ -49,9 +55,3 @@ type TitleSlots = {
 };
 
 type DefaultSlots = { data: TransferItem[]; selectedKeys: string[] };
-
-export interface TransferItem {
-  label?: string;
-  value?: string;
-  disabled?: boolean;
-}

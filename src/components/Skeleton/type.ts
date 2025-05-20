@@ -16,6 +16,9 @@ export interface SkeletonLineProps {
 }
 
 export interface SkeletonShapeProps {
-  shape?: 'sqaure' | 'circle';
-  size?: 'small' | 'medium' | 'large';
+  shape?: SkeletonShapeShape;
+  size?: SkeletonShapeSize;
 }
+
+export type SkeletonShapeSize = 'small' | 'medium' | 'large';
+export type SkeletonShapeShape = 'sqaure' | 'circle';

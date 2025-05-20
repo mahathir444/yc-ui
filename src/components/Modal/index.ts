@@ -1,10 +1,18 @@
 import { App, h, render } from 'vue';
-import { ModalConfig, ModalMethods, ModalServiceData } from './type';
+import { ModalConfig } from './type';
 import _ModalService from './ModalService.vue';
 import _Modal from './Modal.vue';
 
 export type ModalInstance = InstanceType<typeof _Modal>;
 export * from './type';
+type ModalServiceData = { id: string; container: HTMLDivElement | null };
+type ModalMethod = (props: ModalConfig) => { close: () => void };
+type ModalMethods = {
+  success: ModalMethod;
+  error: ModalMethod;
+  warning: ModalMethod;
+  info: ModalMethod;
+};
 
 const Modal = Object.assign(_Modal, {
   modalConfig: {

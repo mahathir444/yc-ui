@@ -4,7 +4,7 @@ export interface CardProps {
   bordered?: boolean;
   loading?: boolean;
   hoverable?: boolean;
-  size?: 'medium' | 'small';
+  size?: CardSize;
   headerStyle?: CSSProperties;
   bodyStyle?: CSSProperties;
   title?: string;
@@ -37,3 +37,5 @@ export interface CardGridProps {
 export interface CardGridSlots {
   default(): void;
 }
+
+export type CardSize = 'medium' | 'small';

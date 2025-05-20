@@ -72,11 +72,11 @@ export interface SelectSlots {
   empty(): void;
 }
 
-export type SelectExpose = {
+export interface SelectExpose {
   focus(): void;
   blur(): void;
   getPopupRef(): TriggerInstance;
-};
+}
 
 export interface OptionProps {
   id?: string;
@@ -86,19 +86,24 @@ export interface OptionProps {
   tagProps?: TagProps;
 }
 
+export interface OptionSlots {
+  default(): void;
+  icon(): void;
+  suffix(): void;
+}
+
 export interface OptgroupProps {
   label?: string;
+}
+
+export interface OptgroupSlots {
+  default(): void;
+  label(): void;
 }
 
 export type SelectValue =
   | (string | number | boolean | ObjectData)
   | (string | number | boolean | ObjectData)[];
-
-export type VirtualListProps = {
-  itemHeight?: number;
-  buffer?: number;
-  threshold?: number;
-};
 
 export type SelectOptionData = { render?: RenderContent } & OptionProps;
 
@@ -123,3 +128,9 @@ export type FilterOption = (
 export type FallbackOption = (value: SelectValue) => SelectOptionData;
 
 export type FormatLabel = (data: SelectOptionData) => string;
+
+export type VirtualListProps = {
+  itemHeight?: number;
+  buffer?: number;
+  threshold?: number;
+};

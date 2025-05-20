@@ -1,7 +1,7 @@
 import { TargetContainer } from '@shared/type';
 
 export interface AnchorProps {
-  boundary?: 'start' | 'end' | 'center' | 'nearest' | number;
+  boundary?: AnchorBoundary;
   lineLess?: boolean;
   scrollContainer?: TargetContainer;
   changeHash?: boolean;
@@ -21,3 +21,5 @@ export interface AnchorLinkSlots {
   default(): void;
   sublist(): void;
 }
+
+export type AnchorBoundary = 'start' | 'end' | 'center' | 'nearest' | number;

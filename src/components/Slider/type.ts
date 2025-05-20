@@ -24,18 +24,3 @@ export interface SliderEmits {
 export type SliderValue = number | number[];
 
 export type FormatTooltip = (value: number) => string;
-
-export interface PositionData {
-  left: number;
-  right: number;
-  top: number;
-  bottom: number;
-  transform?: string;
-}
-
-export interface RangeData {
-  minLeft: number;
-  maxLeft: number;
-  minTop: number;
-  maxTop: number;
-}

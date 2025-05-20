@@ -6,9 +6,9 @@ export interface AvatarProps {
   imageUrl?: string;
   size?: number;
   autoFixFontSize?: boolean;
-  triggerType?: 'mask' | 'button';
+  triggerType?: AvatarTriggerType;
   triggerIconStyle?: CSSProperties;
-  objectFit?: 'cover' | 'contain' | 'fill' | 'none';
+  objectFit?: ObjectFit;
 }
 
 export interface AvatarEmits {
@@ -37,3 +37,5 @@ export interface AvatarGroupSlots {
 }
 
 export type AvatarShape = 'square' | 'round';
+export type AvatarTriggerType = 'mask' | 'button';
+export type ObjectFit = 'cover' | 'contain' | 'fill' | 'none';

@@ -12,7 +12,7 @@ export interface DescriptionsProps {
   bordered?: boolean;
   labelStyle?: CSSProperties;
   valueStyle?: CSSProperties;
-  tableLayout?: 'auto' | 'fixed';
+  tableLayout?: TableLayout;
 }
 
 export interface DescriptionsSlots {
@@ -46,3 +46,4 @@ export type Layout =
   | 'vertical'
   | 'inline-horizontal'
   | 'inline-vertical';
+export type TableLayout = 'auto' | 'fixed';

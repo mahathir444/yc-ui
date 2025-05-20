@@ -9,7 +9,7 @@ export interface ModalProps {
   top?: number;
   mask?: boolean;
   title?: string;
-  titleAlign?: 'start' | 'center';
+  titleAlign?: ModalTitleAlign;
   alignCenter?: boolean;
   unmountOnClose?: boolean;
   maskClosable?: boolean;
@@ -77,14 +77,4 @@ export type OnBeforeCancel = () => boolean;
 
 export type ModalType = 'info' | 'warning' | 'error' | 'success';
 
-export type ModalMethod = (props: ModalConfig) => { close: () => void };
-
-export type ModalMethods = {
-  success: ModalMethod;
-  error: ModalMethod;
-  warning: ModalMethod;
-  info: ModalMethod;
-};
-
-// 内部使用
-export type ModalServiceData = { id: string; container: HTMLDivElement | null };
+export type ModalTitleAlign = 'start' | 'center';

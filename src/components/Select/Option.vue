@@ -39,7 +39,7 @@
 
 <script lang="ts" setup>
 import { toRefs, computed } from 'vue';
-import { OptionProps } from './type';
+import { OptionProps, OptionSlots } from './type';
 import { ObjectData } from '@shared/type';
 import { isUndefined } from '@shared/utils';
 import useContext from './hooks/useContext';
@@ -47,6 +47,7 @@ import YcCheckbox from '@/components/Checkbox';
 defineOptions({
   name: 'Option',
 });
+defineSlots<OptionSlots>();
 const props = withDefaults(defineProps<OptionProps>(), {
   label: '',
   value: '',

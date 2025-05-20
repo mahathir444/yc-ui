@@ -21,9 +21,8 @@
 
 <script lang="ts" setup>
 import { ref, computed, watch, toRefs } from 'vue';
-import { PositionData } from './type';
 import useContext from './hooks/useContext';
-import useSliderDraggable from './hooks/useSliderDraggable';
+import useSliderDraggable, { PositionData } from './hooks/useSliderDraggable';
 import YcTooltip from '@/components/Tooltip';
 const props = defineProps<{
   type: 'start' | 'end';

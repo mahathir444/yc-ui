@@ -1,7 +1,22 @@
 import { reactive, Ref, watch, nextTick, computed } from 'vue';
-import { PositionData, RangeData } from '../index';
 import { Direction } from '@shared/type';
 import { useDraggable } from '@vueuse/core';
+
+export interface RangeData {
+  minLeft: number;
+  maxLeft: number;
+  minTop: number;
+  maxTop: number;
+}
+
+export interface PositionData {
+  left: number;
+  right: number;
+  top: number;
+  bottom: number;
+  transform?: string;
+}
+
 export default (params: {
   computedValue: Ref<number>;
   trackRef: Ref<HTMLDivElement | undefined>;

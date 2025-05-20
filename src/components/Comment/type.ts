@@ -3,10 +3,7 @@ export interface CommentProps {
   avatar?: string;
   content?: string;
   datetime?: string;
-  align?:
-    | 'left'
-    | 'right'
-    | { datetime?: 'left' | 'right'; actions?: 'left' | 'right' };
+  align?: CommentAlign;
 }
 
 export interface CommentSlots {
@@ -17,3 +14,8 @@ export interface CommentSlots {
   actions(): void;
   default(): void;
 }
+
+export type CommentAlign =
+  | 'left'
+  | 'right'
+  | { datetime?: 'left' | 'right'; actions?: 'left' | 'right' };

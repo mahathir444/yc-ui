@@ -1,7 +1,13 @@
 import { Ref, computed } from 'vue';
-import { AutoSize } from '../type';
 import { useElementSize } from '@vueuse/core';
 import { ObjectData } from '@shared/type';
+
+export type AutoSize =
+  | boolean
+  | {
+      minRows?: number;
+      maxRows?: number;
+    };
 
 export default (
   mirrorRef: Ref<HTMLDivElement | undefined>,

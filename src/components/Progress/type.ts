@@ -1,7 +1,7 @@
 import { Size } from '@shared/type';
 
 export interface ProgressProps {
-  type?: 'line' | 'circle';
+  type?: ProgressType;
   size?: Size;
   percent?: number;
   steps?: number;
@@ -14,6 +14,6 @@ export interface ProgressProps {
   status?: ProgressStatus;
 }
 
+export type ProgressType = 'line' | 'circle';
 export type ProgressColor = string | Record<string, string>;
-
 export type ProgressStatus = 'normal' | 'success' | 'warning' | 'danger';

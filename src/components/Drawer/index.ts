@@ -1,10 +1,14 @@
 import { App, render, h } from 'vue';
-import { DrawerConfig, DrawerServiceData } from './type';
+import { DrawerConfig } from './type';
 import _Drawer from './Drawer.vue';
 import _DrawerService from './DrawerService.vue';
 
 export type DrawerInstance = InstanceType<typeof _Drawer>;
 export * from './type';
+type DrawerServiceData = {
+  id: string;
+  container: HTMLDivElement | null;
+};
 
 const Drawer = Object.assign(_Drawer, {
   install: (app: App) => {
