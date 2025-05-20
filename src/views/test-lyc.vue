@@ -1,9 +1,9 @@
 <template>
   <div class="test">
     <a-tabs
-      default-active-key="2"
-      type="card-gutter"
+      type="line"
       direction="vertical"
+      :header-padding="false"
       style="width: 100%"
     >
       <a-tab-pane key="1" title="Tab 1"> Content of Tab Panel 1 </a-tab-pane>
@@ -15,7 +15,7 @@
         Content of Tab Panel 3
       </a-tab-pane>
     </a-tabs>
-    <yc-tabs default-active-key="2" type="card-gutter" direction="vertical">
+    <yc-tabs default-active-key="2" type="card">
       <yc-tab-pane path="1" title="Tab 1"> Content of Tab Panel 1 </yc-tab-pane>
       <yc-tab-pane path="2" title="Tab 2"> Content of Tab Panel 2 </yc-tab-pane>
       <yc-tab-pane path="3" title="Tab 3">

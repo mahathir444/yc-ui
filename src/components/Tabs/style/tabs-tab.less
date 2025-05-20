@@ -3,7 +3,6 @@
   flex-shrink: 0;
   position: relative;
   cursor: pointer;
-  padding: 4px 0;
   outline: none;
   background-color: transparent;
   color: rgb(78, 89, 105);
@@ -69,6 +68,12 @@
       }
     }
   }
+  &.yc-tabs-tab-type-line {
+    &.yc-tabs-tab-vertical {
+      margin: 0;
+      padding: 0 20px;
+    }
+  }
 }
 // card card-gutter
 .yc-tabs-tab-type-card,
@@ -103,10 +108,12 @@
     }
   }
   &.yc-tabs-tab-vertical {
-    border-top: none;
     border-bottom: none;
     &:not(:last-child) {
       border-bottom: 1px solid rgb(229, 230, 235);
+    }
+    &.yc-tabs-tab-type-card {
+      border-top: none;
     }
     &.yc-tabs-tab-active {
       background-color: transparent;
@@ -117,9 +124,7 @@
 // rounded
 .yc-tabs-tab-type-rounded {
   margin: 0 6px;
-  padding: 5px 0;
-  padding-right: 16px;
-  padding-left: 16px;
+  padding: 5px 16px;
   border-radius: 32px;
   &:hover {
     background-color: rgb(242, 243, 245);

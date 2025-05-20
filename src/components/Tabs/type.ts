@@ -1,26 +1,33 @@
 import { Direction, Size } from '@shared/type';
 
-export interface TabProps {
+export interface TabsProps {
   activeKey?: TabKey;
   defaultActiveKey?: TabKey;
-  position?: 'left' | 'right' | 'bottom' | 'top';
+  //
+  position?: TabPositon;
   size?: Size;
-  type?: 'line' | 'card' | 'card-gutter' | 'text' | 'rounded' | 'capsule';
+  //
+  type?: TabType;
   direction?: Direction;
   editable?: boolean;
   showAddButton?: boolean;
+  //
   destoryOnHide?: boolean;
   lazyLoad?: boolean;
+  //
   justify?: boolean;
+  //
   animation?: boolean;
   headerPadding?: boolean;
+  //
   autoSwitch?: boolean;
   hideContent?: boolean;
-  trigger?: 'click' | 'hover';
-  scrollPositon?: 'start' | 'end' | 'center' | 'auto' | number;
+  trigger?: TabTrigger;
+  //
+  scrollPositon?: TabScrollPosition;
 }
 
-export interface TabEmits {
+export interface TabsEmits {
   (e: 'update:activeKey', value: TabKey): void;
   (e: 'change', value: TabKey): void;
   (e: 'tab-click', value: TabKey): void;
@@ -28,7 +35,7 @@ export interface TabEmits {
   (e: 'delete', value: TabKey): void;
 }
 
-export interface TabSlots {
+export interface TabsSlots {
   extra(): void;
   default(): void;
 }
@@ -47,3 +54,13 @@ export interface TabPaneSlots {
 }
 
 export type TabKey = string | number;
+export type TabType =
+  | 'line'
+  | 'card'
+  | 'card-gutter'
+  | 'text'
+  | 'rounded'
+  | 'capsule';
+export type TabPositon = 'left' | 'right' | 'bottom' | 'top';
+export type TabTrigger = 'click' | 'hover';
+export type TabScrollPosition = 'start' | 'end' | 'center' | 'auto' | number;

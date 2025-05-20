@@ -6,73 +6,69 @@
       `yc-tabs-${position}`,
       `yc-tabs-type-${type}`,
       `yc-tabs-size-${size}`,
+      {
+        'yc-tabs-justify': direction == 'horizontal' && justify,
+        'yc-tabs-no-padding':
+          headerPadding &&
+          ['line', 'text'].includes(type) &&
+          props.direction === 'horizontal',
+      },
     ]"
   >
-    <div :class="['yc-tabs-nav']">
+    <div class="yc-tabs-nav">
       <div class="yc-tabs-nav-tab">
         <div
           class="yc-tabs-nav-tab-list"
-          style="transform: translateX(0px)"
+          :style="{
+            transform: `translateX(0px)`,
+          }"
           ref="listRef"
         >
-          <div
+          <tabs-tab
             v-for="(item, i) in tabPaneNodes"
             :key="i"
-            tabindex="0"
-            :class="[
-              'yc-tabs-tab',
-              `yc-tabs-tab-type-${type}`,
-              `yc-tabs-tab-${direction}`,
-              {
-                'yc-tabs-tab-active': computedActiveKey == item?.props?.path,
-              },
-            ]"
-            @click="handleClick(item)"
+            :node="item"
+            :index="i"
+          />
+          <!-- 新增按钮 -->
+          <yc-icon-button
+            v-if="showAddButton"
+            :size="12"
+            :hover-size="20"
+            class="yc-tabs-tab-add-btn"
+            @click="handleAdd"
           >
-            <span
-              class="yc-tabs-tab-title"
-              :ref="(el) => (titleRefs[i] = el as HTMLSpanElement)"
-            >
-              <component :is="renderTitle(item)" />
-            </span>
-          </div>
-          <div
-            v-if="type == 'line'"
-            class="yc-tabs-nav-ink"
-            :style="sliderStyle"
-          ></div>
+            <icon-plus />
+          </yc-icon-button>
+          <!-- ink -->
+          <tabs-nav-ink v-if="type == 'line'" :cur-index="curIndex" />
         </div>
       </div>
       <div v-if="$slots.extra" class="yc-tabs-nav-extra">
         <slot name="extra" />
       </div>
     </div>
-    <div class="yc-tabs-content">
-      <div class="yc-tabs-content-list" style="margin-left: -100%">
-        <div
-          v-for="(item, i) in tabPaneNodes"
-          :key="i"
-          class="yc-tabs-content-item"
-        >
-          <div class="yc-tabs-pane">
-            <component :is="item.children.default" />
-          </div>
-        </div>
-      </div>
+    <div v-if="!hideContent" class="yc-tabs-content">
+      <component :is="tabPaneNodes[curIndex].default" />
     </div>
   </div>
 </template>
 
 <script lang="ts" setup>
-import { ref, computed } from 'vue';
-import { ObjectData } from '@shared/type';
-import { TabProps, TabEmits, TabSlots } from './type';
+import { ref, computed, useSlots, nextTick } from 'vue';
+import { TabsProps, TabsEmits, TabsSlots } from './type';
+import { findComponentsFromVnodes } from '@shared/utils';
 import useContext from './hooks/useContext';
+import TabPane from './TabPane.vue';
+import TabsTab from './TabsTab.vue';
+import TabsNavInk from './TabsNavInk.vue';
+import { IconPlus } from '@shared/icons';
+import { YcIconButton } from '@shared/components';
 defineOptions({
   name: 'Tabs',
 });
-defineSlots<TabSlots>();
-const props = withDefaults(defineProps<TabProps>(), {
+defineSlots<TabsSlots>();
+const props = withDefaults(defineProps<TabsProps>(), {
   activeKey: undefined,
   defaultActiveKey: '',
   position: 'top',
@@ -89,43 +85,41 @@ const props = withDefaults(defineProps<TabProps>(), {
   autoSwitch: false,
   hideContent: false,
   trigger: 'click',
+  scrollPositon: 'auto',
 });
-const emit = defineEmits<TabEmits>();
-// 出入数据
-const { provide } = useContext();
-const { computedActiveKey, tabPaneNodes } = provide(props, emit);
-// titleRefs
-const titleRefs = ref<HTMLSpanElement[]>([]);
+const emits = defineEmits<TabsEmits>();
 // tablist
 const listRef = ref<HTMLDivElement>();
-// 计算sliderWidth
-const sliderStyle = computed(() => {
+// 注入
+const { provide } = useContext();
+const { computedActiveKey, size, direction, autoSwitch } = provide(
+  props,
+  emits,
+  listRef
+);
+// 获取插槽nodes
+const slots = useSlots();
+// nodes
+const tabPaneNodes = findComponentsFromVnodes(
+  slots.default?.() || [],
+  TabPane.name as string
+);
+// 当前的索引
+const curIndex = computed(() => {
   const index = tabPaneNodes.findIndex(
     (item) => item?.props?.path == computedActiveKey.value
   );
-  const targetIndex = index == -1 ? 0 : index;
-  const listLeft = listRef.value?.getBoundingClientRect?.()?.left || 0;
-  const targetLeft =
-    titleRefs.value[targetIndex]?.getBoundingClientRect?.()?.left || 0;
-  return {
-    width: `${titleRefs.value[targetIndex]?.offsetWidth}px`,
-    left: `${targetLeft - listLeft}px`,
-  };
+  return index < 0 ? 0 : index;
 });
-// 渲染title
-const renderTitle = (node: ObjectData) => {
-  return node.children.title ? node.children.title : () => node.props.title;
-};
-// 处理点击
-const handleClick = (node: ObjectData) => {
-  const key = node?.props?.path;
-  const disabled = node?.props?.disabled;
-  if (computedActiveKey.value == key || disabled) return;
-  computedActiveKey.value = key;
+// 处理新增
+const handleAdd = async () => {
+  emits('add');
+  await nextTick();
+  if (!autoSwitch.value) return;
+  computedActiveKey.value = tabPaneNodes[tabPaneNodes.length - 1]?.props?.path;
 };
 </script>
 
 <style lang="less" scoped>
 @import './style/tabs.less';
-@import './style/tabs-tab.less';
 </style>

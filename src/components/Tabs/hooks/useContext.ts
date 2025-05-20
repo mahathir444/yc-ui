@@ -1,46 +1,45 @@
+import { toRefs, provide as _provide, inject as _inject, ref, Ref } from 'vue';
+import { useControlValue, getGlobalConfig } from '@shared/utils';
+import { Direction, Props } from '@shared/type';
 import {
-  ref,
-  provide as _provide,
-  inject as _inject,
-  toRefs,
-  Ref,
-  unref,
-  useSlots,
-} from 'vue';
-import {
-  findComponentsFromVnodes,
-  getGlobalConfig,
-  useControlValue,
-} from '@shared/utils';
-import { Props, RequiredDeep } from '@shared/type';
-import { TabProps as _TabProps, TabEmits, TabKey } from '../type';
-import TabPane from '../TabPane.vue';
+  TabKey,
+  TabsEmits,
+  TabTrigger,
+  TabType,
+  TabScrollPosition,
+} from '../type';
 
-export const TAB_PROVIDE_KEY = 'tab-context';
+export const TABS_PROVIDE_KEY = 'tabs-context';
 
-export interface TabContext {
+export interface TabsContext {
+  editable: Ref<boolean>;
+  type: Ref<TabType>;
+  trigger: Ref<TabTrigger>;
+  direction: Ref<Direction>;
   computedActiveKey: Ref<TabKey>;
-  destoryOnHide: Ref<boolean>;
-  emits: TabEmits;
+  titleRefs: Ref<HTMLSpanElement[]>;
+  scrollPosition: Ref<TabScrollPosition>;
+  listRef: Ref<HTMLDivElement | undefined>;
+  emits: TabsEmits;
 }
 
-export type TabProps = RequiredDeep<_TabProps>;
-
 export default () => {
-  const provide = (props: Props, emits: TabEmits) => {
-    // 解构属性
-    const { activeKey, defaultActiveKey, destoryOnHide } = toRefs(
-      props as TabProps
-    );
+  const provide = (
+    props: Props,
+    emits: TabsEmits,
+    listRef: Ref<HTMLDivElement | undefined>
+  ) => {
     const { size } = getGlobalConfig(props);
-    // 获取插槽nodes
-    const slots = useSlots();
-    // nodes
-    const tabPaneNodes = findComponentsFromVnodes(
-      slots.default?.() || [],
-      TabPane.name as string
-    );
-    // 活跃的key
+    const {
+      activeKey,
+      defaultActiveKey,
+      direction,
+      trigger,
+      autoSwitch,
+      type,
+      editable,
+      scrollPosition,
+    } = toRefs(props);
     const computedActiveKey = useControlValue<TabKey>(
       activeKey,
       defaultActiveKey.value,
@@ -48,21 +47,37 @@ export default () => {
         emits('update:activeKey', val);
       }
     );
-    _provide<TabContext>(TAB_PROVIDE_KEY, {
-      emits,
+    // titleRefs
+    const titleRefs = ref<HTMLSpanElement[]>([]);
+    _provide<TabsContext>(TABS_PROVIDE_KEY, {
       computedActiveKey,
-      destoryOnHide,
+      editable,
+      direction,
+      trigger,
+      type,
+      titleRefs,
+      scrollPosition,
+      listRef,
+      emits,
     });
     return {
       size,
+      titleRefs,
       computedActiveKey,
-      tabPaneNodes,
+      direction,
+      autoSwitch,
     };
   };
-  const inject = (props: Props) => {
-    return _inject<TabContext>(TAB_PROVIDE_KEY, {
+  const inject = () => {
+    return _inject<TabsContext>(TABS_PROVIDE_KEY, {
       computedActiveKey: ref(''),
-      destoryOnHide: ref(false),
+      editable: ref(false),
+      trigger: ref('click'),
+      type: ref('line'),
+      direction: ref('horizontal'),
+      titleRefs: ref([]),
+      scrollPosition: ref('auto'),
+      listRef: ref(),
       emits: () => {},
     });
   };
