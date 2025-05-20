@@ -1,5 +1,10 @@
-import { OnBeforeCancel, OnBeforeOk } from '@/components/Modal/type';
 import { isBoolean } from '@shared/utils';
+
+export type OnBeforeOk = (
+  done: (closed: boolean) => void
+) => void | boolean | Promise<boolean | void>;
+export type OnBeforeCancel = () => boolean;
+
 export default async (
   type: string,
   onBeforeOk: OnBeforeOk,

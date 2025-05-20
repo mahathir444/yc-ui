@@ -3,7 +3,7 @@ export interface BreadcrumbProps {
   maxCount?: number;
   routes?: BreadcrumbRoute[];
   separator?: string | number;
-  customUrl?: (path: string[]) => string;
+  customUrl?: CustomUrl;
 }
 
 export interface BreadcrumbSlots {
@@ -36,3 +36,5 @@ export interface BreadcrumbRoute {
   path?: string;
   children?: BreadcrumbRoute[];
 }
+
+export type CustomUrl = (path: string[]) => string;

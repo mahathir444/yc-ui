@@ -1,4 +1,8 @@
-import { WordLength, WordSlice, MaxLength } from '../Input';
+import {
+  MaxLength,
+  WordLength,
+  WordSlice,
+} from '@/components/Input/hooks/useLimitedInput';
 import { AutoSize } from './hooks/useTextareaHeight';
 
 export interface TextareaProps {

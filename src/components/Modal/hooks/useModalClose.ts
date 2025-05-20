@@ -1,12 +1,11 @@
 import { ref, Ref, watch } from 'vue';
-import {
-  ModalEmits,
-  OnBeforeCancel,
-  OnBeforeOk,
-} from '@/components/Modal/type';
+import { ModalEmits } from '@/components/Modal/type';
 import { onKeyStroke } from '@vueuse/core';
 import { useControlValue } from '@shared/utils';
-import useOnBeforeClose from './useOnBeforeClose';
+import useOnBeforeClose, {
+  OnBeforeOk,
+  OnBeforeCancel,
+} from './useOnBeforeClose';
 
 export default (params: {
   visible: Ref<boolean | undefined>;

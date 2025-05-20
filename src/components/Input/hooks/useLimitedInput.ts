@@ -11,6 +11,9 @@ import {
 import useCursor from './useCursor';
 
 export type InputProps = RequiredDeep<_InputProps>;
+export type WordSlice = (value: string, maxLength: number) => string;
+export type WordLength = (value: string) => number;
+export type MaxLength = number | { length: number; errorOnly?: boolean };
 
 export default (params: {
   props: Props;
