@@ -1,4 +1,5 @@
 import { BreakpointName } from '@/components/Grid';
+import { Theme } from '@shared/type';
 
 export interface LayoutProps {
   hasSider?: boolean;
@@ -21,7 +22,7 @@ export interface LayoutFooterSlots {
 }
 
 export interface LayoutSiderProps {
-  theme?: 'dark' | 'light';
+  theme?: Theme;
   collapsed?: boolean;
   defaultCollapsed?: boolean;
   collapsible?: boolean;

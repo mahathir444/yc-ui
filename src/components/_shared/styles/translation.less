@@ -70,37 +70,22 @@
 
 // used by drawer
 @slide-directions: {
-  @left: {
-    enter-from: translateX(-100%);
-    leave-to: translateX(-100%);
-  };
-  @right: {
-    enter-from: translateX(100%);
-    leave-to: translateX(100%);
-  };
-  @top: {
-    enter-from: translateY(-100%);
-    leave-to: translateY(-100%);
-  };
-  @bottom: {
-    enter-from: translateY(100%);
-    leave-to: translateY(100%);
-  };
+  left: translateX(-100%);
+  right: translateX(100%);
+  top: translateY(-100%);
+  bottom: translateY(100%);
 };
-each(@slide-directions, .(@transform, @key) {
-  @direction:replace(~"@{key}", "@", "");
-  // 进入/离开的起始和结束状态
-  .slide-drawer-@{direction}-enter-from,
-  .slide-drawer-@{direction}-leave-to {
-    transform: @transform[enter-from];
+each(@slide-directions, {
+  .slide-drawer-@{key}-enter-from,
+  .slide-drawer-@{key}-leave-to {
+    transform: @value;
   }
-  .slide-drawer-@{direction}-enter-to,
-  .slide-drawer-@{direction}-leave-from {
+  .slide-drawer-@{key}-enter-to,
+  .slide-drawer-@{key}-leave-from {
     transform: translate(0);
   }
-  // 动画激活状态
-  .slide-drawer-@{direction}-enter-active,
-  .slide-drawer-@{direction}-leave-active {
+  .slide-drawer-@{key}-enter-active,
+  .slide-drawer-@{key}-leave-active {
     transition: transform 0.3s cubic-bezier(0.34, 0.69, 0.1, 1);
   }
 });

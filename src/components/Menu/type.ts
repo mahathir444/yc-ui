@@ -1,6 +1,7 @@
 import { BreakpointName } from '@/components/Grid';
 import { TooltipProps } from '@/components/Tooltip';
 import { TriggerProps } from '@/components/Trigger';
+import { Theme } from '@shared/type';
 
 export interface MenuProps {
   theme?: Theme;
@@ -82,5 +83,3 @@ export interface MenuItemGroupSlots {
 export type MenuMode = 'vertical' | 'pop' | 'horizontal';
 
 export type PopupMaxHeight = boolean | number;
-
-export type Theme = 'light' | 'dark';

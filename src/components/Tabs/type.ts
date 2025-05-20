@@ -16,7 +16,7 @@ export interface TabProps {
   headerPadding?: boolean;
   autoSwitch?: boolean;
   hideContent?: boolean;
-  trigger?: 'click' | 'hocer';
+  trigger?: 'click' | 'hover';
   scrollPositon?: 'start' | 'end' | 'center' | 'auto' | number;
 }
 
@@ -35,6 +35,7 @@ export interface TabSlots {
 
 export interface TabPaneProps {
   title?: string;
+  path?: TabKey;
   disabled?: boolean;
   closable?: boolean;
   destoryOnHide?: boolean;

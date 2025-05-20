@@ -4,6 +4,8 @@ export type Size = 'mini' | 'small' | 'medium' | 'large';
 
 export type Direction = 'vertical' | 'horizontal';
 
+export type Theme = 'light' | 'dark';
+
 export type TargetContainer = string | HTMLElement;
 
 export type PopupContainer = string | HTMLElement;

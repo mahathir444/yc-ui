@@ -1,26 +1,28 @@
 <template>
   <div class="test">
-    <!-- <a-list
-      :style="{ width: `600px` }"
-      :maxHeight="560"
-      :data="list"
-      @reach-bottom="handleReach"
+    <a-tabs
+      default-active-key="2"
+      type="card-gutter"
+      direction="vertical"
+      style="width: 100%"
     >
-      <template #scroll-loading>
-        <yc-spin :loading="true">
-          <div style="height: 30px; width: 100%"></div>
-        </yc-spin>
-      </template>
-      <template #item="{ item, index }">
-        <a-list-item :key="index">
-          <a-list-item-meta :title="item.title" :description="item.description">
-            <template #avatar>
-              <yc-avatar shape="square"> A </yc-avatar>
-            </template>
-          </a-list-item-meta>
-        </a-list-item>
-      </template>
-    </a-list> -->
+      <a-tab-pane key="1" title="Tab 1"> Content of Tab Panel 1 </a-tab-pane>
+      <a-tab-pane key="2" title="Tab 2"> Content of Tab Panel 2 </a-tab-pane>
+      <a-tab-pane key="3">
+        <template #title>
+          <span class="test">Tab 33333333</span>
+        </template>
+        Content of Tab Panel 3
+      </a-tab-pane>
+    </a-tabs>
+    <yc-tabs default-active-key="2" type="card-gutter" direction="vertical">
+      <yc-tab-pane path="1" title="Tab 1"> Content of Tab Panel 1 </yc-tab-pane>
+      <yc-tab-pane path="2" title="Tab 2"> Content of Tab Panel 2 </yc-tab-pane>
+      <yc-tab-pane path="3" title="Tab 3">
+        <template #title>Tab 33333333</template>
+        Content of Tab Panel 3
+      </yc-tab-pane>
+    </yc-tabs>
   </div>
 </template>
 

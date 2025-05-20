@@ -1,14 +1,14 @@
 import { App } from 'vue';
-import _Tab from './Tab.vue';
+import _Tabs from './Tabs.vue';
 import _TabPane from './TabPane.vue';
 
-export type TabInstance = InstanceType<typeof _Tab>;
+export type TabsInstance = InstanceType<typeof _Tabs>;
 export type TabPaneInstance = InstanceType<typeof _TabPane>;
 export * from './type';
 
-const Tab = Object.assign(_Tab, {
+const Tabs = Object.assign(_Tabs, {
   install: (app: App) => {
-    app.component('Yc' + _Tab.name, _Tab);
+    app.component('Yc' + _Tabs.name, _Tabs);
     app.component('Yc' + _TabPane.name, _TabPane);
   },
 });
@@ -17,9 +17,9 @@ export { _TabPane as TabPane };
 
 declare module 'vue' {
   export interface GlobalComponents {
-    YcTab: typeof Tab;
+    YcTabs: typeof Tabs;
     YcTabPane: typeof _TabPane;
   }
 }
 
-export default Tab;
+export default Tabs;
