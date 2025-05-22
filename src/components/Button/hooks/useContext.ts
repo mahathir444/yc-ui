@@ -10,6 +10,7 @@ import { Size, RequiredDeep, Props } from '@shared/type';
 import { getGlobalConfig } from '@shared/utils';
 
 const BUTTON_GROUP_PROVIDE_KEY = 'button-group-context';
+
 export interface ButtonContext {
   type: Ref<ButtonType>;
   status: Ref<ButtonStatus>;
@@ -17,8 +18,10 @@ export interface ButtonContext {
   shape: Ref<ButtonShape>;
   disabled: Ref<boolean>;
 }
-export type ButtonGroupProps = RequiredDeep<_ButtonGroupProps>;
+
 export type ButtonProps = RequiredDeep<_ButtonProps>;
+
+export type ButtonGroupProps = RequiredDeep<_ButtonGroupProps>;
 
 export default () => {
   const provide = (props: Props) => {

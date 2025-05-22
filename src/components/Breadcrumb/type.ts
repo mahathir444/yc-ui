@@ -2,7 +2,7 @@ import { DropdownProps } from '@/components/Dropdown';
 export interface BreadcrumbProps {
   maxCount?: number;
   routes?: BreadcrumbRoute[];
-  separator?: string | number;
+  separator?: BreadcrumbSeparator;
   customUrl?: CustomUrl;
 }
 
@@ -18,7 +18,7 @@ export interface BreadcrumbSlots {
 }
 
 export interface BreadcrumbItemProps {
-  separator?: string | number;
+  separator?: BreadcrumbSeparator;
   droplist?: BreadcrumbRoute[];
   dropdownProps?: DropdownProps;
   path?: string;
@@ -38,3 +38,4 @@ export interface BreadcrumbRoute {
 }
 
 export type CustomUrl = (path: string[]) => string;
+export type BreadcrumbSeparator = string | number;

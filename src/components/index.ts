@@ -1,5 +1,13 @@
 export { default } from './yc-ui';
 
+export type {
+  Size,
+  Direction,
+  Theme,
+  TargetContainer,
+  PopupContainer,
+} from '@shared/type';
+
 export * from './Affix';
 export { default as Affix } from './Affix';
 

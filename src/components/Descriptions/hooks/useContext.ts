@@ -10,7 +10,7 @@ import {
   Slots,
 } from 'vue';
 import {
-  Align,
+  DescriptionsAlign,
   DescData,
   DescriptionsProps as _DescriptionsProps,
 } from '../type';
@@ -22,14 +22,16 @@ import { findComponentsFromVnodes } from '@shared/utils';
 import YcDescriptionsItem from '../DescriptionsItem.vue';
 
 export const DESCRIPTIONS_PROVIDE_KEY = 'radio-group-context';
+
 export interface DescriptionsContext {
   labelStyle: Ref<CSSProperties>;
   valueStyle: Ref<CSSProperties>;
-  align: Ref<Align>;
+  align: Ref<DescriptionsAlign>;
   bordered: Ref<boolean>;
   size: Ref<Size>;
   slots: Slots;
 }
+
 export type DescriptionsProps = RequiredDeep<_DescriptionsProps>;
 
 export default () => {

@@ -1,11 +1,4 @@
-import {
-  ref,
-  Ref,
-  inject as _inject,
-  provide as _provide,
-  Reactive,
-  toRefs,
-} from 'vue';
+import { ref, Ref, inject as _inject, provide as _provide, toRefs } from 'vue';
 import { Props } from '@shared/type';
 
 export const BREADCRUMB_PROVIDE_KEY = 'breadcrumb-context';

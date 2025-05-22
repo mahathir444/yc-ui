@@ -69,5 +69,4 @@ export type TriggerPostion =
   | 'right'
   | 'rt'
   | 'rb';
-
 export type TriggerType = 'hover' | 'click' | 'focus' | 'contextMenu';

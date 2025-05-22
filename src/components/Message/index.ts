@@ -1,9 +1,11 @@
 import { App, render, ref, createVNode, reactive } from 'vue';
 import _Message from './Message.vue';
 import _MessageContainer from './MessageContainer.vue';
-import { MessageConfig, MessageList, MessageType } from './type';
+import { MessageConfig, MessageType } from './type';
 export type MessageInstance = InstanceType<typeof _Message>;
 export * from './type';
+
+type MessageList = MessageConfig[];
 
 const messageList = ref<MessageList>([]);
 let id = 0;

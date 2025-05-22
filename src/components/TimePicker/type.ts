@@ -1,17 +1,19 @@
+import { Size } from '@arco-design/web-vue';
 import { TriggerProps } from '../Trigger';
 import { PopupContainer } from '@shared/type';
+import { DropdownPosition } from '../Dropdown';
 
 export interface TimePickerProps {
   type?: 'time' | 'time-range';
-  modelValue?: string | number | Date | Array<string | number | Date>;
-  defaultValue?: string | number | Date | Array<string | number | Date>;
+  modelValue?: TimePickerValue;
+  defaultValue?: TimePickerValue;
   disabled?: boolean;
   allowClear?: boolean;
   readonly?: boolean;
   error?: boolean;
   format?: string;
   placeholder?: string | string[];
-  size?: 'mini' | 'small' | 'medium' | 'large';
+  size?: Size;
   popupContainer?: PopupContainer;
   // use12Hours?: boolean;
   step?: {
@@ -27,7 +29,7 @@ export interface TimePickerProps {
   ) => number[];
   hideDisabledOptions?: boolean;
   disableConfirm?: boolean;
-  position?: 'top' | 'tl' | 'tr' | 'bottom' | 'bl' | 'br';
+  position?: DropdownPosition;
   popupVisible?: boolean;
   defaultPopupVisible?: boolean;
   triggerProps?: TriggerProps;
@@ -44,3 +46,8 @@ export interface TimePickerEmits {
 }
 
 export type TimeType = 'hours' | 'minutes' | 'seconds' | 'meridiems';
+export type TimePickerValue =
+  | string
+  | number
+  | Date
+  | Array<string | number | Date>;

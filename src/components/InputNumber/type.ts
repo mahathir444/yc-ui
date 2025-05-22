@@ -14,8 +14,8 @@ export interface InputNumberProps {
   size?: Size;
   allowClear?: boolean;
   modelEvent?: ModelEvent;
-  formatter?: (value: string) => string;
-  parser?: (value: string) => string;
+  formatter?: InputNumberFormatter;
+  parser?: InputNumberParser;
   readonly?: boolean;
   inputAttrs?: ObjectData;
 }
@@ -48,7 +48,7 @@ export interface InputNumberExpose {
 }
 
 export type InputNumberValue = number | string;
-
 export type InputNumberMode = 'embed' | 'button';
-
 export type ModelEvent = 'change' | 'input';
+export type InputNumberFormatter = (value: string) => string;
+export type InputNumberParser = (value: string) => string;

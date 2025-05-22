@@ -13,7 +13,7 @@ export interface InputTagProps {
   allowClear?: boolean;
   size?: Size;
   maxTagCount?: number;
-  retainInputValue?: boolean | InputRetainValue;
+  retainInputValue?: InputRetainValue;
   formatTag?: FormatTag;
   uniqueValue?: boolean;
   tagNowrap?: boolean;
@@ -55,7 +55,5 @@ export type TagData =
   | ObjectData;
 
 export type InputTagValue = (string | number | TagData)[];
-
-export type InputRetainValue = { create?: boolean; blur?: boolean };
-
+export type InputRetainValue = boolean | { create?: boolean; blur?: boolean };
 export type FormatTag = (data: TagData) => string;

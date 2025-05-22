@@ -47,5 +47,4 @@ export interface RadioOption {
 }
 
 export type RadioValue = string | number | boolean;
-
 export type RadioType = 'radio' | 'button';

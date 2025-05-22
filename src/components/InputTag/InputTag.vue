@@ -197,7 +197,7 @@ const clearInputValue = () => {
   // 是否保留值
   if (
     (isBoolean(retainInputValue.value) && retainInputValue.value) ||
-    (retainInputValue.value as InputRetainValue)?.create
+    (isObject(retainInputValue.value) && retainInputValue.value.create)
   ) {
     return;
   }

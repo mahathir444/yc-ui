@@ -33,5 +33,4 @@ export interface CollapseItemSlots {
 }
 
 export type CollapseValue = string | number;
-
 export type ExpandIconPosition = 'left' | 'right';

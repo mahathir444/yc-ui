@@ -1,5 +1,4 @@
 import { ref, Ref, computed, CSSProperties, watch } from 'vue';
-import { ModalEmits } from '../type';
 import { useDraggable } from '@vueuse/core';
 import { sleep } from '@shared/utils';
 

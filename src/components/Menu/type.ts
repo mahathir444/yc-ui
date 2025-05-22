@@ -81,5 +81,4 @@ export interface MenuItemGroupSlots {
 }
 
 export type MenuMode = 'vertical' | 'pop' | 'horizontal';
-
 export type PopupMaxHeight = boolean | number;

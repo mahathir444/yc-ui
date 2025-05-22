@@ -5,10 +5,10 @@ export interface ImageProps {
   height?: number;
   title?: string;
   description?: string;
-  fit?: 'contain' | 'cover' | 'fill' | 'none' | 'scale-down';
+  fit?: ImageObjectFit;
   alt?: string;
-  hideFooter?: boolean | 'never';
-  footerPosition?: 'inner' | 'outer';
+  hideFooter?: HideFooter;
+  footerPosition?: FooterPostion;
   showLoader?: boolean;
   preview?: boolean;
   previewVisible?: boolean;
@@ -86,3 +86,12 @@ export interface ImagePreviewActionEmits {
 export interface ImagePreviewActionSlots {
   default(): void;
 }
+
+export type ImageObjectFit =
+  | 'contain'
+  | 'cover'
+  | 'fill'
+  | 'none'
+  | 'scale-down';
+export type HideFooter = boolean | 'never';
+export type FooterPostion = 'inner' | 'outer';

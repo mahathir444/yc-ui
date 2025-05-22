@@ -9,7 +9,7 @@ import useCalcMaxItems from './useCalcMaxItems';
 
 export const MENU_PROVIDE_KEY = 'menu-context';
 
-interface MenuContext {
+export interface MenuContext {
   computedSelectedKeys: Ref<string>;
   computedOpenKeys: Ref<string[]>;
   computedCollapsed: Ref<boolean>;

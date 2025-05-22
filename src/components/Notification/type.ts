@@ -13,7 +13,7 @@ export interface NotificationProps {
 export interface NotificationConfig extends NotificationProps {
   onClose?: (id: string) => void;
   icon?: RenderFunction;
-  position?: 'topLeft' | 'topRight' | 'bottomLeft' | 'bottomRight';
+  position?: NotificationPosition;
   footer?: RenderFunction;
   closeIcon?: RenderFunction;
   style?: CSSProperties;

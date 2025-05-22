@@ -10,8 +10,8 @@ export interface VerificationCodeProps {
   masked?: boolean;
   readonly?: boolean;
   error?: boolean;
-  separator?: (index: number, character: string) => VNode;
-  formatter?: (inputValue: string, index: number, value: string) => string;
+  separator?: VerificationCodeSeparator;
+  formatter?: VerificationCodeFormatter;
 }
 
 export interface VerificationCodeEmits {
@@ -20,3 +20,13 @@ export interface VerificationCodeEmits {
   (e: 'change', value: string): void;
   (e: 'finish', value: string): void;
 }
+
+export type VerificationCodeSeparator = (
+  index: number,
+  character: string
+) => VNode;
+export type VerificationCodeFormatter = (
+  inputValue: string,
+  index: number,
+  value: string
+) => string;

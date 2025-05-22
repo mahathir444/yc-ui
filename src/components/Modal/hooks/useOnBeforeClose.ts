@@ -1,9 +1,5 @@
 import { isBoolean } from '@shared/utils';
-
-export type OnBeforeOk = (
-  done: (closed: boolean) => void
-) => void | boolean | Promise<boolean | void>;
-export type OnBeforeCancel = () => boolean;
+import { OnBeforeOk, OnBeforeCancel } from '../type';
 
 export default async (
   type: string,

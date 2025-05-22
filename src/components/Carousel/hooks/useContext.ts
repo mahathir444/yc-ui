@@ -1,5 +1,5 @@
 import { ref, toRefs, provide as _provide, inject as _inject, Ref } from 'vue';
-import { CarouselEmits, ShowArrow } from '../type';
+import { CarouselEmits, CarouselShowArrow } from '../type';
 import { useControlValue, sleep } from '@shared/utils';
 import { Direction, Props } from '@shared/type';
 
@@ -16,7 +16,7 @@ export interface CarouselContext {
   preIndex: Ref<number>;
   moveSpeed: Ref<number>;
   direction: Ref<Direction>;
-  showArrow: Ref<ShowArrow>;
+  showArrow: Ref<CarouselShowArrow>;
   arrowClass: Ref<string>;
   getValidIndex: (...args: any) => any;
 }

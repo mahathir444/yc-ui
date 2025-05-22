@@ -4,10 +4,10 @@ import { CSSProperties } from 'vue';
 
 export interface DescriptionsProps {
   data?: DescData[];
-  column?: Column;
+  column?: DescriptionsColumn;
   title?: string;
-  layout?: Layout;
-  align?: Align;
+  layout?: DescriptionsLayout;
+  align?: DescriptionsAlign;
   size?: Size;
   bordered?: boolean;
   labelStyle?: CSSProperties;
@@ -39,9 +39,11 @@ export interface DescData {
 }
 
 export type TextAlign = 'left' | 'right' | 'center';
-export type Align = TextAlign | { label?: TextAlign; value?: TextAlign };
-export type Column = number | ResponsiveValue;
-export type Layout =
+export type DescriptionsAlign =
+  | TextAlign
+  | { label?: TextAlign; value?: TextAlign };
+export type DescriptionsColumn = number | ResponsiveValue;
+export type DescriptionsLayout =
   | 'horizontal'
   | 'vertical'
   | 'inline-horizontal'

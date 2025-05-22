@@ -36,5 +36,4 @@ export interface StepSlots {
 }
 
 export type StepStatus = 'wait' | 'process' | 'finish' | 'error';
-
 export type StepType = 'default' | 'arrow' | 'dot' | 'navigation';

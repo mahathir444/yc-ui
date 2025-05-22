@@ -8,6 +8,7 @@ import {
 import { useControlValue, parseColor, getGlobalConfig } from '@shared/utils';
 
 export const COLOR_PICKER_PROVIDE_KEY = 'color-picker-context';
+
 export type ColorPickerContext = {
   props: Props;
   emits: ColorPickerEmits;
@@ -17,6 +18,7 @@ export type ColorPickerContext = {
   format: Ref<ColorFormat>;
   alpha: Ref<number>;
 };
+
 export type ColorPickerProps = RequiredDeep<_ColorPickerProps>;
 
 export default () => {

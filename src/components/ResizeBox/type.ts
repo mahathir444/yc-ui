@@ -1,5 +1,3 @@
-export type DirectionType = 'left' | 'right' | 'top' | 'bottom';
-
 export interface ResizeBoxProps {
   directions?: DirectionType[];
   width?: number;
@@ -24,3 +22,5 @@ export interface ResizeBoxSlots {
   ['resize-trigger'](params: { direction: DirectionType }): void;
   ['resize-trigger-icon'](params: { direction: DirectionType }): void;
 }
+
+export type DirectionType = 'left' | 'right' | 'top' | 'bottom';

@@ -1,9 +1,6 @@
 import { CSSProperties } from 'vue';
 import { ButtonProps } from '@/components/Button';
-import {
-  OnBeforeCancel,
-  OnBeforeOk,
-} from '@/components/Modal/hooks/useOnBeforeClose';
+import { OnBeforeCancel, OnBeforeOk } from '@/components/Modal';
 import { RenderContent, PopupContainer } from '@shared/type';
 export interface DrawerProps {
   visible?: boolean;

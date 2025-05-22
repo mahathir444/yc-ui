@@ -1,6 +1,6 @@
 import { Direction, Size } from '@shared/type';
 export interface SpaceProps {
-  align?: 'start' | 'end' | 'center' | 'baseline';
+  align?: SpaceAlign;
   direction?: Direction;
   wrap?: boolean;
   fill?: boolean;
@@ -11,3 +11,5 @@ export interface SpaceSlots {
   default(): void;
   split(): void;
 }
+
+export type SpaceAlign = 'start' | 'end' | 'center' | 'baseline';

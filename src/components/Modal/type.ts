@@ -1,6 +1,5 @@
 import { CSSProperties } from 'vue';
 import { ButtonProps } from '@/components/Button';
-import { OnBeforeOk, OnBeforeCancel } from './hooks/useOnBeforeClose';
 import { RenderContent, PopupContainer } from '@shared/type';
 
 export interface ModalProps {
@@ -73,3 +72,9 @@ export type ModalConfig = Omit<ModalProps, 'visible' | 'defaultVisible'> & {
 export type ModalType = 'info' | 'warning' | 'error' | 'success';
 
 export type ModalTitleAlign = 'start' | 'center';
+
+export type OnBeforeOk = (
+  done: (closed: boolean) => void
+) => void | boolean | Promise<boolean | void>;
+
+export type OnBeforeCancel = () => boolean;

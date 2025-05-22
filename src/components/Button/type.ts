@@ -1,4 +1,3 @@
-import { Ref } from 'vue';
 import { Size } from '@shared/type';
 
 export interface ButtonProps {
@@ -39,14 +38,11 @@ export interface ButtonGroupSlots {
 }
 
 export type ButtonStatus = 'normal' | 'warning' | 'success' | 'danger';
-
 export type ButtonShape = 'square' | 'circle' | 'round';
-
 export type ButtonType =
   | 'primary'
   | 'secondary'
   | 'dashed'
   | 'outline'
   | 'text';
-
 export type ButtonHtmlType = 'button' | 'reset' | 'submit';
