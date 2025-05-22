@@ -49,7 +49,7 @@
       </div>
     </div>
     <div v-if="!hideContent" class="yc-tabs-content">
-      <component :is="tabPaneNodes[curIndex].default" />
+      <component :is="curNode" />
     </div>
   </div>
 </template>
@@ -110,6 +110,10 @@ const curIndex = computed(() => {
     (item) => item?.props?.path == computedActiveKey.value
   );
   return index < 0 ? 0 : index;
+});
+// 当前的node
+const curNode = computed(() => {
+  return tabPaneNodes[curIndex.value].children.default;
 });
 // 处理新增
 const handleAdd = async () => {

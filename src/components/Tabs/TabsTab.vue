@@ -83,6 +83,7 @@ watch(
     }
   }
 );
+console.log('重新初始化了');
 </script>
 
 <style lang="less" scoped>
