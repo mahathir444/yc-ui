@@ -92,7 +92,7 @@ const emits = defineEmits<TabsEmits>();
 const listRef = ref<HTMLDivElement>();
 // 注入
 const { provide } = useContext();
-const { computedActiveKey, size, direction, autoSwitch } = provide(
+const { computedActiveKey, size, direction, autoSwitch, position } = provide(
   props,
   emits,
   listRef

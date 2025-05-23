@@ -1,4 +1,11 @@
-import { toRefs, provide as _provide, inject as _inject, ref, Ref } from 'vue';
+import {
+  toRefs,
+  provide as _provide,
+  inject as _inject,
+  ref,
+  Ref,
+  computed,
+} from 'vue';
 import { useControlValue, getGlobalConfig } from '@shared/utils';
 import { Direction, Props } from '@shared/type';
 import {
@@ -7,6 +14,7 @@ import {
   TabTrigger,
   TabType,
   TabScrollPosition,
+  TabPositon,
 } from '../type';
 
 export const TABS_PROVIDE_KEY = 'tabs-context';
@@ -16,6 +24,7 @@ export interface TabsContext {
   type: Ref<TabType>;
   trigger: Ref<TabTrigger>;
   direction: Ref<Direction>;
+  position: Ref<TabPositon>;
   computedActiveKey: Ref<TabKey>;
   titleRefs: Ref<HTMLSpanElement[]>;
   scrollPosition: Ref<TabScrollPosition>;
@@ -33,7 +42,8 @@ export default () => {
     const {
       activeKey,
       defaultActiveKey,
-      direction,
+      direction: _direction,
+      position,
       trigger,
       autoSwitch,
       type,
@@ -49,6 +59,15 @@ export default () => {
     );
     // titleRefs
     const titleRefs = ref<HTMLSpanElement[]>([]);
+    // 方向
+    const direction = computed(() => {
+      if (['top', 'bottom'].includes(position.value)) {
+        return 'horizontal';
+      } else if (['left', 'right'].includes(position.value)) {
+        return 'vertical';
+      }
+      return _direction.value;
+    });
     _provide<TabsContext>(TABS_PROVIDE_KEY, {
       computedActiveKey,
       editable,
@@ -58,14 +77,16 @@ export default () => {
       titleRefs,
       scrollPosition,
       listRef,
+      position,
       emits,
     });
     return {
       size,
+      direction,
+      position,
+      autoSwitch,
       titleRefs,
       computedActiveKey,
-      direction,
-      autoSwitch,
     };
   };
   const inject = () => {
@@ -78,6 +99,7 @@ export default () => {
       titleRefs: ref([]),
       scrollPosition: ref('auto'),
       listRef: ref(),
+      position: ref('top'),
       emits: () => {},
     });
   };

@@ -5,6 +5,7 @@
       'yc-tabs-tab',
       `yc-tabs-tab-type-${type}`,
       `yc-tabs-tab-${direction}`,
+      `yc-tabs-tab-${position}`,
       {
         'yc-tabs-tab-active': computedActiveKey == node?.props?.path,
       },
@@ -48,6 +49,7 @@ const {
   editable,
   type,
   direction,
+  position,
   emits,
 } = inject();
 const tabRef = ref<HTMLDivElement>();

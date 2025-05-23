@@ -16,6 +16,12 @@ export interface MessageConfig extends MessageProps {
   icon?: () => VNode;
 }
 
+export type MessageList = MessageConfig[];
+
+export interface MessageContainerProps {
+  messageList: MessageList;
+}
+
 export type MessageType =
   | 'info'
   | 'warning'

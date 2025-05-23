@@ -1,6 +1,6 @@
 <template>
   <div class="test">
-    <yc-tabs default-active-key="2" type="card">
+    <yc-tabs default-active-key="2" position="right" type="line">
       <yc-tab-pane path="1" title="Tab 1"> Content of Tab Panel 1 </yc-tab-pane>
       <yc-tab-pane path="2" title="Tab 2"> Content of Tab Panel 2 </yc-tab-pane>
       <yc-tab-pane path="3" title="Tab 3">
@@ -8,6 +8,14 @@
         Content of Tab Panel 3
       </yc-tab-pane>
     </yc-tabs>
+    <a-tabs default-active-key="2" position="bottom" type="card">
+      <a-tab-pane path="1" title="Tab 1"> Content of Tab Panel 1 </a-tab-pane>
+      <a-tab-pane path="2" title="Tab 2"> Content of Tab Panel 2 </a-tab-pane>
+      <a-tab-pane path="3" title="Tab 3">
+        <template #title>Tab 33333333</template>
+        Content of Tab Panel 3
+      </a-tab-pane>
+    </a-tabs>
   </div>
 </template>
 
