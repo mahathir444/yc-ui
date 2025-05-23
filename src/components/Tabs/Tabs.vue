@@ -3,7 +3,6 @@
     :class="[
       'yc-tabs',
       `yc-tabs-${direction}`,
-      `yc-tabs-${position}`,
       `yc-tabs-type-${type}`,
       `yc-tabs-size-${size}`,
       {
@@ -13,6 +12,7 @@
           headerPadding &&
           ['line', 'text'].includes(type) &&
           props.direction === 'horizontal',
+        [`yc-tabs-${position}`]: position,
       },
     ]"
   >
@@ -87,7 +87,7 @@ defineSlots<TabsSlots>();
 const props = withDefaults(defineProps<TabsProps>(), {
   activeKey: undefined,
   defaultActiveKey: '',
-  position: 'top',
+  position: undefined,
   size: undefined,
   type: 'line',
   direction: 'horizontal',
@@ -126,10 +126,6 @@ const curIndex = computed(() => {
     (item) => item?.props?.path == computedActiveKey.value
   );
   return index < 0 ? 0 : index;
-});
-// 当前的node
-const curNode = computed(() => {
-  return tabPaneNodes[curIndex.value].children.default;
 });
 // 处理新增
 const handleAdd = async () => {

@@ -1,7 +1,7 @@
 import { toRefs, inject, ref, isReactive, reactive, Ref, useSlots } from 'vue';
 import { ConfigProviderSlots } from '@/components/ConfigProvider';
 import { PopupContainer, Props, Size } from '@shared/type';
-import { isUndefined } from '../utils';
+import { isString, isUndefined } from '../utils';
 
 export const CONFIG_PROVIDER_PROVIDE_KEY = 'config-props';
 
@@ -16,7 +16,10 @@ export interface ConfigProviderProvide {
 }
 
 const getVar = (value: Ref<any>, _value: Ref<any>) => {
-  return isUndefined(value?.value) ? _value : value;
+  return isUndefined(value?.value) ||
+    (isString(_value?.value) && !value?.value?.length)
+    ? _value
+    : value;
 };
 
 export const getGlobalConfig = (props: Props = {}) => {

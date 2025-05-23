@@ -4,7 +4,7 @@ export interface TabsProps {
   activeKey?: TabKey;
   defaultActiveKey?: TabKey;
   position?: TabPositon;
-  size?: Size; //
+  size?: Size;
   type?: TabType;
   direction?: Direction;
   editable?: boolean;

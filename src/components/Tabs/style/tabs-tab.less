@@ -6,7 +6,6 @@
   outline: none;
   background-color: transparent;
   color: rgb(78, 89, 105);
-  font-size: 14px;
   line-height: 1.5715;
   display: flex;
   align-items: center;
@@ -26,7 +25,6 @@
 .yc-tabs-tab-type-line,
 .yc-tabs-tab-type-text {
   margin: 0 16px;
-  padding: 8px 0;
   transition: color 0.2s cubic-bezier(0, 0, 1, 1);
   .yc-tabs-tab-title {
     &::after {
@@ -85,17 +83,19 @@
 // card card-gutter
 .yc-tabs-tab-type-card,
 .yc-tabs-tab-type-card-gutter {
-  &.yc-tabs-tab-type-card-gutter {
-    background-color: rgb(247, 248, 250);
-    border-radius: 2px 2px 0 0;
-  }
-  padding: 4px 16px;
+  padding: 0 16px;
   border: 1px solid rgb(229, 230, 235);
   transition:
     padding 0.2s cubic-bezier(0, 0, 1, 1),
     color 0.2s cubic-bezier(0, 0, 1, 1);
-  &:hover {
-    background-color: rgb(229, 230, 235);
+  &.yc-tabs-tab {
+    &:hover {
+      background-color: rgb(229, 230, 235);
+    }
+  }
+  &.yc-tabs-tab-type-card-gutter {
+    background-color: rgb(247, 248, 250);
+    border-radius: 2px 2px 0 0;
   }
   &.yc-tabs-tab-horizontal {
     &.yc-tabs-tab-type-card {
@@ -139,7 +139,7 @@
 // rounded
 .yc-tabs-tab-type-rounded {
   margin: 0 6px;
-  padding: 5px 16px;
+  padding: 0 16px;
   border-radius: 32px;
   &:hover {
     background-color: rgb(242, 243, 245);
@@ -151,9 +151,6 @@
 // capsule
 .yc-tabs-tab-type-capsule {
   padding: 0 10px;
-  font-size: 14px;
-  line-height: 26px;
-
   &:hover {
     background-color: #fff;
   }
@@ -161,3 +158,63 @@
     background-color: #fff;
   }
 }
+
+// size
+@size: {
+  @mini: {
+    line-height: 18px;
+    @padding: {
+      line: 6px;
+      rounded: 3px;
+      card: 1px;
+    };
+  };
+  @small: {
+    line-height: 22px;
+    @padding: {
+      line: 6px;
+      rounded: 3px;
+      card: 1px;
+    };
+  };
+  @medium: {
+    line-height: 26px;
+    @padding: {
+      line: 8px;
+      rounded: 5px;
+      card: 4px;
+    };
+  };
+  @large: {
+    line-height: 30px;
+    @padding: {
+      line: 10px;
+      rounded: 7px;
+      card: 5px;
+    };
+  };
+};
+@type: line, card, card-gutter, capsule, rounded;
+each(@size, .(@value, @name) {
+  @key: replace(~'@{name}', '@', '');
+  .yc-tabs-tab-size-@{key} {
+    each(@type, .(@type-value,@type-key) {
+      &.yc-tabs-tab-type-@{type-value} {
+        font-size: if(@key = mini, 12px, 14px);
+        & when (@type-value = capsule) {
+          line-height: @value[line-height];
+        }
+        & when (@type-value = card), (@type-value = card-gutter) {
+          @padding: @value[@padding][card];
+          padding-top: @padding;
+          padding-bottom: @padding;
+        }
+        & when (@type-value = line),(@type-value = rounded) {
+          @padding:if(@type-value = line, @value[@padding][line], @value[@padding][rounded]);
+          padding-top:@padding;
+          padding-bottom:@padding;
+        }
+      }
+    });
+  }
+});

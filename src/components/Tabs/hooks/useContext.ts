@@ -7,7 +7,7 @@ import {
   computed,
 } from 'vue';
 import { useControlValue, getGlobalConfig } from '@shared/utils';
-import { Direction, Props } from '@shared/type';
+import { Direction, Props, Size } from '@shared/type';
 import {
   TabKey,
   TabsEmits,
@@ -30,6 +30,7 @@ export interface TabsContext {
   scrollPosition: Ref<TabScrollPosition>;
   listRef: Ref<HTMLDivElement | undefined>;
   headerPadding: Ref<boolean>;
+  size: Ref<Size>;
   emits: TabsEmits;
 }
 
@@ -81,6 +82,7 @@ export default () => {
       listRef,
       position,
       headerPadding,
+      size,
       emits,
     });
     return {
@@ -104,6 +106,7 @@ export default () => {
       listRef: ref(),
       position: ref('top'),
       headerPadding: ref(false),
+      size: ref('medium'),
       emits: () => {},
     });
   };

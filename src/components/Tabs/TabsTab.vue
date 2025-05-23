@@ -5,8 +5,9 @@
       'yc-tabs-tab',
       `yc-tabs-tab-type-${type}`,
       `yc-tabs-tab-${direction}`,
-      `yc-tabs-tab-${position}`,
+      `yc-tabs-tab-size-${size}`,
       {
+        [`yc-tabs-tab-${position}`]: position,
         'yc-tabs-tab-no-padding':
           !headerPadding &&
           direction == 'horizontal' &&
@@ -55,6 +56,7 @@ const {
   direction,
   position,
   headerPadding,
+  size,
   emits,
 } = inject();
 const tabRef = ref<HTMLDivElement>();

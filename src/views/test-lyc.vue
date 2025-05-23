@@ -2,8 +2,9 @@
   <div class="test">
     <yc-tabs
       default-active-key="2"
-      type="line"
+      type="card"
       editable
+      size="small"
       show-add-button
       destory-on-hide
     >
@@ -12,7 +13,7 @@
       </yc-tab-pane>
     </yc-tabs>
     <div style="width: 800px">
-      <a-tabs default-active-key="15" type="line" animation destroy-on-hide>
+      <a-tabs default-active-key="15" type="text" size="large" destroy-on-hide>
         <a-tab-pane v-for="i in 15" :key="`${i}`" :title="`tab ${i}`">
           <div style="padding: 16px">Content of Tab Panel {{ i }}</div>
         </a-tab-pane>
