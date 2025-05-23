@@ -6,26 +6,35 @@
   .yc-tabs-nav {
     position: relative;
     overflow: hidden;
+    display: flex;
+    align-items: center;
 
     .yc-tabs-nav-tab {
+      &:deep(.yc-tabs-nav-button) {
+        flex-shrink: 0;
+        margin-right: 6px;
+        margin-left: 10px;
+      }
       .yc-tabs-nav-tab-list {
         position: relative;
         transition: transform 0.2s cubic-bezier(0.34, 0.69, 0.1, 1);
         display: flex;
         align-items: center;
-        .yc-tabs-tab-close-btn {
-          margin-left: 8px;
-          user-select: none;
-        }
-        .yc-tabs-tab-add-btn {
-          padding: 0 8px;
-          font-size: 12px;
+        overflow: auto;
+        &::-webkit-scrollbar {
+          display: none;
         }
         .yc-tabs-nav-ink {
           position: absolute;
           background-color: rgb(22, 93, 255);
           border-radius: 2px;
         }
+      }
+    }
+    .yc-tabs-nav-extra {
+      .yc-tabs-tab-add-btn {
+        padding: 0 8px;
+        font-size: 12px;
       }
     }
   }

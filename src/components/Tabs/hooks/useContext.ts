@@ -5,9 +5,15 @@ import {
   ref,
   Ref,
   computed,
+  shallowReactive,
+  useSlots,
 } from 'vue';
-import { useControlValue, getGlobalConfig } from '@shared/utils';
-import { Direction, Props, Size } from '@shared/type';
+import {
+  useControlValue,
+  getGlobalConfig,
+  findComponentsFromVnodes,
+} from '@shared/utils';
+import { Direction, Props, Size, ObjectData } from '@shared/type';
 import {
   TabKey,
   TabsEmits,
@@ -16,6 +22,7 @@ import {
   TabScrollPosition,
   TabPositon,
 } from '../type';
+import TabPane from '../TabPane.vue';
 
 export const TABS_PROVIDE_KEY = 'tabs-context';
 
@@ -31,6 +38,7 @@ export interface TabsContext {
   listRef: Ref<HTMLDivElement | undefined>;
   headerPadding: Ref<boolean>;
   size: Ref<Size>;
+  getTabPane: () => void;
   emits: TabsEmits;
 }
 
@@ -53,6 +61,11 @@ export default () => {
       scrollPosition,
       headerPadding,
     } = toRefs(props);
+    // 获取插槽nodes
+    const slots = useSlots();
+    // nodes
+    const tabPaneNodes = shallowReactive<ObjectData[]>([]);
+    //
     const computedActiveKey = useControlValue<TabKey>(
       activeKey,
       defaultActiveKey.value,
@@ -71,6 +84,17 @@ export default () => {
       }
       return _direction.value;
     });
+    // 获取tabPane
+    function getTabPane() {
+      tabPaneNodes.splice(0);
+      tabPaneNodes.push(
+        ...findComponentsFromVnodes(
+          slots.default?.() || [],
+          TabPane.name as string
+        )
+      );
+    }
+    getTabPane();
     _provide<TabsContext>(TABS_PROVIDE_KEY, {
       computedActiveKey,
       editable,
@@ -83,6 +107,7 @@ export default () => {
       position,
       headerPadding,
       size,
+      getTabPane,
       emits,
     });
     return {
@@ -92,6 +117,7 @@ export default () => {
       autoSwitch,
       titleRefs,
       computedActiveKey,
+      tabPaneNodes,
     };
   };
   const inject = () => {
@@ -107,6 +133,7 @@ export default () => {
       position: ref('top'),
       headerPadding: ref(false),
       size: ref('medium'),
+      getTabPane: () => {},
       emits: () => {},
     });
   };

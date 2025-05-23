@@ -1,30 +1,24 @@
 <template>
   <div class="test">
-    <yc-tabs
-      default-active-key="2"
-      type="card"
-      editable
-      size="small"
-      show-add-button
-      destory-on-hide
-    >
-      <yc-tab-pane v-for="i in 10" :path="`${i}`" :title="`tab ${i}`">
+    <yc-tabs default-active-key="2" type="card" destory-on-hide>
+      <yc-tab-pane v-for="i in value" :path="`${i}`" :title="`tab ${i}`">
         <div style="padding: 16px">Content of Tab Panel {{ i }}</div>
       </yc-tab-pane>
     </yc-tabs>
     <div style="width: 800px">
-      <a-tabs default-active-key="15" type="text" size="large" destroy-on-hide>
-        <a-tab-pane v-for="i in 15" :key="`${i}`" :title="`tab ${i}`">
+      <a-tabs :destroy-on-hide="true">
+        <a-tab-pane v-for="i in value" :key="`${i}`" :title="`tab ${i}`">
           <div style="padding: 16px">Content of Tab Panel {{ i }}</div>
         </a-tab-pane>
       </a-tabs>
+      <a-button @click="value++">点击新增tab</a-button>
     </div>
   </div>
 </template>
 
 <script lang="ts" setup>
 import { ref, reactive } from 'vue';
-const value = ref('1202s');
+const value = ref(25);
 </script>
 
 <style lang="less" scoped>

@@ -18,34 +18,35 @@
   >
     <div class="yc-tabs-nav">
       <div class="yc-tabs-nav-tab">
-        <div
-          class="yc-tabs-nav-tab-list"
-          :style="{
-            transform: `translateX(0px)`,
-          }"
-          ref="listRef"
-        >
+        <!-- pre -->
+        <tab-button @click="handleScroll('pre')">
+          <icon-arrow-right :rotate="180" />
+        </tab-button>
+        <div class="yc-tabs-nav-tab-list" ref="listRef">
           <tabs-tab
             v-for="(item, i) in tabPaneNodes"
             :key="i"
             :node="item"
             :index="i"
           />
-          <!-- 新增按钮 -->
-          <yc-icon-button
-            v-if="showAddButton"
-            :size="12"
-            :hover-size="20"
-            class="yc-tabs-tab-add-btn"
-            @click="handleAdd"
-          >
-            <icon-plus />
-          </yc-icon-button>
           <!-- ink -->
           <tabs-nav-ink v-if="type == 'line'" :cur-index="curIndex" />
         </div>
+        <!-- next -->
+        <tab-button @click="handleScroll('next')">
+          <icon-arrow-right />
+        </tab-button>
       </div>
-      <div v-if="$slots.extra" class="yc-tabs-nav-extra">
+      <!-- extra -->
+      <div v-if="$slots.extra || showAddButton" class="yc-tabs-nav-extra">
+        <!-- 新增按钮 -->
+        <tab-button
+          v-if="showAddButton"
+          class="yc-tabs-tab-add-btn"
+          @click="handleAdd"
+        >
+          <icon-plus />
+        </tab-button>
         <slot name="extra" />
       </div>
     </div>
@@ -61,9 +62,7 @@
           :key="i"
           class="yc-tabs-content-item"
         >
-          <div v-if="!destoryOnHide || curIndex == i" class="yc-tabs-pane">
-            <component :is="item.children.default" />
-          </div>
+          <component v-if="!destoryOnHide || curIndex == i" :is="item" />
         </div>
       </div>
     </div>
@@ -71,15 +70,14 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, computed, useSlots, nextTick } from 'vue';
+import { ref, computed, nextTick, onBeforeUnmount } from 'vue';
 import { TabsProps, TabsEmits, TabsSlots } from './type';
-import { findComponentsFromVnodes } from '@shared/utils';
 import useContext from './hooks/useContext';
-import TabPane from './TabPane.vue';
+import { IconPlus, IconArrowRight } from '@shared/icons';
+import { useResizeObserver } from '@vueuse/core';
 import TabsTab from './TabsTab.vue';
 import TabsNavInk from './TabsNavInk.vue';
-import { IconPlus } from '@shared/icons';
-import { YcIconButton } from '@shared/components';
+import TabButton from './TabButton.vue';
 defineOptions({
   name: 'Tabs',
 });
@@ -108,18 +106,20 @@ const emits = defineEmits<TabsEmits>();
 const listRef = ref<HTMLDivElement>();
 // 注入
 const { provide } = useContext();
-const { computedActiveKey, size, direction, autoSwitch, position } = provide(
-  props,
-  emits,
-  listRef
-);
-// 获取插槽nodes
-const slots = useSlots();
-// nodes
-const tabPaneNodes = findComponentsFromVnodes(
-  slots.default?.() || [],
-  TabPane.name as string
-);
+const {
+  tabPaneNodes,
+  computedActiveKey,
+  size,
+  direction,
+  autoSwitch,
+  position,
+} = provide(props, emits, listRef);
+// 展示新增button
+const showAddButton = computed(() => {
+  return (
+    props.showAddButton && ['line', 'card', 'card-gutter'].includes(props.type)
+  );
+});
 // 当前的索引
 const curIndex = computed(() => {
   const index = tabPaneNodes.findIndex(
@@ -127,6 +127,50 @@ const curIndex = computed(() => {
   );
   return index < 0 ? 0 : index;
 });
+// 滚动的offset
+const offset = ref(0);
+// 最大的可滚动距离
+const maxScrollDis = computed(() => {
+  const {
+    scrollWidth = 0,
+    scrollHeight = 0,
+    offsetHeight = 0,
+    offsetWidth = 0,
+  } = listRef.value || {};
+  if (direction.value == 'horizontal') {
+    return scrollWidth - offsetWidth;
+  } else {
+    return scrollHeight - offsetHeight;
+  }
+});
+// 是否可滚动
+const isScroll = ref<boolean>(false);
+// 检测List的宽度
+const { stop } = useResizeObserver(listRef, () => {
+  const { scrollWidth, offsetWidth, scrollHeight, offsetHeight } =
+    listRef.value!;
+  isScroll.value =
+    (direction.value == 'horizontal ' && scrollWidth > offsetWidth) ||
+    (direction.value == 'vertical' && scrollHeight > offsetHeight);
+});
+// 处理滚动
+const handleScroll = (type: 'pre' | 'next') => {
+  const { left, right } = listRef.value!.getBoundingClientRect();
+  const tabs = listRef.value!.querySelectorAll('.yc-tabs-tab');
+  const hideTab = [...tabs].find((item) => {
+    const { left: _left, right: _right } = item.getBoundingClientRect();
+    if (type == 'pre') {
+      return _right <= left;
+    } else {
+      return right <= _left;
+    }
+  });
+  if (!hideTab) return;
+  hideTab.scrollIntoView({
+    block: 'start',
+    behavior: 'smooth',
+  });
+};
 // 处理新增
 const handleAdd = async () => {
   emits('add');
@@ -134,6 +178,9 @@ const handleAdd = async () => {
   if (!autoSwitch.value) return;
   computedActiveKey.value = tabPaneNodes[tabPaneNodes.length - 1]?.props?.path;
 };
+onBeforeUnmount(() => {
+  stop();
+});
 </script>
 
 <style lang="less" scoped>

@@ -8,6 +8,7 @@ export {}
 declare module 'vue' {
   export interface GlobalComponents {
     _Icon: typeof import('./src/components/_shared/icons/_Icon.vue')['default']
+    AButton: typeof import('@arco-design/web-vue')['Button']
     ACascader: typeof import('@arco-design/web-vue')['Cascader']
     Affix: typeof import('./src/components/Affix/index.vue')['default']
     Alert: typeof import('./src/components/Alert/index.vue')['default']
@@ -184,6 +185,7 @@ declare module 'vue' {
     Steps: typeof import('./src/components/Steps/Steps.vue')['default']
     SubMenu: typeof import('./src/components/Menu/SubMenu.vue')['default']
     Switch: typeof import('./src/components/Switch/index.vue')['default']
+    TabButton: typeof import('./src/components/Tabs/TabButton.vue')['default']
     TabPane: typeof import('./src/components/Tabs/TabPane.vue')['default']
     Tabs: typeof import('./src/components/Tabs/Tabs.vue')['default']
     TabsNavInk: typeof import('./src/components/Tabs/TabsNavInk.vue')['default']

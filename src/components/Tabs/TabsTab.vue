@@ -26,10 +26,8 @@
       <component :is="renderTitle(node)" />
     </span>
     <!-- 删除按钮 -->
-    <yc-icon-button
-      v-if="editable"
-      :size="14"
-      :hover-size="20"
+    <tab-button
+      v-if="editable && ['line', 'card', 'card-gutter'].includes(type)"
       class="yc-tabs-tab-close-btn"
       @click="handleDel(node)"
     />
@@ -40,7 +38,7 @@
 import { ref, watch, nextTick } from 'vue';
 import { ObjectData } from '@shared/type';
 import useContext from './hooks/useContext';
-import { YcIconButton } from '@shared/components';
+import TabButton from './TabButton.vue';
 const props = defineProps<{
   node: ObjectData;
   index: number;
@@ -92,7 +90,6 @@ watch(
     }
   }
 );
-console.log('重新初始化了');
 </script>
 
 <style lang="less" scoped>
