@@ -7,6 +7,7 @@
       `yc-tabs-type-${type}`,
       `yc-tabs-size-${size}`,
       {
+        'yc-tabs-animation': animation,
         'yc-tabs-justify': direction == 'horizontal' && justify,
         'yc-tabs-no-padding':
           headerPadding &&
@@ -49,7 +50,22 @@
       </div>
     </div>
     <div v-if="!hideContent" class="yc-tabs-content">
-      <component :is="curNode" />
+      <div
+        class="yc-tabs-content-list"
+        :style="{
+          marginLeft: `${-curIndex * 100}%`,
+        }"
+      >
+        <div
+          v-for="(item, i) in tabPaneNodes"
+          :key="i"
+          class="yc-tabs-content-item"
+        >
+          <div v-if="!destoryOnHide || curIndex == i" class="yc-tabs-pane">
+            <component :is="item.children.default" />
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </template>

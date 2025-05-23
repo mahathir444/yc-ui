@@ -11,7 +11,7 @@ const props = defineProps<{
 const { curIndex } = toRefs(props);
 // 接收注入
 const { inject } = useContext();
-const { titleRefs, direction, listRef } = inject();
+const { titleRefs, direction, listRef, editable } = inject();
 // 计算sliderWidth
 const sliderStyle = computed(() => {
   if (direction.value == 'horizontal') {
@@ -19,7 +19,7 @@ const sliderStyle = computed(() => {
     const targetLeft =
       titleRefs.value[curIndex.value]?.getBoundingClientRect?.()?.left || 0;
     return {
-      width: `${titleRefs.value[curIndex.value]?.offsetWidth}px`,
+      width: `${titleRefs.value[curIndex.value]?.offsetWidth + (editable.value ? 22 : 0)}px`,
       left: `${targetLeft - listLeft}px`,
     };
   } else {
@@ -27,7 +27,7 @@ const sliderStyle = computed(() => {
     const targetTop =
       titleRefs.value[curIndex.value]?.getBoundingClientRect?.()?.top || 0;
     return {
-      height: `${titleRefs.value[curIndex.value]?.offsetHeight}px`,
+      height: `${titleRefs.value[curIndex.value]?.offsetHeight + (editable.value ? 22 : 0)}px`,
       top: `${targetTop - listTop}px`,
     };
   }

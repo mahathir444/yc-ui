@@ -29,6 +29,7 @@ export interface TabsContext {
   titleRefs: Ref<HTMLSpanElement[]>;
   scrollPosition: Ref<TabScrollPosition>;
   listRef: Ref<HTMLDivElement | undefined>;
+  headerPadding: Ref<boolean>;
   emits: TabsEmits;
 }
 
@@ -49,6 +50,7 @@ export default () => {
       type,
       editable,
       scrollPosition,
+      headerPadding,
     } = toRefs(props);
     const computedActiveKey = useControlValue<TabKey>(
       activeKey,
@@ -78,6 +80,7 @@ export default () => {
       scrollPosition,
       listRef,
       position,
+      headerPadding,
       emits,
     });
     return {
@@ -100,6 +103,7 @@ export default () => {
       scrollPosition: ref('auto'),
       listRef: ref(),
       position: ref('top'),
+      headerPadding: ref(false),
       emits: () => {},
     });
   };

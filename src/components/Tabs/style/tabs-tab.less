@@ -10,6 +10,7 @@
   line-height: 1.5715;
   display: flex;
   align-items: center;
+  gap: 8px;
 
   .yc-tabs-tab-title {
     position: relative;
@@ -74,6 +75,12 @@
       padding: 0 20px;
     }
   }
+  &.yc-tabs-tab-no-padding {
+    margin-left: 0;
+    &.yc-tabs-tab-type-text {
+      margin-left: 0;
+    }
+  }
 }
 // card card-gutter
 .yc-tabs-tab-type-card,
@@ -90,16 +97,16 @@
   &:hover {
     background-color: rgb(229, 230, 235);
   }
-
   &.yc-tabs-tab-horizontal {
     &.yc-tabs-tab-type-card {
-      border-right: none;
+      &:not(:first-child) {
+        border-left: none;
+      }
       &:first-child {
         border-top-left-radius: 2px;
       }
       &:last-child {
         border-top-right-radius: 2px;
-        border-right: 1px solid rgb(229, 230, 235);
       }
       &.yc-tabs-tab-active {
         background-color: transparent;

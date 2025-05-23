@@ -1,21 +1,23 @@
 <template>
   <div class="test">
-    <yc-tabs default-active-key="2" position="right" type="line">
-      <yc-tab-pane path="1" title="Tab 1"> Content of Tab Panel 1 </yc-tab-pane>
-      <yc-tab-pane path="2" title="Tab 2"> Content of Tab Panel 2 </yc-tab-pane>
-      <yc-tab-pane path="3" title="Tab 3">
-        <template #title>Tab 33333333</template>
-        Content of Tab Panel 3
+    <yc-tabs
+      default-active-key="2"
+      type="line"
+      editable
+      show-add-button
+      destory-on-hide
+    >
+      <yc-tab-pane v-for="i in 10" :path="`${i}`" :title="`tab ${i}`">
+        <div style="padding: 16px">Content of Tab Panel {{ i }}</div>
       </yc-tab-pane>
     </yc-tabs>
-    <a-tabs default-active-key="2" position="bottom" type="card">
-      <a-tab-pane path="1" title="Tab 1"> Content of Tab Panel 1 </a-tab-pane>
-      <a-tab-pane path="2" title="Tab 2"> Content of Tab Panel 2 </a-tab-pane>
-      <a-tab-pane path="3" title="Tab 3">
-        <template #title>Tab 33333333</template>
-        Content of Tab Panel 3
-      </a-tab-pane>
-    </a-tabs>
+    <div style="width: 800px">
+      <a-tabs default-active-key="15" type="line" animation destroy-on-hide>
+        <a-tab-pane v-for="i in 15" :key="`${i}`" :title="`tab ${i}`">
+          <div style="padding: 16px">Content of Tab Panel {{ i }}</div>
+        </a-tab-pane>
+      </a-tabs>
+    </div>
   </div>
 </template>
 

@@ -4,24 +4,19 @@ export interface TabsProps {
   activeKey?: TabKey;
   defaultActiveKey?: TabKey;
   position?: TabPositon;
-  // size为实现
-  size?: Size;
+  size?: Size; //
   type?: TabType;
   direction?: Direction;
   editable?: boolean;
   showAddButton?: boolean;
-  // destoryOnHide lazyLoad
   destoryOnHide?: boolean;
-  lazyLoad?: boolean;
   justify?: boolean;
-  // animation headerPadding
   animation?: boolean;
   headerPadding?: boolean;
   autoSwitch?: boolean;
   hideContent?: boolean;
   trigger?: TabTrigger;
-  // scrollPositon
-  scrollPositon?: TabScrollPosition;
+  scrollPositon?: TabScrollPosition; //
 }
 
 export interface TabsEmits {

@@ -7,6 +7,10 @@
       `yc-tabs-tab-${direction}`,
       `yc-tabs-tab-${position}`,
       {
+        'yc-tabs-tab-no-padding':
+          !headerPadding &&
+          direction == 'horizontal' &&
+          ['line', 'text'].includes(type),
         'yc-tabs-tab-active': computedActiveKey == node?.props?.path,
       },
     ]"
@@ -50,6 +54,7 @@ const {
   type,
   direction,
   position,
+  headerPadding,
   emits,
 } = inject();
 const tabRef = ref<HTMLDivElement>();
