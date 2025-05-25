@@ -6,7 +6,11 @@
       </yc-tab-pane>
     </yc-tabs>
     <div style="width: 300px">
-      <a-timeline label-position="relative" mode="left">
+      <a-timeline
+        mode="alternate"
+        direction="horizontal"
+        style="margin-bottom: 100px"
+      >
         <a-timeline-item label="2017-03-10"
           >The first milestone</a-timeline-item
         >
@@ -18,8 +22,8 @@
         >
       </a-timeline>
       <yc-timeline
+        mode="alternate"
         direction="horizontal"
-        mode="bottom"
         label-position="relative"
       >
         <yc-timeline-item label="2017-03-10"

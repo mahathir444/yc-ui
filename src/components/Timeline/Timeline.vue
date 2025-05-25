@@ -11,12 +11,21 @@
     ]"
   >
     <slot />
+    <yc-timeline-item v-if="pending">
+      <template #dot>
+        <yc-spin :size="12" style="margin-top: -10px" />
+      </template>
+      <span v-if="isString(pending)">{{ pending }}</span>
+    </yc-timeline-item>
   </div>
 </template>
 
 <script lang="ts" setup>
 import { TimelineProps, TimelineSlots } from './type';
+import { isString } from '@shared/utils';
 import useContext from './hooks/useContext';
+import YcTimelineItem from './TimelineItem.vue';
+import YcSpin from '@/components/Spin';
 defineOptions({
   name: 'Timeline',
 });

@@ -1,0 +1,192 @@
+.yc-timeline-item {
+  position: relative;
+  color: rgb(29, 33, 41);
+  font-size: 14px;
+  &:not(:last-child) {
+    .yc-timeline-item-dot-line {
+      position: absolute;
+      border-color: rgb(229, 230, 235);
+    }
+  }
+  .yc-timeline-item-dot-wrapper {
+    position: absolute;
+
+    .yc-timeline-item-dot-content {
+      position: relative;
+
+      .yc-timeline-item-dot {
+        position: relative;
+        width: 6px;
+        height: 6px;
+        color: rgb(22, 93, 255);
+        border-radius: 50%;
+
+        &.yc-timeline-item-dot-solid {
+          background-color: rgb(22, 93, 255);
+        }
+        &.yc-timeline-item-dot-hollow {
+          background-color: #fff;
+          border: 2px solid rgb(22, 93, 255);
+        }
+      }
+    }
+  }
+  .yc-timeline-item-content-wrapper {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+
+    gap: 4px;
+    .yc-timeline-item-content {
+      color: rgb(29, 33, 41);
+      font-size: 14px;
+      line-height: 1.5715;
+    }
+  }
+  .yc-timeline-item-label {
+    color: rgb(134, 144, 156);
+    font-size: 12px;
+    line-height: 1.667;
+  }
+}
+// direction
+.yc-timeline-item-direction-vertical {
+  min-height: 78px;
+  &:not(:last-child) {
+    .yc-timeline-item-dot-line {
+      top: 18px;
+      bottom: -4px;
+      left: 50%;
+      transform: translate(-50%);
+      width: 1px;
+      border-left-width: 1px;
+    }
+  }
+  .yc-timeline-item-dot-wrapper {
+    height: 100%;
+    text-align: center;
+    .yc-timeline-item-dot-content {
+      width: 6px;
+      height: 22px;
+      line-height: 22px;
+      .yc-timeline-item-dot {
+        top: 50%;
+        margin-top: -50%;
+      }
+    }
+  }
+}
+.yc-timeline-item-direction-horizontal {
+  flex: 1;
+  &:not(:last-child) {
+    .yc-timeline-item-dot-line {
+      right: 4px;
+      left: 12px;
+      top: 50%;
+      transform: translateY(-50%);
+      height: 1px;
+      border-top-width: 1px;
+    }
+  }
+  .yc-timeline-item-dot-wrapper {
+    width: 100%;
+    .yc-timeline-item-dot-content {
+      height: 6px;
+      line-height: 6px;
+    }
+  }
+}
+// label-positon
+.set-label-relative(@direction,@position) {
+  &.yc-timeline-item-direction-@{direction} {
+    &.yc-timeline-item-@{position} {
+      margin-@{position}: if(@direction = vertical, 100px, 50px);
+      .yc-timeline-item-label {
+        @{position}: 0;
+        & when(@position = left) {
+          padding-right: 16px;
+          transform: translateX(-100%);
+        }
+        & when(@position = right) {
+          padding-left: 16px;
+          transform: translateX(100%);
+        }
+        & when(@position = top) {
+          padding-bottom: 16px;
+          transform: translateY(-100%);
+        }
+        & when(@position = bottom) {
+          padding-top: 16px;
+          transform: translateY(100%);
+        }
+      }
+      & when(@position = right) {
+        .yc-timeline-item-content {
+          text-align: right;
+        }
+      }
+    }
+  }
+}
+.yc-timeline-item-label-is-relative {
+  &:not(.yc-timeline-item-alternate) {
+    .yc-timeline-item-label {
+      position: absolute;
+      top: 0;
+      max-width: 100px;
+      .set-label-relative(horizontal,top);
+      .set-label-relative(horizontal,bottom);
+      .set-label-relative(vertical,left);
+      .set-label-relative(vertical,right);
+    }
+  }
+}
+// 设置position
+@positions: left, top, right, bottom;
+.set-time-line-position(@position) {
+  padding-@{position}: 6px;
+  .yc-timeline-item-dot-wrapper {
+    @{position}: 0;
+  }
+  .yc-timeline-item-content-wrapper {
+    margin-@{position}: 16px;
+  }
+}
+each(@positions,.(@value,@key){
+    .yc-timeline-item-@{value}{
+      .set-time-line-position(@value)
+    }
+  });
+.yc-timeline-item-alternate {
+  &.yc-timeline-item-direction-vertical {
+    .set-time-line-position(left);
+    &:nth-child(2n) {
+      .yc-timeline-item-content-wrapper {
+        width: fit-content;
+        text-align: right;
+        margin-left: calc(-50% - 22px);
+      }
+    }
+    &.yc-timeline-item-label-is-relative {
+      .yc-timeline-item-label {
+        text-align: right;
+        transform: translate(-100% - 8px, -22px);
+      }
+      &:nth-child(2n) {
+        .yc-timeline-item-label {
+          text-align: left;
+          transform: translate(16px, -22px);
+        }
+      }
+    }
+  }
+
+  &.yc-timeline-item-direction-horizontal {
+    .set-time-line-position(top);
+    &:nth-child(2n) {
+      .yc-timeline-item-content-wrapper {
+        margin-top: calc(-100% + 16px);
+      }
+    }
+  }
+}
