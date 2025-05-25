@@ -35,13 +35,15 @@ export default (params: {
   } = params;
   // 插槽的option无需处理
   const slots = useSlots();
+  // optionContent的dom
+  const optionContent = ref<Element[]>([]);
   // slot收集的options数组
-  const slotOptions = ref<OptionProps[]>([]);
+  const slotOptionData = ref<OptionProps[]>([]);
   // 扁平化的renderOption
-  const flattedRenderOption = computed(() => {
+  const renderOptionData = computed(() => {
     return provideOptions.value
       .map((item: ObjectData) => {
-        return item?.options ? item.options : item;
+        return item?.options ?? item;
       })
       .flat(1)
       .map((item) => {
@@ -54,9 +56,9 @@ export default (params: {
       });
   });
   // fallbackoption
-  const fallbackOptions = computed(() => {
+  const fallbackOptionData = computed(() => {
     const optionMap = new Map(
-      [...flattedRenderOption.value, ...slotOptions.value].map((item) => [
+      [...renderOptionData.value, ...slotOptionData.value].map((item) => [
         getValue(item!.value),
         item,
       ])
@@ -69,11 +71,24 @@ export default (params: {
           })
       : [];
   });
+  // 所有的options
+  const options = computed(() => {
+    return [
+      ...slotOptionData.value,
+      ...renderOptionData.value,
+      ...fallbackOptionData.value,
+    ].map((item, index) => {
+      return {
+        ...item,
+        label: item.label ?? getTextContent(optionContent.value[index]),
+      };
+    });
+  });
   // 渲染的option数组
   const renderOptions = computed<SelectOptions>(() => {
     return [
       ...provideOptions.value,
-      ...(showExtraOptions.value ? fallbackOptions.value : []),
+      ...(showExtraOptions.value ? fallbackOptionData.value : []),
     ].map((item) => {
       return isObject(item)
         ? {
@@ -87,43 +102,27 @@ export default (params: {
           };
     });
   });
-  // optionContent的dom
-  const optionDoms = ref<Element[]>([]);
-  // 所有的options
-  const options = computed(() => {
-    const result = [
-      ...slotOptions.value,
-      ...flattedRenderOption.value,
-      ...fallbackOptions.value,
-    ].map((item, index) => {
-      return {
-        ...item,
-        label: item.label ?? getTextContent(optionDoms.value[index]),
-      };
-    });
-    return result;
-  });
   // 获取选项的props
-  const getOptions = () => {
+  const getSlotOptions = () => {
     if (!slots.default) return;
     // 获取option的content
-    optionDoms.value = Array.from(
+    optionContent.value = Array.from(
       popupRef.value
         ?.getPopupRef()
         ?.querySelectorAll('.yc-select-option-content')
     );
     // 获取插槽的props
     const nodes = findComponentsFromVnodes(
-      slots?.default?.() ?? [],
+      slots.default?.() ?? [],
       Option.name
     );
-    // 处理slotOptions
-    slotOptions.value = nodes
+    // 处理slotOptionData
+    slotOptionData.value = nodes
       .filter((item) => item.props)
       .map((item) => item.props);
   };
   onMounted(() => {
-    getOptions();
+    getSlotOptions();
   });
   return {
     options,

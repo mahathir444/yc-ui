@@ -1,5 +1,10 @@
 <template>
-  <div class="yc-skeleton-line">
+  <div
+    class="yc-skeleton-line"
+    :style="{
+      gap,
+    }"
+  >
     <div
       class="yc-skeleton-line-row"
       v-for="i in rows"
@@ -7,7 +12,6 @@
       :style="{
         height: `${lineHeight}px`,
         width: widths[i] ? `${widths[i]}px` : '100%',
-        gap,
       }"
     ></div>
   </div>

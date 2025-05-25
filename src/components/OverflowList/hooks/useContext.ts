@@ -4,8 +4,12 @@ import {
   ref,
   Ref,
   onMounted,
+  toRefs,
+  computed,
 } from 'vue';
 import { YcPreventFocus } from '@shared/components';
+import { Props } from '@/components/_shared/type';
+import { unrefElement } from '@/components/_shared/utils';
 
 export const OVERFLOW_LIST_PROVIDE_KEY = 'tabs-context';
 
@@ -15,7 +19,6 @@ export interface OverflowListContext {
   index: Ref<number>;
   max: Ref<number>;
   widths: Ref<number[]>;
-  isInject: Ref<boolean>;
 }
 
 export default () => {
@@ -24,7 +27,6 @@ export default () => {
     const widths = ref<number[]>([]);
     const max = ref<number>(10000);
     _provide<OverflowListContext>(OVERFLOW_LIST_PROVIDE_KEY, {
-      isInject: ref(true),
       max,
       index,
       widths,
@@ -35,25 +37,30 @@ export default () => {
       max,
     };
   };
-  const inject = (tagRef: Ref<YcPreventInstance | undefined>) => {
-    const injection = _inject<OverflowListContext>(OVERFLOW_LIST_PROVIDE_KEY, {
-      isInject: ref(false),
-      max: ref(0),
-      index: ref(0),
-      widths: ref([]),
-    });
-    const { widths, index, isInject, max } = injection;
+  const inject = (props: Props, tagRef: Ref<YcPreventInstance | undefined>) => {
+    const { isOverflow } = toRefs(props);
+    const { widths, index, max } = _inject<OverflowListContext>(
+      OVERFLOW_LIST_PROVIDE_KEY,
+      {
+        max: ref(1),
+        index: ref(0),
+        widths: ref([]),
+      }
+    );
     // 记录当前的index
     const curIndex = ref(0);
+    // 是否可见
+    const visible = computed(
+      () => isOverflow.value || curIndex.value < max.value
+    );
     // 收集
     onMounted(() => {
-      if (!isInject) return;
-      curIndex.value = index.value++;
-      widths.value[curIndex.value - 1] = tagRef.value?.getRef?.()?.offsetWidth;
+      if (isOverflow.value) return;
+      curIndex.value = ++index.value;
+      widths.value[curIndex.value - 1] = unrefElement(tagRef)?.offsetWidth;
     });
     return {
-      curIndex,
-      ...injection,
+      visible,
     };
   };
   return {

@@ -31,7 +31,12 @@
 
 <script lang="ts" setup>
 import { toRefs } from 'vue';
-import { PopoverProps, PopoverEmits, PopoverSlots } from './type';
+import {
+  PopoverProps,
+  PopoverEmits,
+  PopoverSlots,
+  PopoverExpose,
+} from './type';
 import { useControlValue } from '@shared/utils';
 import YcTrigger from '@/components/Trigger';
 defineOptions({
@@ -70,7 +75,7 @@ const computedVisible = useControlValue<boolean>(
   }
 );
 
-defineExpose({
+defineExpose<PopoverExpose>({
   show() {
     computedVisible.value = true;
   },

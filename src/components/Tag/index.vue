@@ -1,6 +1,6 @@
 <template>
   <yc-prevent-focus
-    v-show="!isInject || curIndex <= max"
+    v-if="isVisible"
     tag="label"
     :prevent-focus="preventFocus"
     :class="[
@@ -54,7 +54,7 @@ import { toRefs, computed, ref } from 'vue';
 import { TagProps, TagEmits, TagSlots } from './type';
 import { TAG_PRESET_COLORS } from '@shared/constants';
 import { useControlValue, getGlobalConfig } from '@shared/utils';
-import useContext from '@/components/OverflowList/hooks/useContext1';
+import useContext from '@/components/OverflowList/hooks/useContext';
 import YcSpin from '@/components/Spin';
 import { YcPreventFocus, YcIconButton } from '@shared/components';
 defineOptions({
@@ -74,6 +74,7 @@ const props = withDefaults(defineProps<TagProps>(), {
   defaultChecked: true,
   nowrap: false,
   preventFocus: false,
+  isOverflow: false,
 });
 const emits = defineEmits<TagEmits>();
 const {
@@ -88,9 +89,9 @@ const {
 // 接收注入
 const { inject } = useContext();
 // tagRef
-const tagRef = ref<InstanceType<typeof YcPreventFocus>>();
+const tagRef = ref();
 // 获取
-const { isInject, curIndex, max } = inject(tagRef);
+const { visible: isVisible } = inject(props, tagRef);
 // 获取全局配置
 const { size } = getGlobalConfig(props);
 // visible
@@ -121,12 +122,6 @@ const handleEvent = (type: 'close' | 'check', ev: MouseEvent) => {
     emits('check', computedChecked.value, ev);
   }
 };
-
-defineExpose({
-  getRef() {
-    return tagRef.value!.getRef() as HTMLLabelElement;
-  },
-});
 </script>
 
 <style lang="less" scoped>

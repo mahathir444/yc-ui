@@ -124,7 +124,7 @@ const showAddButton = computed(() => {
 });
 // 当前的索引
 const curIndex = computed(() => {
-  const index = tabPaneNodes.findIndex(
+  const index = tabPaneNodes.value.findIndex(
     (item) => item?.props?.path == computedActiveKey.value
   );
   return index < 0 ? 0 : index;
@@ -159,7 +159,8 @@ const handleAdd = async () => {
   emits('add');
   await nextTick();
   if (!autoSwitch.value) return;
-  computedActiveKey.value = tabPaneNodes[tabPaneNodes.length - 1]?.props?.path;
+  computedActiveKey.value =
+    tabPaneNodes.value[tabPaneNodes.value.length - 1]?.props?.path;
 };
 onBeforeUnmount(() => {
   stop();

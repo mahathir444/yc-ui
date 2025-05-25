@@ -56,7 +56,12 @@
 
 <script lang="ts" setup>
 import { ref, computed, watch, useSlots } from 'vue';
-import { TriggerProps, TriggerEmits, TriggerSlots } from './type';
+import {
+  TriggerProps,
+  TriggerEmits,
+  TriggerSlots,
+  TriggerExpose,
+} from './type';
 import {
   findFirstLegitChild,
   unrefElement,
@@ -187,7 +192,7 @@ watch(
     position.value = props.position;
   }
 );
-defineExpose({
+defineExpose<TriggerExpose>({
   hide() {
     computedVisible.value = false;
   },

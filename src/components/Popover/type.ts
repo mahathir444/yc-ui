@@ -31,3 +31,8 @@ export interface PopoverSlots {
   content(): void;
   title(): void;
 }
+
+export interface PopoverExpose {
+  hide(): void;
+  show(): void;
+}

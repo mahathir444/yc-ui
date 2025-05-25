@@ -43,12 +43,11 @@
 <script lang="ts" setup>
 import { ref, computed, toRefs, nextTick } from 'vue';
 import { IconArrowRight } from '@shared/icons';
-import { useControlValue } from '@shared/utils';
+import { useControlValue, unrefElement } from '@shared/utils';
 import {
   DsubmenuProps,
   DsubmenuSlots,
   DsubmenuEmits,
-  DoptionInstance,
   Doption as YcDoption,
 } from './index';
 import { default as YcTrigger, TriggerInstance } from '@/components/Trigger';
@@ -76,7 +75,7 @@ const {
   position: _position,
 } = toRefs(props);
 // option的实例
-const optionRef = ref<DoptionInstance>();
+const optionRef = ref();
 // 触发器实例
 const triggerRef = ref<TriggerInstance>();
 // 受控的visible
@@ -99,7 +98,7 @@ const trigger = computed(() => {
 // 处理计算style
 const handleCalcStyle = async () => {
   await nextTick();
-  const dom = optionRef.value?.getOptionRef();
+  const dom = unrefElement(optionRef);
   if (!dom) return;
   const { left, top, right, width } = dom.getBoundingClientRect();
   const x = position.value == 'rt' ? right : left - width;

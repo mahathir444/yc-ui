@@ -5,8 +5,9 @@ import {
   ref,
   Ref,
   computed,
-  shallowReactive,
+  shallowRef,
   useSlots,
+  watch,
 } from 'vue';
 import {
   useControlValue,
@@ -64,8 +65,17 @@ export default () => {
     } = toRefs(props);
     // 获取插槽nodes
     const slots = useSlots();
+    watch(
+      () => slots,
+      () => {
+        console.log('1');
+      },
+      {
+        deep: true,
+      }
+    );
     // nodes
-    const tabPaneNodes = shallowReactive<ObjectData[]>([]);
+    const tabPaneNodes = shallowRef<ObjectData[]>([]);
     // 当前活跃的key
     const computedActiveKey = useControlValue<TabKey>(
       activeKey,
@@ -89,12 +99,9 @@ export default () => {
     });
     // 获取tabPane
     function getTabPanes() {
-      tabPaneNodes.splice(0);
-      tabPaneNodes.push(
-        ...findComponentsFromVnodes(
-          slots.default?.() || [],
-          TabPane.name as string
-        )
+      tabPaneNodes.value = findComponentsFromVnodes(
+        slots.default?.() || [],
+        TabPane.name as string
       );
     }
     getTabPanes();

@@ -18,7 +18,7 @@
 
 <script lang="ts" setup>
 import { ref, reactive } from 'vue';
-const value = ref(25);
+const value = ref(5);
 </script>
 
 <style lang="less" scoped>

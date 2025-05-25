@@ -66,6 +66,7 @@ import { default as Skeleton, SkeletonLine, SkeletonShape } from './Skeleton';
 import Slider from './Slider';
 import Space from './Space';
 import Split from './Split';
+import Spin from './Spin';
 import { default as Statistic, Countdown } from './Statistic';
 import { default as Steps, Step } from './Steps';
 import Switch from './Switch';
@@ -132,6 +133,7 @@ export const components: Record<string, Plugin> = {
   Split,
   Statistic,
   Steps,
+  Spin,
   Switch,
   Tag,
   Textarea,
@@ -144,7 +146,7 @@ export const components: Record<string, Plugin> = {
   Watermark,
 };
 
-export default {
+const result = {
   ...components,
   AnchorLink,
   ButtonGroup,
@@ -188,3 +190,7 @@ export default {
     }
   },
 };
+
+export default result;
+
+console.log(Object.keys(result).length - 1);

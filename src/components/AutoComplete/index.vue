@@ -63,6 +63,7 @@ import {
   AutoCompleteProps,
   AutoCompleteEmits,
   AutoCompleteSlots,
+  AutoCompleteExpose,
 } from './type';
 import { sleep, useControlValue } from '@shared/utils';
 import {
@@ -181,7 +182,7 @@ const handleEvent = async (
   }
 };
 
-defineExpose({
+defineExpose<AutoCompleteExpose>({
   focus() {
     inputRef.value?.focus();
   },

@@ -6,7 +6,6 @@
       'yc-dropdown-option-disabled': disabled,
       'yc-dropdown-option-has-suffix': $slots.suffix,
     }"
-    ref="doptionRef"
     @click="handleClick"
   >
     <div v-if="$slots.icon" class="yc-dropdown-option-icon">
@@ -41,8 +40,6 @@ const { value: optionValue, disabled, isSubmenu } = toRefs(props);
 // dropdown传递的值
 const { inject } = useContext();
 const { select } = inject();
-// 自身实例
-const doptionRef = ref<HTMLDivElement>();
 // 处理后缀点击
 const handleClick = (ev: MouseEvent) => {
   if (disabled.value) return;
@@ -50,12 +47,6 @@ const handleClick = (ev: MouseEvent) => {
   if (isSubmenu.value) return;
   select(optionValue.value as DoptionValue, ev);
 };
-
-defineExpose({
-  getOptionRef() {
-    return doptionRef.value as HTMLDivElement;
-  },
-});
 </script>
 
 <style lang="less" scoped>

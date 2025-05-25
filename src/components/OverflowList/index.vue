@@ -13,13 +13,14 @@
     <slot />
     <slot name="overflow" :number="overflowNumber">
       <yc-tag
-        v-if="max < widths.length"
+        v-if="max < index"
         :style="{
-          visibility: max < widths.length ? 'visible' : 'hidden',
-          position: max < widths.length ? 'static' : 'absolute',
+          visibility: max < index ? 'visible' : 'hidden',
+          position: max < index ? 'static' : 'absolute',
           left: from == 'start' ? '0' : '',
           right: from == 'end' ? '0' : '',
         }"
+        is-overflow
         ref="overflowRef"
       >
         {{ `+${overflowNumber}` }}
@@ -29,16 +30,16 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, toRefs, computed, onBeforeUnmount } from 'vue';
+import { ref, watch, toRefs, computed, onBeforeUnmount, Ref } from 'vue';
 import {
   OverflowListProps,
   OverflowListEmits,
   OverflowListSlots,
 } from './type';
-import { throttle, sleep } from '@shared/utils';
+import { throttle, sleep, unrefElement } from '@shared/utils';
 import { useResizeObserver } from '@vueuse/core';
-import { default as YcTag, TagInstance } from '@/components/Tag';
-import useContext from './hooks/useContext1';
+import useContext from './hooks/useContext';
+import { default as YcTag } from '@/components/Tag';
 defineOptions({
   name: 'OverflowList',
 });
@@ -52,18 +53,21 @@ const emits = defineEmits<OverflowListEmits>();
 const { min, margin, from } = toRefs(props);
 // 注入数据
 const { provide } = useContext();
-const { max, widths } = provide();
+const { max, index, widths } = provide();
 // list实例
 const listRef = ref<HTMLDivElement>();
 // 溢出tag的宽度
-const overflowRef = ref<TagInstance>();
+const overflowRef = ref();
 // 溢出宽度
-const overFlowWidth = computed(
-  () => (overflowRef.value?.getRef()?.offsetWidth || 0) + margin.value
-);
+const overFlowWidth = computed(() => {
+  if (!overflowRef.value) return margin.value;
+  return (
+    (unrefElement(overflowRef) as HTMLDivElement).offsetWidth + margin.value
+  );
+});
 // 溢出数量
 const overflowNumber = computed(() => {
-  return widths.value.length - max.value;
+  return index.value - max.value;
 });
 // 动态计算
 const { stop } = useResizeObserver(
@@ -79,13 +83,18 @@ const { stop } = useResizeObserver(
       if (newWidth > width) {
         break;
       }
-      totalWidth += newWidth;
+      totalWidth = newWidth;
       maxCount++;
     }
     max.value = maxCount > min.value ? maxCount : min.value;
-    console.log(max.value, 'max');
-    emits('change', overflowNumber.value);
   }, 100)
+);
+// 检测max的改变触发change事件
+watch(
+  () => max.value,
+  () => {
+    emits('change', overflowNumber.value);
+  }
 );
 
 onBeforeUnmount(() => {

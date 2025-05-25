@@ -42,3 +42,11 @@ export interface AutoCompleteSlots {
   footer(): void;
   trigger(): void;
 }
+
+export interface AutoCompleteExpose {
+  focus(): void;
+  blur(): void;
+  getInputRef(): HTMLInputElement | HTMLTextAreaElement | undefined;
+  getMirrorRef(): HTMLDivElement | undefined;
+  updatePosition(x: number, y: number): void;
+}

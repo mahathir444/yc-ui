@@ -95,7 +95,7 @@
 <script setup lang="ts">
 import { ref, computed } from 'vue';
 const width = ref(500);
-const number = ref(100);
+const number = ref(40);
 const tags = computed(() =>
   Array.from({ length: number.value }, (_, idx) => idx + 1)
 );

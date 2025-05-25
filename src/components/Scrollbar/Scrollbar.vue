@@ -48,7 +48,7 @@ import {
   ScrollbarExpose,
 } from './type';
 import { useElementSize, useResizeObserver } from '@vueuse/core';
-import { SCROLLBAR_PROVIDE_KEY, ScrollbarProvide } from './hooks/useContext';
+import { SCROLLBAR_PROVIDE_KEY, ScrollbarContext } from './hooks/useContext';
 import ScrollbarTrack from './ScrollbarTrack.vue';
 import useScrollReach from './hooks/useScrollReach';
 defineOptions({
@@ -232,7 +232,7 @@ function initScrollbar() {
     return scrollWidth.value - thumbWidth.value - track;
   });
   // 提供数据
-  provide<ScrollbarProvide>(SCROLLBAR_PROVIDE_KEY, {
+  provide<ScrollbarContext>(SCROLLBAR_PROVIDE_KEY, {
     curTop,
     curLeft,
     movableLeft,
