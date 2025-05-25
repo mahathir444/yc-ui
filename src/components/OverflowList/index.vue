@@ -6,27 +6,17 @@
       padding:
         from == 'start'
           ? `0 0 0 ${overFlowWidth}px`
-          : ` 0 ${overFlowWidth}px 0 -`,
+          : ` 0 ${overFlowWidth}px 0 0`,
     }"
     ref="listRef"
   >
-    <component
-      v-for="(node, i) in tags"
-      :key="i"
-      :is="node"
-      :style="{
-        visibility: i < max ? 'visible' : 'hidden',
-        position: i < max ? 'static' : 'absolute',
-      }"
-      :ref="(el: TagInstance) => (tagRef[i] = el)"
-    />
-
+    <slot />
     <slot name="overflow" :number="overflowNumber">
       <yc-tag
-        v-if="max < tags.length"
+        v-if="max < widths.length"
         :style="{
-          visibility: max < tags.length ? 'visible' : 'hidden',
-          position: max < tags.length ? 'static' : 'absolute',
+          visibility: max < widths.length ? 'visible' : 'hidden',
+          position: max < widths.length ? 'static' : 'absolute',
           left: from == 'start' ? '0' : '',
           right: from == 'end' ? '0' : '',
         }"
@@ -39,15 +29,16 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, VNode, toRefs, useSlots, computed, onBeforeUnmount } from 'vue';
+import { ref, toRefs, computed, onBeforeUnmount } from 'vue';
 import {
   OverflowListProps,
   OverflowListEmits,
   OverflowListSlots,
 } from './type';
-import { findComponentsFromVnodes, throttle } from '@shared/utils';
+import { throttle, sleep } from '@shared/utils';
 import { useResizeObserver } from '@vueuse/core';
 import { default as YcTag, TagInstance } from '@/components/Tag';
+import useContext from './hooks/useContext1';
 defineOptions({
   name: 'OverflowList',
 });
@@ -59,18 +50,11 @@ const props = withDefaults(defineProps<OverflowListProps>(), {
 });
 const emits = defineEmits<OverflowListEmits>();
 const { min, margin, from } = toRefs(props);
-// 插槽
-const slots = useSlots();
+// 注入数据
+const { provide } = useContext();
+const { max, widths } = provide();
 // list实例
 const listRef = ref<HTMLDivElement>();
-// tags
-const tags = computed(() => {
-  return findComponentsFromVnodes(
-    slots.default?.() || [],
-    YcTag.name as string
-  ) as VNode[];
-});
-const tagRef = ref<TagInstance[]>([]);
 // 溢出tag的宽度
 const overflowRef = ref<TagInstance>();
 // 溢出宽度
@@ -79,24 +63,19 @@ const overFlowWidth = computed(
 );
 // 溢出数量
 const overflowNumber = computed(() => {
-  return tags.value.length - max.value;
+  return widths.value.length - max.value;
 });
-// 最多能展示的组件数量
-const max = ref<number>(min.value);
 // 动态计算
 const { stop } = useResizeObserver(
   listRef,
-  throttle(() => {
+  throttle(async () => {
+    await sleep(0);
     const width = listRef.value!.offsetWidth;
     let maxCount = 0;
     let totalWidth = 0;
-    for (let i = 0; i < tagRef.value.length; i++) {
-      console.log(tagRef.value[i]?.getRef()?.offsetWidth, 'width');
-    }
-    for (let i = 0; i < tagRef.value.length; i++) {
+    for (let i = 0; i < widths.value.length; i++) {
       const gap = i > 0 ? margin.value : 0;
-      const newWidth =
-        totalWidth + gap + tagRef.value[i]?.getRef()?.offsetWidth;
+      const newWidth = totalWidth + gap + widths.value[i];
       if (newWidth > width) {
         break;
       }
@@ -104,6 +83,7 @@ const { stop } = useResizeObserver(
       maxCount++;
     }
     max.value = maxCount > min.value ? maxCount : min.value;
+    console.log(max.value, 'max');
     emits('change', overflowNumber.value);
   }, 100)
 );

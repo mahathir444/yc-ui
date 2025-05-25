@@ -125,10 +125,6 @@ export default (params: {
   onMounted(() => {
     getOptions();
   });
-  onUpdated(() => {
-    getOptions();
-  });
-
   return {
     options,
     renderOptions,

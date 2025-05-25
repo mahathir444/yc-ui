@@ -1,5 +1,6 @@
 <template>
   <yc-prevent-focus
+    v-show="!isInject || curIndex <= max"
     tag="label"
     :prevent-focus="preventFocus"
     :class="[
@@ -53,6 +54,7 @@ import { toRefs, computed, ref } from 'vue';
 import { TagProps, TagEmits, TagSlots } from './type';
 import { TAG_PRESET_COLORS } from '@shared/constants';
 import { useControlValue, getGlobalConfig } from '@shared/utils';
+import useContext from '@/components/OverflowList/hooks/useContext1';
 import YcSpin from '@/components/Spin';
 import { YcPreventFocus, YcIconButton } from '@shared/components';
 defineOptions({
@@ -83,10 +85,14 @@ const {
   preventFocus,
   color,
 } = toRefs(props);
-// 获取全局配置
-const { size } = getGlobalConfig(props);
+// 接收注入
+const { inject } = useContext();
 // tagRef
 const tagRef = ref<InstanceType<typeof YcPreventFocus>>();
+// 获取
+const { isInject, curIndex, max } = inject(tagRef);
+// 获取全局配置
+const { size } = getGlobalConfig(props);
 // visible
 const computedVisible = useControlValue<boolean>(
   visible,
@@ -101,7 +107,9 @@ const computedChecked = useControlValue<boolean>(
 );
 // 背景色
 const background = computed(() => {
-  return TAG_PRESET_COLORS.includes(color.value) ? '#fff' : color.value;
+  return TAG_PRESET_COLORS.includes(color.value) && color.value != 'default'
+    ? '#fff'
+    : color.value;
 });
 // 处理事件
 const handleEvent = (type: 'close' | 'check', ev: MouseEvent) => {

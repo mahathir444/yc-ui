@@ -16,7 +16,7 @@ export interface TabsProps {
   autoSwitch?: boolean;
   hideContent?: boolean;
   trigger?: TabTrigger;
-  scrollPositon?: TabScrollPosition; //
+  scrollPositon?: TabScrollPosition;
 }
 
 export interface TabsEmits {

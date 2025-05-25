@@ -34,8 +34,6 @@ export default (params: {
     // 判断滚动方向
     const isScrollingDown = scrollTop >= lastScrollTop;
     const isScrollingRight = scrollLeft >= lastScrollLeft;
-    console.log(offsetHeight, clientHeight, scrollHeight);
-    console.log(lastScrollTop, scrollTop, 'top');
     // 处理触底逻辑 - 只有向下滚动时才检查
     if (
       isScrollingDown &&

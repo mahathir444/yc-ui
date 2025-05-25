@@ -39,7 +39,7 @@ export interface TabsContext {
   listRef: Ref<HTMLDivElement | undefined>;
   headerPadding: Ref<boolean>;
   size: Ref<Size>;
-  getTabPane: () => void;
+  getTabPanes: () => void;
   emits: TabsEmits;
 }
 
@@ -53,20 +53,20 @@ export default () => {
     const {
       activeKey,
       defaultActiveKey,
-      direction: _direction,
       position,
       trigger,
       autoSwitch,
       type,
       editable,
-      scrollPosition,
       headerPadding,
+      scrollPosition,
+      direction: _direction,
     } = toRefs(props);
     // 获取插槽nodes
     const slots = useSlots();
     // nodes
     const tabPaneNodes = shallowReactive<ObjectData[]>([]);
-    //
+    // 当前活跃的key
     const computedActiveKey = useControlValue<TabKey>(
       activeKey,
       defaultActiveKey.value,
@@ -76,6 +76,7 @@ export default () => {
     );
     // titleRefs
     const titleRefs = ref<HTMLSpanElement[]>([]);
+    // tabRefs
     const tabRefs = ref<HTMLDivElement[]>([]);
     // 方向
     const direction = computed(() => {
@@ -87,7 +88,7 @@ export default () => {
       return _direction.value;
     });
     // 获取tabPane
-    function getTabPane() {
+    function getTabPanes() {
       tabPaneNodes.splice(0);
       tabPaneNodes.push(
         ...findComponentsFromVnodes(
@@ -96,7 +97,7 @@ export default () => {
         )
       );
     }
-    getTabPane();
+    getTabPanes();
     _provide<TabsContext>(TABS_PROVIDE_KEY, {
       computedActiveKey,
       editable,
@@ -110,7 +111,7 @@ export default () => {
       listRef,
       titleRefs,
       tabRefs,
-      getTabPane,
+      getTabPanes,
       emits,
     });
     return {
@@ -119,6 +120,7 @@ export default () => {
       direction,
       position,
       autoSwitch,
+      scrollPosition,
       tabPaneNodes,
       titleRefs,
       tabRefs,
@@ -138,7 +140,7 @@ export default () => {
       titleRefs: ref([]),
       listRef: ref(),
       tabRefs: ref([]),
-      getTabPane: () => {},
+      getTabPanes: () => {},
       emits: () => {},
     });
   };

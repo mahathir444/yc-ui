@@ -19,7 +19,7 @@
     <div class="yc-tabs-nav">
       <div class="yc-tabs-nav-tab">
         <!-- pre -->
-        <tab-button @click="handleScroll('pre')">
+        <tab-button v-if="isScroll" @click="handleScroll('pre')">
           <icon-arrow-right :rotate="180" />
         </tab-button>
         <div class="yc-tabs-nav-tab-list" ref="listRef">
@@ -33,7 +33,7 @@
           <tabs-nav-ink v-if="type == 'line'" :cur-index="curIndex" />
         </div>
         <!-- next -->
-        <tab-button @click="handleScroll('next')">
+        <tab-button v-if="isScroll" @click="handleScroll('next')">
           <icon-arrow-right />
         </tab-button>
       </div>
@@ -113,6 +113,7 @@ const {
   direction,
   autoSwitch,
   position,
+  scrollPosition,
   tabRefs,
 } = provide(props, emits, listRef);
 // 展示新增button
@@ -135,20 +136,22 @@ const { stop } = useResizeObserver(listRef, () => {
   const { scrollWidth, offsetWidth, scrollHeight, offsetHeight } =
     listRef.value!;
   isScroll.value =
-    (direction.value == 'horizontal ' && scrollWidth > offsetWidth) ||
+    (direction.value == 'horizontal' && scrollWidth > offsetWidth) ||
     (direction.value == 'vertical' && scrollHeight > offsetHeight);
 });
 // 处理滚动
 const handleScroll = (type: 'pre' | 'next') => {
   const { left, right } = listRef.value!.getBoundingClientRect();
   const tabs = type == 'pre' ? tabRefs.value.reverse() : tabRefs.value;
-  const hideTab = tabs.find((tab) => {
+  const scrollTab = tabs.find((tab) => {
     const { left: _left, right: _right } = tab.getBoundingClientRect();
     return type == 'pre' ? _right <= left : right <= _left;
   });
-  if (!hideTab) return;
-  hideTab.scrollIntoView({
+  if (!scrollTab) return;
+  scrollTab.scrollIntoView({
     behavior: 'smooth',
+    inline: direction.value == 'horizontal' ? scrollPosition.value : '',
+    block: direction.value == 'vertical' ? scrollPosition.value : '',
   });
 };
 // 处理新增

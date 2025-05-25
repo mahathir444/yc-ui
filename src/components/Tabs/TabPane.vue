@@ -21,9 +21,9 @@ withDefaults(defineProps<TabPaneProps>(), {
 });
 // 接收注入
 const { inject } = useContext();
-const { getTabPane } = inject();
+const { getTabPanes } = inject();
 
 // onMounted(() => {
-//   getTabPane();
+//   getTabPanes();
 // });
 </script>
