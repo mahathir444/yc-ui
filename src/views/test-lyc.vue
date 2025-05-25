@@ -5,13 +5,33 @@
         <div style="padding: 16px">Content of Tab Panel {{ i }}</div>
       </yc-tab-pane>
     </yc-tabs>
-    <div style="width: 800px">
-      <a-tabs :destroy-on-hide="true">
-        <a-tab-pane v-for="i in value" :key="`${i}`" :title="`tab ${i}`">
-          <div style="padding: 16px">Content of Tab Panel {{ i }}</div>
-        </a-tab-pane>
-      </a-tabs>
-      <a-button @click="value++">点击新增tab</a-button>
+    <div style="width: 300px">
+      <a-timeline label-position="relative" mode="left">
+        <a-timeline-item label="2017-03-10"
+          >The first milestone</a-timeline-item
+        >
+        <a-timeline-item label="2018-05-12"
+          >The second milestone</a-timeline-item
+        >
+        <a-timeline-item label="2020-09-30"
+          >The third milestone</a-timeline-item
+        >
+      </a-timeline>
+      <yc-timeline
+        direction="horizontal"
+        mode="bottom"
+        label-position="relative"
+      >
+        <yc-timeline-item label="2017-03-10"
+          >The first milestone</yc-timeline-item
+        >
+        <yc-timeline-item label="2018-05-12"
+          >The second milestone</yc-timeline-item
+        >
+        <yc-timeline-item label="2020-09-30"
+          >The third milestone</yc-timeline-item
+        >
+      </yc-timeline>
     </div>
   </div>
 </template>

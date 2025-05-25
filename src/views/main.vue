@@ -35,7 +35,7 @@ const menus = [
     path: 'layout',
   },
   {
-    title: '数据展示(15/19)',
+    title: '数据展示(17/19)',
     path: 'dataShow',
   },
   {

@@ -71,6 +71,7 @@ import { default as Statistic, Countdown } from './Statistic';
 import { default as Steps, Step } from './Steps';
 import Switch from './Switch';
 import Tag from './Tag';
+import { default as Timeline, TimelineItem } from './Timeline';
 import Textarea from './Textarea';
 import TimePicker from './TimePicker';
 import Tooltip from './Tooltip';
@@ -136,6 +137,7 @@ export const components: Record<string, Plugin> = {
   Spin,
   Switch,
   Tag,
+  Timeline,
   Textarea,
   TimePicker,
   Tooltip,
@@ -146,7 +148,7 @@ export const components: Record<string, Plugin> = {
   Watermark,
 };
 
-const result = {
+export default {
   ...components,
   AnchorLink,
   ButtonGroup,
@@ -184,13 +186,10 @@ const result = {
   Step,
   SubMenu,
   TabPane,
+  Timeline,
   install: (app: App) => {
     for (const key of Object.keys(components)) {
       app.use(components[key]);
     }
   },
 };
-
-export default result;
-
-console.log(Object.keys(result).length - 1);
