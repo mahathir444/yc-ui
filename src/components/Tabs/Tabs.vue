@@ -113,6 +113,7 @@ const {
   direction,
   autoSwitch,
   position,
+  tabRefs,
 } = provide(props, emits, listRef);
 // 展示新增button
 const showAddButton = computed(() => {
@@ -127,22 +128,6 @@ const curIndex = computed(() => {
   );
   return index < 0 ? 0 : index;
 });
-// 滚动的offset
-const offset = ref(0);
-// 最大的可滚动距离
-const maxScrollDis = computed(() => {
-  const {
-    scrollWidth = 0,
-    scrollHeight = 0,
-    offsetHeight = 0,
-    offsetWidth = 0,
-  } = listRef.value || {};
-  if (direction.value == 'horizontal') {
-    return scrollWidth - offsetWidth;
-  } else {
-    return scrollHeight - offsetHeight;
-  }
-});
 // 是否可滚动
 const isScroll = ref<boolean>(false);
 // 检测List的宽度
@@ -156,18 +141,13 @@ const { stop } = useResizeObserver(listRef, () => {
 // 处理滚动
 const handleScroll = (type: 'pre' | 'next') => {
   const { left, right } = listRef.value!.getBoundingClientRect();
-  const tabs = listRef.value!.querySelectorAll('.yc-tabs-tab');
-  const hideTab = [...tabs].find((item) => {
-    const { left: _left, right: _right } = item.getBoundingClientRect();
-    if (type == 'pre') {
-      return _right <= left;
-    } else {
-      return right <= _left;
-    }
+  const tabs = type == 'pre' ? tabRefs.value.reverse() : tabRefs.value;
+  const hideTab = tabs.find((tab) => {
+    const { left: _left, right: _right } = tab.getBoundingClientRect();
+    return type == 'pre' ? _right <= left : right <= _left;
   });
   if (!hideTab) return;
   hideTab.scrollIntoView({
-    block: 'start',
     behavior: 'smooth',
   });
 };

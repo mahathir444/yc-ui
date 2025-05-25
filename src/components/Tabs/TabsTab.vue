@@ -15,7 +15,7 @@
         'yc-tabs-tab-active': computedActiveKey == node?.props?.path,
       },
     ]"
-    ref="tabRef"
+    :ref="(el) => (tabRefs[index] = el as HTMLDivElement)"
     @mouseenter="handleChange(node, 'hover')"
     @click="handleChange(node, 'click')"
   >
@@ -35,11 +35,11 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, watch, nextTick } from 'vue';
+import { nextTick } from 'vue';
 import { ObjectData } from '@shared/type';
 import useContext from './hooks/useContext';
 import TabButton from './TabButton.vue';
-const props = defineProps<{
+defineProps<{
   node: ObjectData;
   index: number;
 }>();
@@ -48,6 +48,7 @@ const { inject } = useContext();
 const {
   computedActiveKey,
   titleRefs,
+  tabRefs,
   trigger,
   editable,
   type,
@@ -57,7 +58,6 @@ const {
   size,
   emits,
 } = inject();
-const tabRef = ref<HTMLDivElement>();
 // 渲染title
 const renderTitle = (node: ObjectData) => {
   return node.children.title ? node.children.title : () => node.props.title;
@@ -81,15 +81,6 @@ const handleDel = async (node: ObjectData) => {
   emits('delete', node?.props?.path);
   await nextTick();
 };
-watch(
-  () => computedActiveKey.value,
-  async (v) => {
-    await nextTick();
-    if (v == props?.node?.props?.path) {
-      tabRef.value?.scrollIntoView({});
-    }
-  }
-);
 </script>
 
 <style lang="less" scoped>

@@ -34,6 +34,7 @@ export interface TabsContext {
   position: Ref<TabPositon>;
   computedActiveKey: Ref<TabKey>;
   titleRefs: Ref<HTMLSpanElement[]>;
+  tabRefs: Ref<HTMLDivElement[]>;
   scrollPosition: Ref<TabScrollPosition>;
   listRef: Ref<HTMLDivElement | undefined>;
   headerPadding: Ref<boolean>;
@@ -75,6 +76,7 @@ export default () => {
     );
     // titleRefs
     const titleRefs = ref<HTMLSpanElement[]>([]);
+    const tabRefs = ref<HTMLDivElement[]>([]);
     // 方向
     const direction = computed(() => {
       if (['top', 'bottom'].includes(position.value)) {
@@ -101,38 +103,41 @@ export default () => {
       direction,
       trigger,
       type,
-      titleRefs,
       scrollPosition,
-      listRef,
       position,
       headerPadding,
       size,
+      listRef,
+      titleRefs,
+      tabRefs,
       getTabPane,
       emits,
     });
     return {
+      computedActiveKey,
       size,
       direction,
       position,
       autoSwitch,
-      titleRefs,
-      computedActiveKey,
       tabPaneNodes,
+      titleRefs,
+      tabRefs,
     };
   };
   const inject = () => {
     return _inject<TabsContext>(TABS_PROVIDE_KEY, {
       computedActiveKey: ref(''),
       editable: ref(false),
+      headerPadding: ref(false),
       trigger: ref('click'),
       type: ref('line'),
       direction: ref('horizontal'),
-      titleRefs: ref([]),
       scrollPosition: ref('auto'),
-      listRef: ref(),
       position: ref('top'),
-      headerPadding: ref(false),
       size: ref('medium'),
+      titleRefs: ref([]),
+      listRef: ref(),
+      tabRefs: ref([]),
       getTabPane: () => {},
       emits: () => {},
     });
