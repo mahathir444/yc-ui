@@ -91,9 +91,9 @@ export default (params: {
       const option = optionsMap.get(v);
       return {
         id: `${v}`,
-        label: formatLabel
-          ? formatLabel(option as SelectOptionData)
-          : option?.label,
+        label: option
+          ? (formatLabel?.(option as SelectOptionData) ?? option?.label)
+          : v,
         value: v,
         closeable: option?.tagProps?.closeable,
         tagProps: option?.tagProps,
