@@ -1,21 +1,14 @@
 <template>
   <div class="test">
-    <yc-tabs default-active-key="2" type="card" destory-on-hide>
-      <yc-tab-pane
-        v-for="i in value"
-        :path="`${i}`"
-        :title="`tab ${i}`"
-        disabled
-      >
-        <div style="padding: 16px">Content of Tab Panel {{ i }}</div>
-      </yc-tab-pane>
-    </yc-tabs>
-    <a-tabs default-active-key="2" type="card" destory-on-hide>
-      <a-tab-pane v-for="i in value" :key="`${i}`" :title="`tab ${i}`" disabled>
-        <div style="padding: 16px">Content of Tab Panel {{ i }}</div>
-      </a-tab-pane>
-    </a-tabs>
-    <yc-button @click="value += 5">点击新增5个tab</yc-button>
+    <a-space>
+      <yc-tag v-for="i in value" :key="i">tag{{ i }}</yc-tag>
+    </a-space>
+
+    <yc-avatar-group :max-count="8">
+      <yc-avatar v-for="i in value" :key="i"> 头像{{ i }} </yc-avatar>
+    </yc-avatar-group>
+
+    <yc-button @click="value += 5">点击新增5个tag</yc-button>
     <div style="width: 300px">
       <a-timeline
         mode="alternate"

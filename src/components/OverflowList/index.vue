@@ -10,17 +10,19 @@
     }"
     ref="listRef"
   >
-    <slot />
+    <template v-for="(node, i) in tags" :key="i">
+      <component v-if="i < max" id="overflowTag" :is="node" />
+    </template>
+    <!-- overflow -->
     <slot name="overflow" :number="overflowNumber">
       <yc-tag
-        v-if="max < total"
+        v-if="max < tags.length"
         :style="{
-          visibility: max < total ? 'visible' : 'hidden',
-          position: max < total ? 'static' : 'absolute',
+          visibility: max < tags.length ? 'visible' : 'hidden',
+          position: max < tags.length ? 'static' : 'absolute',
           left: from == 'start' ? '0' : '',
           right: from == 'end' ? '0' : '',
         }"
-        is-overflow
         ref="overflowRef"
       >
         {{ `+${overflowNumber}` }}
@@ -30,15 +32,27 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, watch, toRefs, computed, onBeforeUnmount, Ref } from 'vue';
+import {
+  ref,
+  watch,
+  toRefs,
+  computed,
+  onBeforeUnmount,
+  nextTick,
+  useSlots,
+} from 'vue';
 import {
   OverflowListProps,
   OverflowListEmits,
   OverflowListSlots,
 } from './type';
-import { throttle, sleep, unrefElement } from '@shared/utils';
+import {
+  throttle,
+  sleep,
+  unrefElement,
+  findComponentsFromVnodes,
+} from '@shared/utils';
 import { useResizeObserver } from '@vueuse/core';
-import useContext from './hooks/useContext';
 import { default as YcTag } from '@/components/Tag';
 defineOptions({
   name: 'OverflowList',
@@ -51,13 +65,22 @@ const props = withDefaults(defineProps<OverflowListProps>(), {
 });
 const emits = defineEmits<OverflowListEmits>();
 const { min, margin, from } = toRefs(props);
-// 注入数据
-const { provide } = useContext();
-const { max, total, widths } = provide();
+// 最大展示数量
+const max = ref<number>(10000);
+// 获取所有的widths
+const widths = ref<number[]>([]);
+// 获取插槽的tags
+const slots = useSlots();
+const tags = computed(() => {
+  return findComponentsFromVnodes(
+    slots.default?.() || [],
+    YcTag.name as string
+  );
+});
 // list实例
 const listRef = ref<HTMLDivElement>();
 // 溢出tag的宽度
-const overflowRef = ref();
+const overflowRef = ref<HTMLSpanElement>();
 // 溢出宽度
 const overFlowWidth = computed(() => {
   if (!overflowRef.value) return margin.value;
@@ -67,28 +90,27 @@ const overFlowWidth = computed(() => {
 });
 // 溢出数量
 const overflowNumber = computed(() => {
-  return total.value - max.value;
+  return tags.value.length - max.value;
 });
 // 动态计算
 const { stop } = useResizeObserver(
   listRef,
   throttle(async () => {
     await sleep(0);
-    const width = listRef.value!.offsetWidth;
     let maxCount = 0;
     let totalWidth = 0;
-    const widthArr = [...widths.value.values()];
-    for (let i = 0; i < widthArr.length; i++) {
+    const listWidth = listRef.value!.offsetWidth;
+    for (let i = 0; i < widths.value.length; i++) {
       const gap = i > 0 ? margin.value : 0;
-      const newWidth = totalWidth + gap + widthArr[i];
-      if (newWidth > width) {
+      const newWidth = totalWidth + gap + widths.value[i];
+      if (newWidth > listWidth) {
         break;
       }
       totalWidth = newWidth;
       maxCount++;
     }
     max.value = maxCount > min.value ? maxCount : min.value;
-  }, 100)
+  }, 180)
 );
 // 检测max的改变触发change事件
 watch(
@@ -97,7 +119,21 @@ watch(
     emits('change', overflowNumber.value);
   }
 );
-
+// 检测tag的数量
+watch(
+  () => tags.value.length,
+  async () => {
+    await nextTick();
+    const cur = [...document.querySelectorAll('#overflowTag')].map((item) => {
+      return (item as HTMLSpanElement).offsetWidth as number;
+    });
+    if (cur.length < widths.value.length) return;
+    widths.value = cur;
+  },
+  {
+    immediate: true,
+  }
+);
 onBeforeUnmount(() => {
   stop();
 });

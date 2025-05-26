@@ -64,7 +64,9 @@
       </template>
     </yc-split>
     <div>
-      <a-slider v-model="width" :min="0" :max="800" />
+      <div style="width: 1000px">
+        <a-slider v-model="width" :min="0" :max="800" />
+      </div>
       <yc-overflow-list :style="{ width: `${width}px`, marginTop: '20px' }">
         <yc-tag v-for="item of tags" :key="item" style="width: 50px">
           Tag{{ item }}

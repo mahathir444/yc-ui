@@ -11,7 +11,6 @@ export interface TagProps {
   defaultChecked?: boolean;
   nowrap?: boolean;
   preventFocus?: boolean;
-  isOverflow?: boolean;
 }
 
 export interface TagEmits {

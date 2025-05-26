@@ -28,7 +28,7 @@
 </template>
 
 <script lang="ts" setup>
-import { toRefs, computed, useSlots } from 'vue';
+import { toRefs, computed, useSlots, VNode } from 'vue';
 import { SpaceProps, SpaceSlots } from './type';
 import { isNumber } from '@shared/utils';
 defineOptions({
@@ -59,7 +59,9 @@ const gap = computed(() => {
   return map[size.value] + 'px';
 });
 // node
-const nodes = computed(() => slots.default?.() || []);
+const nodes = computed(() => {
+  return (slots.default?.()?.[0]?.children as VNode[]) || [];
+});
 </script>
 
 <style lang="less" scoped>

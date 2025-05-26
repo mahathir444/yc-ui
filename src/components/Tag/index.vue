@@ -1,6 +1,5 @@
 <template>
   <yc-prevent-focus
-    v-if="isVisible"
     tag="label"
     :prevent-focus="preventFocus"
     :class="[
@@ -23,7 +22,6 @@
     :style="{
       background,
     }"
-    ref="tagRef"
     @click="handleEvent('check', $event)"
   >
     <!-- icon -->
@@ -54,7 +52,6 @@ import { toRefs, computed, ref } from 'vue';
 import { TagProps, TagEmits, TagSlots } from './type';
 import { TAG_PRESET_COLORS } from '@shared/constants';
 import { useControlValue, getGlobalConfig } from '@shared/utils';
-import useContext from '@/components/OverflowList/hooks/useContext';
 import YcSpin from '@/components/Spin';
 import { YcPreventFocus, YcIconButton } from '@shared/components';
 defineOptions({
@@ -86,12 +83,6 @@ const {
   preventFocus,
   color,
 } = toRefs(props);
-// 接收注入
-const { inject } = useContext();
-// tagRef
-const tagRef = ref();
-// 获取
-const { visible: isVisible } = inject(props, tagRef);
 // 获取全局配置
 const { size } = getGlobalConfig(props);
 // visible

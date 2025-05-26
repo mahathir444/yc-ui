@@ -113,13 +113,6 @@ export default (params: {
         label: props.label ? props.label : getTextContent(contentRef.value!),
       } as OptionProps);
     });
-    // onUpdated(() => {
-    //   console.log('update函数更新了');
-    //   const target = optionMap.get(id);
-    //   if (props.label || !target) return;
-    //   const label = getTextContent(contentRef.value!);
-    //   target.label = label;
-    // });
     onBeforeUnmount(() => {
       optionMap.delete(id);
     });
