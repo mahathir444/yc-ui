@@ -5,7 +5,6 @@ import {
   Ref,
   provide as _provide,
   inject as _inject,
-  useSlots,
   Slots,
 } from 'vue';
 import {
@@ -35,8 +34,6 @@ export interface SelectContext {
   fieldKey: Ref<Record<string, string>>;
   isEmpty: Ref<boolean>;
   slots: Slots;
-  slotOptionNode: Ref<ObjectData[]>;
-  optionDoms: Ref<HTMLDivElement[]>;
   blur: () => void;
   filterOption: FilterOption;
   getValue: (value: SelectValue | ObjectData) => SelectValue;
@@ -107,26 +104,19 @@ export default () => {
       );
     });
     // 获取选项的值
-    const {
-      slots,
-      options,
-      isEmpty,
-      slotOptionNode,
-      renderOptions,
-      selectOptions,
-      optionDoms,
-    } = useSelectOptions({
-      computedValue,
-      computedInputValue,
-      multiple,
-      popupRef,
-      fieldKey,
-      showExtraOptions,
-      provideOptions,
-      getValue,
-      fallbackOption,
-      formatLabel,
-    });
+    const { slots, options, isEmpty, renderOptions, selectOptions } =
+      useSelectOptions({
+        computedValue,
+        computedInputValue,
+        multiple,
+        popupRef,
+        fieldKey,
+        showExtraOptions,
+        provideOptions,
+        getValue,
+        fallbackOption,
+        formatLabel,
+      });
     // 初始化快捷键
     const { curIndex } = useSelectHotkeys({
       computedValue,
@@ -157,8 +147,6 @@ export default () => {
       isEmpty,
       fieldKey,
       renderOptions,
-      slotOptionNode,
-      optionDoms,
       slots,
       filterOption,
       blur,
@@ -185,8 +173,6 @@ export default () => {
       isEmpty: ref(false),
       fieldKey: ref({}),
       slots: {},
-      slotOptionNode: ref([]),
-      optionDoms: ref([]),
       blur: () => {},
       filterOption: () => true,
       getValue: () => '',

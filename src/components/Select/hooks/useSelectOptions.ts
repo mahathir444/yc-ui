@@ -1,4 +1,4 @@
-import { ref, computed, Ref, useSlots } from 'vue';
+import { ref, computed, Ref, useSlots, watch, nextTick } from 'vue';
 import { nanoid } from 'nanoid';
 import { ObjectData } from '@shared/type';
 import {
@@ -39,15 +39,12 @@ export default (params: {
   } = params;
   // 获取插槽选项
   const slots = useSlots();
-  // slotOptionNode
-  const slotOptionNode = computed(() => {
-    return findComponentsFromVnodes(
+  const slotsOptions = computed(() => {
+    const nodes = findComponentsFromVnodes(
       slots.default?.() || [],
       Option.name as string
     );
-  });
-  const slotsOptions = computed(() => {
-    return slotOptionNode.value.map((item) => {
+    return nodes.map((item) => {
       return {
         label: '',
         value: '',
@@ -95,7 +92,7 @@ export default (params: {
     ...slotsOptions.value,
     ...renderOptions.value,
   ]);
-  const optionDoms = ref<HTMLDivElement[]>([]);
+  const optionContent = ref<HTMLDivElement[]>([]);
   // 选中的value
   const selectValue = computed(() => {
     const value = multiple.value ? computedValue.value : [computedValue.value];
@@ -111,7 +108,7 @@ export default (params: {
       const option = optionsMap.get(v);
       return {
         id: `${v}`,
-        label: formatLabel?.(option as SelectOptionData) ?? option.label,
+        label: option ? calcLabel(option) : v,
         value: v,
         closeable: option?.tagProps?.closeable,
         tagProps: option?.tagProps,
@@ -124,13 +121,38 @@ export default (params: {
       return !item.label?.includes(computedInputValue.value);
     });
   });
+  // 获取dom
+  watch(
+    () => options.value.length,
+    async () => {
+      await nextTick();
+      optionContent.value = [
+        ...document.querySelectorAll('[data-select-option="true"]'),
+      ] as HTMLDivElement[];
+    },
+    {
+      immediate: true,
+    }
+  );
+  // 计算label
+  function calcLabel(option: SelectOptionData) {
+    const { label, value } = option;
+    if (formatLabel || label) {
+      return formatLabel?.(option) ?? label;
+    }
+    const target = optionContent.value.find((item) => {
+      const { value: _value } = JSON.parse(
+        item.getAttribute('data-select-option-value') || ''
+      );
+      return value == _value;
+    });
+    return getTextContent(target as HTMLDivElement);
+  }
   return {
     slots,
     options,
-    optionDoms,
     renderOptions,
     selectOptions,
-    slotOptionNode,
     isEmpty,
   };
 };

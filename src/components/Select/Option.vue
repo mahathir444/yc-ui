@@ -6,6 +6,8 @@
       'yc-select-option-active': options[curIndex]?.value == value,
       'yc-select-option-disabled': disabled,
     }"
+    data-select-option="true"
+    :data-select-option-value="JSON.stringify({ value })"
   >
     <div v-if="$slots.icon" class="yc-select-option-icon">
       <slot name="icon" />
