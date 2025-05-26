@@ -5,25 +5,24 @@ import {
   ref,
   Ref,
   computed,
-  shallowRef,
   useSlots,
-  watch,
+  onBeforeUnmount,
+  onMounted,
+  SlotsType,
+  Slots,
 } from 'vue';
-import {
-  useControlValue,
-  getGlobalConfig,
-  findComponentsFromVnodes,
-} from '@shared/utils';
-import { Direction, Props, Size, ObjectData } from '@shared/type';
+import { useControlValue, getGlobalConfig } from '@shared/utils';
+import { Direction, Props, RequiredDeep, Size } from '@shared/type';
 import {
   TabKey,
   TabsEmits,
   TabTrigger,
   TabType,
+  TabPaneProps as _TabPaneProps,
   TabScrollPosition,
   TabPositon,
 } from '../type';
-import TabPane from '../TabPane.vue';
+import { nanoid } from 'nanoid';
 
 export const TABS_PROVIDE_KEY = 'tabs-context';
 
@@ -40,9 +39,15 @@ export interface TabsContext {
   listRef: Ref<HTMLDivElement | undefined>;
   headerPadding: Ref<boolean>;
   size: Ref<Size>;
-  getTabPanes: () => void;
+  panesMap: Ref<Map<string, PaneNode>>;
   emits: TabsEmits;
 }
+
+export type TabPaneProps = RequiredDeep<_TabPaneProps>;
+
+export type PaneNode = {
+  slots: Slots;
+} & TabPaneProps;
 
 export default () => {
   const provide = (
@@ -63,19 +68,10 @@ export default () => {
       scrollPosition,
       direction: _direction,
     } = toRefs(props);
-    // 获取插槽nodes
-    const slots = useSlots();
-    watch(
-      () => slots,
-      () => {
-        console.log('1');
-      },
-      {
-        deep: true,
-      }
-    );
-    // nodes
-    const tabPaneNodes = shallowRef<ObjectData[]>([]);
+    // 收集panesMap
+    const panesMap = ref(new Map<string, PaneNode>());
+    // 所有的panes实例
+    const panes = computed(() => [...panesMap.value.values()]);
     // 当前活跃的key
     const computedActiveKey = useControlValue<TabKey>(
       activeKey,
@@ -97,14 +93,7 @@ export default () => {
       }
       return _direction.value;
     });
-    // 获取tabPane
-    function getTabPanes() {
-      tabPaneNodes.value = findComponentsFromVnodes(
-        slots.default?.() || [],
-        TabPane.name as string
-      );
-    }
-    getTabPanes();
+
     _provide<TabsContext>(TABS_PROVIDE_KEY, {
       computedActiveKey,
       editable,
@@ -118,7 +107,7 @@ export default () => {
       listRef,
       titleRefs,
       tabRefs,
-      getTabPanes,
+      panesMap,
       emits,
     });
     return {
@@ -128,13 +117,14 @@ export default () => {
       position,
       autoSwitch,
       scrollPosition,
-      tabPaneNodes,
+      panesMap,
       titleRefs,
       tabRefs,
+      panes,
     };
   };
   const inject = () => {
-    return _inject<TabsContext>(TABS_PROVIDE_KEY, {
+    const injection = _inject<TabsContext>(TABS_PROVIDE_KEY, {
       computedActiveKey: ref(''),
       editable: ref(false),
       headerPadding: ref(false),
@@ -147,10 +137,31 @@ export default () => {
       titleRefs: ref([]),
       listRef: ref(),
       tabRefs: ref([]),
-      getTabPanes: () => {},
+      panesMap: ref(new Map()),
       emits: () => {},
     });
+    const { panesMap } = injection;
+    // 收集panes
+    const collectPanes = (props: Props) => {
+      const id = nanoid();
+      const slots = useSlots();
+      onMounted(() => {
+        panesMap.value.set(id, {
+          slots,
+          ...(props as TabPaneProps),
+        });
+        console.log(panesMap.value);
+      });
+      onBeforeUnmount(() => {
+        panesMap.value.delete(id);
+      });
+    };
+    return {
+      ...injection,
+      collectPanes,
+    };
   };
+
   return {
     provide,
     inject,

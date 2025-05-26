@@ -24,10 +24,10 @@
         </tab-button>
         <div class="yc-tabs-nav-tab-list" ref="listRef">
           <tabs-tab
-            v-for="(item, i) in tabPaneNodes"
+            v-for="(item, i) in panes"
             :key="i"
-            :node="item"
             :index="i"
+            :node="item"
           />
           <!-- ink -->
           <tabs-nav-ink v-if="type == 'line'" :cur-index="curIndex" />
@@ -57,13 +57,7 @@
           marginLeft: `${-curIndex * 100}%`,
         }"
       >
-        <div
-          v-for="(item, i) in tabPaneNodes"
-          :key="i"
-          class="yc-tabs-content-item"
-        >
-          <component v-if="!destoryOnHide || curIndex == i" :is="item" />
-        </div>
+        <slot />
       </div>
     </div>
   </div>
@@ -107,7 +101,7 @@ const listRef = ref<HTMLDivElement>();
 // 注入
 const { provide } = useContext();
 const {
-  tabPaneNodes,
+  panes,
   computedActiveKey,
   size,
   direction,
@@ -124,9 +118,9 @@ const showAddButton = computed(() => {
 });
 // 当前的索引
 const curIndex = computed(() => {
-  const index = tabPaneNodes.value.findIndex(
-    (item) => item?.props?.path == computedActiveKey.value
-  );
+  const index = panes.value.findIndex((item) => {
+    return item.path == computedActiveKey.value;
+  });
   return index < 0 ? 0 : index;
 });
 // 是否可滚动
@@ -159,8 +153,7 @@ const handleAdd = async () => {
   emits('add');
   await nextTick();
   if (!autoSwitch.value) return;
-  computedActiveKey.value =
-    tabPaneNodes.value[tabPaneNodes.value.length - 1]?.props?.path;
+  computedActiveKey.value = panes.value[panes.value.length - 1].path;
 };
 onBeforeUnmount(() => {
   stop();

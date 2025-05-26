@@ -1,18 +1,22 @@
 <template>
-  <div class="yc-tabs-pane">
-    <slot />
+  <div class="yc-tabs-content-item">
+    <div
+      v-if="!destoryOnHide || computedActiveKey == path"
+      class="yc-tabs-pane"
+    >
+      <slot />
+    </div>
   </div>
 </template>
 
 <script lang="ts" setup>
-import { onMounted } from 'vue';
 import useContext from './hooks/useContext';
 import { TabPaneProps, TabPaneSlots } from './type';
 defineOptions({
   name: 'TabPane',
 });
 defineSlots<TabPaneSlots>();
-withDefaults(defineProps<TabPaneProps>(), {
+const props = withDefaults(defineProps<TabPaneProps>(), {
   title: '',
   path: '',
   disabled: false,
@@ -21,9 +25,11 @@ withDefaults(defineProps<TabPaneProps>(), {
 });
 // 接收注入
 const { inject } = useContext();
-const { getTabPanes } = inject();
-
-// onMounted(() => {
-//   getTabPanes();
-// });
+const { computedActiveKey, collectPanes } = inject();
+// 执行收集
+collectPanes(props);
 </script>
+
+<style lang="less">
+@import './style/tabs.less';
+</style>

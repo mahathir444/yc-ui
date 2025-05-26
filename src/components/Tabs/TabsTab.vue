@@ -12,7 +12,7 @@
           !headerPadding &&
           direction == 'horizontal' &&
           ['line', 'text'].includes(type),
-        'yc-tabs-tab-active': computedActiveKey == node?.props?.path,
+        'yc-tabs-tab-active': computedActiveKey == node.path,
       },
     ]"
     :ref="(el) => (tabRefs[index] = el as HTMLDivElement)"
@@ -35,12 +35,10 @@
 </template>
 
 <script lang="ts" setup>
-import { nextTick } from 'vue';
-import { ObjectData } from '@shared/type';
-import useContext from './hooks/useContext';
+import { default as useContext, PaneNode } from './hooks/useContext';
 import TabButton from './TabButton.vue';
 defineProps<{
-  node: ObjectData;
+  node: PaneNode;
   index: number;
 }>();
 // 接收注入
@@ -59,27 +57,27 @@ const {
   emits,
 } = inject();
 // 渲染title
-const renderTitle = (node: ObjectData) => {
-  return node.children.title ? node.children.title : () => node.props.title;
+const renderTitle = (node: PaneNode) => {
+  const { slots, title } = node;
+  return slots.title ?? (() => title);
 };
 // 处理状态改变
-const handleChange = (node: ObjectData, triggerType: string) => {
-  const key = node?.props?.path;
-  const disabled = node?.props?.disabled;
+const handleChange = (node: PaneNode, triggerType: string) => {
+  const { disabled, path } = node;
   if (
-    computedActiveKey.value == key ||
+    computedActiveKey.value == path ||
     disabled ||
     triggerType != trigger.value
-  )
+  ) {
     return;
-  computedActiveKey.value = key;
-  emits('change', key);
-  emits('tab-click', key);
+  }
+  computedActiveKey.value = path;
+  emits('change', path);
+  emits('tab-click', path);
 };
 // 处理删除
-const handleDel = async (node: ObjectData) => {
-  emits('delete', node?.props?.path);
-  await nextTick();
+const handleDel = async (node: PaneNode) => {
+  emits('delete', node.path);
 };
 </script>
 
