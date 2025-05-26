@@ -203,7 +203,6 @@ const curList = computed(() => {
     maxTagCount.value > 0
       ? computedValue.value.slice(0, maxTagCount.value)
       : computedValue.value;
-  console.log(visibleList, 'visibleList');
   return {
     visibleList: visibleList as ObjectData,
     hideList: computedValue.value.slice(maxTagCount.value),

@@ -10,6 +10,7 @@
         placeholder="select"
       >
       </yc-select>
+      <a-button @click="handleClick"> 点击添加options </a-button>
     </div>
     <div style="width: 300px">
       <yc-input-tag placeholder="input-tag" allow-clear />
@@ -111,6 +112,16 @@ for (let i = 0; i < 30; i++) {
     value: i,
   });
 }
+
+const handleClick = () => {
+  const pre = options.value.length;
+  for (let i = 0; i < 10; i++) {
+    options.value.push({
+      label: '选项' + (pre + i),
+      value: pre + i,
+    });
+  }
+};
 </script>
 
 <style lang="less" scoped>

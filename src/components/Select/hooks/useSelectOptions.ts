@@ -14,60 +14,80 @@ import {
   SelectValue,
   SelectOptions,
   FallbackOption,
+  FormatLabel,
+  SelectOptionData,
 } from '../index';
 import { TriggerInstance } from '@/components/Trigger';
 import { getTextContent, isObject } from '@shared/utils';
 
 export default (params: {
+  multiple: Ref<boolean>;
+  computedValue: Ref<SelectValue>;
   fieldKey: Ref<Record<string, string>>;
-  selectValue: Ref<ObjectData[]>;
   provideOptions: Ref<SelectOptions>;
   showExtraOptions: Ref<boolean>;
   popupRef: Ref<TriggerInstance | undefined>;
   getValue: (value: string | ObjectData) => SelectValue;
   fallbackOption?: FallbackOption;
+  formatLabel?: FormatLabel;
 }) => {
   const {
-    fieldKey,
-    selectValue,
+    computedValue,
+    multiple,
     provideOptions,
-    showExtraOptions,
     getValue,
     fallbackOption,
+    formatLabel,
   } = params;
   // optionMap
   const optionMap = reactive<Map<string, ObjectData>>(new Map());
   // 所有的options
   const options = computed(() => [...optionMap.values()]);
+  // 值map
+  const valueMap = computed(
+    () => new Map(options.value.map((item) => [getValue(item.value), item]))
+  );
   // fallbackoption
-  // const fallbackOptions = computed(() => {
-  //   const optionMap = new Map(
-  //     options.value.map((item) => [getValue(item!.value), item])
-  //   );
-  //   return fallbackOption
-  //     ? selectValue.value
-  //         .filter((item) => !optionMap.has(getValue(item)))
-  //         .map((item: SelectValue) => {
-  //           return fallbackOption(item);
-  //         })
-  //     : [];
-  // });
+  const fallbackOptions = computed(() => {
+    return fallbackOption
+      ? selectValue.value
+          .filter((v) => valueMap.value.get(v))
+          .map((v: SelectValue) => fallbackOption(v))
+      : [];
+  });
   // 渲染的option数组
   const renderOptions = computed<SelectOptions>(() => {
-    return [
-      ...provideOptions.value,
-      // ...(showExtraOptions.value ? fallbackOptions.value : []),
-    ].map((item) => {
-      return isObject(item)
-        ? {
-            id: nanoid(),
-            ...item,
-          }
-        : {
-            id: nanoid(),
-            label: item,
-            value: item,
-          };
+    return provideOptions.value.map((item) => {
+      return {
+        id: nanoid(),
+        ...(isObject(item)
+          ? item
+          : {
+              label: item,
+              value: item,
+            }),
+      };
+    });
+  });
+  // 选中的value
+  const selectValue = computed(() => {
+    const value = multiple.value ? computedValue.value : [computedValue.value];
+    return (value as ObjectData[]).map((item) => getValue(item));
+  });
+  // 选中的值
+  const selectOptions = computed(() => {
+    // 计算input-tag需要显示的值
+    return selectValue.value.map((v) => {
+      const option = valueMap.value.get(v);
+      return {
+        id: `${v}`,
+        label: formatLabel
+          ? formatLabel(option as SelectOptionData)
+          : option?.label,
+        value: v,
+        closeable: option?.tagProps?.closeable,
+        tagProps: option?.tagProps,
+      };
     });
   });
   // 收集option
@@ -82,6 +102,12 @@ export default (params: {
         label: props.label ? props.label : getTextContent(contentRef.value!),
       } as OptionProps);
     });
+    onUpdated(() => {
+      const target = optionMap.get(id);
+      if (props.label || !target) return;
+      const label = getTextContent(contentRef.value!);
+      target.label = label;
+    });
     onBeforeUnmount(() => {
       optionMap.delete(id);
     });
@@ -90,6 +116,8 @@ export default (params: {
   return {
     options,
     renderOptions,
+    fallbackOptions,
+    selectOptions,
     collectOption,
   };
 };

@@ -109,20 +109,18 @@ export default () => {
         render: fieldNames.value['render'] ?? 'render',
       };
     });
-    // 选中的value
-    const selectValue = computed<ObjectData[]>(() => {
-      return multiple.value ? computedValue.value : [computedValue.value];
-    });
     // 获取选项的值
-    const { options, renderOptions, collectOption } = useSelectOptions({
-      popupRef,
-      fieldKey,
-      selectValue,
-      showExtraOptions,
-      provideOptions,
-      getValue,
-      fallbackOption,
-    });
+    const { options, renderOptions, selectOptions, collectOption } =
+      useSelectOptions({
+        computedValue,
+        multiple,
+        popupRef,
+        fieldKey,
+        showExtraOptions,
+        provideOptions,
+        getValue,
+        fallbackOption,
+      });
     // 初始化快捷键
     const { curIndex } = useSelectHotkeys({
       computedValue,
@@ -133,28 +131,6 @@ export default () => {
       options,
       blur,
       emits,
-    });
-    // 选中的值
-    const selectOptions = computed(() => {
-      // 创建optionMap
-      const optionMap = new Map(
-        options.value.map((item) => [getValue(item.value), item])
-      );
-      // 计算input-tag需要显示的值
-      const result = selectValue.value.map((v) => {
-        const option = optionMap.get(getValue(v));
-        return {
-          id: `${v}`,
-          label: formatLabel
-            ? formatLabel(option as SelectOptionData)
-            : option?.label,
-          value: v,
-          closeable: option?.tagProps?.closeable,
-          tagProps: option?.tagProps,
-        };
-      });
-      console.log(result, 'result');
-      return result;
     });
     // 搜索项
     const isEmpty = computed(() => {
