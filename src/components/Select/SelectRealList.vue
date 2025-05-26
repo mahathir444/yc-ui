@@ -6,8 +6,9 @@
     @reach-bottom="emits('dropdownReachBottom')"
   >
     <div class="yc-select-dropdown-list">
-      <slot />
-      <!-- option -->
+      <!-- slot-option -->
+      <component v-for="(node, i) in slotOptionNode" :key="i" :is="node" />
+      <!-- render-option -->
       <template v-for="option in renderOptions" :key="option.id">
         <template v-if="option.isGroup">
           <yc-optgroup :label="option.label">
@@ -48,7 +49,8 @@ defineProps<{
 }>();
 // 接收注入
 const { inject } = useContext();
-const { fieldKey, renderOptions, slots, emits } = inject();
+const { fieldKey, renderOptions, slotOptionNode, optionDoms, slots, emits } =
+  inject();
 // 渲染label
 const renderLabel = (option: ObjectData) => {
   if (slots.option) {

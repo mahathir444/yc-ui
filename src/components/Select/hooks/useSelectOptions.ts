@@ -1,17 +1,7 @@
-import {
-  computed,
-  Ref,
-  onMounted,
-  onUpdated,
-  reactive,
-  toRefs,
-  onBeforeUnmount,
-  useSlots,
-} from 'vue';
+import { ref, computed, Ref, useSlots } from 'vue';
 import { nanoid } from 'nanoid';
-import { ObjectData, Props } from '@shared/type';
+import { ObjectData } from '@shared/type';
 import {
-  OptionProps,
   SelectValue,
   SelectOptions,
   FallbackOption,
@@ -27,18 +17,20 @@ import {
 import Option from '../Option.vue';
 
 export default (params: {
-  multiple: Ref<boolean>;
   computedValue: Ref<SelectValue>;
+  computedInputValue: Ref<string>;
   fieldKey: Ref<Record<string, string>>;
   provideOptions: Ref<SelectOptions>;
   showExtraOptions: Ref<boolean>;
   popupRef: Ref<TriggerInstance | undefined>;
+  multiple: Ref<boolean>;
   getValue: (value: string | ObjectData) => SelectValue;
   fallbackOption?: FallbackOption;
   formatLabel?: FormatLabel;
 }) => {
   const {
     computedValue,
+    computedInputValue,
     multiple,
     provideOptions,
     getValue,
@@ -47,12 +39,15 @@ export default (params: {
   } = params;
   // 获取插槽选项
   const slots = useSlots();
-  const slotsOptions = computed(() => {
-    const nodes = findComponentsFromVnodes(
+  // slotOptionNode
+  const slotOptionNode = computed(() => {
+    return findComponentsFromVnodes(
       slots.default?.() || [],
       Option.name as string
     );
-    return nodes.map((item) => {
+  });
+  const slotsOptions = computed(() => {
+    return slotOptionNode.value.map((item) => {
       return {
         label: '',
         value: '',
@@ -100,6 +95,7 @@ export default (params: {
     ...slotsOptions.value,
     ...renderOptions.value,
   ]);
+  const optionDoms = ref<HTMLDivElement[]>([]);
   // 选中的value
   const selectValue = computed(() => {
     const value = multiple.value ? computedValue.value : [computedValue.value];
@@ -115,19 +111,26 @@ export default (params: {
       const option = optionsMap.get(v);
       return {
         id: `${v}`,
-        label: formatLabel
-          ? formatLabel(option as SelectOptionData)
-          : option?.label,
+        label: formatLabel?.(option as SelectOptionData) ?? option.label,
         value: v,
         closeable: option?.tagProps?.closeable,
         tagProps: option?.tagProps,
       };
     });
   });
-
+  // 搜索项
+  const isEmpty = computed(() => {
+    return options.value.every((item) => {
+      return !item.label?.includes(computedInputValue.value);
+    });
+  });
   return {
+    slots,
     options,
+    optionDoms,
     renderOptions,
     selectOptions,
+    slotOptionNode,
+    isEmpty,
   };
 };

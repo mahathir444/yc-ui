@@ -35,6 +35,8 @@ export interface SelectContext {
   fieldKey: Ref<Record<string, string>>;
   isEmpty: Ref<boolean>;
   slots: Slots;
+  slotOptionNode: Ref<ObjectData[]>;
+  optionDoms: Ref<HTMLDivElement[]>;
   blur: () => void;
   filterOption: FilterOption;
   getValue: (value: SelectValue | ObjectData) => SelectValue;
@@ -105,8 +107,17 @@ export default () => {
       );
     });
     // 获取选项的值
-    const { options, renderOptions, selectOptions } = useSelectOptions({
+    const {
+      slots,
+      options,
+      isEmpty,
+      slotOptionNode,
+      renderOptions,
+      selectOptions,
+      optionDoms,
+    } = useSelectOptions({
       computedValue,
+      computedInputValue,
       multiple,
       popupRef,
       fieldKey,
@@ -127,12 +138,6 @@ export default () => {
       blur,
       emits,
     });
-    // 搜索项
-    const isEmpty = computed(() => {
-      return options.value.every((item) => {
-        return !item.label?.includes(computedInputValue.value);
-      });
-    });
     // 获取value
     function getValue(value: SelectValue) {
       return (value as ObjectData)?.[valueKey.value] ?? value;
@@ -152,7 +157,9 @@ export default () => {
       isEmpty,
       fieldKey,
       renderOptions,
-      slots: useSlots(),
+      slotOptionNode,
+      optionDoms,
+      slots,
       filterOption,
       blur,
       getValue,
@@ -178,6 +185,8 @@ export default () => {
       isEmpty: ref(false),
       fieldKey: ref({}),
       slots: {},
+      slotOptionNode: ref([]),
+      optionDoms: ref([]),
       blur: () => {},
       filterOption: () => true,
       getValue: () => '',
