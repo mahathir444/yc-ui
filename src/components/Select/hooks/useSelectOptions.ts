@@ -23,6 +23,7 @@ import { getTextContent, isObject } from '@shared/utils';
 export default (params: {
   multiple: Ref<boolean>;
   computedValue: Ref<SelectValue>;
+  computedInputValue: Ref<string>;
   fieldKey: Ref<Record<string, string>>;
   provideOptions: Ref<SelectOptions>;
   showExtraOptions: Ref<boolean>;
@@ -33,6 +34,7 @@ export default (params: {
 }) => {
   const {
     computedValue,
+    computedInputValue,
     multiple,
     provideOptions,
     getValue,
@@ -100,6 +102,12 @@ export default (params: {
       };
     });
   });
+  // 搜索项
+  const isEmpty = computed(() => {
+    return options.value.every((item) => {
+      return !item.label?.includes(computedInputValue.value);
+    });
+  });
   // 收集option
   const collectOption = (
     props: Props,
@@ -121,8 +129,8 @@ export default (params: {
   return {
     options,
     renderOptions,
-    fallbackOptions,
     selectOptions,
+    isEmpty,
     collectOption,
   };
 };

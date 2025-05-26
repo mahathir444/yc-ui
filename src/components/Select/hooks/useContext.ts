@@ -110,9 +110,10 @@ export default () => {
       };
     });
     // 获取选项的值
-    const { options, renderOptions, selectOptions, collectOption } =
+    const { options, renderOptions, selectOptions, isEmpty, collectOption } =
       useSelectOptions({
         computedValue,
+        computedInputValue,
         multiple,
         popupRef,
         fieldKey,
@@ -120,6 +121,7 @@ export default () => {
         provideOptions,
         getValue,
         fallbackOption,
+        formatLabel,
       });
     // 初始化快捷键
     const { curIndex } = useSelectHotkeys({
@@ -132,12 +134,7 @@ export default () => {
       blur,
       emits,
     });
-    // 搜索项
-    const isEmpty = computed(() => {
-      return options.value.every((item) => {
-        return !item.label?.includes(computedInputValue.value);
-      });
-    });
+
     // 获取value
     function getValue(value: SelectValue) {
       return (value as ObjectData)?.[valueKey.value] ?? value;
