@@ -64,8 +64,9 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, computed, nextTick, onBeforeUnmount } from 'vue';
+import { ref, watch, computed, nextTick, onBeforeUnmount } from 'vue';
 import { TabsProps, TabsEmits, TabsSlots } from './type';
+import { sleep } from '@shared/utils';
 import useContext from './hooks/useContext';
 import { IconPlus, IconArrowRight } from '@shared/icons';
 import { useResizeObserver } from '@vueuse/core';
@@ -93,7 +94,7 @@ const props = withDefaults(defineProps<TabsProps>(), {
   autoSwitch: false,
   hideContent: false,
   trigger: 'click',
-  scrollPositon: 'auto',
+  scrollPosition: 'nearest',
 });
 const emits = defineEmits<TabsEmits>();
 // tablist
@@ -126,13 +127,22 @@ const curIndex = computed(() => {
 // 是否可滚动
 const isScroll = ref<boolean>(false);
 // 检测List的宽度
-const { stop } = useResizeObserver(listRef, () => {
+const { stop } = useResizeObserver(listRef, () => calcScrollable());
+watch(
+  () => panes.value.length,
+  async () => {
+    await sleep(0);
+    calcScrollable();
+  }
+);
+// 计算是否可滚动
+const calcScrollable = () => {
   const { scrollWidth, offsetWidth, scrollHeight, offsetHeight } =
     listRef.value!;
   isScroll.value =
     (direction.value == 'horizontal' && scrollWidth > offsetWidth) ||
     (direction.value == 'vertical' && scrollHeight > offsetHeight);
-});
+};
 // 处理滚动
 const handleScroll = (type: 'pre' | 'next') => {
   const { left, right } = listRef.value!.getBoundingClientRect();
@@ -144,15 +154,15 @@ const handleScroll = (type: 'pre' | 'next') => {
   if (!scrollTab) return;
   scrollTab.scrollIntoView({
     behavior: 'smooth',
-    inline: direction.value == 'horizontal' ? scrollPosition.value : '',
-    block: direction.value == 'vertical' ? scrollPosition.value : '',
+    inline: direction.value == 'horizontal' ? scrollPosition?.value : undefined,
+    block: direction.value == 'vertical' ? scrollPosition?.value : undefined,
   });
 };
 // 处理新增
 const handleAdd = async () => {
   emits('add');
-  await nextTick();
   if (!autoSwitch.value) return;
+  await nextTick();
   computedActiveKey.value = panes.value[panes.value.length - 1].path;
 };
 onBeforeUnmount(() => {

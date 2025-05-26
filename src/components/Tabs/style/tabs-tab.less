@@ -44,7 +44,8 @@
         opacity 0.2s cubic-bezier(0, 0, 1, 1);
     }
   }
-  &:not(.yc-tabs-tab-active):hover .yc-tabs-tab-title {
+  &:not(.yc-tabs-tab-active):not(.yc-tabs-tab-disabled):hover
+    .yc-tabs-tab-title {
     &::after {
       background-color: rgb(242, 243, 245);
     }
@@ -93,7 +94,7 @@
     padding 0.2s cubic-bezier(0, 0, 1, 1),
     color 0.2s cubic-bezier(0, 0, 1, 1);
   &.yc-tabs-tab {
-    &:hover {
+    &:not(.yc-tabs-tab-disabled):hover {
       background-color: rgb(229, 230, 235);
     }
   }
@@ -145,7 +146,7 @@
   margin: 0 6px;
   padding: 0 16px;
   border-radius: 32px;
-  &:hover {
+  &:not(.yc-tabs-tab-disabled):hover {
     background-color: rgb(242, 243, 245);
   }
   &.yc-tabs-tab-active {
@@ -155,7 +156,7 @@
 // capsule
 .yc-tabs-tab-type-capsule {
   padding: 0 10px;
-  &:hover {
+  &:not(.yc-tabs-tab-disabled):hover {
     background-color: #fff;
   }
   &.yc-tabs-tab-active {
@@ -222,3 +223,12 @@ each(@size, .(@value, @name) {
     });
   }
 });
+
+.yc-tabs-tab-disabled {
+  cursor: not-allowed;
+  background-color: transparent;
+  color: rgb(201, 205, 212);
+  &.yc-tabs-tab-active {
+    color: rgb(148, 191, 255);
+  }
+}

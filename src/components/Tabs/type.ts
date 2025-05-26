@@ -16,7 +16,7 @@ export interface TabsProps {
   autoSwitch?: boolean;
   hideContent?: boolean;
   trigger?: TabTrigger;
-  scrollPositon?: TabScrollPosition;
+  scrollPosition?: ScrollLogicalPosition;
 }
 
 export interface TabsEmits {
@@ -55,4 +55,4 @@ export type TabType =
   | 'capsule';
 export type TabPositon = 'left' | 'right' | 'bottom' | 'top';
 export type TabTrigger = 'click' | 'hover';
-export type TabScrollPosition = 'start' | 'end' | 'center' | 'auto' | number;
+export type TabScrollPosition = 'start' | 'end' | 'center' | 'nearest';

@@ -10,6 +10,8 @@
 </template>
 
 <script lang="ts" setup>
+import { computed } from 'vue';
+import { isUndefined } from '@shared/utils';
 import useContext from './hooks/useContext';
 import { TabPaneProps, TabPaneSlots } from './type';
 defineOptions({
@@ -25,7 +27,16 @@ const props = withDefaults(defineProps<TabPaneProps>(), {
 });
 // 接收注入
 const { inject } = useContext();
-const { computedActiveKey, collectPanes } = inject();
+const {
+  computedActiveKey,
+  destoryOnHide: _destoryOnHide,
+  collectPanes,
+} = inject();
+const destoryOnHide = computed(() => {
+  return !isUndefined(props.destoryOnHide)
+    ? props.destoryOnHide
+    : _destoryOnHide.value;
+});
 // 执行收集
 collectPanes(props);
 </script>

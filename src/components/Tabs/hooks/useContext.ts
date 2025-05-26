@@ -21,6 +21,7 @@ import {
   TabPaneProps as _TabPaneProps,
   TabScrollPosition,
   TabPositon,
+  TabsProps as _TabsProps,
 } from '../type';
 import { nanoid } from 'nanoid';
 
@@ -32,6 +33,7 @@ export interface TabsContext {
   trigger: Ref<TabTrigger>;
   direction: Ref<Direction>;
   position: Ref<TabPositon>;
+  destoryOnHide: Ref<boolean>;
   computedActiveKey: Ref<TabKey>;
   titleRefs: Ref<HTMLSpanElement[]>;
   tabRefs: Ref<HTMLDivElement[]>;
@@ -42,6 +44,8 @@ export interface TabsContext {
   panesMap: Ref<Map<string, PaneNode>>;
   emits: TabsEmits;
 }
+
+export type TabsProps = RequiredDeep<_TabsProps>;
 
 export type TabPaneProps = RequiredDeep<_TabPaneProps>;
 
@@ -66,8 +70,9 @@ export default () => {
       editable,
       headerPadding,
       scrollPosition,
+      destoryOnHide,
       direction: _direction,
-    } = toRefs(props);
+    } = toRefs(props as TabsProps);
     // 收集panesMap
     const panesMap = ref(new Map<string, PaneNode>());
     // 所有的panes实例
@@ -93,13 +98,13 @@ export default () => {
       }
       return _direction.value;
     });
-
     _provide<TabsContext>(TABS_PROVIDE_KEY, {
       computedActiveKey,
       editable,
       direction,
       trigger,
       type,
+      destoryOnHide,
       scrollPosition,
       position,
       headerPadding,
@@ -131,7 +136,8 @@ export default () => {
       trigger: ref('click'),
       type: ref('line'),
       direction: ref('horizontal'),
-      scrollPosition: ref('auto'),
+      scrollPosition: ref('nearest'),
+      destoryOnHide: ref(false),
       position: ref('top'),
       size: ref('medium'),
       titleRefs: ref([]),

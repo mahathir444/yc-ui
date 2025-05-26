@@ -13,6 +13,7 @@
           direction == 'horizontal' &&
           ['line', 'text'].includes(type),
         'yc-tabs-tab-active': computedActiveKey == node.path,
+        'yc-tabs-tab-disabled': node.disabled,
       },
     ]"
     :ref="(el) => (tabRefs[index] = el as HTMLDivElement)"
@@ -27,7 +28,11 @@
     </span>
     <!-- 删除按钮 -->
     <tab-button
-      v-if="editable && ['line', 'card', 'card-gutter'].includes(type)"
+      v-if="
+        editable &&
+        node.closable &&
+        ['line', 'card', 'card-gutter'].includes(type)
+      "
       class="yc-tabs-tab-close-btn"
       @click="handleDel(node)"
     />
