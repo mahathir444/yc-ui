@@ -57,19 +57,20 @@
           marginLeft: `${-curIndex * 100}%`,
         }"
       >
-        <slot />
+        <component v-for="(node, i) in tabPanes" :key="i" :is="node" />
       </div>
     </div>
   </div>
 </template>
 
 <script lang="ts" setup>
-import { ref, watch, computed, nextTick, onBeforeUnmount } from 'vue';
+import { ref, watch, computed, nextTick, onBeforeUnmount, useSlots } from 'vue';
 import { TabsProps, TabsEmits, TabsSlots } from './type';
-import { sleep } from '@shared/utils';
+import { sleep, findComponentsFromVnodes } from '@shared/utils';
 import useContext from './hooks/useContext';
 import { IconPlus, IconArrowRight } from '@shared/icons';
 import { useResizeObserver } from '@vueuse/core';
+import TabPane from './TabPane.vue';
 import TabsTab from './TabsTab.vue';
 import TabsNavInk from './TabsNavInk.vue';
 import TabButton from './TabButton.vue';
@@ -102,7 +103,6 @@ const listRef = ref<HTMLDivElement>();
 // 注入
 const { provide } = useContext();
 const {
-  panes,
   computedActiveKey,
   size,
   direction,
@@ -111,6 +111,24 @@ const {
   scrollPosition,
   tabRefs,
 } = provide(props, emits, listRef);
+// 获取tabPane的数据
+const slots = useSlots();
+const tabPanes = computed(() =>
+  findComponentsFromVnodes(slots.default?.() || [], TabPane.name as string)
+);
+const panes = computed(() => {
+  return tabPanes.value.map((item) => {
+    return {
+      title: '',
+      path: '',
+      disabled: false,
+      closable: false,
+      destoryOnHide: undefined,
+      ...(item.props || {}),
+      slots: item.children,
+    };
+  });
+});
 // 展示新增button
 const showAddButton = computed(() => {
   return (

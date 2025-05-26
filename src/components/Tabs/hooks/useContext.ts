@@ -5,43 +5,37 @@ import {
   ref,
   Ref,
   computed,
-  useSlots,
-  onBeforeUnmount,
-  onMounted,
-  SlotsType,
   Slots,
 } from 'vue';
 import { useControlValue, getGlobalConfig } from '@shared/utils';
 import { Direction, Props, RequiredDeep, Size } from '@shared/type';
 import {
+  TabPaneProps as _TabPaneProps,
+  TabsProps as _TabsProps,
   TabKey,
   TabsEmits,
   TabTrigger,
   TabType,
-  TabPaneProps as _TabPaneProps,
   TabScrollPosition,
   TabPositon,
-  TabsProps as _TabsProps,
 } from '../type';
-import { nanoid } from 'nanoid';
 
 export const TABS_PROVIDE_KEY = 'tabs-context';
 
 export interface TabsContext {
-  editable: Ref<boolean>;
+  computedActiveKey: Ref<TabKey>;
   type: Ref<TabType>;
   trigger: Ref<TabTrigger>;
   direction: Ref<Direction>;
   position: Ref<TabPositon>;
+  editable: Ref<boolean>;
   destoryOnHide: Ref<boolean>;
-  computedActiveKey: Ref<TabKey>;
+  listRef: Ref<HTMLDivElement | undefined>;
   titleRefs: Ref<HTMLSpanElement[]>;
   tabRefs: Ref<HTMLDivElement[]>;
   scrollPosition: Ref<TabScrollPosition>;
-  listRef: Ref<HTMLDivElement | undefined>;
   headerPadding: Ref<boolean>;
   size: Ref<Size>;
-  panesMap: Ref<Map<string, PaneNode>>;
   emits: TabsEmits;
 }
 
@@ -73,10 +67,6 @@ export default () => {
       destoryOnHide,
       direction: _direction,
     } = toRefs(props as TabsProps);
-    // 收集panesMap
-    const panesMap = ref(new Map<string, PaneNode>());
-    // 所有的panes实例
-    const panes = computed(() => [...panesMap.value.values()]);
     // 当前活跃的key
     const computedActiveKey = useControlValue<TabKey>(
       activeKey,
@@ -112,7 +102,6 @@ export default () => {
       listRef,
       titleRefs,
       tabRefs,
-      panesMap,
       emits,
     });
     return {
@@ -122,14 +111,12 @@ export default () => {
       position,
       autoSwitch,
       scrollPosition,
-      panesMap,
       titleRefs,
       tabRefs,
-      panes,
     };
   };
   const inject = () => {
-    const injection = _inject<TabsContext>(TABS_PROVIDE_KEY, {
+    return _inject<TabsContext>(TABS_PROVIDE_KEY, {
       computedActiveKey: ref(''),
       editable: ref(false),
       headerPadding: ref(false),
@@ -143,29 +130,8 @@ export default () => {
       titleRefs: ref([]),
       listRef: ref(),
       tabRefs: ref([]),
-      panesMap: ref(new Map()),
       emits: () => {},
     });
-    const { panesMap } = injection;
-    // 收集panes
-    const collectPanes = (props: Props) => {
-      const id = nanoid();
-      const slots = useSlots();
-      onMounted(() => {
-        panesMap.value.set(id, {
-          slots,
-          ...(props as TabPaneProps),
-        });
-        console.log(panesMap.value);
-      });
-      onBeforeUnmount(() => {
-        panesMap.value.delete(id);
-      });
-    };
-    return {
-      ...injection,
-      collectPanes,
-    };
   };
 
   return {

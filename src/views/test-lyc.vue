@@ -1,14 +1,12 @@
 <template>
   <div class="test">
-    <a-space>
-      <yc-tag v-for="i in value" :key="i">tag{{ i }}</yc-tag>
-    </a-space>
+    <yc-tabs type="card" :default-active-key="2">
+      <yc-tab-pane v-for="i in value" :key="i" :path="i" :title="`tab${i}`">
+        <div style="padding: 16px">content of tabPane {{ i }}</div>
+      </yc-tab-pane>
+    </yc-tabs>
 
-    <yc-avatar-group :max-count="8">
-      <yc-avatar v-for="i in value" :key="i"> 头像{{ i }} </yc-avatar>
-    </yc-avatar-group>
-
-    <yc-button @click="value += 5">点击新增5个tag</yc-button>
+    <yc-button @click="value += 5">点击新增5个tab</yc-button>
     <div style="width: 300px">
       <a-timeline
         mode="alternate"
