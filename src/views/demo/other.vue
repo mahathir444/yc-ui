@@ -70,6 +70,7 @@
           Tag{{ item }}
         </yc-tag>
       </yc-overflow-list>
+      <yc-button @click="number += 10">点击tag的数量加10</yc-button>
     </div>
     <!-- scrollbar -->
     <yc-scrollbar style="height: 200px; width: 300px">

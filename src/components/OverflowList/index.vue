@@ -13,10 +13,10 @@
     <slot />
     <slot name="overflow" :number="overflowNumber">
       <yc-tag
-        v-if="max < index"
+        v-if="max < total"
         :style="{
-          visibility: max < index ? 'visible' : 'hidden',
-          position: max < index ? 'static' : 'absolute',
+          visibility: max < total ? 'visible' : 'hidden',
+          position: max < total ? 'static' : 'absolute',
           left: from == 'start' ? '0' : '',
           right: from == 'end' ? '0' : '',
         }"
@@ -53,7 +53,7 @@ const emits = defineEmits<OverflowListEmits>();
 const { min, margin, from } = toRefs(props);
 // 注入数据
 const { provide } = useContext();
-const { max, index, widths } = provide();
+const { max, total, widths } = provide();
 // list实例
 const listRef = ref<HTMLDivElement>();
 // 溢出tag的宽度
@@ -67,7 +67,7 @@ const overFlowWidth = computed(() => {
 });
 // 溢出数量
 const overflowNumber = computed(() => {
-  return index.value - max.value;
+  return total.value - max.value;
 });
 // 动态计算
 const { stop } = useResizeObserver(
@@ -77,9 +77,10 @@ const { stop } = useResizeObserver(
     const width = listRef.value!.offsetWidth;
     let maxCount = 0;
     let totalWidth = 0;
-    for (let i = 0; i < widths.value.length; i++) {
+    const widthArr = [...widths.value.values()];
+    for (let i = 0; i < widthArr.length; i++) {
       const gap = i > 0 ? margin.value : 0;
-      const newWidth = totalWidth + gap + widths.value[i];
+      const newWidth = totalWidth + gap + widthArr[i];
       if (newWidth > width) {
         break;
       }
