@@ -5,6 +5,7 @@ import {
   Ref,
   provide as _provide,
   inject as _inject,
+  useSlots,
   Slots,
 } from 'vue';
 import {
@@ -38,6 +39,10 @@ export interface SelectContext {
   filterOption: FilterOption;
   getValue: (value: SelectValue | ObjectData) => SelectValue;
   emits: SelectEmits;
+  collectOption: (
+    props: Props,
+    titleRef: Ref<HTMLDivElement | undefined>
+  ) => void;
 }
 
 type SelectProps = RequiredDeep<_SelectProps>;
@@ -96,18 +101,18 @@ export default () => {
     );
     // fieldKey
     const fieldKey = computed(() => {
-      const keys = ['id', 'label', 'value', 'disabled', 'tagProps', 'render'];
-      return Object.fromEntries(
-        keys.map((key) => {
-          return [key, fieldNames.value[key] ?? key];
-        })
-      );
+      return {
+        label: fieldNames.value['label'] ?? 'label',
+        value: fieldNames.value['value'] ?? 'value',
+        disabled: fieldNames.value['disabled'] ?? 'disabled',
+        tagProps: fieldNames.value['tagProps'] ?? 'tagProps',
+        render: fieldNames.value['render'] ?? 'render',
+      };
     });
     // 获取选项的值
-    const { slots, options, isEmpty, renderOptions, selectOptions } =
+    const { options, renderOptions, selectOptions, collectOption } =
       useSelectOptions({
         computedValue,
-        computedInputValue,
         multiple,
         popupRef,
         fieldKey,
@@ -115,7 +120,6 @@ export default () => {
         provideOptions,
         getValue,
         fallbackOption,
-        formatLabel,
       });
     // 初始化快捷键
     const { curIndex } = useSelectHotkeys({
@@ -127,6 +131,12 @@ export default () => {
       options,
       blur,
       emits,
+    });
+    // 搜索项
+    const isEmpty = computed(() => {
+      return options.value.every((item) => {
+        return !item.label?.includes(computedInputValue.value);
+      });
     });
     // 获取value
     function getValue(value: SelectValue) {
@@ -147,11 +157,12 @@ export default () => {
       isEmpty,
       fieldKey,
       renderOptions,
-      slots,
+      slots: useSlots(),
       filterOption,
       blur,
       getValue,
       emits,
+      collectOption,
     });
     return {
       computedVisible,
@@ -177,6 +188,7 @@ export default () => {
       filterOption: () => true,
       getValue: () => '',
       emits: () => {},
+      collectOption: () => {},
     });
   };
   return {

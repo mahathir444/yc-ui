@@ -6,8 +6,6 @@
       'yc-select-option-active': options[curIndex]?.value == value,
       'yc-select-option-disabled': disabled,
     }"
-    data-select-option="true"
-    :data-select-option-value="JSON.stringify({ value })"
   >
     <div v-if="$slots.icon" class="yc-select-option-icon">
       <slot name="icon" />
@@ -57,6 +55,7 @@ const props = withDefaults(defineProps<OptionProps>(), {
   label: '',
   value: '',
   disabled: false,
+  isFallbackOption: false,
 });
 const { label, value: optionValue, disabled } = toRefs(props);
 // 解构父级provide的属性
@@ -72,6 +71,7 @@ const {
   filterOption,
   getValue,
   emits,
+  collectOption,
 } = inject();
 // contentRef
 const contentRef = ref<HTMLDivElement>();
@@ -104,6 +104,8 @@ const handleMuti = (v: boolean) => {
     computedValue.value = [...curValue, value];
   }
 };
+// 收集option
+collectOption(props, contentRef);
 </script>
 
 <style lang="less" scoped>
