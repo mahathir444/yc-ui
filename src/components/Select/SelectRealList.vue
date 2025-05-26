@@ -7,7 +7,7 @@
   >
     <div class="yc-select-dropdown-list">
       <!-- slot-option -->
-      <slot />
+      <component :is="slots.default" />
       <!-- render-option -->
       <template v-for="option in renderOptions" :key="option.id">
         <template v-if="option.isGroup">

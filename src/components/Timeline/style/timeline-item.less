@@ -129,16 +129,16 @@
   }
 }
 .yc-timeline-item-label-is-relative {
+  .yc-timeline-item-label {
+    position: absolute;
+    top: 0;
+    max-width: 100px;
+  }
   &:not(.yc-timeline-item-alternate) {
-    .yc-timeline-item-label {
-      position: absolute;
-      top: 0;
-      max-width: 100px;
-      .set-label-relative(horizontal,top);
-      .set-label-relative(horizontal,bottom);
-      .set-label-relative(vertical,left);
-      .set-label-relative(vertical,right);
-    }
+    .set-label-relative(horizontal,top);
+    .set-label-relative(horizontal,bottom);
+    .set-label-relative(vertical,left);
+    .set-label-relative(vertical,right);
   }
 }
 // 设置position
@@ -170,12 +170,12 @@ each(@positions,.(@value,@key){
     &.yc-timeline-item-label-is-relative {
       .yc-timeline-item-label {
         text-align: right;
-        transform: translate(-100% - 8px, -22px);
+        transform: translateX(calc(-100% - 22px));
       }
       &:nth-child(2n) {
         .yc-timeline-item-label {
           text-align: left;
-          transform: translate(16px, -22px);
+          transform: translate(16px);
         }
       }
     }
@@ -188,15 +188,18 @@ each(@positions,.(@value,@key){
         margin-top: calc(-100% + 16px);
       }
     }
-    // &.yc-timeline-item-label-is-relative {
-    //   .yc-timeline-item-label {
-    //     transform: translateY(0);
-    //   }
-    //   &:nth-child(2n) {
-    //     .yc-timeline-item-label {
-    //       transform: translateY(-100% - 16px);
-    //     }
-    //   }
-    // }
+    &.yc-timeline-item-label-is-relative {
+      .yc-timeline-item-label {
+        transform: translateY(calc(-100% - 16px));
+      }
+      &:nth-child(2n) {
+        .yc-timeline-item-content-wrapper {
+          transform: translateY(20px);
+        }
+        .yc-timeline-item-label {
+          transform: translateY(22px);
+        }
+      }
+    }
   }
 }

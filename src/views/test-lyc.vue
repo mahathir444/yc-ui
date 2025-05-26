@@ -10,7 +10,6 @@
     <div style="width: 300px">
       <a-timeline
         mode="alternate"
-        direction="horizontal"
         label-position="relative"
         style="margin-bottom: 100px"
       >
@@ -24,11 +23,7 @@
           >The third milestone</a-timeline-item
         >
       </a-timeline>
-      <yc-timeline
-        mode="alternate"
-        direction="horizontal"
-        label-position="relative"
-      >
+      <yc-timeline mode="alternate" label-position="relative">
         <yc-timeline-item label="2017-03-10"
           >The first milestone</yc-timeline-item
         >

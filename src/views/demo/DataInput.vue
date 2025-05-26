@@ -1,14 +1,14 @@
 <template>
   <div class="form">
     <div style="width: 300px">
-      <yc-select
-        :options="options"
-        :max-tag-count="3"
-        allow-clear
-        allow-search
-        multiple
-        placeholder="select"
-      >
+      <yc-select allow-clear allow-search multiple placeholder="select">
+        <yc-option
+          v-for="item in options"
+          :key="item.value"
+          :value="item.value"
+        >
+          {{ item.label }}
+        </yc-option>
       </yc-select>
       <a-button @click="handleClick"> 点击添加options </a-button>
     </div>

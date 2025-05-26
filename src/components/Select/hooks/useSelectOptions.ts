@@ -15,6 +15,7 @@ import {
   findComponentsFromVnodes,
 } from '@shared/utils';
 import Option from '../Option.vue';
+import { TagProps } from '@arco-design/web-vue';
 
 export default (params: {
   computedValue: Ref<SelectValue>;
@@ -113,7 +114,7 @@ export default (params: {
         closeable: option?.tagProps?.closeable,
         tagProps: option?.tagProps,
       };
-    });
+    }) as any;
   });
   // 搜索项
   const isEmpty = computed(() => {
