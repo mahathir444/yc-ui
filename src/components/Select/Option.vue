@@ -17,14 +17,17 @@
       @update:model-value="handleMuti"
       class="yc-select-option-content"
     >
-      <slot>
-        {{ label }}
-      </slot>
+      <span ref="contentRef">
+        <slot>
+          {{ label }}
+        </slot>
+      </span>
     </yc-checkbox>
     <!-- 单选 -->
     <div
       v-else
       class="yc-select-option-content text-ellipsis"
+      ref="contentRef"
       @click="handleSingle"
     >
       <slot>
@@ -38,7 +41,7 @@
 </template>
 
 <script lang="ts" setup>
-import { toRefs, computed } from 'vue';
+import { toRefs, ref, computed } from 'vue';
 import { OptionProps, OptionSlots } from './type';
 import { ObjectData } from '@shared/type';
 import { isUndefined } from '@shared/utils';
@@ -67,7 +70,11 @@ const {
   filterOption,
   getValue,
   emits,
+  collectOption,
 } = inject();
+// contentRef
+const contentRef = ref<HTMLDivElement>();
+// value
 const value = computed(() => {
   if (!multiple.value) return false;
   const index = (computedValue.value as ObjectData[]).findIndex((item) => {
@@ -96,6 +103,8 @@ const handleMuti = (v: boolean) => {
     computedValue.value = [...curValue, value];
   }
 };
+// 收集option
+collectOption(props, contentRef);
 </script>
 
 <style lang="less" scoped>

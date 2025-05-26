@@ -1,7 +1,7 @@
 import { computed, CSSProperties, Ref, ref, toRefs } from 'vue';
 import { useElementBounding, useElementSize } from '@vueuse/core';
 import { TriggerPostion } from '../type';
-import { TriggerProps } from './useTriggerNested';
+import { TriggerProps } from './useContext';
 import { Props } from '@shared/type';
 import { getGlobalConfig } from '@shared/utils';
 

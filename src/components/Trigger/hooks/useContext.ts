@@ -3,9 +3,9 @@ import { nanoid } from 'nanoid';
 import { TriggerType, TriggerProps as _TriggerProps } from '../type';
 import { RequiredDeep } from '@shared/type';
 
-export const TRIGGER_PROVIDE_KEY = 'trigger-props';
+export const TRIGGER_CONTEXT_KEY = 'trigger-context';
 
-export type TriggerProvide = {
+export type TriggerContext = {
   level: number;
   curHoverLevel: Ref<number>;
   groupIds: Ref<string[]>;
@@ -30,7 +30,7 @@ export default (trigger: TriggerType, hideCallback?: () => void) => {
     groupIds,
     timeout,
     hoverTimer,
-  } = inject<TriggerProvide>(TRIGGER_PROVIDE_KEY, {
+  } = inject<TriggerContext>(TRIGGER_CONTEXT_KEY, {
     level: -1,
     curHoverLevel: ref(0),
     groupIds: ref([]),
@@ -82,7 +82,7 @@ export default (trigger: TriggerType, hideCallback?: () => void) => {
     });
   }
   // trigger提供的值
-  provide<TriggerProvide>(TRIGGER_PROVIDE_KEY, {
+  provide<TriggerContext>(TRIGGER_CONTEXT_KEY, {
     level,
     curHoverLevel,
     groupIds,

@@ -20,41 +20,58 @@
     <div class="yc-input-tag-mirror" ref="mirrorRef">
       {{ computedInputValue || (computedValue.length ? '' : placeholder) }}
     </div>
-    <!-- tag-list -->
-    <tag-overflow-list
-      :computed-value="computedValue"
-      :max-tag-count="maxTagCount"
-      :field-key="fieldKey"
-      :size="size"
-      :tagNowrap="tagNowrap"
-      :format-tag="formatTag"
+    <!-- taglist -->
+    <transition-group
+      name="input-tag-zoom"
+      tag="div"
       class="yc-input-tag-inner"
-      @close="(ev, id) => handleEvent('close', ev, id)"
     >
-      <template v-if="$slots.tag" #tag="{ data }">
-        <slot name="tag" :data="data" />
+      <template v-for="item in curList.visibleList" :key="item?.[fieldKey.id]">
+        <slot name="tag" :data="item">
+          <yc-tag
+            :closeable="item?.[fieldKey.closeable] ?? true"
+            :bordered="item?.[fieldKey.tagProps]?.bordered ?? true"
+            :nowrap="item?.[fieldKey.tagProps]?.nowrap ?? tagNowrap"
+            :size="size == 'mini' ? 'small' : size"
+            :checked="false"
+            prevent-focus
+            @close="(ev) => handleEvent('close', ev, item?.[fieldKey.id])"
+          >
+            {{ formatTag ? formatTag(item) : item[fieldKey.label] }}
+          </yc-tag>
+        </slot>
       </template>
-      <template #extra>
-        <input
-          v-model="computedInputValue"
-          key="yc-input-tag-input"
-          :disabled="disabled"
-          :readonly="readonly"
-          :placeholder="computedValue.length ? '' : placeholder"
-          :style="{
-            width: `${width}px`,
-          }"
-          class="yc-input-tag-input"
-          ref="inputRef"
-          @input="handleEvent('input', $event)"
-          @change="handleEvent('inputValueChange', $event)"
-          @focus="handleEvent('focus', $event)"
-          @blur="handleEvent('blur', $event)"
-          @keydown.enter="handleEvent('pressEnter', $event)"
-          @keydown.delete="handleEvent('remove', $event)"
-        />
-      </template>
-    </tag-overflow-list>
+      <yc-tag
+        v-if="maxTagCount > 0 && computedValue.length > maxTagCount"
+        key="yc-select-value-tag"
+        :size="size == 'mini' ? 'small' : size"
+        :nowrap="tagNowrap"
+        :checked="false"
+        bordered
+        prevent-focus
+      >
+        +{{ curList.hideList.length }}...
+      </yc-tag>
+      <!-- input -->
+      <input
+        v-model="computedInputValue"
+        key="yc-input-tag-input"
+        :disabled="disabled"
+        :readonly="readonly"
+        :placeholder="computedValue.length ? '' : placeholder"
+        :style="{
+          width: `${width}px`,
+        }"
+        class="yc-input-tag-input"
+        ref="inputRef"
+        @input="handleEvent('input', $event)"
+        @change="handleEvent('inputValueChange', $event)"
+        @focus="handleEvent('focus', $event)"
+        @blur="handleEvent('blur', $event)"
+        @keydown.enter="handleEvent('pressEnter', $event)"
+        @keydown.delete="handleEvent('remove', $event)"
+      />
+    </transition-group>
     <!-- suffix-icon -->
     <yc-prevent-focus
       v-if="$slots.suffix || showClearBtn"
@@ -77,7 +94,6 @@ import {
   InputTagProps,
   InputTagValue,
   TagData,
-  InputRetainValue,
   InputTagEmits,
   InputTagSlots,
   InputTagExpose,
@@ -91,7 +107,6 @@ import {
   isBoolean,
   isObject,
 } from '@shared/utils';
-import TagOverflowList from './InputTagList.vue';
 import { YcPreventFocus, YcIconButton } from '@shared/components';
 defineOptions({
   name: 'InputTag',
@@ -145,8 +160,6 @@ const { size } = getGlobalConfig(props);
 const inputRef = ref<HTMLInputElement>();
 // div的ref
 const mirrorRef = ref<HTMLDivElement>();
-// 是否聚焦
-const isFocus = ref<boolean>(false);
 // fieldKey
 const fieldKey = computed(() => {
   return {
@@ -184,6 +197,18 @@ const computedInputValue = useControlValue<string>(
   defaultInputValue.value,
   (val) => emits('update:inputValue', val)
 );
+// 当前展示的list
+const curList = computed(() => {
+  const visibleList =
+    maxTagCount.value > 0
+      ? computedValue.value.slice(0, maxTagCount.value)
+      : computedValue.value;
+  console.log(visibleList, 'visibleList');
+  return {
+    visibleList: visibleList as ObjectData,
+    hideList: computedValue.value.slice(maxTagCount.value),
+  };
+});
 // 是否展示清除按钮
 const showClearBtn = computed(
   () =>
@@ -217,9 +242,8 @@ const handleEvent = (type: string, e: Event, id?: string) => {
     case 'focus':
     case 'blur':
       {
-        isFocus.value = type == 'focus';
         emits(type as keyof InputTagEmits, e as FocusEvent);
-        if (!isFocus.value) {
+        if (type == 'blur') {
           clearInputValue();
         }
       }

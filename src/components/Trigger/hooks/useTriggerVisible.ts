@@ -1,7 +1,7 @@
 import { nextTick, Ref, ref, toRefs, computed, watch } from 'vue';
 import { onClickOutside } from '@vueuse/core';
 import { TriggerEmits } from '../type';
-import useTriggerNested, { TriggerProps } from './useTriggerNested';
+import useContext, { TriggerProps } from './useContext';
 import { Props } from '@shared/type';
 import {
   findFirstScrollableParent,
@@ -51,7 +51,7 @@ export default (params: {
     groupId,
     setHoverLevel,
     isSameNestedGroup,
-  } = useTriggerNested(trigger.value, () => {
+  } = useContext(trigger.value, () => {
     computedVisible.value = false;
   });
   // 记录鼠标操作的位置

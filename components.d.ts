@@ -124,7 +124,7 @@ declare module 'vue' {
     InputNumber: typeof import('./src/components/InputNumber/InputNumber.vue')['default']
     InputOperaBtn: typeof import('./src/components/InputNumber/InputOperaBtn.vue')['default']
     InputSuffix: typeof import('./src/components/Input/InputSuffix.vue')['default']
-    InputTag: typeof import('./src/components/InputTag/InputTag.vue')['default']
+    InputTag: typeof import('./src/components/InputTag/index.vue')['default']
     InputTagList: typeof import('./src/components/InputTag/InputTagList.vue')['default']
     Layout: typeof import('./src/components/Layout/Layout.vue')['default']
     LayoutContent: typeof import('./src/components/Layout/LayoutContent.vue')['default']

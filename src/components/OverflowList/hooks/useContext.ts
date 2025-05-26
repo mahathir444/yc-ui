@@ -42,7 +42,7 @@ export default () => {
     const { widths, index, max } = _inject<OverflowListContext>(
       OVERFLOW_LIST_PROVIDE_KEY,
       {
-        max: ref(1),
+        max: ref(100000),
         index: ref(0),
         widths: ref([]),
       }

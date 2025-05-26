@@ -80,6 +80,7 @@ import Trigger from './Trigger';
 import { default as Tabs, TabPane } from './Tabs';
 import VerificationCode from './VerificationCode';
 import Watermark from './Watermark';
+import { AvatarGroup } from '@arco-design/web-vue';
 
 export const components: Record<string, Plugin> = {
   Affix,
@@ -148,9 +149,10 @@ export const components: Record<string, Plugin> = {
   Watermark,
 };
 
-export default {
+const result = {
   ...components,
   AnchorLink,
+  AvatarGroup,
   ButtonGroup,
   BreadcrumbItem,
   CardGrid,
@@ -186,10 +188,12 @@ export default {
   Step,
   SubMenu,
   TabPane,
-  Timeline,
+  TimelineItem,
   install: (app: App) => {
     for (const key of Object.keys(components)) {
       app.use(components[key]);
     }
   },
 };
+
+export default result;

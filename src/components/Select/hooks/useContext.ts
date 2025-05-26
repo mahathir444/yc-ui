@@ -39,6 +39,10 @@ export interface SelectContext {
   filterOption: FilterOption;
   getValue: (value: SelectValue | ObjectData) => SelectValue;
   emits: SelectEmits;
+  collectOption: (
+    props: Props,
+    titleRef: Ref<HTMLDivElement | undefined>
+  ) => void;
 }
 
 type SelectProps = RequiredDeep<_SelectProps>;
@@ -106,11 +110,11 @@ export default () => {
       };
     });
     // 选中的value
-    const selectValue = computed<ObjectData[]>(() =>
-      multiple.value ? computedValue.value : [computedValue.value]
-    );
+    const selectValue = computed<ObjectData[]>(() => {
+      return multiple.value ? computedValue.value : [computedValue.value];
+    });
     // 获取选项的值
-    const { options, renderOptions } = useSelectOptions({
+    const { options, renderOptions, collectOption } = useSelectOptions({
       popupRef,
       fieldKey,
       selectValue,
@@ -137,30 +141,36 @@ export default () => {
         options.value.map((item) => [getValue(item.value), item])
       );
       // 计算input-tag需要显示的值
-      return selectValue.value.map((v) => {
+      const result = selectValue.value.map((v) => {
         const option = optionMap.get(getValue(v));
         return {
           id: `${v}`,
-          label: formatLabel ? formatLabel(option) : option?.label,
+          label: formatLabel
+            ? formatLabel(option as SelectOptionData)
+            : option?.label,
           value: v,
           closeable: option?.tagProps?.closeable,
           tagProps: option?.tagProps,
         };
       });
+      console.log(result, 'result');
+      return result;
     });
     // 搜索项
     const isEmpty = computed(() => {
-      const filterResult = options.value.filter((item) =>
-        item.label?.includes(computedInputValue.value)
-      );
-      return !filterResult.length;
+      return options.value.every((item) => {
+        return !item.label?.includes(computedInputValue.value);
+      });
     });
+    // 获取value
     function getValue(value: SelectValue) {
       return (value as ObjectData)?.[valueKey.value] ?? value;
     }
+    // 失焦
     function blur() {
       inputRef.value.blur();
     }
+    // 提供值
     _provide<SelectContext>(SELECT_PROVIDE_KEY, {
       computedValue,
       computedInputValue,
@@ -176,6 +186,7 @@ export default () => {
       blur,
       getValue,
       emits,
+      collectOption,
     });
     return {
       computedVisible,
@@ -201,6 +212,7 @@ export default () => {
       filterOption: () => true,
       getValue: () => '',
       emits: () => {},
+      collectOption: () => {},
     });
   };
   return {

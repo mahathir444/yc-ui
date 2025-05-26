@@ -1,5 +1,5 @@
 import { App } from 'vue';
-import _InputTag from './InputTag.vue';
+import _InputTag from './index.vue';
 
 export type InputTagInstance = InstanceType<typeof _InputTag>;
 export * from './type';

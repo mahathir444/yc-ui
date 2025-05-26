@@ -9,6 +9,7 @@
       <a-timeline
         mode="alternate"
         direction="horizontal"
+        label-position="relative"
         style="margin-bottom: 100px"
       >
         <a-timeline-item label="2017-03-10"
