@@ -71,7 +71,6 @@ const {
   filterOption,
   getValue,
   emits,
-  collectOption,
 } = inject();
 // contentRef
 const contentRef = ref<HTMLDivElement>();
@@ -104,8 +103,6 @@ const handleMuti = (v: boolean) => {
     computedValue.value = [...curValue, value];
   }
 };
-// 收集option
-collectOption(props, contentRef);
 </script>
 
 <style lang="less" scoped>

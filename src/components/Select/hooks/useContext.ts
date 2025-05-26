@@ -39,10 +39,6 @@ export interface SelectContext {
   filterOption: FilterOption;
   getValue: (value: SelectValue | ObjectData) => SelectValue;
   emits: SelectEmits;
-  collectOption: (
-    props: Props,
-    contentRef: Ref<HTMLDivElement | undefined>
-  ) => void;
 }
 
 type SelectProps = RequiredDeep<_SelectProps>;
@@ -101,15 +97,7 @@ export default () => {
     );
     // fieldKey
     const fieldKey = computed(() => {
-      const keys = [
-        'id',
-        'label',
-        'value',
-        'disabled',
-        'tagProps',
-        'render',
-        'isFallbackOption',
-      ];
+      const keys = ['id', 'label', 'value', 'disabled', 'tagProps', 'render'];
       return Object.fromEntries(
         keys.map((key) => {
           return [key, fieldNames.value[key] ?? key];
@@ -117,18 +105,17 @@ export default () => {
       );
     });
     // 获取选项的值
-    const { options, renderOptions, selectOptions, collectOption } =
-      useSelectOptions({
-        computedValue,
-        multiple,
-        popupRef,
-        fieldKey,
-        showExtraOptions,
-        provideOptions,
-        getValue,
-        fallbackOption,
-        formatLabel,
-      });
+    const { options, renderOptions, selectOptions } = useSelectOptions({
+      computedValue,
+      multiple,
+      popupRef,
+      fieldKey,
+      showExtraOptions,
+      provideOptions,
+      getValue,
+      fallbackOption,
+      formatLabel,
+    });
     // 初始化快捷键
     const { curIndex } = useSelectHotkeys({
       computedValue,
@@ -170,7 +157,6 @@ export default () => {
       blur,
       getValue,
       emits,
-      collectOption,
     });
     return {
       computedVisible,
@@ -196,7 +182,6 @@ export default () => {
       filterOption: () => true,
       getValue: () => '',
       emits: () => {},
-      collectOption: () => {},
     });
   };
   return {

@@ -17,7 +17,6 @@
               :value="v[fieldKey.value]"
               :disabled="v[fieldKey.disabled]"
               :tag-props="v[fieldKey.tagProps]"
-              :is-fallback-option="v[fieldKey.isFallbackOption]"
             >
               <component :is="renderLabel(v)" />
             </yc-option>
@@ -28,7 +27,6 @@
             :value="option[fieldKey.value]"
             :disabled="option[fieldKey.disabled]"
             :tag-props="option[fieldKey.tagProps]"
-            :is-fallback-option="option[fieldKey.isFallbackOption]"
           >
             <component :is="renderLabel(option)" />
           </yc-option>

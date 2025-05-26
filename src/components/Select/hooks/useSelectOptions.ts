@@ -6,6 +6,7 @@ import {
   reactive,
   toRefs,
   onBeforeUnmount,
+  useSlots,
 } from 'vue';
 import { nanoid } from 'nanoid';
 import { ObjectData, Props } from '@shared/type';
@@ -16,9 +17,14 @@ import {
   FallbackOption,
   FormatLabel,
   SelectOptionData,
-} from '../index';
+} from '../type';
 import { TriggerInstance } from '@/components/Trigger';
-import { getTextContent, isObject } from '@shared/utils';
+import {
+  getTextContent,
+  isObject,
+  findComponentsFromVnodes,
+} from '@shared/utils';
+import Option from '../Option.vue';
 
 export default (params: {
   multiple: Ref<boolean>;
@@ -39,15 +45,31 @@ export default (params: {
     fallbackOption,
     formatLabel,
   } = params;
-  // optionMap
-  const optionMap = reactive<Map<string, ObjectData>>(new Map());
-  // 所有的options
-  const options = computed(() => [...optionMap.values()]);
+  // 获取插槽选项
+  const slots = useSlots();
+  const slotsOptions = computed(() => {
+    const nodes = findComponentsFromVnodes(
+      slots.default?.() || [],
+      Option.name as string
+    );
+    return nodes.map((item) => {
+      return {
+        label: '',
+        value: '',
+        disabled: false,
+        isFallbackOption: false,
+        ...(item.props || {}),
+      };
+    });
+  });
   // fallbackoption
   const fallbackOptions = computed(() => {
     if (!fallbackOption) return [];
     const valueMap = new Map(
-      options.value.map((item) => [getValue(item.value), item])
+      [...slotsOptions.value, ...provideOptions.value].map((item) => [
+        getValue(item.value),
+        item,
+      ])
     );
     return selectValue.value
       .filter((v) => valueMap.get(v))
@@ -73,6 +95,11 @@ export default (params: {
       };
     });
   });
+  // 所有的options
+  const options = computed(() => [
+    ...slotsOptions.value,
+    ...renderOptions.value,
+  ]);
   // 选中的value
   const selectValue = computed(() => {
     const value = multiple.value ? computedValue.value : [computedValue.value];
@@ -81,10 +108,7 @@ export default (params: {
   // 选中的值
   const selectOptions = computed(() => {
     const optionsMap = new Map(
-      [...options.value, ...fallbackOptions.value].map((item) => [
-        getValue(item.value),
-        item,
-      ])
+      options.value.map((item) => [getValue(item.value), item])
     );
     // 计算input-tag需要显示的值
     return selectValue.value.map((v) => {
@@ -100,29 +124,10 @@ export default (params: {
       };
     });
   });
-  // 收集option
-  const collectOption = (
-    props: Props,
-    contentRef: Ref<HTMLDivElement | undefined>
-  ) => {
-    if (props.isFallbackOption) return;
-    const id = nanoid();
-    onMounted(() => {
-      optionMap.set(id, {
-        ...props,
-        label: props.label ? props.label : getTextContent(contentRef.value!),
-      } as OptionProps);
-    });
-    onBeforeUnmount(() => {
-      optionMap.delete(id);
-    });
-  };
 
   return {
     options,
     renderOptions,
-    fallbackOptions,
     selectOptions,
-    collectOption,
   };
 };

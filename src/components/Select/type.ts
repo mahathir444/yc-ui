@@ -84,7 +84,6 @@ export interface OptionProps {
   value?: SelectValue;
   disabled?: boolean;
   tagProps?: TagProps;
-  isFallbackOption?: boolean;
 }
 
 export interface OptionSlots {
