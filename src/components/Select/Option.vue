@@ -55,6 +55,7 @@ const props = withDefaults(defineProps<OptionProps>(), {
   label: '',
   value: '',
   disabled: false,
+  isFallbackOption: false,
 });
 const { label, value: optionValue, disabled } = toRefs(props);
 // 解构父级provide的属性

@@ -84,6 +84,7 @@ export interface OptionProps {
   value?: SelectValue;
   disabled?: boolean;
   tagProps?: TagProps;
+  isFallbackOption?: boolean;
 }
 
 export interface OptionSlots {
@@ -105,7 +106,9 @@ export type SelectValue =
   | (string | number | boolean | ObjectData)
   | (string | number | boolean | ObjectData)[];
 
-export type SelectOptionData = { render?: RenderContent } & OptionProps;
+export type SelectOptionData = {
+  render?: RenderContent;
+} & OptionProps;
 
 export type SelectOptionGroup = {
   id?: string;

@@ -41,7 +41,7 @@ export interface SelectContext {
   emits: SelectEmits;
   collectOption: (
     props: Props,
-    titleRef: Ref<HTMLDivElement | undefined>
+    contentRef: Ref<HTMLDivElement | undefined>
   ) => void;
 }
 
@@ -101,13 +101,20 @@ export default () => {
     );
     // fieldKey
     const fieldKey = computed(() => {
-      return {
-        label: fieldNames.value['label'] ?? 'label',
-        value: fieldNames.value['value'] ?? 'value',
-        disabled: fieldNames.value['disabled'] ?? 'disabled',
-        tagProps: fieldNames.value['tagProps'] ?? 'tagProps',
-        render: fieldNames.value['render'] ?? 'render',
-      };
+      const keys = [
+        'id',
+        'label',
+        'value',
+        'disabled',
+        'tagProps',
+        'render',
+        'isFallbackOption',
+      ];
+      return Object.fromEntries(
+        keys.map((key) => {
+          return [key, fieldNames.value[key] ?? key];
+        })
+      );
     });
     // 获取选项的值
     const { options, renderOptions, selectOptions, collectOption } =
@@ -120,6 +127,7 @@ export default () => {
         provideOptions,
         getValue,
         fallbackOption,
+        formatLabel,
       });
     // 初始化快捷键
     const { curIndex } = useSelectHotkeys({

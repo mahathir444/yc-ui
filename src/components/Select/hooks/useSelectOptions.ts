@@ -43,21 +43,25 @@ export default (params: {
   const optionMap = reactive<Map<string, ObjectData>>(new Map());
   // 所有的options
   const options = computed(() => [...optionMap.values()]);
-  // 值map
-  const valueMap = computed(
-    () => new Map(options.value.map((item) => [getValue(item.value), item]))
-  );
   // fallbackoption
   const fallbackOptions = computed(() => {
-    return fallbackOption
-      ? selectValue.value
-          .filter((v) => valueMap.value.get(v))
-          .map((v: SelectValue) => fallbackOption(v))
-      : [];
+    if (!fallbackOption) return [];
+    const valueMap = new Map(
+      options.value.map((item) => [getValue(item.value), item])
+    );
+    return selectValue.value
+      .filter((v) => valueMap.get(v))
+      .map((v: SelectValue) => {
+        const target = fallbackOption(v);
+        return {
+          ...(target || {}),
+          isFallbackOption: true,
+        };
+      });
   });
   // 渲染的option数组
   const renderOptions = computed<SelectOptions>(() => {
-    return provideOptions.value.map((item) => {
+    return [...provideOptions.value, ...fallbackOptions.value].map((item) => {
       return {
         id: nanoid(),
         ...(isObject(item)
@@ -76,9 +80,15 @@ export default (params: {
   });
   // 选中的值
   const selectOptions = computed(() => {
+    const optionsMap = new Map(
+      [...options.value, ...fallbackOptions.value].map((item) => [
+        getValue(item.value),
+        item,
+      ])
+    );
     // 计算input-tag需要显示的值
     return selectValue.value.map((v) => {
-      const option = valueMap.value.get(v);
+      const option = optionsMap.get(v);
       return {
         id: `${v}`,
         label: formatLabel
@@ -95,6 +105,7 @@ export default (params: {
     props: Props,
     contentRef: Ref<HTMLDivElement | undefined>
   ) => {
+    if (props.isFallbackOption) return;
     const id = nanoid();
     onMounted(() => {
       optionMap.set(id, {
@@ -102,12 +113,13 @@ export default (params: {
         label: props.label ? props.label : getTextContent(contentRef.value!),
       } as OptionProps);
     });
-    onUpdated(() => {
-      const target = optionMap.get(id);
-      if (props.label || !target) return;
-      const label = getTextContent(contentRef.value!);
-      target.label = label;
-    });
+    // onUpdated(() => {
+    //   console.log('update函数更新了');
+    //   const target = optionMap.get(id);
+    //   if (props.label || !target) return;
+    //   const label = getTextContent(contentRef.value!);
+    //   target.label = label;
+    // });
     onBeforeUnmount(() => {
       optionMap.delete(id);
     });
