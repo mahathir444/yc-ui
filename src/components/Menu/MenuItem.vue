@@ -70,7 +70,7 @@
       <reuse-template />
       <template #content>
         <menu-pop-option
-          v-for="node in curMenu"
+          v-for="node in submenus"
           :key="node.path"
           :tree-node="node"
           :popup-max-height="maxHeight"
@@ -137,23 +137,21 @@ const {
   autoScrollIntoView,
   scrollConfig,
   popupMaxHeight,
-  flattenTreeNodes,
+  menuTreeNodes,
   menuTree,
-  emits: _emits,
+  emits,
 } = inject();
 // 创建通用模板
 const { reuse: ReuseTemplate, define: DefineTemplate } =
   createReusableTemplate();
-// menuItem容器
-const menuItemRef = ref<HTMLDivElement>();
 // 当前节点的信息
 const curNode = computed(() => {
-  return flattenTreeNodes.value.find(
+  return menuTreeNodes.value.find(
     (item) => item.path == path.value
   ) as MenuTreeNode;
 });
 // 当前的menu
-const curMenu = computed(() => {
+const submenus = computed(() => {
   const target = menuTree.value.find((item) => item.path == path.value);
   return target?.children || ([] as MenuTreeNode[]);
 });
@@ -179,18 +177,13 @@ const maxHeight = computed(() => {
     ? (attrs.popupMaxHeight as number)
     : (popupMaxHeight.value as number);
 });
+// menuItem容器
+const menuItemRef = ref<HTMLDivElement>();
 // 处理选中
 const handleSelect = (value: DoptionValue) => {
   if (computedSelectedKeys.value == value) return;
   computedSelectedKeys.value = value as string;
-  _emits('menuItemClick', value as string);
-};
-// 自动滚动
-const autoScroll = () => {
-  // 配置自动滚动
-  if (autoScrollIntoView.value && computedSelectedKeys.value == path.value) {
-    menuItemRef.value?.scrollIntoView(scrollConfig.value);
-  }
+  emits('menuItemClick', value as string);
 };
 // 处理点击
 const handleClick = () => {
@@ -207,7 +200,7 @@ const handleClick = () => {
     !disabled.value
   ) {
     computedSelectedKeys.value = path.value;
-    return _emits('menuItemClick', path.value);
+    return emits('menuItemClick', path.value);
   }
   // 展开元素
   if (computedOpenKeys.value.includes(path.value)) {
@@ -219,11 +212,14 @@ const handleClick = () => {
       ? [path.value]
       : [...computedOpenKeys.value, path.value];
   }
-  _emits('subMenuClick', path.value, computedOpenKeys.value);
+  emits('subMenuClick', path.value, computedOpenKeys.value);
 };
 // 收集
 onMounted(() => {
-  autoScroll();
+  // 配置自动滚动
+  if (autoScrollIntoView.value && computedSelectedKeys.value == path.value) {
+    menuItemRef.value?.scrollIntoView(scrollConfig.value);
+  }
   if (
     !curNode.value ||
     !autoOpen.value ||

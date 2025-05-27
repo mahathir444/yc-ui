@@ -55,7 +55,6 @@ import { ref, computed } from 'vue';
 import { IconMore, IconArrowDown } from '@shared/icons';
 import { isNumber } from '@shared/utils';
 import useContext from './hooks/useContext';
-import { flattenMenuTree } from './hooks/useMenuLevel';
 import MenuPopOption from './MenuPopOption.vue';
 import {
   default as YcDropdown,
@@ -70,8 +69,6 @@ const {
   theme,
   triggerProps,
   popupMaxHeight,
-  max,
-  menuItemData,
   emits,
 } = inject();
 // popup可见性
@@ -82,16 +79,6 @@ const maxHeight = computed(() => {
     ? popupMaxHeight.value
     : 167;
 });
-// 扁平化的数据
-const flattenData = computed(() => {
-  return flattenMenuTree(
-    menuItemData.value.map((item) => item.childTree).flat(1)
-  );
-});
-// 是否选中
-const isSelected = computed(() =>
-  flattenData.value.find((item) => item.path == computedSelectedKeys.value)
-);
 // 处理选择
 const handleSelect = (value: DoptionValue) => {
   if (computedSelectedKeys.value == value) return;

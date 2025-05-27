@@ -16,6 +16,7 @@ declare module 'vue' {
     Alert: typeof import('./src/components/Alert/index.vue')['default']
     Anchor: typeof import('./src/components/Anchor/Anchor.vue')['default']
     AnchorLink: typeof import('./src/components/Anchor/AnchorLink.vue')['default']
+    APopover: typeof import('@arco-design/web-vue')['Popover']
     ASlider: typeof import('@arco-design/web-vue')['Slider']
     ATooltip: typeof import('@arco-design/web-vue')['Tooltip']
     ATypographyText: typeof import('@arco-design/web-vue')['TypographyText']

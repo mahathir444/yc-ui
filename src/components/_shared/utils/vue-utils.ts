@@ -1,5 +1,5 @@
 import { RenderContent } from '../type';
-import { Comment, Fragment, Text, h, VNode } from 'vue';
+import { Comment, Fragment, Text, h, VNode, isVNode } from 'vue';
 import { isFunction, isObject } from './is';
 import { ObjectData } from '../type';
 import type { ComponentPublicInstance, MaybeRef, MaybeRefOrGetter } from 'vue';
@@ -51,29 +51,34 @@ export function findFirstLegitChild(node: VNode[] | undefined): VNode | null {
 }
 
 // 扁平化插槽components
-export function findComponentsFromVnodes(
-  vnodes: VNode[],
-  componentName: string
-) {
+export function findComponentsFromVnodes(vnodes: VNode[], name: string) {
   const result: ObjectData[] = [];
   // 是否是option
   const traverse = (nodes: ObjectData | ObjectData[]) => {
     if (!nodes) return;
     const nodeList = Array.isArray(nodes) ? nodes : [nodes];
     for (const node of nodeList) {
-      if (!node || !isObject(node)) continue;
-      if ((node.type as ObjectData)?.name == componentName) {
+      if (!isVNode(node)) continue;
+      const type = node.type as ObjectData;
+      const children = node.children;
+      const subTree = node.component?.subTree;
+      // 查找
+      if (type.name == name) {
         result.push(node);
       }
-      // 处理children
-      else if (Array.isArray(node.children)) {
-        traverse(node.children);
+      // 处理subtree的情况
+      if (subTree) {
+        traverse(subTree);
       }
-      // 处理child是渲染函数的情况
-      else if (isObject(node.children) && !Array.isArray(node.children)) {
-        for (let key of Object.keys(node.children)) {
-          if (!isFunction(node.children[key])) continue;
-          traverse(node.children[key]?.() || []);
+      // 处理children是vnode
+      else if (Array.isArray(children)) {
+        traverse(children);
+      }
+      // 处理children是slot的情况
+      else if (isObject(children)) {
+        for (let key of Object.keys(children)) {
+          if (!isFunction(children[key])) continue;
+          traverse(children[key]?.() || []);
         }
       }
     }
