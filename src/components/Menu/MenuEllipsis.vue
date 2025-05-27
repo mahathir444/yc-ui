@@ -1,10 +1,11 @@
 <template>
   <div
-    :class="{
-      'yc-menu-item-wrapper': true,
-
-      'yc-menu-item-mode-horizontal': mode == 'horizontal',
-    }"
+    :class="[
+      'yc-menu-item-wrapper',
+      {
+        'yc-menu-item-mode-horizontal': mode == 'horizontal',
+      },
+    ]"
   >
     <yc-dropdown
       :popup-max-height="maxHeight"

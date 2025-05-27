@@ -3,11 +3,13 @@
     <div
       v-if="!unmountOnClose || outerVisible"
       v-show="outerVisible"
-      :class="{
-        'yc-modal-container': true,
-        'yc-modal-simple': simple,
-        'yc-modal-position-absolute': popupContainer || !renderToBody,
-      }"
+      :class="[
+        'yc-modal-container',
+        {
+          'yc-modal-simple': simple,
+          'yc-modal-position-absolute': popupContainer || !renderToBody,
+        },
+      ]"
       :style="{
         zIndex,
       }"
@@ -57,11 +59,13 @@
                 <!-- title -->
                 <div
                   v-if="!hideTitle"
-                  :class="{
-                    'yc-modal-title': true,
-                    'text-ellipsis': true,
-                    'title-align-center': titleAlign == 'center',
-                  }"
+                  :class="[
+                    'yc-modal-title',
+                    'text-ellipsis',
+                    {
+                      'title-align-center': titleAlign == 'center',
+                    },
+                  ]"
                 >
                   <slot name="title">
                     {{ title }}

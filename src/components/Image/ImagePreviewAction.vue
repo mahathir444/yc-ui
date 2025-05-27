@@ -1,10 +1,12 @@
 <template>
   <yc-tooltip :content="name" :disabled="!name.length" position="top">
     <div
-      :class="{
-        'yc-image-preview-toolbar-action': true,
-        'yc-image-preview-toolbar-action-disabled': disabled,
-      }"
+      :class="[
+        'yc-image-preview-toolbar-action',
+        {
+          'yc-image-preview-toolbar-action-disabled': disabled,
+        },
+      ]"
       @click="handleEvent('click', $event)"
       @dblclick="handleEvent('dblclick', $event)"
       @contextmenu="handleEvent('contextmenu', $event)"

@@ -36,10 +36,12 @@
 
     <div
       v-if="$slots['trigger-icon']"
-      :class="{
-        'yc-avatar-trigger-icon-button': triggerType == 'button',
-        'yc-avatar-trigger-icon-mask': triggerType == 'mask',
-      }"
+      :class="[
+        {
+          'yc-avatar-trigger-icon-button': triggerType == 'button',
+          'yc-avatar-trigger-icon-mask': triggerType == 'mask',
+        },
+      ]"
       :style="triggerIconStyle"
     >
       <slot name="trigger-icon" />

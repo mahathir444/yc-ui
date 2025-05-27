@@ -1,11 +1,13 @@
 <template>
   <div
-    :class="{
-      'yc-textarea-wrapper': true,
-      'yc-textarea-disabled': disabled,
-      'yc-textarea-error': error,
-      'yc-textarea-auto-size': autoSize,
-    }"
+    :class="[
+      'yc-textarea-wrapper',
+      {
+        'yc-textarea-disabled': disabled,
+        'yc-textarea-error': error,
+        'yc-textarea-auto-size': autoSize,
+      },
+    ]"
   >
     <!-- moirror获取 -->
     <div

@@ -9,14 +9,17 @@
       <div class="yc-comment-inner-content">
         <!-- title -->
         <div
-          :class="{
-            'yc-comment-title': true,
-            'yc-comment-title-align-left':
-              align == 'left' || (isObject(align) && align.datetime == 'left'),
-            'yc-comment-title-align-right':
-              align == 'right' ||
-              (isObject(align) && align.datetime == 'right'),
-          }"
+          :class="[
+            'yc-comment-title',
+            {
+              'yc-comment-title-align-left':
+                align == 'left' ||
+                (isObject(align) && align.datetime == 'left'),
+              'yc-comment-title-align-right':
+                align == 'right' ||
+                (isObject(align) && align.datetime == 'right'),
+            },
+          ]"
         >
           <span v-if="$slots.author || author" class="yc-comment-author">
             <slot name="author">
@@ -38,14 +41,17 @@
         <!-- actions -->
         <div
           v-if="$slots.actions"
-          :class="{
-            'yc-comment-actions': true,
-            'yc-comment-actions-align-left':
-              align == 'left' || (isObject(align) && align.datetime == 'left'),
-            'yc-comment-actions-align-right':
-              align == 'right' ||
-              (isObject(align) && align.datetime == 'right'),
-          }"
+          :class="[
+            'yc-comment-actions',
+            {
+              'yc-comment-actions-align-left':
+                align == 'left' ||
+                (isObject(align) && align.datetime == 'left'),
+              'yc-comment-actions-align-right':
+                align == 'right' ||
+                (isObject(align) && align.datetime == 'right'),
+            },
+          ]"
         >
           <slot name="actions" />
         </div>

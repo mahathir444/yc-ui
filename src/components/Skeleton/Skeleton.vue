@@ -1,9 +1,11 @@
 <template>
   <div
-    :class="{
-      'yc-skeleton': true,
-      'yc-skeleton-animation': animation,
-    }"
+    :class="[
+      'yc-skeleton',
+      {
+        'yc-skeleton-animation': animation,
+      },
+    ]"
   >
     <slot v-if="loading" />
     <slot v-else name="content" />

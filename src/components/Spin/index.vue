@@ -4,10 +4,12 @@
     <define-template>
       <div
         v-if="!hideIcon"
-        :class="{
-          'yc-spin-icon': true,
-          'yc-spin-icon-loading': !dot,
-        }"
+        :class="[
+          'yc-spin-icon',
+          {
+            'yc-spin-icon-loading': !dot,
+          },
+        ]"
       >
         <slot name="icon">
           <div v-if="dot" class="yc-dot-loading">

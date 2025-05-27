@@ -10,10 +10,12 @@
     <div
       v-for="i in length"
       :key="i"
-      :class="{
-        'yc-carousel-indicator-item': true,
-        'yc-carousel-indicator-item-active': computedCurrent == i,
-      }"
+      :class="[
+        'yc-carousel-indicator-item',
+        {
+          'yc-carousel-indicator-item-active': computedCurrent == i,
+        },
+      ]"
       @mouseenter="
         trigger == 'hover' && computedCurrent != i && $emit('change', i)
       "

@@ -1,8 +1,10 @@
 <template>
   <div
-    :class="{
-      'yc-col': !div,
-    }"
+    :class="[
+      {
+        'yc-col': !div,
+      },
+    ]"
     :style="style"
   >
     <slot />

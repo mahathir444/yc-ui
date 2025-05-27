@@ -9,7 +9,11 @@
         :invisible-button="false"
         :visibility="masked"
         :readonly="readonly || !isWritable(i)"
-        :class="{ 'yc-input-disabled-write': !isWritable(i) }"
+        :class="[
+          {
+            'yc-input-disabled-write': !isWritable(i),
+          },
+        ]"
         :ref="(el) => (inputList[i] = el as InputInstance)"
         @click="handleClick(i)"
         @mousedown="handleMousedown($event, i)"

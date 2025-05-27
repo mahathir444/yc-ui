@@ -2,13 +2,15 @@
   <yc-prevent-focus
     tag="label"
     :prevent-focus="preventFocus"
-    :class="{
-      'yc-checkbox': true,
-      'yc-checkbox-disabled': disabled,
-      'yc-checkbox-unchecked': !computedChecked && !indeterminate,
-      'yc-checkbox-indeterminate': !computedChecked && indeterminate,
-      'yc-checkbox-checked': computedChecked,
-    }"
+    :class="[
+      'yc-checkbox',
+      {
+        'yc-checkbox-disabled': disabled,
+        'yc-checkbox-unchecked': !computedChecked && !indeterminate,
+        'yc-checkbox-indeterminate': !computedChecked && indeterminate,
+        'yc-checkbox-checked': computedChecked,
+      },
+    ]"
   >
     <input
       type="checkbox"

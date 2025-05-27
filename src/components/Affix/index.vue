@@ -8,9 +8,11 @@
       }"
     ></div>
     <div
-      :class="{
-        'yc-affix': isFixed,
-      }"
+      :class="[
+        {
+          'yc-affix': isFixed,
+        },
+      ]"
       :style="style"
       ref="affixRef"
     >

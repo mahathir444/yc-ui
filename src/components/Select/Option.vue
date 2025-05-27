@@ -1,11 +1,13 @@
 <template>
   <div
     v-show="filterOption(computedInputValue, props)"
-    :class="{
-      'yc-select-option': true,
-      'yc-select-option-active': options[curIndex]?.value == value,
-      'yc-select-option-disabled': disabled,
-    }"
+    :class="[
+      'yc-select-option',
+      {
+        'yc-select-option-active': options[curIndex]?.value == value,
+        'yc-select-option-disabled': disabled,
+      },
+    ]"
   >
     <div v-if="$slots.icon" class="yc-select-option-icon">
       <slot name="icon" />

@@ -1,11 +1,13 @@
 <template>
   <div
-    :class="{
-      'yc-collapse-item': true,
-      'yc-collapse-item-disabled': disabled,
-      'yc-collapse-item-expand-icon-left': expandIconPosition == 'left',
-      'yc-collapse-item-expand-icon-right': expandIconPosition == 'right',
-    }"
+    :class="[
+      'yc-collapse-item',
+      {
+        'yc-collapse-item-disabled': disabled,
+        'yc-collapse-item-expand-icon-left': expandIconPosition == 'left',
+        'yc-collapse-item-expand-icon-right': expandIconPosition == 'right',
+      },
+    ]"
   >
     <div role="button" class="yc-collapse-item-header" @click="handleClick">
       <yc-icon-button

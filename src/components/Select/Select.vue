@@ -16,12 +16,14 @@
   >
     <slot name="trigger">
       <div
-        :class="{
-          'yc-select': true,
-          'yc-select-allow-search': allowSearch,
-          'yc-select-allow-clear': showClearBtn,
-          'yc-select-no-border': !bordered,
-        }"
+        :class="[
+          'yc-select',
+          {
+            'yc-select-allow-search': allowSearch,
+            'yc-select-allow-clear': showClearBtn,
+            'yc-select-no-border': !bordered,
+          },
+        ]"
       >
         <!-- single  -->
         <yc-input
@@ -32,7 +34,7 @@
           :disabled="disabled"
           :size="size"
           :error="error"
-          :placeholder="selectOptions?.[0]?.label"
+          :placeholder="selectOptions[0]?.label"
           v-bind="$attrs"
           ref="inputRef"
           @click="handleEvent('focus')"
@@ -42,11 +44,13 @@
           <template #label>
             <slot name="label" :data="selectOptions[0]">
               <span
-                :class="{
-                  'yc-input-placeholder': !selectOptions?.[0]?.label,
-                }"
+                :class="[
+                  {
+                    'yc-input-placeholder': !selectOptions[0]?.label,
+                  },
+                ]"
               >
-                {{ selectOptions?.[0]?.label || placeholder }}
+                {{ selectOptions[0]?.label || placeholder }}
               </span>
             </slot>
           </template>
@@ -81,6 +85,9 @@
           @remove="$emit('remove')"
           @update:model-value="(v) => handleEvent('updateValue', v)"
         >
+          <template v-if="$slots.label" #tag="scope">
+            <slot name="label" v-bind="scope" />
+          </template>
           <!-- suffix -->
           <template #suffix>
             <select-icon

@@ -1,10 +1,12 @@
 <template>
   <div
-    :class="{
-      'yc-anchor-link-item': true,
-      'yc-anchor-link-active': curHref == href && !lineLess,
-      'yc-anchor-link-lineless-active': curHref == href && lineLess,
-    }"
+    :class="[
+      'yc-anchor-link-item',
+      {
+        'yc-anchor-link-active': curHref == href && !lineLess,
+        'yc-anchor-link-lineless-active': curHref == href && lineLess,
+      },
+    ]"
   >
     <a :href="href" class="yc-anchor-link" @click="handleClick" ref="linkRef">
       <slot>

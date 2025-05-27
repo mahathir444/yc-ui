@@ -1,11 +1,13 @@
 <template>
   <div
-    :class="{
-      'yc-dropdown-option': true,
-      'yc-dropdown-option-active': isActive,
-      'yc-dropdown-option-disabled': disabled,
-      'yc-dropdown-option-has-suffix': $slots.suffix,
-    }"
+    :class="[
+      'yc-dropdown-option',
+      {
+        'yc-dropdown-option-active': isActive,
+        'yc-dropdown-option-disabled': disabled,
+        'yc-dropdown-option-has-suffix': $slots.suffix,
+      },
+    ]"
     @click="handleClick"
   >
     <div v-if="$slots.icon" class="yc-dropdown-option-icon">

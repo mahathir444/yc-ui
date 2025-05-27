@@ -1,9 +1,11 @@
 <template>
   <div
-    :class="{
-      'yc-collapse': true,
-      'yc-collapse-bordered': bordered,
-    }"
+    :class="[
+      'yc-collapse',
+      {
+        'yc-collapse-bordered': bordered,
+      },
+    ]"
   >
     <slot />
   </div>

@@ -1,9 +1,11 @@
 <template>
   <div
-    :class="{
-      'yc-rate': true,
-      'yc-rate-disabled': disabled,
-    }"
+    :class="[
+      'yc-rate',
+      {
+        'yc-rate-disabled': disabled,
+      },
+    ]"
   >
     <div
       v-for="i in count"

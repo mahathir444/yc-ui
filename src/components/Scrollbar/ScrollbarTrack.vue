@@ -13,10 +13,12 @@
       ref="dragRef"
     >
       <div
-        :class="{
-          'yc-scrollbar-thumb-bar': true,
-          'is-dragging': isDragging,
-        }"
+        :class="[
+          'yc-scrollbar-thumb-bar',
+          {
+            'is-dragging': isDragging,
+          },
+        ]"
       ></div>
     </div>
   </div>

@@ -35,6 +35,11 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
+      &:not(.yc-color-picker-preview) > div {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+      }
       .yc-color-picker-control-bar {
         cursor: pointer;
         position: relative;

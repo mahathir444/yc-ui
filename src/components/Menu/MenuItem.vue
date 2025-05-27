@@ -1,10 +1,12 @@
 <template>
   <div
     v-show="mode != 'horizontal' || curIndex <= max"
-    :class="{
-      'yc-menu-item-wrapper': true,
-      'yc-menu-item-mode-horizontal': mode == 'horizontal',
-    }"
+    :class="[
+      'yc-menu-item-wrapper',
+      {
+        'yc-menu-item-mode-horizontal': mode == 'horizontal',
+      },
+    ]"
   >
     <define-template>
       <div
@@ -34,10 +36,12 @@
         <!-- content -->
         <div
           v-show="!computedCollapsed"
-          :class="{
-            'yc-menu-item-title': true,
-            'text-ellipsis': mode != 'horizontal',
-          }"
+          :class="[
+            'yc-menu-item-title',
+            {
+              'text-ellipsis': mode != 'horizontal',
+            },
+          ]"
         >
           <slot />
         </div>

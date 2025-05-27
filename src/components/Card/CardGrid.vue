@@ -1,9 +1,11 @@
 <template>
   <div
-    :class="{
-      'yc-card-grid': true,
-      'yc-card-grid-hoverable': hoverable,
-    }"
+    :class="[
+      'yc-card-grid',
+      {
+        'yc-card-grid-hoverable': hoverable,
+      },
+    ]"
   >
     <slot />
   </div>

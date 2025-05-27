@@ -8,7 +8,7 @@
     <div
       class="yc-menu-group-content"
       :style="{
-        paddingLeft: levelIndent + 'px',
+        paddingLeft: `${levelIndent}px`,
       }"
     >
       <slot />

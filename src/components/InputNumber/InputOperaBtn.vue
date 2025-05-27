@@ -2,9 +2,11 @@
   <yc-button
     :size="size"
     :disabled="disabledMinus"
-    :class="{
-      'yc-input-number-plus-embed': mode == 'embed',
-    }"
+    :class="[
+      {
+        'yc-input-number-plus-embed': mode == 'embed',
+      },
+    ]"
     @click="$emit('click', type)"
   >
     <template #icon>

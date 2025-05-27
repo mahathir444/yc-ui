@@ -1,10 +1,12 @@
 <template>
   <li
-    :class="{
-      'yc-pagination-item': true,
-      'yc-pagination-item-disabled': disabled,
-      'yc-pagination-item-active': active,
-    }"
+    :class="[
+      'yc-pagination-item',
+      {
+        'yc-pagination-item-disabled': disabled,
+        'yc-pagination-item-active': active,
+      },
+    ]"
     :style="{
       ...pageItemStyle,
       ...(active ? activePageItemStyle : {}),

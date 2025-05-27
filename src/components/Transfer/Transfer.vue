@@ -1,10 +1,12 @@
 <template>
   <div
-    :class="{
-      'yc-transfer': true,
-      'yc-transfer-simple': simple,
-      'yc-transfer-has-search': showSearch,
-    }"
+    :class="[
+      'yc-transfer',
+      {
+        'yc-transfer-simple': simple,
+        'yc-transfer-has-search': showSearch,
+      },
+    ]"
   >
     <!-- target -->
     <transfer-panel type="source" />

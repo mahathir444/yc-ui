@@ -1,9 +1,11 @@
 <template>
   <div
-    :class="{
-      'yc-calendar-month': true,
-      'yc-calendar-month-small': small,
-    }"
+    :class="[
+      'yc-calendar-month',
+      {
+        'yc-calendar-month-small': small,
+      },
+    ]"
   >
     <div class="yc-calendar-week-list">
       <div
@@ -19,12 +21,14 @@
         <div
           v-for="(col, i1) in row"
           :key="i1"
-          :class="{
-            'yc-calendar-cell': true,
-            'yc-calendar-cell-today': isToday(col),
-            'yc-calendar-cell-selected': isSelected(col),
-            'yc-calendar-cell-in-view': col.isCurrentMonth,
-          }"
+          :class="[
+            'yc-calendar-cell',
+            {
+              'yc-calendar-cell-today': isToday(col),
+              'yc-calendar-cell-selected': isSelected(col),
+              'yc-calendar-cell-in-view': col.isCurrentMonth,
+            },
+          ]"
           @click="$emit('cell-click', col)"
         >
           <slot :year="col.year" :month="col.month" :day="col.day">

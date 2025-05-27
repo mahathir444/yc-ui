@@ -1,9 +1,11 @@
 <template>
   <div
-    :class="{
-      'yc-color-picker-panel': true,
-      'yc-color-picker-panel-disabled': disabled,
-    }"
+    :class="[
+      'yc-color-picker-panel',
+      {
+        'yc-color-picker-panel-disabled': disabled,
+      },
+    ]"
   >
     <color-palette
       v-model:color="computedColor"
@@ -14,7 +16,7 @@
     />
     <div class="yc-color-picker-panel-control">
       <div class="yc-color-picker-control-wrapper">
-        <div style="display: flex; flex-direction: column; gap: 12px">
+        <div>
           <color-control
             mode="color"
             v-model:color="computedColor"

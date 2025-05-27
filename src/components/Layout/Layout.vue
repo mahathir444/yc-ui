@@ -1,9 +1,11 @@
 <template>
   <section
-    :class="{
-      'yc-layout': true,
-      'yc-layout-has-sider': computedHasSider,
-    }"
+    :class="[
+      'yc-layout',
+      {
+        'yc-layout-has-sider': computedHasSider,
+      },
+    ]"
   >
     <slot />
   </section>

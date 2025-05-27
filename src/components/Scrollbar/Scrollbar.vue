@@ -1,15 +1,17 @@
 <template>
   <div
-    :class="{
-      'yc-scrollbar': true,
-      'yc-scrollbar-auto-fill': autoFill,
-      'yc-scrollbar-both-track':
-        type == 'track' && hasVerticalBar && hashorizontalBar,
-      'yc-scrollbar-vertical-track': type == 'track' && hasVerticalBar,
-      'yc-scrollbar-horizontal-track': type == 'track' && hashorizontalBar,
-      'yc-scrollbar-real': !scrollbar,
+    :class="[
+      'yc-scrollbar',
       outerClass,
-    }"
+      {
+        'yc-scrollbar-auto-fill': autoFill,
+        'yc-scrollbar-both-track':
+          type == 'track' && hasVerticalBar && hashorizontalBar,
+        'yc-scrollbar-vertical-track': type == 'track' && hasVerticalBar,
+        'yc-scrollbar-horizontal-track': type == 'track' && hashorizontalBar,
+        'yc-scrollbar-real': !scrollbar,
+      },
+    ]"
     :style="outerStyle"
   >
     <div

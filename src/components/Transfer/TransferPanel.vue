@@ -49,10 +49,13 @@
                 <div
                   v-if="!slots.item"
                   role="listitem"
-                  :class="{
-                    'yc-transfer-list-item': true,
-                    'yc-transfer-list-item-disabled': item.disabled || disabled,
-                  }"
+                  :class="[
+                    'yc-transfer-list-item',
+                    {
+                      'yc-transfer-list-item-disabled':
+                        item.disabled || disabled,
+                    },
+                  ]"
                   @click="handleClick(item)"
                 >
                   <!-- checkbox -->
