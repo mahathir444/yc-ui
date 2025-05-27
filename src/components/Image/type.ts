@@ -1,4 +1,4 @@
-import { PopupContainer } from '@shared/type';
+import { ClassName, PopupContainer } from '@shared/type';
 export interface ImageProps {
   src?: string;
   width?: number;
@@ -14,7 +14,7 @@ export interface ImageProps {
   previewVisible?: boolean;
   defaultPreviewVisible?: boolean;
   previewProps?: ImagePreviewProps;
-  footerClass?: string;
+  footerClass?: ClassName;
 }
 
 export interface ImageEmits {

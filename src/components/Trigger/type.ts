@@ -1,5 +1,5 @@
 import { CSSProperties } from 'vue';
-import { PopupContainer } from '@shared/type';
+import { ClassName, PopupContainer } from '@shared/type';
 export interface TriggerProps {
   popupVisible?: boolean;
   defaultPopupVisible?: boolean;
@@ -14,9 +14,9 @@ export interface TriggerProps {
   clickToClose?: boolean;
   clickOutsideToClose?: boolean;
   unmountOnClose?: boolean;
-  contentClass?: string;
+  contentClass?: ClassName;
   contentStyle?: CSSProperties;
-  arrowClass?: string;
+  arrowClass?: ClassName;
   arrowStyle?: CSSProperties;
   animationName?: string;
   duration?: number;

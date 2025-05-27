@@ -1,4 +1,4 @@
-import { Direction } from '@shared/type';
+import { ClassName, Direction } from '@shared/type';
 export interface CarouselProps {
   current?: number;
   defaultCurrent?: number;
@@ -8,10 +8,10 @@ export interface CarouselProps {
   trigger?: IndicatorTrigger;
   direction?: Direction;
   showArrow?: CarouselShowArrow;
-  arrowClass?: string;
+  arrowClass?: ClassName;
   indicatorType?: IndicatorType;
   indicatorPosition?: IndicatorPosition;
-  indicatorClass?: string;
+  indicatorClass?: ClassName;
   transitionTimingFunction?: string;
 }
 

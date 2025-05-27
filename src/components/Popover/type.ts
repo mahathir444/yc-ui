@@ -1,5 +1,5 @@
 import { CSSProperties } from 'vue';
-import { PopupContainer } from '@shared/type';
+import { ClassName, PopupContainer } from '@shared/type';
 import {
   TriggerPostion,
   TriggerProps,
@@ -13,9 +13,9 @@ export interface PopoverProps {
   content?: string;
   trigger?: TriggerType;
   position?: TriggerPostion;
-  contentClass?: string;
+  contentClass?: ClassName;
   contentStyle?: CSSProperties;
-  arrowClass?: string;
+  arrowClass?: ClassName;
   arrowStyle?: CSSProperties;
   popupContainer?: PopupContainer;
   triggerProps?: TriggerProps;

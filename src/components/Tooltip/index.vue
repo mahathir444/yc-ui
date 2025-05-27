@@ -3,9 +3,15 @@
     v-model:popup-visible="computedVisible"
     :popup-container="popupContainer"
     :position="position"
-    :arrow-class="`yc-tooltip-popup-arrow ${arrowClass}`"
+    :arrow-class="['yc-tooltip-popup-arrow', arrowClass as string]"
     :arrow-style="contentStyle"
-    :content-class="`yc-tooltip-popup-content ${contentClass} ${mini ? 'yc-tooltip-mini' : ''}`"
+    :content-class="[
+      'yc-tooltip-popup-content',
+      contentClass as string,
+      {
+        'yc-tooltip-mini': mini,
+      },
+    ]"
     :content-style="arrowStyle"
     :popup-offset="10"
     :class="`yc-tooltip ${$attrs.class}`"

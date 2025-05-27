@@ -1,5 +1,5 @@
 import { CSSProperties } from 'vue';
-import { PopupContainer } from '@shared/type';
+import { ClassName, PopupContainer } from '@shared/type';
 import { TriggerPostion, TriggerProps } from '@/components/Trigger/type';
 
 export interface TooltipProps {
@@ -9,9 +9,9 @@ export interface TooltipProps {
   position?: TriggerPostion;
   mini?: boolean;
   backgroundColor?: string;
-  contentClass?: string;
+  contentClass?: ClassName;
   contentStyle?: CSSProperties;
-  arrowClass?: string;
+  arrowClass?: ClassName;
   arrowStyle?: CSSProperties;
   popupContainer?: PopupContainer;
   triggerProps?: TriggerProps;

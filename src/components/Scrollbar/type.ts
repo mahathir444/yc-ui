@@ -1,8 +1,9 @@
 import { CSSProperties } from 'vue';
+import { ClassName } from '@shared/type';
 
 export interface ScrollbarProps {
   type?: TackType;
-  outerClass?: string;
+  outerClass?: ClassName;
   outerStyle?: CSSProperties;
   style?: CSSProperties;
   autoFill?: boolean;

@@ -1,6 +1,6 @@
 import { CSSProperties } from 'vue';
 import { ButtonProps } from '@/components/Button';
-import { RenderContent, PopupContainer } from '@shared/type';
+import { RenderContent, PopupContainer, ClassName } from '@shared/type';
 
 export interface ModalProps {
   visible?: boolean;
@@ -24,14 +24,14 @@ export interface ModalProps {
   renderToBody?: boolean;
   popupContainer?: PopupContainer;
   maskStyle?: CSSProperties;
-  modalClass?: string;
+  modalClass?: ClassName;
   modalStyle?: CSSProperties;
   escToClose?: boolean;
   draggable?: boolean;
   fullscreen?: boolean;
   maskAnimationName?: string;
   modalAnimationName?: string;
-  bodyClass?: string;
+  bodyClass?: ClassName;
   bodyStyle?: CSSProperties;
   hideTitle?: boolean;
   simple?: boolean;
