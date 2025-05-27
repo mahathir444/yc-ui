@@ -61,7 +61,7 @@ const gap = computed(() => {
 });
 // node
 const nodes = computed(() => {
-  return (slots.default?.()?.[0]?.children as VNode[]) || [];
+  return slots.default?.() || [];
 });
 </script>
 

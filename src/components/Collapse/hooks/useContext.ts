@@ -3,7 +3,7 @@ import { CollapseEmits, CollapseValue, ExpandIconPosition } from '../type';
 import { Props } from '@shared/type';
 import { useControlValue } from '@shared/utils';
 
-export const COLLAPSE_PROVIDE_KEY = 'collapse-context';
+export const COLLAPSE_CONTEXT_KEY = 'collapse-context';
 
 export type CollapseContext = {
   computedActiveKey: Ref<CollapseValue[]>;
@@ -32,7 +32,7 @@ export default () => {
         emits('change', val);
       }
     );
-    _provide<CollapseContext>(COLLAPSE_PROVIDE_KEY, {
+    _provide<CollapseContext>(COLLAPSE_CONTEXT_KEY, {
       computedActiveKey,
       accordion,
       expandIconPosition,
@@ -44,7 +44,7 @@ export default () => {
     const { showExpandIcon: _showExpandIcon, destroyOnHide: _destroyOnHide } =
       toRefs(props);
     // 接收的值
-    return _inject<CollapseContext>(COLLAPSE_PROVIDE_KEY, {
+    return _inject<CollapseContext>(COLLAPSE_CONTEXT_KEY, {
       computedActiveKey: ref([]),
       accordion: ref(false),
       expandIconPosition: ref('left'),

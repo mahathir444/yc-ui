@@ -1,9 +1,22 @@
-import { ref, toRefs, provide as _provide, inject as _inject, Ref } from 'vue';
+import {
+  ref,
+  toRefs,
+  provide as _provide,
+  inject as _inject,
+  Ref,
+  computed,
+  useSlots,
+} from 'vue';
 import { CarouselEmits, CarouselShowArrow } from '../type';
-import { useControlValue, sleep } from '@shared/utils';
+import {
+  useControlValue,
+  sleep,
+  findComponentsFromVnodes,
+} from '@shared/utils';
 import { ClassName, Direction, Props } from '@shared/type';
+import CarouselItem from '../CarouselItem.vue';
 
-export const CAROUSEL_PROVIDE_KEY = 'carousel-context';
+export const CAROUSEL_CONTEXT_KEY = 'carousel-context';
 
 export type MoveType = 'positive' | 'negative';
 
@@ -34,8 +47,17 @@ export default () => {
       arrowClass,
       autoPlay,
     } = toRefs(props);
-    // 图片所属的length
-    const length = ref<number>(0);
+    const slots = useSlots();
+    // 插槽元素
+    const carouselItems = computed(() => {
+      return findComponentsFromVnodes(
+        slots.default?.() || [],
+        CarouselItem.name as string
+      );
+    });
+    const length = computed(() => {
+      return carouselItems.value.length;
+    });
     // 受控值
     const computedCurrent = useControlValue<number>(
       current,
@@ -52,8 +74,8 @@ export default () => {
     let timer: NodeJS.Timeout | null = null;
     // 获取合法的index
     const getValidIndex = (val: number) => {
-      if (val == 0) {
-        return length.value;
+      if (val < 0) {
+        return length.value - 1;
       }
       return val > length.value ? val % length.value : val;
     };
@@ -71,7 +93,7 @@ export default () => {
       timer = null;
     };
     // 提供给子组件
-    _provide<CarouselContext>(CAROUSEL_PROVIDE_KEY, {
+    _provide<CarouselContext>(CAROUSEL_CONTEXT_KEY, {
       length,
       computedCurrent,
       transitionTimingFunction,
@@ -85,15 +107,16 @@ export default () => {
       getValidIndex,
     });
     return {
+      carouselItems,
       computedCurrent,
       length,
       autoPlay,
       slideTo,
     };
   };
-  const inject = (isItem: boolean = false) => {
+  const inject = () => {
     // 接收的值
-    const injection = _inject<CarouselContext>(CAROUSEL_PROVIDE_KEY, {
+    return _inject<CarouselContext>(CAROUSEL_CONTEXT_KEY, {
       length: ref(0),
       computedCurrent: ref(1),
       transitionTimingFunction: ref('cubic-bezier(0.34, 0.69, 0.1, 1)'),
@@ -106,13 +129,6 @@ export default () => {
       moveType: ref('positive'),
       getValidIndex: () => {},
     });
-    const { length } = injection;
-    // 自己的index
-    const index = isItem ? ++length.value : 0;
-    return {
-      ...injection,
-      index,
-    };
   };
   return {
     provide,

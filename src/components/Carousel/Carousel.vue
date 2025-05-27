@@ -13,7 +13,7 @@
       @mouseenter="autoPlay?.hoverToPause && stopAutoPlay()"
       @mouseleave="autoPlay?.hoverToPause && setAutoPlay()"
     >
-      <slot />
+      <component v-for="(node, i) in carouselItems" :is="node" :index="i + 1" />
     </div>
     <div v-if="indicatorType != 'never'" class="yc-carousel-indicator-wrapper">
       <carousel-indicator
@@ -59,7 +59,10 @@ const props = withDefaults(defineProps<CarouselProps>(), {
 const emits = defineEmits<CarouselEmits>();
 // 注入
 const { provide } = useContext();
-const { slideTo, computedCurrent, autoPlay } = provide(props, emits);
+const { slideTo, computedCurrent, autoPlay, carouselItems } = provide(
+  props,
+  emits
+);
 // 自动播放的timer
 let autoPlayTimer: any = null;
 // 设置自动播放

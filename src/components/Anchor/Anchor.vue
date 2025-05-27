@@ -51,7 +51,6 @@ const top = computed(() => {
     }, 0);
   return offset + curIndex * 2;
 });
-
 onMounted(() => {
   if (!hrefs.value.length) return;
   curHref.value = hrefs.value[0];

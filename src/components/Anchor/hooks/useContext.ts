@@ -5,6 +5,7 @@ import {
   computed,
   provide as _provide,
   inject as _inject,
+  onBeforeUnmount,
 } from 'vue';
 import {
   getElement,
@@ -12,12 +13,13 @@ import {
   isUndefined,
 } from '@shared/utils';
 import { Props } from '@shared/type';
+import { nanoid } from 'nanoid';
 
 export const ANCHOR_CONTEXT_KEY = 'anchor-context';
 
 export interface AnchorContext {
   hrefs: Ref<string[]>;
-  order: Ref<number>;
+  herfMap: Ref<Map<string, string>>;
   changeHash: Ref<boolean>;
   smooth: Ref<boolean>;
   boundary: Ref<string | number>;
@@ -37,10 +39,10 @@ export default () => {
     } = toRefs(props);
     // 当前的link
     const curHref = ref<string>('');
+    // herfMap
+    const herfMap = ref<Map<string, string>>(new Map());
     // hrefs
-    const hrefs = ref<string[]>([]);
-    // order次序
-    const order = ref<number>(0);
+    const hrefs = computed(() => [...herfMap.value.values()]);
     // 滚动容器
     const scrollContainer = computed(() => {
       return isUndefined(_scrollContainer.value)
@@ -49,7 +51,7 @@ export default () => {
     });
     _provide<AnchorContext>(ANCHOR_CONTEXT_KEY, {
       hrefs,
-      order,
+      herfMap,
       changeHash,
       smooth,
       boundary,
@@ -59,7 +61,6 @@ export default () => {
     });
     return {
       hrefs,
-      order,
       changeHash,
       smooth,
       boundary,
@@ -68,18 +69,32 @@ export default () => {
       scrollContainer,
     };
   };
-  const inject = () => {
+  const inject = (props: Props) => {
     // 接收的值
-    return _inject<AnchorContext>(ANCHOR_CONTEXT_KEY, {
-      hrefs: ref<string[]>([]),
-      order: ref(0),
+    const injection = _inject<AnchorContext>(ANCHOR_CONTEXT_KEY, {
+      hrefs: ref([]),
+      herfMap: ref(new Map()),
       changeHash: ref(true),
       smooth: ref(true),
       boundary: ref('start'),
       curHref: ref(''),
       lineLess: ref(false),
-      scrollContainer: ref<HTMLElement>(),
+      scrollContainer: ref(),
     });
+    const { herfMap } = injection;
+    // 收集href
+    const collectHref = () => {
+      const id = nanoid();
+      herfMap.value.set(id, props.href);
+      // 卸载的时候注销
+      onBeforeUnmount(() => {
+        herfMap.value.delete(id);
+      });
+    };
+    return {
+      ...injection,
+      collectHref,
+    };
   };
   return {
     provide,

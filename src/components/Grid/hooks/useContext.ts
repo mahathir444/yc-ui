@@ -10,7 +10,7 @@ import { BreakpointName } from '../type';
 import { Props } from '@shared/type';
 import { isNumber, isObject } from '@shared/utils';
 
-export const GRID_PROVIDE_KEY = 'grid-context';
+export const GRID_CONTEXT_KEY = 'grid-context';
 
 export type GridContext = {
   breakpoint: Ref<BreakpointName>;
@@ -51,7 +51,7 @@ export default () => {
       ) as number;
     });
     // 提供给子组件
-    _provide<GridContext>(GRID_PROVIDE_KEY, {
+    _provide<GridContext>(GRID_CONTEXT_KEY, {
       breakpoint,
       gutter,
       div,
@@ -66,7 +66,7 @@ export default () => {
   };
   const inject = () => {
     // 接收的值
-    return _inject<GridContext>(GRID_PROVIDE_KEY, {
+    return _inject<GridContext>(GRID_CONTEXT_KEY, {
       gutter: ref(0),
       breakpoint: ref('xs'),
       div: ref(false),

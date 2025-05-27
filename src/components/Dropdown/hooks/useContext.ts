@@ -3,7 +3,7 @@ import { DoptionValue, DropdownEmits } from '../type';
 import { Props } from '@shared/type';
 import { useControlValue } from '@shared/utils';
 
-export const DROPDOWN_PROVIDE_KEY = 'dropdown-context';
+export const DROPDOWN_CONTEXT_KEY = 'dropdown-context';
 
 export interface DropdownContext {
   select: (value: DoptionValue, ev: MouseEvent) => void;
@@ -27,7 +27,7 @@ export default () => {
       }
     );
     // dropdown提供的值
-    _provide<DropdownContext>(DROPDOWN_PROVIDE_KEY, {
+    _provide<DropdownContext>(DROPDOWN_CONTEXT_KEY, {
       select: (value: DoptionValue, ev: MouseEvent) => {
         emits('select', value, ev);
         if (!hideOnSelect.value) return;
@@ -40,7 +40,7 @@ export default () => {
   };
   const inject = () => {
     // 接收的值
-    return _inject<DropdownContext>(DROPDOWN_PROVIDE_KEY, {
+    return _inject<DropdownContext>(DROPDOWN_CONTEXT_KEY, {
       select: () => {},
     });
   };

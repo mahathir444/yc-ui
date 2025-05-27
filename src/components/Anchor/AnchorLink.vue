@@ -20,7 +20,7 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, toRefs } from 'vue';
+import { toRefs } from 'vue';
 import { AnchorLinkProps, AnchorLinkSlots } from './type';
 import { isNumber, getElement } from '@shared/utils';
 import useContext from './hooks/useContext';
@@ -40,16 +40,10 @@ const {
   boundary,
   changeHash,
   curHref,
-  hrefs,
-  order,
   lineLess,
   scrollContainer,
-} = inject();
-// 初始化收集herfs
-const collectHref = () => {
-  hrefs.value[order.value] = href.value;
-  order.value++;
-};
+  collectHref,
+} = inject(props);
 // 处理点击
 const handleClick = (e: MouseEvent) => {
   curHref.value = href.value;

@@ -21,7 +21,7 @@
 </template>
 
 <script lang="ts" setup>
-import { computed } from 'vue';
+import { computed, useAttrs } from 'vue';
 import { CarouselItemSlots } from './type';
 import useContext from './hooks/useContext';
 defineOptions({
@@ -32,7 +32,6 @@ defineSlots<CarouselItemSlots>();
 const { inject } = useContext();
 const {
   moveType,
-  index,
   preIndex,
   computedCurrent,
   direction,
@@ -40,18 +39,20 @@ const {
   animationName,
   transitionTimingFunction,
   getValidIndex,
-} = inject(true);
+} = inject();
+const attrs = useAttrs();
+const index = computed(() => attrs.index);
 // 动态计算className
 const slideClass = computed(() => {
   if (
     animationName.value != 'slide' ||
     computedCurrent.value == preIndex.value ||
-    (preIndex.value != index && computedCurrent.value != index)
+    (preIndex.value != index.value && computedCurrent.value != index.value)
   ) {
     return;
   }
   const slideDirection = direction.value == 'horizontal' ? '-x' : '-y';
-  const slideType = preIndex.value == index ? '-out' : '-in';
+  const slideType = preIndex.value == index.value ? '-out' : '-in';
   const siideMoveType = moveType.value == 'positive' ? '' : '-reverse';
   return `yc-carousel-slide${slideDirection}${slideType}${siideMoveType}`;
 });

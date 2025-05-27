@@ -41,12 +41,13 @@
 
 <script lang="ts" setup>
 import { IndicatorTrigger, IndicatorType, IndicatorPosition } from './type';
+import { ClassName } from '@shared/type';
 import useContext from './hooks/useContext';
 defineProps<{
   trigger: IndicatorTrigger;
   indicatorType: IndicatorType;
   indicatorPosition: IndicatorPosition;
-  indicatorClass: string;
+  indicatorClass: ClassName;
 }>();
 defineEmits<{
   (e: 'change', index: number): void;
