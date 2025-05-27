@@ -15,7 +15,7 @@
   >
     <template v-for="(node, index) in nodes" :key="index">
       <div class="yc-space-item">
-        <component :is="node" />
+        <component :is="getSlotFunction(node as any as string)" />
       </div>
       <div
         v-if="$slots.split && index < nodes.length - 1"
@@ -30,7 +30,8 @@
 <script lang="ts" setup>
 import { toRefs, computed, useSlots, VNode } from 'vue';
 import { SpaceProps, SpaceSlots } from './type';
-import { isNumber } from '@shared/utils';
+import { ObjectData } from '@shared/type';
+import { isNumber, getSlotFunction } from '@shared/utils';
 defineOptions({
   name: 'Space',
 });

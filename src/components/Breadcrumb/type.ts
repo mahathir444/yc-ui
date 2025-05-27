@@ -22,11 +22,11 @@ export interface BreadcrumbItemProps {
   droplist?: BreadcrumbRoute[];
   dropdownProps?: DropdownProps;
   path?: string;
+  showSeparator?: boolean;
 }
 
 export interface BreadcrumbItemSlots {
   default(): void;
-  ['more-icon'](): void;
   droplist(): void;
   separator(): void;
 }

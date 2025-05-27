@@ -34,7 +34,7 @@
           :disabled="disabled"
           :size="size"
           :error="error"
-          :placeholder="selectOptions[0]?.label"
+          :placeholder="String(selectOptions[0]?.label)"
           v-bind="$attrs"
           ref="inputRef"
           @click="handleEvent('focus')"

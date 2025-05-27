@@ -99,9 +99,7 @@ const computedChecked = useControlValue<boolean>(
 );
 // 背景色
 const background = computed(() => {
-  return TAG_PRESET_COLORS.includes(color.value) && color.value != 'default'
-    ? '#fff'
-    : color.value;
+  return TAG_PRESET_COLORS.includes(color.value) ? '' : color.value;
 });
 // 处理事件
 const handleEvent = (type: 'close' | 'check', ev: MouseEvent) => {

@@ -59,7 +59,7 @@
         footerPosition == 'inner'
           ? 'yc-image-footer-inner'
           : 'yc-image-footer-outer',
-        footer,
+        footerClass,
       ]"
     >
       <div class="yc-image-footer-caption">
@@ -101,7 +101,7 @@ const props = withDefaults(defineProps<ImageProps>(), {
   previewProps: () => {
     return {};
   },
-  footer: '',
+  footerClass: '',
 });
 const emits = defineEmits<ImageEmits>();
 const { src, preview, previewVisible, defaultPreviewVisible } = toRefs(props);

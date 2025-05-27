@@ -100,6 +100,7 @@
         </yc-radio-group>
       </template>
     </yc-page-header>
+    <!-- page -->
     <yc-pagination
       :total="200"
       show-total
