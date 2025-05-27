@@ -51,9 +51,13 @@
 </template>
 
 <script lang="ts" setup>
+import { computed } from 'vue';
 import { CardProps, CardSlots } from './type';
+import { findComponentsFromVnodes, getGlobalConfig } from '@shared/utils';
 import useContext from './hooks/useContext';
 import YcSpin from '@/components/Spin';
+import CardGrid from './CardGrid.vue';
+import CardMeta from './CardMeta.vue';
 defineOptions({
   name: 'Card',
 });
@@ -72,9 +76,22 @@ const props = withDefaults(defineProps<CardProps>(), {
   title: '',
   extra: '',
 });
+// size
+const { size } = getGlobalConfig(props);
 // 注入
 const { provide } = useContext();
-const { hasMeta, hasGrid, size } = provide(props);
+const { slots } = provide();
+const nodes = computed(() => slots.default?.() || []);
+// 是否有meta
+const hasMeta = computed(() => {
+  const meta = findComponentsFromVnodes(nodes.value, CardMeta.name as string);
+  return !!meta.length;
+});
+// 是否grid
+const hasGrid = computed(() => {
+  const grid = findComponentsFromVnodes(nodes.value, CardGrid.name as string);
+  return !!grid.length;
+});
 </script>
 
 <style lang="less" scoped>

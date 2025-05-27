@@ -2,7 +2,7 @@
   <div Comment class="yc-comment">
     <div v-if="$slots.avatar || avatar" class="yc-comment-avatar">
       <slot name="avatar">
-        <yc-avatar :image-url="avatar" :size="level > 1 ? 32 : 40" />
+        <yc-avatar :image-url="avatar" :size="hasComment ? 32 : 40" />
       </slot>
     </div>
     <div class="yc-comment-inner">
@@ -65,9 +65,9 @@
 </template>
 
 <script lang="ts" setup>
+import { computed, useSlots } from 'vue';
 import { CommentProps, CommentSlots } from './type';
-import { isObject } from '@shared/utils';
-import useContext from './hooks/useContext';
+import { isObject, findComponentsFromVnodes } from '@shared/utils';
 import YcAvatar from '@/components/Avatar';
 defineOptions({
   name: 'Comment',
@@ -80,7 +80,12 @@ withDefaults(defineProps<CommentProps>(), {
   datetime: '',
   align: 'left',
 });
-const { level } = useContext();
+const slots = useSlots();
+// 是否有嵌套
+const hasComment = computed(() => {
+  const comment = findComponentsFromVnodes(slots.default?.() || [], 'Comment');
+  return !!comment.length;
+});
 </script>
 
 <style lang="less" scoped>

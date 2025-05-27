@@ -5,7 +5,7 @@
     :class="[
       'yc-checkbox',
       {
-        'yc-checkbox-disabled': disabled,
+        'yc-checkbox-disabled': computedDisabled,
         'yc-checkbox-unchecked': !computedChecked && !indeterminate,
         'yc-checkbox-indeterminate': !computedChecked && indeterminate,
         'yc-checkbox-checked': computedChecked,
@@ -16,15 +16,21 @@
       type="checkbox"
       class="yc-checkbox-target"
       :value="value"
-      :disabled="disabled"
+      :disabled="computedDisabled"
       :checked="computedChecked"
       @change="handleCollect"
     />
-    <slot name="checkbox" :checked="computedChecked" :disabled="disabled">
+    <slot
+      name="checkbox"
+      :checked="computedChecked"
+      :disabled="computedDisabled"
+    >
       <yc-icon-button
         :hover-size="24"
         :hover-color="
-          computedChecked || disabled ? 'transparent' : 'rgb(242, 243, 245)'
+          computedChecked || computedDisabled
+            ? 'transparent'
+            : 'rgb(242, 243, 245)'
         "
       >
         <span class="yc-checkbox-icon">
@@ -58,15 +64,10 @@ const props = withDefaults(defineProps<CheckboxProps>(), {
   preventFocus: false,
 });
 const emits = defineEmits<CheckboxEmits>();
-const {
-  modelValue,
-  defaultChecked,
-  disabled: _disabled,
-  value: checkboxValue,
-} = toRefs(props);
+const { modelValue, defaultChecked, value: checkboxValue } = toRefs(props);
 // 接收注入
 const { inject } = useContext();
-const { computedValue, max, disabled: injectDisabled } = inject(props);
+const { computedValue, max, disabled } = inject(props);
 // checkbox受控的值
 const _checked = useControlValue<boolean>(
   modelValue,
@@ -81,8 +82,8 @@ const computedChecked = computed(() => {
   return computedValue.value.includes(checkboxValue.value);
 });
 // 禁用
-const disabled = computed(() => {
-  if (!max.value || !computedValue.value) return injectDisabled.value;
+const computedDisabled = computed(() => {
+  if (!max.value || !computedValue.value) return disabled.value;
   return computedValue.value.length >= max.value && !computedChecked.value;
 });
 // 处理check发生改变

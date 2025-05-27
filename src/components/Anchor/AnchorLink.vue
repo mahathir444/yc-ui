@@ -35,15 +35,8 @@ const props = withDefaults(defineProps<AnchorLinkProps>(), {
 const { href } = toRefs(props);
 // 接收注入
 const { inject } = useContext();
-const {
-  smooth,
-  boundary,
-  changeHash,
-  curHref,
-  lineLess,
-  scrollContainer,
-  collectHref,
-} = inject(props);
+const { smooth, boundary, changeHash, curHref, lineLess, scrollContainer } =
+  inject();
 // 处理点击
 const handleClick = (e: MouseEvent) => {
   curHref.value = href.value;
@@ -68,7 +61,6 @@ const handleClick = (e: MouseEvent) => {
     });
   }
 };
-collectHref();
 </script>
 
 <style lang="less" scoped>
