@@ -13,7 +13,7 @@ import {
 } from '@shared/utils';
 import { Props } from '@shared/type';
 
-export const ANCHOR_PROVIDE_KEY = 'anchor-context';
+export const ANCHOR_CONTEXT_KEY = 'anchor-context';
 
 export interface AnchorContext {
   hrefs: Ref<string[]>;
@@ -47,7 +47,7 @@ export default () => {
         ? findFirstScrollableParent(listRef.value)
         : getElement(_scrollContainer.value);
     });
-    _provide<AnchorContext>(ANCHOR_PROVIDE_KEY, {
+    _provide<AnchorContext>(ANCHOR_CONTEXT_KEY, {
       hrefs,
       order,
       changeHash,
@@ -70,7 +70,7 @@ export default () => {
   };
   const inject = () => {
     // 接收的值
-    return _inject<AnchorContext>(ANCHOR_PROVIDE_KEY, {
+    return _inject<AnchorContext>(ANCHOR_CONTEXT_KEY, {
       hrefs: ref<string[]>([]),
       order: ref(0),
       changeHash: ref(true),

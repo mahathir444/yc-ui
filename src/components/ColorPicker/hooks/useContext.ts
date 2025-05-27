@@ -7,16 +7,16 @@ import {
 } from '../type';
 import { useControlValue, parseColor, getGlobalConfig } from '@shared/utils';
 
-export const COLOR_PICKER_PROVIDE_KEY = 'color-picker-context';
+export const COLOR_PICKER_CONTEXT_KEY = 'color-picker-context';
 
 export type ColorPickerContext = {
   props: Props;
-  emits: ColorPickerEmits;
   popupVisible: Ref<boolean>;
   computedColor: Ref<string>;
   baseColor: Ref<string>;
   format: Ref<ColorFormat>;
   alpha: Ref<number>;
+  emits: ColorPickerEmits;
 };
 
 export type ColorPickerProps = RequiredDeep<_ColorPickerProps>;
@@ -60,7 +60,7 @@ export default () => {
     // visible
     const popupVisible = ref<boolean>(false);
     // 提供属性
-    _provide<ColorPickerContext>(COLOR_PICKER_PROVIDE_KEY, {
+    _provide<ColorPickerContext>(COLOR_PICKER_CONTEXT_KEY, {
       props,
       emits,
       popupVisible,
@@ -77,7 +77,7 @@ export default () => {
   };
   const inject = () => {
     // 接收的值
-    return _inject<ColorPickerContext>(COLOR_PICKER_PROVIDE_KEY, {
+    return _inject<ColorPickerContext>(COLOR_PICKER_CONTEXT_KEY, {
       props: {},
       emits: () => {},
       popupVisible: ref(false),

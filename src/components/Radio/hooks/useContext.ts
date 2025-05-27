@@ -3,7 +3,7 @@ import { RadioType, RadioGroupEmits, RadioValue } from '../type';
 import { Size, Props } from '@shared/type';
 import { useControlValue, getGlobalConfig } from '@shared/utils';
 
-export const RADIO_GROUP_PROVIDE_KEY = 'radio-group-context';
+export const RADIO_GROUP_CONTEXT_KEY = 'radio-group-context';
 
 export interface RadioContext {
   computedValue: Ref<RadioValue | undefined>;
@@ -26,7 +26,7 @@ export default () => {
       }
     );
     // 提供给子组件
-    _provide<RadioContext>(RADIO_GROUP_PROVIDE_KEY, {
+    _provide<RadioContext>(RADIO_GROUP_CONTEXT_KEY, {
       computedValue,
       type,
       disabled,
@@ -34,12 +34,12 @@ export default () => {
     });
   };
   const inject = (props: Props) => {
-    const { disabled: _disabled, type: _type } = toRefs(props);
+    const { disabled, type } = toRefs(props);
     // 接收的值
-    return _inject<RadioContext>(RADIO_GROUP_PROVIDE_KEY, {
+    return _inject<RadioContext>(RADIO_GROUP_CONTEXT_KEY, {
       computedValue: ref(undefined),
-      disabled: _disabled,
-      type: _type,
+      disabled,
+      type,
       size: ref('medium'),
     });
   };

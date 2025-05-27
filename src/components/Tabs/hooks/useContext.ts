@@ -20,7 +20,7 @@ import {
   TabPositon,
 } from '../type';
 
-export const TABS_PROVIDE_KEY = 'tabs-context';
+export const TABS_CONTEXT_KEY = 'tabs-context';
 
 export interface TabsContext {
   computedActiveKey: Ref<TabKey>;
@@ -88,7 +88,7 @@ export default () => {
       }
       return _direction.value;
     });
-    _provide<TabsContext>(TABS_PROVIDE_KEY, {
+    _provide<TabsContext>(TABS_CONTEXT_KEY, {
       computedActiveKey,
       editable,
       direction,
@@ -116,7 +116,7 @@ export default () => {
     };
   };
   const inject = () => {
-    return _inject<TabsContext>(TABS_PROVIDE_KEY, {
+    return _inject<TabsContext>(TABS_CONTEXT_KEY, {
       computedActiveKey: ref(''),
       editable: ref(false),
       headerPadding: ref(false),

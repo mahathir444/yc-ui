@@ -3,7 +3,7 @@ import { CheckboxValue, CheckboxEmits } from '../type';
 import { Props } from '@shared/type';
 import { useControlValue } from '@shared/utils';
 
-export const CHECKBOX_GROUP_PROVIDE_KEY = 'checkbox-group-context';
+export const CHECKBOX_GROUP_CONTEXT_KEY = 'checkbox-group-context';
 
 interface CheckboxContext {
   computedValue: Ref<CheckboxValue[] | undefined>;
@@ -22,20 +22,18 @@ export default () => {
         emits('update:modelValue', val);
       }
     );
-    // 提供给子组件
-    _provide<CheckboxContext>(CHECKBOX_GROUP_PROVIDE_KEY, {
+    _provide<CheckboxContext>(CHECKBOX_GROUP_CONTEXT_KEY, {
       computedValue,
       max,
       disabled,
     });
   };
   const inject = (props: Props) => {
-    const { disabled: _disabled } = toRefs(props);
-    // 接收的值
-    return _inject<CheckboxContext>(CHECKBOX_GROUP_PROVIDE_KEY, {
+    const { disabled } = toRefs(props);
+    return _inject<CheckboxContext>(CHECKBOX_GROUP_CONTEXT_KEY, {
       computedValue: ref(),
       max: ref(),
-      disabled: _disabled,
+      disabled,
     });
   };
   return {

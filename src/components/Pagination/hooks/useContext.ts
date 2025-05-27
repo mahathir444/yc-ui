@@ -11,7 +11,7 @@ import { PaginationProps as _PaginationProps, PaginationEmits } from '../type';
 import { Props, RequiredDeep } from '@shared/type';
 import { useControlValue, getGlobalConfig } from '@shared/utils';
 
-export const PAGINATION_PROVIDE_KEY = 'pagination-context';
+export const PAGINATION_CONTEXT_KEY = 'pagination-context';
 
 export interface PaginationContext {
   computedCurrent: Ref<number>;
@@ -127,7 +127,7 @@ export default () => {
       });
     });
     // 提供给子组件
-    _provide<PaginationContext>(PAGINATION_PROVIDE_KEY, {
+    _provide<PaginationContext>(PAGINATION_CONTEXT_KEY, {
       computedCurrent,
       computedPageSize,
       disabled,
@@ -149,7 +149,7 @@ export default () => {
   };
   const inject = () => {
     // 接收的值
-    return _inject<PaginationContext>(PAGINATION_PROVIDE_KEY, {
+    return _inject<PaginationContext>(PAGINATION_CONTEXT_KEY, {
       computedCurrent: ref(1),
       computedPageSize: ref(10),
       disabled: ref(false),

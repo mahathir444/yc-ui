@@ -10,7 +10,7 @@ import { Props, Direction, RequiredDeep } from '@shared/type';
 import { StepsProps as _StepsProps, StepsEmits, StepType } from '../type';
 import { useControlValue } from '@shared/utils';
 
-export const STEPS_PROVIDE_KEY = 'card-context';
+export const STEPS_CONTEXT_KEY = 'card-context';
 
 export interface StepsContext {
   step: Ref<number>;
@@ -69,7 +69,7 @@ export default () => {
     const statusArr = ref<Ref<string>[]>([]);
     // step
     const step = ref<number>(0);
-    _provide<StepsContext>(STEPS_PROVIDE_KEY, {
+    _provide<StepsContext>(STEPS_CONTEXT_KEY, {
       step,
       computedCurrent,
       lineLess,
@@ -89,7 +89,7 @@ export default () => {
   };
   const inject = (props: Props) => {
     const { status: _status } = toRefs(props);
-    const injection = _inject<StepsContext>(STEPS_PROVIDE_KEY, {
+    const injection = _inject<StepsContext>(STEPS_CONTEXT_KEY, {
       step: ref(0),
       computedCurrent: ref(0),
       lineLess: ref(false),

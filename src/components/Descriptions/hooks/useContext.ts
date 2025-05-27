@@ -21,7 +21,7 @@ import { getGlobalConfig } from '@shared/utils';
 import { findComponentsFromVnodes } from '@shared/utils';
 import YcDescriptionsItem from '../DescriptionsItem.vue';
 
-export const DESCRIPTIONS_PROVIDE_KEY = 'radio-group-context';
+export const DESCRIPTIONS_CONTEXT_KEY = 'radio-group-context';
 
 export interface DescriptionsContext {
   labelStyle: Ref<CSSProperties>;
@@ -77,7 +77,7 @@ export default () => {
     mediaQueryHandler((name) => {
       breakpoint.value = name;
     });
-    _provide<DescriptionsContext>(DESCRIPTIONS_PROVIDE_KEY, {
+    _provide<DescriptionsContext>(DESCRIPTIONS_CONTEXT_KEY, {
       size,
       bordered,
       align,
@@ -94,7 +94,7 @@ export default () => {
   };
 
   const inject = () => {
-    return _inject<DescriptionsContext>(DESCRIPTIONS_PROVIDE_KEY, {
+    return _inject<DescriptionsContext>(DESCRIPTIONS_CONTEXT_KEY, {
       size: ref('medium'),
       bordered: ref(false),
       align: ref('left'),

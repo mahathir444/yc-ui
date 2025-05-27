@@ -3,7 +3,7 @@
     :class="[
       'yc-layout',
       {
-        'yc-layout-has-sider': computedHasSider,
+        'yc-layout-has-sider': hasSider,
       },
     ]"
   >
@@ -12,10 +12,11 @@
 </template>
 
 <script lang="ts" setup>
-import { toRefs, computed } from 'vue';
+import { toRefs, computed, useSlots } from 'vue';
 import { LayoutProps, LayoutSlots } from './type';
+import { ObjectData } from '@shared/type';
 import { isUndefined } from '@shared/utils';
-import useContext from './hooks/useContext';
+import LayoutSider from './LayoutSider.vue';
 defineOptions({
   name: 'Layout',
 });
@@ -24,13 +25,14 @@ const props = withDefaults(defineProps<LayoutProps>(), {
   hasSider: undefined,
 });
 const { hasSider: _hasSider } = toRefs(props);
-// 注入
-const { provide } = useContext();
-const { hasSider, curLevel } = provide();
+const slots = useSlots();
 // 是否有sider
-const computedHasSider = computed(() => {
+const hasSider = computed(() => {
   if (!isUndefined(_hasSider.value)) return _hasSider.value;
-  return curLevel.value == 1 && hasSider.value;
+  const sider = (slots.default?.() || []).map(
+    (item) => (item.type as ObjectData).name == LayoutSider.name
+  );
+  return !!sider.length;
 });
 </script>
 

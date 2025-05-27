@@ -9,7 +9,7 @@ import {
 import { Props, Direction } from '@shared/type';
 import { TimelineLabelPosition, TimelineMode } from '../type';
 
-export const TIMELINE_PROVIDE_KEY = 'timeline-context';
+export const TIMELINE_CONTEXT_KEY = 'timeline-context';
 
 export interface TimelineContext {
   direction: Ref<Direction>;
@@ -33,7 +33,7 @@ export default () => {
           : 'bottom';
       }
     });
-    _provide<TimelineContext>(TIMELINE_PROVIDE_KEY, {
+    _provide<TimelineContext>(TIMELINE_CONTEXT_KEY, {
       direction,
       mode,
       labelPosition,
@@ -44,7 +44,7 @@ export default () => {
     };
   };
   const inject = () => {
-    return _inject<TimelineContext>(TIMELINE_PROVIDE_KEY, {
+    return _inject<TimelineContext>(TIMELINE_CONTEXT_KEY, {
       direction: ref('vertical'),
       mode: ref('left'),
       labelPosition: ref('same'),

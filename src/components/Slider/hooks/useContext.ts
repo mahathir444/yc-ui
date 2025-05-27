@@ -15,7 +15,7 @@ import {
 } from '../type';
 import { useControlValue, isArray } from '@shared/utils';
 
-export const SLIDER_PROVIDE_KEY = 'slider-context';
+export const SLIDER_CONTEXT_KEY = 'slider-context';
 
 export interface SliderContext {
   startValue: Ref<number>;
@@ -120,7 +120,7 @@ export default () => {
       const maxValue = max.value <= 100 ? 100 : max.value;
       return (value * 100) / maxValue;
     }
-    _provide<SliderContext>(SLIDER_PROVIDE_KEY, {
+    _provide<SliderContext>(SLIDER_CONTEXT_KEY, {
       startValue,
       endValue,
       tempStartValue,
@@ -152,7 +152,7 @@ export default () => {
     };
   };
   const inject = () => {
-    return _inject<SliderContext>(SLIDER_PROVIDE_KEY, {
+    return _inject<SliderContext>(SLIDER_CONTEXT_KEY, {
       startValue: ref(0),
       endValue: ref(0),
       tempEndValue: ref(0),

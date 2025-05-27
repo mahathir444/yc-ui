@@ -22,7 +22,7 @@ import { useControlValue } from '@shared/utils';
 import useSelectOptions from './useSelectOptions';
 import useSelectHotkeys from './useSelectHotkeys';
 
-export const SELECT_PROVIDE_KEY = 'select-context';
+export const SELECT_CONTEXT_KEY = 'select-context';
 
 export interface SelectContext {
   computedValue: Ref<SelectValue | SelectValue[] | undefined>;
@@ -144,7 +144,7 @@ export default () => {
       inputRef.value.blur();
     }
     // 提供值
-    _provide<SelectContext>(SELECT_PROVIDE_KEY, {
+    _provide<SelectContext>(SELECT_CONTEXT_KEY, {
       computedValue,
       computedInputValue,
       limit,
@@ -170,7 +170,7 @@ export default () => {
     };
   };
   const inject = () => {
-    return _inject<SelectContext>(SELECT_PROVIDE_KEY, {
+    return _inject<SelectContext>(SELECT_CONTEXT_KEY, {
       computedValue: ref(undefined),
       computedInputValue: ref(''),
       multiple: ref(false),
