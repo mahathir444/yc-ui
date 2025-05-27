@@ -21,9 +21,9 @@ export interface MenuProps {
   triggerProps?: TriggerProps;
   tooltipProps?: TooltipProps;
   autoOpenSelected?: boolean;
-  popupMaxHeight?: PopupMaxHeight;
   autoScrollIntoView?: boolean;
   scrollConfig?: ScrollIntoViewOptions;
+  popupMaxHeight?: PopupMaxHeight;
 }
 
 export interface MenuEmits {
@@ -62,7 +62,6 @@ export interface SubMenuSlots {
 export interface MenuItemProps {
   path?: string;
   disabled?: boolean;
-  isSubmenu?: boolean;
 }
 
 export interface MenuItemSlots {

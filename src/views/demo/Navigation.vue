@@ -68,7 +68,7 @@
     </yc-dropdown>
     <!-- menu -->
     <yc-menu show-collapse-button theme="dark" class="menu">
-      <yc-sub-menu title="层级1" path="321">
+      <yc-sub-menu title="菜单1" path="321">
         <template #icon>
           <icon-dashboard />
         </template>
@@ -143,6 +143,6 @@ const menus = Array(5)
 }
 :deep(.menu) {
   width: 260px;
-  height: 300px;
+  height: 700px;
 }
 </style>

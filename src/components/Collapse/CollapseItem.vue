@@ -15,7 +15,7 @@
         class="yc-collapse-item-header-icon"
       >
         <slot name="expand-icon">
-          <icon-right :rotate="computedActiveKey.includes(value) ? 90 : 0" />
+          <icon-right :rotate="computedActiveKey.includes(path) ? 90 : 0" />
         </slot>
       </yc-icon-button>
       <div class="yc-collapse-item-header-title text-ellipsis">
@@ -29,8 +29,8 @@
     </div>
     <expand-transition>
       <div
-        v-if="!destroyOnHide || computedActiveKey.includes(value)"
-        v-show="computedActiveKey.includes(value)"
+        v-if="!destroyOnHide || computedActiveKey.includes(path)"
+        v-show="computedActiveKey.includes(path)"
         role="region"
         class="yc-collapse-item-content"
       >
@@ -53,13 +53,13 @@ defineOptions({
 });
 defineSlots<CollapseItemSlots>();
 const props = withDefaults(defineProps<CollapseItemProps>(), {
-  value: '',
+  path: '',
   header: '',
   disabled: false,
   showExpandIcon: true,
   destroyOnHide: false,
 });
-const { value, disabled } = toRefs(props);
+const { path, disabled } = toRefs(props);
 // 注入数据
 const { inject } = useContext();
 const {
@@ -72,15 +72,15 @@ const {
 // 处理点击
 const handleClick = () => {
   if (disabled.value) return;
-  if (computedActiveKey.value.includes(value.value)) {
+  if (computedActiveKey.value.includes(path.value)) {
     computedActiveKey.value = computedActiveKey.value.filter(
-      (item) => item != value.value
+      (item) => item != path.value
     );
   } else {
     if (accordion.value) {
-      computedActiveKey.value = [value.value];
+      computedActiveKey.value = [path.value];
     } else {
-      computedActiveKey.value.push(value.value);
+      computedActiveKey.value.push(path.value);
     }
   }
 };

@@ -1,6 +1,5 @@
 <template>
   <div
-    v-show="mode != 'horizontal' || curIndex <= max"
     :class="[
       'yc-menu-item-wrapper',
       {
@@ -23,10 +22,10 @@
         @click="handleClick"
       >
         <div
-          v-if="curLevel"
+          v-if="!isRoot"
           class="yc-menu-indent"
           :style="{
-            width: `${levelIndent * curLevel}px`,
+            width: `${levelIndent * curNode.level}px`,
             height: `${levelIndent}px`,
           }"
         ></div>
@@ -57,7 +56,7 @@
     </define-template>
     <!-- dropdown选择 -->
     <yc-dropdown
-      v-if="isSubmenu && !curLevel && (mode != 'vertical' || computedCollapsed)"
+      v-if="isSubmenu && isRoot && (mode != 'vertical' || computedCollapsed)"
       :popup-max-height="maxHeight"
       :trigger-props="{
         autoFitPosition: false,
@@ -69,26 +68,19 @@
       @select="handleSelect"
     >
       <reuse-template />
-
       <template #content>
         <menu-pop-option
-          v-for="item in childTree"
-          :key="item.path"
-          :child-node="item"
-          :mode="mode"
-          :computed-selected-keys="computedSelectedKeys"
+          v-for="node in curMenu"
+          :key="node.path"
+          :tree-node="node"
           :popup-max-height="maxHeight"
-          :trigger-props="triggerProps"
-        >
-          {{ item.label }}
-        </menu-pop-option>
+        />
       </template>
     </yc-dropdown>
     <!-- 选然tooltip -->
     <yc-tooltip
-      v-else-if="!isSubmenu && !curLevel && computedCollapsed"
+      v-else-if="!isSubmenu && isRoot && computedCollapsed"
       position="rt"
-      :content="title"
       :trigger-props="{
         autoFitPosition: false,
         ...tooltipProps,
@@ -96,6 +88,9 @@
       }"
     >
       <reuse-template />
+      <template #content>
+        <component :is="$slots.default" />
+      </template>
     </yc-tooltip>
     <!-- 选然template -->
     <reuse-template v-else />
@@ -103,12 +98,15 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, toRefs, computed, onMounted } from 'vue';
+import { ref, toRefs, computed, onMounted, useAttrs } from 'vue';
 import { createReusableTemplate } from '@vueuse/core';
+import { isUndefined } from '@shared/utils';
 import { MenuItemProps, MenuItemSlots } from './type';
-import { getTextContent, isNumber } from '@shared/utils';
-import useContext from './hooks/useContext';
-import useMenuLevel from './hooks/useMenuLevel';
+import {
+  default as useContext,
+  MenuTreeNode,
+  isMenuItemActive,
+} from './hooks/useContext';
 import MenuPopOption from './MenuPopOption.vue';
 import { default as YcDropdown, DoptionValue } from '@/components/Dropdown';
 import YcTooltip from '@/components/Tooltip';
@@ -119,9 +117,9 @@ defineSlots<MenuItemSlots>();
 const props = withDefaults(defineProps<MenuItemProps>(), {
   path: '',
   disabled: false,
-  isSubmenu: false,
 });
-const { path, disabled, isSubmenu } = toRefs(props);
+const { path, disabled } = toRefs(props);
+const attrs = useAttrs();
 // 接收menu注入
 const { inject } = useContext();
 const {
@@ -138,48 +136,50 @@ const {
   tooltipProps,
   autoScrollIntoView,
   scrollConfig,
-  popupMaxHeight: _popupMaxHeight,
-  max,
-  index,
-  menuItemData,
+  popupMaxHeight,
+  flattenTreeNodes,
+  menuTree,
   emits: _emits,
 } = inject();
 // 创建通用模板
 const { reuse: ReuseTemplate, define: DefineTemplate } =
   createReusableTemplate();
-// title容器
+// menuItem容器
 const menuItemRef = ref<HTMLDivElement>();
-// title
-const title = computed(() => {
-  return menuItemRef.value ? getTextContent(menuItemRef.value) : '';
+// 当前节点的信息
+const curNode = computed(() => {
+  return flattenTreeNodes.value.find(
+    (item) => item.path == path.value
+  ) as MenuTreeNode;
+});
+// 当前的menu
+const curMenu = computed(() => {
+  const target = menuTree.value.find((item) => item.path == path.value);
+  return target?.children || ([] as MenuTreeNode[]);
+});
+// 是否是子节点
+const isSubmenu = computed(() => {
+  return curNode.value.type == 'submenu';
+});
+// 是否是根节点
+const isRoot = computed(() => {
+  return curNode.value.level === 0;
+});
+// 是否选中
+const isSelected = computed(() => {
+  return isMenuItemActive(
+    menuTree.value,
+    path.value,
+    computedSelectedKeys.value
+  );
 });
 // maxHeight
 const maxHeight = computed(() => {
-  if (popupMaxHeight.value && isNumber(popupMaxHeight.value)) {
-    return popupMaxHeight.value;
-  } else if (_popupMaxHeight.value && isNumber(_popupMaxHeight.value)) {
-    return _popupMaxHeight.value;
-  }
-  return 167;
+  return !isUndefined(attrs.popupMaxHeight)
+    ? (attrs.popupMaxHeight as number)
+    : (popupMaxHeight.value as number);
 });
-// 接收submenu注入
-const {
-  isSelected,
-  curLevel,
-  curIndex,
-  childTree,
-  popupMaxHeight,
-  collectKeys,
-} = useMenuLevel({
-  path,
-  isSubmenu,
-  index,
-  menuItemRef,
-  menuItemData,
-  mode: 'menuitem',
-  computedSelectedKeys,
-});
-// 注入Popover
+// 处理选中
 const handleSelect = (value: DoptionValue) => {
   if (computedSelectedKeys.value == value) return;
   computedSelectedKeys.value = value as string;
@@ -223,10 +223,9 @@ const handleClick = () => {
 };
 // 收集
 onMounted(() => {
-  collectKeys(title.value);
   autoScroll();
   if (
-    !isSubmenu.value ||
+    !curNode.value ||
     !autoOpen.value ||
     !autoOpenSelected.value ||
     !isSelected.value
@@ -234,12 +233,6 @@ onMounted(() => {
     return;
   }
   computedOpenKeys.value.push(path.value);
-});
-// 暴露方法
-defineExpose({
-  getTitle() {
-    return title.value;
-  },
 });
 </script>
 

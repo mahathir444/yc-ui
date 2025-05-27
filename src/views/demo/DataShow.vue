@@ -169,21 +169,21 @@
     </yc-space>
     <!-- collapse -->
     <yc-collapse style="width: fit-content; height: fit-content">
-      <yc-collapse-item header="Beijing Toutiao Technology Co., Ltd." value="1">
+      <yc-collapse-item header="Beijing Toutiao Technology Co., Ltd." path="1">
         <div>Beijing Toutiao Technology Co., Ltd.</div>
         <div>Beijing Toutiao Technology Co., Ltd.</div>
         <div>Beijing Toutiao Technology Co., Ltd.</div>
       </yc-collapse-item>
       <yc-collapse-item
         header="Beijing Toutiao Technology Co., Ltd."
-        :value="2"
+        :path="2"
         disabled
       >
         <div>Beijing Toutiao Technology Co., Ltd.</div>
         <div>Beijing Toutiao Technology Co., Ltd.</div>
         <div>Beijing Toutiao Technology Co., Ltd.</div>
       </yc-collapse-item>
-      <yc-collapse-item header="Beijing Toutiao Technology Co., Ltd." value="3">
+      <yc-collapse-item header="Beijing Toutiao Technology Co., Ltd." path="3">
         <div>Beijing Toutiao Technology Co., Ltd.</div>
         <div>Beijing Toutiao Technology Co., Ltd.</div>
         <div>Beijing Toutiao Technology Co., Ltd.</div>

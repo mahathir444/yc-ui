@@ -9,7 +9,7 @@
     <div class="yc-menu-inner" ref="menuRef">
       <slot />
       <!-- 省略内容  -->
-      <menu-ellipsis v-if="mode == 'horizontal' && max < menuItemData.length" />
+      <!-- <menu-ellipsis v-if="mode == 'horizontal' && max < menuItemData.length" /> -->
     </div>
     <!-- 收缩按钮 -->
     <div
@@ -64,8 +64,11 @@ const emits = defineEmits<MenuEmits>();
 const menuRef = ref<HTMLDivElement>();
 // 注入数据
 const { provide } = useContext();
-const { computedCollapsed, collapsedWidth, breakpoint, max, menuItemData } =
-  provide(props, emits, menuRef);
+const { computedCollapsed, collapsedWidth, breakpoint } = provide(
+  props,
+  emits
+  // menuRef
+);
 // 处理点击
 const handleClick = () => {
   computedCollapsed.value = !computedCollapsed.value;

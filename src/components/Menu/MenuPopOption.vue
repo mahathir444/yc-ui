@@ -1,51 +1,44 @@
 <template>
   <yc-doption
-    v-if="childNode.type == 'menuitem'"
-    :value="childNode.path"
-    :is-active="computedSelectedKeys == childNode.path"
+    v-if="treeNode.type == 'menuitem'"
+    :value="treeNode.path"
+    :is-active="computedSelectedKeys == treeNode.path"
   >
-    {{ childNode.label }}
+    <component :is="treeNode.label" />
   </yc-doption>
   <yc-dsubmenu
     v-else
+    :popup-max-height="popupMaxHeight"
     :trigger-props="{
       popupTranslate: [-4, 0],
       ...triggerProps,
     }"
-    :popup-max-height="popupMaxHeight"
   >
-    {{ childNode.label }}
+    <component :is="treeNode.label" />
     <template #content>
-      <div v-for="v in childNode.children" :key="v.path">
-        <pop-option
-          :child-node="v"
-          :mode="mode"
-          :computed-selected-keys="computedSelectedKeys"
-          :popupMaxHeight="popupMaxHeight"
-          :trigger-props="triggerProps"
-        />
-      </div>
+      <pop-option
+        v-for="v in treeNode.children"
+        :key="v.path"
+        :tree-node="v"
+        :popupMaxHeight="popupMaxHeight"
+      />
     </template>
   </yc-dsubmenu>
 </template>
 
 <script lang="ts" setup>
-import { MenuMode } from './type';
-import { TriggerProps } from '@/components/Trigger';
-import { ChlidTreeNode } from './hooks/useMenuLevel';
+import { default as useContext, MenuTreeNode } from './hooks/useContext';
 import {
   Doption as YcDoption,
   Dsubmenu as YcDsubmenu,
 } from '@/components/Dropdown';
-
 defineOptions({
   name: 'PopOption',
 });
 defineProps<{
-  childNode: ChlidTreeNode;
-  triggerProps: TriggerProps;
+  treeNode: MenuTreeNode;
   popupMaxHeight: number;
-  computedSelectedKeys: string;
-  mode: MenuMode;
 }>();
+const { inject } = useContext();
+const { triggerProps, computedSelectedKeys, mode } = inject();
 </script>

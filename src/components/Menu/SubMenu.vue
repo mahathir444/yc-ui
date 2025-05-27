@@ -3,8 +3,8 @@
     <yc-menu-item
       is-submenu
       :path="path"
+      :popupMaxHeight="popupMaxHeight"
       class="yc-menu-inline-header"
-      ref="headerRef"
     >
       <slot name="title">
         {{ title }}
@@ -40,13 +40,12 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, toRefs, onMounted } from 'vue';
+import { toRefs } from 'vue';
 import { SubMenuProps, SubMenuSlots } from './type';
-import useMenuLevel from './hooks/useMenuLevel';
 import useContext from './hooks/useContext';
 import { IconArrowDown, IconArrowRight } from '@shared/icons';
 import { ExpandTransition } from '@shared/components';
-import { MenuItem as YcMenuItem, MenuItemInstance } from './index';
+import { MenuItem as YcMenuItem } from './index';
 defineOptions({
   name: 'SubMenu',
 });
@@ -59,32 +58,9 @@ const props = withDefaults(defineProps<SubMenuProps>(), {
   popupMaxHeight: undefined,
 });
 const { path, title } = toRefs(props);
-// headerRef
-const headerRef = ref<MenuItemInstance>();
 // 接收父级注入的属性
 const { inject } = useContext();
-const {
-  mode,
-  computedOpenKeys,
-  computedCollapsed,
-  computedSelectedKeys,
-  popupMaxHeight: _popupMaxHeight,
-} = inject();
-// 注入属性
-const { provideKeys, collectKeys } = useMenuLevel({
-  path,
-  isSubmenu: ref(false),
-  mode: 'submenu',
-  computedSelectedKeys,
-  menuItemRef: ref<HTMLDivElement | undefined>(),
-  menuItemData: ref([]),
-  index: ref(0),
-});
-provideKeys();
-
-onMounted(() => {
-  collectKeys(title.value ? title.value : headerRef.value!.getTitle());
-});
+const { mode, computedOpenKeys, computedCollapsed } = inject();
 </script>
 
 <style lang="less" scoped>

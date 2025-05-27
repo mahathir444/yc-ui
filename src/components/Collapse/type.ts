@@ -18,7 +18,7 @@ export interface CollapseSlots {
 }
 
 export interface CollapseItemProps {
-  value?: CollapseValue;
+  path?: CollapseValue;
   header?: string;
   disabled?: boolean;
   showExpandIcon?: boolean;

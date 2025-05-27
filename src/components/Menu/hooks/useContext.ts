@@ -1,11 +1,20 @@
-import { ref, Ref, provide as _provide, inject as _inject, toRefs } from 'vue';
+import {
+  ref,
+  Ref,
+  provide as _provide,
+  inject as _inject,
+  toRefs,
+  VNode,
+  computed,
+  useSlots,
+} from 'vue';
 import { TooltipProps } from '@/components/Tooltip';
 import { TriggerProps } from '@/components/Trigger';
 import { MenuMode, PopupMaxHeight, MenuEmits } from '../type';
-import { Props } from '@shared/type';
-import { ChlidTreeNode } from './useMenuLevel';
-import { useControlValue } from '@shared/utils';
-import useCalcMaxItems from './useCalcMaxItems';
+import { Props, ObjectData } from '@shared/type';
+import { useControlValue, isObject, isFunction } from '@shared/utils';
+import { SubMenu, MenuItem } from '..';
+import { nanoid } from 'nanoid';
 
 export const MENU_CONTEXT_KEY = 'menu-context';
 
@@ -24,23 +33,126 @@ export interface MenuContext {
   autoScrollIntoView: Ref<boolean>;
   scrollConfig: Ref<ScrollIntoViewOptions>;
   popupMaxHeight: Ref<PopupMaxHeight>;
-  index: Ref<number>;
-  max: Ref<number>;
-  menuItemData: Ref<MenuItemData[]>;
+  flattenTreeNodes: Ref<MenuTreeNode[]>;
+  menuTree: Ref<MenuTreeNode[]>;
   emits: MenuEmits;
 }
 
-export type MenuItemData = {
-  width: number;
-  childTree: ChlidTreeNode[];
-};
+export interface MenuTreeNode {
+  id: string;
+  type: 'submenu' | 'menuitem';
+  path: string;
+  parentId: string | null;
+  level: number;
+  label: () => any;
+  children?: MenuTreeNode[];
+}
+// 扁平化nodetree
+export function FlattenMenuNodes(vnodes: VNode[], componentName: string[]) {
+  const result: MenuTreeNode[] = [];
+  const traverse = (
+    nodes: ObjectData | ObjectData[],
+    parentId: string | null = null,
+    depth: number = 0
+  ) => {
+    if (!nodes) return;
+    const nodeList = Array.isArray(nodes) ? nodes : [nodes];
+    for (const node of nodeList) {
+      if (!node || !isObject(node)) continue;
+      const id = nanoid(8);
+      const name = (node.type as ObjectData)?.name;
+      const props = node.props as ObjectData;
+      const children = node.children as ObjectData;
+      const isSubMenu = name === SubMenu.name;
+      const childParentId = isSubMenu ? id : parentId;
+      const childDepth = isSubMenu ? depth + 1 : depth;
+      if (componentName.includes(name)) {
+        result.push({
+          id,
+          type: isSubMenu ? 'submenu' : 'menuitem',
+          path: props.path,
+          label: () => {
+            if (isSubMenu) {
+              return children.title?.() || props.title;
+            } else {
+              return children.default?.();
+            }
+          },
+          parentId,
+          level: depth,
+        });
+      }
+      if (Array.isArray(node.children)) {
+        traverse(node.children, childParentId, childDepth);
+      } else if (isObject(node.children) && !Array.isArray(node.children)) {
+        for (const key of Object.keys(node.children)) {
+          if (!isFunction(node.children[key])) continue;
+          const children = node.children[key]?.() || [];
+          traverse(children, childParentId, childDepth);
+        }
+      }
+    }
+  };
+  traverse(vnodes);
+  return result;
+}
+// 构建menuTree
+export function buildMenuTree(flatData: MenuTreeNode[]): MenuTreeNode[] {
+  const nodeMap = new Map<string, MenuTreeNode>();
+  const tree: MenuTreeNode[] = [];
+  flatData.forEach((node) => {
+    nodeMap.set(node.id, { ...node, children: [] });
+  });
+  nodeMap.forEach((node) => {
+    if (node.parentId === null) {
+      tree.push(node);
+    } else {
+      const parent = nodeMap.get(node.parentId);
+      if (parent) {
+        parent.children!.push(node);
+      }
+    }
+  });
+  return tree;
+}
+// 菜单是否激活
+export function isMenuItemActive(
+  menuTree: MenuTreeNode[],
+  currentPath: string,
+  activePath: string
+): boolean {
+  if (currentPath === activePath) {
+    return true;
+  }
+  const findNode = (
+    nodes: MenuTreeNode[],
+    path: string
+  ): MenuTreeNode | null => {
+    for (const node of nodes) {
+      if (node.path === path) return node;
+      if (node.children && node.children.length > 0) {
+        const found = findNode(node.children, path);
+        if (found) return found;
+      }
+    }
+    return null;
+  };
+  const currentNode = findNode(menuTree, currentPath);
+  if (!currentNode) return false;
+  const checkSubtree = (node: MenuTreeNode, targetPath: string): boolean => {
+    if (node.path === targetPath) return true;
+    if (node.children) {
+      return node.children.some((child: MenuTreeNode) =>
+        checkSubtree(child, targetPath)
+      );
+    }
+    return false;
+  };
+  return checkSubtree(currentNode, activePath);
+}
 
 export default () => {
-  const provide = (
-    props: Props,
-    emits: MenuEmits,
-    menuRef: Ref<HTMLDivElement | undefined>
-  ) => {
+  const provide = (props: Props, emits: MenuEmits) => {
     // 解构属性
     const {
       selectedKeys,
@@ -90,8 +202,17 @@ export default () => {
         emits('update:openKeys', val);
       }
     );
-    // 计算能显示的menuItem数目
-    const { max, index, menuItemData } = useCalcMaxItems(menuRef, mode.value);
+    // 处理树形结构
+    const slots = useSlots();
+    // 扁平化的树
+    const flattenTreeNodes = computed(() => {
+      return FlattenMenuNodes(slots.default?.() || [], [
+        SubMenu.name,
+        MenuItem.name,
+      ]);
+    });
+    // 构建树节点
+    const menuTree = computed(() => buildMenuTree(flattenTreeNodes.value));
     // 注入
     _provide<MenuContext>(MENU_CONTEXT_KEY, {
       computedSelectedKeys,
@@ -107,15 +228,12 @@ export default () => {
       popupMaxHeight,
       autoScrollIntoView,
       scrollConfig,
-      index,
       theme,
-      max,
-      menuItemData,
+      flattenTreeNodes,
+      menuTree,
       emits,
     });
     return {
-      max,
-      menuItemData,
       computedCollapsed,
       breakpoint,
       collapsedWidth,
@@ -137,9 +255,8 @@ export default () => {
       popupMaxHeight: ref(167),
       autoScrollIntoView: ref(false),
       scrollConfig: ref({}),
-      index: ref(0),
-      max: ref(0),
-      menuItemData: ref([]),
+      flattenTreeNodes: ref([]),
+      menuTree: ref([]),
       emits: () => {},
     });
   };
