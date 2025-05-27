@@ -48,6 +48,7 @@ export interface MenuTreeNode {
   label: () => any;
   children?: MenuTreeNode[];
 }
+
 // 扁平化nodetree
 export function FlattenMenuTree(vnodes: VNode[], componentName: string[]) {
   const result: MenuTreeNode[] = [];

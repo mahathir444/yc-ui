@@ -40,7 +40,6 @@
 </template>
 
 <script lang="ts" setup>
-import { toRefs } from 'vue';
 import { SubMenuProps, SubMenuSlots } from './type';
 import useContext from './hooks/useContext';
 import { IconArrowDown, IconArrowRight } from '@shared/icons';
@@ -50,14 +49,13 @@ defineOptions({
   name: 'SubMenu',
 });
 defineSlots<SubMenuSlots>();
-const props = withDefaults(defineProps<SubMenuProps>(), {
+withDefaults(defineProps<SubMenuProps>(), {
   path: '',
   title: '',
   selectable: false,
   popup: false,
   popupMaxHeight: undefined,
 });
-const { path, title } = toRefs(props);
 // 接收父级注入的属性
 const { inject } = useContext();
 const { mode, computedOpenKeys, computedCollapsed } = inject();

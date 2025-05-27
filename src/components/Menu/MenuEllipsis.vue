@@ -13,7 +13,6 @@
         position: 'bl',
         ...triggerProps,
       }"
-      ref="dropdownRef"
       @select="handleSelect"
     >
       <div
@@ -35,16 +34,11 @@
       </div>
       <template #content>
         <menu-pop-option
-          v-for="item in menuItemData.slice(max)"
-          :key="item.childTree[0].path"
-          :child-node="item.childTree[0]"
-          :mode="mode"
-          :computed-selected-keys="computedSelectedKeys"
+          v-for="node in submenus"
+          :key="node.path"
+          :tree-node="node"
           :popup-max-height="maxHeight"
-          :trigger-props="triggerProps"
-        >
-          {{ item.childTree[0].label }}
-        </menu-pop-option>
+        />
       </template>
     </yc-dropdown>
   </div>
@@ -54,13 +48,9 @@
 import { ref, computed } from 'vue';
 import { IconMore, IconArrowDown } from '@shared/icons';
 import { isNumber } from '@shared/utils';
-import useContext from './hooks/useContext';
+import { default as useContext, isMenuItemActive } from './hooks/useContext';
 import MenuPopOption from './MenuPopOption.vue';
-import {
-  default as YcDropdown,
-  DropdownInstance,
-  DoptionValue,
-} from '@/components/Dropdown';
+import { default as YcDropdown, DoptionValue } from '@/components/Dropdown';
 // 接收menu注入
 const { inject } = useContext();
 const {
@@ -69,15 +59,28 @@ const {
   theme,
   triggerProps,
   popupMaxHeight,
+  menuTree,
   emits,
 } = inject();
-// popup可见性
-const dropdownRef = ref<DropdownInstance>();
 // 计算最大height
 const maxHeight = computed(() => {
   return popupMaxHeight.value && isNumber(popupMaxHeight.value)
     ? popupMaxHeight.value
     : 167;
+});
+// 最大显示的元素个数
+const max = ref(100000);
+// submenu
+const submenus = computed(() => menuTree.value.slice(max.value));
+// 是否选中
+const isSelected = computed(() => {
+  return submenus.value.some((item) => {
+    return isMenuItemActive(
+      menuTree.value,
+      item.path,
+      computedSelectedKeys.value
+    );
+  });
 });
 // 处理选择
 const handleSelect = (value: DoptionValue) => {
