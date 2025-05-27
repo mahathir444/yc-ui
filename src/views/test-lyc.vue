@@ -1,6 +1,11 @@
 <template>
   <div class="test">
     <yc-breadcrumb :max-count="3">
+      <template #more-icon>
+        <yc-tooltip content="more routes a/b/c">
+          <icon-more />
+        </yc-tooltip>
+      </template>
       <yc-breadcrumb-item>Home</yc-breadcrumb-item>
       <yc-breadcrumb-item>Sub Home</yc-breadcrumb-item>
       <yc-breadcrumb-item>All Channel</yc-breadcrumb-item>

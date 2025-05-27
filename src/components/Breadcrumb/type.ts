@@ -34,6 +34,7 @@ export interface BreadcrumbItemSlots {
 export interface BreadcrumbRoute {
   label?: string;
   path?: string;
+  index?: number;
   children?: BreadcrumbRoute[];
 }
 

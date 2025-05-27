@@ -10,7 +10,10 @@
       </a>
       <slot v-else />
       <!-- 显示dropdowncion -->
-      <div v-if="droplist.length" class="yc-breadcrumb-item-dropdown-icon">
+      <div
+        v-if="droplist.length || $slots.droplist"
+        class="yc-breadcrumb-item-dropdown-icon"
+      >
         <icon-arrow-down :rotate="popupVisible ? 180 : 0" />
       </div>
     </div>
