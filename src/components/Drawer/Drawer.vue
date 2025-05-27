@@ -7,8 +7,7 @@
         'yc-drawer-wrapper',
         `yc-drawer-placement-${placement}`,
         {
-          'yc-drawer-wrapper-position-absolute':
-            popupContainer || !renderToBody,
+          'yc-drawer-position-absolute': popupContainer || !renderToBody,
         },
       ]"
       :style="{

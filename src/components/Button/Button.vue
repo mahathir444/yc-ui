@@ -2,7 +2,19 @@
   <a
     v-if="href"
     :href="href"
-    :class="btnClass"
+    :class="[
+      'yc-button',
+      `yc-button-size-${size}`,
+      `yc-button-${type}`,
+      `yc-button-status-${status}`,
+      `yc-button-shape-${shape}`,
+      {
+        'yc-button-long': long,
+        'yc-button-loading': loading,
+        'yc-button-disabled': disabled,
+        'yc-button-only-icon': !$slots.default,
+      },
+    ]"
     v-bind="$attrs"
     @mousedown="handleEvent('mousedown', $event)"
     @mouseup="handleEvent('mouseup', $event)"
@@ -20,7 +32,19 @@
     v-else
     :type="htmlType"
     :disabled="disabled"
-    :class="btnClass"
+    :class="[
+      'yc-button',
+      `yc-button-size-${size}`,
+      `yc-button-${type}`,
+      `yc-button-status-${status}`,
+      `yc-button-shape-${shape}`,
+      {
+        'yc-button-long': long,
+        'yc-button-loading': loading,
+        'yc-button-disabled': disabled,
+        'yc-button-only-icon': !$slots.default,
+      },
+    ]"
     v-bind="$attrs"
     @mousedown="handleEvent('mousedown', $event)"
     @mouseup="handleEvent('mouseup', $event)"
@@ -37,7 +61,7 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, toRefs, useSlots } from 'vue';
+import { toRefs } from 'vue';
 import { ButtonProps, ButtonEmits, ButtonSlots } from './type';
 import useContext from './hooks/useContext';
 import YcSpin from '@/components/Spin';
@@ -65,34 +89,9 @@ const {
   shape: _shape,
   long,
 } = toRefs(props);
-const slots = useSlots();
 // 呼求注入
 const { inject } = useContext();
 const { size, disabled, type, status, shape } = inject(props);
-// button的class
-const btnClass = computed(() => {
-  return [
-    'yc-button',
-    // size
-    `yc-button-size-${size.value}`,
-    // type
-    `yc-button-${type.value}`,
-    // status
-    `yc-button-status-${status.value}`,
-    // shape
-    `yc-button-shape-${shape.value}`,
-    {
-      // long
-      'yc-button-long': long.value,
-      // loading
-      'yc-button-loading': loading.value,
-      // disabled
-      'yc-button-disabled': disabled.value,
-      // only-icon
-      'yc-button-only-icon': !slots.default,
-    },
-  ];
-});
 // 拦截事件
 const handleEvent = (type: string, e: MouseEvent) => {
   if (disabled.value || loading.value) return;
