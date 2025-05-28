@@ -31,6 +31,7 @@ export default (params: {
     disabled,
     scrollToCloseDistance,
     autoSetPosition,
+    alignPoint,
   } = toRefs(props as TriggerProps);
   // 接收全局属性
   const { scrollToClose } = getGlobalConfig(props);
@@ -54,9 +55,6 @@ export default (params: {
   } = useContext(trigger.value, () => {
     computedVisible.value = false;
   });
-  // 记录鼠标操作的位置
-  const mouseX = ref<number>(0);
-  const mouseY = ref<number>(0);
   // visible
   const computedVisible = useControlValue<boolean>(
     popupVisible,
@@ -66,6 +64,9 @@ export default (params: {
       emits('popup-visible-change', val);
     }
   );
+  // 记录鼠标操作的位置
+  const mouseX = ref<number>(0);
+  const mouseY = ref<number>(0);
   let oldScrollLeft = 0;
   let oldScrollTop = 0;
   // 滚动容器
@@ -76,10 +77,13 @@ export default (params: {
   });
   // 点击
   const handleClickEvent = (e: MouseEvent) => {
-    if (!['click', 'contextMenu'].includes(trigger.value) || disabled.value)
+    if (!['click', 'contextMenu'].includes(trigger.value) || disabled.value) {
       return;
-    if (timeout.value) clearTimeout(timeout.value);
-    if (!autoSetPosition.value) {
+    }
+    if (timeout.value) {
+      clearTimeout(timeout.value);
+    }
+    if (!autoSetPosition.value && alignPoint.value) {
       const { pageX, pageY } = e;
       mouseX.value = pageX;
       mouseY.value = pageY;
@@ -91,9 +95,15 @@ export default (params: {
   // 鼠标进入
   const handleMouseenter = () => {
     setHoverLevel(mouseEnterDelay.value);
-    if (trigger.value != 'hover' || disabled.value) return;
-    if (timeout.value) clearTimeout(timeout.value);
-    if (computedVisible.value) return;
+    if (trigger.value != 'hover' || disabled.value) {
+      return;
+    }
+    if (timeout.value) {
+      clearTimeout(timeout.value);
+    }
+    if (computedVisible.value) {
+      return;
+    }
     timeout.value = setTimeout(() => {
       computedVisible.value = true;
       // 触发enter事件
@@ -102,9 +112,15 @@ export default (params: {
   };
   // 鼠标离开
   const handleMouseleave = (e: MouseEvent) => {
-    if (trigger.value != 'hover' || disabled.value) return;
-    if (timeout.value) clearTimeout(timeout.value);
-    if (!computedVisible.value) return;
+    if (trigger.value != 'hover' || disabled.value) {
+      return;
+    }
+    if (timeout.value) {
+      clearTimeout(timeout.value);
+    }
+    if (!computedVisible.value) {
+      return;
+    }
     timeout.value = setTimeout(() => {
       // 处理不嵌套的情况
       if (!isNested.value) {
@@ -126,9 +142,15 @@ export default (params: {
   };
   // 聚焦
   const handleFocus = () => {
-    if (trigger.value != 'focus' || disabled.value) return;
-    if (timeout.value) clearTimeout(timeout.value);
-    if (computedVisible.value) return;
+    if (trigger.value != 'focus' || disabled.value) {
+      return;
+    }
+    if (timeout.value) {
+      clearTimeout(timeout.value);
+    }
+    if (computedVisible.value) {
+      return;
+    }
     timeout.value = setTimeout(() => {
       computedVisible.value = true;
       // 触发foucs事件
@@ -137,10 +159,15 @@ export default (params: {
   };
   // 失焦
   const handleBlur = () => {
-    if (trigger.value != 'focus' || !blurToClose.value || disabled.value)
+    if (trigger.value != 'focus' || !blurToClose.value || disabled.value) {
       return;
-    if (timeout.value) clearTimeout(timeout.value);
-    if (!computedVisible.value) return;
+    }
+    if (timeout.value) {
+      clearTimeout(timeout.value);
+    }
+    if (!computedVisible.value) {
+      return;
+    }
     computedVisible.value = false;
     onTriggerBlur?.();
   };
