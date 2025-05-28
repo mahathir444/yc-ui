@@ -41,11 +41,11 @@ export default () => {
     const curHref = ref<string>('');
     // hrefs
     const hrefs = computed(() => {
-      const node = findComponentsFromVnodes(
+      const nodes = findComponentsFromVnodes(
         slots.default?.() || [],
         AnchorLink.name as string
       );
-      return node.map((item) => item.props.href);
+      return nodes.map((node) => node.props?.href);
     });
     // 滚动容器
     const scrollContainer = computed(() => {
@@ -63,11 +63,11 @@ export default () => {
     });
     return {
       hrefs,
+      curHref,
       changeHash,
       smooth,
       boundary,
       lineLess,
-      curHref,
       scrollContainer,
     };
   };

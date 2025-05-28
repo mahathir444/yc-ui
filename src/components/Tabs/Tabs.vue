@@ -113,9 +113,11 @@ const {
 } = provide(props, emits, listRef);
 // 获取tabPane的数据
 const slots = useSlots();
+// tabPanes
 const tabPanes = computed(() =>
   findComponentsFromVnodes(slots.default?.() || [], TabPane.name as string)
 );
+// pane数据
 const panes = computed(() => {
   return tabPanes.value.map((item) => {
     return {

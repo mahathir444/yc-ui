@@ -51,16 +51,16 @@ export default () => {
     const slots = useSlots();
     // 查找所有的descriptionItems
     const data = computed(() => {
-      const items = findComponentsFromVnodes(
+      const nodes = findComponentsFromVnodes(
         slots.default?.() || [],
         YcDescriptionsItem.name as string
       );
-      if (!items.length) return _data.value;
-      return items.map((item) => {
+      if (!nodes.length) return _data.value;
+      return nodes.map((node) => {
         return {
-          label: item.children?.label ?? item.props?.label,
-          value: item.children?.default,
-          span: item.props?.span,
+          label: node.children?.label ?? node.props?.label,
+          value: node.children?.default,
+          span: node.props?.span,
         } as DescData;
       });
     });

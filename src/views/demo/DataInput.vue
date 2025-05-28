@@ -1,7 +1,7 @@
 <template>
   <div class="form">
     <div style="width: 300px">
-      <yc-select allow-clear allow-search multiple placeholder="select">
+      <yc-select allow-clear multiple placeholder="select">
         <yc-option
           v-for="item in options"
           :key="item.value"

@@ -14,10 +14,7 @@
     <!-- default -->
     <yc-prevent-focus class="yc-select-suffix-icon">
       <component v-if="slots['arrow-icon']" :is="renderIcon('arrow-icon')" />
-      <template v-else>
-        <icon-arrow-up v-if="popupVisible" />
-        <icon-arrow-down v-else />
-      </template>
+      <icon-arrow-up v-else :rotate="popupVisible ? 0 : 180" />
     </yc-prevent-focus>
     <!-- search -->
     <yc-prevent-focus v-if="allowSearch" class="yc-select-search-icon">
@@ -35,7 +32,7 @@
 
 <script lang="ts" setup>
 import useContext from './hooks/useContext';
-import { IconArrowDown, IconArrowUp } from '@shared/icons';
+import { IconArrowUp } from '@shared/icons';
 import { YcIconButton, YcPreventFocus } from '@shared/components';
 import YcSpin from '@/components/Spin';
 defineProps<{

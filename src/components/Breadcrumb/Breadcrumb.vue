@@ -3,15 +3,15 @@
     <!-- 渲染默认插槽 -->
     <template v-if="$slots.default">
       <template v-for="(node, i) in breadcrumbItems" :key="i">
-        <breadcrumb-more v-if="node == 'more-icon'" :slots="slots" />
+        <breadcrumb-more v-if="node?.type == 'more-icon'" :slots="slots" />
         <component v-else :is="node" />
         <!-- 分隔符 -->
         <breadcrumb-separator
           v-if="i < breadcrumbItems.length - 1"
           :separator="separator"
           :separator-slots="$slots.separator"
-          :item-separator="(node as ObjectData)?.props?.separator"
-          :item-separator-slots="(node as ObjectData)?.children?.separator"
+          :item-separator="node.props?.separator"
+          :item-separator-slots="node.children?.separator"
         />
       </template>
     </template>
@@ -67,17 +67,19 @@ const { maxCount, routes } = toRefs(props);
 const slots = useSlots();
 // slot-items
 const breadcrumbItems = computed(() => {
-  const items = findComponentsFromVnodes(
+  const nodes = findComponentsFromVnodes(
     slots.default?.() || [],
     YcBreadcrumbItem.name as string
   );
-  return maxCount.value > 0 && items.length > maxCount.value
+  return maxCount.value > 0 && nodes.length > maxCount.value
     ? [
-        ...items.slice(0, 1),
-        'more-icon',
-        ...items.slice(items.length - maxCount.value + 1, items.length),
+        ...nodes.slice(0, 1),
+        {
+          type: 'more-icon',
+        },
+        ...nodes.slice(nodes.length - maxCount.value + 1, nodes.length),
       ]
-    : items;
+    : nodes;
 });
 // routes
 const routeData = computed(() => {
