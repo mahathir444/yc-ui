@@ -6,99 +6,92 @@ import { RequiredDeep } from '@shared/type';
 export const TRIGGER_CONTEXT_KEY = 'trigger-context';
 
 export type TriggerContext = {
-  level: number;
-  curHoverLevel: Ref<number>;
+  depth: number;
+  curDepth: Ref<number>;
   groupIds: Ref<string[]>;
   timeout: Ref<NodeJS.Timeout | undefined>;
-  hoverTimer: Ref<NodeJS.Timeout | undefined>;
+  hoverTimeout: Ref<NodeJS.Timeout | undefined>;
   hide?: () => void;
 };
 
 export type TriggerProps = RequiredDeep<_TriggerProps>;
-
+/**
+ * @param depth 记录组件内部嵌套的层级,当curHoverLevel小于level关闭
+ * @param curDepth 记录当前hover的层级
+ * @param groupIds 同一个submenu里面的groupId集合
+ * @param groupId  组件标识，用于标识元素是否处于一个嵌套中
+ */
 export default (trigger: TriggerType, hideCallback?: () => void) => {
-  // 组件标识，用于标识submenu是否处于一个嵌套中
   const groupId = nanoid(32);
-  /**
-   * @param level 记录组件内部嵌套的层级,当curHoverLevel小于level关闭
-   * @param curHoverLevel 记录当前hover的层级
-   * @param groupIds 同一个submenu里面的groupId集合
-   */
   const {
-    level: _level,
-    curHoverLevel,
+    depth: _depth,
+    curDepth,
     groupIds,
     timeout,
-    hoverTimer,
+    hoverTimeout,
   } = inject<TriggerContext>(TRIGGER_CONTEXT_KEY, {
-    level: -1,
-    curHoverLevel: ref(0),
+    depth: -1,
+    curDepth: ref(0),
     groupIds: ref([]),
-    hoverTimer: ref<NodeJS.Timeout>(),
     timeout: ref<NodeJS.Timeout>(),
+    hoverTimeout: ref<NodeJS.Timeout>(),
   });
   // 设置level
-  const level = _level + 1;
+  const depth = _depth + 1;
   // 设置groupId
-  groupIds.value[level] = groupId;
+  groupIds.value[depth] = groupId;
   // 是否嵌套
-  const isNested = computed(() => groupIds.value.length > 1);
+  const hasChildren = computed(() => groupIds.value.length > 1);
   // 设置hoverLevel
-  const setHoverLevel = (delay: number) => {
+  const setDepth = (delay: number) => {
     // 处理trigger嵌套,以及多重触发的问题
-    if (hoverTimer.value) clearTimeout(hoverTimer.value);
-    hoverTimer.value = setTimeout(() => {
-      curHoverLevel.value = level;
+    if (hoverTimeout.value) {
+      clearTimeout(hoverTimeout.value);
+    }
+    hoverTimeout.value = setTimeout(() => {
+      curDepth.value = depth;
     }, delay);
   };
   //   判断是否在一个嵌套组内
-  const isSameNestedGroup = (el: HTMLElement) => {
+  const isSameGroup = (el: HTMLElement) => {
     const dataId = el.getAttribute('data-group-id') as string;
-    const dataLevel = el.getAttribute('data-group-level') as string;
-    if (dataId && groupIds.value.includes(groupId)) {
+    const dataDepth = el.getAttribute('data-group-depth') as string;
+    const isGroup = !!dataId && groupIds.value.includes(groupId);
+    if (isGroup || el.tagName == 'BODY') {
       return {
-        isGroup: true,
+        isGroup,
         groupId: dataId,
-        level: Number.parseInt(dataLevel),
-      };
-    } else if (el.tagName == 'BODY') {
-      return {
-        isGroup: false,
-        groupId: '',
-        level: -1,
+        depth: isGroup ? Number.parseInt(dataDepth) : -1,
       };
     } else {
-      return isSameNestedGroup(el.parentElement as HTMLElement);
+      return isSameGroup(el.parentElement as HTMLElement);
     }
   };
-  // 处理hover关闭
-  if (hideCallback) {
-    // 检测层级的改变自动关闭
-    watch(curHoverLevel, (v) => {
-      if (level <= v || trigger != 'hover') {
-        return;
-      }
-      hideCallback();
-    });
-  }
+  // 检测层级的改变自动关闭
+  watch(curDepth, (v) => {
+    if (depth <= v || trigger != 'hover') {
+      return;
+    }
+    hideCallback?.();
+  });
   // trigger提供的值
   provide<TriggerContext>(TRIGGER_CONTEXT_KEY, {
-    level,
-    curHoverLevel,
+    depth,
+    curDepth,
     groupIds,
-    hoverTimer,
+    hoverTimeout,
     timeout,
   });
 
   return {
-    level,
-    curHoverLevel,
+    depth,
+    curDepth,
     groupId,
     groupIds,
     timeout,
-    hoverTimer,
-    isNested,
-    setHoverLevel,
-    isSameNestedGroup,
+    hoverTimeout,
+    hasChildren,
+    setDepth,
+    isSameGroup,
   };
 };

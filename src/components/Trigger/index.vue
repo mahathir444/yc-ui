@@ -22,7 +22,7 @@
         v-show="computedVisible && !disabled"
         :prevent-focus="preventFocus"
         :data-group-id="groupId"
-        :data-group-level="level"
+        :data-group-depth="depth"
         :class="[
           'yc-trigger',
           `yc-trigger-position-${position}`,
@@ -128,7 +128,7 @@ const slots = useSlots();
 const vNode = computed(() => findFirstLegitChild(slots.default?.() || []));
 // 处理trigger关闭与开启
 const {
-  level,
+  depth,
   groupId,
   computedVisible,
   mouseX,

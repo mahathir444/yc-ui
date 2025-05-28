@@ -45,13 +45,13 @@ export default (params: {
   } = props;
   // 处理嵌套
   const {
-    isNested,
-    level,
-    curHoverLevel,
+    hasChildren,
+    depth,
+    curDepth,
     timeout,
     groupId,
-    setHoverLevel,
-    isSameNestedGroup,
+    setDepth,
+    isSameGroup,
   } = useContext(trigger.value, () => {
     computedVisible.value = false;
   });
@@ -94,7 +94,7 @@ export default (params: {
   };
   // 鼠标进入
   const handleMouseenter = () => {
-    setHoverLevel(mouseEnterDelay.value);
+    setDepth(mouseEnterDelay.value);
     if (trigger.value != 'hover' || disabled.value) {
       return;
     }
@@ -122,22 +122,20 @@ export default (params: {
       return;
     }
     timeout.value = setTimeout(() => {
-      // 处理不嵌套的情况
-      if (!isNested.value) {
-        computedVisible.value = false;
-      }
-      // 处理嵌套情况
-      else {
-        const { isGroup } = isSameNestedGroup(
-          e.relatedTarget as HTMLDivElement
-        );
-        // 如果在一个组则关闭
-        isGroup && (computedVisible.value = false);
-        // 不在一个组则关闭所有
-        !isGroup && (curHoverLevel.value = -1);
-      }
       // 处理leave事件
       onTriggerMouseleave?.();
+      // 处理不嵌套的情况
+      if (!hasChildren.value) {
+        computedVisible.value = false;
+        return;
+      }
+      const { isGroup } = isSameGroup(e.relatedTarget as HTMLDivElement);
+      // 如果在一个组则关闭
+      if (isGroup) {
+        computedVisible.value = false;
+      } else {
+        curDepth.value = -1;
+      }
     }, mouseLeaveDelay.value);
   };
   // 聚焦
@@ -185,13 +183,13 @@ export default (params: {
         if (disabled.value) return;
         let isIngore = false;
         // 处理dropdown或者嵌套情况
-        if (isNested.value) {
-          const { isGroup, level: _level } = isSameNestedGroup(
+        if (hasChildren.value) {
+          const { isGroup, depth: _depth } = isSameGroup(
             (e.target ?? e) as HTMLElement
           );
           isIngore = isGroup;
           computedVisible.value = isIngore
-            ? level <= _level
+            ? depth <= _depth
             : computedVisible.value;
         }
         // 处理正常逻辑
@@ -238,7 +236,7 @@ export default (params: {
   handleClickOutsideClose();
   handleScrollToClose();
   return {
-    level,
+    depth,
     groupId,
     mouseX,
     mouseY,
