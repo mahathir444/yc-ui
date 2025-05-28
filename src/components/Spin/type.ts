@@ -4,8 +4,8 @@ export interface SpinProps {
   dot?: boolean;
   tip?: string;
   hideIcon?: boolean;
+  // 是否阻止焦点
   preventFocus?: boolean;
-  // 大小是否继承
   isSizeInherit?: boolean;
 }
 

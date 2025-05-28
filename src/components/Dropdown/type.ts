@@ -9,8 +9,8 @@ export interface DropdownProps {
   position?: DropdownPosition;
   popupContainer?: PopupContainer;
   hideOnSelect?: boolean;
+  // triggerProps
   triggerProps?: TriggerProps;
-  // 最大高度
   popupMaxHeight?: number;
   theme?: Theme;
 }
@@ -52,8 +52,8 @@ export interface DsubmenuProps {
   position?: DsubmenuPosition;
   popupVisible?: boolean;
   defaultPopupVisible?: boolean;
+  // triggerProps
   triggerProps?: TriggerProps;
-  // 最大高度
   popupMaxHeight?: number;
 }
 

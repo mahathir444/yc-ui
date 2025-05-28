@@ -167,7 +167,7 @@ export function isMenuItemActive(
   };
   return checkSubtree(currentNode, activePath);
 }
-
+// 获取popupmaxHeight
 export const getPopupMaxHeight = (popupMaxHeight: PopupMaxHeight) => {
   if (
     isUndefined(popupMaxHeight) ||
@@ -179,6 +179,7 @@ export const getPopupMaxHeight = (popupMaxHeight: PopupMaxHeight) => {
     return popupMaxHeight;
   }
 };
+
 export default () => {
   const provide = (
     props: Props,
@@ -252,7 +253,7 @@ export default () => {
     // 树节点
     const menuTree = computed(() => buildMenuTree(menuTreeNodes.value));
     // 最大能展示元素的个数
-    const max = ref<number>(10000);
+    const max = ref<number>(1000000);
     // 横向宽度检测
     if (mode.value == 'horizontal') {
       const { stop } = useResizeObserver(

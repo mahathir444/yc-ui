@@ -20,9 +20,10 @@ export interface PopconfirmProps {
   arrowClass?: ClassName;
   arrowStyle?: CSSProperties;
   popupContainer?: PopupContainer;
-  triggerProps?: TriggerProps;
   onBeforeOk?: OnBeforeOk;
   onBeforeCancel?: OnBeforeCancel;
+  // triggerProps
+  triggerProps?: TriggerProps;
 }
 
 export interface PopconfirmEmits {

@@ -79,11 +79,13 @@ export interface SelectExpose {
 }
 
 export interface OptionProps {
-  id?: string;
   label?: string;
   value?: SelectValue;
   disabled?: boolean;
   tagProps?: TagProps;
+  // 选项id
+  id?: string;
+  // 是否是fallbackoption
   isFallbackOption?: boolean;
 }
 

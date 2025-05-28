@@ -101,6 +101,7 @@ import { getGlobalConfig } from '@shared/utils';
 import YcCheckbox from '@/components/Checkbox';
 import YcScrollbar from '@/components/Scrollbar';
 import YcInput from '@/components/Input';
+import YcEmpty from '@/components/Empty';
 import { YcIconButton, SlotRender } from '@shared/components';
 defineSlots<TransferPanelSlots>();
 const props = defineProps<{

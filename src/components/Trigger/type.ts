@@ -37,6 +37,7 @@ export interface TriggerProps {
   needTransformOrigin?: boolean;
   // 是否需要自由设置位置
   autoSetPosition?: boolean;
+  // 各个回调
   onTriggerMouseenter?: () => void;
   onTriggerMouseleave?: () => void;
   onTriggerMouseclick?: () => void;

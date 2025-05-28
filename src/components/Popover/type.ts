@@ -18,6 +18,7 @@ export interface PopoverProps {
   arrowClass?: ClassName;
   arrowStyle?: CSSProperties;
   popupContainer?: PopupContainer;
+  // triggerProps
   triggerProps?: TriggerProps;
 }
 

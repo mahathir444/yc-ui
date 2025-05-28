@@ -42,6 +42,7 @@ import useContext from './hooks/useContext';
 import SelectVirtualList from './SelectVirtualList.vue';
 import SelectRealList from './SelectRealList.vue';
 import YcSpin from '@/components/Spin';
+import YcEmpty from '@/components/Empty';
 import { SlotRender } from '@shared/components';
 const props = defineProps<{
   loading: boolean;

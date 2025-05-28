@@ -60,9 +60,12 @@
             </template>
           </div>
           <!-- empty -->
-          <slot name="empty">
-            <yc-empty v-if="!$slots.default && !curList.length" />
-          </slot>
+          <slot-render
+            v-if="!$slots.default && !curList.length"
+            :render="$slots.empty || renderEmpty"
+          >
+            <yc-empty v-if="!$slots.empty && !providerSlots.empty" />
+          </slot-render>
           <!-- footer -->
           <div v-if="$slots.footer" class="yc-list-footer">
             <slot name="footer" />
@@ -96,6 +99,7 @@ import YcEmpty from '@/components/Empty';
 import YcScrollbar from '@/components/Scrollbar';
 import YcPagination from '@/components/Pagination';
 import VirtualList from './ListVirtual.vue';
+import { SlotRender } from '@shared/components';
 defineOptions({
   name: 'List',
 });
@@ -123,7 +127,7 @@ const {
   maxHeight: _maxHeight,
 } = toRefs(props);
 // 注入全局属性
-const { size } = getGlobalConfig(props);
+const { size, slots: providerSlots } = getGlobalConfig(props);
 const maxHeight = computed(() => `${_maxHeight.value}px`);
 // 是否触底
 const isBottomReached = ref<boolean>(false);
@@ -169,6 +173,12 @@ const isVirtualList = computed(() => {
 const handleScroll = (v: boolean) => {
   isBottomReached.value = v;
   emits('scroll');
+};
+// 渲染empty
+const renderEmpty = () => {
+  return providerSlots.empty?.({
+    component: 'Select',
+  });
 };
 </script>
 
