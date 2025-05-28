@@ -1,7 +1,7 @@
 <template>
   <div :class="['yc-menu-item-wrapper', 'yc-menu-item-mode-horizontal']">
     <yc-dropdown
-      :popup-max-height="maxHeight"
+      :popup-max-height="popupMaxHeight"
       :trigger-props="{
         position: 'bl',
         ...triggerProps,
@@ -30,7 +30,7 @@
           v-for="node in submenus"
           :key="node.path"
           :tree-node="node"
-          :popup-max-height="maxHeight"
+          :popup-max-height="popupMaxHeight"
         />
       </template>
     </yc-dropdown>
@@ -40,7 +40,6 @@
 <script lang="ts" setup>
 import { computed } from 'vue';
 import { IconMore, IconArrowDown } from '@shared/icons';
-import { isNumber } from '@shared/utils';
 import { default as useContext, isMenuItemActive } from './hooks/useContext';
 import MenuPopOption from './MenuPopOption.vue';
 import { default as YcDropdown, DoptionValue } from '@/components/Dropdown';
@@ -55,12 +54,6 @@ const {
   max,
   emits,
 } = inject();
-// 计算最大height
-const maxHeight = computed(() => {
-  return popupMaxHeight.value && isNumber(popupMaxHeight.value)
-    ? popupMaxHeight.value
-    : 167;
-});
 // submenu
 const submenus = computed(() => menuTree.value.slice(max.value));
 // 是否选中

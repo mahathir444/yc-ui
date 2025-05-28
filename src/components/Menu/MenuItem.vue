@@ -58,7 +58,7 @@
     <!-- dropdown选择 -->
     <yc-dropdown
       v-if="isSubmenu && isRoot && (mode != 'vertical' || computedCollapsed)"
-      :popup-max-height="maxHeight"
+      :popup-max-height="popupMaxHeight"
       :trigger-props="{
         autoFitPosition: false,
         position: mode == 'horizontal' ? 'bl' : 'rt',
@@ -74,7 +74,7 @@
           v-for="node in submenus"
           :key="node.path"
           :tree-node="node"
-          :popup-max-height="maxHeight"
+          :popup-max-height="popupMaxHeight"
         />
       </template>
     </yc-dropdown>
@@ -100,13 +100,14 @@
 
 <script lang="ts" setup>
 import { ref, toRefs, computed, onMounted, useAttrs } from 'vue';
+import { MenuItemProps, MenuItemSlots, PopupMaxHeight } from './type';
 import { createReusableTemplate } from '@vueuse/core';
 import { isUndefined } from '@shared/utils';
-import { MenuItemProps, MenuItemSlots } from './type';
 import {
   default as useContext,
   MenuTreeNode,
   isMenuItemActive,
+  getPopupMaxHeight,
 } from './hooks/useContext';
 import MenuPopOption from './MenuPopOption.vue';
 import { default as YcDropdown, DoptionValue } from '@/components/Dropdown';
@@ -137,7 +138,7 @@ const {
   tooltipProps,
   autoScrollIntoView,
   scrollConfig,
-  popupMaxHeight,
+  popupMaxHeight: _popupMaxHeight,
   menuTreeNodes,
   menuTree,
   max,
@@ -178,10 +179,10 @@ const isSelected = computed(() => {
   );
 });
 // maxHeight
-const maxHeight = computed(() => {
+const popupMaxHeight = computed(() => {
   return !isUndefined(attrs.popupMaxHeight)
-    ? (attrs.popupMaxHeight as number)
-    : (popupMaxHeight.value as number);
+    ? getPopupMaxHeight(attrs.popupMaxHeight as PopupMaxHeight)
+    : _popupMaxHeight.value;
 });
 // menuItem容器
 const menuItemRef = ref<HTMLDivElement>();

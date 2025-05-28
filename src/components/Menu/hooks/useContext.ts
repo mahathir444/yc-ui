@@ -14,7 +14,15 @@ import { TooltipProps } from '@/components/Tooltip';
 import { TriggerProps } from '@/components/Trigger';
 import { MenuMode, PopupMaxHeight, MenuEmits } from '../type';
 import { Props, ObjectData } from '@shared/type';
-import { useControlValue, isObject, isFunction, throttle } from '@shared/utils';
+import {
+  useControlValue,
+  isObject,
+  isFunction,
+  throttle,
+  isNumber,
+  isUndefined,
+  isBoolean,
+} from '@shared/utils';
 import { SubMenu, MenuItem } from '../index';
 import { nanoid } from 'nanoid';
 import { useResizeObserver } from '@vueuse/core';
@@ -33,7 +41,7 @@ export interface MenuContext {
   theme: Ref<'light' | 'dark'>;
   autoScrollIntoView: Ref<boolean>;
   scrollConfig: Ref<ScrollIntoViewOptions>;
-  popupMaxHeight: Ref<PopupMaxHeight>;
+  popupMaxHeight: Ref<number | undefined>;
   triggerProps: Ref<TriggerProps>;
   tooltipProps: Ref<TooltipProps>;
   menuTreeNodes: Ref<MenuTreeNode[]>;
@@ -160,6 +168,17 @@ export function isMenuItemActive(
   return checkSubtree(currentNode, activePath);
 }
 
+export const getPopupMaxHeight = (popupMaxHeight: PopupMaxHeight) => {
+  if (
+    isUndefined(popupMaxHeight) ||
+    (isBoolean(popupMaxHeight) && popupMaxHeight)
+  ) {
+    return 167;
+  }
+  if (isNumber(popupMaxHeight)) {
+    return popupMaxHeight;
+  }
+};
 export default () => {
   const provide = (
     props: Props,
@@ -183,7 +202,7 @@ export default () => {
       autoOpenSelected,
       mode,
       theme,
-      popupMaxHeight,
+      popupMaxHeight: _popupMaxHeight,
       autoScrollIntoView,
       scrollConfig,
       collapsedWidth,
@@ -215,6 +234,10 @@ export default () => {
         emits('update:openKeys', val);
       }
     );
+    // popMaxHeight
+    const popupMaxHeight = computed(() => {
+      return getPopupMaxHeight(_popupMaxHeight.value);
+    });
     // 处理树形结构
     const slots = useSlots();
     // 扁平化的树节点
@@ -298,7 +321,7 @@ export default () => {
       autoOpenSelected: ref(false),
       mode: ref('vertical'),
       theme: ref('light'),
-      popupMaxHeight: ref(167),
+      popupMaxHeight: ref(),
       autoScrollIntoView: ref(false),
       scrollConfig: ref({}),
       menuTreeNodes: ref([]),

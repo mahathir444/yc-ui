@@ -37,7 +37,7 @@ defineOptions({
 });
 defineProps<{
   treeNode: MenuTreeNode;
-  popupMaxHeight: number;
+  popupMaxHeight?: number;
 }>();
 const { inject } = useContext();
 const { triggerProps, computedSelectedKeys, mode } = inject();
