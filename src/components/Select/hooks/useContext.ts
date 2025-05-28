@@ -51,10 +51,7 @@ export default () => {
   const provide = (
     props: Props,
     emits: SelectEmits,
-    refs: {
-      popupRef: Ref<TriggerInstance | undefined>;
-      inputRef: Ref<InputInstance | undefined>;
-    }
+    inputRef: Ref<InputInstance | undefined>
   ) => {
     const {
       popupVisible,
@@ -72,7 +69,6 @@ export default () => {
       options: provideOptions,
     } = toRefs(props as SelectProps);
     const { formatLabel, fallbackOption, filterOption } = props as SelectProps;
-    const { popupRef, inputRef } = refs;
     // popupVisible
     const computedVisible = useControlValue<boolean>(
       popupVisible,
@@ -101,13 +97,20 @@ export default () => {
     );
     // fieldKey
     const fieldKey = computed(() => {
-      return {
-        label: fieldNames.value['label'] ?? 'label',
-        value: fieldNames.value['value'] ?? 'value',
-        disabled: fieldNames.value['disabled'] ?? 'disabled',
-        tagProps: fieldNames.value['tagProps'] ?? 'tagProps',
-        render: fieldNames.value['render'] ?? 'render',
-      };
+      const keys = [
+        'id',
+        'label',
+        'value',
+        'disabled',
+        'tagProps',
+        'render',
+        'isFallbackOption',
+      ];
+      return Object.fromEntries(
+        keys.map((key) => {
+          return [key, fieldNames.value[key] ?? key];
+        })
+      );
     });
     // 获取选项的值
     const { options, renderOptions, selectOptions, isEmpty, collectOption } =
@@ -115,8 +118,6 @@ export default () => {
         computedValue,
         computedInputValue,
         multiple,
-        popupRef,
-        fieldKey,
         showExtraOptions,
         provideOptions,
         getValue,
@@ -134,7 +135,6 @@ export default () => {
       blur,
       emits,
     });
-
     // 获取value
     function getValue(value: SelectValue) {
       return (value as ObjectData)?.[valueKey.value] ?? value;

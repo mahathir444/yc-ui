@@ -218,7 +218,6 @@ export default () => {
     });
     // 树节点
     const menuTree = computed(() => buildMenuTree(menuTreeNodes.value));
-    console.log(menuTree.value, menuTreeNodes.value);
     // 注入
     _provide<MenuContext>(MENU_CONTEXT_KEY, {
       computedSelectedKeys,

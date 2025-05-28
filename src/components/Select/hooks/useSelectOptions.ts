@@ -17,17 +17,14 @@ import {
   FormatLabel,
   SelectOptionData,
 } from '../index';
-import { TriggerInstance } from '@/components/Trigger';
 import { getTextContent, isObject } from '@shared/utils';
 
 export default (params: {
   multiple: Ref<boolean>;
   computedValue: Ref<SelectValue>;
   computedInputValue: Ref<string>;
-  fieldKey: Ref<Record<string, string>>;
   provideOptions: Ref<SelectOptions>;
   showExtraOptions: Ref<boolean>;
-  popupRef: Ref<TriggerInstance | undefined>;
   getValue: (value: string | ObjectData) => SelectValue;
   fallbackOption?: FallbackOption;
   formatLabel?: FormatLabel;
@@ -52,7 +49,7 @@ export default (params: {
       options.value.map((item) => [getValue(item.value), item])
     );
     return selectValue.value
-      .filter((v) => valueMap.get(v))
+      .filter((v) => !valueMap.get(v))
       .map((v: SelectValue) => {
         const target = fallbackOption(v);
         return {
@@ -64,14 +61,16 @@ export default (params: {
   // 渲染的option数组
   const renderOptions = computed<SelectOptions>(() => {
     return [...provideOptions.value, ...fallbackOptions.value].map((item) => {
+      let option = item;
+      if (!isObject) {
+        option = {
+          label: item,
+          value: item,
+        };
+      }
       return {
         id: nanoid(),
-        ...(isObject(item)
-          ? item
-          : {
-              label: item,
-              value: item,
-            }),
+        ...option,
       };
     });
   });
@@ -82,7 +81,8 @@ export default (params: {
   });
   // 选中的值
   const selectOptions = computed(() => {
-    const optionsMap = new Map(
+    // 组件inputMap
+    const valueMap = new Map(
       [...options.value, ...fallbackOptions.value].map((item) => [
         getValue(item.value),
         item,
@@ -90,15 +90,11 @@ export default (params: {
     );
     // 计算input-tag需要显示的值
     return selectValue.value.map((v) => {
-      const option = optionsMap.get(v);
+      const option = (valueMap.get(v) || {}) as SelectOptionData;
       return {
+        ...option,
         id: `${v}`,
-        label: option
-          ? (formatLabel?.(option as SelectOptionData) ?? option?.label)
-          : v,
-        value: v,
-        closeable: option?.tagProps?.closeable,
-        tagProps: option?.tagProps,
+        label: option ? (formatLabel?.(option) ?? option?.label) : v,
       };
     });
   });
@@ -125,7 +121,6 @@ export default (params: {
       optionMap.delete(id);
     });
   };
-
   return {
     options,
     renderOptions,

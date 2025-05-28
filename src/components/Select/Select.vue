@@ -205,10 +205,7 @@ const popupRef = ref<TriggerInstance>();
 // 注入值
 const { provide } = useContext();
 const { computedVisible, computedValue, computedInputValue, selectOptions } =
-  provide(props, emits, {
-    popupRef,
-    inputRef,
-  });
+  provide(props, emits, inputRef);
 // 是否展示清除按钮
 const showClearBtn = computed(() => {
   const hasValue = multiple.value
