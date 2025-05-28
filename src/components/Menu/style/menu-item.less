@@ -14,6 +14,7 @@
   .yc-menu-icon {
     line-height: 1;
     margin-right: 16px;
+    color: rgb(134, 144, 156);
   }
   .yc-menu-item-title {
     flex-shrink: 0;
@@ -87,6 +88,9 @@ each(@item-themes, .(@value,@name){
       font-weight: 500;
       color: @value[selected-color];
       background-color: @value[hover-bg];
+      .yc-menu-icon{
+        color: @value[selected-color];
+      }
     }
     &.yc-menu-item-disabled{
       color: @value[disabled-color];

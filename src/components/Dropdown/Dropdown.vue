@@ -13,10 +13,10 @@
   >
     <slot />
     <template #content>
-      <div class="yc-dropdown">
+      <div :class="['yc-dropdown', `yc-dropdown-theme-${theme}`]">
         <yc-scrollbar
           :style="{
-            maxHeight: popupMaxHeight + 'px',
+            maxHeight: `${popupMaxHeight}px`,
           }"
         >
           <div class="yc-dropdown-list">
@@ -57,6 +57,7 @@ const props = withDefaults(defineProps<DropdownProps>(), {
     return {};
   },
   popupMaxHeight: 200,
+  theme: 'light',
 });
 const emits = defineEmits<{
   (e: 'update:popupVisible', value: boolean): void;

@@ -2,6 +2,7 @@
   <div
     :class="[
       'yc-dropdown-option',
+      `yc-dropdown-option-theme-${theme}`,
       {
         'yc-dropdown-option-active': isActive,
         'yc-dropdown-option-disabled': disabled,
@@ -23,7 +24,7 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, toRefs } from 'vue';
+import { toRefs } from 'vue';
 import { DoptionProps, DoptionValue, DoptionSlots } from './type';
 import useContext from './hooks/useContext';
 defineOptions({
@@ -32,8 +33,8 @@ defineOptions({
 defineSlots<DoptionSlots>();
 const props = withDefaults(defineProps<DoptionProps>(), {
   disabled: false,
-  isSubmenu: false,
   isActive: false,
+  isSubmenu: false,
 });
 const emits = defineEmits<{
   (e: 'click', ev: MouseEvent): void;
@@ -41,7 +42,7 @@ const emits = defineEmits<{
 const { value: optionValue, disabled, isSubmenu } = toRefs(props);
 // dropdown传递的值
 const { inject } = useContext();
-const { select } = inject();
+const { select, theme } = inject();
 // 处理后缀点击
 const handleClick = (ev: MouseEvent) => {
   if (disabled.value) return;

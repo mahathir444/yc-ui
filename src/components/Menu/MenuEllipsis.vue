@@ -2,9 +2,11 @@
   <div :class="['yc-menu-item-wrapper', 'yc-menu-item-mode-horizontal']">
     <yc-dropdown
       :popup-max-height="popupMaxHeight"
+      :theme="theme"
       :trigger-props="{
         position: 'bl',
         ...triggerProps,
+        popupOffset: 16,
       }"
       @select="handleSelect"
     >
@@ -31,6 +33,8 @@
           :key="node.path"
           :tree-node="node"
           :popup-max-height="popupMaxHeight"
+          :trigger-props="triggerProps"
+          :computed-selected-keys="computedSelectedKeys"
         />
       </template>
     </yc-dropdown>

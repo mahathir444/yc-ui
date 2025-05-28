@@ -1,4 +1,4 @@
-import { PopupContainer } from '@shared/type';
+import { PopupContainer, Theme } from '@shared/type';
 import { TriggerProps, TriggerType } from '@/components/Trigger';
 import { ButtonProps, ButtonType } from '@/components/Button';
 import { Size } from '@shared/type';
@@ -10,7 +10,9 @@ export interface DropdownProps {
   popupContainer?: PopupContainer;
   hideOnSelect?: boolean;
   triggerProps?: TriggerProps;
+  // 最大高度
   popupMaxHeight?: number;
+  theme?: Theme;
 }
 
 export interface DropdownEmits {
@@ -33,6 +35,7 @@ export interface DropdownExpose {
 export interface DoptionProps {
   value?: DoptionValue;
   disabled?: boolean;
+  // 是否激活
   isSubmenu?: boolean;
   isActive?: boolean;
 }
@@ -50,6 +53,7 @@ export interface DsubmenuProps {
   popupVisible?: boolean;
   defaultPopupVisible?: boolean;
   triggerProps?: TriggerProps;
+  // 最大高度
   popupMaxHeight?: number;
 }
 

@@ -22,6 +22,7 @@
         ref="menuItemRef"
         @click="handleClick"
       >
+        <!-- indent -->
         <div
           v-if="!isRoot"
           class="yc-menu-indent"
@@ -30,6 +31,7 @@
             height: `${levelIndent}px`,
           }"
         ></div>
+        <!-- icon -->
         <div v-if="$slots.icon" class="yc-menu-icon">
           <slot name="icon" />
         </div>
@@ -59,11 +61,13 @@
     <yc-dropdown
       v-if="isSubmenu && isRoot && (mode != 'vertical' || computedCollapsed)"
       :popup-max-height="popupMaxHeight"
+      :theme="theme"
       :trigger-props="{
         autoFitPosition: false,
         position: mode == 'horizontal' ? 'bl' : 'rt',
         animationName:
           mode == 'horizontal' ? 'slide-dynamic-origin' : 'zoom-in-fade-out',
+        popupOffset: mode == 'vertical' ? 18 : 16,
         ...triggerProps,
       }"
       @select="handleSelect"
@@ -75,6 +79,8 @@
           :key="node.path"
           :tree-node="node"
           :popup-max-height="popupMaxHeight"
+          :trigger-props="triggerProps"
+          :computed-selected-keys="computedSelectedKeys"
         />
       </template>
     </yc-dropdown>
@@ -84,6 +90,7 @@
       position="rt"
       :trigger-props="{
         autoFitPosition: false,
+        popupOffset: mode == 'vertical' ? 14 : 18,
         ...tooltipProps,
         ...triggerProps,
       }"

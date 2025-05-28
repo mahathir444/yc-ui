@@ -1,4 +1,5 @@
 <template>
+  <!-- 渲染dropdownm -->
   <yc-doption
     v-if="treeNode.type == 'menuitem'"
     :value="treeNode.path"
@@ -6,6 +7,7 @@
   >
     <component :is="treeNode.label" />
   </yc-doption>
+  <!-- 渲染submenu -->
   <yc-dsubmenu
     v-else
     :popup-max-height="popupMaxHeight"
@@ -21,24 +23,28 @@
         :key="v.path"
         :tree-node="v"
         :popupMaxHeight="popupMaxHeight"
+        :triggerProps="triggerProps"
+        :computedSelectedKeys="computedSelectedKeys"
       />
     </template>
   </yc-dsubmenu>
 </template>
 
 <script lang="ts" setup>
-import { default as useContext, MenuTreeNode } from './hooks/useContext';
+import { MenuTreeNode } from './hooks/useContext';
 import {
   Doption as YcDoption,
   Dsubmenu as YcDsubmenu,
 } from '@/components/Dropdown';
+import { TriggerProps } from '@/components/Trigger';
+import { Theme } from '@shared/type';
 defineOptions({
   name: 'PopOption',
 });
 defineProps<{
   treeNode: MenuTreeNode;
   popupMaxHeight?: number;
+  triggerProps: TriggerProps;
+  computedSelectedKeys: string;
 }>();
-const { inject } = useContext();
-const { triggerProps, computedSelectedKeys, mode } = inject();
 </script>

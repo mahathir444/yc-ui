@@ -15,17 +15,17 @@
     ref="triggerRef"
     v-bind="triggerProps"
   >
-    <yc-doption :disabled="disabled" is-submenu ref="optionRef">
+    <yc-doption :disabled="disabled" :theme="theme" is-submenu ref="optionRef">
       <slot />
       <template #suffix>
         <icon-arrow-right />
       </template>
     </yc-doption>
     <template #content>
-      <div class="yc-dropdown">
+      <div :class="['yc-dropdown', `yc-dropdown-theme-${theme}`]">
         <yc-scrollbar
           :style="{
-            maxHeight: popupMaxHeight + 'px',
+            maxHeight: `${popupMaxHeight}px`,
           }"
         >
           <div class="yc-dropdown-list">
@@ -50,6 +50,7 @@ import {
   DsubmenuEmits,
   Doption as YcDoption,
 } from './index';
+import useContext from './hooks/useContext';
 import { default as YcTrigger, TriggerInstance } from '@/components/Trigger';
 import YcScrollbar from '@/components/Scrollbar';
 defineOptions({
@@ -74,6 +75,9 @@ const {
   trigger: _trigger,
   position: _position,
 } = toRefs(props);
+// 接收注入
+const { inject } = useContext();
+const { theme } = inject();
 // option的实例
 const optionRef = ref();
 // 触发器实例

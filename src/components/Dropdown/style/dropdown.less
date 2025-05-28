@@ -1,7 +1,5 @@
 .yc-dropdown {
   padding: 4px 0;
-  background-color: #fff;
-  border: 1px solid rgb(229, 230, 235);
   border-radius: 4px;
   box-shadow: 0 4px 10px #0000001a;
   .yc-dropdown-list {
@@ -12,3 +10,21 @@
     border-top: 1px solid rgb(229, 230, 235);
   }
 }
+// theme
+@theme: {
+  @light: {
+    border: 1px solid rgb(229, 230, 235);
+    bg: #fff;
+  };
+  @dark: {
+    border: 1px solid #232324;
+    bg: #232324;
+  };
+};
+each(@theme,.(@value,@name){
+  @key:replace(~"@{name}", "@", "");
+  .yc-dropdown-theme-@{key}{
+    background-color: @value[bg];
+    border: @value[border];
+  }
+});
