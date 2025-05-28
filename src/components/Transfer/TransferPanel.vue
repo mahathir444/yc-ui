@@ -85,8 +85,8 @@
         </slot-render>
       </yc-scrollbar>
       <!-- 渲染empty -->
-      <slot-render :render="renderEmpty">
-        <yc-empty v-if="!providerSlots.empty" />
+      <slot-render :render="renderEmpty('Transfer')">
+        <yc-empty v-if="!configSlots.empty" />
       </slot-render>
     </div>
   </div>
@@ -109,7 +109,7 @@ const props = defineProps<{
 }>();
 const { type } = toRefs(props);
 // configProvider
-const { slots: providerSlots } = getGlobalConfig();
+const { slots: configSlots, renderEmpty } = getGlobalConfig();
 // 接收注入
 const { inject } = useContext();
 const {
@@ -240,12 +240,6 @@ const renderItem = (item: TransferItem) => {
   return slots.item?.({
     label: item.label,
     value: item.value,
-  });
-};
-// 渲染empty
-const renderEmpty = () => {
-  return providerSlots.empty?.({
-    component: 'Transfer',
   });
 };
 </script>

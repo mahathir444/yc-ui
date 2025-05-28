@@ -1,5 +1,5 @@
-import { toRefs, inject, ref, isReactive, reactive, Ref, useSlots } from 'vue';
-import { ConfigProviderSlots } from '@/components/ConfigProvider';
+import { toRefs, inject, ref, isReactive, reactive, Ref } from 'vue';
+import { ConfigconfigSlots, EmptyComponent } from '@/components/ConfigProvider';
 import { PopupContainer, Props, Size } from '@shared/type';
 import { isString, isUndefined } from '../utils';
 
@@ -12,7 +12,7 @@ export interface ConfigProviderProvide {
   updateAtScroll: Ref<boolean>;
   scrollToClose: Ref<boolean>;
   exchangeTime: Ref<boolean>;
-  slots: Partial<ConfigProviderSlots>;
+  slots: Partial<ConfigconfigSlots>;
 }
 
 const getVar = (value: Ref<any>, _value: Ref<any>) => {
@@ -41,6 +41,13 @@ export const getGlobalConfig = (props: Props = {}) => {
     popupContainer: ref('body'),
     slots: {},
   });
+  // 渲染empty
+  const renderEmpty = (name: EmptyComponent) => {
+    return () =>
+      slots.empty?.({
+        component: name,
+      });
+  };
   // 接收属性
   const { size, updateAtScroll, scrollToClose, exchangeTime, popupContainer } =
     toRefs(isReactive(props) ? props : reactive(props));
@@ -52,5 +59,6 @@ export const getGlobalConfig = (props: Props = {}) => {
     scrollToClose: getVar(scrollToClose, _scrollToClose),
     popupContainer: getVar(popupContainer, _popupContainer),
     exchangeTime: getVar(exchangeTime, _exchangeTime),
+    renderEmpty,
   };
 };

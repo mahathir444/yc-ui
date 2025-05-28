@@ -20,8 +20,11 @@
       <!-- list -->
       <select-real-list v-else :scrollbar="scrollbar" />
       <!-- empty -->
-      <slot-render v-if="isEmpty" :render="slots.empty || renderEmpty">
-        <yc-empty v-if="!slots.empty && !providerSlots.empty" />
+      <slot-render
+        v-if="isEmpty"
+        :render="slots.empty || renderEmpty('Select')"
+      >
+        <yc-empty v-if="!slots.empty && !configSlots.empty" />
       </slot-render>
       <!-- footer -->
       <div
@@ -56,7 +59,7 @@ const { virtualListProps } = toRefs(props);
 const { inject } = useContext();
 const { slots, isEmpty, options } = inject();
 // configProvider
-const { slots: providerSlots } = getGlobalConfig();
+const { slots: configSlots, renderEmpty } = getGlobalConfig();
 // 是否是虚拟列表
 const isVirtualList = computed(() => {
   if (!virtualListProps.value) {
@@ -71,12 +74,6 @@ const isVirtualList = computed(() => {
 // 渲染插槽
 const renderSlots = (name: string) => {
   return slots[name];
-};
-// 渲染empty
-const renderEmpty = () => {
-  return providerSlots.empty?.({
-    component: 'Select',
-  });
 };
 </script>
 

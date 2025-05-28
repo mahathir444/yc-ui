@@ -8,8 +8,10 @@ export interface ConfigProviderProps {
   exchangeTime?: boolean;
 }
 
-export interface ConfigProviderSlots {
+export interface ConfigconfigSlots {
   default(): void;
   loading(): void;
-  empty(params: { component: string }): void;
+  empty(params: { component: EmptyComponent }): void;
 }
+
+export type EmptyComponent = 'Select' | 'List' | 'Transfer';

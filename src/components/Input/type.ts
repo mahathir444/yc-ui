@@ -19,7 +19,7 @@ export interface InputProps {
   visibility?: boolean;
   defaultVisibility?: boolean;
   invisibleButton?: boolean;
-  //select使用
+  // 是否展示input
   showInput?: boolean;
 }
 

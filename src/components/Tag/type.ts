@@ -10,6 +10,7 @@ export interface TagProps {
   checked?: boolean;
   defaultChecked?: boolean;
   nowrap?: boolean;
+  // 是否阻止获取焦点
   preventFocus?: boolean;
 }
 

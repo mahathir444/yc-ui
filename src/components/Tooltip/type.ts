@@ -14,6 +14,7 @@ export interface TooltipProps {
   arrowClass?: ClassName;
   arrowStyle?: CSSProperties;
   popupContainer?: PopupContainer;
+  // triggerProps
   triggerProps?: TriggerProps;
 }
 
