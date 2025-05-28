@@ -1,12 +1,5 @@
 <template>
-  <div
-    :class="[
-      'yc-menu-item-wrapper',
-      {
-        'yc-menu-item-mode-horizontal': mode == 'horizontal',
-      },
-    ]"
-  >
+  <div :class="['yc-menu-item-wrapper', 'yc-menu-item-mode-horizontal']">
     <yc-dropdown
       :popup-max-height="maxHeight"
       :trigger-props="{
@@ -45,7 +38,7 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, computed } from 'vue';
+import { computed } from 'vue';
 import { IconMore, IconArrowDown } from '@shared/icons';
 import { isNumber } from '@shared/utils';
 import { default as useContext, isMenuItemActive } from './hooks/useContext';
@@ -55,11 +48,11 @@ import { default as YcDropdown, DoptionValue } from '@/components/Dropdown';
 const { inject } = useContext();
 const {
   computedSelectedKeys,
-  mode,
   theme,
   triggerProps,
   popupMaxHeight,
   menuTree,
+  max,
   emits,
 } = inject();
 // 计算最大height
@@ -68,8 +61,6 @@ const maxHeight = computed(() => {
     ? popupMaxHeight.value
     : 167;
 });
-// 最大显示的元素个数
-const max = ref(100000);
 // submenu
 const submenus = computed(() => menuTree.value.slice(max.value));
 // 是否选中

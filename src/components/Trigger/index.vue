@@ -23,6 +23,7 @@
         :prevent-focus="preventFocus"
         :data-group-id="groupId"
         :data-group-depth="depth"
+        :style="popupStyle"
         :class="[
           'yc-trigger',
           `yc-trigger-position-${position}`,
@@ -31,7 +32,6 @@
             'yc-trigger-transform-origin': needTransformOrigin,
           },
         ]"
-        :style="popupStyle"
         ref="popupRef"
         @mouseenter="handleMouseenter"
         @mouseleave="handleMouseleave"

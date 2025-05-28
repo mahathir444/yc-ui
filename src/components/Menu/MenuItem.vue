@@ -1,5 +1,6 @@
 <template>
   <div
+    v-if="curIndex < max"
     :class="[
       'yc-menu-item-wrapper',
       {
@@ -139,6 +140,8 @@ const {
   popupMaxHeight,
   menuTreeNodes,
   menuTree,
+  max,
+  menuItemWidths,
   emits,
 } = inject();
 // 创建通用模板
@@ -150,10 +153,13 @@ const curNode = computed(() => {
     (item) => item.path == path.value
   ) as MenuTreeNode;
 });
+// 当前的index
+const curIndex = computed(() => {
+  return menuTree.value.findIndex((item) => item.path == path.value);
+});
 // 当前的menu
 const submenus = computed(() => {
-  const target = menuTree.value.find((item) => item.path == path.value);
-  return target?.children || ([] as MenuTreeNode[]);
+  return menuTree.value[curIndex.value]?.children || ([] as MenuTreeNode[]);
 });
 // 是否是子节点
 const isSubmenu = computed(() => {
@@ -193,11 +199,11 @@ const handleClick = () => {
   ) {
     return;
   }
-  // submenu点击
+  // men点击
   if (
     !isSubmenu.value &&
-    computedSelectedKeys.value != path.value &&
-    !disabled.value
+    !disabled.value &&
+    computedSelectedKeys.value != path.value
   ) {
     computedSelectedKeys.value = path.value;
     return emits('menuItemClick', path.value);
@@ -216,12 +222,17 @@ const handleClick = () => {
 };
 // 收集
 onMounted(() => {
+  // 收集节点
+  if (isRoot.value) {
+    menuItemWidths.value[curIndex.value] = menuItemRef.value!.offsetWidth;
+    console.log(menuItemWidths.value, 'width');
+  }
   // 配置自动滚动
   if (autoScrollIntoView.value && computedSelectedKeys.value == path.value) {
     menuItemRef.value?.scrollIntoView(scrollConfig.value);
   }
   if (
-    !curNode.value ||
+    !isSubmenu.value ||
     !autoOpen.value ||
     !autoOpenSelected.value ||
     !isSelected.value

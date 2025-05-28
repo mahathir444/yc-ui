@@ -16,10 +16,10 @@ export type TriggerContext = {
 
 export type TriggerProps = RequiredDeep<_TriggerProps>;
 /**
- * @param depth 记录组件内部嵌套的层级,当curHoverLevel小于level关闭
- * @param curDepth 记录当前hover的层级
- * @param groupIds 同一个submenu里面的groupId集合
- * @param groupId  组件标识，用于标识元素是否处于一个嵌套中
+ *  depth 记录组件内部嵌套的层级,当curHoverLevel小于level关闭
+ *  curDepth 记录当前hover的层级
+ *  groupIds 同一个submenu里面的groupId集合
+ *  groupId  组件标识，用于标识元素是否处于一个嵌套中
  */
 export default (trigger: TriggerType, hideCallback?: () => void) => {
   const groupId = nanoid(32);
@@ -42,6 +42,13 @@ export default (trigger: TriggerType, hideCallback?: () => void) => {
   groupIds.value[depth] = groupId;
   // 是否嵌套
   const hasChildren = computed(() => groupIds.value.length > 1);
+  // 检测层级的改变自动关闭
+  watch(curDepth, (v) => {
+    if (depth <= v || trigger != 'hover') {
+      return;
+    }
+    hideCallback?.();
+  });
   // 设置hoverLevel
   const setDepth = (delay: number) => {
     // 处理trigger嵌套,以及多重触发的问题
@@ -67,14 +74,7 @@ export default (trigger: TriggerType, hideCallback?: () => void) => {
       return isSameGroup(el.parentElement as HTMLElement);
     }
   };
-  // 检测层级的改变自动关闭
-  watch(curDepth, (v) => {
-    if (depth <= v || trigger != 'hover') {
-      return;
-    }
-    hideCallback?.();
-  });
-  // trigger提供的值
+
   provide<TriggerContext>(TRIGGER_CONTEXT_KEY, {
     depth,
     curDepth,

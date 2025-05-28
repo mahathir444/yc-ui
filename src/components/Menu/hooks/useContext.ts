@@ -8,14 +8,16 @@ import {
   computed,
   useSlots,
   isVNode,
+  onBeforeUnmount,
 } from 'vue';
 import { TooltipProps } from '@/components/Tooltip';
 import { TriggerProps } from '@/components/Trigger';
 import { MenuMode, PopupMaxHeight, MenuEmits } from '../type';
 import { Props, ObjectData } from '@shared/type';
-import { useControlValue, isObject, isFunction } from '@shared/utils';
+import { useControlValue, isObject, isFunction, throttle } from '@shared/utils';
 import { SubMenu, MenuItem } from '../index';
 import { nanoid } from 'nanoid';
+import { useResizeObserver } from '@vueuse/core';
 
 export const MENU_CONTEXT_KEY = 'menu-context';
 
@@ -36,6 +38,8 @@ export interface MenuContext {
   tooltipProps: Ref<TooltipProps>;
   menuTreeNodes: Ref<MenuTreeNode[]>;
   menuTree: Ref<MenuTreeNode[]>;
+  menuItemWidths: Ref<number[]>;
+  max: Ref<number>;
   emits: MenuEmits;
 }
 
@@ -157,7 +161,11 @@ export function isMenuItemActive(
 }
 
 export default () => {
-  const provide = (props: Props, emits: MenuEmits) => {
+  const provide = (
+    props: Props,
+    emits: MenuEmits,
+    menuRef: Ref<HTMLDivElement | undefined>
+  ) => {
     // 解构属性
     const {
       selectedKeys,
@@ -216,8 +224,37 @@ export default () => {
         MenuItem.name,
       ]);
     });
+    // menuItemdoms
+    const menuItemWidths = ref<number[]>([]);
     // 树节点
     const menuTree = computed(() => buildMenuTree(menuTreeNodes.value));
+    // 最大能展示元素的个数
+    const max = ref<number>(10000);
+    // 横向宽度检测
+    if (mode.value == 'horizontal') {
+      const { stop } = useResizeObserver(
+        menuRef,
+        throttle(() => {
+          const menuWidth = menuRef.value!.offsetWidth - 52;
+          let maxCount = 0;
+          let totalWidth = 0;
+          for (let i = 0; i < menuTree.value.length; i++) {
+            const gap = i > 0 ? 4 : 0;
+            const curWidth = totalWidth + gap + menuItemWidths.value[i];
+            if (curWidth > menuWidth) {
+              break;
+            }
+            totalWidth = curWidth;
+            maxCount++;
+          }
+          max.value = maxCount;
+          console.log(max.value, 'max');
+        }, 200)
+      );
+      onBeforeUnmount(() => {
+        stop();
+      });
+    }
     // 注入
     _provide<MenuContext>(MENU_CONTEXT_KEY, {
       computedSelectedKeys,
@@ -236,12 +273,16 @@ export default () => {
       theme,
       menuTreeNodes,
       menuTree,
+      max,
+      menuItemWidths,
       emits,
     });
     return {
       computedCollapsed,
       breakpoint,
       collapsedWidth,
+      menuTree,
+      max,
     };
   };
   const inject = () => {
@@ -262,6 +303,8 @@ export default () => {
       scrollConfig: ref({}),
       menuTreeNodes: ref([]),
       menuTree: ref([]),
+      max: ref(10000),
+      menuItemWidths: ref([]),
       emits: () => {},
     });
   };
