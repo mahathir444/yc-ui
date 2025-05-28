@@ -203,9 +203,6 @@ defineExpose<TriggerExpose>({
     mouseX.value = x;
     mouseY.value = y;
   },
-  getPopupRef() {
-    return unrefElement(popupRef);
-  },
 });
 </script>
 

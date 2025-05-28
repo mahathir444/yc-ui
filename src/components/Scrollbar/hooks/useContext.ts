@@ -13,6 +13,9 @@ export interface ScrollbarContext {
 }
 
 export default () => {
+  const provide = (params: ScrollbarContext) => {
+    _provide<ScrollbarContext>(SCROLLBAR_CONTEXT_KEY, params);
+  };
   const inject = () => {
     return _inject<ScrollbarContext>(SCROLLBAR_CONTEXT_KEY, {
       curTop: ref(0),
@@ -25,6 +28,7 @@ export default () => {
     });
   };
   return {
+    provide,
     inject,
   };
 };

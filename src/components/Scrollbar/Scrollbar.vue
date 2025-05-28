@@ -42,7 +42,7 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, computed, toRefs, provide, onBeforeUnmount } from 'vue';
+import { ref, computed, toRefs, onBeforeUnmount } from 'vue';
 import {
   ScrollbarProps,
   ScrollbarEmits,
@@ -50,9 +50,9 @@ import {
   ScrollbarExpose,
 } from './type';
 import { useElementSize, useResizeObserver } from '@vueuse/core';
-import { SCROLLBAR_CONTEXT_KEY, ScrollbarContext } from './hooks/useContext';
 import ScrollbarTrack from './ScrollbarTrack.vue';
 import useScrollReach from './hooks/useScrollReach';
+import useContext from './hooks/useContext';
 defineOptions({
   name: 'Scrollbar',
   inheritAttrs: false,
@@ -75,6 +75,8 @@ const props = withDefaults(defineProps<ScrollbarProps>(), {
 const emits = defineEmits<ScrollbarEmits>();
 // 解构属性
 const { type, offsetBottom, offsetRight, scrollbar } = toRefs(props);
+// 注入属性
+const { provide } = useContext();
 // contentRef
 const contentRef = ref<HTMLElement>();
 // scrollRef
@@ -234,9 +236,9 @@ function initScrollbar() {
     return scrollWidth.value - thumbWidth.value - track;
   });
   // 提供数据
-  provide<ScrollbarContext>(SCROLLBAR_CONTEXT_KEY, {
-    curTop,
+  provide({
     curLeft,
+    curTop,
     movableLeft,
     movableTop,
     thumbHeight,

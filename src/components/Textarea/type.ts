@@ -1,8 +1,4 @@
-import {
-  MaxLength,
-  WordLength,
-  WordSlice,
-} from '@/components/Input/hooks/useLimitedInput';
+import { MaxLength, WordLength, WordSlice } from '@/components/Input';
 
 export interface TextareaProps {
   modelValue?: string;

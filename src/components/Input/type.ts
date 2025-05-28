@@ -1,5 +1,4 @@
 import { Size, ObjectData } from '@shared/type';
-import { MaxLength, WordLength, WordSlice } from './hooks/useLimitedInput';
 
 export interface InputProps {
   modelValue?: string;
@@ -50,3 +49,7 @@ export interface InputExpose {
   blur(): void;
   getInputRef(): HTMLInputElement;
 }
+
+export type WordSlice = (value: string, maxLength: number) => string;
+export type WordLength = (value: string) => number;
+export type MaxLength = number | { length: number; errorOnly?: boolean };

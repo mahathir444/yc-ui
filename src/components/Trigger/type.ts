@@ -60,7 +60,6 @@ export interface TriggerExpose {
   hide(): void;
   show(): void;
   updatePosition(x: number, y: number): void;
-  getPopupRef(): HTMLDivElement | undefined;
 }
 
 export type TriggerPostion =

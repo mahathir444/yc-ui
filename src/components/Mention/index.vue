@@ -112,7 +112,7 @@ const setPopPosition = (cursor: number) => {
   // 创建一个临时的范围对象
   const range = document.createRange();
   // 获取文本节点（纯文本div只有一个文本节点）
-  const textNode = el.childNodes[0];
+  const textNode = el!.childNodes[0];
   // 设置范围
   range.setStart(textNode, cursor);
   range.setEnd(textNode, cursor);
