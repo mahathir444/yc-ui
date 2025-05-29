@@ -8,7 +8,6 @@ import {
   unrefElement,
   useControlValue,
   getGlobalConfig,
-  sleep,
 } from '@shared/utils';
 
 export default (params: {
@@ -178,25 +177,26 @@ export default (params: {
     }
     onClickOutside(
       popupRef,
-      async (e) => {
-        if (disabled.value || !computedVisible.value) return;
-        let isIngore = false;
+      (e) => {
+        if (disabled.value) return;
         // 处理dropdown或者嵌套情况
         if (hasChildren.value) {
-          await sleep(0);
           const { isGroup, depth: _depth } = isSameGroup(
             (e.target ?? e) as HTMLElement
           );
           if (isGroup) {
-            computedVisible.value = isIngore
-              ? depth <= _depth
-              : computedVisible.value;
+            computedVisible.value = depth <= _depth;
+            return;
           }
+        }
+        // 处理正常逻辑
+        if (!computedVisible.value) {
+          return;
         }
         computedVisible.value = false;
       },
       {
-        ignore: [popupRef],
+        ignore: [triggerRef],
       }
     );
   };

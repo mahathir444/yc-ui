@@ -87,6 +87,7 @@ export function findComponentsFromVnodes(vnodes: VNode[], name: string) {
   return result;
 }
 
+// unrefek
 export type VueInstance = ComponentPublicInstance;
 export type MaybeElementRef<T extends MaybeElement = MaybeElement> =
   MaybeRef<T>;

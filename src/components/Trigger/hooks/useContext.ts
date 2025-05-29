@@ -28,7 +28,7 @@ export default (params: {
   hideCallback?: () => void;
 }) => {
   const { trigger, popupRef, hideCallback } = params;
-  const groupId = nanoid(32);
+  // 反向注入
   const {
     depth: _depth,
     curDepth,
@@ -42,6 +42,8 @@ export default (params: {
     timeout: ref<NodeJS.Timeout>(),
     hoverTimeout: ref<NodeJS.Timeout>(),
   });
+  // 生成groupId
+  const groupId = nanoid(32);
   // 设置level
   const depth = _depth + 1;
   // 设置groupId

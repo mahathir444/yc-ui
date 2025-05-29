@@ -85,8 +85,8 @@
           @remove="$emit('remove')"
           @update:model-value="(v) => handleEvent('updateValue', v)"
         >
-          <template v-if="$slots.label" #tag="scope">
-            <slot name="label" v-bind="scope" />
+          <template #tag="scope">
+            <slot v-if="$slots.label" name="label" v-bind="scope" />
           </template>
           <!-- suffix -->
           <template #suffix>

@@ -243,6 +243,7 @@ export default () => {
     const slots = useSlots();
     // 扁平化的树节点
     const menuTreeNodes = computed(() => {
+      console.log(slots.default?.(), 'default');
       return FlattenMenuTree(slots.default?.() || [], [
         SubMenu.name,
         MenuItem.name,

@@ -26,65 +26,39 @@
       <yc-breadcrumb-item>News</yc-breadcrumb-item>
     </yc-breadcrumb>
     <!-- dropdown -->
-    <yc-dropdown @select="(v) => console.log('选中', v)">
+    <yc-dropdown trigger="click" @select="(v) => console.log('选中', v)">
       <yc-button>dropdown</yc-button>
       <template #content>
-        <yc-dsubmenu>
-          分组1
-          <template #content>
-            <yc-dsubmenu>
-              分组2
-              <template #content>
-                <yc-dsubmenu>
-                  分组3
-                  <template #content>
-                    <yc-dsubmenu>
-                      分组4
-                      <template #content>
-                        <yc-doption v-for="i in 6" :key="i" :value="i">
-                          选项{{ i }}
-                        </yc-doption>
-                      </template>
-                    </yc-dsubmenu>
-                    <yc-doption v-for="i in 6" :key="i" :value="i">
-                      选项{{ i }}
-                    </yc-doption>
-                  </template>
-                </yc-dsubmenu>
-                <yc-doption v-for="i in 6" :key="i" :value="i">
-                  选项{{ i }}
-                </yc-doption>
-              </template>
-            </yc-dsubmenu>
-            <yc-doption v-for="i in 6" :key="i" :value="i">
-              选项{{ i }}
-            </yc-doption>
-          </template>
-        </yc-dsubmenu>
-        <yc-doption v-for="i in 6" :key="i" :value="i">
-          选项{{ i }}
-        </yc-doption>
+        <dropdown-content
+          v-for="(item, i) in dropdowns"
+          :key="i"
+          :item="<any>item"
+        />
       </template>
     </yc-dropdown>
     <!-- menu -->
     <yc-menu show-collapse-button theme="dark" class="menu">
-      <yc-sub-menu title="菜单1" path="321">
-        <template #icon>
-          <icon-dashboard />
-        </template>
-        <yc-sub-menu title="层级2" path="3221">
-          <yc-menu-item
-            v-for="item in menus"
-            :key="item.path + '1'"
-            :path="item.path + '1'"
-          >
-            {{ '层级3' + item.title }}
-          </yc-menu-item>
-        </yc-sub-menu>
-        <yc-menu-item v-for="item in menus" :key="item.path" :path="item.path">
-          {{ item.title }}
+      <template v-for="v in menus" :key="v.path">
+        <yc-menu-item v-if="v.type == 'item'" :path="v.path">
+          {{ v.title }}
         </yc-menu-item>
-      </yc-sub-menu>
+        <yc-sub-menu v-else :path="v.path" :title="v.title">
+          <template v-for="v1 in v.children" :key="v1.path">
+            <yc-menu-item v-if="v1.type == 'item'" :path="v1.path">
+              {{ v1.title }}
+            </yc-menu-item>
+            <yc-sub-menu v-else :path="v1.path" :title="v1.title">
+              <yc-menu-item
+                v-for="v2 in v1.children"
+                :key="v2.path"
+                :path="v2.path"
+              >
+                {{ v1.title }}
+              </yc-menu-item>
+            </yc-sub-menu>
+          </template>
+        </yc-sub-menu>
+      </template>
     </yc-menu>
     <!-- page-header -->
     <yc-page-header
@@ -120,15 +94,101 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, reactive } from 'vue';
-const menus = Array(5)
-  .fill(undefined)
-  .map((_, i) => {
-    return {
-      title: `菜单${i + 1}`,
-      path: `菜单 ${i + 1}`,
-    };
+import DropdownContent from './component/DropdownContent.vue';
+import MenuContent from './component/MenuContent.vue';
+import { nanoid } from 'nanoid';
+// dropdowns
+const dropdowns = generateDropdown();
+// menus
+const menus = generateMenus();
+// 生成menus
+function generateMenus() {
+  const arr = [1, 2, 3, 4, 5];
+  return arr.map((i) => {
+    return i == 1
+      ? {
+          title: `菜单${i}`,
+          path: nanoid(),
+          type: 'submenu',
+          children: arr.map((i1) => {
+            return i1 == 1
+              ? {
+                  title: `菜单${i}-${i1}`,
+                  path: nanoid(),
+                  type: 'submenu',
+                  children: arr.map((i2) => {
+                    return {
+                      title: `菜单${i}-${i1}-${i2}`,
+                      path: nanoid(),
+                      type: 'item',
+                    };
+                  }),
+                }
+              : {
+                  title: `菜单${i}-${i1}`,
+                  path: nanoid(),
+                  type: 'item',
+                };
+          }),
+        }
+      : {
+          title: `菜单${i}`,
+          path: nanoid(),
+          type: 'item',
+        };
   });
+}
+function generateDropdown() {
+  return [
+    {
+      type: 'submenu',
+      label: '分组1',
+      children: [
+        {
+          type: 'submenu',
+          label: '分组2',
+          children: [
+            {
+              type: 'submenu',
+              label: '分组3',
+              children: [
+                {
+                  type: 'submenu',
+                  label: '分组4',
+                  children: Array.from({ length: 6 }, (_, i) => ({
+                    type: 'option',
+                    value: i + 1,
+                    label: `选项${i + 1}`,
+                  })),
+                },
+                ...Array.from({ length: 6 }, (_, i) => ({
+                  type: 'option',
+                  value: i + 1,
+                  label: `选项${i + 1}`,
+                })),
+              ],
+            },
+            ...Array.from({ length: 6 }, (_, i) => ({
+              type: 'option',
+              value: i + 1,
+              label: `选项${i + 1}`,
+            })),
+          ],
+        },
+        ...Array.from({ length: 6 }, (_, i) => ({
+          type: 'option',
+          value: i + 1,
+          label: `选项${i + 1}`,
+        })),
+      ],
+    },
+    ...Array.from({ length: 6 }, (_, i) => ({
+      type: 'option',
+      value: i + 1,
+      label: `选项${i + 1}`,
+    })),
+  ];
+}
 </script>
 
 <style lang="less" scoped>
@@ -143,6 +203,6 @@ const menus = Array(5)
 }
 :deep(.menu) {
   width: 260px;
-  height: 700px;
+  height: 800px;
 }
 </style>

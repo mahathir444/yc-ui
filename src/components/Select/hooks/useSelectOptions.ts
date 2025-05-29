@@ -103,12 +103,14 @@ export default (params: {
   ) => {
     if (props.isFallbackOption) return;
     const id = nanoid();
+    // 挂载的时候收集option
     onMounted(() => {
       optionMap.set(id, {
         ...props,
         label: props.label ? props.label : getTextContent(contentRef.value!),
       } as OptionProps);
     });
+    // 卸载的时候卸载option
     onBeforeUnmount(() => {
       optionMap.delete(id);
     });

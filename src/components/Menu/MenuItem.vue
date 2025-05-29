@@ -157,9 +157,10 @@ const {
 } = useContext().inject();
 // 当前节点的信息
 const curNode = computed(() => {
-  return menuTreeNodes.value.find(
+  const node = (menuTreeNodes.value.find(
     (item) => item.path == path.value
-  ) as MenuTreeNode;
+  ) as MenuTreeNode) || { type: 'menuitem', level: 0 };
+  return node;
 });
 // 当前的index
 const curIndex = computed(() => {
