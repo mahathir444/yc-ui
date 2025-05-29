@@ -28,8 +28,7 @@ const props = withDefaults(defineProps<GridProps>(), {
 });
 const { rowGap: _rowGap } = toRefs(props);
 // 注入
-const { provide } = useContext();
-const { breakpoint, cols } = provide(props);
+const { breakpoint, cols } = useContext().provide(props);
 // gap
 const rowGap = computed(() => {
   return isNumber(_rowGap.value)

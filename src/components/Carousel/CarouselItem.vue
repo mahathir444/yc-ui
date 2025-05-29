@@ -29,7 +29,6 @@ defineOptions({
 });
 defineSlots<CarouselItemSlots>();
 // 接收注入
-const { inject } = useContext();
 const {
   moveType,
   preIndex,
@@ -39,7 +38,7 @@ const {
   animationName,
   transitionTimingFunction,
   getValidIndex,
-} = inject();
+} = useContext().inject();
 const attrs = useAttrs();
 const index = computed(() => attrs.index);
 // 动态计算className

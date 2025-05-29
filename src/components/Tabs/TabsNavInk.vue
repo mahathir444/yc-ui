@@ -10,8 +10,7 @@ const props = defineProps<{
 }>();
 const { curIndex } = toRefs(props);
 // 接收注入
-const { inject } = useContext();
-const { titleRefs, direction, listRef, editable } = inject();
+const { titleRefs, direction, listRef, editable } = useContext().inject();
 // 计算sliderWidth
 const sliderStyle = computed(() => {
   if (direction.value == 'horizontal') {

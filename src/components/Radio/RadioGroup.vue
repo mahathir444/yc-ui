@@ -45,8 +45,7 @@ const props = withDefaults(defineProps<RadioGroupProps>(), {
 });
 const emits = defineEmits<RadioGroupEmits>();
 // 注入数据
-const { provide } = useContext();
-provide(props, emits);
+useContext().provide(props, emits);
 </script>
 
 <style lang="less">

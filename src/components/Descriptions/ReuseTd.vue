@@ -52,8 +52,8 @@ defineProps<{
   type: 'label' | 'value';
   colspan?: number;
 }>();
-const { inject } = useContext();
-const { labelStyle, valueStyle, bordered, size, align, slots } = inject();
+const { labelStyle, valueStyle, bordered, size, align, slots } =
+  useContext().inject();
 </script>
 
 <style lang="less" scoped>

@@ -34,8 +34,7 @@ const props = withDefaults(defineProps<StepsProps>(), {
 });
 const emits = defineEmits<StepsEmits>();
 // 注入数据
-const { provide } = useContext();
-const { type, labelPlacement, direction } = provide(props, emits);
+const { type, labelPlacement, direction } = useContext().provide(props, emits);
 </script>
 
 <style lang="less" scoped>

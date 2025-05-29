@@ -56,8 +56,7 @@ const props = defineProps<{
 }>();
 const { virtualListProps } = toRefs(props);
 // 接收注入
-const { inject } = useContext();
-const { slots, isEmpty, options } = inject();
+const { slots, isEmpty, options } = useContext().inject();
 // configProvider
 const { slots: configSlots, renderEmpty } = getGlobalConfig();
 // 是否是虚拟列表

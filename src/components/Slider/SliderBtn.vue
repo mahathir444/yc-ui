@@ -37,7 +37,6 @@ const popupVisible = ref<boolean>(false);
 // 触发dom
 const triggerRef = ref<HTMLDivElement>();
 // 解构父级属性通用
-const { inject } = useContext();
 const {
   trackRef,
   min,
@@ -49,7 +48,7 @@ const {
   startValue,
   endValue,
   formatTooltip,
-} = inject();
+} = useContext().inject();
 // 计算值
 const computedValue = computed({
   get() {

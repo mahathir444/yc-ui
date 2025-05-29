@@ -8,6 +8,7 @@ import {
   unrefElement,
   useControlValue,
   getGlobalConfig,
+  sleep,
 } from '@shared/utils';
 
 export default (params: {
@@ -44,17 +45,14 @@ export default (params: {
     onTriggerFocus,
   } = props;
   // 处理嵌套
-  const {
-    hasChildren,
-    depth,
-    curDepth,
-    timeout,
-    groupId,
-    setDepth,
-    isSameGroup,
-  } = useContext(trigger.value, () => {
-    computedVisible.value = false;
-  });
+  const { depth, hasChildren, curDepth, timeout, setDepth, isSameGroup } =
+    useContext({
+      trigger: trigger.value,
+      popupRef,
+      hideCallback: () => {
+        computedVisible.value = false;
+      },
+    });
   // visible
   const computedVisible = useControlValue<boolean>(
     popupVisible,
@@ -67,6 +65,7 @@ export default (params: {
   // 记录鼠标操作的位置
   const mouseX = ref<number>(0);
   const mouseY = ref<number>(0);
+  // 记录滚动位置
   let oldScrollLeft = 0;
   let oldScrollTop = 0;
   // 滚动容器
@@ -179,27 +178,25 @@ export default (params: {
     }
     onClickOutside(
       popupRef,
-      (e) => {
-        if (disabled.value) return;
+      async (e) => {
+        if (disabled.value || !computedVisible.value) return;
         let isIngore = false;
         // 处理dropdown或者嵌套情况
         if (hasChildren.value) {
+          await sleep(0);
           const { isGroup, depth: _depth } = isSameGroup(
             (e.target ?? e) as HTMLElement
           );
-          isIngore = isGroup;
-          computedVisible.value = isIngore
-            ? depth <= _depth
-            : computedVisible.value;
-        }
-        // 处理正常逻辑
-        if (!computedVisible.value || isIngore) {
-          return;
+          if (isGroup) {
+            computedVisible.value = isIngore
+              ? depth <= _depth
+              : computedVisible.value;
+          }
         }
         computedVisible.value = false;
       },
       {
-        ignore: [triggerRef],
+        ignore: [popupRef],
       }
     );
   };
@@ -236,8 +233,6 @@ export default (params: {
   handleClickOutsideClose();
   handleScrollToClose();
   return {
-    depth,
-    groupId,
     mouseX,
     mouseY,
     computedVisible,

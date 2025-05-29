@@ -53,8 +53,7 @@ defineEmits<{
   (e: 'change', index: number): void;
 }>();
 // 接收注入
-const { inject } = useContext();
-const { length, computedCurrent } = inject();
+const { length, computedCurrent } = useContext().inject();
 </script>
 
 <style lang="less" scoped>

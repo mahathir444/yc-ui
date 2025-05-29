@@ -77,6 +77,7 @@ import TimePicker from './TimePicker';
 import Tooltip from './Tooltip';
 import Transfer from './Transfer';
 import Trigger from './Trigger';
+import { default as Typography } from './Typography';
 import { default as Tabs, TabPane } from './Tabs';
 import VerificationCode from './VerificationCode';
 import Watermark from './Watermark';
@@ -144,6 +145,7 @@ export const components: Record<string, Plugin> = {
   Tooltip,
   Transfer,
   Trigger,
+  Typography,
   Tabs,
   VerificationCode,
   Watermark,

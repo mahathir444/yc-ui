@@ -21,8 +21,6 @@
         v-if="!unmountOnClose || (computedVisible && !disabled)"
         v-show="computedVisible && !disabled"
         :prevent-focus="preventFocus"
-        :data-group-id="groupId"
-        :data-group-depth="depth"
         :style="popupStyle"
         :class="[
           'yc-trigger',
@@ -128,8 +126,6 @@ const slots = useSlots();
 const vNode = computed(() => findFirstLegitChild(slots.default?.() || []));
 // 处理trigger关闭与开启
 const {
-  depth,
-  groupId,
   computedVisible,
   mouseX,
   mouseY,

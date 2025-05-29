@@ -61,14 +61,13 @@ const props = withDefaults(defineProps<CollapseItemProps>(), {
 });
 const { path, disabled } = toRefs(props);
 // 注入数据
-const { inject } = useContext();
 const {
   computedActiveKey,
   accordion,
   expandIconPosition,
   showExpandIcon,
   destroyOnHide,
-} = inject(props);
+} = useContext().inject(props);
 // 处理点击
 const handleClick = () => {
   if (disabled.value) return;

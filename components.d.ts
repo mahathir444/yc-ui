@@ -213,6 +213,8 @@ declare module 'vue' {
     Transfer: typeof import('./src/components/Transfer/Transfer.vue')['default']
     TransferPanel: typeof import('./src/components/Transfer/TransferPanel.vue')['default']
     Trigger: typeof import('./src/components/Trigger/index.vue')['default']
+    Typography: typeof import('./src/components/Typography/Typography.vue')['default']
+    TypographyTitle: typeof import('./src/components/Typography/TypographyTitle.vue')['default']
     VerificationCode: typeof import('./src/components/VerificationCode/index.vue')['default']
     Watermark: typeof import('./src/components/Watermark/index.vue')['default']
   }

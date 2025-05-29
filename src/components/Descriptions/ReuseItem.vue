@@ -49,8 +49,7 @@ defineProps<{
   data: DescData;
   index: number;
 }>();
-const { inject } = useContext();
-const { labelStyle, valueStyle, bordered, slots, align } = inject();
+const { labelStyle, valueStyle, slots, align } = useContext().inject();
 </script>
 
 <style lang="less" scoped>

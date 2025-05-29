@@ -18,7 +18,6 @@ const props = defineProps<{
 }>();
 const { type } = toRefs(props);
 // 接收注入
-const { inject } = useContext();
 const {
   min,
   max,
@@ -27,7 +26,7 @@ const {
   endValue,
   tempStartValue,
   tempEndValue,
-} = inject();
+} = useContext().inject();
 // 计算值
 const computedValue = computed({
   get() {

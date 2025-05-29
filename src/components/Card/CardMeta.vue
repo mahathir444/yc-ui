@@ -44,8 +44,7 @@ withDefaults(defineProps<CardMetaProps>(), {
   description: '',
 });
 // 接收注入
-const { inject } = useContext();
-const { slots } = inject();
+const { slots } = useContext().inject();
 </script>
 
 <style lang="less" scoped>

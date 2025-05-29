@@ -66,8 +66,7 @@ const props = withDefaults(defineProps<CheckboxProps>(), {
 const emits = defineEmits<CheckboxEmits>();
 const { modelValue, defaultChecked, value: checkboxValue } = toRefs(props);
 // 接收注入
-const { inject } = useContext();
-const { computedValue, max, disabled } = inject(props);
+const { computedValue, max, disabled } = useContext().inject(props);
 // checkbox受控的值
 const _checked = useControlValue<boolean>(
   modelValue,

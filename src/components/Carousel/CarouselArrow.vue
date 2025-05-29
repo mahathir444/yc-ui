@@ -31,8 +31,8 @@ defineEmits<{
 }>();
 const { type } = toRefs(props);
 // 接收注入
-const { inject } = useContext();
-const { showArrow, direction, arrowClass, computedCurrent } = inject();
+const { showArrow, direction, arrowClass, computedCurrent } =
+  useContext().inject();
 // 旋转角度
 const rotate = computed(() => {
   if (type.value == 'next') {

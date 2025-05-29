@@ -103,7 +103,6 @@ const props = withDefaults(defineProps<PaginationProps>(), {
   autoAdjust: true,
 });
 const emits = defineEmits<PaginationEmits>();
-const { provide } = useContext();
 const {
   computedCurrent,
   pages,
@@ -112,7 +111,7 @@ const {
   size,
   total,
   sizeOptions,
-} = provide(props, emits);
+} = useContext().provide(props, emits);
 </script>
 
 <style lang="less" scoped>

@@ -47,7 +47,6 @@ defineProps<{
   index: number;
 }>();
 // 接收注入
-const { inject } = useContext();
 const {
   computedActiveKey,
   titleRefs,
@@ -60,7 +59,7 @@ const {
   headerPadding,
   size,
   emits,
-} = inject();
+} = useContext().inject();
 // 渲染title
 const renderTitle = (node: PaneNode) => {
   const { slots, title } = node;

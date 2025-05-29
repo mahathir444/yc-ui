@@ -63,9 +63,8 @@ const emits = defineEmits<MenuEmits>();
 // menuredf
 const menuRef = ref<HTMLDivElement>();
 // 注入数据
-const { provide } = useContext();
 const { computedCollapsed, collapsedWidth, breakpoint, menuTree, max } =
-  provide(props, emits, menuRef);
+  useContext().provide(props, emits, menuRef);
 // 处理点击
 const handleClick = () => {
   computedCollapsed.value = !computedCollapsed.value;

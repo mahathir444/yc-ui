@@ -38,8 +38,7 @@ const props = withDefaults(defineProps<TimelineProps>(), {
   labelPosition: 'same',
 });
 // 注入数据
-const { provide } = useContext();
-const { direction, mode } = provide(props);
+const { direction, mode } = useContext().provide(props);
 </script>
 
 <style lang="less" scoped>

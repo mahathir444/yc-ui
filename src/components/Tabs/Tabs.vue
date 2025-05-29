@@ -101,7 +101,6 @@ const emits = defineEmits<TabsEmits>();
 // tablist
 const listRef = ref<HTMLDivElement>();
 // 注入
-const { provide } = useContext();
 const {
   computedActiveKey,
   size,
@@ -110,7 +109,7 @@ const {
   position,
   scrollPosition,
   tabRefs,
-} = provide(props, emits, listRef);
+} = useContext().provide(props, emits, listRef);
 // 获取tabPane的数据
 const slots = useSlots();
 // tabPanes

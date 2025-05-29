@@ -69,12 +69,8 @@ const emits = defineEmits<SliderEmits>();
 // trackRef
 const trackRef = ref<HTMLDivElement>();
 // 注入
-const { provide } = useContext();
-const { ticks, marks, range, direction, min, handleRangeValue } = provide(
-  props,
-  emits,
-  trackRef
-);
+const { ticks, marks, range, direction, min, handleRangeValue } =
+  useContext().provide(props, emits, trackRef);
 // 开始按钮的位置
 const startPosition = ref<PositionData>({
   bottom: 0,

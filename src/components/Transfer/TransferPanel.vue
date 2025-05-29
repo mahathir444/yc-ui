@@ -111,7 +111,6 @@ const { type } = toRefs(props);
 // configProvider
 const { slots: configSlots, renderEmpty } = getGlobalConfig();
 // 接收注入
-const { inject } = useContext();
 const {
   computedValue,
   computedSelected,
@@ -129,7 +128,7 @@ const {
   slots,
   title: _title,
   emits,
-} = inject();
+} = useContext().inject();
 // 搜索关键词
 const keywords = ref<string>('');
 // 当前的data

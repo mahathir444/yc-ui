@@ -65,8 +65,7 @@ withDefaults(defineProps<TimelineItemProps>(), {
   position: 'top',
 });
 // 注入数据
-const { inject } = useContext();
-const { direction, mode, labelPosition } = inject();
+const { direction, mode, labelPosition } = useContext().inject();
 </script>
 
 <style lang="less" scoped>

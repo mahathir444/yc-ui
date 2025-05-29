@@ -20,8 +20,7 @@ const props = withDefaults(defineProps<GridItemProps>(), {
 });
 const { span: _span, offset: _offset, suffix } = toRefs(props);
 // 接收数据
-const { inject } = useContext();
-const { breakpoint, cols, colGap } = inject();
+const { breakpoint, cols, colGap } = useContext().inject();
 // offset
 const offset = computed(() => {
   return isNumber(_offset.value)

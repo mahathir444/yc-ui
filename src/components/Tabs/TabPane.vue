@@ -26,8 +26,8 @@ const props = withDefaults(defineProps<TabPaneProps>(), {
   destoryOnHide: undefined,
 });
 // 接收注入
-const { inject } = useContext();
-const { computedActiveKey, destoryOnHide: _destoryOnHide } = inject();
+const { computedActiveKey, destoryOnHide: _destoryOnHide } =
+  useContext().inject();
 const destoryOnHide = computed(() => {
   return !isUndefined(props.destoryOnHide)
     ? props.destoryOnHide

@@ -78,7 +78,6 @@ const props = withDefaults(defineProps<StepProps>(), {
 });
 const { disabled } = toRefs(props);
 // 接收注入
-const { inject } = useContext();
 const {
   curStep,
   computedCurrent,
@@ -92,7 +91,7 @@ const {
   lineLess: _lineLess,
   small: _small,
   emits,
-} = inject(props);
+} = useContext().inject(props);
 // small
 const small = computed(() => {
   return type.value != 'dot' ? _small.value : false;

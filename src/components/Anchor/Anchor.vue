@@ -34,8 +34,7 @@ const listRef = ref<HTMLDivElement>();
 // listRef
 const linkRefs = ref<HTMLDivElement[]>([]);
 // 注入
-const { provide } = useContext();
-const { curHref, hrefs } = provide(props, listRef);
+const { curHref, hrefs } = useContext().provide(props, listRef);
 // 计算top
 const top = computed(() => {
   const curIndex = hrefs.value.findIndex((item) => item == curHref.value);

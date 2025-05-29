@@ -42,8 +42,7 @@ defineProps<{
   allowSearch: boolean;
 }>();
 // 接收注入
-const { inject } = useContext();
-const { slots, emits } = inject();
+const { slots, emits } = useContext().inject();
 // 渲染icon
 const renderIcon = (name: string) => {
   return slots[name];

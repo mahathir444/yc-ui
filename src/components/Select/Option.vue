@@ -61,7 +61,6 @@ const props = withDefaults(defineProps<OptionProps>(), {
 });
 const { label, value: optionValue, disabled } = toRefs(props);
 // 解构父级provide的属性
-const { inject } = useContext();
 const {
   computedValue,
   computedInputValue,
@@ -74,7 +73,7 @@ const {
   getValue,
   emits,
   collectOption,
-} = inject();
+} = useContext().inject();
 // contentRef
 const contentRef = ref<HTMLDivElement>();
 // value

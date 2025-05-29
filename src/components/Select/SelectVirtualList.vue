@@ -32,8 +32,7 @@ const props = defineProps<{
 }>();
 const { virtualListProps } = toRefs(props);
 // 接收注入
-const { inject } = useContext();
-const { fieldKey, renderOptions, slots, emits } = inject();
+const { fieldKey, renderOptions, slots, emits } = useContext().inject();
 // 处理触底逻辑
 const { isReach } = useScrollReach({
   offsetBottom: ref(0),

@@ -27,8 +27,7 @@ withDefaults(defineProps<MenuItemGroupProps>(), {
   title: '',
 });
 // 接收menu注入
-const { inject } = useContext();
-const { levelIndent } = inject();
+const { levelIndent } = useContext().inject();
 </script>
 
 <style lang="less" scoped>

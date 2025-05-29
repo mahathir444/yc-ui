@@ -32,8 +32,7 @@ const props = withDefaults(defineProps<GridRowProps>(), {
 });
 const { div, wrap, justify, align } = toRefs(props);
 // 注入
-const { provide } = useContext();
-const { breakpoint } = provide(props);
+const { breakpoint } = useContext().provide(props);
 // style
 const style = computed<CSSProperties>(() => {
   return div.value

@@ -57,8 +57,7 @@ withDefaults(defineProps<SubMenuProps>(), {
   popupMaxHeight: undefined,
 });
 // 接收父级注入的属性
-const { inject } = useContext();
-const { mode, computedOpenKeys, computedCollapsed } = inject();
+const { mode, computedOpenKeys, computedCollapsed } = useContext().inject();
 </script>
 
 <style lang="less" scoped>

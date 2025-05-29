@@ -50,8 +50,7 @@ defineProps<{
   scrollbar: boolean;
 }>();
 // 接收注入
-const { inject } = useContext();
-const { fieldKey, renderOptions, slots, emits } = inject();
+const { fieldKey, renderOptions, slots, emits } = useContext().inject();
 // 渲染label
 const renderLabel = (option: ObjectData) => {
   if (slots.option) {

@@ -56,8 +56,10 @@ const props = withDefaults(defineProps<ColorPickerProps>(), {
 });
 const emits = defineEmits<ColorPickerEmits>();
 // 注入
-const { provide } = useContext();
-const { popupVisible, computedColor, size } = provide(props, emits);
+const { popupVisible, computedColor, size } = useContext().provide(
+  props,
+  emits
+);
 </script>
 
 <style lang="less" scoped>

@@ -48,7 +48,6 @@ import { default as useContext, isMenuItemActive } from './hooks/useContext';
 import MenuPopOption from './MenuPopOption.vue';
 import { default as YcDropdown, DoptionValue } from '@/components/Dropdown';
 // 接收menu注入
-const { inject } = useContext();
 const {
   computedSelectedKeys,
   theme,
@@ -57,7 +56,7 @@ const {
   menuTree,
   max,
   emits,
-} = inject();
+} = useContext().inject();
 // submenu
 const submenus = computed(() => menuTree.value.slice(max.value));
 // 是否选中

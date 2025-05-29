@@ -1,16 +1,11 @@
 <template>
   <div class="test">
-    <div style="width: 400px; display: flex; flex-direction: column; gap: 10px">
-      <a-select />
-      <a-transfer />
-      <a-cascader />
-      <a-list />
-    </div>
-    <div style="width: 400px; display: flex; flex-direction: column; gap: 10px">
-      <yc-select />
-      <yc-transfer />
-      <yc-list />
-    </div>
+    <div
+      style="width: 400px; display: flex; flex-direction: column; gap: 10px"
+    ></div>
+    <div
+      style="width: 400px; display: flex; flex-direction: column; gap: 10px"
+    ></div>
   </div>
 </template>
 

@@ -25,8 +25,7 @@ const props = withDefaults(defineProps<ButtonGroupProps>(), {
   disabled: false,
 });
 // 获取全局配置
-const { provide } = useContext();
-provide(props);
+useContext().provide(props);
 </script>
 
 <style lang="less">

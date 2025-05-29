@@ -62,8 +62,7 @@ const props = withDefaults(defineProps<AvatarGroupProps>(), {
 });
 const { maxCount } = toRefs(props);
 // 注入
-const { provide } = useContext();
-provide(props);
+useContext().provide(props);
 // 获取插槽内元素
 const slots = useSlots();
 const nodes = computed(() => {

@@ -31,8 +31,7 @@ const {
   flex: _flex,
 } = toRefs(props);
 // 接收注入属性
-const { inject } = useContext();
-const { gutter, breakpoint, div } = inject();
+const { gutter, breakpoint, div } = useContext().inject();
 // 获取响应式数据
 const getBreakpointValue = (value: ResponsiveValue) => {
   if (isNumber(value)) {

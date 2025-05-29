@@ -38,7 +38,6 @@ const props = withDefaults(
 );
 const { type, page } = toRefs(props);
 // 接收注入
-const { inject } = useContext();
 const {
   computedCurrent,
   pages,
@@ -46,7 +45,7 @@ const {
   activePageItemStyle,
   bufferSize,
   disabled: _disabled,
-} = inject();
+} = useContext().inject();
 const active = computed(() => {
   return type.value == 'item' ? computedCurrent.value == page.value : false;
 });

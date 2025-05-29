@@ -34,7 +34,7 @@
           :disabled="disabled"
           :size="size"
           :error="error"
-          :placeholder="String(selectOptions[0]?.label || '')"
+          :placeholder="selectOptions[0]?.label?.toString() || ''"
           v-bind="$attrs"
           ref="inputRef"
           @click="handleEvent('focus')"
@@ -203,9 +203,8 @@ const inputRef = ref<InputInstance>();
 // triggerRef
 const popupRef = ref<TriggerInstance>();
 // 注入值
-const { provide } = useContext();
 const { computedVisible, computedValue, computedInputValue, selectOptions } =
-  provide(props, emits, inputRef);
+  useContext().provide(props, emits, inputRef);
 // 是否展示清除按钮
 const showClearBtn = computed(() => {
   const hasValue = multiple.value

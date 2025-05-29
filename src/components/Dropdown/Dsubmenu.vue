@@ -76,8 +76,7 @@ const {
   position: _position,
 } = toRefs(props);
 // 接收注入
-const { inject } = useContext();
-const { theme } = inject();
+const { theme } = useContext().inject();
 // option的实例
 const optionRef = ref();
 // 触发器实例

@@ -61,8 +61,7 @@ const props = withDefaults(defineProps<RadioProps>(), {
 const emits = defineEmits<RadioEmits>();
 const { modelValue, defaultChecked, value: radioValue } = toRefs(props);
 // 接收注入
-const { inject } = useContext();
-const { computedValue, disabled, type, size } = inject(props);
+const { computedValue, disabled, type, size } = useContext().inject(props);
 // checkbox受控的值
 const _computedValue = useControlValue<RadioValue>(
   modelValue,

@@ -1,7 +1,8 @@
-import { ref, provide, inject, watch, computed, Ref } from 'vue';
+import { ref, provide, inject, watch, computed, Ref, onMounted } from 'vue';
 import { nanoid } from 'nanoid';
 import { TriggerType, TriggerProps as _TriggerProps } from '../type';
 import { RequiredDeep } from '@shared/type';
+import { unrefElement } from '@/components/_shared/utils';
 
 export const TRIGGER_CONTEXT_KEY = 'trigger-context';
 
@@ -21,7 +22,12 @@ export type TriggerProps = RequiredDeep<_TriggerProps>;
  *  groupIds 同一个submenu里面的groupId集合
  *  groupId  组件标识，用于标识元素是否处于一个嵌套中
  */
-export default (trigger: TriggerType, hideCallback?: () => void) => {
+export default (params: {
+  trigger: TriggerType;
+  popupRef: Ref<HTMLDivElement | undefined>;
+  hideCallback?: () => void;
+}) => {
+  const { trigger, popupRef, hideCallback } = params;
   const groupId = nanoid(32);
   const {
     depth: _depth,
@@ -42,13 +48,6 @@ export default (trigger: TriggerType, hideCallback?: () => void) => {
   groupIds.value[depth] = groupId;
   // 是否嵌套
   const hasChildren = computed(() => groupIds.value.length > 1);
-  // 检测层级的改变自动关闭
-  watch(curDepth, (v) => {
-    if (depth <= v || trigger != 'hover') {
-      return;
-    }
-    hideCallback?.();
-  });
   // 设置hoverLevel
   const setDepth = (delay: number) => {
     // 处理trigger嵌套,以及多重触发的问题
@@ -74,7 +73,27 @@ export default (trigger: TriggerType, hideCallback?: () => void) => {
       return isSameGroup(el.parentElement as HTMLElement);
     }
   };
-
+  // 检测层级的改变自动关闭
+  watch(curDepth, (v) => {
+    if (depth <= v || trigger != 'hover') {
+      return;
+    }
+    hideCallback?.();
+  });
+  // 检测popupRef设置depth和groupId
+  watch(
+    () => popupRef.value,
+    () => {
+      if (!popupRef.value) return;
+      const popupDom = unrefElement(popupRef);
+      if (!popupDom) return;
+      popupDom.setAttribute('data-group-id', groupId);
+      popupDom.setAttribute('data-group-depth', `${depth}`);
+    },
+    {
+      immediate: true,
+    }
+  );
   provide<TriggerContext>(TRIGGER_CONTEXT_KEY, {
     depth,
     curDepth,
@@ -82,14 +101,10 @@ export default (trigger: TriggerType, hideCallback?: () => void) => {
     hoverTimeout,
     timeout,
   });
-
   return {
     depth,
     curDepth,
-    groupId,
-    groupIds,
     timeout,
-    hoverTimeout,
     hasChildren,
     setDepth,
     isSameGroup,

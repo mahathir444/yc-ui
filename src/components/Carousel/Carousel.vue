@@ -58,11 +58,8 @@ const props = withDefaults(defineProps<CarouselProps>(), {
 });
 const emits = defineEmits<CarouselEmits>();
 // 注入
-const { provide } = useContext();
-const { slideTo, computedCurrent, autoPlay, carouselItems } = provide(
-  props,
-  emits
-);
+const { slideTo, computedCurrent, autoPlay, carouselItems } =
+  useContext().provide(props, emits);
 // 自动播放的timer
 let autoPlayTimer: any = null;
 // 设置自动播放

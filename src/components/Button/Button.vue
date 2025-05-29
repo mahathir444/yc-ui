@@ -90,8 +90,7 @@ const {
   long,
 } = toRefs(props);
 // 呼求注入
-const { inject } = useContext();
-const { size, disabled, type, status, shape } = inject(props);
+const { size, disabled, type, status, shape } = useContext().inject(props);
 // 拦截事件
 const handleEvent = (type: string, e: MouseEvent) => {
   if (disabled.value || loading.value) return;

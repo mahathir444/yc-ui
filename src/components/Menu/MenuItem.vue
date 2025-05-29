@@ -128,9 +128,12 @@ const props = withDefaults(defineProps<MenuItemProps>(), {
   disabled: false,
 });
 const { path, disabled } = toRefs(props);
+// 创建通用模板
+const { reuse: ReuseTemplate, define: DefineTemplate } =
+  createReusableTemplate();
+// attrs
 const attrs = useAttrs();
 // 接收menu注入
-const { inject } = useContext();
 const {
   computedSelectedKeys,
   computedOpenKeys,
@@ -151,10 +154,7 @@ const {
   max,
   menuItemWidths,
   emits,
-} = inject();
-// 创建通用模板
-const { reuse: ReuseTemplate, define: DefineTemplate } =
-  createReusableTemplate();
+} = useContext().inject();
 // 当前节点的信息
 const curNode = computed(() => {
   return menuTreeNodes.value.find(
@@ -233,7 +233,6 @@ onMounted(() => {
   // 收集节点
   if (isRoot.value) {
     menuItemWidths.value[curIndex.value] = menuItemRef.value!.offsetWidth;
-    console.log(menuItemWidths.value, 'width');
   }
   // 配置自动滚动
   if (autoScrollIntoView.value && computedSelectedKeys.value == path.value) {

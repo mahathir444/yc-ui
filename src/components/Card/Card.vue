@@ -79,8 +79,8 @@ const props = withDefaults(defineProps<CardProps>(), {
 // size
 const { size } = getGlobalConfig(props);
 // 注入
-const { provide } = useContext();
-const { slots } = provide();
+const { slots } = useContext().provide();
+// 计算node
 const nodes = computed(() => slots.default?.() || []);
 // 是否有meta
 const hasMeta = computed(() => {

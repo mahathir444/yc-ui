@@ -74,9 +74,8 @@ const props = withDefaults(defineProps<TransferProps>(), {
 });
 const emits = defineEmits<TransferEmits>();
 // 注入数据
-const { provide } = useContext();
 const { computedValue, targetChecked, computedSelected, sourceChecked } =
-  provide(props, emits);
+  useContext().provide(props, emits);
 // 处理添加
 const handleAdd = () => {
   const checked = [...sourceChecked.value];

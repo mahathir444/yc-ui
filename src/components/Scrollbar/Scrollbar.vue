@@ -76,7 +76,7 @@ const emits = defineEmits<ScrollbarEmits>();
 // 解构属性
 const { type, offsetBottom, offsetRight, scrollbar } = toRefs(props);
 // 注入属性
-const { provide } = useContext();
+
 // contentRef
 const contentRef = ref<HTMLElement>();
 // scrollRef
@@ -236,7 +236,7 @@ function initScrollbar() {
     return scrollWidth.value - thumbWidth.value - track;
   });
   // 提供数据
-  provide({
+  useContext().provide({
     curLeft,
     curTop,
     movableLeft,

@@ -41,8 +41,7 @@ const emits = defineEmits<{
 }>();
 const { value: optionValue, disabled, isSubmenu } = toRefs(props);
 // dropdown传递的值
-const { inject } = useContext();
-const { select, theme } = inject();
+const { select, theme } = useContext().inject();
 // 处理后缀点击
 const handleClick = (ev: MouseEvent) => {
   if (disabled.value) return;

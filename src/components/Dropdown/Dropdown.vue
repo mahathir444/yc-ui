@@ -66,8 +66,7 @@ const emits = defineEmits<{
 }>();
 const { trigger, position: _position } = toRefs(props);
 // 注入
-const { provide } = useContext();
-const { computedVisible } = provide(props, emits);
+const { computedVisible } = useContext().provide(props, emits);
 // 位置
 const position = computed(() => {
   return ['top', 'tl', 'tr', 'bottom', 'bl', 'br'].includes(_position.value)

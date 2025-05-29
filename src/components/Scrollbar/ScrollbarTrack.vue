@@ -43,7 +43,6 @@ const emits = defineEmits<{
 }>();
 const { direction } = toRefs(props);
 // 接受值
-const { inject } = useContext();
 const {
   scrollRef,
   thumbHeight,
@@ -52,7 +51,7 @@ const {
   movableTop,
   curTop,
   curLeft,
-} = inject();
+} = useContext().inject();
 // 是否是垂直
 const isVertical = computed(() => direction.value == 'vertical');
 // thumbStyle

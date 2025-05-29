@@ -112,8 +112,7 @@ const props = withDefaults(defineProps<DescriptionsProps>(), {
   tableLayout: 'auto',
 });
 // 注入
-const { provide } = useContext();
-const { column, size, data, layout } = provide(props);
+const { column, size, data, layout } = useContext().provide(props);
 // 行数
 const renderArr = computed(() => {
   let count = 0;

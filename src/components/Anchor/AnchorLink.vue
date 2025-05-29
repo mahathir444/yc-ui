@@ -34,9 +34,8 @@ const props = withDefaults(defineProps<AnchorLinkProps>(), {
 });
 const { href } = toRefs(props);
 // 接收注入
-const { inject } = useContext();
 const { smooth, boundary, changeHash, curHref, lineLess, scrollContainer } =
-  inject();
+  useContext().inject();
 // 处理点击
 const handleClick = (e: MouseEvent) => {
   curHref.value = href.value;

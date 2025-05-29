@@ -34,9 +34,8 @@ defineEmits<{
 }>();
 const { type } = toRefs(props);
 // 接收注入
-const { inject } = useContext();
 const { min, max, startValue, endValue, range, direction, handleRangeValue } =
-  inject();
+  useContext().inject();
 // 计算position
 const getPosition = (value: number) => {
   const curValue = handleRangeValue(value);

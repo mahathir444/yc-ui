@@ -72,8 +72,7 @@ const props = withDefaults(defineProps<AvatarProps>(), {
 });
 const emits = defineEmits<AvatarEmits>();
 // 接收注入
-const { inject } = useContext();
-const { size, autoFixFontSize, shape } = inject(props);
+const { size, autoFixFontSize, shape } = useContext().inject(props);
 // 是否加载错误
 const isLoadError = ref<boolean>(false);
 // scale

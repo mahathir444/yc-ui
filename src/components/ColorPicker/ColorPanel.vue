@@ -80,9 +80,8 @@ import ColorInput from './ColorInput.vue';
 import ColorList from './ColorList.vue';
 import ColorControl from './ColorControl.vue';
 // 注入值
-const { inject } = useContext();
 const { props, popupVisible, computedColor, baseColor, alpha, format } =
-  inject();
+  useContext().inject();
 const {
   disabled,
   disabledAlpha,

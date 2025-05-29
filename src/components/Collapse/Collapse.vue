@@ -29,8 +29,7 @@ const props = withDefaults(defineProps<CollapseProps>(), {
 });
 const emits = defineEmits<CollapseEmits>();
 // 注入数据
-const { provide } = useContext();
-provide(props, emits);
+useContext().provide(props, emits);
 </script>
 
 <style lang="less" scoped>
