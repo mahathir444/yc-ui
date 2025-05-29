@@ -1,18 +1,22 @@
 <template>
   <div class="test">
-    <a-typography-title
-      :heading="1"
-      deletable
-      code
-      bold
-      mark
-      underline
-      editable
-      copyable
-      v-model:editText="value"
-    >
-      H1. The Pragmatic Romanticism
-    </a-typography-title>
+    <a-typography>
+      <a-typography-title
+        :heading="1"
+        deletable
+        code
+        bold
+        mark
+        underline
+        editable
+        copyable
+        v-model:editText="value"
+      >
+        H1. The Pragmatic Romanticism
+      </a-typography-title>
+      <a-typography-text>这是测试</a-typography-text>
+    </a-typography>
+    <!-- 测试 -->
     <yc-typography-title
       :heading="1"
       deletable

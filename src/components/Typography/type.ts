@@ -44,3 +44,14 @@ export interface TypographyBaseSlots {
 export interface TypographyTitleProps {
   heading: 1 | 2 | 3 | 4 | 5 | 6;
 }
+
+export interface EllipsisConfig {
+  rows?: number;
+  expandable?: boolean;
+  ellipsisStr?: string;
+  suffix?: string;
+  showTooltip?:
+    | boolean
+    | { type: 'tooltip' | 'popover'; props: Record<string, any> };
+  css?: boolean;
+}

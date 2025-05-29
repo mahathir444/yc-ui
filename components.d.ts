@@ -28,6 +28,7 @@ declare module 'vue' {
     ASubMenu: typeof import('@arco-design/web-vue')['SubMenu']
     ATooltip: typeof import('@arco-design/web-vue')['Tooltip']
     ATransfer: typeof import('@arco-design/web-vue')['Transfer']
+    ATypography: typeof import('@arco-design/web-vue')['Typography']
     ATypographyText: typeof import('@arco-design/web-vue')['TypographyText']
     ATypographyTitle: typeof import('@arco-design/web-vue')['TypographyTitle']
     AutoComplete: typeof import('./src/components/AutoComplete/index.vue')['default']

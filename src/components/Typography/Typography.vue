@@ -1,12 +1,11 @@
 <template>
-  <div></div>
+  <article class="arco-typography">
+    <slot />
+  </article>
 </template>
 
 <script lang="ts" setup>
-import { ref, reactive } from 'vue';
 defineOptions({
   name: 'Typography',
 });
 </script>
-
-<style lang="less" scoped></style>

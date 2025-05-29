@@ -107,7 +107,7 @@ export default (params: {
     onMounted(() => {
       optionMap.set(id, {
         ...props,
-        label: props.label ? props.label : getTextContent(contentRef.value!),
+        label: props.label ? props.label : getTextContent(contentRef),
       } as OptionProps);
     });
     // 卸载的时候卸载option

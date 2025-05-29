@@ -26,7 +26,7 @@
         <slot />
       </dynamic-tag>
     </template>
-    <!-- opera -->
+    <!-- edit -->
     <span
       v-if="editable"
       class="yc-typography-operation-edit"
@@ -36,6 +36,7 @@
         <span><icon-edit /></span>
       </yc-tooltip>
     </span>
+    <!-- copy -->
     <span
       v-if="copyable"
       class="yc-typography-operation-copy"
@@ -56,7 +57,15 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, toRefs, defineComponent, h, computed, VNode } from 'vue';
+import {
+  ref,
+  toRefs,
+  defineComponent,
+  h,
+  computed,
+  VNode,
+  onMounted,
+} from 'vue';
 import { useClipboard } from '@vueuse/core';
 import {
   TypographyBaseProps,
@@ -163,7 +172,7 @@ const handleEdit = async () => {
   computedEditing.value = true;
   computedText.value = computedText.value
     ? computedText.value
-    : getTextContent(contentRef.value!);
+    : getTextContent(contentRef);
   emits('edit-start');
   await sleep(0);
   inputRef.value?.focus();
@@ -176,13 +185,17 @@ const handleEditEnd = () => {
 // 处理复制
 const handleCopy = async () => {
   if (!copyable.value || !isSupported.value || isCopied.value) return;
-  const value = copyText.value || getTextContent(contentRef.value!);
+  const value = copyText.value || getTextContent(contentRef);
   copy(value);
   emits('copy', value);
   isCopied.value = true;
   await sleep(copyDelay.value);
   isCopied.value = false;
 };
+
+onMounted(() => {
+  console.log(contentRef.value?.innerText, 'text');
+});
 </script>
 
 <style lang="less" scoped>
