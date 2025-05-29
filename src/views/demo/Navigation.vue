@@ -26,7 +26,7 @@
       <yc-breadcrumb-item>News</yc-breadcrumb-item>
     </yc-breadcrumb>
     <!-- dropdown -->
-    <yc-dropdown trigger="click" @select="(v) => console.log('选中', v)">
+    <yc-dropdown @select="(v) => console.log('选中', v)">
       <yc-button>dropdown</yc-button>
       <template #content>
         <dropdown-content

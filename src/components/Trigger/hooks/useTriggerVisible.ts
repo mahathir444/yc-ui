@@ -43,15 +43,6 @@ export default (params: {
     onTriggerBlur,
     onTriggerFocus,
   } = props;
-  // 处理嵌套
-  const { depth, hasChildren, curDepth, timeout, setDepth, isSameGroup } =
-    useContext({
-      trigger: trigger.value,
-      popupRef,
-      hideCallback: () => {
-        computedVisible.value = false;
-      },
-    });
   // visible
   const computedVisible = useControlValue<boolean>(
     popupVisible,
@@ -61,6 +52,14 @@ export default (params: {
       emits('popup-visible-change', val);
     }
   );
+  // 处理嵌套
+  const { timeout, mosueLeaveHandler, mouseEnterHandler, clickOutsideHandler } =
+    useContext({
+      trigger: trigger.value,
+      mouseEnterDelay,
+      computedVisible,
+      popupRef,
+    });
   // 记录鼠标操作的位置
   const mouseX = ref<number>(0);
   const mouseY = ref<number>(0);
@@ -92,7 +91,7 @@ export default (params: {
   };
   // 鼠标进入
   const handleMouseenter = () => {
-    setDepth(mouseEnterDelay.value);
+    mouseEnterHandler();
     if (trigger.value != 'hover' || disabled.value) {
       return;
     }
@@ -122,18 +121,14 @@ export default (params: {
     timeout.value = setTimeout(() => {
       // 处理leave事件
       onTriggerMouseleave?.();
-      // 处理不嵌套的情况
-      if (!hasChildren.value) {
-        computedVisible.value = false;
+      // 是否处理过嵌套情况
+      const isHandle = mosueLeaveHandler(e);
+      // 未处理进入处理流程
+      if (isHandle) {
         return;
       }
-      const { isGroup } = isSameGroup(e.relatedTarget as HTMLDivElement);
-      // 如果在一个组则关闭
-      if (isGroup) {
-        computedVisible.value = false;
-      } else {
-        curDepth.value = -1;
-      }
+      // 处理不嵌套情况
+      computedVisible.value = false;
     }, mouseLeaveDelay.value);
   };
   // 聚焦
@@ -179,18 +174,10 @@ export default (params: {
       popupRef,
       (e) => {
         if (disabled.value) return;
-        // 处理dropdown或者嵌套情况
-        if (hasChildren.value) {
-          const { isGroup, depth: _depth } = isSameGroup(
-            (e.target ?? e) as HTMLElement
-          );
-          if (isGroup) {
-            computedVisible.value = depth <= _depth;
-            return;
-          }
-        }
+        // 是否处理过嵌套情况
+        const isHandle = clickOutsideHandler(e);
         // 处理正常逻辑
-        if (!computedVisible.value) {
+        if (!computedVisible.value || isHandle) {
           return;
         }
         computedVisible.value = false;

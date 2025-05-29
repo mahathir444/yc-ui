@@ -2,7 +2,7 @@
   <yc-option v-if="item.type == 'option'" :value="item.value">
     {{ item.label }}
   </yc-option>
-  <yc-dsubmenu trigger="click" v-else>
+  <yc-dsubmenu v-else>
     {{ item.label }}
     <template #content>
       <template v-for="v in item.children" :key="v.label">

@@ -1,8 +1,17 @@
-import { ref, provide, inject, watch, computed, Ref, onMounted } from 'vue';
+import {
+  ref,
+  provide,
+  inject,
+  watch,
+  computed,
+  Ref,
+  onBeforeMount,
+  onBeforeUnmount,
+} from 'vue';
 import { nanoid } from 'nanoid';
 import { TriggerType, TriggerProps as _TriggerProps } from '../type';
 import { RequiredDeep } from '@shared/type';
-import { unrefElement } from '@/components/_shared/utils';
+import { sleep, unrefElement } from '@/components/_shared/utils';
 
 export const TRIGGER_CONTEXT_KEY = 'trigger-context';
 
@@ -24,10 +33,11 @@ export type TriggerProps = RequiredDeep<_TriggerProps>;
  */
 export default (params: {
   trigger: TriggerType;
+  mouseEnterDelay: Ref<number>;
+  computedVisible: Ref<boolean>;
   popupRef: Ref<HTMLDivElement | undefined>;
-  hideCallback?: () => void;
 }) => {
-  const { trigger, popupRef, hideCallback } = params;
+  const { trigger, popupRef, computedVisible, mouseEnterDelay } = params;
   // 反向注入
   const {
     depth: _depth,
@@ -42,14 +52,12 @@ export default (params: {
     timeout: ref<NodeJS.Timeout>(),
     hoverTimeout: ref<NodeJS.Timeout>(),
   });
-  // 生成groupId
-  const groupId = nanoid(32);
   // 设置level
   const depth = _depth + 1;
+  // 生成groupId
+  const groupId = nanoid(32);
   // 设置groupId
   groupIds.value[depth] = groupId;
-  // 是否嵌套
-  const hasChildren = computed(() => groupIds.value.length > 1);
   // 设置hoverLevel
   const setDepth = (delay: number) => {
     // 处理trigger嵌套,以及多重触发的问题
@@ -75,22 +83,50 @@ export default (params: {
       return isSameGroup(el.parentElement as HTMLElement);
     }
   };
+  // 处理mouseenter
+  const mouseEnterHandler = () => {
+    setDepth(mouseEnterDelay.value);
+  };
+  // 处理mouse离开
+  const mosueLeaveHandler = (e: MouseEvent) => {
+    if (groupIds.value.length <= 1) {
+      return false;
+    }
+    const { isGroup } = isSameGroup(e.relatedTarget as HTMLDivElement);
+    if (isGroup) {
+      computedVisible.value = false;
+    } else {
+      curDepth.value = -1;
+    }
+    return true;
+  };
+  // 处理clickoutside关闭
+  const clickOutsideHandler = (e: Event) => {
+    if (groupIds.value.length <= 1) {
+      return false;
+    }
+    const { isGroup, depth: _depth } = isSameGroup(
+      (e.target ?? e) as HTMLElement
+    );
+    computedVisible.value = isGroup ? depth <= _depth : computedVisible.value;
+    return isGroup;
+  };
   // 检测层级的改变自动关闭
   watch(curDepth, (v) => {
     if (depth <= v || trigger != 'hover') {
       return;
     }
-    hideCallback?.();
+    computedVisible.value = false;
   });
-  // 检测popupRef设置depth和groupId
+  // 检测visible设置depth和groupId
   watch(
-    () => popupRef.value,
-    () => {
-      if (!popupRef.value) return;
-      const popupDom = unrefElement(popupRef);
-      if (!popupDom) return;
-      popupDom.setAttribute('data-group-id', groupId);
-      popupDom.setAttribute('data-group-depth', `${depth}`);
+    () => computedVisible.value,
+    async (val) => {
+      if (!val) return;
+      await sleep(0);
+      const popupDom = unrefElement(popupRef)!;
+      popupDom?.setAttribute('data-group-id', groupId);
+      popupDom?.setAttribute('data-group-depth', `${depth}`);
     },
     {
       immediate: true,
@@ -104,11 +140,9 @@ export default (params: {
     timeout,
   });
   return {
-    depth,
-    curDepth,
     timeout,
-    hasChildren,
-    setDepth,
-    isSameGroup,
+    mouseEnterHandler,
+    clickOutsideHandler,
+    mosueLeaveHandler,
   };
 };
