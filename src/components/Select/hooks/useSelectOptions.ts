@@ -9,7 +9,7 @@ import {
   FormatLabel,
   SelectOptionData,
 } from '../index';
-import { getTextContent, isObject } from '@shared/utils';
+import { getDomText, isObject } from '@shared/utils';
 
 export default (params: {
   multiple: Ref<boolean>;
@@ -107,7 +107,7 @@ export default (params: {
     onMounted(() => {
       optionMap.set(id, {
         ...props,
-        label: props.label ? props.label : getTextContent(contentRef),
+        label: props.label ? props.label : getDomText(contentRef),
       } as OptionProps);
     });
     // 卸载的时候卸载option

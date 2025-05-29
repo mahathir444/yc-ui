@@ -3,9 +3,6 @@
   line-height: 1.5715;
   white-space: normal;
   overflow-wrap: anywhere;
-  display: inline-flex;
-  align-items: center;
-  gap: 2px;
 
   &:deep(mark) {
     background-color: rgb(252, 242, 107);
@@ -18,7 +15,6 @@
     border-radius: 2px;
     font-size: 85%;
     color: rgb(78, 89, 105);
-    font-family: monospace, monospace;
   }
   &:deep(del) {
     text-decoration: line-through;
@@ -34,6 +30,7 @@
     cursor: pointer;
     height: 100%;
     padding: 2px;
+    margin-left: 2px;
     border-radius: 2px;
     transition: background-color 0.1s cubic-bezier(0, 0, 1, 1);
     color: rgb(78, 89, 105);

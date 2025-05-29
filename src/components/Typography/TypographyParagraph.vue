@@ -1,5 +1,9 @@
 <template>
-  <typography-base :tag="tag" v-bind="$attrs">
+  <typography-base
+    v-bind="$attrs"
+    :tag="blockquote ? 'blockquote' : 'div'"
+    :class="[`yc-typography-spacing-${spacing}`]"
+  >
     <slot />
     <template v-if="$slots['copy-icon']" #copy-icon="scope">
       <slot name="copy-icon" v-bind="scope" />
@@ -14,25 +18,18 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, toRefs } from 'vue';
-import { TypographyTitleProps, TypographyBaseSlots } from './type';
 import TypographyBase from './TypographyBase.vue';
+import { TypographyParagraphProps, TypographyBaseSlots } from './type';
 defineOptions({
-  name: 'TypographyTitle',
+  name: 'TypographyParagraph',
 });
 defineSlots<TypographyBaseSlots>();
-const props = withDefaults(defineProps<TypographyTitleProps>(), {
-  heading: 1,
-});
-const { heading } = toRefs(props);
-// 元素标签
-const tag = computed(() => {
-  return [1, 2, 3, 4, 5, 6].includes(heading.value)
-    ? `h${heading.value}`
-    : 'h1';
+withDefaults(defineProps<TypographyParagraphProps>(), {
+  blockquote: false,
+  spacing: 'default',
 });
 </script>
 
 <style lang="less" scoped>
-@import './style/typography-title.less';
+@import './style/typography-paragraph.less';
 </style>

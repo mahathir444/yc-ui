@@ -77,7 +77,12 @@ import TimePicker from './TimePicker';
 import Tooltip from './Tooltip';
 import Transfer from './Transfer';
 import Trigger from './Trigger';
-import { default as Typography } from './Typography';
+import {
+  default as Typography,
+  TypographyText,
+  TypographyTitle,
+  TypographyParagraph,
+} from './Typography';
 import { default as Tabs, TabPane } from './Tabs';
 import VerificationCode from './VerificationCode';
 import Watermark from './Watermark';
@@ -191,6 +196,9 @@ const result = {
   SubMenu,
   TabPane,
   TimelineItem,
+  TypographyText,
+  TypographyTitle,
+  TypographyParagraph,
   install: (app: App) => {
     for (const key of Object.keys(components)) {
       app.use(components[key]);

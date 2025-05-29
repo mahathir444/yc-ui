@@ -38,7 +38,7 @@ export const getElement = (
 };
 
 // 提取 DOM 元素内所有文本内容
-export function getTextContent(dom: Ref<HTMLElement | undefined>): string {
+export function getDomText(dom: Ref<HTMLElement | undefined>): string {
   return unrefElement(dom)?.innerText || '';
 }
 

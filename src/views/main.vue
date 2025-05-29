@@ -27,7 +27,7 @@ const menus = [
     path: 'lsh',
   },
   {
-    title: '通用(3/4)',
+    title: '通用(4/4)',
     path: 'common',
   },
   {

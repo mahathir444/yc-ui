@@ -1,11 +1,9 @@
 import { TooltipProps } from '@/components/Tooltip';
 
-export interface TypographyProps {}
-
 // base
 export interface TypographyBaseProps {
   tag: string;
-  type?: 'primary' | 'secondary' | 'success' | 'danger' | 'warning';
+  type?: TypographyType;
   bold?: boolean;
   disabled?: boolean;
   mark?: boolean;
@@ -19,6 +17,7 @@ export interface TypographyBaseProps {
   copyable?: boolean;
   copyText?: string;
   copyDelay?: number;
+  ellipsis?: boolean | EllipsisConfig;
   editTooltiProps?: TooltipProps;
   copyTooltiProps?: TooltipProps;
 }
@@ -41,11 +40,16 @@ export interface TypographyBaseSlots {
   ['copy-tooltip'](params: { copied: boolean }): void;
 }
 
+export interface TypographyParagraphProps {
+  blockquote: boolean;
+  spacing: 'default' | 'close';
+}
+
 export interface TypographyTitleProps {
   heading: 1 | 2 | 3 | 4 | 5 | 6;
 }
 
-export interface EllipsisConfig {
+export type EllipsisConfig = {
   rows?: number;
   expandable?: boolean;
   ellipsisStr?: string;
@@ -54,4 +58,10 @@ export interface EllipsisConfig {
     | boolean
     | { type: 'tooltip' | 'popover'; props: Record<string, any> };
   css?: boolean;
-}
+};
+export type TypographyType =
+  | 'primary'
+  | 'secondary'
+  | 'success'
+  | 'danger'
+  | 'warning';

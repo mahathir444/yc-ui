@@ -42,37 +42,32 @@
       class="yc-typography-operation-copy"
       @click="handleCopy"
     >
-      <yc-tooltip
-        :content="`${isCopied ? '已复制' : '复制'}`"
-        position="top"
-        v-bind="copyTooltiProps"
-      >
+      <yc-tooltip position="top" v-bind="copyTooltiProps">
         <span>
-          <icon-info v-if="isCopied" color="rgb(0, 180, 42)" />
-          <icon-copy v-else />
+          <slot name="copy-icon" :copied="isCopied">
+            <icon-info v-if="isCopied" color="rgb(0, 180, 42)" />
+            <icon-copy v-else />
+          </slot>
         </span>
+        <template #content>
+          <slot name="copy-tooltip" :copied="isCopied">
+            {{ `${isCopied ? '已复制' : '复制'}` }}
+          </slot>
+        </template>
       </yc-tooltip>
     </span>
   </component>
 </template>
 
 <script lang="ts" setup>
-import {
-  ref,
-  toRefs,
-  defineComponent,
-  h,
-  computed,
-  VNode,
-  onMounted,
-} from 'vue';
-import { useClipboard } from '@vueuse/core';
+import { ref, toRefs, defineComponent, h, computed, VNode } from 'vue';
 import {
   TypographyBaseProps,
   TypographyBaseEmits,
   TypographyBaseSlots,
 } from './type';
-import { useControlValue, sleep, getTextContent } from '@shared/utils';
+import { useClipboard } from '@vueuse/core';
+import { useControlValue, sleep, getDomText } from '@shared/utils';
 import { IconEdit, IconCopy, IconInfo } from '@shared/icons';
 import { default as YcInput, InputInstance } from '@/components/Input';
 import { default as YcTooltip } from '@/components/Tooltip';
@@ -172,7 +167,7 @@ const handleEdit = async () => {
   computedEditing.value = true;
   computedText.value = computedText.value
     ? computedText.value
-    : getTextContent(contentRef);
+    : getDomText(contentRef);
   emits('edit-start');
   await sleep(0);
   inputRef.value?.focus();
@@ -185,19 +180,15 @@ const handleEditEnd = () => {
 // 处理复制
 const handleCopy = async () => {
   if (!copyable.value || !isSupported.value || isCopied.value) return;
-  const value = copyText.value || getTextContent(contentRef);
+  const value = copyText.value || getDomText(contentRef);
   copy(value);
   emits('copy', value);
   isCopied.value = true;
   await sleep(copyDelay.value);
   isCopied.value = false;
 };
-
-onMounted(() => {
-  console.log(contentRef.value?.innerText, 'text');
-});
 </script>
 
 <style lang="less" scoped>
-@import './style/base.less';
+@import './style/typography-base.less';
 </style>
