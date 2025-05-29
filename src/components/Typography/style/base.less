@@ -1,0 +1,68 @@
+.yc-typography {
+  color: rgb(29, 33, 41);
+  line-height: 1.5715;
+  white-space: normal;
+  overflow-wrap: anywhere;
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+
+  &:deep(mark) {
+    background-color: rgb(252, 242, 107);
+  }
+  &:deep(code) {
+    margin: 0 2px;
+    padding: 2px 8px;
+    background-color: rgb(242, 243, 245);
+    border: 1px solid rgb(229, 230, 235);
+    border-radius: 2px;
+    font-size: 85%;
+    color: rgb(78, 89, 105);
+    font-family: monospace, monospace;
+  }
+  &:deep(del) {
+    text-decoration: line-through;
+  }
+  &:deep(u) {
+    text-decoration: underline;
+  }
+  &:deep(b) {
+    font-weight: 500;
+  }
+  .yc-typography-operation-edit,
+  .yc-typography-operation-copy {
+    cursor: pointer;
+    height: 100%;
+    padding: 2px;
+    border-radius: 2px;
+    transition: background-color 0.1s cubic-bezier(0, 0, 1, 1);
+    color: rgb(78, 89, 105);
+    display: flex;
+    align-items: center;
+    > span {
+      display: flex;
+      align-items: center;
+    }
+    &:hover {
+      color: rgb(78, 89, 105);
+      background-color: rgb(242, 243, 245);
+    }
+  }
+}
+// type
+@type: {
+  primary: rgb(22, 93, 255);
+  secondary: rgb(78, 89, 105);
+  success: rgb(0, 180, 42);
+  danger: rgb(245, 63, 63);
+  warning: rgb(255, 125, 0);
+  disabled: rgb(201, 205, 212);
+};
+each(@type,{
+        .yc-typography-@{key}{
+             color: @value;
+             & when(@key = disabled){
+                cursor: not-allowed;
+             }
+        }
+    });

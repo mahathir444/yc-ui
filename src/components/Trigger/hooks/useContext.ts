@@ -1,17 +1,8 @@
-import {
-  ref,
-  provide,
-  inject,
-  watch,
-  computed,
-  Ref,
-  onBeforeMount,
-  onBeforeUnmount,
-} from 'vue';
+import { ref, watch, Ref, provide, inject } from 'vue';
 import { nanoid } from 'nanoid';
 import { TriggerType, TriggerProps as _TriggerProps } from '../type';
 import { RequiredDeep } from '@shared/type';
-import { sleep, unrefElement } from '@/components/_shared/utils';
+import { sleep, unrefElement } from '@shared/utils';
 
 export const TRIGGER_CONTEXT_KEY = 'trigger-context';
 
@@ -25,6 +16,7 @@ export type TriggerContext = {
 };
 
 export type TriggerProps = RequiredDeep<_TriggerProps>;
+
 /**
  *  depth 记录组件内部嵌套的层级,当curHoverLevel小于level关闭
  *  curDepth 记录当前hover的层级
@@ -38,9 +30,9 @@ export default (params: {
   popupRef: Ref<HTMLDivElement | undefined>;
 }) => {
   const { trigger, popupRef, computedVisible, mouseEnterDelay } = params;
-  // 反向注入
+  // 接收
   const {
-    depth: _depth,
+    depth: preDepth,
     curDepth,
     groupIds,
     timeout,
@@ -53,22 +45,20 @@ export default (params: {
     hoverTimeout: ref<NodeJS.Timeout>(),
   });
   // 设置level
-  const depth = _depth + 1;
+  const depth = preDepth + 1;
   // 生成groupId
   const groupId = nanoid(32);
   // 设置groupId
   groupIds.value[depth] = groupId;
-  // 设置hoverLevel
-  const setDepth = (delay: number) => {
-    // 处理trigger嵌套,以及多重触发的问题
-    if (hoverTimeout.value) {
-      clearTimeout(hoverTimeout.value);
-    }
-    hoverTimeout.value = setTimeout(() => {
-      curDepth.value = depth;
-    }, delay);
-  };
-  //   判断是否在一个嵌套组内
+  // 继续注入
+  provide<TriggerContext>(TRIGGER_CONTEXT_KEY, {
+    depth,
+    curDepth,
+    groupIds,
+    hoverTimeout,
+    timeout,
+  });
+  // 判断是否在一个嵌套组内
   const isSameGroup = (el: HTMLElement) => {
     const dataId = el.getAttribute('data-group-id') as string;
     const dataDepth = el.getAttribute('data-group-depth') as string;
@@ -83,9 +73,15 @@ export default (params: {
       return isSameGroup(el.parentElement as HTMLElement);
     }
   };
-  // 处理mouseenter
+  // 处理mouseenter 设置depth
   const mouseEnterHandler = () => {
-    setDepth(mouseEnterDelay.value);
+    // 处理trigger嵌套,以及多重触发的问题
+    if (hoverTimeout.value) {
+      clearTimeout(hoverTimeout.value);
+    }
+    hoverTimeout.value = setTimeout(() => {
+      curDepth.value = depth;
+    }, mouseEnterDelay.value);
   };
   // 处理mouse离开
   const mosueLeaveHandler = (e: MouseEvent) => {
@@ -112,12 +108,15 @@ export default (params: {
     return isGroup;
   };
   // 检测层级的改变自动关闭
-  watch(curDepth, (v) => {
-    if (depth <= v || trigger != 'hover') {
-      return;
+  watch(
+    () => curDepth.value,
+    (v) => {
+      if (depth <= v || trigger != 'hover') {
+        return;
+      }
+      computedVisible.value = false;
     }
-    computedVisible.value = false;
-  });
+  );
   // 检测visible设置depth和groupId
   watch(
     () => computedVisible.value,
@@ -132,13 +131,6 @@ export default (params: {
       immediate: true,
     }
   );
-  provide<TriggerContext>(TRIGGER_CONTEXT_KEY, {
-    depth,
-    curDepth,
-    groupIds,
-    hoverTimeout,
-    timeout,
-  });
   return {
     timeout,
     mouseEnterHandler,
