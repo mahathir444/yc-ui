@@ -1,14 +1,15 @@
-.yc-descriptions {
+@component: yc-descriptions;
+.@{component} {
   display: flex;
   flex-direction: column;
-  .yc-descriptions-title {
+  .@{component}-title {
     color: rgb(29, 33, 41);
     font-weight: 500;
     font-size: 16px;
     line-height: 1.5715;
   }
-  .yc-descriptions-body {
-    .yc-descriptions-table {
+  .@{component}-body {
+    .@{component}-table {
       width: 100%;
       border-collapse: collapse;
       tbody {
@@ -27,30 +28,30 @@
   }
 }
 //table-layout
-.yc-descriptions-table-layout-fixed {
-  .yc-descriptions-body {
-    .yc-descriptions-table {
+.@{component}-table-layout-fixed {
+  .@{component}-body {
+    .@{component}-table {
       table-layout: fixed;
-      .yc-descriptions-item-label {
+      .@{component}-item-label {
         width: auto;
       }
     }
   }
 }
 // layout
-.yc-descriptions-layout-horizontal,
-.yc-descriptions-layout-vertical {
-  .yc-descriptions-item-label {
+.@{component}-layout-horizontal,
+.@{component}-layout-vertical {
+  .@{component}-item-label {
     width: 1px;
     white-space: nowrap;
   }
-  .yc-descriptions-item-value {
+  .@{component}-item-value {
     white-space: pre-wrap;
     word-break: break-word;
   }
 }
-.yc-descriptions-layout-inline-horizontal {
-  .yc-descriptions-item {
+.@{component}-layout-inline-horizontal {
+  .@{component}-item {
     padding: 7px 20px;
     & > div {
       display: inline-block;
@@ -60,8 +61,8 @@
     }
   }
 }
-.yc-descriptions-layout-inline-vertical {
-  .yc-descriptions-item {
+.@{component}-layout-inline-vertical {
+  .@{component}-item {
     & > div {
       &:last-child {
         margin-top: 2px;
@@ -70,44 +71,44 @@
   }
 }
 // bordered
-.yc-descriptions-bordered {
-  .yc-descriptions-body {
+.@{component}-bordered {
+  .@{component}-body {
     overflow: hidden;
     border: 1px solid rgb(229, 230, 235);
     border-radius: 4px;
-    .yc-descriptions-row {
+    .@{component}-row {
       &:not(:last-child) {
         border-bottom: 1px solid rgb(229, 230, 235);
       }
     }
   }
-  .yc-descriptions-item {
+  .@{component}-item {
     border-right: 1px solid rgb(229, 230, 235);
   }
-  .yc-descriptions-item-label,
-  .yc-descriptions-item-value {
+  .@{component}-item-label,
+  .@{component}-item-value {
     border-right: 1px solid rgb(229, 230, 235);
   }
-  .yc-descriptions-item-label {
+  .@{component}-item-label {
     background-color: rgb(247, 248, 250);
   }
   // 动态设置border不显示的位置
-  &.yc-descriptions-layout-horizontal {
-    .yc-descriptions-item-value:last-child {
+  &.@{component}-layout-horizontal {
+    .@{component}-item-value:last-child {
       border-right: none;
     }
   }
-  &.yc-descriptions-layout-vertical {
-    .yc-descriptions-item-label,
-    .yc-descriptions-item-value {
+  &.@{component}-layout-vertical {
+    .@{component}-item-label,
+    .@{component}-item-value {
       &:last-child {
         border-right: none;
       }
     }
   }
-  &.yc-descriptions-layout-inline-vertical,
-  &.yc-descriptions-layout-inline-horizontal {
-    .yc-descriptions-item:last-child {
+  &.@{component}-layout-inline-vertical,
+  &.@{component}-layout-inline-horizontal {
+    .@{component}-item:last-child {
       border-right: none;
     }
   }
@@ -133,10 +134,10 @@
 };
 each(@sizes, .(@value,@name){
   @key:replace(~"@{name}", "@", "");
-  .yc-descriptions-size-@{key} {
+  .@{component}-size-@{key} {
     gap: @value[gap];
-    &.yc-descriptions-layout-inline-vertical {
-      .yc-descriptions-item {
+    &.@{component}-layout-inline-vertical {
+      .@{component}-item {
         padding: @value[item-padding] 20px;
       }
     }

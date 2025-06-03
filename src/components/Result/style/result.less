@@ -1,13 +1,14 @@
-.yc-result {
+@component: yc-result;
+.@{component} {
   width: 100%;
   padding: 32px 32px 24px;
   display: flex;
   flex-direction: column;
   align-items: center;
-  .yc-result-icon {
+  .@{component}-icon {
     font-size: 20px;
     margin-bottom: 16px;
-    .yc-result-icon-tip {
+    .@{component}-icon-tip {
       width: 45px;
       height: 45px;
       border-radius: 50%;
@@ -17,26 +18,26 @@
     }
   }
 
-  .yc-result-title,
-  .yc-result-subtitle {
+  .@{component}-title,
+  .@{component}-subtitle {
     color: rgb(78, 89, 105);
     font-size: 14px;
     line-height: 1.5715;
     text-align: center;
-    &.yc-result-title {
+    &.@{component}-title {
       color: rgb(29, 33, 41);
     }
   }
-  .yc-result-extra {
+  .@{component}-extra {
     margin-top: 20px;
   }
-  .yc-result-content {
+  .@{component}-content {
     margin-top: 20px;
   }
 }
 
 // icon-type
-.yc-result {
+.@{component} {
   @type: {
     info: rgb(232, 243, 255);
     success: rgb(232, 255, 234);
@@ -44,17 +45,17 @@
     error: rgb(255, 236, 232);
   };
   each(@type, {
-    &.yc-result-icon-@{key} {
-      .yc-result-icon-tip {
+    .@{component}-icon-@{key} {
+      .@{component}-icon-tip {
         background-color: @value;
       }
     }
   });
-  .yc-result-icon-403,
-  .yc-result-icon-404,
-  .yc-result-icon-500 {
+  .@{component}-icon-403,
+  .@{component}-icon-404,
+  .@{component}-icon-500 {
     padding-top: 24px;
-    .yc-result-icon-tip {
+    .@{component}-icon-tip {
       width: 92px;
       height: 92px;
       line-height: 92px;

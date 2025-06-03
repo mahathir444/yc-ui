@@ -1,4 +1,5 @@
-.yc-menu-item {
+@component: yc-menu-item;
+.@{component} {
   cursor: pointer;
   flex-shrink: 0;
   padding: 0 12px;
@@ -16,7 +17,7 @@
     margin-right: 16px;
     color: rgb(134, 144, 156);
   }
-  .yc-menu-item-title {
+  .@{component}-title {
     flex-shrink: 0;
     flex: 1;
   }
@@ -25,22 +26,22 @@
   }
 }
 // collapsed
-.yc-menu-item-collapsed {
+.@{component}-collapsed {
   .yc-menu-icon {
     margin-right: 0;
   }
 }
 // mode
-.yc-menu-item-mode-horizontal {
+.@{component}-mode-horizontal {
   flex-shrink: 0;
   position: relative;
-  .yc-menu-item {
+  .@{component} {
     min-height: 30px;
     line-height: 30px;
     .yc-menu-icon-suffix {
       margin-left: 6px;
     }
-    &.yc-menu-item-selected {
+    &.@{component}-selected {
       background-color: transparent;
       &::after {
         content: '';
@@ -55,13 +56,13 @@
   }
 }
 // 省略
-.yc-menu-item-ellipsis {
+.@{component}-ellipsis {
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
 }
 // theme
-@item-themes: {
+@theme: {
   @light: {
     color: rgb(78, 89, 105);
     selected-color: rgb(22, 93, 255);
@@ -75,16 +76,16 @@
     hover-bg: rgba(255, 255, 255, 0.04);
   };
 };
-each(@item-themes, .(@value,@name){
+each(@theme, .(@value,@name){
   @key:replace(~"@{name}", "@", "");
-  .yc-menu-item-theme-@{key} {
-    &:not(.yc-menu-item-disabled) {
+  .@{component}-theme-@{key} {
+    &:not(.@{component}-disabled) {
       color: @value[color];
       &:hover {
         background-color: @value[hover-bg];
       }
     }
-    &.yc-menu-item-selected{
+    &.@{component}-selected{
       font-weight: 500;
       color: @value[selected-color];
       background-color: @value[hover-bg];
@@ -92,7 +93,7 @@ each(@item-themes, .(@value,@name){
         color: @value[selected-color];
       }
     }
-    &.yc-menu-item-disabled{
+    &.@{component}-disabled{
       color: @value[disabled-color];
     }
   }

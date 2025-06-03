@@ -1,4 +1,5 @@
-.yc-select-option {
+@component: yc-select-option;
+.@{component} {
   padding: 0 12px;
   line-height: 36px;
   font-size: 14px;
@@ -11,19 +12,19 @@
     color: rgb(29, 33, 41);
     background-color: rgb(242, 243, 245);
   }
-  .yc-select-option-icon,
-  .yc-select-option-content,
-  .yc-select-option-suffix {
+  .@{component}-icon,
+  .@{component}-content,
+  .@{component}-suffix {
     flex-shrink: 0;
     color: inherit;
   }
-  .yc-select-option-icon {
+  .@{component}-icon {
     margin-right: 8px;
   }
-  .yc-select-option-suffix {
+  .@{component}-suffix {
     margin-left: 12px;
   }
-  .yc-select-option-content {
+  .@{component}-content {
     flex: 1;
     display: flex;
     align-items: center;
@@ -38,14 +39,14 @@
   }
 }
 // disabled
-.yc-select-option-disabled {
+.@{component}-disabled {
   color: rgb(201, 205, 212);
   background: transparent;
   cursor: not-allowed;
 }
 
 // active
-.yc-select-option-active {
+.@{component}-active {
   color: rgb(29, 33, 41);
   background-color: rgb(242, 243, 245);
 }

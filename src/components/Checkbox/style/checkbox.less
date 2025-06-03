@@ -1,4 +1,5 @@
-.yc-checkbox {
+@component: yc-checkbox;
+.@{component} {
   position: relative;
   cursor: pointer;
   padding-left: 5px;
@@ -8,7 +9,7 @@
   align-items: center;
   gap: 8px;
 
-  .yc-checkbox-target {
+  .@{component}-target {
     position: absolute;
     left: 0;
     top: 0;
@@ -16,11 +17,11 @@
     height: 0;
     visibility: hidden;
   }
-  .yc-checkbox-icon,
-  .yc-checkbox-label {
+  .@{component}-icon,
+  .@{component}-label {
     flex-shrink: 0;
   }
-  .yc-checkbox-icon {
+  .@{component}-icon {
     position: relative;
     width: 14px;
     height: 14px;
@@ -43,7 +44,7 @@
       transform: translateX(-50%) translateY(-50%) scale(0);
     }
   }
-  .yc-checkbox-label {
+  .@{component}-label {
     user-select: none;
     flex: 1;
     color: rgb(29, 33, 41);
@@ -51,16 +52,16 @@
 }
 
 // icon显影
-.yc-checkbox-checked {
-  .yc-checkbox-icon {
+.@{component}-checked {
+  .@{component}-icon {
     .yc-icon {
       visibility: visible;
     }
   }
 }
-.yc-checkbox-unchecked,
-.yc-checkbox-indeterminate {
-  .yc-checkbox-icon {
+.@{component}-unchecked,
+.@{component}-indeterminate {
+  .@{component}-icon {
     .yc-icon {
       visibility: hidden;
     }
@@ -69,33 +70,33 @@
 
 // 全选和半选
 // transition: border-color 0.1s cubic-bezier(0, 0, 1, 1);
-.yc-checkbox-unchecked {
+.@{component}-unchecked {
   &:hover .yc-icon-button {
     &::before {
       background-color: rgba(242, 243, 245);
     }
-    .yc-checkbox-icon {
+    .@{component}-icon {
       border-color: rgb(201, 205, 212);
     }
   }
 }
-.yc-checkbox-checked,
-.yc-checkbox-indeterminate {
-  .yc-checkbox-icon {
+.@{component}-checked,
+.@{component}-indeterminate {
+  .@{component}-icon {
     border-color: transparent;
     background-color: rgb(22, 93, 255);
   }
 
-  &.yc-checkbox-disabled {
-    .yc-checkbox-icon {
+  &.@{component}-disabled {
+    .@{component}-icon {
       border-color: transparent;
       background-color: rgb(148, 191, 255);
     }
   }
 }
 // 半选
-.yc-checkbox-indeterminate {
-  .yc-checkbox-icon {
+.@{component}-indeterminate {
+  .@{component}-icon {
     transition: transform 0.3s cubic-bezier(0.3, 1.3, 0.3, 1);
     &::after {
       transform: translateX(-50%) translateY(-50%) scale(1);
@@ -103,13 +104,13 @@
   }
 }
 // disabled
-.yc-checkbox-disabled {
+.@{component}-disabled {
   cursor: not-allowed;
-  .yc-checkbox-icon {
+  .@{component}-icon {
     border-color: rgb(229, 230, 235);
     background-color: rgb(242, 243, 245);
   }
-  .yc-checkbox-label {
+  .@{component}-label {
     color: rgb(201, 205, 212);
   }
 }

@@ -1,4 +1,5 @@
-.yc-list-item-meta {
+@component: yc-list-item-meta;
+.@{component} {
   overflow: hidden;
   width: 100%;
   padding: 4px 0;
@@ -8,15 +9,15 @@
   .yc-list-item-avatar {
     flex-shrink: 0;
   }
-  .yc-list-item-meta-content {
+  .@{component}-content {
     flex: 1;
     display: flex;
     flex-direction: column;
-    .yc-list-item-meta-title {
+    .@{component}-title {
       color: rgb(29, 33, 41);
       font-weight: 500;
     }
-    .yc-list-item-meta-description {
+    .@{component}-description {
       color: rgb(78, 89, 105);
     }
   }

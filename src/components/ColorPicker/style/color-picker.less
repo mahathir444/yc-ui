@@ -1,12 +1,13 @@
+@component: yc-color-picker;
 // panel
-.yc-color-picker-panel {
+.@{component}-panel {
   overflow: hidden;
   width: 260px;
   background-color: #fff;
   border-radius: 2px;
   box-shadow: 0 8px 20px #0000001a;
 
-  .yc-color-picker-palette {
+  .@{component}-palette {
     overflow: hidden;
     position: relative;
     cursor: pointer;
@@ -16,7 +17,7 @@
       linear-gradient(90deg, #ffffff, rgba(255, 255, 255, 0));
     border: 1px solid rgb(229, 230, 235);
     border-bottom: 0;
-    .yc-color-picker-handler {
+    .@{component}-handler {
       position: absolute;
       width: 16px;
       height: 16px;
@@ -26,21 +27,21 @@
       transform: translate(-50%, -50%);
     }
   }
-  .yc-color-picker-panel-control {
+  .@{component}-panel-control {
     padding: 12px;
     display: flex;
     flex-direction: column;
     gap: 12px;
-    .yc-color-picker-control-wrapper {
+    .@{component}-control-wrapper {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      &:not(.yc-color-picker-preview) > div {
+      &:not(.@{component}-preview) > div {
         display: flex;
         flex-direction: column;
         gap: 12px;
       }
-      .yc-color-picker-control-bar {
+      .@{component}-control-bar {
         cursor: pointer;
         position: relative;
         width: 182px;
@@ -57,7 +58,7 @@
           #f0f 83%,
           #f00
         );
-        .yc-color-picker-control-bar-handler {
+        .@{component}-control-bar-handler {
           user-select: none;
           position: absolute;
           top: 50%;
@@ -88,7 +89,7 @@
           }
         }
       }
-      .yc-color-picker-control-bar-bg {
+      .@{component}-control-bar-bg {
         width: fit-content;
         height: fit-content;
         background-image: conic-gradient(
@@ -100,14 +101,14 @@
         background-size: 8px 8px;
         border-radius: 10px;
       }
-      .yc-color-picker-preview {
+      .@{component}-preview {
         width: 40px;
         height: 40px;
         border: 1px solid rgb(229, 230, 235);
         border-radius: 4px;
       }
     }
-    .yc-color-picker-input-wrapper {
+    .@{component}-input-wrapper {
       display: flex;
       align-items: center;
       gap: 20px;
@@ -118,12 +119,12 @@
           padding-left: 0;
         }
       }
-      .yc-color-picker-format {
+      .@{component}-format {
         &:deep(.yc-select) {
           width: 58px;
         }
       }
-      .yc-color-picker-color {
+      .@{component}-color {
         flex: 1;
         overflow: hidden;
         display: flex;
@@ -163,31 +164,31 @@
       }
     }
   }
-  .yc-color-picker-panel-colors {
+  .@{component}-panel-colors {
     padding: 12px;
     border-top: 1px solid rgb(229, 230, 235);
     display: flex;
     flex-direction: column;
     gap: 12px;
-    .yc-color-picker-colors-section {
+    .@{component}-colors-section {
       display: flex;
       flex-direction: column;
       gap: 6px;
-      .yc-color-picker-colors-text {
+      .@{component}-colors-text {
         color: rgb(29, 33, 41);
         font-weight: 400;
         font-size: 12px;
       }
-      .yc-color-picker-colors-empty {
+      .@{component}-colors-empty {
         margin: 6px 0 0 0;
         color: rgb(134, 144, 156);
         font-size: 12px;
       }
-      .yc-color-picker-colors-list {
+      .@{component}-colors-list {
         display: flex;
         flex-wrap: wrap;
         gap: 6px 4px;
-        .yc-color-picker-color-block {
+        .@{component}-color-block {
           cursor: pointer;
           width: 16px;
           height: 16px;
@@ -204,7 +205,7 @@
           &:hover {
             transform: scale(1.1);
           }
-          .yc-color-picker-block {
+          .@{component}-block {
             height: 100%;
             width: 100%;
           }
@@ -214,14 +215,14 @@
   }
 }
 // disabled
-.yc-color-picker-panel-disabled {
+.@{component}-panel-disabled {
   cursor: not-allowed;
-  .yc-color-picker-palette {
+  .@{component}-palette {
     cursor: not-allowed;
   }
-  .yc-color-picker-panel-control {
-    .yc-color-picker-control-wrapper {
-      .yc-color-picker-control-bar {
+  .@{component}-panel-control {
+    .@{component}-control-wrapper {
+      .@{component}-control-bar {
         cursor: not-allowed;
       }
     }
@@ -229,7 +230,7 @@
 }
 
 // picker
-.yc-color-picker {
+.@{component} {
   cursor: pointer;
   padding: 4px;
   background-color: rgb(242, 243, 245);
@@ -240,7 +241,7 @@
   &:hover {
     background-color: rgb(229, 230, 235);
   }
-  .yc-color-picker-preview {
+  .@{component}-preview {
     width: 24px;
     height: 24px;
     color: rgb(29, 33, 41);

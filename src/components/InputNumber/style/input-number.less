@@ -1,6 +1,7 @@
-.yc-input-number {
+@component: yc-input-number;
+.@{component} {
   position: relative;
-  &:hover .yc-input-number-step {
+  &:hover .@{component}-step {
     opacity: 1;
   }
   &:deep(.yc-input-prepend),
@@ -8,17 +9,17 @@
     padding: 0;
   }
   &.yc-input-focus {
-    .yc-input-number-step {
+    .@{component}-step {
       opacity: 1;
     }
   }
 }
-.yc-input-number-step {
+.@{component}-step {
   opacity: 0;
   display: flex;
   flex-direction: column;
   transition: all 0.1s cubic-bezier(0, 0, 1, 1);
-  .yc-input-number-plus-embed {
+  .@{component}-plus-embed {
     height: 11px;
     width: 18px;
     &:deep(.yc-button-icon) {

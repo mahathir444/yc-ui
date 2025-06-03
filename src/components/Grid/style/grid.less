@@ -1,29 +1,4 @@
-.yc-grid {
+@component: yc-grid;
+.@{component} {
   display: grid;
 }
-
-.yc-row {
-  display: flex;
-}
-.yc-row-wrap {
-  flex-wrap: wrap;
-}
-
-// justify
-@justify: {
-  start: flex-start;
-  center: center;
-  end: flex-end;
-  space-around: space-around;
-  space-between: space-between;
-};
-each(@justify, {
-  .yc-row-justify-@{key} {
-   justify-content: @value;
-  }
-});
-each(@justify, {
-  .yc-row-align-@{key} {
-   align-items: @value;
-  }
-});

@@ -1,12 +1,13 @@
-.yc-menu {
+@component: yc-menu;
+.@{component} {
   position: relative;
   transition: width 0.2s cubic-bezier(0.34, 0.69, 0.1, 1);
-  .yc-menu-inner {
+  .@{component}-inner {
     overflow: auto;
     padding: 4px 8px;
     display: flex;
   }
-  .yc-menu-collapse-button {
+  .@{component}-collapse-button {
     cursor: pointer;
     position: absolute;
     right: 12px;
@@ -21,18 +22,18 @@
   }
 }
 // mode
-.yc-menu-mode-vertical,
-.yc-menu-mode-pop {
+.@{component}-mode-vertical,
+.@{component}-mode-pop {
   height: 100%;
-  .yc-menu-inner {
+  .@{component}-inner {
     height: 100%;
     flex-direction: column;
     gap: 4px;
   }
 }
-.yc-menu-mode-horizontal {
+.@{component}-mode-horizontal {
   width: 100%;
-  .yc-menu-inner {
+  .@{component}-inner {
     position: relative;
     overflow: hidden;
     min-height: 58px;
@@ -42,13 +43,13 @@
     align-items: center;
     gap: 12px;
 
-    &:deep(.yc-menu-inline) {
+    &:deep(.@{component}-inline) {
       flex-shrink: 0;
     }
   }
 }
 // theme
-@menu-themes: {
+@theme: {
   @light: {
     bg: #fff;
     btn-color: #fff;
@@ -62,11 +63,11 @@
     btn-hover-bg: rgb(229, 230, 235);
   };
 };
-each(@menu-themes, .(@value,@name){
+each(@theme, .(@value,@name){
   @key:replace(~"@{name}", "@", "");
-  .yc-menu-theme-@{key} {
+  .@{component}-theme-@{key} {
     background-color: @value[bg];
-    .yc-menu-collapse-button {
+    .@{component}-collapse-button {
       color: @value[btn-color];
       background-color: @value[btn-bg];
       &:hover {

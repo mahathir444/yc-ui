@@ -1,44 +1,43 @@
-.yc-trigger {
-  &.yc-popoconfirm {
-    .yc-popconfirm-popup-content {
-      padding: 16px;
-      color: rgb(78, 89, 105);
-      font-size: 14px;
-      line-height: 1.5715;
-      background-color: #fff;
-      border: 1px solid rgb(229, 230, 235);
-      border-radius: 4px;
-      box-shadow: 0 4px 10px #0000001a;
+@component: yc-popconfirm;
+.@{component} {
+  .@{component}-popup-content {
+    padding: 16px;
+    color: rgb(78, 89, 105);
+    font-size: 14px;
+    line-height: 1.5715;
+    background-color: #fff;
+    border: 1px solid rgb(229, 230, 235);
+    border-radius: 4px;
+    box-shadow: 0 4px 10px #0000001a;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    .@{component}-body {
       display: flex;
-      flex-direction: column;
-      gap: 16px;
-      .yc-popconfirm-body {
+      align-items: center;
+      gap: 8px;
+      .@{component}-icon {
+        font-size: 18px;
+        height: 22px;
+        width: 18px;
         display: flex;
+        justify-content: center;
         align-items: center;
-        gap: 8px;
-        .yc-popconfirm-icon {
-          font-size: 18px;
-          height: 22px;
-          width: 18px;
-          display: flex;
-          justify-content: center;
-          align-items: center;
-        }
-        .yc-popconfirm-content {
-          text-align: left;
-          word-wrap: break-word;
-        }
       }
-      .yc-popconfirm-footer {
-        display: flex;
-        justify-content: flex-end;
-        align-items: center;
-        gap: 8px;
+      .@{component}-content {
+        text-align: left;
+        word-wrap: break-word;
       }
     }
-    .yc-trigger-arrow {
-      z-index: 1;
-      border: 1px solid rgb(229, 230, 235);
+    .@{component}-footer {
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+      gap: 8px;
     }
+  }
+  .@{component}-popup-arrow {
+    z-index: 1;
+    border: 1px solid rgb(229, 230, 235);
   }
 }

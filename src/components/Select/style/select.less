@@ -1,4 +1,5 @@
-.yc-select {
+@component: yc-select;
+.@{component} {
   width: 100%;
   display: inline-flex;
   align-items: center;
@@ -12,9 +13,9 @@
   .yc-input-placeholder {
     color: rgb(134, 144, 156);
   }
-  .yc-select-suffix-icon,
-  .yc-select-search-icon,
-  .yc-select-clear-icon,
+  .@{component}-suffix-icon,
+  .@{component}-search-icon,
+  .@{component}-clear-icon,
   .yc-spin {
     font-size: 12px;
     color: inherit;
@@ -22,7 +23,7 @@
   }
 }
 // 无边框
-.yc-select-no-border {
+.@{component}-no-border {
   .yc-input-tag {
     background-color: #fff;
     box-shadow: none;
@@ -35,16 +36,16 @@
   }
 }
 // allow-search
-.yc-select-allow-search {
-  &:deep(.yc-select-search-icon) {
+.@{component}-allow-search {
+  &:deep(.@{component}-search-icon) {
     display: none;
   }
   &:focus-within {
-    &:deep(.yc-select-clear-icon),
-    &:deep(.yc-select-suffix-icon) {
+    &:deep(.@{component}-clear-icon),
+    &:deep(.@{component}-suffix-icon) {
       display: none;
     }
-    &:deep(.yc-select-search-icon) {
+    &:deep(.@{component}-search-icon) {
       display: block;
     }
   }
@@ -57,36 +58,36 @@
   }
 }
 // allow-clear
-.yc-select-allow-clear {
-  &:deep(.yc-select-clear-icon) {
+.@{component}-allow-clear {
+  &:deep(.@{component}-clear-icon) {
     display: none;
   }
   &:hover {
-    &:deep(.yc-select-search-icon),
-    &:deep(.yc-select-suffix-icon) {
+    &:deep(.@{component}-search-icon),
+    &:deep(.@{component}-suffix-icon) {
       display: none;
     }
-    &:deep(.yc-select-clear-icon) {
+    &:deep(.@{component}-clear-icon) {
       display: flex;
     }
   }
 }
 
 // select-dropdown
-.yc-select-dropdown-loading {
+.@{component}-dropdown-loading {
   height: fit-content;
   width: 100%;
-  .yc-select-dropdown {
+  .@{component}-dropdown {
     padding: 4px 0;
     background-color: #fff;
     border: 1px solid rgb(229, 230, 235);
     border-radius: 4px;
     box-shadow: 0 4px 10px #0000001a;
 
-    .yc-select-dropdown-header {
+    .@{component}-dropdown-header {
       border-bottom: 1px solid rgb(229, 230, 235);
     }
-    .yc-select-dropdown-footer {
+    .@{component}-dropdown-footer {
       border-top: 1px solid rgb(229, 230, 235);
     }
 
@@ -99,14 +100,14 @@
       }
     }
 
-    .yc-select-dropdown-virtual-list {
+    .@{component}-dropdown-virtual-list {
       max-height: 200px;
     }
 
-    .yc-select-dropdown-list {
+    .@{component}-dropdown-list {
       display: flex;
       flex-direction: column;
-      .yc-select-option {
+      .@{component}-option {
         flex-shrink: 0;
       }
     }

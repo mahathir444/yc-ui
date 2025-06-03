@@ -1,0 +1,26 @@
+@component: yc-row;
+.@{component} {
+  display: flex;
+}
+.@{component}-wrap {
+  flex-wrap: wrap;
+}
+
+// justify
+@justify: {
+  start: flex-start;
+  center: center;
+  end: flex-end;
+  space-around: space-around;
+  space-between: space-between;
+};
+each(@justify, {
+    .@{component}-justify-@{key} {
+     justify-content: @value;
+    }
+  });
+each(@justify, {
+    .@{component}-align-@{key} {
+     align-items: @value;
+    }
+  });

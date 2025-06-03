@@ -1,4 +1,5 @@
-.yc-input-tag {
+@component: yc-input-tag;
+.@{component} {
   cursor: text;
   position: relative;
   width: 100%;
@@ -13,8 +14,8 @@
   font-weight: 400;
   display: inline-flex;
   align-items: center;
-  &:not(.yc-input-tag-disabled) {
-    &:hover.yc-input-tag-clear-button {
+  &:not(.@{component}-disabled) {
+    &:hover.@{component}-clear-button {
       visibility: visible;
     }
     &:hover {
@@ -25,7 +26,7 @@
       background-color: #fff;
       border-color: rgb(22, 93, 255);
       box-shadow: 0 0 0 0 rgb(190, 218, 255);
-      &:deep(.yc-input-tag-inner) {
+      &:deep(.@{component}-inner) {
         .yc-tag {
           border-color: transparent;
           background-color: rgb(242, 243, 245);
@@ -33,8 +34,8 @@
       }
     }
   }
-  .yc-input-tag-prefix,
-  .yc-input-tag-suffix {
+  .@{component}-prefix,
+  .@{component}-suffix {
     height: 100%;
     display: flex;
     justify-content: center;
@@ -42,17 +43,17 @@
     font-size: inherit;
     color: rgb(78, 89, 105);
 
-    &.yc-input-tag-prefix {
+    &.@{component}-prefix {
       padding-right: 12px;
     }
-    &.yc-input-tag-suffix {
+    &.@{component}-suffix {
       padding-left: 12px;
     }
   }
-  .yc-input-tag-clear-button {
+  .@{component}-clear-button {
     visibility: hidden;
   }
-  .yc-input-tag-mirror {
+  .@{component}-mirror {
     min-width: 12px;
     position: absolute;
     top: 0;
@@ -66,7 +67,7 @@
     white-space: pre-wrap;
     overflow-wrap: break-word;
   }
-  .yc-input-tag-inner {
+  .@{component}-inner {
     overflow: hidden;
     flex: 1;
     flex-shrink: 0;
@@ -80,7 +81,7 @@
         background-color: #fff;
       }
     }
-    .yc-input-tag-input {
+    .@{component}-input {
       max-width: 100%;
       cursor: inherit;
       outline: none;
@@ -95,9 +96,9 @@
   }
 }
 // error
-.yc-input-tag-error {
+.@{component}-error {
   background-color: rgb(255, 236, 232);
-  &:not(.yc-input-tag-disabled) {
+  &:not(.@{component}-disabled) {
     &:hover {
       border-color: transparent;
       background-color: rgb(253, 205, 197);
@@ -110,24 +111,24 @@
   }
 }
 //no-value has suffix
-.yc-input-tag {
+.@{component} {
   // novalue
-  &.yc-input-tag-no-value {
+  &.@{component}-no-value {
     padding: 0 12px;
   }
   // has-suffix
-  &.yc-input-tag-has-suffix {
+  &.@{component}-has-suffix {
     padding-right: 12px;
   }
 }
 // disabled
-.yc-input-tag-disabled {
+.@{component}-disabled {
   cursor: not-allowed;
   border-color: transparent;
   background-color: rgb(242, 243, 245);
   color: rgb(201, 205, 212);
-  .yc-input-tag-prefix,
-  .yc-input-tag-suffix {
+  .@{component}-prefix,
+  .@{component}-suffix {
     color: inherit;
   }
 }
@@ -160,11 +161,11 @@
 };
 each(@size, .(@value,@name){
   @key:replace(~"@{name}", "@", "");
-  .yc-input-tag-size-@{key} {
+  .@{component}-size-@{key} {
     min-height: @value[height];
     font-size: @value[font-size];
     padding: 0 @value[padding-x];
-    .yc-input-tag-inner {
+    .@{component}-inner {
       padding: @value[inner-padding] 0;
       & when  (@key = large) {
         .yc-tag-size-large {

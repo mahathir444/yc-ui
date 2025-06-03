@@ -80,5 +80,4 @@ mediaQueryHandler((_, order, i) => {
 
 <style lang="less" scoped>
 @import './style/menu.less';
-@import './style//menu-item.less';
 </style>

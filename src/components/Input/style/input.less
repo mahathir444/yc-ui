@@ -1,17 +1,18 @@
-// yc-input-outer
-.yc-input-outer {
+@component: yc-input;
+// @{component}-outer
+.@{component}-outer {
   width: 100%;
   display: inline-flex;
   align-items: center;
 
-  .yc-input-prepend,
-  .yc-input-append,
-  .yc-input-wrapper {
+  .@{component}-prepend,
+  .@{component}-append,
+  .@{component}-wrapper {
     flex-shrink: 0;
     font-size: inherit;
   }
-  .yc-input-prepend,
-  .yc-input-append {
+  .@{component}-prepend,
+  .@{component}-append {
     height: 100%;
     padding: 0 12px;
     color: rgb(29, 33, 41);
@@ -21,36 +22,36 @@
     display: flex;
     align-items: center;
 
-    &.yc-input-prepend {
+    &.@{component}-prepend {
       border-right: 1px solid rgb(229, 230, 235);
       border-top-left-radius: 2px;
       border-bottom-left-radius: 2px;
     }
-    &.yc-input-append {
+    &.@{component}-append {
       border-left: 1px solid rgb(229, 230, 235);
       border-top-right-radius: 2px;
       border-bottom-right-radius: 2px;
     }
   }
 }
-.yc-input-has-prepend {
+.@{component}-has-prepend {
   overflow: hidden;
-  .yc-input-wrapper {
+  .@{component}-wrapper {
     border-top-left-radius: 0;
     border-bottom-left-radius: 0;
     flex: 1;
   }
 }
-.yc-input-has-append {
+.@{component}-has-append {
   overflow: hidden;
-  .yc-input-wrapper {
+  .@{component}-wrapper {
     border-top-right-radius: 0;
     border-bottom-right-radius: 0;
     flex: 1;
   }
 }
-.yc-input-search-append {
-  &:deep(.yc-input-append) {
+.@{component}-search-append {
+  &:deep(.@{component}-append) {
     padding: 0;
     .yc-button {
       border-top-left-radius: 0;
@@ -58,12 +59,12 @@
     }
   }
 }
-.yc-input-outer-disabled {
+.@{component}-outer-disabled {
   cursor: not-allowed;
 }
 
-// yc-input-wrapper
-.yc-input-wrapper {
+// @{component}-wrapper
+.@{component}-wrapper {
   width: 100%;
   cursor: text;
   padding: 0 12px;
@@ -79,12 +80,12 @@
   font-weight: 400;
   display: flex;
   align-items: center;
-  &:not(.yc-input-disabled) {
+  &:not(.@{component}-disabled) {
     &:hover {
       border-color: transparent;
       background-color: rgb(229, 230, 235);
     }
-    &:hover .yc-input-clear-button {
+    &:hover .@{component}-clear-button {
       visibility: visible;
     }
     &:focus-within {
@@ -93,35 +94,35 @@
       box-shadow: 0 0 0 0 rgb(190, 218, 255);
     }
   }
-  .yc-input-prefix,
-  .yc-input-suffix,
-  .yc-input {
+  .@{component}-prefix,
+  .@{component}-suffix,
+  .@{component} {
     flex-shrink: 0;
     color: inherit;
   }
-  .yc-input-prefix,
-  .yc-input-suffix {
+  .@{component}-prefix,
+  .@{component}-suffix {
     height: 100%;
     color: rgb(78, 89, 105);
     display: flex;
     justify-content: center;
     align-items: center;
-    .yc-input-word-limit {
+    .@{component}-word-limit {
       margin: 0 6px;
       color: rgb(134, 144, 156);
       font-size: 12px;
     }
-    .yc-input-clear-button {
+    .@{component}-clear-button {
       visibility: hidden;
     }
-    &.yc-input-prefix {
+    &.@{component}-prefix {
       padding-right: 12px;
     }
-    &.yc-input-suffix {
+    &.@{component}-suffix {
       padding-left: 12px;
     }
   }
-  .yc-input {
+  .@{component} {
     flex: 1;
     cursor: inherit;
     outline: none;
@@ -135,9 +136,9 @@
   }
 }
 // error
-.yc-input-error {
+.@{component}-error {
   background-color: rgb(255, 236, 232);
-  &:not(.yc-input-disabled) {
+  &:not(.@{component}-disabled) {
     &:hover {
       border-color: transparent;
       background-color: rgb(253, 205, 197);
@@ -150,13 +151,13 @@
   }
 }
 // disabled
-.yc-input-disabled {
+.@{component}-disabled {
   cursor: not-allowed;
   border-color: transparent;
   background-color: rgb(242, 243, 245);
   color: rgb(201, 205, 212);
-  .yc-input-prefix,
-  .yc-input-suffix {
+  .@{component}-prefix,
+  .@{component}-suffix {
     color: inherit;
   }
 }
@@ -190,12 +191,12 @@
 
 each(@sizes, .(@value, @name) {
   @key: replace(~"@{name}", "@", "");
-  .yc-input-size-@{key},
-  .yc-input-outer-size-@{key} {
+  .@{component}-size-@{key},
+  .@{component}-outer-size-@{key} {
     font-size: @value[font-size];
     height: @value[height];
     
-    .yc-input {
+    .@{component} {
       padding: @value[padding] 0;
       line-height: @value[line-height];
     }

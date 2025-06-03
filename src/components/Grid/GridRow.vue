@@ -50,5 +50,5 @@ mediaQueryHandler((name) => {
 </script>
 
 <style lang="less" scoped>
-@import './style/grid.less';
+@import './style/row.less';
 </style>

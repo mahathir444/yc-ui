@@ -1,4 +1,5 @@
-.yc-rate {
+@component: yc-rate;
+.@{component} {
   min-height: 32px;
   font-size: 24px;
   line-height: 1;
@@ -6,23 +7,23 @@
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  &:not(.yc-rate-disabled) {
-    .yc-rate-character {
+  &:not(.@{component}-disabled) {
+    .@{component}-character {
       cursor: pointer;
       &:hover {
         transform: scale(1.2);
       }
     }
-    .yc-rate-character-scale {
+    .@{component}-character-scale {
       transform: scale(1.2);
     }
   }
-  .yc-rate-character {
+  .@{component}-character {
     position: relative;
     color: rgb(229, 230, 235);
     transition: transform 0.2s cubic-bezier(0.34, 0.69, 0.1, 1);
 
-    .yc-rate-character-left {
+    .@{component}-character-left {
       width: 50%;
       position: absolute;
       left: 0;
@@ -33,9 +34,9 @@
 }
 
 // disabled
-.yc-rate-disabled {
+.@{component}-disabled {
   cursor: not-allowed;
-  .yc-rate-character {
+  .@{component}-character {
     cursor: not-allowed;
   }
 }

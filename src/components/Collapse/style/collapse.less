@@ -1,15 +1,16 @@
-.yc-collapse {
+@component: yc-collapse;
+.@{component} {
   width: 100%;
   height: 100%;
   overflow: hidden;
   line-height: 1.5715;
   border-radius: 4px;
-  &:deep(.yc-collapse-item) {
+  &:deep(.@{component}-item) {
     &:last-child {
       border-bottom: none;
     }
   }
 }
-.yc-collapse-bordered {
+.@{component}-bordered {
   border: 1px solid rgb(229, 230, 235);
 }

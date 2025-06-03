@@ -1,16 +1,17 @@
-.yc-page-header {
+@component: yc-page-header;
+.@{component} {
   padding: 16px 0px;
   display: flex;
   flex-direction: column;
   gap: 12px;
-  .yc-page-header-wrapper {
+  .@{component}-wrapper {
     padding: 0 20px 0 24px;
-    .yc-page-header-header {
+    .@{component}-header {
       display: flex;
       justify-content: space-between;
       align-items: center;
       line-height: 28px;
-      .yc-page-header-main {
+      .@{component}-main {
         display: flex;
         flex-wrap: wrap;
         align-items: center;
@@ -22,23 +23,23 @@
             transform: rotate(180deg);
           }
         }
-        .yc-page-header-title {
+        .@{component}-title {
           color: rgb(29, 33, 41);
           font-weight: 600;
           font-size: 20px;
         }
-        .yc-page-header-subtitle {
+        .@{component}-subtitle {
           color: rgb(134, 144, 156);
           font-size: 14px;
         }
       }
-      .yc-page-header-extra {
+      .@{component}-extra {
         overflow: hidden;
         white-space: nowrap;
       }
     }
   }
-  .yc-page-header-content {
+  .@{component}-content {
     padding: 20px 32px;
     border-top: 1px solid rgb(229, 230, 235);
   }

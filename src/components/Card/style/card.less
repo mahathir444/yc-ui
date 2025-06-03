@@ -1,4 +1,5 @@
-.yc-card {
+@component: yc-card;
+.@{component} {
   position: relative;
   background: #fff;
   transition:
@@ -7,35 +8,35 @@
   font-size: 14px;
   display: flex;
   flex-direction: column;
-  .yc-card-header {
+  .@{component}-header {
     overflow: hidden;
     border-bottom: 1px solid rgb(229, 230, 235);
     display: flex;
     justify-content: space-between;
     align-items: center;
 
-    .yc-card-header-title {
+    .@{component}-header-title {
       flex: 1;
       font-size: 16px;
       color: rgb(29, 33, 41);
       font-weight: 500;
       line-height: 1.5715;
     }
-    .yc-card-header-extra {
+    .@{component}-header-extra {
       color: rgb(22, 93, 255);
     }
   }
-  .yc-card-body {
+  .@{component}-body {
     color: rgb(78, 89, 105);
-    .yc-card-cover {
+    .@{component}-cover {
       overflow: hidden;
     }
-    .yc-card-actions {
+    .@{component}-actions {
       margin-top: 20px;
       display: flex;
       align-items: center;
       justify-content: flex-end;
-      .yc-card-actions-right {
+      .@{component}-actions-right {
         cursor: pointer;
         display: flex;
         align-items: center;
@@ -47,32 +48,32 @@
   }
 }
 // bordered
-.yc-card-bordered {
+.@{component}-bordered {
   border: 1px solid rgb(229, 230, 235);
   border-radius: 2px;
-  .yc-card-body {
-    .yc-card-cover {
+  .@{component}-body {
+    .@{component}-cover {
       border-radius: 2px 2px 0 0;
     }
   }
 }
 // hoverable
-.yc-card-hoverable {
+.@{component}-hoverable {
   &:hover {
     box-shadow: 0 4px 10px rgb(242, 243, 245);
   }
 }
 // loading
-.yc-card-loading {
-  .yc-card-body {
+.@{component}-loading {
+  .@{component}-body {
     .yc-spin {
       width: 100%;
     }
   }
 }
 // has-grid
-.yc-card-contain-grid {
-  .yc-card-body {
+.@{component}-contain-grid {
+  .@{component}-body {
     margin: 0 -1px;
     padding: 0;
     display: flex;
@@ -104,12 +105,12 @@
 };
 each(@size, .(@value,@name){
   @key:replace(~"@{name}", "@", "");
-  .yc-card-size-@{key} {
-    .yc-card-header {
+  .@{component}-size-@{key} {
+    .@{component}-header {
       height: @value[header-height];
       padding: @value[header-padding] 16px;
     }
-    .yc-card-body {
+    .@{component}-body {
       padding: @value[body-padding] 16px;
     }
   }

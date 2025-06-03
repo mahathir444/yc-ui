@@ -1,18 +1,19 @@
-.yc-image-preview {
+@component: yc-image-preview;
+.@{component} {
   position: fixed;
   inset: 0 0 0 0;
-  .yc-image-preview-mask {
+  .@{component}-mask {
     position: absolute;
     inset: 0 0 0 0;
     background-color: rgba(29, 33, 41, 0.6);
   }
-  .yc-image-preview-wrapper {
+  .@{component}-wrapper {
     position: absolute;
     inset: 0 0 0 0;
-    .yc-image-preview-img-container {
+    .@{component}-img-container {
       inset: 0 0 0 0;
       position: absolute;
-      .yc-image-preview-img {
+      .@{component}-img {
         left: 50%;
         top: 50%;
         position: absolute;
@@ -24,7 +25,7 @@
         user-select: none;
       }
     }
-    .yc-image-preview-toolbar {
+    .@{component}-toolbar {
       position: absolute;
       bottom: 46px;
       left: 50%;
@@ -34,7 +35,7 @@
       border-radius: 4px;
       display: flex;
       align-items: flex-start;
-      .yc-image-preview-toolbar-action {
+      .@{component}-toolbar-action {
         cursor: pointer;
         border-radius: 2px;
         background-color: transparent;
@@ -43,22 +44,22 @@
         display: flex;
         align-items: center;
         justify-content: center;
-        .yc-image-preview-toolbar-action-content {
+        .@{component}-toolbar-action-content {
           padding: 13px;
           line-height: 1;
         }
-        &:not(.yc-image-preview-toolbar-action-disabled):hover {
+        &:not(.@{component}-toolbar-action-disabled):hover {
           color: rgb(22, 93, 255);
           background-color: rgb(242, 243, 245);
         }
       }
-      .yc-image-preview-toolbar-action-disabled {
+      .@{component}-toolbar-action-disabled {
         color: rgb(201, 205, 212);
         background-color: transparent;
         cursor: not-allowed;
       }
     }
-    .yc-image-preview-close-btn {
+    .@{component}-close-btn {
       cursor: pointer;
       position: absolute;
       top: 36px;

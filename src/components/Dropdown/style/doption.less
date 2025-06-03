@@ -1,4 +1,5 @@
-.yc-dropdown-option {
+@component: yc-dropdown-option;
+.@{component} {
   padding: 0 12px;
   line-height: 36px;
   font-size: 14px;
@@ -6,25 +7,25 @@
   display: flex;
   align-items: center;
   transition: all 0.1s cubic-bezier(0, 0, 1, 1);
-  &.yc-dropdown-option-disabled {
+  &.@{component}-disabled {
     cursor: not-allowed;
   }
-  .yc-dropdown-option-icon,
-  .yc-dropdown-option-content,
-  .yc-dropdown-option-suffix {
+  .@{component}-icon,
+  .@{component}-content,
+  .@{component}-suffix {
     flex-shrink: 0;
     display: flex;
     align-items: center;
   }
-  .yc-dropdown-option-icon {
+  .@{component}-icon {
     margin-right: 8px;
     color: inherit;
   }
-  .yc-dropdown-option-suffix {
+  .@{component}-suffix {
     color: inherit;
     margin-left: 12px;
   }
-  .yc-dropdown-option-content {
+  .@{component}-content {
     flex: 1;
     overflow: hidden;
   }
@@ -46,16 +47,16 @@
 };
 each(@option-theme,.(@value,@name){
   @key:replace(~"@{name}", "@", "");
-  .yc-dropdown-option-theme-@{key}{
+  .@{component}-theme-@{key}{
     color: @value[color];
-    &:not(.yc-dropdown-option-disabled):hover {
+    &:not(.@{component}-disabled):hover {
       background-color: @value[hover-bg];
     }
-    &.yc-dropdown-option-active {
+    &.@{component}-active {
       color: @value[hover-color];
       background-color: @value[hover-bg];
     }
-    &.yc-dropdown-optiond-disabled {
+    &.@{component}d-disabled {
       color: @value[disabled-color];
       background: transparent;
       cursor: not-allowed;

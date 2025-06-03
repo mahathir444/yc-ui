@@ -1,6 +1,7 @@
+@component: yc-popover;
 .yc-trigger {
-  &.yc-popover {
-    .yc-popover-popup-content {
+  &.@{component} {
+    .@{component}-popup-content {
       padding: 12px 16px;
       color: rgb(78, 89, 105);
       font-size: 14px;
@@ -9,14 +10,14 @@
       border: 1px solid rgb(229, 230, 235);
       border-radius: 4px;
       box-shadow: 0 4px 10px #0000001a;
-      .yc-popover-title {
+      .@{component}-title {
         color: rgb(29, 33, 41);
         font-weight: 500;
         font-size: 16px;
         margin-bottom: 4px;
       }
     }
-    .yc-popover-popup-arrow {
+    .@{component}-popup-arrow {
       z-index: 1;
       border: 1px solid rgb(229, 230, 235);
     }

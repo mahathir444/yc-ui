@@ -1,37 +1,38 @@
+@component: yc-layout;
 // layout
-.yc-layout {
+.@{component} {
   flex: 1;
   width: 100%;
   height: 100%;
   display: flex;
   flex-direction: column;
 }
-.yc-layout-has-sider {
+.@{component}-has-sider {
   flex-direction: row;
 }
 
 // 通用
-.yc-layout,
-.yc-layout-header,
-.yc-layout-footer,
-.yc-layout-sider,
-.yc-layout-content {
+.@{component},
+.@{component}-header,
+.@{component}-footer,
+.@{component}-sider,
+.@{component}-content {
   flex-shrink: 0;
 }
-.yc-layout-header,
-.yc-layout-footer {
+.@{component}-header,
+.@{component}-footer {
   width: 100%;
 }
-.yc-layout-sider {
+.@{component}-sider {
   height: 100%;
 }
 // content
-.yc-layout-content {
+.@{component}-content {
   flex: 1;
 }
 
 // sider
-.yc-layout-sider {
+.@{component}-sider {
   position: relative;
   .yc-collapse-button {
     position: absolute;
@@ -41,12 +42,12 @@
     color: inherit;
   }
 }
-.yc-layout-sider-light {
+.@{component}-sider-light {
   background: #fff;
   box-shadow: 0 2px 5px #00000014;
   color: rgb(29, 33, 41);
 }
-.yc-layout-sider-dark {
+.@{component}-sider-dark {
   background-color: #232324;
   color: #fff;
   .yc-collapse-button {
@@ -55,6 +56,6 @@
     }
   }
 }
-.yc-layout-sider-translation {
+.@{component}-sider-translation {
   transition: width 0.2s cubic-bezier(0.34, 0.69, 0.1, 1);
 }

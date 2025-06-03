@@ -107,5 +107,5 @@ defineExpose({
 </script>
 
 <style lang="less" scoped>
-@import './style/color-panel.less';
+@import './style/color-picker.less';
 </style>
