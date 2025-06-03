@@ -30,6 +30,7 @@ declare module 'vue' {
     ATransfer: typeof import('@arco-design/web-vue')['Transfer']
     ATypography: typeof import('@arco-design/web-vue')['Typography']
     ATypographyParagraph: typeof import('@arco-design/web-vue')['TypographyParagraph']
+    ATypographyT: typeof import('@arco-design/web-vue')['TypographyT']
     ATypographyText: typeof import('@arco-design/web-vue')['TypographyText']
     ATypographyTitle: typeof import('@arco-design/web-vue')['TypographyTitle']
     AutoComplete: typeof import('./src/components/AutoComplete/index.vue')['default']

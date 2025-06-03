@@ -8,7 +8,7 @@ export interface TypographyBaseProps {
   disabled?: boolean;
   mark?: boolean;
   underline?: boolean;
-  deletable?: boolean;
+  delete?: boolean;
   code?: boolean;
   editable?: boolean;
   editing?: boolean;

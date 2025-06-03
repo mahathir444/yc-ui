@@ -1,8 +1,9 @@
-.yc-anchor {
+@component: yc-anchor;
+.@{component} {
   position: relative;
   width: 150px;
   overflow: auto;
-  .yc-anchor-line-slider {
+  .@{component}-line-slider {
     position: absolute;
     top: 0;
     left: 0;
@@ -12,7 +13,7 @@
     background-color: rgb(22, 93, 255);
     transition: top 0.2s cubic-bezier(0.34, 0.69, 0.1, 1);
   }
-  .yc-anchor-line-track {
+  .@{component}-line-track {
     position: absolute;
     left: 0;
     top: 0;
@@ -21,7 +22,7 @@
     background-color: rgb(229, 230, 235);
   }
 
-  .yc-anchor-list {
+  .@{component}-list {
     margin-left: 4px;
     display: flex;
     flex-direction: column;

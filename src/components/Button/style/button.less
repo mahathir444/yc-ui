@@ -1,4 +1,5 @@
-.yc-button {
+@component: yc-button;
+.@{component} {
   cursor: pointer;
   user-select: none;
   outline: none;
@@ -9,7 +10,7 @@
   justify-content: center;
   align-items: center;
 
-  .yc-button-icon {
+  .@{component}-icon {
     flex-shrink: 0;
     display: flex;
     justify-content: center;
@@ -22,8 +23,8 @@
 }
 
 // loading
-.yc-button-loading,
-.yc-button-disabled {
+.@{component}-loading,
+.@{component}-disabled {
   cursor: default;
   position: relative;
 
@@ -36,18 +37,18 @@
     background-color: #fff;
     opacity: 0.4;
   }
-  &.yc-button-disabled {
+  &.@{component}-disabled {
     cursor: not-allowed;
   }
 }
 // loading
-.yc-button-long {
+.@{component}-long {
   width: 100%;
 }
 // only-icon
-.yc-button-only-icon {
+.@{component}-only-icon {
   padding: 0;
-  .yc-button-icon {
+  .@{component}-icon {
     margin: 0;
   }
 }
@@ -222,10 +223,10 @@
 };
 each(@type, .(@type-value, @type-name) {
   @type-key: replace(~"@{type-name}", "@", "");
-  .yc-button.yc-button-@{type-key} {
+  .@{component}.@{component}-@{type-key} {
     each(@type-value, .(@status-value, @status-name) {
       @status-key: replace(~"@{status-name}", "@", "");
-      &.yc-button-status-@{status-key} {
+      &.@{component}-status-@{status-key} {
         color: @status-value[text];
         & when(isdefined(@status-value[bg])){
           background-color: @status-value[bg];
@@ -233,7 +234,7 @@ each(@type, .(@type-value, @type-name) {
         & when(isdefined(@status-value[border])){
           border-color: @status-value[border];
         }
-         &:not(.yc-button-disabled):not(.yc-button-loading) {
+         &:not(.@{component}-disabled):not(.@{component}-loading) {
             &:hover {
               & when(isdefined(@status-value[hover])){
                 background-color: @status-value[hover];
@@ -259,7 +260,7 @@ each(@type, .(@type-value, @type-name) {
           }
         & when(@type-key = text){
           background-color: transparent;
-          &:not(.yc-button-disabled):not(.yc-button-loading) {
+          &:not(.@{component}-disabled):not(.@{component}-loading) {
             &:hover {
               background-color: @colors[text-hover];
             }
@@ -302,16 +303,16 @@ each(@type, .(@type-value, @type-name) {
 };
 each(@size,.(@value,@name){
        @key: replace(~"@{name}", "@", "");
-      .yc-button-size-@{key} {
+      .@{component}-size-@{key} {
         height: @value[height];
         padding: 0  @value[padding];
         font-size: @value[font-size];
-        .yc-button-icon {
+        .@{component}-icon {
           width: @value[font-size];
           height: @value[font-size];
           margin-right: @value[margin-right];
         }
-        &.yc-button-shape-circle{
+        &.@{component}-shape-circle{
           width: @value[height];
           padding: 0;
         }
@@ -324,7 +325,7 @@ each(@size,.(@value,@name){
   circle: 50%;
 };
 each(@shape, {
-      .yc-button-shape-@{key} {
+      .@{component}-shape-@{key} {
         border-radius: @value;
       }
 });

@@ -1,9 +1,10 @@
-.yc-badge {
+@component: yc-badge;
+.@{component} {
   position: relative;
   display: inline-block;
   line-height: 1;
-  .yc-badge-text,
-  .yc-badge-number {
+  .@{component}-text,
+  .@{component}-number {
     min-width: 20px;
     height: 20px;
     padding: 0 6px;
@@ -14,9 +15,9 @@
     font-size: 12px;
     line-height: 20px;
   }
-  .yc-badge-dot,
-  .yc-badge-text,
-  .yc-badge-number {
+  .@{component}-dot,
+  .@{component}-text,
+  .@{component}-number {
     z-index: 2;
     position: absolute;
     top: 2px;
@@ -28,16 +29,16 @@
     transform-origin: 100% 0%;
   }
 
-  .yc-badge-stauts-wrapper {
+  .@{component}-stauts-wrapper {
     display: inline-flex;
     align-items: center;
     gap: 8px;
-    .yc-badge-stauts-dot {
+    .@{component}-stauts-dot {
       width: 6px;
       height: 6px;
       border-radius: 50%;
     }
-    .yc-badge-status-text {
+    .@{component}-status-text {
       color: rgb(29, 33, 41);
       font-size: 12px;
       line-height: 1.5715;
@@ -55,7 +56,7 @@
 };
 // status
 each(@status,{
-  .yc-badge-status-@{key}{
+  .@{component}-status-@{key}{
     background-color: @value;
   }
 })
@@ -76,7 +77,7 @@ each(@status,{
   gray: rgb(134, 144, 156);
 }
 each(@color, {
-  .yc-badge-color-@{key} {
+  .@{component}-color-@{key} {
     background-color: @value;
   }
 });

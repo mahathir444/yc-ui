@@ -1,21 +1,22 @@
-.yc-calendar {
+@component: yc-calendar;
+.@{component} {
   border: 1px solid rgb(229, 230, 235);
   display: flex;
   flex-direction: column;
-  .yc-calendar-header {
+  .@{component}-header {
     padding: 24px;
     display: flex;
     align-items: center;
     justify-content: space-between;
     gap: 8px;
-    .yc-calendar-header-left {
+    .@{component}-header-left {
       display: flex;
       align-items: center;
       gap: 12px;
-      .yc-calendar-header-icon {
+      .@{component}-header-icon {
         font-size: 12px;
       }
-      .yc-calendar-header-value {
+      .@{component}-header-value {
         color: rgb(29, 33, 41);
         font-weight: 500;
         font-size: 20px;
@@ -23,48 +24,47 @@
     }
   }
 }
-
 // calendar-month
-.yc-calendar-month {
+.@{component}-month {
   display: flex;
   flex-direction: column;
-  .yc-calendar-week-list {
+  .@{component}-week-list {
     height: 55px;
     width: 100%;
     padding: 0;
     border-bottom: 1px solid rgb(229, 230, 235);
     display: flex;
-    .yc-calendar-week-list-item {
+    .@{component}-week-list-item {
       flex: 1;
       padding: 20px 16px;
       color: #7d7d7f;
       text-align: left;
     }
   }
-  .yc-calendar-month-cell-body {
+  .@{component}-month-cell-body {
     display: flex;
     flex-direction: column;
-    .yc-calendar-month-row {
+    .@{component}-month-row {
       display: flex;
       height: 100px;
       &:not(:last-child) {
         border-bottom: 1px solid rgb(229, 230, 235);
       }
-      .yc-calendar-cell {
+      .@{component}-cell {
         width: calc(100% / 7);
         &:not(:last-child) {
           border-right: 1px solid rgb(229, 230, 235);
         }
-        .yc-calendar-date {
+        .@{component}-date {
           width: 100%;
           height: 100%;
           padding: 10px;
           cursor: pointer;
-          .yc-calendar-date-value {
+          .@{component}-date-value {
             color: rgb(201, 205, 212);
             font-weight: 500;
             font-size: 16px;
-            .yc-calendar-date-circle {
+            .@{component}-date-circle {
               width: 28px;
               height: 28px;
               border-radius: 50%;
@@ -75,28 +75,28 @@
           }
         }
       }
-      .yc-calendar-cell-in-view {
-        .yc-calendar-date {
-          .yc-calendar-date-value {
+      .@{component}-cell-in-view {
+        .@{component}-date {
+          .@{component}-date-value {
             color: rgb(29, 33, 41);
           }
         }
       }
       // today
-      .yc-calendar-cell-today {
-        .yc-calendar-date {
-          .yc-calendar-date-value {
-            .yc-calendar-date-circle {
+      .@{component}-cell-today {
+        .@{component}-date {
+          .@{component}-date-value {
+            .@{component}-date-circle {
               border: 1px solid rgb(22, 93, 255);
             }
           }
         }
       }
       // selected
-      .yc-calendar-cell-selected {
-        .yc-calendar-date {
-          .yc-calendar-date-value {
-            .yc-calendar-date-circle {
+      .@{component}-cell-selected {
+        .@{component}-date {
+          .@{component}-date-value {
+            .@{component}-date-circle {
               border: 1px solid rgb(22, 93, 255);
               color: #fff;
               background-color: rgb(22, 93, 255);
@@ -107,30 +107,30 @@
     }
   }
 }
-.yc-calendar-month {
-  &.yc-calendar-month-small {
+.@{component}-month {
+  &.@{component}-month-small {
     border: none;
-    .yc-calendar-week-list {
+    .@{component}-week-list {
       width: fit-content;
       height: 24px;
       border: none;
-      .yc-calendar-week-list-item {
+      .@{component}-week-list-item {
         padding: 6px;
         width: 26px;
       }
     }
-    .yc-calendar-month-cell-body {
-      .yc-calendar-month-row {
+    .@{component}-month-cell-body {
+      .@{component}-month-row {
         height: 26px;
         border: none;
-        .yc-calendar-cell {
+        .@{component}-cell {
           width: 26px;
           border: none;
-          .yc-calendar-date {
+          .@{component}-date {
             padding: 2px;
-            .yc-calendar-date-value {
+            .@{component}-date-value {
               font-size: 14px;
-              .yc-calendar-date-circle {
+              .@{component}-date-circle {
                 width: 22px;
                 height: 22px;
               }
@@ -141,21 +141,20 @@
     }
   }
 }
-
 // calendar-year
-.yc-calendar-year {
+.@{component}-year {
   padding: 12px;
-  .yc-calendar-year-row {
+  .@{component}-year-row {
     display: flex;
     &:not(:last-child) {
       border-bottom: 1px solid rgb(229, 230, 235);
     }
-    .yc-calendar-year-cell {
+    .@{component}-year-cell {
       padding: 20px 8px;
       &:not(:last-child) {
         border-right: 1px solid rgb(229, 230, 235);
       }
-      .yc-calendar-year-cell-title {
+      .@{component}-year-cell-title {
         padding: 10px 6px;
         color: rgb(29, 33, 41);
         font-weight: 500;

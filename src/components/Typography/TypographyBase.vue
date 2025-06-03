@@ -60,14 +60,28 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, toRefs, defineComponent, h, computed, VNode } from 'vue';
+import {
+  ref,
+  toRefs,
+  defineComponent,
+  h,
+  computed,
+  VNode,
+  onMounted,
+} from 'vue';
 import {
   TypographyBaseProps,
   TypographyBaseEmits,
   TypographyBaseSlots,
 } from './type';
 import { useClipboard } from '@vueuse/core';
-import { useControlValue, sleep, getDomText } from '@shared/utils';
+import {
+  useControlValue,
+  sleep,
+  getDomText,
+  calculateEllipsis,
+  isBoolean,
+} from '@shared/utils';
 import { IconEdit, IconCopy, IconInfo } from '@shared/icons';
 import { default as YcInput, InputInstance } from '@/components/Input';
 import { default as YcTooltip } from '@/components/Tooltip';
@@ -81,7 +95,7 @@ const props = withDefaults(defineProps<TypographyBaseProps>(), {
   bold: false,
   mark: false,
   underline: false,
-  deletable: false,
+  delete: false,
   code: false,
   editable: false,
   editing: undefined,
@@ -90,6 +104,7 @@ const props = withDefaults(defineProps<TypographyBaseProps>(), {
   copyable: false,
   copyText: '',
   copyDelay: 3000,
+  ellipsis: true,
   editTooltiProps: () => {
     return {};
   },
@@ -107,8 +122,9 @@ const {
   copyDelay,
   code,
   mark,
-  deletable,
+  delete: deletable,
   underline,
+  ellipsis,
   bold,
 } = toRefs(props);
 // 复制hook
@@ -132,6 +148,7 @@ const computedText = useControlValue<string>(editText, '', (val) => {
   emits('update:editText', val);
   emits('change', val);
 });
+const ellipsisInfo = ref<Record<string, any>>({});
 // 渲染的tags
 const tags = computed(() => {
   const tags = ['mark', 'code', 'del', 'u', 'b'];
@@ -187,6 +204,17 @@ const handleCopy = async () => {
   await sleep(copyDelay.value);
   isCopied.value = false;
 };
+
+onMounted(() => {
+  const config = isBoolean(ellipsis.value) ? {} : ellipsis.value;
+  ellipsisInfo.value = calculateEllipsis(
+    contentRef.value!,
+    config,
+    [],
+    getDomText(contentRef)
+  );
+  console.log(ellipsisInfo.value);
+});
 </script>
 
 <style lang="less" scoped>

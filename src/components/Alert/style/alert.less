@@ -1,4 +1,5 @@
-.yc-alert {
+@component: yc-alert;
+.@{component} {
   overflow: hidden;
   width: 100%;
   padding: 8px 15px;
@@ -10,30 +11,30 @@
   gap: 8px;
   transform-origin: 50% 0;
 
-  .yc-alert-icon {
+  .@{component}-icon {
     font-size: 16px;
     height: 22px;
     display: flex;
     justify-content: center;
     align-items: center;
   }
-  .yc-alert-body {
+  .@{component}-body {
     flex: 1;
     display: flex;
     flex-direction: column;
     justify-content: center;
-    .yc-alert-title {
+    .@{component}-title {
       margin-bottom: 4px;
       font-weight: 500;
       font-size: 16px;
       line-height: 1.5;
       color: rgb(29, 33, 41);
     }
-    .yc-alert-content {
+    .@{component}-content {
       color: rgb(78, 89, 105);
     }
   }
-  .yc-alert-close-btn {
+  .@{component}-close-btn {
     height: 22px;
     display: flex;
     justify-content: center;
@@ -41,27 +42,27 @@
   }
 }
 // title
-.yc-alert-has-title {
+.@{component}-has-title {
   padding: 15px;
   align-items: flex-start;
-  .yc-alert-icon {
+  .@{component}-icon {
     font-size: 18px;
     height: 24px;
   }
 }
 // center
-.yc-alert-center {
-  .yc-alert-body {
-    .yc-alert-title {
+.@{component}-center {
+  .@{component}-body {
+    .@{component}-title {
       text-align: center;
     }
-    .yc-alert-content {
+    .@{component}-content {
       text-align: center;
     }
   }
 }
 // banner
-.yc-alert-banner {
+.@{component}-banner {
   border-radius: 0;
 }
 
@@ -74,7 +75,7 @@
   normal: rgb(242, 243, 245);
 };
 each(@type,{
-  .yc-alert-@{key}{
+  .@{component}-@{key}{
     background-color: @value;
   }
 });
