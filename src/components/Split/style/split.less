@@ -1,14 +1,15 @@
-.yc-split {
+@component: yc-split;
+.@{component} {
   display: flex;
-  .yc-split-pane {
+  .@{component}-pane {
     overflow: auto;
   }
-  .yc-split-pane-second {
+  .@{component}-pane-second {
     flex: 1;
   }
 
-  .yc-split-trigger {
-    .yc-split-trigger-icon-wrapper {
+  .@{component}-trigger {
+    .@{component}-trigger-icon-wrapper {
       color: rgb(29, 33, 41);
       font-size: 12px;
       line-height: 1;
@@ -17,27 +18,27 @@
       align-items: center;
       justify-content: center;
 
-      .yc-split-trigger-icon {
+      .@{component}-trigger-icon {
         margin: 0 -3px;
       }
     }
   }
 }
 // direction
-.yc-split-direction-horizontal {
+.@{component}-direction-horizontal {
   flex-direction: row;
-  .yc-split-trigger {
+  .@{component}-trigger {
     cursor: col-resize;
-    .yc-split-trigger-icon-wrapper {
+    .@{component}-trigger-icon-wrapper {
       height: 100%;
     }
   }
 }
-.yc-split-direction-vertical {
+.@{component}-direction-vertical {
   flex-direction: column;
-  .yc-split-trigger {
+  .@{component}-trigger {
     cursor: row-resize;
-    .yc-split-trigger-icon-wrapper {
+    .@{component}-trigger-icon-wrapper {
       width: 100%;
     }
   }

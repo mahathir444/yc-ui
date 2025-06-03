@@ -130,28 +130,5 @@ function getFormatValue(value: number | Date) {
 </script>
 
 <style lang="less" scoped>
-.yc-statistic {
-  color: rgb(78, 89, 105);
-  line-height: 1.5715;
-  display: inline-flex;
-  flex-direction: column;
-  gap: 8px;
-  .yc-statistic-title,
-  .yc-statistic-extra {
-    color: rgb(78, 89, 105);
-    font-size: 14px;
-  }
-  .yc-statistic-content {
-    .yc-statistic-value {
-      color: rgb(29, 33, 41);
-      font-weight: 500;
-      font-size: 26px;
-      white-space: nowrap;
-      .yc-statistic-prefix,
-      .yc-statistic-suffix {
-        font-size: 14px;
-      }
-    }
-  }
-}
+@import './style/statistic.less';
 </style>

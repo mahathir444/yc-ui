@@ -1,14 +1,15 @@
-.yc-spin {
+@component: yc-spin;
+.@{component} {
   position: relative;
   color: rgb(22, 93, 255);
   width: fit-content;
   height: fit-content;
 
-  .yc-spin-icon {
+  .@{component}-icon {
     display: flex;
     justify-content: center;
     align-items: center;
-    &.yc-spin-icon-loading {
+    &.@{component}-icon-loading {
       animation: spin 1s infinite cubic-bezier(0, 0, 1, 1);
     }
   }
@@ -49,14 +50,14 @@
     }
   }
 
-  .yc-spin-tip {
+  .@{component}-tip {
     margin-top: 6px;
     color: rgb(22, 93, 255);
     font-weight: 500;
     font-size: 14px;
   }
 
-  .yc-spin-mask {
+  .@{component}-mask {
     position: absolute;
     z-index: 11;
     inset: 0 0 0 0;

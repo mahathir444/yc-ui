@@ -1,5 +1,6 @@
+@component: yc-tabs-tab;
 // tab
-.yc-tabs-tab {
+.@{component} {
   flex-shrink: 0;
   position: relative;
   cursor: pointer;
@@ -11,26 +12,26 @@
   align-items: center;
   gap: 8px;
 
-  .yc-tabs-tab-title {
+  .@{component}-title {
     position: relative;
     padding: 1px 0;
   }
-  .yc-tabs-tab-close-btn {
+  .@{component}-close-btn {
     margin-left: 8px;
     user-select: none;
   }
-  &.yc-tabs-tab-active {
+  &.@{component}-active {
     color: rgb(22, 93, 255);
     font-weight: 500;
   }
 }
 
 // line text
-.yc-tabs-tab-type-line,
-.yc-tabs-tab-type-text {
+.@{component}-type-line,
+.@{component}-type-text {
   margin: 0 16px;
   transition: color 0.2s cubic-bezier(0, 0, 1, 1);
-  .yc-tabs-tab-title {
+  .@{component}-title {
     &::after {
       content: '';
       z-index: -1;
@@ -44,13 +45,13 @@
         opacity 0.2s cubic-bezier(0, 0, 1, 1);
     }
   }
-  &:not(.yc-tabs-tab-active):not(.yc-tabs-tab-disabled):hover
-    .yc-tabs-tab-title {
+  &:not(.@{component}-active):not(.@{component}-disabled):hover
+    .@{component}-title {
     &::after {
       background-color: rgb(242, 243, 245);
     }
   }
-  &.yc-tabs-tab-type-text {
+  &.@{component}-type-text {
     margin: 0 9px;
     padding: 5px 0;
     &:not(:first-child)::before {
@@ -63,7 +64,7 @@
       background-color: rgb(229, 230, 235);
       transform: translateY(-50%);
     }
-    .yc-tabs-tab-title {
+    .@{component}-title {
       position: relative;
       padding-left: 9px;
       padding-right: 9px;
@@ -72,38 +73,38 @@
       }
     }
   }
-  &.yc-tabs-tab-type-line {
-    &.yc-tabs-tab-vertical {
+  &.@{component}-type-line {
+    &.@{component}-vertical {
       margin: 0;
       padding: 0 20px;
     }
   }
-  &.yc-tabs-tab-no-padding {
+  &.@{component}-no-padding {
     margin-left: 0;
-    &.yc-tabs-tab-type-text {
+    &.@{component}-type-text {
       margin-left: 0;
     }
   }
 }
 // card card-gutter
-.yc-tabs-tab-type-card,
-.yc-tabs-tab-type-card-gutter {
+.@{component}-type-card,
+.@{component}-type-card-gutter {
   padding: 0 16px;
   border: 1px solid rgb(229, 230, 235);
   transition:
     padding 0.2s cubic-bezier(0, 0, 1, 1),
     color 0.2s cubic-bezier(0, 0, 1, 1);
-  &.yc-tabs-tab {
-    &:not(.yc-tabs-tab-disabled):hover {
+  &.@{component} {
+    &:not(.@{component}-disabled):hover {
       background-color: rgb(229, 230, 235);
     }
   }
-  &.yc-tabs-tab-type-card-gutter {
+  &.@{component}-type-card-gutter {
     background-color: rgb(247, 248, 250);
     border-radius: 2px 2px 0 0;
   }
-  &.yc-tabs-tab-horizontal {
-    &.yc-tabs-tab-type-card {
+  &.@{component}-horizontal {
+    &.@{component}-type-card {
       &:not(:first-child) {
         border-left: none;
       }
@@ -113,28 +114,28 @@
       &:last-child {
         border-top-right-radius: 2px;
       }
-      &.yc-tabs-tab-active {
+      &.@{component}-active {
         background-color: transparent;
         border-bottom-color: #fff;
-        &.yc-tabs-tab-bottom {
+        &.@{component}-bottom {
           border-top-color: #fff;
           border-bottom-color: rgb(229, 230, 235);
         }
       }
     }
   }
-  &.yc-tabs-tab-vertical {
+  &.@{component}-vertical {
     border-bottom: none;
     &:not(:last-child) {
       border-bottom: 1px solid rgb(229, 230, 235);
     }
-    &.yc-tabs-tab-type-card {
+    &.@{component}-type-card {
       border-top: none;
     }
-    &.yc-tabs-tab-active {
+    &.@{component}-active {
       background-color: transparent;
       border-right-color: #fff;
-      &.yc-tabs-tab-right {
+      &.@{component}-right {
         border-right-color: rgb(229, 230, 235);
         border-left-color: #fff;
       }
@@ -142,24 +143,24 @@
   }
 }
 // rounded
-.yc-tabs-tab-type-rounded {
+.@{component}-type-rounded {
   margin: 0 6px;
   padding: 0 16px;
   border-radius: 32px;
-  &:not(.yc-tabs-tab-disabled):hover {
+  &:not(.@{component}-disabled):hover {
     background-color: rgb(242, 243, 245);
   }
-  &.yc-tabs-tab-active {
+  &.@{component}-active {
     background-color: rgb(242, 243, 245);
   }
 }
 // capsule
-.yc-tabs-tab-type-capsule {
+.@{component}-type-capsule {
   padding: 0 10px;
-  &:not(.yc-tabs-tab-disabled):hover {
+  &:not(.@{component}-disabled):hover {
     background-color: #fff;
   }
-  &.yc-tabs-tab-active {
+  &.@{component}-active {
     background-color: #fff;
   }
 }
@@ -202,9 +203,9 @@
 @type: line, card, card-gutter, capsule, rounded;
 each(@size, .(@value, @name) {
   @key: replace(~'@{name}', '@', '');
-  .yc-tabs-tab-size-@{key} {
+  .@{component}-size-@{key} {
     each(@type, .(@type-value,@type-key) {
-      &.yc-tabs-tab-type-@{type-value} {
+      &.@{component}-type-@{type-value} {
         font-size: if(@key = mini, 12px, 14px);
         & when (@type-value = capsule) {
           line-height: @value[line-height];
@@ -224,11 +225,11 @@ each(@size, .(@value, @name) {
   }
 });
 
-.yc-tabs-tab-disabled {
+.@{component}-disabled {
   cursor: not-allowed;
   background-color: transparent;
   color: rgb(201, 205, 212);
-  &.yc-tabs-tab-active {
+  &.@{component}-active {
     color: rgb(148, 191, 255);
   }
 }

@@ -1,59 +1,60 @@
-.yc-timeline-item {
+@component: yc-timeline-item;
+.@{component} {
   position: relative;
   color: rgb(29, 33, 41);
   font-size: 14px;
   &:not(:last-child) {
-    .yc-timeline-item-dot-line {
+    .@{component}-dot-line {
       position: absolute;
       border-color: rgb(229, 230, 235);
     }
   }
-  .yc-timeline-item-dot-wrapper {
+  .@{component}-dot-wrapper {
     position: absolute;
 
-    .yc-timeline-item-dot-content {
+    .@{component}-dot-content {
       position: relative;
 
-      .yc-timeline-item-dot {
+      .@{component}-dot {
         position: relative;
         width: 6px;
         height: 6px;
         color: rgb(22, 93, 255);
         border-radius: 50%;
 
-        &.yc-timeline-item-dot-solid {
+        &.@{component}-dot-solid {
           background-color: rgb(22, 93, 255);
         }
-        &.yc-timeline-item-dot-hollow {
+        &.@{component}-dot-hollow {
           background-color: #fff;
           border: 2px solid rgb(22, 93, 255);
         }
       }
     }
   }
-  .yc-timeline-item-content-wrapper {
+  .@{component}-content-wrapper {
     position: relative;
     display: flex;
     flex-direction: column;
 
     gap: 4px;
-    .yc-timeline-item-content {
+    .@{component}-content {
       color: rgb(29, 33, 41);
       font-size: 14px;
       line-height: 1.5715;
     }
   }
-  .yc-timeline-item-label {
+  .@{component}-label {
     color: rgb(134, 144, 156);
     font-size: 12px;
     line-height: 1.667;
   }
 }
 // direction
-.yc-timeline-item-direction-vertical {
+.@{component}-direction-vertical {
   min-height: 78px;
   &:not(:last-child) {
-    .yc-timeline-item-dot-line {
+    .@{component}-dot-line {
       top: 18px;
       bottom: -4px;
       left: 50%;
@@ -62,24 +63,24 @@
       border-left-width: 1px;
     }
   }
-  .yc-timeline-item-dot-wrapper {
+  .@{component}-dot-wrapper {
     height: 100%;
     text-align: center;
-    .yc-timeline-item-dot-content {
+    .@{component}-dot-content {
       width: 6px;
       height: 22px;
       line-height: 22px;
-      .yc-timeline-item-dot {
+      .@{component}-dot {
         top: 50%;
         margin-top: -50%;
       }
     }
   }
 }
-.yc-timeline-item-direction-horizontal {
+.@{component}-direction-horizontal {
   flex: 1;
   &:not(:last-child) {
-    .yc-timeline-item-dot-line {
+    .@{component}-dot-line {
       right: 4px;
       left: 12px;
       top: 50%;
@@ -88,9 +89,9 @@
       border-top-width: 1px;
     }
   }
-  .yc-timeline-item-dot-wrapper {
+  .@{component}-dot-wrapper {
     width: 100%;
-    .yc-timeline-item-dot-content {
+    .@{component}-dot-content {
       height: 6px;
       line-height: 6px;
     }
@@ -98,10 +99,10 @@
 }
 // label-positon
 .set-label-relative(@direction,@position) {
-  &.yc-timeline-item-direction-@{direction} {
-    &.yc-timeline-item-@{position} {
+  &.@{component}-direction-@{direction} {
+    &.@{component}-@{position} {
       margin-@{position}: if(@direction = vertical, 100px, 50px);
-      .yc-timeline-item-label {
+      .@{component}-label {
         @{position}: 0;
         & when(@position = left) {
           padding-right: 16px;
@@ -121,20 +122,20 @@
         }
       }
       & when(@position = right) {
-        .yc-timeline-item-content {
+        .@{component}-content {
           text-align: right;
         }
       }
     }
   }
 }
-.yc-timeline-item-label-is-relative {
-  .yc-timeline-item-label {
+.@{component}-label-is-relative {
+  .@{component}-label {
     position: absolute;
     top: 0;
     max-width: 100px;
   }
-  &:not(.yc-timeline-item-alternate) {
+  &:not(.@{component}-alternate) {
     .set-label-relative(horizontal,top);
     .set-label-relative(horizontal,bottom);
     .set-label-relative(vertical,left);
@@ -145,35 +146,35 @@
 @positions: left, top, right, bottom;
 .set-time-line-position(@position) {
   padding-@{position}: 6px;
-  .yc-timeline-item-dot-wrapper {
+  .@{component}-dot-wrapper {
     @{position}: 0;
   }
-  .yc-timeline-item-content-wrapper {
+  .@{component}-content-wrapper {
     margin-@{position}: 16px;
   }
 }
 each(@positions,.(@value,@key){
-    .yc-timeline-item-@{value}{
+    .@{component}-@{value}{
       .set-time-line-position(@value)
     }
   });
-.yc-timeline-item-alternate {
-  &.yc-timeline-item-direction-vertical {
+.@{component}-alternate {
+  &.@{component}-direction-vertical {
     .set-time-line-position(left);
     &:nth-child(2n) {
-      .yc-timeline-item-content-wrapper {
+      .@{component}-content-wrapper {
         width: fit-content;
         text-align: right;
         margin-left: calc(-50% - 22px);
       }
     }
-    &.yc-timeline-item-label-is-relative {
-      .yc-timeline-item-label {
+    &.@{component}-label-is-relative {
+      .@{component}-label {
         text-align: right;
         transform: translateX(calc(-100% - 22px));
       }
       &:nth-child(2n) {
-        .yc-timeline-item-label {
+        .@{component}-label {
           text-align: left;
           transform: translate(16px);
         }
@@ -181,22 +182,22 @@ each(@positions,.(@value,@key){
     }
   }
 
-  &.yc-timeline-item-direction-horizontal {
+  &.@{component}-direction-horizontal {
     .set-time-line-position(top);
     &:nth-child(2n) {
-      .yc-timeline-item-content-wrapper {
+      .@{component}-content-wrapper {
         margin-top: calc(-100% + 16px);
       }
     }
-    &.yc-timeline-item-label-is-relative {
-      .yc-timeline-item-label {
+    &.@{component}-label-is-relative {
+      .@{component}-label {
         transform: translateY(calc(-100% - 16px));
       }
       &:nth-child(2n) {
-        .yc-timeline-item-content-wrapper {
+        .@{component}-content-wrapper {
           transform: translateY(20px);
         }
-        .yc-timeline-item-label {
+        .@{component}-label {
           transform: translateY(22px);
         }
       }

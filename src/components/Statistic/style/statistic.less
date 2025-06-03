@@ -1,0 +1,25 @@
+@component: yc-statistic;
+.@{component} {
+  color: rgb(78, 89, 105);
+  line-height: 1.5715;
+  display: inline-flex;
+  flex-direction: column;
+  gap: 8px;
+  .@{component}-title,
+  .@{component}-extra {
+    color: rgb(78, 89, 105);
+    font-size: 14px;
+  }
+  .@{component}-content {
+    .@{component}-value {
+      color: rgb(29, 33, 41);
+      font-weight: 500;
+      font-size: 26px;
+      white-space: nowrap;
+      .@{component}-prefix,
+      .@{component}-suffix {
+        font-size: 14px;
+      }
+    }
+  }
+}

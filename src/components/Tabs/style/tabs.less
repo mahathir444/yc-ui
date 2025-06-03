@@ -1,21 +1,22 @@
-.yc-tabs {
+@component: yc-tabs;
+.@{component} {
   position: relative;
   overflow: hidden;
   width: 100%;
   display: flex;
-  .yc-tabs-nav {
+  .@{component}-nav {
     position: relative;
     overflow: hidden;
     display: flex;
     align-items: center;
 
-    .yc-tabs-nav-tab {
-      &:deep(.yc-tabs-nav-button) {
+    .@{component}-nav-tab {
+      &:deep(.@{component}-nav-button) {
         flex-shrink: 0;
         margin-right: 6px;
         margin-left: 10px;
       }
-      .yc-tabs-nav-tab-list {
+      .@{component}-nav-tab-list {
         position: relative;
         transition: transform 0.2s cubic-bezier(0.34, 0.69, 0.1, 1);
         display: flex;
@@ -24,45 +25,45 @@
         &::-webkit-scrollbar {
           display: none;
         }
-        .yc-tabs-nav-ink {
+        .@{component}-nav-ink {
           position: absolute;
           background-color: rgb(22, 93, 255);
           border-radius: 2px;
         }
       }
     }
-    .yc-tabs-nav-extra {
-      .yc-tabs-tab-add-btn {
+    .@{component}-nav-extra {
+      .@{component}-tab-add-btn {
         padding: 0 8px;
         font-size: 12px;
       }
     }
   }
-  .yc-tabs-content {
+  .@{component}-content {
     width: 100%;
     overflow: hidden;
   }
 }
 // justify
-.yc-tabs-justify {
+.@{component}-justify {
   height: 100%;
 }
-.yc-tabs-animation {
-  .yc-tabs-content-list {
+.@{component}-animation {
+  .@{component}-content-list {
     transition: all 0.2s cubic-bezier(0.34, 0.69, 0.1, 1);
   }
 }
 // direction
-.yc-tabs-horizontal {
+.@{component}-horizontal {
   flex-direction: column;
-  .yc-tabs-nav {
+  .@{component}-nav {
     width: 100%;
-    .yc-tabs-nav-tab {
+    .@{component}-nav-tab {
       flex: 1;
       display: flex;
-      .yc-tabs-nav-tab-list {
+      .@{component}-nav-tab-list {
         flex: 1;
-        .yc-tabs-nav-ink {
+        .@{component}-nav-ink {
           bottom: 0;
           height: 2px;
           transition:
@@ -72,32 +73,32 @@
       }
     }
   }
-  .yc-tabs-content {
+  .@{component}-content {
     padding-top: 16px;
     width: 100%;
-    .yc-tabs-content-list {
+    .@{component}-content-list {
       display: flex;
       width: 100%;
-      .yc-tabs-content-item {
+      .@{component}-content-item {
         flex-shrink: 0;
         width: 100%;
       }
     }
   }
 }
-.yc-tabs-vertical {
-  .yc-tabs-nav {
-    .yc-tabs-nav-tab {
-      .yc-tabs-nav-tab-list {
+.@{component}-vertical {
+  .@{component}-nav {
+    .@{component}-nav-tab {
+      .@{component}-nav-tab-list {
         width: fit-content;
         flex-direction: column;
-        .yc-tabs-tab {
+        .@{component}-tab {
           width: 100%;
-          .yc-tabs-tab-title {
+          .@{component}-tab-title {
             width: 100%;
           }
         }
-        .yc-tabs-nav-ink {
+        .@{component}-nav-ink {
           right: 0;
           width: 2px;
           transition:
@@ -107,26 +108,26 @@
       }
     }
   }
-  .yc-tabs-content {
+  .@{component}-content {
     flex: 1;
   }
-  &:not(.yc-tabs-type-card):not(.yc-tabs-type-card-gutter) {
-    .yc-tabs-nav {
-      .yc-tabs-nav-tab {
-        .yc-tabs-nav-tab-list {
+  &:not(.@{component}-type-card):not(.@{component}-type-card-gutter) {
+    .@{component}-nav {
+      .@{component}-nav-tab {
+        .@{component}-nav-tab-list {
           gap: 12px;
         }
       }
     }
   }
-  .yc-tabs-content {
+  .@{component}-content {
     padding-left: 16px;
     height: 100%;
-    .yc-tabs-content-list {
+    .@{component}-content-list {
       height: 100%;
       display: flex;
       flex-direction: column;
-      .yc-tabs-content-item {
+      .@{component}-content-item {
         flex-shrink: 0;
         height: 100%;
       }
@@ -134,53 +135,53 @@
   }
 }
 // position
-.yc-tabs-right {
+.@{component}-right {
   flex-direction: row-reverse;
-  .yc-tabs-nav {
+  .@{component}-nav {
     &::before {
       left: 0;
       right: unset;
     }
-    .yc-tabs-nav-tab {
-      .yc-tabs-nav-tab-list {
-        .yc-tabs-nav-ink {
+    .@{component}-nav-tab {
+      .@{component}-nav-tab-list {
+        .@{component}-nav-ink {
           left: 0;
           right: unset;
         }
       }
     }
   }
-  .yc-tabs-content {
+  .@{component}-content {
     padding-left: 0;
     padding-right: 16px;
   }
 }
-.yc-tabs-bottom {
+.@{component}-bottom {
   flex-direction: column-reverse;
-  .yc-tabs-nav {
+  .@{component}-nav {
     &::before {
       top: 0;
     }
-    .yc-tabs-nav-tab {
-      .yc-tabs-nav-tab-list {
-        .yc-tabs-nav-ink {
+    .@{component}-nav-tab {
+      .@{component}-nav-tab-list {
+        .@{component}-nav-ink {
           top: 0;
           bottom: unset;
         }
       }
     }
   }
-  .yc-tabs-content {
+  .@{component}-content {
     padding-right: 0;
     padding-bottom: 16px;
   }
 }
 // type
-.yc-tabs-type-card,
-.yc-tabs-type-card-gutter,
-.yc-tabs-type-line {
-  &.yc-tabs-horizontal {
-    .yc-tabs-nav {
+.@{component}-type-card,
+.@{component}-type-card-gutter,
+.@{component}-type-line {
+  &.@{component}-horizontal {
+    .@{component}-nav {
       &::before {
         content: '';
         position: absolute;
@@ -193,8 +194,8 @@
       }
     }
   }
-  &.yc-tabs-vertical {
-    .yc-tabs-nav {
+  &.@{component}-vertical {
+    .@{component}-nav {
       &::before {
         content: '';
         position: absolute;
@@ -206,43 +207,43 @@
       }
     }
   }
-  &:not(.yc-tabs-type-line) {
-    &.yc-tabs-horizontal {
-      .yc-tabs-content {
+  &:not(.@{component}-type-line) {
+    &.@{component}-horizontal {
+      .@{component}-content {
         border: 1px solid rgb(229, 230, 235);
         border-top: none;
       }
-      &.yc-tabs-bottom {
-        .yc-tabs-content {
+      &.@{component}-bottom {
+        .@{component}-content {
           border-top: 1px solid rgb(229, 230, 235);
           border-bottom: none;
         }
       }
     }
-    &.yc-tabs-vertical {
+    &.@{component}-vertical {
       border: 1px solid rgb(229, 230, 235);
       border-left: none;
-      &.yc-tabs-right {
+      &.@{component}-right {
         border-left: 1px solid rgb(229, 230, 235);
         border-right: none;
       }
     }
   }
 }
-.yc-tabs-type-card-gutter {
-  .yc-tabs-nav {
-    .yc-tabs-nav-tab {
-      .yc-tabs-nav-tab-list {
+.@{component}-type-card-gutter {
+  .@{component}-nav {
+    .@{component}-nav-tab {
+      .@{component}-nav-tab-list {
         gap: 4px;
       }
     }
   }
 }
-.yc-tabs-type-capsule {
-  .yc-tabs-nav {
-    .yc-tabs-nav-tab {
+.@{component}-type-capsule {
+  .@{component}-nav {
+    .@{component}-nav-tab {
       justify-content: flex-end;
-      .yc-tabs-nav-tab-list {
+      .@{component}-nav-tab-list {
         flex: unset;
         padding: 3px;
         background-color: rgb(242, 243, 245);

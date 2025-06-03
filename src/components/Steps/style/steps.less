@@ -1,21 +1,22 @@
-.yc-steps {
+@component: yc-steps;
+.@{component} {
   display: flex;
 }
-.yc-steps-vertical {
+.@{component}-vertical {
   flex-direction: column;
 }
 // mode
-.yc-steps-mode-default,
-.yc-steps-mode-navigation {
-  .yc-steps-item {
+.@{component}-mode-default,
+.@{component}-mode-navigation {
+  .@{component}-item {
     position: relative;
     overflow: hidden;
     white-space: nowrap;
     text-align: left;
     margin-right: 12px;
 
-    .yc-steps-item-node {
-      .yc-steps-icon {
+    .@{component}-item-node {
+      .@{component}-icon {
         width: 28px;
         height: 28px;
         border-radius: 50%;
@@ -24,28 +25,28 @@
         align-items: center;
       }
     }
-    .yc-steps-item-content {
-      .yc-steps-item-title {
+    .@{component}-item-content {
+      .@{component}-item-title {
         position: relative;
         padding-right: 12px;
         width: fit-content;
         white-space: nowrap;
       }
-      .yc-steps-item-description {
+      .@{component}-item-description {
         max-width: 140px;
         margin-top: 2px;
         white-space: normal;
       }
     }
   }
-  .yc-steps-item-horizontal {
+  .@{component}-item-horizontal {
     display: flex;
     gap: 12px;
     &:not(:last-child) {
       flex: 1;
     }
-    &:not(.yc-steps-item-line-less):not(.yc-steps-item-label-vertical) {
-      .yc-steps-item-title {
+    &:not(.@{component}-item-line-less):not(.@{component}-item-label-vertical) {
+      .@{component}-item-title {
         &::after {
           content: '';
           display: block;
@@ -57,17 +58,17 @@
         }
       }
     }
-    .yc-steps-item-content {
+    .@{component}-item-content {
       display: flex;
       flex-direction: column;
       gap: 2px;
     }
   }
-  .yc-steps-item-vertical {
+  .@{component}-item-vertical {
     display: flex;
     gap: 12px;
-    &:not(.yc-steps-item-line-less) {
-      .yc-steps-item-tail {
+    &:not(.@{component}-item-line-less) {
+      .@{component}-item-tail {
         top: 0;
         left: 13.5px;
         bottom: 0;
@@ -82,17 +83,17 @@
         }
       }
     }
-    .yc-steps-item-content {
+    .@{component}-item-content {
       min-height: 90px;
     }
   }
   // label
-  .yc-steps-item-label-vertical {
+  .@{component}-item-label-vertical {
     flex-direction: column;
     gap: 2px;
     overflow: visible;
-    &:not(.yc-steps-item-line-less) {
-      .yc-steps-item-tail {
+    &:not(.@{component}-item-line-less) {
+      .@{component}-item-tail {
         position: absolute;
         top: 13.5px;
         left: 96px;
@@ -107,9 +108,9 @@
         }
       }
     }
-    .yc-steps-item-node {
+    .@{component}-item-node {
       margin-left: 56px;
-      .yc-steps-icon {
+      .@{component}-icon {
         width: 28px;
         height: 28px;
         border-radius: 50%;
@@ -118,47 +119,47 @@
         align-items: center;
       }
     }
-    .yc-steps-item-content {
+    .@{component}-item-content {
       width: 140px;
       text-align: center;
-      .yc-steps-item-title {
+      .@{component}-item-title {
         padding-right: 0;
         width: 100%;
       }
     }
   }
   //size
-  .yc-steps-item-size-small {
-    .yc-steps-item-node {
+  .@{component}-item-size-small {
+    .@{component}-item-node {
       font-size: 14px;
-      .yc-steps-icon {
+      .@{component}-icon {
         width: 24px;
         height: 24px;
       }
     }
-    .yc-steps-item-content {
-      .yc-steps-item-title {
+    .@{component}-item-content {
+      .@{component}-item-title {
         font-size: 14px;
         line-height: 24px;
       }
     }
-    &:not(.yc-steps-item-line-less) {
-      &:not(.yc-steps-item-label-vertical) {
-        .yc-steps-item-title {
+    &:not(.@{component}-item-line-less) {
+      &:not(.@{component}-item-label-vertical) {
+        .@{component}-item-title {
           &::after {
             top: 11.5px;
           }
         }
       }
-      &.yc-steps-item-vertical {
-        .yc-steps-item-tail {
+      &.@{component}-item-vertical {
+        .@{component}-item-tail {
           top: 0;
           left: 11.5px;
           padding: 30px 0 6px;
         }
       }
-      &.yc-steps-item-label-vertical {
-        .yc-steps-item-tail {
+      &.@{component}-item-label-vertical {
+        .@{component}-item-tail {
           top: 11.5px;
           left: 94px;
           padding-right: 36px;
@@ -167,7 +168,7 @@
     }
   }
   // active
-  .yc-steps-item-active {
+  .@{component}-item-active {
     &::after {
       content: '';
       position: absolute;
@@ -177,22 +178,22 @@
       left: 0;
       bottom: 0;
     }
-    &.yc-steps-item-finish {
+    &.@{component}-item-finish {
       &::after {
         background-color: rgb(232, 243, 255);
       }
     }
-    &.yc-steps-item-wait {
+    &.@{component}-item-wait {
       &::after {
         background-color: rgb(247, 248, 250);
       }
     }
-    &.yc-steps-item-error {
+    &.@{component}-item-error {
       &::after {
         background-color: rgb(245, 63, 63);
       }
     }
-    &.yc-steps-item-process {
+    &.@{component}-item-process {
       &::after {
         background-color: rgb(22, 93, 255);
       }
@@ -200,13 +201,13 @@
   }
   // status
   .set-steps-item-status(@icon-color, @icon-bg-color, @title-color: null) {
-    .yc-steps-icon {
+    .@{component}-icon {
       color: @icon-color;
       background-color: @icon-bg-color;
     }
     & when not (@title-color = null) {
-      .yc-steps-item-content {
-        .yc-steps-item-title {
+      .@{component}-item-content {
+        .@{component}-item-title {
           color: @title-color;
         }
       }
@@ -223,38 +224,38 @@
     error: .set-steps-item-status(#fff, rgb(245, 63, 63));
   };
   each(@steps-item-status, {
-        .yc-steps-item-@{key} {
+        .@{component}-item-@{key} {
           @value();
         }
       });
 }
-.yc-steps-mode-dot {
-  .yc-steps-item {
+.@{component}-mode-dot {
+  .@{component}-item {
     position: relative;
-    &.yc-steps-item-horizontal {
+    &.@{component}-item-horizontal {
       &:not(:last-child) {
         margin-right: 16px;
       }
-      .yc-steps-item-tail {
+      .@{component}-item-tail {
         left: 78px;
         width: 100%;
         height: 1px;
       }
-      .yc-steps-item-node {
+      .@{component}-item-node {
         margin-left: 67px;
       }
-      &.yc-steps-item-process {
-        .yc-steps-item-node {
+      &.@{component}-item-process {
+        .@{component}-item-node {
           margin-top: -1px;
           margin-left: 65px;
         }
       }
     }
-    &.yc-steps-item-vertical {
+    &.@{component}-item-vertical {
       &:not(:last-child) {
         margin-bottom: 4px;
       }
-      .yc-steps-item-tail {
+      .@{component}-item-tail {
         bottom: 0;
         left: 4px;
         transform: translateX(-50%);
@@ -262,24 +263,24 @@
         height: 100%;
         padding: 16px 0 2px 0;
       }
-      .yc-steps-item-node {
+      .@{component}-item-node {
         margin-top: 8px;
       }
-      &.yc-steps-item-process {
-        .yc-steps-item-node {
+      &.@{component}-item-process {
+        .@{component}-item-node {
           margin-top: 6px;
           margin-left: -1px;
         }
       }
     }
-    &.yc-steps-item-process {
-      .yc-steps-item-node {
+    &.@{component}-item-process {
+      .@{component}-item-node {
         width: 10px;
         height: 10px;
       }
     }
-    &:not(.yc-steps-item-line-less) {
-      .yc-steps-item-tail {
+    &:not(.@{component}-item-line-less) {
+      .@{component}-item-tail {
         &::after {
           content: '';
           height: 100%;
@@ -288,19 +289,19 @@
         }
       }
     }
-    .yc-steps-item-tail {
+    .@{component}-item-tail {
       position: absolute;
       top: 3.5px;
       background-color: transparent;
     }
-    .yc-steps-item-node {
+    .@{component}-item-node {
       width: 8px;
       height: 8px;
       border-radius: 50%;
     }
   }
   // vertical
-  .yc-steps-item-horizontal {
+  .@{component}-item-horizontal {
     display: flex;
     flex-direction: column;
     gap: 4px;
@@ -308,20 +309,20 @@
     &:not(:last-child) {
       flex: 1;
     }
-    .yc-steps-item-content {
+    .@{component}-item-content {
       width: 140px;
       text-align: center;
       gap: 4px;
     }
   }
-  .yc-steps-item-vertical {
+  .@{component}-item-vertical {
     min-height: 90px;
     display: flex;
     gap: 16px;
 
-    .yc-steps-item-content {
+    .@{component}-item-content {
       gap: 4px;
-      .yc-steps-item-title {
+      .@{component}-item-title {
         margin-top: -2px;
       }
     }
@@ -334,8 +335,8 @@
     error: rgb(245, 63, 63);
   };
   each(@steps-item-status, {
-    .yc-steps-item-@{key} {
-      .yc-steps-item-node {
+    .@{component}-item-@{key} {
+      .@{component}-item-node {
         background-color: @value;
         border-color: @value;
         
@@ -347,9 +348,9 @@
     }
   });
 }
-.yc-steps-mode-arrow {
+.@{component}-mode-arrow {
   gap: 4px;
-  .yc-steps-item {
+  .@{component}-item {
     flex: 1;
     position: relative;
     overflow: visible;
@@ -380,11 +381,11 @@
       border-bottom: 36px solid transparent;
     }
     &:first-child {
-      .yc-steps-item-content {
+      .@{component}-item-content {
         padding-left: 16px;
       }
     }
-    .yc-steps-item-content {
+    .@{component}-item-content {
       flex: 1;
       padding-left: 52px;
       height: 72px;
@@ -392,7 +393,7 @@
     }
   }
   // small
-  &.yc-steps-item-size-small {
+  &.@{component}-item-size-small {
     height: 40px;
     &:not(:first-child)::before {
       border-top: 20px solid transparent;
@@ -404,9 +405,9 @@
       border-top: 20px solid transparent;
       border-bottom: 20px solid transparent;
     }
-    .yc-steps-item-content {
+    .@{component}-item-content {
       height: 40px;
-      .yc-steps-item-description {
+      .@{component}-item-description {
         display: none;
       }
     }
@@ -417,9 +418,9 @@
       border-left: 36px solid @bg-color;
     }
     & when not (@text-color = null) {
-      .yc-steps-item-content {
-        .yc-steps-item-title,
-        .yc-steps-item-description {
+      .@{component}-item-content {
+        .@{component}-item-title,
+        .@{component}-item-description {
           color: @text-color;
         }
       }
@@ -432,14 +433,14 @@
     error: .set-steps-item-status(rgb(245, 63, 63), #fff);
   };
   each(@steps-item-status, {
-      .yc-steps-item-@{key} {
+      .@{component}-item-@{key} {
         @value();
       }
     });
 }
-.yc-steps-mode-navigation {
+.@{component}-mode-navigation {
   gap: 32px;
-  .yc-steps-item {
+  .@{component}-item {
     flex: 1;
     overflow: hidden;
     padding: 0 10px 0 20px;
@@ -456,9 +457,9 @@
       background-color: #fff;
       transform: rotate(45deg);
     }
-    .yc-steps-item-content {
+    .@{component}-item-content {
       margin-bottom: 20px;
-      .yc-steps-item-description {
+      .@{component}-item-description {
         max-width: unset;
         white-space: nowrap;
       }
@@ -466,14 +467,14 @@
   }
 }
 //changeable
-.yc-steps-changeable {
-  .yc-steps-item {
-    &:not(.yc-steps-item-process) {
+.@{component}-changeable {
+  .@{component}-item {
+    &:not(.@{component}-item-process) {
       cursor: pointer;
       &:hover {
-        .yc-steps-item-content {
-          .yc-steps-item-title,
-          .yc-steps-item-description {
+        .@{component}-item-content {
+          .@{component}-item-title,
+          .@{component}-item-description {
             color: rgb(22, 93, 255);
           }
         }

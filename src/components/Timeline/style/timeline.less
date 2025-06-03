@@ -1,15 +1,16 @@
-.yc-timeline {
+@component: yc-timeline;
+.@{component} {
   display: flex;
   flex-direction: column;
 }
 
-.yc-timeline-reverse {
+.@{component}-reverse {
   flex-direction: column-reverse;
 }
 
-.yc-timeline-direction-horizontal {
+.@{component}-direction-horizontal {
   flex-direction: row;
-  &.yc-timeline-reverse {
+  &.@{component}-reverse {
     flex-direction: row-reverse;
   }
 }

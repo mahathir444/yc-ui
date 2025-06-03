@@ -1,8 +1,9 @@
-.yc-slider {
+@component: yc-slider;
+.@{component} {
   display: inline-flex;
   align-items: center;
   gap: 20px;
-  .yc-slider-track {
+  .@{component}-track {
     flex: 1;
     flex-shrink: 0;
     position: relative;
@@ -14,12 +15,12 @@
       border-radius: 2px;
       background-color: rgb(229, 230, 235);
     }
-    .yc-slider-bar {
+    .@{component}-bar {
       position: absolute;
       border-radius: 2px;
       background-color: rgb(22, 93, 255);
     }
-    .yc-slider-btn {
+    .@{component}-btn {
       z-index: 2;
       user-select: none;
       cursor: pointer;
@@ -46,10 +47,10 @@
       }
     }
   }
-  .yc-slider-input {
+  .@{component}-input {
     display: flex;
     align-items: center;
-    .yc-slider-input-divider {
+    .@{component}-input-divider {
       margin: 0 6px;
       width: 8px;
       height: 2px;
@@ -65,34 +66,34 @@
       }
     }
   }
-  .yc-slider-ticks,
-  .yc-slider-dots,
-  .yc-slider-marks {
+  .@{component}-ticks,
+  .@{component}-dots,
+  .@{component}-marks {
     z-index: 1;
     position: absolute;
     //   tick
-    .yc-slider-tick {
+    .@{component}-tick {
       position: absolute;
       background: rgb(229, 230, 235);
-      &.yc-slider-tick-active {
+      &.@{component}-tick-active {
         background-color: rgb(22, 93, 255);
       }
     }
     //   dot
-    .yc-slider-dot {
+    .@{component}-dot {
       position: absolute;
       width: 8px;
       height: 8px;
       background-color: #fff;
       border: 2px solid rgb(229, 230, 235);
       border-radius: 50%;
-      &.yc-slider-dot-active {
+      &.@{component}-dot-active {
         background-color: #fff;
         border-color: rgb(22, 93, 255);
       }
     }
     //   mark
-    .yc-slider-mark {
+    .@{component}-mark {
       position: absolute;
       cursor: pointer;
       color: rgb(134, 144, 156);
@@ -103,18 +104,18 @@
   }
 }
 // direction
-.yc-slider-direction-horizontal {
+.@{component}-direction-horizontal {
   width: 100%;
   min-height: 32px;
-  .yc-slider-track {
+  .@{component}-track {
     &::before,
-    .yc-slider-bar,
-    .yc-slider-btn {
+    .@{component}-bar,
+    .@{component}-btn {
       left: 0;
       top: 50%;
     }
     &::before,
-    .yc-slider-bar {
+    .@{component}-bar {
       transform: translateY(-50%);
     }
     &::before {
@@ -122,49 +123,49 @@
       width: 100%;
       right: 0;
     }
-    .yc-slider-bar {
+    .@{component}-bar {
       height: 2px;
     }
   }
-  .yc-slider-ticks,
-  .yc-slider-dots,
-  .yc-slider-marks {
+  .@{component}-ticks,
+  .@{component}-dots,
+  .@{component}-marks {
     top: 50%;
     left: 0;
     right: 0;
     transform: translateY(-50%);
-    .yc-slider-tick {
+    .@{component}-tick {
       top: -4px;
       width: 1px;
       height: 3px;
       border-top-left-radius: 1px;
       border-top-right-radius: 1px;
     }
-    .yc-slider-dot {
+    .@{component}-dot {
       transform: translateY(-50%);
     }
-    &.yc-slider-marks {
+    &.@{component}-marks {
       transform: translateY(calc(-50% + 10px));
     }
   }
 }
-.yc-slider-direction-vertical {
+.@{component}-direction-vertical {
   height: 100%;
   min-width: 32px;
   flex-direction: column;
 
-  .yc-slider-track {
+  .@{component}-track {
     display: flex;
     flex-direction: column;
     justify-content: center;
     &::before,
-    .yc-slider-bar,
-    .yc-slider-btn {
+    .@{component}-bar,
+    .@{component}-btn {
       bottom: 0;
       left: 50%;
     }
     &::before,
-    .yc-slider-bar {
+    .@{component}-bar {
       transform: translateX(-50%);
     }
     &::before {
@@ -172,43 +173,43 @@
       width: 2px;
       height: 100%;
     }
-    .yc-slider-bar {
+    .@{component}-bar {
       width: 2px;
     }
   }
-  .yc-slider-ticks,
-  .yc-slider-dots,
-  .yc-slider-marks {
+  .@{component}-ticks,
+  .@{component}-dots,
+  .@{component}-marks {
     left: 50%;
     transform: translateX(-50%);
     top: 0;
     bottom: 0;
-    &.yc-slider-marks {
+    &.@{component}-marks {
       transform: translateX(calc(-50% + 10px));
     }
 
-    .yc-slider-tick {
+    .@{component}-tick {
       left: 0;
       width: 3px;
       height: 1px;
       border-top-left-radius: 1px;
       border-top-right-radius: 1px;
     }
-    .yc-slider-dot {
+    .@{component}-dot {
       transform: translateX(-50%);
     }
   }
 }
 // disabled
-.yc-slider-disabled {
-  .yc-slider-track {
+.@{component}-disabled {
+  .@{component}-track {
     &::before {
       background-color: rgb(242, 243, 245);
     }
-    .yc-slider-bar {
+    .@{component}-bar {
       background-color: rgb(229, 230, 235);
     }
-    .yc-slider-btn {
+    .@{component}-btn {
       cursor: not-allowed;
       &::before {
         border-color: rgb(229, 230, 235);

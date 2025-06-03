@@ -1,6 +1,7 @@
+@component: yc-tooltip;
 .yc-trigger {
-  &.yc-tooltip {
-    .yc-tooltip-popup-content {
+  &.@{component} {
+    .@{component}-popup-content {
       max-width: 350px;
       padding: 8px 12px;
       border-radius: 2px;
@@ -9,7 +10,7 @@
       line-height: 1.5715;
       text-align: left;
       word-wrap: break-word;
-      &.yc-tooltip-mini {
+      &.@{component}-mini {
         padding: 4px 12px;
         font-size: 14px;
       }
