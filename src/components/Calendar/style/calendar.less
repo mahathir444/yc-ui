@@ -107,16 +107,17 @@
     }
   }
 }
+// small
 .@{component}-month {
   &.@{component}-month-small {
     border: none;
     .@{component}-week-list {
-      width: fit-content;
       height: 24px;
       border: none;
       .@{component}-week-list-item {
+        flex: 1;
+        flex-shrink: 0;
         padding: 6px;
-        width: 26px;
       }
     }
     .@{component}-month-cell-body {
@@ -124,7 +125,8 @@
         height: 26px;
         border: none;
         .@{component}-cell {
-          width: 26px;
+          flex: 1;
+          flex-shrink: 0;
           border: none;
           .@{component}-date {
             padding: 2px;
@@ -142,8 +144,9 @@
   }
 }
 // calendar-year
-.@{component}-year {
+.@{component}-mode-year {
   padding: 12px;
+  min-width: 875px;
   .@{component}-year-row {
     display: flex;
     &:not(:last-child) {
@@ -161,26 +164,6 @@
         color: rgb(29, 33, 41);
         font-weight: 500;
         font-size: 16px;
-      }
-      .@{component}-year-cell-body {
-        .@{component}-week-list {
-          width: 100%;
-          .@{component}-week-list-item {
-            flex: 1;
-            width: unset;
-          }
-        }
-        .@{component}-month-cell-body {
-          .@{component}-month-row {
-            width: 100%;
-            .@{component}-cell {
-              flex: 1;
-              flex-shrink: 0;
-              width: unset;
-              min-width: 26px;
-            }
-          }
-        }
       }
     }
   }
