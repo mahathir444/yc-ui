@@ -1,26 +1,61 @@
 <template>
   <div class="test">
-    <a-avatar-group :size="24" :max-count="3">
-      <a-avatar :style="{ backgroundColor: '#7BC616' }">A</a-avatar>
-      <a-avatar :style="{ backgroundColor: '#14C9C9' }">B</a-avatar>
-      <a-avatar :style="{ backgroundColor: '#168CFF' }">C</a-avatar>
-      <a-avatar :style="{ backgroundColor: '#FF7D00' }">Arco</a-avatar>
-      <a-avatar :style="{ backgroundColor: '#FFC72E' }">Design</a-avatar>
-    </a-avatar-group>
-    <yc-avatar-group :size="24" :max-count="3">
-      <yc-avatar :style="{ backgroundColor: '#7BC616' }">A</yc-avatar>
-      <yc-avatar :style="{ backgroundColor: '#14C9C9' }">B</yc-avatar>
-      <yc-avatar :style="{ backgroundColor: '#168CFF' }">C</yc-avatar>
-      <yc-avatar :style="{ backgroundColor: '#FF7D00' }">Arco</yc-avatar>
-      <yc-avatar :style="{ backgroundColor: '#FFC72E' }">Design</yc-avatar>
-    </yc-avatar-group>
+    <div>
+      <a-badge
+        status="processing"
+        :dot-style="{
+          width: '10px',
+          height: '10px',
+        }"
+      >
+        <a-avatar> aa </a-avatar>
+      </a-badge>
+      <yc-badge
+        status="processing"
+        :dot-style="{
+          width: '10px',
+          height: '10px',
+        }"
+      >
+        <a-avatar> aa </a-avatar>
+      </yc-badge>
+    </div>
   </div>
 </template>
 
 <script lang="ts" setup>
 import { ref, computed } from 'vue';
 import { Message } from '@arco-design/web-vue';
-const toast = () => {};
+const colors = [
+  'red',
+  'orangered',
+  'orange',
+  'gold',
+  'lime',
+  'green',
+  'cyan',
+  'arcoblue',
+  'purple',
+  'pinkpurple',
+  'magenta',
+  'gray',
+];
+
+const customColors = [
+  '#F53F3F',
+  '#7816FF',
+  '#00B42A',
+  '#165DFF',
+  '#FF7D00',
+  '#EB0AA4',
+  '#7BC616',
+  '#86909C',
+  '#B71DE8',
+  '#0FC6C2',
+  '#FFB400',
+  '#168CFF',
+  '#FF5722',
+];
 </script>
 
 <style lang="less" scoped>

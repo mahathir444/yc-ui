@@ -8,8 +8,6 @@
     min-width: 20px;
     height: 20px;
     padding: 0 6px;
-    background-color: rgb(245, 63, 63);
-    box-shadow: 0 0 0 2px #fff;
     color: #fff;
     font-weight: 500;
     font-size: 12px;
@@ -17,16 +15,26 @@
   }
   .@{component}-dot,
   .@{component}-text,
-  .@{component}-number {
+  .@{component}-number,
+  .@{component}-custom-dot {
     z-index: 2;
     position: absolute;
-    top: 2px;
-    right: 2px;
+    background-color: rgb(245, 63, 63);
+    box-shadow: 0 0 0 2px #fff;
     overflow: hidden;
     text-align: center;
     border-radius: 20px;
     transform: translate(50%, -50%);
     transform-origin: 100% 0%;
+    &.@{component}-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+    }
+    &.@{component}-custom-dot {
+      background-color: #fff;
+      box-shadow: none;
+    }
   }
 
   .@{component}-stauts-wrapper {
@@ -43,6 +51,15 @@
       font-size: 12px;
       line-height: 1.5715;
     }
+  }
+}
+.@{component}-no-children {
+  .@{component}-dot,
+  .@{component}-text,
+  .@{component}-number,
+  .@{component}-custom-dot {
+    position: relative;
+    transform: none;
   }
 }
 

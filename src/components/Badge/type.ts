@@ -13,6 +13,7 @@ export interface BadgeProps {
 
 export interface BadgeSlots {
   default(): void;
+  content(): void;
 }
 
 export type BadgeStatus =

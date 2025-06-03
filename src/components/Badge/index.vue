@@ -1,27 +1,41 @@
 <template>
-  <div class="yc-badge">
+  <div :class="['yc-badge', { 'yc-badge-no-children': !$slots.default }]">
     <slot />
-    <div v-if="className == 'yc-badge-dot'" class="yc-badge-stauts-wrapper">
+    <div v-if="className == 'yc-badge-status'" class="yc-badge-stauts-wrapper">
       <div
         :class="[
           'yc-badge-stauts-dot',
-          `yc-badge-status-${status}`,
-          `yc-badge-color-${color}`,
+
+          {
+            [`yc-badge-color-${color}`]: color,
+            [`yc-badge-status-${status}`]: status,
+          },
         ]"
+        :style="{
+          backgroundColor: !TAG_PRESET_COLORS.includes(color) ? color : '',
+          ...dotStyle,
+        }"
       ></div>
-      <div class="yc-badge-status-text">
+      <div v-if="badgeText" class="yc-badge-status-text">
         {{ badgeText }}
       </div>
     </div>
-    <div v-else :class="[className]" :style="style">
-      {{ badgeText }}
+    <div
+      v-else-if="className != 'yc-badge-number' || count > 0"
+      :class="[className]"
+      :style="style"
+    >
+      <slot name="content">
+        {{ badgeText }}
+      </slot>
     </div>
   </div>
 </template>
 
 <script lang="ts" setup>
-import { computed, toRefs } from 'vue';
+import { computed, toRefs, useSlots } from 'vue';
 import { BadgeProps, BadgeSlots } from './type';
+import { TAG_PRESET_COLORS } from '@shared/constants';
 defineOptions({
   name: 'Badge',
 });
@@ -34,24 +48,28 @@ const props = withDefaults(defineProps<BadgeProps>(), {
   },
   maxCount: 99,
   offset: () => {
-    return [];
+    return [2, 2];
   },
-  // color:,
-  // status:
-  // count:
+  color: undefined,
+  status: undefined,
+  count: undefined,
 });
 const { text, dot, count, maxCount, offset, dotStyle, status, color } =
   toRefs(props);
+// 获取插槽
+const slots = useSlots();
 // style
 const style = computed(() => {
   return {
-    right: offset.value[0] + 2,
-    top: offset.value[1] + 2,
-    ...(!text && dot ? dotStyle.value : {}),
+    right: `${slots.default ? offset.value[0] : ''}px `,
+    top: `${slots.default ? offset.value[1] : ''}px `,
+    ...dotStyle.value,
   };
 });
+// 动态计算className
 const className = computed(() => {
-  if (color.value || status.value) return 'yc-badge-dot';
+  if (slots.content) return 'yc-badge-custom-dot';
+  if (color.value || status.value) return 'yc-badge-status';
   if (text.value) return 'yc-badge-text';
   if (dot.value) return 'yc-badge-dot';
   else return 'yc-badge-number';
@@ -59,7 +77,8 @@ const className = computed(() => {
 // 获取text
 const badgeText = computed(() => {
   if (color.value || status.value || text.value || dot.value) return text.value;
-  else return count.value! >= maxCount.value ? maxCount.value : count.value;
+  else
+    return count.value! >= maxCount.value ? `${maxCount.value}+` : count.value;
 });
 </script>
 
