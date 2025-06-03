@@ -33,8 +33,11 @@
   right: 0;
 };
 each(@position, {
-  .@{component}-text-position-@{key} {
+  .@{component}-text-@{key} {
     @{key}: if(key = center, 50%, 24px);
+    & when(@key = center){
+      left: 50%;
+    }
     transform: translate(@value, -50%);
   }
 });

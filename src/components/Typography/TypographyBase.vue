@@ -28,7 +28,7 @@
     </template>
     <!-- edit -->
     <span
-      v-if="editable"
+      v-if="editable && !computedEditing"
       class="yc-typography-operation-edit"
       @click="handleEdit"
     >

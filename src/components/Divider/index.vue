@@ -10,7 +10,7 @@
   >
     <div
       v-if="$slots.default && direction != 'vertical'"
-      :class="['yc-divider-text', `yc-divider-text-position-${orientation}`]"
+      :class="['yc-divider-text', `yc-divider-text-${orientation}`]"
     >
       <slot />
     </div>
@@ -27,7 +27,7 @@ defineOptions({
 defineSlots<DividerSlots>();
 const props = withDefaults(defineProps<DividerProps>(), {
   direction: 'horizontal',
-  orientation: 'left',
+  orientation: 'center',
   type: 'solid',
   size: 1,
   margin: undefined,

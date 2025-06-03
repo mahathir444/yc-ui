@@ -28,12 +28,10 @@ const props = withDefaults(defineProps<GridProps>(), {
 });
 const { rowGap: _rowGap } = toRefs(props);
 // 注入
-const { breakpoint, cols } = useContext().provide(props);
+const { breakpoint, cols, getBreakpointValue } = useContext().provide(props);
 // gap
 const rowGap = computed(() => {
-  return isNumber(_rowGap.value)
-    ? _rowGap.value
-    : _rowGap.value?.[breakpoint.value];
+  return getBreakpointValue(_rowGap.value);
 });
 // 媒体查询管理器
 mediaQueryHandler((name) => {

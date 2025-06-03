@@ -21,7 +21,7 @@ export interface GridItemSlots {
 }
 
 export interface GridRowProps {
-  gutter?: number | ResponsiveValue;
+  gutter?: Gutter | [Gutter, Gutter];
   justify?: GridRowJustify;
   align?: GridRowAlign;
   div?: boolean;
@@ -60,3 +60,4 @@ export type GridRowJustify =
 export type GridRowAlign = 'start' | 'center' | 'end' | 'stretch';
 export type BreakpointName = 'xxl' | 'xl' | 'lg' | 'md' | 'sm' | 'xs';
 export type GridColFlex = number | string | 'initial' | 'auto' | 'none';
+export type Gutter = number | ResponsiveValue;

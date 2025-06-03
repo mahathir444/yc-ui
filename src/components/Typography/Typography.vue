@@ -1,5 +1,5 @@
 <template>
-  <article class="arco-typography">
+  <article class="yc-typography">
     <slot />
   </article>
 </template>

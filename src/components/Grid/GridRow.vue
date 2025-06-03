@@ -3,12 +3,14 @@
     :class="[
       {
         'yc-row': !div,
+        'yc-row-wrap': wrap && !div,
         [`yc-row-align-${align}`]: !div,
         [`yc-row-justify-${justify}`]: !div,
-        'yc-row-wrap': wrap && !div,
       },
     ]"
-    :style="style"
+    :style="{
+      margin: `0 ${-gutter[0] / 2}px`,
+    }"
   >
     <slot />
   </div>
@@ -32,17 +34,7 @@ const props = withDefaults(defineProps<GridRowProps>(), {
 });
 const { div, wrap, justify, align } = toRefs(props);
 // 注入
-const { breakpoint } = useContext().provide(props);
-// style
-const style = computed<CSSProperties>(() => {
-  return div.value
-    ? {
-        flexWrap: wrap.value ? 'wrap' : 'nowrap',
-        justifyContent: justify.value,
-        alignItems: align.value,
-      }
-    : {};
-});
+const { breakpoint, gutter } = useContext().provide(props);
 // 媒体查询管理器
 mediaQueryHandler((name) => {
   breakpoint.value = name;
