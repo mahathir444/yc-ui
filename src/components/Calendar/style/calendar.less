@@ -150,6 +150,8 @@
       border-bottom: 1px solid rgb(229, 230, 235);
     }
     .@{component}-year-cell {
+      flex-shrink: 0;
+      flex: 1;
       padding: 20px 8px;
       &:not(:last-child) {
         border-right: 1px solid rgb(229, 230, 235);
@@ -159,6 +161,26 @@
         color: rgb(29, 33, 41);
         font-weight: 500;
         font-size: 16px;
+      }
+      .@{component}-year-cell-body {
+        .@{component}-week-list {
+          width: 100%;
+          .@{component}-week-list-item {
+            flex: 1;
+            width: unset;
+          }
+        }
+        .@{component}-month-cell-body {
+          .@{component}-month-row {
+            width: 100%;
+            .@{component}-cell {
+              flex: 1;
+              flex-shrink: 0;
+              width: unset;
+              min-width: 26px;
+            }
+          }
+        }
       }
     }
   }
