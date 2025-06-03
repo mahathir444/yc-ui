@@ -1,46 +1,26 @@
 <template>
   <div class="test">
-    <a-row class="grid-demo">
-      <a-col :xs="2" :sm="4" :md="6"> Col </a-col>
-      <a-col :xs="20" :sm="16" :md="12"> Col </a-col>
-      <a-col :xs="2" :sm="4" :md="6"> Col </a-col>
-    </a-row>
-    <yc-row class="grid-demo">
-      <yc-col
-        :span="{
-          xs: 2,
-          sm: 4,
-          md: 6,
-        }"
-      >
-        Col
-      </yc-col>
-      <yc-col
-        :span="{
-          xs: 20,
-          sm: 16,
-          md: 12,
-        }"
-      >
-        Col
-      </yc-col>
-      <yc-col
-        :span="{
-          xs: 2,
-          sm: 4,
-          md: 6,
-        }"
-      >
-        Col
-      </yc-col>
-    </yc-row>
+    <a-avatar-group :size="24" :max-count="3">
+      <a-avatar :style="{ backgroundColor: '#7BC616' }">A</a-avatar>
+      <a-avatar :style="{ backgroundColor: '#14C9C9' }">B</a-avatar>
+      <a-avatar :style="{ backgroundColor: '#168CFF' }">C</a-avatar>
+      <a-avatar :style="{ backgroundColor: '#FF7D00' }">Arco</a-avatar>
+      <a-avatar :style="{ backgroundColor: '#FFC72E' }">Design</a-avatar>
+    </a-avatar-group>
+    <yc-avatar-group :size="24" :max-count="3">
+      <yc-avatar :style="{ backgroundColor: '#7BC616' }">A</yc-avatar>
+      <yc-avatar :style="{ backgroundColor: '#14C9C9' }">B</yc-avatar>
+      <yc-avatar :style="{ backgroundColor: '#168CFF' }">C</yc-avatar>
+      <yc-avatar :style="{ backgroundColor: '#FF7D00' }">Arco</yc-avatar>
+      <yc-avatar :style="{ backgroundColor: '#FFC72E' }">Design</yc-avatar>
+    </yc-avatar-group>
   </div>
 </template>
 
 <script lang="ts" setup>
-import { ref, reactive } from 'vue';
-const value = ref('312321');
-const str = ref('Click the icon to edit this text.');
+import { ref, computed } from 'vue';
+import { Message } from '@arco-design/web-vue';
+const toast = () => {};
 </script>
 
 <style lang="less" scoped>
@@ -52,20 +32,5 @@ const str = ref('Click the icon to edit this text.');
   // align-items: center;
   // justify-content: center;
   gap: 10px;
-}
-.grid-demo {
-  .arco-col,
-  .yc-col {
-    height: 48px;
-    line-height: 48px;
-    color: var(--color-white);
-    text-align: center;
-    &:nth-child(2n) {
-      background-color: rgba(var(--arcoblue-6), 0.9);
-    }
-    &:nth-child(2n + 1) {
-      background-color: var(--color-primary-light-4);
-    }
-  }
 }
 </style>

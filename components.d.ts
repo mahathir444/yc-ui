@@ -8,6 +8,8 @@ export {}
 declare module 'vue' {
   export interface GlobalComponents {
     _Icon: typeof import('./src/components/_shared/icons/_Icon.vue')['default']
+    AAvatar: typeof import('@arco-design/web-vue')['Avatar']
+    AAvatarGroup: typeof import('@arco-design/web-vue')['AvatarGroup']
     ABreadcrumb: typeof import('@arco-design/web-vue')['Breadcrumb']
     ABreadcrumbItem: typeof import('@arco-design/web-vue')['BreadcrumbItem']
     AButton: typeof import('@arco-design/web-vue')['Button']
@@ -18,6 +20,13 @@ declare module 'vue' {
     ADivider: typeof import('@arco-design/web-vue')['Divider']
     AEmpty: typeof import('@arco-design/web-vue')['Empty']
     Affix: typeof import('./src/components/Affix/index.vue')['default']
+    AGrid: typeof import('@arco-design/web-vue')['Grid']
+    AGridItem: typeof import('@arco-design/web-vue')['GridItem']
+    ALayout: typeof import('@arco-design/web-vue')['Layout']
+    ALayoutContent: typeof import('@arco-design/web-vue')['LayoutContent']
+    ALayoutFooter: typeof import('@arco-design/web-vue')['LayoutFooter']
+    ALayoutHeader: typeof import('@arco-design/web-vue')['LayoutHeader']
+    ALayoutSider: typeof import('@arco-design/web-vue')['LayoutSider']
     Alert: typeof import('./src/components/Alert/index.vue')['default']
     ALink: typeof import('@arco-design/web-vue')['Link']
     AList: typeof import('@arco-design/web-vue')['List']

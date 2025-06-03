@@ -11,9 +11,8 @@
 </template>
 
 <script lang="ts" setup>
-import { toRefs, computed } from 'vue';
 import { GridProps, GridSlots } from './type';
-import { isNumber, mediaQueryHandler } from '@shared/utils';
+import { mediaQueryHandler } from '@shared/utils';
 import useContext from './hooks/useContext';
 defineOptions({
   name: 'Grid',
@@ -26,13 +25,8 @@ const props = withDefaults(defineProps<GridProps>(), {
   collapsed: false,
   collapsedRows: 1,
 });
-const { rowGap: _rowGap } = toRefs(props);
 // 注入
-const { breakpoint, cols, getBreakpointValue } = useContext().provide(props);
-// gap
-const rowGap = computed(() => {
-  return getBreakpointValue(_rowGap.value);
-});
+const { breakpoint, cols, rowGap, colGap } = useContext().provide(props);
 // 媒体查询管理器
 mediaQueryHandler((name) => {
   breakpoint.value = name;

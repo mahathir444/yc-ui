@@ -27,9 +27,9 @@
           <slot name="resize-trigger-icon" :direction="item">
             <icon-drag-dot-vertical
               v-if="getDir(item) === 'vertical'"
-              :size="6"
+              :size="12"
             />
-            <icon-drag-dot v-else :size="6" />
+            <icon-drag-dot v-else :size="12" />
           </slot>
         </div>
       </slot>
@@ -210,6 +210,8 @@ onMounted(() => {
     width: fit-content;
     .yc-resizebox-trigger-icon-wrapper {
       background-color: rgb(229, 230, 235);
+      color: rgb(29, 33, 41);
+      width: 6px;
       display: flex;
       align-items: center;
       justify-content: center;

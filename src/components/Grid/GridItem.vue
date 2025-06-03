@@ -7,7 +7,6 @@
 <script lang="ts" setup>
 import { toRefs, computed, CSSProperties } from 'vue';
 import { GridItemProps, GridItemSlots } from './type';
-import { isNumber } from '@shared/utils';
 import useContext from './hooks/useContext';
 defineOptions({
   name: 'GridItem',
@@ -20,25 +19,23 @@ const props = withDefaults(defineProps<GridItemProps>(), {
 });
 const { span: _span, offset: _offset, suffix } = toRefs(props);
 // 接收数据
-const { breakpoint, cols, colGap } = useContext().inject();
+const { cols, colGap, getBreakpointValue } = useContext().inject();
 // offset
 const offset = computed(() => {
-  return isNumber(_offset.value)
-    ? _offset.value
-    : (_offset.value?.[breakpoint.value] as number);
+  return getBreakpointValue(_offset.value);
 });
 // span
 const span = computed(() => {
-  const tempSpan = isNumber(_span.value)
-    ? _span.value
-    : (_span.value?.[breakpoint.value] as number);
-  const resultSpan = tempSpan + offset.value;
+  const resultSpan = getBreakpointValue(_span.value) + offset.value;
   return resultSpan >= cols.value ? cols.value : resultSpan;
 });
 // 计算style
 const style = computed<CSSProperties>(() => {
+  const start = suffix.value
+    ? cols.value - span.value + 1
+    : `span ${span.value}`;
   return {
-    gridColumn: `${`span ${suffix.value ? cols.value - span.value + 1 : span.value}`} / span ${span.value}`,
+    gridColumn: `${start} / span ${span.value}`,
     marginLeft: offset.value
       ? `calc(${(100 / span.value) * offset.value}% + ${offset.value * colGap!.value}px )`
       : '',

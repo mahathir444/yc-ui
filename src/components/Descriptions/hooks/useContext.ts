@@ -14,8 +14,13 @@ import {
   DescData,
   DescriptionsProps as _DescriptionsProps,
 } from '../type';
-import { isNumber, mediaQueryHandler } from '@shared/utils';
-import { BreakpointName } from '@/components/Grid/type';
+import {
+  isNumber,
+  isUndefined,
+  isObject,
+  mediaQueryHandler,
+} from '@shared/utils';
+import { BreakpointName, ResponsiveValue } from '@/components/Grid/type';
 import { Props, RequiredDeep, Size } from '@shared/type';
 import { getGlobalConfig } from '@shared/utils';
 import { findComponentsFromVnodes } from '@shared/utils';
@@ -68,11 +73,34 @@ export default () => {
     const breakpoint = ref<BreakpointName>('xxl');
     // column
     const column = computed(() => {
-      const value = isNumber(_column.value)
-        ? _column.value
-        : (_column.value?.[breakpoint.value] ?? 3);
-      return value as number;
+      return getBreakpointValue(_column.value, 3);
     });
+    // 获取断电值
+    function getBreakpointValue(
+      value: number | ResponsiveValue,
+      defaultValue?: number | string
+    ): number | string | undefined {
+      // 如果直接是值而非响应式对象，直接返回
+      if (!isObject(value)) {
+        return value;
+      }
+      const order: BreakpointName[] = ['xs', 'sm', 'md', 'lg', 'xl', 'xxl'];
+      const index = order.indexOf(breakpoint.value);
+      // 从当前断点开始向前查找
+      for (let i = index; i >= 0; i--) {
+        const bp = order[i];
+        if (isUndefined(value[bp])) continue;
+        return value[bp];
+      }
+      // 如果前面没找到，从当前断点向后查找
+      for (let i = index + 1; i < order.length; i++) {
+        const bp = order[i];
+        if (isUndefined(value[bp])) continue;
+        return value[bp];
+      }
+      // 如果都没找到，返回defaultValue
+      return defaultValue;
+    }
     // 媒体查询器
     mediaQueryHandler((name) => {
       breakpoint.value = name;

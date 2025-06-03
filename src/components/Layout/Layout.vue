@@ -29,10 +29,11 @@ const slots = useSlots();
 // 是否有sider
 const hasSider = computed(() => {
   if (!isUndefined(_hasSider.value)) return _hasSider.value;
-  const sider = (slots.default?.() || []).map(
+  console.log(slots.default?.() || [], 'sider');
+  const sider = (slots.default?.() || []).find(
     (item) => (item.type as ObjectData).name == LayoutSider.name
   );
-  return !!sider.length;
+  return !!sider;
 });
 </script>
 

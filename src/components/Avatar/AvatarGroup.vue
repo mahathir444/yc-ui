@@ -5,7 +5,7 @@
       :key="index"
       :is="node"
       :style="{
-        zIndex: zIndexAscend ? nodes.visible.length - index : index + 1,
+        zIndex: zIndexAscend ? index + 1 : nodes.visible.length - index,
       }"
     />
     <yc-popover
@@ -14,11 +14,11 @@
     >
       <yc-avatar
         :style="{
-          zIndex: zIndexAscend ? nodes.visible.length : 1,
+          zIndex: zIndexAscend ? nodes.visible.length : 0,
           ...maxStyle,
         }"
       >
-        +{{ nodes.hide.length }}
+        {{ `+${nodes.hide.length}` }}
       </yc-avatar>
       <template #content>
         <component

@@ -28,6 +28,7 @@ export default () => {
     const {
       gutter: _gutter = ref<GutterValue>(0),
       cols: _cols = ref(24),
+      rowGap: _rowGap = ref(0),
       colGap: _colGap = ref(0),
       div = ref(false),
     } = toRefs(props);
@@ -35,7 +36,11 @@ export default () => {
     const breakpoint = ref<BreakpointName>('xxl');
     // cols
     const cols = computed(() => {
-      return getBreakpointValue(_cols.value.value, 24) as number;
+      return getBreakpointValue(_cols.value, 24) as number;
+    });
+    // rowgap
+    const rowGap = computed(() => {
+      return getBreakpointValue(_rowGap.value);
     });
     // colgap
     const colGap = computed(() => {
@@ -85,8 +90,9 @@ export default () => {
     });
     return {
       breakpoint,
-      colGap,
       cols,
+      colGap,
+      rowGap,
       gutter,
       getBreakpointValue,
     };
