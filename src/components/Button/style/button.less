@@ -45,13 +45,6 @@
 .@{component}-long {
   width: 100%;
 }
-// only-icon
-.@{component}-only-icon {
-  padding: 0;
-  .@{component}-icon {
-    margin: 0;
-  }
-}
 
 // type
 @colors: {
@@ -258,6 +251,9 @@ each(@type, .(@type-value, @type-name) {
               }
             }
           }
+        & when(@type-key = dashed){
+         border-style: dashed;
+        }
         & when(@type-key = text){
           background-color: transparent;
           &:not(.@{component}-disabled):not(.@{component}-loading) {
@@ -315,6 +311,13 @@ each(@size,.(@value,@name){
         &.@{component}-shape-circle{
           width: @value[height];
           padding: 0;
+        }
+        &.@{component}-only-icon{
+          width: @value[height];
+          padding: 0;
+          .@{component}-icon {
+            margin: 0 ;
+          }
         }
       }
     });

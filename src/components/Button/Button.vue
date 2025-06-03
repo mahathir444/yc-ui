@@ -70,11 +70,11 @@ defineOptions({
 });
 defineSlots<ButtonSlots>();
 const props = withDefaults(defineProps<ButtonProps>(), {
-  type: 'secondary',
-  status: 'normal',
+  type: undefined,
+  status: undefined,
   size: undefined,
-  shape: 'square',
-  disabled: false,
+  shape: undefined,
+  disabled: undefined,
   loading: false,
   long: false,
   htmlType: 'button',

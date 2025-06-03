@@ -1,13 +1,6 @@
 <template>
   <div class="test">
-    <a-typography-title :heading="4" ellipsis>
-      A design is a plan or specification for the construction of an object or
-      system or for the implementation of an activity or process.
-    </a-typography-title>
-    <yc-typography-title :heading="4" ellipsis>
-      A design is a plan or specification for the construction of an object or
-      system or for the implementation of an activity or process.
-    </yc-typography-title>
+    <yc-button type="primary">测试</yc-button>
   </div>
 </template>
 
