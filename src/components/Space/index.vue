@@ -30,7 +30,6 @@
 <script lang="ts" setup>
 import { toRefs, computed, useSlots, VNode } from 'vue';
 import { SpaceProps, SpaceSlots } from './type';
-import { ObjectData } from '@shared/type';
 import { isNumber, getSlotFunction } from '@shared/utils';
 defineOptions({
   name: 'Space',

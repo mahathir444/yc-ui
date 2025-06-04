@@ -163,9 +163,9 @@
     </yc-space>
     <!-- tag -->
     <yc-space wrap style="max-width: 100%">
-      <div v-for="(color, index) of colors" :key="index">
+      <!-- <div v-for="(color, index) of colors" :key="index">
         <yc-tag :color="color" closable>{{ color }}</yc-tag>
-      </div>
+      </div> -->
     </yc-space>
     <!-- collapse -->
     <yc-collapse style="width: fit-content; height: fit-content">

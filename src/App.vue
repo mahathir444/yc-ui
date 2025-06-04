@@ -1,5 +1,5 @@
 <template>
-  <yc-config-provider :z-index="3000" size="large">
+  <yc-config-provider :z-index="3000">
     <a-config-provider>
       <router-view />
       <template #empty="{ component }">
