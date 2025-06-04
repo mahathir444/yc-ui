@@ -15,6 +15,17 @@
     .@{component}-dot-content {
       position: relative;
 
+      .@{component}-dot-custom {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        display: inline-flex;
+        color: rgb(22, 93, 255);
+        background-color: #fff;
+        transform: translateX(-50%) translateY(-50%);
+        transform-origin: center;
+      }
+
       .@{component}-dot {
         position: relative;
         width: 6px;
@@ -48,6 +59,15 @@
     color: rgb(134, 144, 156);
     font-size: 12px;
     line-height: 1.667;
+  }
+}
+.@{component}-ghost {
+  .@{component}-dot-wrapper {
+    .@{component}-dot-content {
+      .@{component}-dot-custom {
+        left: 0;
+      }
+    }
   }
 }
 // direction

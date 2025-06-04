@@ -1,77 +1,5 @@
 <template>
   <div class="test">
-    <a-row>
-      <a-col :flex="1">
-        <a-countdown
-          title="Countdown"
-          :value="now + 1000 * 60 * 60 * 2"
-          :now="now"
-        />
-      </a-col>
-      <a-col :flex="1">
-        <a-countdown
-          title="Milliseconds"
-          :value="now + 1000 * 60 * 60 * 2"
-          :now="now"
-          format="HH:mm:ss.SSS"
-        />
-      </a-col>
-      <a-col :flex="1">
-        <a-countdown
-          title="Days"
-          :value="now + 1000 * 60 * 60 * 24 * 4"
-          :now="now"
-          format="D 天 H 时 m 分 s 秒"
-        />
-      </a-col>
-    </a-row>
-    <a-space direction="vertical" style="margin-top: 10px">
-      <a-countdown
-        title="Trigger on finish"
-        :value="Date.now() + 5 * 1000"
-        format="mm:ss.SSS"
-        :now="Date.now()"
-        :start="start"
-        @finish="handleFinish"
-      />
-      <a-button @click="start = true" type="primary">Start</a-button>
-    </a-space>
-    <yc-row>
-      <yc-col :flex="1">
-        <yc-countdown
-          title="Countdown"
-          :value="now + 1000 * 60 * 60 * 2"
-          :now="now"
-        />
-      </yc-col>
-      <yc-col :flex="1">
-        <yc-countdown
-          title="Milliseconds"
-          :value="now + 1000 * 60 * 60 * 2"
-          :now="now"
-          format="HH:mm:ss.SSS"
-        />
-      </yc-col>
-      <yc-col :flex="1">
-        <yc-countdown
-          title="Days"
-          :value="now + 1000 * 60 * 60 * 24 * 4"
-          :now="now"
-          format="D 天 H 时 m 分 s 秒"
-        />
-      </yc-col>
-    </yc-row>
-    <yc-space direction="vertical" style="margin-top: 10px">
-      <yc-countdown
-        title="Trigger on finish"
-        :value="Date.now() + 5 * 1000"
-        format="mm:ss.SSS"
-        :now="Date.now()"
-        :start="start"
-        @finish="handleFinish"
-      />
-      <yc-button @click="start = true" type="primary">Start</yc-button>
-    </yc-space>
     <div :style="{ position: 'relative', width: '440px', height: '280px' }">
       <yc-popover position="tl">
         <yc-button
@@ -211,24 +139,6 @@
 
 <script lang="ts" setup>
 import { ref, reactive } from 'vue';
-import { Message } from '@arco-design/web-vue';
-
-const now = Date.now();
-const start = ref(false);
-const handleFinish = () => {
-  Message.info('Finish');
-};
-const list = ref([
-  ...Array(10000)
-    .fill(null)
-    .map((_, index) => {
-      const prefix = `0000${index}`.slice(-5);
-      return {
-        title: 'Beijing Bytedance Technology Co., Ltd.',
-        description: `(${prefix}) Beijing ByteDance Technology Co., Ltd. is an enterprise located in China.`,
-      };
-    }),
-]);
 </script>
 
 <style lang="less" scoped>
@@ -237,27 +147,8 @@ const list = ref([
   width: 100%;
   display: flex;
   flex-direction: column;
-  // align-items: center;
-  // justify-content: center;
+  align-items: center;
+  justify-content: center;
   gap: 10px;
-  .list-demo-action-layout .image-area {
-    width: 183px;
-    height: 119px;
-    border-radius: 2px;
-    overflow: hidden;
-  }
-
-  .list-demo-action-layout .list-demo-item {
-    padding: 20px 0;
-    border-bottom: 1px solid var(--color-fill-3);
-  }
-
-  .list-demo-action-layout .image-area img {
-    width: 100%;
-  }
-
-  .list-demo-action-layout .arco-list-item-action .arco-icon {
-    margin: 0 4px;
-  }
 }
 </style>

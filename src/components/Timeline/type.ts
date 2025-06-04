@@ -20,6 +20,7 @@ export interface TimelineItemProps {
   lineColor?: string;
   label?: string;
   position?: TimelinePositon;
+  isGhost?: boolean;
 }
 
 export interface TimelineItemSlots {

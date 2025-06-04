@@ -9,10 +9,11 @@ export default (params: {
   props: Props;
   popupRef: Ref<HTMLDivElement | undefined>;
   triggerRef: Ref<HTMLElement | undefined>;
+  arrowRef: Ref<HTMLElement | undefined>;
   mouseX: Ref<number>;
   mouseY: Ref<number>;
 }) => {
-  const { props, popupRef, triggerRef, mouseX, mouseY } = params;
+  const { props, popupRef, triggerRef, arrowRef, mouseX, mouseY } = params;
   // 解构需要使用的属性
   const {
     trigger,
@@ -23,6 +24,7 @@ export default (params: {
     autoFitPopupMinWidth,
     autoFitPopupWidth,
     autoSetPosition,
+    showArrow,
     position: _position,
     arrowStyle: _arrowStyle,
     contentStyle: _contentStyle,
@@ -39,6 +41,8 @@ export default (params: {
       box: 'border-box',
     }
   );
+  // 获取arrow的size
+  const { arrowWidth, arrowHeight } = getArrowSize();
   // 获取trigger元素bounding
   const {
     left,
@@ -136,6 +140,8 @@ export default (params: {
         position: position.value,
         popupWidth: popupWidth.value,
         popupHeight: popupHeight.value,
+        arrowWidth: arrowWidth.value,
+        arrowHeight: arrowHeight.value,
         triggerHeight: triggerHeight.value,
         triggerWidth: triggerWidth.value,
       }),
@@ -265,43 +271,73 @@ export default (params: {
     }
     return [newLeft, newTop];
   };
+  // 获取arrow的size
+  function getArrowSize() {
+    if (!showArrow.value) {
+      return {
+        arrowWidth: ref(0),
+        arrowHeight: ref(0),
+      };
+    }
+    // 获取arrow的size
+    const { width, height } = useElementSize(arrowRef, undefined, {
+      box: 'border-box',
+    });
+    return {
+      arrowWidth: width,
+      arrowHeight: height,
+    };
+  }
   // 计算arrow的positon
   const calcArrowPosition = (params: {
     position: TriggerPostion;
     triggerWidth: number;
     triggerHeight: number;
+    arrowWidth: number;
+    arrowHeight: number;
     popupHeight: number;
     popupWidth: number;
   }) => {
-    const { position, triggerWidth, triggerHeight, popupWidth, popupHeight } =
-      params;
+    const {
+      position,
+      triggerWidth,
+      triggerHeight,
+      popupWidth,
+      popupHeight,
+      arrowHeight,
+      arrowWidth,
+    } = params;
     let inset: CSSProperties;
     if (['top', 'tl', 'tr', 'bottom', 'bl', 'br'].includes(position)) {
-      let arrowLeft: string | number = '';
+      let arrowLeft = '';
+      let arrowRight = '';
       if (['top', 'bottom'].includes(position)) {
-        arrowLeft = popupWidth / 2;
+        arrowLeft = `${(popupWidth - arrowWidth) / 2}px`;
+      } else if (['tl', 'bl'].includes(position)) {
+        arrowLeft = `${(triggerWidth - arrowWidth) / 2}px`;
       } else {
-        arrowLeft = triggerWidth / 2;
+        arrowRight = `${(triggerWidth - arrowWidth) / 2}px`;
       }
       inset = {
         top: position.startsWith('b') ? '0' : '',
+        right: arrowRight,
         bottom: position.startsWith('t') ? '0' : '',
-        left: `${arrowLeft}px`,
+        left: arrowLeft,
       };
     } else {
-      let arrowTop: string | number = '';
-      let arrowBottom: string | number = '';
+      let arrowTop = '';
+      let arrowBottom = '';
       if (['left', 'right'].includes(position)) {
-        arrowTop = popupHeight / 2;
+        arrowTop = `${(popupHeight - arrowHeight) / 2}px`;
       } else if (['lt', 'rt'].includes(position)) {
-        arrowTop = triggerHeight / 2;
+        arrowTop = `${(triggerHeight - arrowHeight) / 2}px`;
       } else {
-        arrowBottom = triggerHeight / 2;
+        arrowBottom = `${(triggerHeight - arrowHeight) / 2}px`;
       }
       inset = {
-        top: `${arrowTop}px`,
+        top: arrowTop,
         right: position.startsWith('l') ? '0' : '',
-        bottom: `${arrowBottom}px`,
+        bottom: arrowBottom,
         left: position.startsWith('r') ? '0' : '',
       };
     }

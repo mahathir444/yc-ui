@@ -5,7 +5,7 @@ export interface TagProps {
   visible?: boolean;
   defaultVisible?: boolean;
   loading?: boolean;
-  closeable?: boolean;
+  closable?: boolean;
   checkable?: boolean;
   checked?: boolean;
   defaultChecked?: boolean;

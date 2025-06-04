@@ -11,9 +11,11 @@
     ]"
   >
     <slot />
-    <yc-timeline-item v-if="pending">
+    <yc-timeline-item v-if="pending" is-ghost>
       <template #dot>
-        <yc-spin :size="12" style="margin-top: -10px" />
+        <slot name="dot">
+          <yc-spin :size="12" />
+        </slot>
       </template>
       <span v-if="isString(pending)">{{ pending }}</span>
     </yc-timeline-item>

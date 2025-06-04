@@ -46,6 +46,7 @@
           v-if="showArrow"
           :class="['yc-trigger-arrow', arrowClass]"
           :style="arrowStyle"
+          ref="arrowRef"
         ></div>
       </yc-prevent-focus>
     </transition>
@@ -120,6 +121,8 @@ const { popupContainer } = getGlobalConfig(props);
 const popupRef = ref<HTMLDivElement>();
 // trigger的ref
 const triggerRef = ref<HTMLElement>();
+// arrowRef
+const arrowRef = ref<HTMLElement>();
 // 获取插槽
 const slots = useSlots();
 // slots
@@ -158,6 +161,7 @@ const {
   props,
   popupRef,
   triggerRef,
+  arrowRef,
   mouseX,
   mouseY,
 });

@@ -34,7 +34,7 @@
     </span>
     <!-- close -->
     <yc-icon-button
-      v-if="closeable"
+      v-if="closable"
       :hover-size="16"
       hover-color="rgba(255, 255, 255, 0.2)"
       class="yc-tag-close-button"
@@ -63,7 +63,7 @@ const props = withDefaults(defineProps<TagProps>(), {
   size: undefined,
   bordered: false,
   loading: false,
-  closeable: false,
+  closable: false,
   checkable: false,
   visible: undefined,
   defaultVisible: true,

@@ -60,9 +60,8 @@ export const TAG_PRESET_COLORS = [
   'arcoblue',
   'purple',
   'pinkpurple',
-  'magent',
+  'magenta',
   'gray',
-  'white',
   'default',
 ];
 

@@ -20,8 +20,7 @@
     color: inherit;
   }
   .@{component}-label {
-    flex: 1;
-    flex-shrink: 0;
+    width: fit-content;
   }
 }
 // wrap
@@ -34,6 +33,8 @@
 .@{component}-no-wrap {
   overflow: hidden;
   .@{component}-label {
+    flex: 1;
+    flex-shrink: 0;
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
@@ -181,6 +182,11 @@ each(@color, .(@value,@name){
     &.@{component}-checked {
       color: @value[color];
       background-color: @value[bg];
+      & when(@key = default){
+        .yc-tag-icon{
+          color: rgb(78,89,105);
+        }
+      }
       &.@{component}-checkable:hover {
         border-color: transparent;
         background-color: @value[hover];

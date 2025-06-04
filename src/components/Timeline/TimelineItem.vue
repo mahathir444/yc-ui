@@ -7,6 +7,7 @@
       `yc-timeline-item-direction-${direction}`,
       {
         'yc-timeline-item-label-is-relative': labelPosition == 'relative',
+        'yc-timeline-item-ghost': isGhost,
       },
     ]"
   >
@@ -20,14 +21,16 @@
       ></div>
       <!-- dot -->
       <div class="yc-timeline-item-dot-content">
-        <slot name="dot">
-          <div
-            :class="['yc-timeline-item-dot', `yc-timeline-item-dot-${dotType}`]"
-            :style="{
-              backgroundColor: dotColor,
-            }"
-          ></div>
-        </slot>
+        <div v-if="$slots.dot" class="yc-timeline-item-dot-custom">
+          <slot name="dot"> </slot>
+        </div>
+        <div
+          v-else
+          :class="['yc-timeline-item-dot', `yc-timeline-item-dot-${dotType}`]"
+          :style="{
+            backgroundColor: dotColor,
+          }"
+        ></div>
       </div>
     </div>
     <!-- content -->
@@ -63,6 +66,7 @@ withDefaults(defineProps<TimelineItemProps>(), {
   lineColor: '',
   label: '',
   position: 'top',
+  isGhost: false,
 });
 // 注入数据
 const { direction, mode, labelPosition } = useContext().inject();

@@ -29,8 +29,7 @@
     <!-- 删除按钮 -->
     <tab-button
       v-if="
-        editable &&
-        node.closable &&
+        (editable || node.closable) &&
         ['line', 'card', 'card-gutter'].includes(type)
       "
       class="yc-tabs-tab-close-btn"
