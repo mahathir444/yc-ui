@@ -1,9 +1,6 @@
 <template>
-  <image-preview
-    v-bind="props"
-    :src="src"
-    @update:visible="handleVisibleChange"
-  >
+  <slot v-if="$slots.default && !_srcList.length" />
+  <image-preview v-bind="props" v-model:visible="computedVisible" :src="src">
     <template #arrow>
       <div class="yc-image-preview-arrow">
         <image-preview-arrow type="left" @click="handleCurrentChange('pre')" />
@@ -20,17 +17,16 @@
 </template>
 
 <script lang="ts" setup>
-import { toRefs, computed, useSlots } from 'vue';
+import { toRefs } from 'vue';
 import {
   ImagePreviewGroupProps,
   ImagePreviewGroupEmits,
   ImagePreviewGroupSlots,
 } from './type';
 import { onKeyStroke } from '@vueuse/core';
-import { useControlValue, findComponentsFromVnodes } from '@shared/utils';
+import useContext from './hooks/useContext';
 import ImagePreview from './ImagePreview.vue';
 import ImagePreviewArrow from './ImagePreviewArrow.vue';
-import Image from './Image.vue';
 defineOptions({
   name: 'ImagePreviewGroup',
   inheritAttrs: false,
@@ -62,36 +58,12 @@ const props = withDefaults(defineProps<ImagePreviewGroupProps>(), {
 });
 const emits = defineEmits<ImagePreviewGroupEmits>();
 // 解构属性
-const {
-  current,
-  defaultCurrent,
-  srcList: _srcList,
-  infinite,
-  keyboard,
-} = toRefs(props);
-// 当前的链接
-const computedCurrent = useControlValue<number>(
-  current,
-  defaultCurrent.value,
-  (val) => {
-    emits('update:current', val);
-    emits('change', val);
-  }
+const { srcList: _srcList, infinite, keyboard } = toRefs(props);
+// 注入数据
+const { src, srcList, computedCurrent, computedVisible } = useContext().provide(
+  props,
+  emits
 );
-// 插槽
-const slots = useSlots();
-// srcList
-const srcList = computed(() => {
-  if (_srcList.value.length) return _srcList.value;
-  if (!slots.default) return [];
-  const images = findComponentsFromVnodes(
-    slots.default?.() || [],
-    Image.name as string
-  );
-  return images.map((image) => image?.props?.src);
-});
-// src
-const src = computed(() => srcList.value[computedCurrent.value]);
 // 处理index发生改变
 const handleCurrentChange = (type: string) => {
   let index = 0;
@@ -111,11 +83,7 @@ const handleCurrentChange = (type: string) => {
   }
   computedCurrent.value = index;
 };
-// 处理visibleChange
-const handleVisibleChange = (val: boolean) => {
-  emits('update:visible', val);
-  emits('visible-change', val);
-};
+// 初始化lisenter
 const intLisenter = () => {
   if (keyboard.value) {
     const map: Record<string, string> = {

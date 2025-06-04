@@ -4,12 +4,14 @@
       v-if="outerVisible"
       :class="[
         'yc-image-preview',
+        $attrs.class,
         {
           'yc-image-preview-absolute': !isUndefined(_popupContainer),
         },
       ]"
       :style="{
         zIndex,
+        ...($attrs.style || {}),
       }"
     >
       <transition name="fade">
@@ -74,6 +76,7 @@ import useModalClose from '@/components/Modal/hooks/useModalClose';
 import ImagePreviewToolbar from './ImagePreviewToolbar.vue';
 defineOptions({
   name: 'ImagePreview',
+  inheritAttrs: false,
 });
 defineSlots<ImagePreviewSlots>();
 const props = withDefaults(defineProps<ImagePreviewProps>(), {

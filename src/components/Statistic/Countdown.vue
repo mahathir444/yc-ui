@@ -50,7 +50,7 @@ const startValue = ref<number>(value.value);
 const animation = ref<boolean>(false);
 // 处理finish
 const handleFinish = () => {
-  if (startValue.value <= 0) {
+  if (startValue.value - 1000 <= 0) {
     animation.value = false;
     return emits('finish');
   }

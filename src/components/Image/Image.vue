@@ -85,10 +85,11 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, toRefs, watch } from 'vue';
+import { ref, toRefs, watch, computed } from 'vue';
 import { ImageProps, ImageEmits, ImageSlots } from './type';
 import { useControlValue } from '@shared/utils';
 import { IconImageClose } from '@shared/icons';
+import useContext from './hooks/useContext';
 import YcSpin from '@/components/Spin';
 import ImagePreview from './ImagePreview.vue';
 defineOptions({
@@ -112,6 +113,8 @@ const props = withDefaults(defineProps<ImageProps>(), {
 });
 const emits = defineEmits<ImageEmits>();
 const { src, preview, previewVisible, defaultPreviewVisible } = toRefs(props);
+//  接收注入
+const { hasGroupFather, handleClick: previewImage } = useContext().inject();
 // 图片预览可见性
 const computedVisible = useControlValue<boolean>(
   previewVisible,
@@ -137,9 +140,11 @@ const handleError = () => {
 };
 // 处理点击
 const handleClick = () => {
+  if (hasGroupFather.value) {
+    return previewImage(src.value);
+  }
   if (!preview.value) return;
   computedVisible.value = true;
-  console.log('事件触发了');
 };
 watch(
   () => src.value,

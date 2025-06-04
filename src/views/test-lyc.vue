@@ -1,144 +1,35 @@
 <template>
   <div class="test">
-    <div :style="{ position: 'relative', width: '440px', height: '280px' }">
-      <yc-popover position="tl">
-        <yc-button
-          class="button"
-          :style="{ position: 'absolute', top: '0', left: '70px' }"
-          >TL</yc-button
-        >
-        <template #content>
-          <p>Here is the text content</p>
-          <p>Here is the text content</p>
-        </template>
-      </yc-popover>
-      <yc-popover position="top">
-        <yc-button
-          class="button"
-          :style="{ position: 'absolute', top: '0', left: '180px' }"
-          >TOP</yc-button
-        >
-        <template #content>
-          <p>Here is the text content</p>
-          <p>Here is the text content</p>
-        </template>
-      </yc-popover>
-      <yc-popover position="tr">
-        <yc-button
-          class="button"
-          :style="{ position: 'absolute', top: '0', left: '290px' }"
-          >TR</yc-button
-        >
-        <template #content>
-          <p>Here is the text content</p>
-          <p>Here is the text content</p>
-        </template>
-      </yc-popover>
-      <yc-popover position="bl">
-        <yc-button
-          class="button"
-          :style="{ position: 'absolute', top: '240px', left: '70px' }"
-          >BL</yc-button
-        >
-        <template #content>
-          <p>Here is the text content</p>
-          <p>Here is the text content</p>
-        </template>
-      </yc-popover>
-      <yc-popover position="bottom">
-        <yc-button
-          class="button"
-          :style="{ position: 'absolute', top: '240px', left: '180px' }"
-          >BOTTOM</yc-button
-        >
-        <template #content>
-          <p>Here is the text content</p>
-          <p>Here is the text content</p>
-        </template>
-      </yc-popover>
-      <yc-popover position="br">
-        <yc-button
-          class="button"
-          :style="{ position: 'absolute', top: '240px', left: '290px' }"
-          >BR</yc-button
-        >
-        <template #content>
-          <p>Here is the text content</p>
-          <p>Here is the text content</p>
-        </template>
-      </yc-popover>
-      <yc-popover position="lt">
-        <yc-button
-          class="button"
-          :style="{ position: 'absolute', top: '60px', left: '10px' }"
-          >LT</yc-button
-        >
-        <template #content>
-          <p>Here is the text content</p>
-          <p>Here is the text content</p>
-        </template>
-      </yc-popover>
-      <yc-popover position="left">
-        <yc-button
-          class="button"
-          :style="{ position: 'absolute', top: '120px', left: '10px' }"
-          >LEFT</yc-button
-        >
-        <template #content>
-          <p>Here is the text content</p>
-          <p>Here is the text content</p>
-        </template>
-      </yc-popover>
-      <yc-popover position="lb">
-        <yc-button
-          class="button"
-          :style="{ position: 'absolute', top: '180px', left: '10px' }"
-          >LB</yc-button
-        >
-        <template #content>
-          <p>Here is the text content</p>
-          <p>Here is the text content</p>
-        </template>
-      </yc-popover>
-      <yc-popover position="rt">
-        <yc-button
-          class="button"
-          :style="{ position: 'absolute', top: '60px', left: '350px' }"
-          >RT</yc-button
-        >
-        <template #content>
-          <p>Here is the text content</p>
-          <p>Here is the text content</p>
-        </template>
-      </yc-popover>
-      <yc-popover position="right">
-        <yc-button
-          class="button"
-          :style="{ position: 'absolute', top: '120px', left: '350px' }"
-          >RIGHT</yc-button
-        >
-        <template #content>
-          <p>Here is the text content</p>
-          <p>Here is the text content</p>
-        </template>
-      </yc-popover>
-      <yc-popover position="rb">
-        <yc-button
-          class="button"
-          :style="{ position: 'absolute', top: '180px', left: '350px' }"
-          >RB</yc-button
-        >
-        <template #content>
-          <p>Here is the text content</p>
-          <p>Here is the text content</p>
-        </template>
-      </yc-popover>
+    <div style="margin-bottom: 20px">
+      <a-typography-text>折叠：</a-typography-text>
+      <a-switch :checked="collapsed" @click="collapsed = !collapsed" />
     </div>
+    <a-grid
+      :cols="3"
+      :colGap="12"
+      :rowGap="16"
+      class="grid-demo-grid"
+      :collapsed="collapsed"
+    >
+      <a-grid-item class="demo-item">item</a-grid-item>
+      <a-grid-item class="demo-item">item</a-grid-item>
+      <a-grid-item class="demo-item">item</a-grid-item>
+      <a-grid-item class="demo-item" :offset="1">item | offset - 1</a-grid-item>
+      <a-grid-item class="demo-item">item</a-grid-item>
+      <a-grid-item class="demo-item" :span="3">item | span - 3</a-grid-item>
+      <a-grid-item class="demo-item">item</a-grid-item>
+      <a-grid-item class="demo-item">item</a-grid-item>
+      <a-grid-item class="demo-item" suffix #="{ overflow }">
+        suffix | overflow: {{ overflow }}
+      </a-grid-item>
+    </a-grid>
   </div>
 </template>
 
 <script lang="ts" setup>
 import { ref, reactive } from 'vue';
+import { Message } from '@arco-design/web-vue';
+const collapsed = ref(false);
 </script>
 
 <style lang="less" scoped>
@@ -150,5 +41,20 @@ import { ref, reactive } from 'vue';
   align-items: center;
   justify-content: center;
   gap: 10px;
+  .grid-demo-grid .demo-item,
+  .grid-demo-grid .demo-suffix {
+    height: 48px;
+    line-height: 48px;
+    color: var(--color-white);
+    text-align: center;
+  }
+
+  .grid-demo-grid .demo-item:nth-child(2n) {
+    background-color: rgba(var(--arcoblue-6), 0.9);
+  }
+
+  .grid-demo-grid .demo-item:nth-child(2n + 1) {
+    background-color: var(--color-primary-light-4);
+  }
 }
 </style>

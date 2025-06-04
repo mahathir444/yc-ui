@@ -1,6 +1,6 @@
-import { isString } from './is';
+import { isObject, isString, isUndefined } from './is';
 import { EllipsisConfig } from '@/components/Typography/type';
-import { BreakpointName } from '@/components/Grid';
+import { BreakpointName, ResponsiveValue } from '@/components/Grid';
 import { useMediaQuery } from '@vueuse/core';
 import { watch, Ref } from 'vue';
 import { unrefElement } from './vue-utils';
@@ -54,6 +54,34 @@ const getMedicaQueryQuerues = () => {
     xxl: '(min-width: 1600px)',
   };
 };
+
+// 获取断点下的值
+export function getBreakpointValue(
+  breakpoint: BreakpointName,
+  value: string | number | ResponsiveValue,
+  defaultValue?: number | string
+): number | string | undefined {
+  // 如果直接是值而非响应式对象，直接返回
+  if (!isObject(value)) {
+    return value;
+  }
+  const order: BreakpointName[] = ['xs', 'sm', 'md', 'lg', 'xl', 'xxl'];
+  const index = order.indexOf(breakpoint);
+  // 从当前断点开始向前查找
+  for (let i = index; i >= 0; i--) {
+    const bp = order[i];
+    if (isUndefined(value[bp])) continue;
+    return value[bp];
+  }
+  // 如果前面没找到，从当前断点向后查找
+  for (let i = index + 1; i < order.length; i++) {
+    const bp = order[i];
+    if (isUndefined(value[bp])) continue;
+    return value[bp];
+  }
+  // 如果都没找到，返回defaultValue
+  return defaultValue;
+}
 
 // 媒体查询
 export const mediaQueryHandler = (
