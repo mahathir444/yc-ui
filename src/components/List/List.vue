@@ -38,7 +38,7 @@
             @reach-bottom="$emit('reach-bottom')"
             @scroll="handleScroll"
           >
-            <template #item="scope">
+            <template v-if="$slots.item" #item="scope">
               <slot name="item" v-bind="scope" />
             </template>
           </virtual-list>

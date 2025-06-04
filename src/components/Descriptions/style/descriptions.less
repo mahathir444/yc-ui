@@ -1,15 +1,14 @@
-@component: yc-descriptions;
-.@{component} {
+.yc-descriptions {
   display: flex;
   flex-direction: column;
-  .@{component}-title {
+  .yc-descriptions-title {
     color: rgb(29, 33, 41);
     font-weight: 500;
     font-size: 16px;
     line-height: 1.5715;
   }
-  .@{component}-body {
-    .@{component}-table {
+  .yc-descriptions-body {
+    .yc-descriptions-table {
       width: 100%;
       border-collapse: collapse;
       tbody {
@@ -28,30 +27,30 @@
   }
 }
 //table-layout
-.@{component}-table-layout-fixed {
-  .@{component}-body {
-    .@{component}-table {
+.yc-descriptions-table-layout-fixed {
+  .yc-descriptions-body {
+    .yc-descriptions-table {
       table-layout: fixed;
-      .@{component}-item-label {
+      .yc-descriptions-item-label {
         width: auto;
       }
     }
   }
 }
 // layout
-.@{component}-layout-horizontal,
-.@{component}-layout-vertical {
-  .@{component}-item-label {
+.yc-descriptions-layout-horizontal,
+.yc-descriptions-layout-vertical {
+  .yc-descriptions-item-label {
     width: 1px;
     white-space: nowrap;
   }
-  .@{component}-item-value {
+  .yc-descriptions-item-value {
     white-space: pre-wrap;
     word-break: break-word;
   }
 }
-.@{component}-layout-inline-horizontal {
-  .@{component}-item {
+.yc-descriptions-layout-inline-horizontal {
+  .yc-descriptions-item {
     padding: 7px 20px;
     & > div {
       display: inline-block;
@@ -61,8 +60,8 @@
     }
   }
 }
-.@{component}-layout-inline-vertical {
-  .@{component}-item {
+.yc-descriptions-layout-inline-vertical {
+  .yc-descriptions-item {
     & > div {
       &:last-child {
         margin-top: 2px;
@@ -71,50 +70,53 @@
   }
 }
 // bordered
-.@{component}-bordered {
-  .@{component}-body {
+.yc-descriptions-bordered {
+  .yc-descriptions-body {
     overflow: hidden;
     border: 1px solid rgb(229, 230, 235);
     border-radius: 4px;
-    .@{component}-row {
+    .yc-descriptions-row {
       &:not(:last-child) {
         border-bottom: 1px solid rgb(229, 230, 235);
       }
     }
   }
-  .@{component}-item {
+  .yc-descriptions-item {
     border-right: 1px solid rgb(229, 230, 235);
-  }
-  .@{component}-item-label,
-  .@{component}-item-value {
-    border-right: 1px solid rgb(229, 230, 235);
-  }
-  .@{component}-item-label {
-    background-color: rgb(247, 248, 250);
   }
   // 动态设置border不显示的位置
-  &.@{component}-layout-horizontal {
-    .@{component}-item-value:last-child {
+  &.yc-descriptions-layout-horizontal {
+    .yc-descriptions-item-value:last-child {
       border-right: none;
     }
   }
-  &.@{component}-layout-vertical {
-    .@{component}-item-label,
-    .@{component}-item-value {
+  &.yc-descriptions-layout-vertical {
+    .yc-descriptions-item-label,
+    .yc-descriptions-item-value {
       &:last-child {
         border-right: none;
       }
     }
   }
-  &.@{component}-layout-inline-vertical,
-  &.@{component}-layout-inline-horizontal {
-    .@{component}-item:last-child {
+  &.yc-descriptions-layout-horizontal,
+  &.yc-descriptions-layout-vertical {
+    .yc-descriptions-item-label,
+    .yc-descriptions-item-value {
+      border-right: 1px solid rgb(229, 230, 235);
+    }
+    .yc-descriptions-item-label {
+      background-color: rgb(247, 248, 250);
+    }
+  }
+  &.yc-descriptions-layout-inline-vertical,
+  &.yc-descriptions-layout-inline-horizontal {
+    .yc-descriptions-item:last-child {
       border-right: none;
     }
   }
 }
 // size
-@sizes: {
+@size: {
   @mini: {
     gap: 6px;
     item-padding: 8px;
@@ -132,12 +134,12 @@
     item-padding: 14px;
   };
 };
-each(@sizes, .(@value,@name){
+each(@size, .(@value,@name){
   @key:replace(~"@{name}", "@", "");
-  .@{component}-size-@{key} {
+  .yc-descriptions-size-@{key} {
     gap: @value[gap];
-    &.@{component}-layout-inline-vertical {
-      .@{component}-item {
+    &.yc-descriptions-layout-inline-vertical {
+      .yc-descriptions-item {
         padding: @value[item-padding] 20px;
       }
     }

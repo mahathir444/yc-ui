@@ -27,9 +27,16 @@
       v-model:visible="computedVisible"
       :src="src"
       v-bind="previewProps"
-    />
+    >
+      <template v-if="$slots['preview-actions']" #actions>
+        <slot name="preview-actions" />
+      </template>
+    </image-preview>
     <!-- loading -->
-    <div v-if="showLoader && loading" class="yc-image-overlay">
+    <div
+      v-if="(showLoader || $slots.loader) && loading"
+      class="yc-image-overlay"
+    >
       <slot name="loader">
         <div class="yc-image-loader">
           <yc-spin :size="60" />

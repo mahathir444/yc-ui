@@ -20,19 +20,20 @@
 </template>
 
 <script lang="ts" setup>
-import { toRefs, computed } from 'vue';
+import { toRefs, computed, useSlots } from 'vue';
 import {
   ImagePreviewGroupProps,
   ImagePreviewGroupEmits,
   ImagePreviewGroupSlots,
 } from './type';
 import { onKeyStroke } from '@vueuse/core';
-import { useControlValue } from '@shared/utils';
+import { useControlValue, findComponentsFromVnodes } from '@shared/utils';
 import ImagePreview from './ImagePreview.vue';
 import ImagePreviewArrow from './ImagePreviewArrow.vue';
-
+import Image from './Image.vue';
 defineOptions({
   name: 'ImagePreviewGroup',
+  inheritAttrs: false,
 });
 defineSlots<ImagePreviewGroupSlots>();
 const props = withDefaults(defineProps<ImagePreviewGroupProps>(), {
@@ -61,7 +62,13 @@ const props = withDefaults(defineProps<ImagePreviewGroupProps>(), {
 });
 const emits = defineEmits<ImagePreviewGroupEmits>();
 // 解构属性
-const { current, defaultCurrent, srcList, infinite, keyboard } = toRefs(props);
+const {
+  current,
+  defaultCurrent,
+  srcList: _srcList,
+  infinite,
+  keyboard,
+} = toRefs(props);
 // 当前的链接
 const computedCurrent = useControlValue<number>(
   current,
@@ -71,6 +78,18 @@ const computedCurrent = useControlValue<number>(
     emits('change', val);
   }
 );
+// 插槽
+const slots = useSlots();
+// srcList
+const srcList = computed(() => {
+  if (_srcList.value.length) return _srcList.value;
+  if (!slots.default) return [];
+  const images = findComponentsFromVnodes(
+    slots.default?.() || [],
+    Image.name as string
+  );
+  return images.map((image) => image?.props?.src);
+});
 // src
 const src = computed(() => srcList.value[computedCurrent.value]);
 // 处理index发生改变

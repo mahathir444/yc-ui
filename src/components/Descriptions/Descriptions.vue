@@ -159,7 +159,7 @@ const calcSpan = (i: number, array: DescData[]) => {
 };
 </script>
 
-<style lang="less" scoped>
+<style lang="less">
 @import './style/descriptions.less';
 @import './style/descriptions-item.less';
 </style>

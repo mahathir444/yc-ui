@@ -27,6 +27,7 @@ export interface ImageSlots {
   ['error-icon'](): void;
   loader(): void;
   extra(): void;
+  ['preview-actions'](): void;
 }
 
 export interface ImagePreviewProps {
@@ -70,6 +71,7 @@ export interface ImagePreviewGroupEmits {
 
 export interface ImagePreviewGroupSlots {
   actions(): void;
+  default(): void;
 }
 
 export interface ImagePreviewActionProps {

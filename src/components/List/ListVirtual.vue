@@ -30,6 +30,7 @@ const emits = defineEmits<{
   (e: 'reachBottom'): void;
 }>();
 const { data, virtualListProps, offsetBottom } = toRefs(props);
+// listRef
 const listRef = ref<HTMLDivElement>();
 // 虚拟列表
 const { list, containerProps, wrapperProps } = useVirtualList(data, {

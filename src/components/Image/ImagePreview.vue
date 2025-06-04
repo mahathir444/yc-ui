@@ -2,7 +2,12 @@
   <teleport :to="popupContainer">
     <div
       v-if="outerVisible"
-      class="yc-image-preview"
+      :class="[
+        'yc-image-preview',
+        {
+          'yc-image-preview-absolute': !isUndefined(_popupContainer),
+        },
+      ]"
       :style="{
         zIndex,
       }"
@@ -12,17 +17,14 @@
       </transition>
       <!-- body -->
       <transition name="fade" @after-leave="handleAfterLeave">
-        <div
-          v-show="innerVisible"
-          class="yc-image-preview-wrapper"
-          @click.self="handleClose('mask', $event)"
-        >
+        <div v-show="innerVisible" class="yc-image-preview-wrapper">
           <!-- img -->
           <div
             :style="{
               transform: `scale(${scale}, ${scale})`,
             }"
             class="yc-image-preview-img-container"
+            @click.self="handleClose('mask', $event)"
           >
             <img
               :src="src"
@@ -66,7 +68,7 @@ import {
   ImagePreviewSlots,
 } from './type';
 import { IconClose } from '@shared/icons';
-import { getGlobalConfig, useControlValue } from '@shared/utils';
+import { getGlobalConfig, useControlValue, isUndefined } from '@shared/utils';
 import { useEventListener, onKeyStroke } from '@vueuse/core';
 import useModalClose from '@/components/Modal/hooks/useModalClose';
 import ImagePreviewToolbar from './ImagePreviewToolbar.vue';
@@ -105,7 +107,9 @@ const {
   zoomRate,
   wheelZoom,
   keyboard,
+  popupContainer: _popupContainer,
 } = toRefs(props);
+// 接收全局属性
 const { zIndex, popupContainer } = getGlobalConfig(props);
 // imageRef
 const imageRef = ref<HTMLImageElement>();

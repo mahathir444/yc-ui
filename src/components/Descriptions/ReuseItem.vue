@@ -1,5 +1,5 @@
 <template>
-  <td class="yc-descriptions-item'">
+  <td class="yc-descriptions-item">
     <div
       class="yc-descriptions-item-label"
       :style="{

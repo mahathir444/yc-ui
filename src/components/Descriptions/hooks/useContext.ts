@@ -73,7 +73,7 @@ export default () => {
     const breakpoint = ref<BreakpointName>('xxl');
     // column
     const column = computed(() => {
-      return getBreakpointValue(_column.value, 3);
+      return getBreakpointValue(_column.value, 3) as number;
     });
     // 获取断电值
     function getBreakpointValue(

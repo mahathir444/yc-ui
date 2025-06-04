@@ -11,7 +11,7 @@
   font-weight: 400;
 }
 // size
-@size: {
+@item-size: {
   @mini: {
     font-size: 12px;
     padding-bottom: 2px;
@@ -33,7 +33,7 @@
     bordered-padding: 9px;
   };
 };
-each(@size, .(@value,@name){
+each(@item-size, .(@value,@name){
   @key:replace(~"@{name}", "@", "");
   .yc-descriptions-item-cell-size-@{key} {
     font-size: @value[font-size];
