@@ -1,6 +1,6 @@
 <template>
   <div v-show="!isCollapsed" class="yc-grid-item" :style="style">
-    <slot :overflow="isCollapsed" />
+    <slot :overflow="isOverflow" />
   </div>
 </template>
 
@@ -40,8 +40,6 @@ const span = computed(() => {
     offset.value;
   return result >= cols.value ? cols.value : result;
 });
-// 收集span
-const { id } = collectSpan(span, suffix);
 // 计算style
 const style = computed<CSSProperties>(() => {
   const start = suffix.value
@@ -53,6 +51,21 @@ const style = computed<CSSProperties>(() => {
       ? `calc(${(100 / span.value) * offset.value}% + ${offset.value * colGap!.value}px )`
       : '',
   };
+});
+// 收集span
+const { id } = collectSpan(span, suffix);
+// 判断是否溢出
+const isOverflow = computed(() => {
+  if (!collapsed.value) return false;
+  // values
+  const values = [...spanMap.values()];
+  // suffixspan
+  const totalSpan = cols.value * collapsedRows.value;
+  // 剩余的非后缀span
+  const calcSpan = values
+    .filter(({ suffix }) => !suffix)
+    .reduce((pre, cur) => pre + cur.span, 0);
+  return calcSpan > totalSpan;
 });
 // 计算是否被折叠
 const isCollapsed = computed(() => {

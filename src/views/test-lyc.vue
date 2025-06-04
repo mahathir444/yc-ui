@@ -9,6 +9,7 @@
       :colGap="12"
       :rowGap="16"
       :collapsed="collapsed"
+      :collapsed-rows="4"
       class="grid-demo-grid"
     >
       <a-grid-item class="demo-item">item</a-grid-item>
@@ -29,6 +30,7 @@
       :rowGap="16"
       class="grid-demo-grid"
       :collapsed="collapsed"
+      :collapsed-rows="5"
     >
       <yc-grid-item class="demo-item">item</yc-grid-item>
       <yc-grid-item class="demo-item">item</yc-grid-item>
