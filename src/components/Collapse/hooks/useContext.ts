@@ -1,4 +1,12 @@
-import { ref, toRefs, Ref, provide as _provide, inject as _inject } from 'vue';
+import {
+  ref,
+  toRefs,
+  Ref,
+  provide as _provide,
+  inject as _inject,
+  useSlots,
+  Slots,
+} from 'vue';
 import { CollapseEmits, CollapseValue, ExpandIconPosition } from '../type';
 import { Props } from '@shared/type';
 import { useControlValue } from '@shared/utils';
@@ -11,6 +19,7 @@ export type CollapseContext = {
   expandIconPosition: Ref<ExpandIconPosition>;
   showExpandIcon: Ref<boolean>;
   destroyOnHide: Ref<boolean>;
+  slots: Slots;
 };
 
 export default () => {
@@ -23,6 +32,7 @@ export default () => {
       showExpandIcon,
       destroyOnHide,
     } = toRefs(props);
+    const slots = useSlots();
     // 受控的key
     const computedActiveKey = useControlValue<CollapseValue[]>(
       activeKey,
@@ -38,6 +48,7 @@ export default () => {
       expandIconPosition,
       showExpandIcon,
       destroyOnHide,
+      slots,
     });
   };
   const inject = (props: Props) => {
@@ -50,6 +61,7 @@ export default () => {
       expandIconPosition: ref('left'),
       showExpandIcon: _showExpandIcon,
       destroyOnHide: _destroyOnHide,
+      slots: {},
     });
   };
   return {

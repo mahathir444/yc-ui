@@ -1,14 +1,11 @@
 <template>
-  <div class="test">
-    <a-calendar v-model="value" />
-    <yc-calendar v-model="value" />
-  </div>
+  <div class="test"></div>
 </template>
 
 <script lang="ts" setup>
 import { ref, computed } from 'vue';
-import { Message } from '@arco-design/web-vue';
-const value = ref(new Date('2023-01-01'));
+const position = ref('left');
+const hideIcon = ref(false);
 </script>
 
 <style lang="less" scoped>

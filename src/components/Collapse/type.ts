@@ -15,6 +15,11 @@ export interface CollapseEmits {
 
 export interface CollapseSlots {
   default(): void;
+  ['expand-icon'](params: {
+    active: boolean;
+    disabled: boolean;
+    position: 'left' | 'right';
+  }): void;
 }
 
 export interface CollapseItemProps {
@@ -29,7 +34,11 @@ export interface CollapseItemSlots {
   default(): void;
   header(): void;
   extra(): void;
-  ['expand-icon'](): void;
+  ['expand-icon'](params: {
+    active: boolean;
+    disabled: boolean;
+    position: 'left' | 'right';
+  }): void;
 }
 
 export type CollapseValue = string | number;

@@ -2,20 +2,38 @@
   <div
     :class="[
       'yc-collapse-item',
+      `yc-collapse-item-expand-icon-${expandIconPosition}`,
       {
         'yc-collapse-item-disabled': disabled,
-        'yc-collapse-item-expand-icon-left': expandIconPosition == 'left',
-        'yc-collapse-item-expand-icon-right': expandIconPosition == 'right',
       },
     ]"
   >
     <div role="button" class="yc-collapse-item-header" @click="handleClick">
       <yc-icon-button
-        v-if="showExpandIcon && expandIconPosition == 'left'"
+        v-if="showExpandIcon"
         class="yc-collapse-item-header-icon"
       >
-        <slot name="expand-icon">
-          <icon-right :rotate="computedActiveKey.includes(path) ? 90 : 0" />
+        <slot
+          name="expand-icon"
+          :active="computedActiveKey.includes(path)"
+          :disabled="disabled"
+          :position="expandIconPosition"
+        >
+          <slot-render
+            :render="
+              () =>
+                slots['expand-icon']?.({
+                  active: computedActiveKey.includes(path),
+                  disabled,
+                  position: expandIconPosition,
+                })
+            "
+          >
+            <icon-right
+              v-if="!slots['expand-icon']"
+              :rotate="computedActiveKey.includes(path) ? 90 : 0"
+            />
+          </slot-render>
         </slot>
       </yc-icon-button>
       <div class="yc-collapse-item-header-title text-ellipsis">
@@ -48,6 +66,7 @@ import { CollapseItemProps, CollapseItemSlots } from './type';
 import useContext from './hooks/useContext';
 import { IconRight } from '@shared/icons';
 import { YcIconButton, ExpandTransition } from '@shared/components';
+import { SlotRender } from '@shared/components';
 defineOptions({
   name: 'CollapseItem',
 });
@@ -62,6 +81,7 @@ const props = withDefaults(defineProps<CollapseItemProps>(), {
 const { path, disabled } = toRefs(props);
 // 注入数据
 const {
+  slots,
   computedActiveKey,
   accordion,
   expandIconPosition,
