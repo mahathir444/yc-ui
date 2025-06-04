@@ -2,7 +2,6 @@
 1. configProvider prefix-cls locale
 2. trigger进一步完善边界检测问题
 3. Typography的省略问题
-4. Grid collapsed collapsed-row
 5. Space获取虚拟节点的问题
 6. List的虚拟列表问题
 7. tab的样式问题，tab的滚动问题

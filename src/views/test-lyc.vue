@@ -1,28 +1,47 @@
 <template>
   <div class="test">
     <div style="margin-bottom: 20px">
-      <a-typography-text>折叠：</a-typography-text>
-      <a-switch :checked="collapsed" @click="collapsed = !collapsed" />
+      <yc-typography-text>折叠：</yc-typography-text>
+      <yc-switch :checked="collapsed" @click="collapsed = !collapsed" />
     </div>
     <a-grid
+      :cols="3"
+      :colGap="12"
+      :rowGap="16"
+      :collapsed="collapsed"
+      class="grid-demo-grid"
+    >
+      <a-grid-item class="demo-item">item</a-grid-item>
+      <a-grid-item class="demo-item">item</a-grid-item>
+      <a-grid-item class="demo-item">item</a-grid-item>
+      <a-grid-item class="demo-item">item </a-grid-item>
+      <a-grid-item class="demo-item">item</a-grid-item>
+      <a-grid-item class="demo-item" :span="3">item | span - 3</a-grid-item>
+      <a-grid-item class="demo-item">item</a-grid-item>
+      <a-grid-item class="demo-item" suffix>suffix</a-grid-item>
+      <a-grid-item class="demo-item" :span="3" suffix #default="{ overflow }">
+        suffix | overflow: {{ overflow }}
+      </a-grid-item>
+    </a-grid>
+    <yc-grid
       :cols="3"
       :colGap="12"
       :rowGap="16"
       class="grid-demo-grid"
       :collapsed="collapsed"
     >
-      <a-grid-item class="demo-item">item</a-grid-item>
-      <a-grid-item class="demo-item">item</a-grid-item>
-      <a-grid-item class="demo-item">item</a-grid-item>
-      <a-grid-item class="demo-item" :offset="1">item | offset - 1</a-grid-item>
-      <a-grid-item class="demo-item">item</a-grid-item>
-      <a-grid-item class="demo-item" :span="3">item | span - 3</a-grid-item>
-      <a-grid-item class="demo-item">item</a-grid-item>
-      <a-grid-item class="demo-item">item</a-grid-item>
-      <a-grid-item class="demo-item" suffix #="{ overflow }">
+      <yc-grid-item class="demo-item">item</yc-grid-item>
+      <yc-grid-item class="demo-item">item</yc-grid-item>
+      <yc-grid-item class="demo-item">item</yc-grid-item>
+      <yc-grid-item class="demo-item">item</yc-grid-item>
+      <yc-grid-item class="demo-item">item</yc-grid-item>
+      <yc-grid-item class="demo-item" :span="3">item | span - 3</yc-grid-item>
+      <yc-grid-item class="demo-item">item</yc-grid-item>
+      <yc-grid-item class="demo-item">item</yc-grid-item>
+      <yc-grid-item class="demo-item" :span="1" suffix #default="{ overflow }">
         suffix | overflow: {{ overflow }}
-      </a-grid-item>
-    </a-grid>
+      </yc-grid-item>
+    </yc-grid>
   </div>
 </template>
 

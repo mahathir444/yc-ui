@@ -1,6 +1,6 @@
 <template>
-  <div class="yc-grid-item" :style="style">
-    <slot />
+  <div v-show="!isCollapsed" class="yc-grid-item" :style="style">
+    <slot :overflow="isCollapsed" />
   </div>
 </template>
 
@@ -20,18 +20,28 @@ const props = withDefaults(defineProps<GridItemProps>(), {
 });
 const { span: _span, offset: _offset, suffix } = toRefs(props);
 // 接收数据
-const { cols, colGap, breakpoint } = useContext().inject();
+const {
+  cols,
+  colGap,
+  collapsed,
+  collapsedRows,
+  spanMap,
+  breakpoint,
+  collectSpan,
+} = useContext().inject();
 // offset
 const offset = computed(() => {
   return getBreakpointValue(breakpoint.value, _offset.value) as number;
 });
 // span
 const span = computed(() => {
-  const resultSpan =
+  const result =
     (getBreakpointValue(breakpoint.value, _span.value) as number) +
     offset.value;
-  return resultSpan >= cols.value ? cols.value : resultSpan;
+  return result >= cols.value ? cols.value : result;
 });
+// 收集span
+const { id } = collectSpan(span, suffix);
 // 计算style
 const style = computed<CSSProperties>(() => {
   const start = suffix.value
@@ -43,5 +53,26 @@ const style = computed<CSSProperties>(() => {
       ? `calc(${(100 / span.value) * offset.value}% + ${offset.value * colGap!.value}px )`
       : '',
   };
+});
+// 计算是否被折叠
+const isCollapsed = computed(() => {
+  if (!collapsed.value || suffix.value) return false;
+  // values
+  const values = [...spanMap.values()];
+  // 后缀span
+  const suffixSpan = values
+    .filter(({ suffix }) => suffix)
+    .reduce((pre, { span }) => pre + span, 0);
+  // suffixspan
+  const totalSpan = cols.value * collapsedRows.value;
+  // 剩余的非后缀span
+  const calcSpan = values.filter(({ suffix }) => !suffix);
+  // 计算Item当前总的span
+  let curSpan = 0;
+  for (let { id: _id, span } of calcSpan) {
+    curSpan += span;
+    if (_id == id) break;
+  }
+  return curSpan > totalSpan - suffixSpan;
 });
 </script>

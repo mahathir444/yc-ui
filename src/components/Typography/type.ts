@@ -2,7 +2,7 @@ import { TooltipProps } from '@/components/Tooltip';
 
 // base
 export interface TypographyBaseProps {
-  tag: string;
+  tag?: string;
   type?: TypographyType;
   bold?: boolean;
   disabled?: boolean;
