@@ -58,10 +58,9 @@
     </svg>
     <div v-if="showText && size !== 'mini'" :class="`yc-progress-circle-text`">
       <slot name="text" :percent="percent">
-        <component
+        <icon-exclamation
           v-if="status === 'danger'"
-          :is="TYPE_ICON_MAP.danger"
-          :color="TYPE_ICON_COLOR_MAP.danger"
+          :color="TYPE_ICON_COLOR_MAP.error"
         />
         <icon-check
           v-else-if="status === 'success'"
@@ -80,7 +79,7 @@ import { toRefs, computed } from 'vue';
 import { ProgressColor, ProgressStatus } from './type';
 import { isObject } from '@shared/utils';
 import { Size } from '@shared/type';
-import { IconCheck } from '@shared/icons';
+import { IconCheck, IconExclamation } from '@shared/icons';
 import { TYPE_ICON_MAP, TYPE_ICON_COLOR_MAP } from '@shared/constants';
 const props = defineProps<{
   type: string;

@@ -65,7 +65,7 @@ defineOptions({
 defineSlots<PopconfirmSlots>();
 const props = withDefaults(defineProps<PopconfirmProps>(), {
   content: '',
-  position: 'bottom',
+  position: 'top',
   popupVisible: undefined,
   defaultPopupVisible: false,
   type: 'info',

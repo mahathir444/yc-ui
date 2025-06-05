@@ -40,3 +40,4 @@ export { default as IconZoomOut } from './IconZoomOut.vue';
 export { default as IconFullScreen } from './IconFullScreen.vue';
 export { default as IconEdit } from './IconEdit.vue';
 export { default as IconCopy } from './IconCopy.vue';
+export { default as IconExclamation } from './IconExclamation.vue';

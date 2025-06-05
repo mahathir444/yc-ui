@@ -224,7 +224,11 @@ const { dragStyle, isDraggable } = useModalDraggable({
 // modalCss
 const style = computed(() => {
   return {
-    width: fullscreen.value ? '100%' : width.value + 'px',
+    width: fullscreen.value
+      ? '100%'
+      : width.value == 'auto'
+        ? 'fit-content'
+        : `${width.value}px`,
     ...dragStyle.value,
     ...modalStyle.value,
     ...(attrs.style || {}),

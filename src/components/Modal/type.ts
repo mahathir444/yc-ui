@@ -5,7 +5,7 @@ import { RenderContent, PopupContainer, ClassName } from '@shared/type';
 export interface ModalProps {
   visible?: boolean;
   defaultVisible?: boolean;
-  width?: number;
+  width?: number | 'auto';
   top?: number;
   mask?: boolean;
   title?: string;

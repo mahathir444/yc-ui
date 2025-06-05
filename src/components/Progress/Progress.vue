@@ -78,7 +78,7 @@ const props = withDefaults(defineProps<ProgressProps>(), {
   steps: 0,
   animation: false,
   showText: true,
-  status: 'success',
+  status: 'normal',
 });
 const {
   steps,
@@ -100,7 +100,7 @@ const status = computed(() => {
 const text = computed(() => `${(percent.value * 100).toFixed(0)}%`);
 // width
 const width = computed(() => {
-  if (['steps', 'line'].includes(type.value)) {
+  if (type.value == 'steps' || (type.value == 'line' && size.value != 'mini')) {
     return _width.value as number;
   }
   const map: Record<string, number> = {

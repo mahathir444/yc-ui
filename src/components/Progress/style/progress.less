@@ -1,21 +1,21 @@
 @component: yc-progress;
-@{component} {
+.@{component} {
   position: relative;
   line-height: 1;
   font-size: 12px;
   // steps
-  @{component}-steps-wrapper {
+  .@{component}-steps-wrapper {
     width: 100%;
     max-width: 100%;
     height: 100%;
     display: flex;
     align-items: center;
     gap: 8px;
-    @{component}-steps {
+    .@{component}-steps {
       width: 100%;
       display: flex;
       gap: 3px;
-      @{component}-steps-item {
+      .@{component}-steps-item {
         position: relative;
         flex: 1;
         flex-shrink: 0;
@@ -24,19 +24,19 @@
     }
   }
   // line
-  @{component}-line-wrapper {
+  .@{component}-line-wrapper {
     height: 100%;
     width: 100%;
     max-width: 100%;
     display: flex;
     align-items: center;
     gap: 16px;
-    @{component}-line {
+    .@{component}-line {
       overflow: hidden;
       position: relative;
       width: 100%;
       border-radius: 100px;
-      @{component}-line-bar {
+      .@{component}-line-bar {
         position: relative;
         height: 100%;
         border-radius: 100px;
@@ -45,26 +45,26 @@
           background 0.3s cubic-bezier(0.34, 0.69, 0.1, 1);
       }
     }
-    @{component}-line-text {
+    .@{component}-line-text {
       min-width: 32px;
     }
   }
   // circle
-  @{component}-circle-wrapper {
+  .@{component}-circle-wrapper {
     position: relative;
     text-align: center;
     line-height: 1;
     display: inline-block;
     vertical-align: text-bottom;
-    @{component}-circle-svg {
+    .@{component}-circle-svg {
       transform: rotate(-90deg);
-      @{component}-circle-bar {
+      .@{component}-circle-bar {
         transition:
           stroke-dashoffset 0.6s cubic-bezier(0, 0, 1, 1) 0s,
           stroke 0.6s cubic-bezier(0, 0, 1, 1);
       }
     }
-    @{component}-circle-text {
+    .@{component}-circle-text {
       position: absolute;
       top: 50%;
       left: 50%;
@@ -73,18 +73,18 @@
     }
   }
   // 通用
-  @{component}-steps-item {
+  .@{component}-steps-item {
     background-color: rgb(229, 230, 235);
   }
-  @{component}-line {
+  .@{component}-line {
     background-color: rgb(229, 230, 235);
   }
-  @{component}-circle-bg {
+  .@{component}-circle-bg {
     stroke: rgb(229, 230, 235);
   }
-  @{component}-steps-text,
-  @{component}-line-text,
-  @{component}-circle-text {
+  .@{component}-steps-text,
+  .@{component}-line-text,
+  .@{component}-circle-text {
     flex-shrink: 0;
     font-size: 12px;
     color: rgb(78, 89, 105);
@@ -94,8 +94,8 @@
   }
 }
 // type
-@{component}-type-line,
-@{component}-type-steps {
+.@{component}-type-line,
+.@{component}-type-steps {
   display: inline-block;
   max-width: 100%;
   width: 100%;
@@ -120,17 +120,28 @@
 };
 each(@size, .(@size,@name){
   @key:replace(~"@{name}", "@", "");
-  @{component}-size-@{key} {
-    @{component}-line-text {
+  .@{component}-size-@{key} {
+    .@{component}-line-text {
       font-size: @size[line-text-size];
     }
-    
-    @{component}-circle-text {
+    .@{component}-circle-text {
       font-size: @size[circle-text-size];
       
       & when not (@size[icon-size] = null) {
         .yc-icon {
           font-size: @size[icon-size];
+        }
+      }
+    }
+    // 处理step size为small的情况
+    & when(@key = small){
+      width: auto;
+      .@{component}-steps-wrapper {
+        .@{component}-steps {
+          .@{component}-steps-item {
+            width: 2px;
+            flex: unset ;
+          }
         }
       }
     }
@@ -155,22 +166,21 @@ each(@size, .(@size,@name){
     mini-bg-color: rgb(251, 172, 163);
   };
 };
-each(@status, {
-  @status: @value;
-  @{component}-status-@{key} {
-    @{component}-steps-item-active,
-    @{component}-line-bar {
-      background-color: @status[color];
+
+each(@status, .(@value,@name){
+  @key: replace(~"@{name}", "@", "");
+  .@{component}-status-@{key} {
+    .@{component}-steps-item-active,
+    .@{component}-line-bar {
+      background-color: @value[color];
     }
-    
-    @{component}-circle-bar {
-      stroke: @status[color];
+    .@{component}-circle-bar {
+      stroke: @value[color];
     }
-    
-    & when not (@key = success) and not (@status[mini-bg-color] = null) {
-      &@{component}-size-mini {
-        @{component}-circle-bg {
-          stroke: @status[mini-bg-color];
+    & when not (@key = success) and not (@value[mini-bg-color] = null) {
+      &.@{component}-size-mini {
+        .@{component}-circle-bg {
+          stroke: @value[mini-bg-color];
         }
       }
     }
