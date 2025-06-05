@@ -9,3 +9,7 @@ defineOptions({
   name: 'Typography',
 });
 </script>
+
+<style lang="less">
+@import './style/typography.less';
+</style>

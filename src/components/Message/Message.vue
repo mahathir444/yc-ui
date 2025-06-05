@@ -2,17 +2,13 @@
 <template>
   <transition name="fade" appear>
     <div
-      class="yc-message-box"
+      :class="['yc-message-box', `yc-message-box-${type}`]"
       @mouseenter="handleMouseenter"
       @mouseleave="handleMouseleave"
     >
       <span v-if="hasIcon" :class="['yc-message-icon', type]">
         <slot name="icon">
-          <component
-            :is="TYPE_ICON_MAP[type]"
-            :spin="type == 'loading'"
-            :color="TYPE_ICON_COLOR_MAP[type]"
-          />
+          <component :is="TYPE_ICON_MAP[type]" :spin="type == 'loading'" />
         </slot>
       </span>
       <span class="yc-message-content">{{ content }}</span>
@@ -29,9 +25,8 @@
 import { onMounted, onUpdated, ref, computed, useSlots } from 'vue';
 import { MessageProps } from './type';
 import { useTimeoutFn } from '@vueuse/core';
-import { TYPE_ICON_MAP, TYPE_ICON_COLOR_MAP } from '@shared/constants';
+import { TYPE_ICON_MAP } from '@shared/constants';
 import { YcIconButton } from '@shared/components';
-
 defineOptions({
   name: 'Message',
 });

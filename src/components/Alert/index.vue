@@ -47,7 +47,7 @@
 <script lang="ts" setup>
 import { ref } from 'vue';
 import { AlertProps, AlertEmits, AlertSlots } from './type';
-import { TYPE_ICON_MAP, TYPE_ICON_COLOR_MAP } from '@shared/constants';
+import { TYPE_ICON_MAP } from '@shared/constants';
 import { YcIconButton } from '@shared/components';
 defineOptions({
   name: 'Alert',

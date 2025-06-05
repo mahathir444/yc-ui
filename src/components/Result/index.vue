@@ -11,11 +11,7 @@
               v-if="['403', '404', '500'].includes(status)"
               :src="TYPE_ICON_MAP[`result-${status}`]"
             />
-            <component
-              v-else
-              :is="TYPE_ICON_MAP[`result-${status}`]"
-              :color="TYPE_ICON_COLOR_MAP[status]"
-            />
+            <component v-else :is="TYPE_ICON_MAP[`result-${status}`]" />
           </template>
         </slot>
       </div>
@@ -42,7 +38,6 @@
 <script lang="ts" setup>
 import { toRefs } from 'vue';
 import { ResultProps, ResultSlots } from './type';
-import { TYPE_ICON_COLOR_MAP } from '@shared/constants';
 import { TYPE_ICON_MAP } from '@shared/constants';
 defineOptions({
   name: 'Result',

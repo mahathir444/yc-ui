@@ -33,21 +33,37 @@
   }
   .@{component}-content {
     margin-top: 20px;
+    width: 100%;
   }
 }
 
 // icon-type
 .@{component} {
+  // type
   @type: {
-    info: rgb(232, 243, 255);
-    success: rgb(232, 255, 234);
-    warning: rgb(255, 247, 232);
-    error: rgb(255, 236, 232);
+    @info: {
+      bg: rgb(232, 243, 255);
+      icon-color: rgb(22, 93, 255);
+    };
+    @success: {
+      bg: rgb(232, 243, 255);
+      icon-color: rgb(0, 180, 42);
+    };
+    @warning: {
+      bg: rgb(255, 247, 232);
+      icon-color: rgb(255, 125, 0);
+    };
+    @error: {
+      bg: rgb(255, 236, 232);
+      icon-color: rgb(245, 63, 63);
+    };
   };
-  each(@type, {
+  each(@type, .(@value,@name){
+    @key:replace(~"@{name}", "@", "");
     .@{component}-icon-@{key} {
+      color: @value[icon-color];
       .@{component}-icon-tip {
-        background-color: @value;
+        background-color: @value[bg];
       }
     }
   });

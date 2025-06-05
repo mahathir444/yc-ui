@@ -27,7 +27,12 @@
     :hide-title="hideTitle"
     :render-to-body="renderToBody"
     :simple="simple"
-    :modal-class="'yc-service-modal'"
+    :modal-class="[
+      'yc-service-modal',
+      {
+        [`yc-service-modal-${type}`]: !!type,
+      },
+    ]"
     :on-before-ok="(done) => onBeforeOk?.(done)"
     :on-before-cancel="onBeforeCancel"
     @ok="onOk?.()"
@@ -39,10 +44,7 @@
   >
     <template #title>
       <span v-if="type" class="yc-modal-title-icon">
-        <component
-          :is="TYPE_ICON_MAP[type]"
-          :color="TYPE_ICON_COLOR_MAP[type]"
-        />
+        <component :is="TYPE_ICON_MAP[type]" />
       </span>
       <span class="yc-modal-title-content text-ellipsis">
         <component :is="getSlotFunction(title)" />
@@ -58,7 +60,7 @@
 import { ref } from 'vue';
 import { ModalConfig } from './type';
 import { getSlotFunction } from '@shared/utils';
-import { TYPE_ICON_MAP, TYPE_ICON_COLOR_MAP } from '@shared/constants';
+import { TYPE_ICON_MAP } from '@shared/constants';
 import YcModal from './Modal.vue';
 const props = withDefaults(defineProps<ModalConfig>(), {
   width: 400,
@@ -145,4 +147,18 @@ const handleClose = () => {
     }
   }
 }
+// icon-color
+@type: {
+  info: rgb(22, 93, 255);
+  success: rgb(0, 180, 42);
+  warning: rgb(255, 125, 0);
+  error: rgb(245, 63, 63);
+};
+each(@type, {
+    .yc-service-modal-@{key}  {
+      .yc-modal-title-icon{
+        color: @value;
+      }
+    }
+  });
 </style>

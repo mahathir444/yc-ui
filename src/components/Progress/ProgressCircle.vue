@@ -80,7 +80,7 @@ import { ProgressColor, ProgressStatus } from './type';
 import { isObject } from '@shared/utils';
 import { Size } from '@shared/type';
 import { IconCheck, IconExclamation } from '@shared/icons';
-import { TYPE_ICON_MAP, TYPE_ICON_COLOR_MAP } from '@shared/constants';
+import { TYPE_ICON_COLOR_MAP } from '@shared/constants';
 const props = defineProps<{
   type: string;
   percent: number;

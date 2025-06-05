@@ -1,13 +1,10 @@
 <!-- 通知提醒框 -->
 <template>
-  <div class="yc-notification-box">
+  <div :class="['yc-notification-box', `yc-notification-box-${type}`]">
     <div class="yc-notification-left">
-      <div v-if="hasIcon" :class="['yc-notification-icon', type]">
+      <div v-if="hasIcon" class="yc-notification-icon">
         <slot name="icon">
-          <component
-            :is="TYPE_ICON_MAP[type]"
-            :color="TYPE_ICON_COLOR_MAP[type]"
-          />
+          <component :is="TYPE_ICON_MAP[type]" />
         </slot>
       </div>
     </div>
@@ -36,7 +33,7 @@
 import { onMounted, onUpdated, computed, useSlots, ref } from 'vue';
 import { NotificationProps } from './type';
 import { useTimeoutFn } from '@vueuse/core';
-import { TYPE_ICON_MAP, TYPE_ICON_COLOR_MAP } from '@shared/constants';
+import { TYPE_ICON_MAP } from '@shared/constants';
 import { YcIconButton } from '@shared/components';
 defineOptions({
   name: 'Notification',

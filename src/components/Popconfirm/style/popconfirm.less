@@ -42,4 +42,17 @@
       border: 1px solid rgb(229, 230, 235);
     }
   }
+  @type: {
+    info: rgb(22, 93, 255);
+    success: rgb(0, 180, 42);
+    warning: rgb(255, 125, 0);
+    error: rgb(245, 63, 63);
+  };
+  each(@type, {
+    &.@{component}-@{key} {
+      .@{component}-icon{
+        color: @value;
+      }
+    }
+  });
 }

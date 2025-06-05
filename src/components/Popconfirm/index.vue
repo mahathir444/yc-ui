@@ -8,7 +8,7 @@
     :content-class="['yc-popconfirm-popup-content', contentClass as string]"
     :content-style="contentStyle"
     :popup-offset="10"
-    :class="['yc-popconfirm ', $attrs.class]"
+    :class="['yc-popconfirm', `yc-popconfirm-${type}`, $attrs.class]"
     trigger="click"
     animation-name="zoom-in-fade-out"
     need-transform-origin
@@ -21,10 +21,7 @@
       <div class="yc-popconfirm-body">
         <div class="yc-popconfirm-icon">
           <slot name="icon">
-            <component
-              :is="TYPE_ICON_MAP[type]"
-              :color="TYPE_ICON_COLOR_MAP[type]"
-            />
+            <component :is="TYPE_ICON_MAP[type]" />
           </slot>
         </div>
         <div class="yc-popconfirm-content">
@@ -54,7 +51,7 @@
 <script lang="ts" setup>
 import { ref, toRefs } from 'vue';
 import { PopconfirmProps, PopconfirmEmits, PopconfirmSlots } from './type';
-import { TYPE_ICON_MAP, TYPE_ICON_COLOR_MAP } from '@shared/constants';
+import { TYPE_ICON_MAP } from '@shared/constants';
 import { useControlValue } from '@shared/utils';
 import useOnBeforeClose from '@/components/Modal/hooks/useOnBeforeClose';
 import { default as YcTrigger, TriggerInstance } from '@/components/Trigger';
