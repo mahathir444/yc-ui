@@ -6,24 +6,26 @@ import {
   inject,
   onBeforeUnmount,
   computed,
+  Reactive,
+  reactive,
 } from 'vue';
 import { nanoid } from 'nanoid';
 
 export const COMMENT_CONTEXT_KEY = 'comment-context';
 
 export interface CommentContext {
-  depths: Ref<Map<string, string>>;
+  depths: Reactive<Map<string, string>>;
 }
 
 export default () => {
   const { depths } = inject<CommentContext>(COMMENT_CONTEXT_KEY, {
-    depths: ref(new Map()),
+    depths: reactive(new Map()),
   });
-  const hasChildren = computed(() => depths.value.size > 1);
+  const hasChildren = computed(() => depths.size > 1);
   const id = nanoid();
-  depths.value.set(id, id);
+  depths.set(id, id);
   onBeforeUnmount(() => {
-    depths.value.delete(id);
+    depths.delete(id);
   });
   _provide<CommentContext>(COMMENT_CONTEXT_KEY, {
     depths,

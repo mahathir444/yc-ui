@@ -70,7 +70,7 @@
               </yc-button>
               <yc-button
                 type="primary"
-                :loading="okLoading"
+                :loading="okLoading || asyncLoading"
                 v-bind="okButtonProps"
                 @click="handleClose('confirmBtn', $event)"
               >
@@ -167,16 +167,21 @@ const drawerStyle = computed(() => {
   } as CSSProperties;
 });
 // 处理组件关闭开启
-const { outerVisible, innerVisible, handleClose, handleAfterLeave } =
-  useDrawerClose({
-    visible,
-    defaultVisible,
-    escToClose,
-    maskClosable,
-    onBeforeCancel,
-    onBeforeOk,
-    emits,
-  });
+const {
+  outerVisible,
+  innerVisible,
+  asyncLoading,
+  handleClose,
+  handleAfterLeave,
+} = useDrawerClose({
+  visible,
+  defaultVisible,
+  escToClose,
+  maskClosable,
+  onBeforeCancel,
+  onBeforeOk,
+  emits,
+});
 </script>
 
 <style lang="less" scoped>

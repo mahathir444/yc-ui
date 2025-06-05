@@ -8,6 +8,7 @@ export {}
 declare module 'vue' {
   export interface GlobalComponents {
     _Icon: typeof import('./src/components/_shared/icons/_Icon.vue')['default']
+    AAlert: typeof import('@arco-design/web-vue')['Alert']
     AAvatar: typeof import('@arco-design/web-vue')['Avatar']
     AAvatarGroup: typeof import('@arco-design/web-vue')['AvatarGroup']
     ABadge: typeof import('@arco-design/web-vue')['Badge']
@@ -23,6 +24,7 @@ declare module 'vue' {
     ACarouselItem: typeof import('@arco-design/web-vue')['CarouselItem']
     ACascader: typeof import('@arco-design/web-vue')['Cascader']
     ACheckbox: typeof import('@arco-design/web-vue')['Checkbox']
+    ACheckboxGroup: typeof import('@arco-design/web-vue')['CheckboxGroup']
     ACol: typeof import('@arco-design/web-vue')['Col']
     ACollapse: typeof import('@arco-design/web-vue')['Collapse']
     ACollapseItem: typeof import('@arco-design/web-vue')['CollapseItem']
@@ -32,6 +34,7 @@ declare module 'vue' {
     ADescriptions: typeof import('@arco-design/web-vue')['Descriptions']
     ADescriptionsItem: typeof import('@arco-design/web-vue')['DescriptionsItem']
     ADivider: typeof import('@arco-design/web-vue')['Divider']
+    ADrawer: typeof import('@arco-design/web-vue')['Drawer']
     AEmpty: typeof import('@arco-design/web-vue')['Empty']
     Affix: typeof import('./src/components/Affix/index.vue')['default']
     AForm: typeof import('@arco-design/web-vue')['Form']
@@ -54,6 +57,7 @@ declare module 'vue' {
     AListItemMeta: typeof import('@arco-design/web-vue')['ListItemMeta']
     AMenu: typeof import('@arco-design/web-vue')['Menu']
     AMenuItem: typeof import('@arco-design/web-vue')['MenuItem']
+    AModal: typeof import('@arco-design/web-vue')['Modal']
     Anchor: typeof import('./src/components/Anchor/Anchor.vue')['default']
     AnchorLink: typeof import('./src/components/Anchor/AnchorLink.vue')['default']
     APopover: typeof import('@arco-design/web-vue')['Popover']

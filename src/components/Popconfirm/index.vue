@@ -40,7 +40,7 @@
         <yc-button
           size="mini"
           type="primary"
-          :loading="okLoading"
+          :loading="okLoading || asyncLoading"
           v-bind="okButtonProps"
           @click="handleOk"
         >
@@ -96,6 +96,8 @@ const props = withDefaults(defineProps<PopconfirmProps>(), {
 const emits = defineEmits<PopconfirmEmits>();
 const { popupVisible, defaultPopupVisible, type } = toRefs(props);
 const { onBeforeOk, onBeforeCancel } = props;
+// 异步关闭的loading
+const asyncLoading = ref<boolean>(false);
 // 触发器实例
 const triggerRef = ref<TriggerInstance>();
 // 受控的visible
@@ -109,14 +111,24 @@ const computedVisible = useControlValue<boolean>(
 );
 // 处理确认
 const handleOk = () => {
-  const isClose = useOnBeforeClose('confirmBtn', onBeforeOk, onBeforeCancel);
+  const isClose = useOnBeforeClose(
+    'confirmBtn',
+    asyncLoading,
+    onBeforeOk,
+    onBeforeCancel
+  );
   if (!isClose) return;
   emits('ok');
   triggerRef.value?.hide();
 };
 // 处理取消
 const handleCancel = () => {
-  const isClose = useOnBeforeClose('cancelBtn', onBeforeOk, onBeforeCancel);
+  const isClose = useOnBeforeClose(
+    'cancelBtn',
+    asyncLoading,
+    onBeforeOk,
+    onBeforeCancel
+  );
   if (!isClose) return;
   emits('cancel');
   triggerRef.value?.hide();

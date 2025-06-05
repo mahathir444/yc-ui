@@ -1,56 +1,35 @@
 <template>
   <div class="test">
-    <div style="margin-bottom: 20px">
-      <yc-typography-text>折叠：</yc-typography-text>
-      <yc-switch :checked="collapsed" @click="collapsed = !collapsed" />
-    </div>
-    <a-grid
-      :cols="3"
-      :colGap="12"
-      :rowGap="16"
-      :collapsed="collapsed"
-      :collapsed-rows="4"
-      class="grid-demo-grid"
-    >
-      <a-grid-item class="demo-item">item</a-grid-item>
-      <a-grid-item class="demo-item">item</a-grid-item>
-      <a-grid-item class="demo-item">item</a-grid-item>
-      <a-grid-item class="demo-item">item </a-grid-item>
-      <a-grid-item class="demo-item">item</a-grid-item>
-      <a-grid-item class="demo-item" :span="3">item | span - 3</a-grid-item>
-      <a-grid-item class="demo-item">item</a-grid-item>
-      <a-grid-item class="demo-item" suffix>suffix</a-grid-item>
-      <a-grid-item class="demo-item" :span="3" suffix #default="{ overflow }">
-        suffix | overflow: {{ overflow }}
-      </a-grid-item>
-    </a-grid>
-    <yc-grid
-      :cols="3"
-      :colGap="12"
-      :rowGap="16"
-      class="grid-demo-grid"
-      :collapsed="collapsed"
-      :collapsed-rows="5"
-    >
-      <yc-grid-item class="demo-item">item</yc-grid-item>
-      <yc-grid-item class="demo-item">item</yc-grid-item>
-      <yc-grid-item class="demo-item">item</yc-grid-item>
-      <yc-grid-item class="demo-item">item</yc-grid-item>
-      <yc-grid-item class="demo-item">item</yc-grid-item>
-      <yc-grid-item class="demo-item" :span="3">item | span - 3</yc-grid-item>
-      <yc-grid-item class="demo-item">item</yc-grid-item>
-      <yc-grid-item class="demo-item">item</yc-grid-item>
-      <yc-grid-item class="demo-item" :span="1" suffix #default="{ overflow }">
-        suffix | overflow: {{ overflow }}
-      </yc-grid-item>
-    </yc-grid>
+    <yc-button @click="handleClick">Open Modal</yc-button>
   </div>
 </template>
 
 <script lang="ts" setup>
-import { ref, reactive } from 'vue';
-import { Message } from '@arco-design/web-vue';
-const collapsed = ref(false);
+import { ref, h } from 'vue';
+import Modal from '@/components/Modal';
+import Button from '@/components/Button';
+const ModalContent = {
+  setup() {
+    const onClick = () => {
+      Modal.info({
+        title: 'Info Title',
+        content: 'This is an nest info message',
+      });
+    };
+
+    return () =>
+      h('div', { class: 'info-modal-content' }, [
+        h('span', { style: 'margin-bottom: 10px;' }, 'This is an info message'),
+        h(Button, { size: 'mini', onClick }, 'Open Nest Modal'),
+      ]);
+  },
+};
+const handleClick = () => {
+  Modal.info({
+    title: 'Info Title',
+    content: () => h(ModalContent),
+  });
+};
 </script>
 
 <style lang="less" scoped>

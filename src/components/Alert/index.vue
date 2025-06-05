@@ -14,10 +14,7 @@
     >
       <div v-if="showIcon" class="yc-alert-icon">
         <slot name="icon">
-          <component
-            :is="TYPE_ICON_MAP[type]"
-            :color="TYPE_ICON_COLOR_MAP[type]"
-          />
+          <component :is="TYPE_ICON_MAP[type]" />
         </slot>
       </div>
       <div class="yc-alert-body">
@@ -33,7 +30,12 @@
       <div v-if="$slots.action" class="yc-alert-action">
         <slot name="action" />
       </div>
-      <div class="yc-alert-close-btn" role="button" aria-label="Close">
+      <div
+        v-if="closable"
+        class="yc-alert-close-btn"
+        role="button"
+        aria-label="Close"
+      >
         <yc-icon-button @click="handleClose">
           <slot v-if="$slots['close-element']" name="close-element" />
         </yc-icon-button>
@@ -54,7 +56,7 @@ defineSlots<AlertSlots>();
 withDefaults(defineProps<AlertProps>(), {
   type: 'info',
   showIcon: true,
-  closable: true,
+  closable: false,
   title: '',
   banner: false,
   center: false,

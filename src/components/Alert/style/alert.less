@@ -31,7 +31,8 @@
       color: rgb(29, 33, 41);
     }
     .@{component}-content {
-      color: rgb(78, 89, 105);
+      // color: rgb(78, 89, 105);
+      color: rgb(29, 33, 41);
     }
   }
   .@{component}-close-btn {
@@ -64,18 +65,41 @@
 // banner
 .@{component}-banner {
   border-radius: 0;
+  justify-content: center;
+  .@{component}-body {
+    flex: unset;
+  }
 }
 
 // type
 @type: {
-  info: rgb(232, 243, 255);
-  success: rgb(232, 243, 255);
-  warning: rgb(255, 247, 232);
-  error: rgb(255, 236, 232);
-  normal: rgb(242, 243, 245);
+  @info: {
+    bg: rgb(232, 243, 255);
+    icon-color: rgb(22, 93, 255);
+  };
+  @success: {
+    bg: rgb(232, 243, 255);
+    icon-color: rgb(0, 180, 42);
+  };
+  @warning: {
+    bg: rgb(255, 247, 232);
+    icon-color: rgb(255, 125, 0);
+  };
+  @error: {
+    bg: rgb(255, 236, 232);
+    icon-color: rgb(245, 63, 63);
+  };
+  @normal: {
+    bg: rgb(242, 243, 245);
+    icon-color: rgb(201, 205, 212);
+  };
 };
-each(@type,{
+each(@type,.(@value,@name){
+  @key:replace(~"@{name}", "@", "");
   .@{component}-@{key}{
-    background-color: @value;
+    background-color: @value[bg];
+    .@{component}-icon {
+     color: @value[icon-color]
+    }
   }
 });

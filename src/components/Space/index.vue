@@ -60,7 +60,12 @@ const gap = computed(() => {
 });
 // node
 const nodes = computed(() => {
-  return slots.default?.() || [];
+  const nodeArr = slots.default?.() || [];
+  // 处理vfor的情况
+  if (nodeArr.length == 1 && nodeArr[0].shapeFlag == 16) {
+    return nodeArr[0].children as VNode[];
+  }
+  return nodeArr;
 });
 </script>
 

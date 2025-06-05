@@ -25,6 +25,8 @@ export default (params: {
   } = params;
   // 外层visible，用于播放动画
   const outerVisible = ref<boolean>(false);
+  // loading
+  const asyncLoading = ref<boolean>(false);
   // 内存visible，用于显示组件
   const innerVisible = useControlValue<boolean>(
     visible,
@@ -41,7 +43,12 @@ export default (params: {
   // 处理关闭
   const handleClose = async (type: string, ev: MouseEvent | KeyboardEvent) => {
     // 执行关闭之前的函数
-    const isClose = await useOnBeforeClose(type, onBeforeOk, onBeforeCancel);
+    const isClose = await useOnBeforeClose(
+      type,
+      asyncLoading,
+      onBeforeOk,
+      onBeforeCancel
+    );
     if (!isClose) {
       return;
     }
@@ -50,9 +57,8 @@ export default (params: {
     }
     if (type == 'confirmBtn') {
       emits('ok');
-    } else if (type == 'cancelBtn') {
-      emits('cancel', ev);
     }
+    emits('cancel', ev);
     innerVisible.value = false;
   };
 
@@ -76,6 +82,7 @@ export default (params: {
   );
 
   return {
+    asyncLoading,
     outerVisible,
     innerVisible,
     handleClose,

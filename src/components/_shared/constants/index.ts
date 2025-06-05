@@ -37,7 +37,7 @@ export const TYPE_ICON_COLOR_MAP: Record<string, string> = {
   error: 'rgb(245, 63, 63)',
   danger: 'rgb(245, 63, 63)',
   loading: 'rgb(22, 93, 225)',
-  normal: 'rgb(201,205,212)',
+  normal: 'rgb(201, 205, 212)',
 };
 
 export const SIZE_MAP: Record<string, number> = {

@@ -95,7 +95,7 @@
                 </yc-button>
                 <yc-button
                   type="primary"
-                  :loading="okLoading"
+                  :loading="okLoading || asyncLoading"
                   v-bind="okButtonProps"
                   @click="handleClose('confirmBtn', $event)"
                 >
@@ -192,16 +192,21 @@ const attrs = useAttrs();
 // 接收属性
 const { popupContainer, zIndex } = getGlobalConfig(props);
 // 处理组件关闭开启
-const { outerVisible, innerVisible, handleClose, handleAfterLeave } =
-  useModalClose({
-    visible,
-    defaultVisible,
-    escToClose,
-    maskClosable,
-    onBeforeOk,
-    onBeforeCancel,
-    emits,
-  });
+const {
+  outerVisible,
+  innerVisible,
+  asyncLoading,
+  handleClose,
+  handleAfterLeave,
+} = useModalClose({
+  visible,
+  defaultVisible,
+  escToClose,
+  maskClosable,
+  onBeforeOk,
+  onBeforeCancel,
+  emits,
+});
 // headerRef,用于拖拽
 const headerRef = ref<HTMLDivElement>();
 // modalRef,用于获取宽高处理越界问题

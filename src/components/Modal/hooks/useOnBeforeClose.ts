@@ -1,8 +1,10 @@
+import { Ref } from 'vue';
 import { isBoolean } from '@shared/utils';
 import { OnBeforeOk, OnBeforeCancel } from '../type';
 
 export default async (
   type: string,
+  asyncLoading: Ref<boolean>,
   onBeforeOk: OnBeforeOk,
   onBeforeCancel: OnBeforeCancel
 ) => {
@@ -27,7 +29,9 @@ export default async (
   };
   let isClose: boolean;
   if (type == 'confirmBtn') {
+    asyncLoading.value = true;
     isClose = await handleBeforeOk();
+    asyncLoading.value = false;
   } else {
     isClose = onBeforeCancel();
   }

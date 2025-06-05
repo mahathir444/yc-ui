@@ -8,7 +8,7 @@
     :closable="closable"
     :ok-text="okText"
     :cancel-text="cancelText"
-    :ok-loading="loading || okLoading"
+    :ok-loading="okLoading"
     :ok-button-props="okButtonProps"
     :cancel-button-props="cancelButtonProps"
     :unmount-on-close="unmountOnClose"
@@ -21,9 +21,9 @@
     :header="header"
     :footer="footer"
     :hide-cancel="hideCancel"
-    :on-before-ok="handleOnBeforeOk"
+    :on-before-ok="(done) => onBeforeOk?.(done)"
     :on-before-cancel="onBeforeCancel"
-    @ok="handleOk"
+    @ok="onOk?.()"
     @cancel="onCancel?.()"
     @before-open="onBeforeOpen?.()"
     @before-close="onBeforeClose?.()"
@@ -78,22 +78,9 @@ const props = withDefaults(defineProps<DrawerConfig>(), {
     return true;
   },
 });
-const { onBeforeOk, onOk, onClose, serviceCloseFn } = props;
+const { onClose, serviceCloseFn } = props;
 // visible
 const visible = ref<boolean>(true);
-// loading
-const loading = ref<boolean>(false);
-// 处理beforeOk
-const handleOnBeforeOk = (done: any) => {
-  loading.value = true;
-  return onBeforeOk?.(done);
-};
-// 处理ok
-const handleOk = async () => {
-  loading.value = false;
-  await onOk?.();
-  visible.value = false;
-};
 // 处理close
 const handleClose = () => {
   serviceCloseFn?.();

@@ -13,7 +13,7 @@
     :closable="closable"
     :ok-text="okText"
     :cancel-text="cancelText"
-    :ok-loading="loading || okLoading"
+    :ok-loading="okLoading"
     :ok-button-props="okButtonProps"
     :cancel-button-props="cancelButtonProps"
     :footer="footer"
@@ -26,10 +26,11 @@
     :body-style="bodyStyle"
     :hide-title="hideTitle"
     :render-to-body="renderToBody"
+    :simple="simple"
     :modal-class="'yc-service-modal'"
-    :on-before-ok="handleOnBeforeOk"
+    :on-before-ok="(done) => onBeforeOk?.(done)"
     :on-before-cancel="onBeforeCancel"
-    @ok="handleOk"
+    @ok="onOk?.()"
     @cancel="onCancel?.()"
     @before-open="onBeforeOpen?.()"
     @before-close="onBeforeClose?.()"
@@ -54,7 +55,7 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, toRefs } from 'vue';
+import { ref } from 'vue';
 import { ModalConfig } from './type';
 import { getSlotFunction } from '@shared/utils';
 import { TYPE_ICON_MAP, TYPE_ICON_COLOR_MAP } from '@shared/constants';
@@ -64,11 +65,11 @@ const props = withDefaults(defineProps<ModalConfig>(), {
   top: 100,
   mask: true,
   title: '',
-  titleAlign: 'start',
+  titleAlign: 'center',
   alignCenter: true,
   unmountOnClose: false,
   maskClosable: true,
-  hideCancel: false,
+  hideCancel: true,
   closable: true,
   okText: '确认',
   cancelText: '取消',
@@ -95,6 +96,7 @@ const props = withDefaults(defineProps<ModalConfig>(), {
     return {};
   },
   hideTitle: false,
+  simple: true,
   onBeforeCancel: () => {
     return true;
   },
@@ -104,23 +106,9 @@ const props = withDefaults(defineProps<ModalConfig>(), {
   serviceCloseFn: () => {},
   content: '',
 });
-const { type } = toRefs(props);
-const { onBeforeOk, onOk, onClose, serviceCloseFn } = props;
+const { onClose, serviceCloseFn } = props;
 // visible
 const visible = ref<boolean>(true);
-// loading
-const loading = ref<boolean>(false);
-// 处理beforeOk
-const handleOnBeforeOk = (done: any) => {
-  loading.value = true;
-  return onBeforeOk?.(done);
-};
-// 处理ok
-const handleOk = async () => {
-  loading.value = false;
-  await onOk?.();
-  visible.value = false;
-};
 // 处理close
 const handleClose = () => {
   serviceCloseFn?.();
@@ -133,6 +121,7 @@ const handleClose = () => {
   .yc-modal-header {
     .yc-modal-title {
       display: flex;
+      justify-content: center;
       gap: 6px;
       .yc-modal-title-icon {
         display: flex;
@@ -140,7 +129,6 @@ const handleClose = () => {
         font-size: 18px;
       }
       .yc-modal-title-content {
-        flex: 1;
         flex-shrink: 0;
         overflow: hidden;
       }
