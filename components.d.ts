@@ -65,6 +65,8 @@ declare module 'vue' {
     AModal: typeof import('@arco-design/web-vue')['Modal']
     Anchor: typeof import('./src/components/Anchor/Anchor.vue')['default']
     AnchorLink: typeof import('./src/components/Anchor/AnchorLink.vue')['default']
+    APageHeader: typeof import('@arco-design/web-vue')['PageHeader']
+    APagination: typeof import('@arco-design/web-vue')['Pagination']
     APopconfirm: typeof import('@arco-design/web-vue')['Popconfirm']
     APopover: typeof import('@arco-design/web-vue')['Popover']
     AProgress: typeof import('@arco-design/web-vue')['Progress']

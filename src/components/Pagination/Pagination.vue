@@ -4,11 +4,19 @@
     :class="['yc-pagination', `yc-pagination-size-${size}`]"
   >
     <!-- total -->
-    <span v-if="showTotal" class="yc-pagination-total">共 {{ total }} 条</span>
+    <span v-if="showTotal" class="yc-pagination-total">
+      <slot name="total" :total="total"> 共 {{ total }} 条 </slot>
+    </span>
     <!-- page-list -->
     <ul :class="[simple ? 'yc-pagination-simple' : 'yc-pagination-list']">
       <!-- pre -->
-      <pagination-item type="pre" class="yc-pagination-item-previous" />
+      <pagination-item type="pre" class="yc-pagination-item-previous">
+        <slot
+          v-if="$slots['page-item-step']"
+          name="page-item-step"
+          type="previous"
+        />
+      </pagination-item>
       <!-- item -->
       <template v-if="!simple">
         <pagination-item
@@ -17,9 +25,15 @@
           :key="<string>i"
           :page="isNumber(i) ? i : -1"
         >
-          <template v-if="isNumber(i)">
-            {{ i }}
-          </template>
+          <slot v-if="isNumber(i)" name="page-item" :page="i">
+            <template>
+              {{ i }}
+            </template>
+          </slot>
+          <slot
+            v-else-if="$slots['page-item-ellipsis']"
+            name="page-item-ellipsis"
+          />
         </pagination-item>
       </template>
       <span v-else class="yc-pagination-jumper yc-pagination-jumper-simple">
@@ -37,9 +51,16 @@
         v-if="showMore && !simple"
         type="more-right"
         class="'yc-pagination-item-ellipsis'"
-      />
+      >
+      </pagination-item>
       <!-- next -->
-      <pagination-item type="next" class="yc-pagination-item-next" />
+      <pagination-item type="next" class="yc-pagination-item-next">
+        <slot
+          v-if="$slots['page-item-step']"
+          name="page-item-step"
+          type="next"
+        />
+      </pagination-item>
     </ul>
     <!-- pageSize -->
     <span v-if="showPageSize" class="yc-pagination-options">
@@ -55,16 +76,19 @@
     <span v-if="showJumper" class="yc-pagination-jumper">
       <span class="yc-pagination-jumper-text-goto"> 前往 </span>
       <yc-input-number
-        v-model="computedCurrent"
+        v-model="tempCurrent"
         hide-button
         :size="size"
         :disabled="disabled"
+        @focus="tempCurrent = computedCurrent"
+        @blur="computedCurrent = tempCurrent"
       />
     </span>
   </div>
 </template>
 
 <script lang="ts" setup>
+import { ref, watch } from 'vue';
 import { PaginationProps, PaginationEmits, PaginationSlots } from './type';
 import { isNumber } from '@shared/utils';
 import useContext from './hooks/useContext';
@@ -112,6 +136,15 @@ const {
   total,
   sizeOptions,
 } = useContext().provide(props, emits);
+// 设置失焦的时候设置value
+const tempCurrent = ref(computedCurrent.value);
+watch(
+  () => computedCurrent.value,
+  () => {
+    if (tempCurrent.value == computedCurrent.value) return;
+    tempCurrent.value = computedCurrent.value;
+  }
+);
 </script>
 
 <style lang="less" scoped>

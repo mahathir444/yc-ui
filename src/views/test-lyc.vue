@@ -1,36 +1,37 @@
 <template>
   <div class="test">
-    <yc-dropdown>
-      <yc-button>Click Me</yc-button>
-      <template #content>
-        <yc-doption>
-          <template #icon>
-            <icon-location />
-          </template>
-          <template #default>Option 1</template>
-        </yc-doption>
-        <yc-doption>
-          <template #icon>
-            <icon-location />
-          </template>
-          <template #default>Option 2</template>
-        </yc-doption>
-        <yc-doption>
-          <template #icon>
-            <icon-location />
-          </template>
-          <template #default>Option 3</template>
-        </yc-doption>
+    <a-pagination :total="200">
+      <template #page-item="{ page }"> - {{ page }} - </template>
+      <template #page-item-step="{ type }">
+        <icon-send
+          :style="
+            type === 'previous' ? { transform: `rotate(180deg)` } : undefined
+          "
+        />
       </template>
-    </yc-dropdown>
+      <template #page-item-ellipsis>
+        <icon-sun-fill />
+      </template>
+    </a-pagination>
+    <yc-pagination :total="200">
+      <template #page-item="{ page }"> - {{ page }} - </template>
+      <template #page-item-step="{ type }">
+        <icon-send
+          :style="
+            type === 'previous' ? { transform: `rotate(180deg)` } : undefined
+          "
+        />
+      </template>
+      <template #page-item-ellipsis>
+        <icon-sun-fill />
+      </template>
+    </yc-pagination>
   </div>
 </template>
 
 <script lang="ts" setup>
 import { ref, h } from 'vue';
-const handleSelect = (v) => {
-  console.log(v);
-};
+const size = ref('medium');
 </script>
 
 <style lang="less" scoped>
@@ -39,8 +40,8 @@ const handleSelect = (v) => {
   width: 100%;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: center;
+  // align-items: center;
+  // justify-content: center;
   gap: 10px;
 }
 </style>

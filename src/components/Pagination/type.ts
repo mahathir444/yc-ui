@@ -34,7 +34,7 @@ export interface PaginationEmits {
 
 export interface PaginationSlots {
   total(params: { total: number }): void;
-  ['page-item-ellipsis'](params: { total: number }): void;
+  ['page-item-ellipsis'](): void;
   ['page-item-step'](params: { type: 'previous' | 'next' }): void;
-  total(params: { page: number }): void;
+  ['page-item'](params: { page: number }): void;
 }
