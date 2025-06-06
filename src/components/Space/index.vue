@@ -36,7 +36,7 @@ defineOptions({
 });
 defineSlots<SpaceSlots>();
 const props = withDefaults(defineProps<SpaceProps>(), {
-  align: 'start',
+  align: 'center',
   direction: 'horizontal',
   size: 'small',
   wrap: false,

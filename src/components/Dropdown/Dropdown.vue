@@ -6,9 +6,12 @@
     :popup-offset="4"
     :mouse-enter-delay="150"
     :mouse-leave-delay="150"
+    :alignPoint="alignPoint"
+    :auto-fit-popup-min-width="
+      !alignPoint && ['top', 'bottom'].includes(position)
+    "
     animation-name="slide-dynamic-origin"
     need-transform-origin
-    auto-fit-popup-min-width
     v-bind="triggerProps"
   >
     <slot />
@@ -16,7 +19,7 @@
       <div :class="['yc-dropdown', `yc-dropdown-theme-${theme}`]">
         <yc-scrollbar
           :style="{
-            maxHeight: `${popupMaxHeight}px`,
+            maxHeight: popupMaxHeight,
           }"
         >
           <div class="yc-dropdown-list">
@@ -39,6 +42,7 @@ import {
   DropdownSlots,
   DropdownExpose,
 } from './type';
+import { isUndefined, isBoolean } from '@shared/utils';
 import useContext from './hooks/useContext';
 import YcTrigger from '@/components/Trigger';
 import YcScrollbar from '@/components/Scrollbar';
@@ -49,13 +53,14 @@ defineSlots<DropdownSlots>();
 const props = withDefaults(defineProps<DropdownProps>(), {
   popupVisible: undefined,
   defaultPopupVisible: false,
-  trigger: 'hover',
+  trigger: 'click',
   position: 'bottom',
   popupContainer: undefined,
   hideOnSelect: true,
   triggerProps: () => {
     return {};
   },
+  alignPoint: false,
   popupMaxHeight: 200,
   theme: 'light',
 });
@@ -64,7 +69,11 @@ const emits = defineEmits<{
   (e: 'popup-visible-change', value: boolean): void;
   (e: 'select', value: DoptionValue, ev: MouseEvent): void;
 }>();
-const { trigger, position: _position } = toRefs(props);
+const {
+  trigger,
+  position: _position,
+  popupMaxHeight: _popupMaxHeight,
+} = toRefs(props);
 // 注入
 const { computedVisible } = useContext().provide(props, emits);
 // 位置
@@ -72,6 +81,18 @@ const position = computed(() => {
   return ['top', 'tl', 'tr', 'bottom', 'bl', 'br'].includes(_position.value)
     ? _position.value
     : 'bottom';
+});
+// pop
+const popupMaxHeight = computed(() => {
+  if (
+    (isBoolean(_popupMaxHeight.value) && !_popupMaxHeight.value) ||
+    isUndefined(_popupMaxHeight)
+  ) {
+    return '';
+  }
+  return isBoolean(_popupMaxHeight.value)
+    ? '200px'
+    : `${_popupMaxHeight.value}px`;
 });
 defineExpose<DropdownExpose>({
   show() {

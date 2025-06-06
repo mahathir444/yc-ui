@@ -10,16 +10,16 @@
             'yc-spin-icon-loading': !dot,
           },
         ]"
+        :style="{
+          fontSize: !isSizeInherit ? `${size}px` : '',
+        }"
       >
         <slot name="icon">
           <div v-if="dot" class="yc-dot-loading">
             <div v-for="i in 5" :key="i" class="yc-dot-loading-item"></div>
           </div>
-          <slot-render :render="slots.loading">
-            <icon-loading
-              v-if="!slots.loading"
-              :size="!isSizeInherit ? size : undefined"
-            />
+          <slot-render v-else :render="slots.loading">
+            <icon-loading v-if="!slots.loading" />
           </slot-render>
         </slot>
       </div>

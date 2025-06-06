@@ -13,13 +13,10 @@
         <slot name="icon" />
       </template>
       <template #suffix>
-        <slot v-if="mode != 'pop'" name="expand-icon-down">
+        <slot name="expand-icon-down">
           <icon-arrow-down
             :rotate="computedOpenKeys.includes(path) ? 180 : 0"
           />
-        </slot>
-        <slot v-else name="expand-icon-right">
-          <icon-arrow-right />
         </slot>
       </template>
     </yc-menu-item>

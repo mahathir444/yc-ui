@@ -11,10 +11,14 @@
   >
     <template #icon>
       <slot name="icon">
-        <icon-arrow-up v-if="mode == 'embed' && type == 'minus'" />
-        <icon-arrow-down v-if="mode == 'embed' && type == 'plus'" />
-        <icon-minus v-else-if="mode == 'button' && type == 'minus'" />
-        <icon-plus v-else-if="mode == 'button' && type == 'plus'" />
+        <icon-arrow-down
+          v-if="mode == 'embed'"
+          :rotate="type == 'plus' ? 0 : 180"
+        />
+        <template v-else>
+          <icon-minus v-if="type == 'minus'" />
+          <icon-plus v-else />
+        </template>
       </slot>
     </template>
   </yc-button>
@@ -24,7 +28,7 @@
 import { computed, toRefs } from 'vue';
 import { InputNumberMode, InputNumberValue } from './type';
 import { Size } from '@shared/type';
-import { IconArrowDown, IconArrowUp, IconPlus, IconMinus } from '@shared/icons';
+import { IconArrowDown, IconPlus, IconMinus } from '@shared/icons';
 import YcButton from '@/components/Button';
 const props = defineProps<{
   mode: InputNumberMode;

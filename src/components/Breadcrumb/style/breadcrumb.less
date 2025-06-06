@@ -4,4 +4,10 @@
   align-items: center;
   color: rgb(78, 89, 105);
   font-size: 14px;
+  &:deep(.@{component}-item) {
+    &:last-child {
+      color: rgb(29, 33, 41);
+      font-weight: 500;
+    }
+  }
 }

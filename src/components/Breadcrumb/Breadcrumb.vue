@@ -17,7 +17,7 @@
     </template>
     <!-- routes渲染 -->
     <template v-else>
-      <template v-for="route in routeData" :key="route.path">
+      <template v-for="(route, i) in routeData" :key="route.path">
         <!-- more-icon -->
         <breadcrumb-more v-if="isString(route)" :slots="slots" />
         <slot
@@ -39,6 +39,12 @@
             {{ route.label }}
           </yc-breadcrumb-item>
         </slot>
+        <!-- 分割符 -->
+        <breadcrumb-separator
+          v-if="i < routes.length - 1"
+          :separator="separator"
+          :separator-slots="$slots.separator"
+        />
       </template>
     </template>
   </div>
@@ -48,7 +54,6 @@
 import { toRefs, computed, useSlots } from 'vue';
 import { BreadcrumbProps, BreadcrumbSlots } from './type';
 import { findComponentsFromVnodes, isString } from '@shared/utils';
-import { ObjectData } from '@shared/type';
 import { BreadcrumbItem as YcBreadcrumbItem } from './index';
 import BreadcrumbSeparator from './BreadcrumbSeparator.vue';
 import BreadcrumbMore from './BreadcrumbMore.vue';

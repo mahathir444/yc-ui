@@ -56,7 +56,6 @@ export interface SubMenuSlots {
   title(): void;
   icon(): void;
   ['expand-icon-down'](): void;
-  ['expand-icon-right'](): void;
 }
 
 export interface MenuItemProps {
@@ -79,5 +78,5 @@ export interface MenuItemGroupSlots {
   title(): void;
 }
 
-export type MenuMode = 'vertical' | 'pop' | 'horizontal';
+export type MenuMode = 'vertical' | 'horizontal';
 export type PopupMaxHeight = boolean | number;

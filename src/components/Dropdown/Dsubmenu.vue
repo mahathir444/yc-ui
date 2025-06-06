@@ -50,6 +50,7 @@ import {
   DsubmenuEmits,
   Doption as YcDoption,
 } from './index';
+import { isUndefined, isBoolean } from '@shared/utils';
 import useContext from './hooks/useContext';
 import { default as YcTrigger, TriggerInstance } from '@/components/Trigger';
 import YcScrollbar from '@/components/Scrollbar';
@@ -60,7 +61,7 @@ defineSlots<DsubmenuSlots>();
 const props = withDefaults(defineProps<DsubmenuProps>(), {
   popupVisible: undefined,
   defaultPopupVisible: false,
-  trigger: 'hover',
+  trigger: 'click',
   position: 'rt',
   disabled: false,
   triggerProps: () => {
@@ -74,6 +75,7 @@ const {
   popupVisible,
   trigger: _trigger,
   position: _position,
+  popupMaxHeight: _popupMaxHeight,
 } = toRefs(props);
 // 接收注入
 const { theme } = useContext().inject();
@@ -97,6 +99,18 @@ const position = computed(() => {
 // 触发方式
 const trigger = computed(() => {
   return ['hover', 'click'].includes(_trigger.value) ? _trigger.value : 'hover';
+});
+// 最大高度
+const popupMaxHeight = computed(() => {
+  if (
+    (isBoolean(_popupMaxHeight.value) && !_popupMaxHeight.value) ||
+    isUndefined(_popupMaxHeight)
+  ) {
+    return '';
+  }
+  return isBoolean(_popupMaxHeight.value)
+    ? '200px'
+    : `${_popupMaxHeight.value}px`;
 });
 // 处理计算style
 const handleCalcStyle = async () => {
