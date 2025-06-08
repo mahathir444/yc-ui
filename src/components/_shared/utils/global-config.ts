@@ -35,7 +35,7 @@ export const getGlobalConfig = (props: Props = {}) => {
   } = inject<ConfigProviderProvide>(CONFIG_PROVIDER_PROVIDE_KEY, {
     zIndex: ref(1001),
     size: ref('medium'),
-    updateAtScroll: ref(false),
+    updateAtScroll: ref(true),
     scrollToClose: ref(false),
     exchangeTime: ref(true),
     popupContainer: ref('body'),

@@ -7,8 +7,13 @@ import {
   toRefs,
 } from 'vue';
 import { Props, Direction, RequiredDeep } from '@shared/type';
-import { StepsProps as _StepsProps, StepsEmits, StepType } from '../type';
-import { useControlValue } from '@shared/utils';
+import {
+  StepsProps as _StepsProps,
+  StepsEmits,
+  StepStatus,
+  StepType,
+} from '../type';
+import { isUndefined, useControlValue } from '@shared/utils';
 
 export const STEPS_CONTEXT_KEY = 'card-context';
 
@@ -19,6 +24,7 @@ export interface StepsContext {
   direction: Ref<Direction>;
   labelPlacement: Ref<Direction>;
   statusArr: Ref<Ref<string>[]>;
+  status: Ref<StepStatus>;
   small: Ref<boolean>;
   type: Ref<StepType>;
   changeable: Ref<boolean>;
@@ -30,6 +36,7 @@ type StepsProps = RequiredDeep<_StepsProps>;
 export default () => {
   const provide = (props: Props, emits: StepsEmits) => {
     const {
+      status,
       current,
       defaultCurrent,
       lineLess,
@@ -74,6 +81,7 @@ export default () => {
       computedCurrent,
       lineLess,
       direction,
+      status,
       statusArr,
       small,
       type,
@@ -94,6 +102,7 @@ export default () => {
       computedCurrent: ref(0),
       lineLess: ref(false),
       direction: ref('horizontal'),
+      status: ref('process'),
       statusArr: ref([]),
       small: ref(false),
       type: ref('default'),
@@ -101,17 +110,22 @@ export default () => {
       labelPlacement: ref('horizontal'),
       emits: () => {},
     });
-    const { step, computedCurrent, statusArr } = injection;
+    const {
+      step,
+      computedCurrent,
+      statusArr,
+      status: injectStatus,
+    } = injection;
     const curStep = ref(++step.value);
     // status
     const status = computed(() => {
-      if (_status.value) {
+      if (!isUndefined(_status.value)) {
         return _status.value;
       }
       if (curStep.value < computedCurrent.value) {
         return 'finish';
       } else if (curStep.value == computedCurrent.value) {
-        return 'process';
+        return injectStatus.value ?? 'process';
       } else {
         return 'wait';
       }
@@ -119,10 +133,10 @@ export default () => {
     const nextStatus = computed(() => statusArr.value[curStep.value]?.value);
     statusArr.value[curStep.value - 1] = status;
     return {
+      ...injection,
       curStep,
       status,
       nextStatus,
-      ...injection,
     };
   };
   return {

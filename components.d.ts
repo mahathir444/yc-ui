@@ -82,6 +82,8 @@ declare module 'vue' {
     ASpace: typeof import('@arco-design/web-vue')['Space']
     ASpin: typeof import('@arco-design/web-vue')['Spin']
     AStatistic: typeof import('@arco-design/web-vue')['Statistic']
+    AStep: typeof import('@arco-design/web-vue')['Step']
+    ASteps: typeof import('@arco-design/web-vue')['Steps']
     ASubMenu: typeof import('@arco-design/web-vue')['SubMenu']
     ASwitch: typeof import('@arco-design/web-vue')['Switch']
     ATabPane: typeof import('@arco-design/web-vue')['TabPane']

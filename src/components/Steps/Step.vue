@@ -26,20 +26,20 @@
     <!-- icon -->
     <slot v-if="type != 'arrow'" name="node" :step="curStep" :status="status">
       <div class="yc-steps-item-node">
-        <slot
-          v-if="['default', 'navigation'].includes(type)"
-          name="icon"
-          :status="status"
-          :step="curStep"
-        >
-          <div class="yc-steps-icon">
+        <div class="yc-steps-icon">
+          <slot
+            v-if="['default', 'navigation'].includes(type)"
+            name="icon"
+            :status="status"
+            :step="curStep"
+          >
             <icon-check v-if="status == 'finish'" />
             <icon-close v-else-if="status == 'error'" />
             <template v-else>
               {{ curStep }}
             </template>
-          </div>
-        </slot>
+          </slot>
+        </div>
       </div>
     </slot>
     <!-- content -->

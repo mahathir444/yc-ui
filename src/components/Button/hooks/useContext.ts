@@ -30,6 +30,14 @@ export type ButtonProps = RequiredDeep<_ButtonProps>;
 
 export type ButtonGroupProps = RequiredDeep<_ButtonGroupProps>;
 
+type FieldValue =
+  | ButtonShape
+  | ButtonStatus
+  | ButtonType
+  | boolean
+  | Size
+  | undefined;
+
 export default () => {
   const provide = (props: Props) => {
     const { type, status, shape, disabled } = toRefs(props as ButtonGroupProps);
@@ -43,43 +51,45 @@ export default () => {
     });
   };
   const inject = (props: Props) => {
-    const { size: _size } = getGlobalConfig(props);
+    const { size: globalSize } = getGlobalConfig(props);
     const {
-      type,
-      status,
-      shape,
-      size = ref(),
-      disabled,
-    } = _inject<ButtonContext>(BUTTON_GROUP_CONTEXT_KEY, {
-      type: ref('secondary'),
-      status: ref('normal'),
-      shape: ref('square'),
-      disabled: ref(false),
-    });
+      type: _type,
+      status: _status,
+      shape: _shape,
+      disabled: _disabled,
+      size: _size,
+    } = toRefs(props);
+    const { type, status, shape, size, disabled } = _inject<ButtonContext>(
+      BUTTON_GROUP_CONTEXT_KEY,
+      {
+        type: ref('secondary'),
+        status: ref('normal'),
+        shape: ref('square'),
+        disabled: ref(false),
+      }
+    );
     // 获取field
     const getField = (
-      value: any,
-      injectValue: Ref<
-        ButtonShape | ButtonStatus | ButtonType | boolean | Size | undefined
-      >,
-      globalValue?: Ref<Size>
+      value: FieldValue,
+      injectValue: FieldValue,
+      globalValue?: FieldValue
     ) => {
       if (!isUndefined(value)) {
         return value;
       }
       if (isUndefined(globalValue)) {
-        return injectValue.value;
+        return injectValue;
       }
-      return !isUndefined(injectValue.value)
-        ? injectValue.value
-        : globalValue.value;
+      return !isUndefined(injectValue) ? injectValue : globalValue;
     };
     return {
-      disabled: getField(props.disabled, disabled),
-      type: getField(props.type, type),
-      status: getField(props.status, status),
-      shape: getField(props.shape, shape),
-      size: getField(props.size, size, _size),
+      disabled: computed(() => getField(_disabled.value, disabled.value)),
+      type: computed(() => getField(_type.value, type.value)),
+      status: computed(() => getField(_status.value, status.value)),
+      shape: computed(() => getField(_shape.value, shape.value)),
+      size: computed(() =>
+        getField(_size.value, size?.value, globalSize.value)
+      ),
     };
   };
   return {
