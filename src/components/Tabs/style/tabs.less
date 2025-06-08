@@ -1,22 +1,21 @@
-@component: yc-tabs;
-.@{component} {
+.yc-tabs {
   position: relative;
   overflow: hidden;
   width: 100%;
   display: flex;
-  .@{component}-nav {
+  .yc-tabs-nav {
     position: relative;
     overflow: hidden;
     display: flex;
     align-items: center;
 
-    .@{component}-nav-tab {
-      &:deep(.@{component}-nav-button) {
+    .yc-tabs-nav-tab {
+      &:deep(.yc-tabs-nav-button) {
         flex-shrink: 0;
         margin-right: 6px;
         margin-left: 10px;
       }
-      .@{component}-nav-tab-list {
+      .yc-tabs-nav-tab-list {
         position: relative;
         transition: transform 0.2s cubic-bezier(0.34, 0.69, 0.1, 1);
         display: flex;
@@ -25,45 +24,45 @@
         &::-webkit-scrollbar {
           display: none;
         }
-        .@{component}-nav-ink {
+        .yc-tabs-nav-ink {
           position: absolute;
           background-color: rgb(22, 93, 255);
           border-radius: 2px;
         }
       }
     }
-    .@{component}-nav-extra {
-      .@{component}-tab-add-btn {
+    .yc-tabs-nav-extra {
+      .yc-tabs-tab-add-btn {
         padding: 0 8px;
         font-size: 12px;
       }
     }
   }
-  .@{component}-content {
+  .yc-tabs-content {
     width: 100%;
     overflow: hidden;
   }
 }
 // justify
-.@{component}-justify {
+.yc-tabs-justify {
   height: 100%;
 }
-.@{component}-animation {
-  .@{component}-content-list {
+.yc-tabs-animation {
+  .yc-tabs-content-list {
     transition: all 0.2s cubic-bezier(0.34, 0.69, 0.1, 1);
   }
 }
 // direction
-.@{component}-horizontal {
+.yc-tabs-horizontal {
   flex-direction: column;
-  .@{component}-nav {
+  .yc-tabs-nav {
     width: 100%;
-    .@{component}-nav-tab {
+    .yc-tabs-nav-tab {
       flex: 1;
       display: flex;
-      .@{component}-nav-tab-list {
+      .yc-tabs-nav-tab-list {
         flex: 1;
-        .@{component}-nav-ink {
+        .yc-tabs-nav-ink {
           bottom: 0;
           height: 2px;
           transition:
@@ -73,32 +72,32 @@
       }
     }
   }
-  .@{component}-content {
+  .yc-tabs-content {
     padding-top: 16px;
     width: 100%;
-    .@{component}-content-list {
+    .yc-tabs-content-list {
       display: flex;
       width: 100%;
-      .@{component}-content-item {
+      .yc-tabs-content-item {
         flex-shrink: 0;
         width: 100%;
       }
     }
   }
 }
-.@{component}-vertical {
-  .@{component}-nav {
-    .@{component}-nav-tab {
-      .@{component}-nav-tab-list {
+.yc-tabs-vertical {
+  .yc-tabs-nav {
+    .yc-tabs-nav-tab {
+      .yc-tabs-nav-tab-list {
         width: fit-content;
         flex-direction: column;
-        .@{component}-tab {
+        .yc-tabs-tab {
           width: 100%;
-          .@{component}-tab-title {
+          .yc-tabs-tab-title {
             width: 100%;
           }
         }
-        .@{component}-nav-ink {
+        .yc-tabs-nav-ink {
           right: 0;
           width: 2px;
           transition:
@@ -108,26 +107,26 @@
       }
     }
   }
-  .@{component}-content {
+  .yc-tabs-content {
     flex: 1;
   }
-  &:not(.@{component}-type-card):not(.@{component}-type-card-gutter) {
-    .@{component}-nav {
-      .@{component}-nav-tab {
-        .@{component}-nav-tab-list {
+  &:not(.yc-tabs-type-card):not(.yc-tabs-type-card-gutter) {
+    .yc-tabs-nav {
+      .yc-tabs-nav-tab {
+        .yc-tabs-nav-tab-list {
           gap: 12px;
         }
       }
     }
   }
-  .@{component}-content {
+  .yc-tabs-content {
     padding-left: 16px;
     height: 100%;
-    .@{component}-content-list {
+    .yc-tabs-content-list {
       height: 100%;
       display: flex;
       flex-direction: column;
-      .@{component}-content-item {
+      .yc-tabs-content-item {
         flex-shrink: 0;
         height: 100%;
       }
@@ -135,53 +134,53 @@
   }
 }
 // position
-.@{component}-right {
+.yc-tabs-right {
   flex-direction: row-reverse;
-  .@{component}-nav {
+  .yc-tabs-nav {
     &::before {
       left: 0;
       right: unset;
     }
-    .@{component}-nav-tab {
-      .@{component}-nav-tab-list {
-        .@{component}-nav-ink {
+    .yc-tabs-nav-tab {
+      .yc-tabs-nav-tab-list {
+        .yc-tabs-nav-ink {
           left: 0;
           right: unset;
         }
       }
     }
   }
-  .@{component}-content {
+  .yc-tabs-content {
     padding-left: 0;
     padding-right: 16px;
   }
 }
-.@{component}-bottom {
+.yc-tabs-bottom {
   flex-direction: column-reverse;
-  .@{component}-nav {
+  .yc-tabs-nav {
     &::before {
       top: 0;
     }
-    .@{component}-nav-tab {
-      .@{component}-nav-tab-list {
-        .@{component}-nav-ink {
+    .yc-tabs-nav-tab {
+      .yc-tabs-nav-tab-list {
+        .yc-tabs-nav-ink {
           top: 0;
           bottom: unset;
         }
       }
     }
   }
-  .@{component}-content {
+  .yc-tabs-content {
     padding-right: 0;
     padding-bottom: 16px;
   }
 }
 // type
-.@{component}-type-card,
-.@{component}-type-card-gutter,
-.@{component}-type-line {
-  &.@{component}-horizontal {
-    .@{component}-nav {
+.yc-tabs-type-card,
+.yc-tabs-type-card-gutter,
+.yc-tabs-type-line {
+  &.yc-tabs-horizontal {
+    .yc-tabs-nav {
       &::before {
         content: '';
         position: absolute;
@@ -194,8 +193,8 @@
       }
     }
   }
-  &.@{component}-vertical {
-    .@{component}-nav {
+  &.yc-tabs-vertical {
+    .yc-tabs-nav {
       &::before {
         content: '';
         position: absolute;
@@ -207,43 +206,43 @@
       }
     }
   }
-  &:not(.@{component}-type-line) {
-    &.@{component}-horizontal {
-      .@{component}-content {
+  &:not(.yc-tabs-type-line) {
+    &.yc-tabs-horizontal {
+      .yc-tabs-content {
         border: 1px solid rgb(229, 230, 235);
         border-top: none;
       }
-      &.@{component}-bottom {
-        .@{component}-content {
+      &.yc-tabs-bottom {
+        .yc-tabs-content {
           border-top: 1px solid rgb(229, 230, 235);
           border-bottom: none;
         }
       }
     }
-    &.@{component}-vertical {
+    &.yc-tabs-vertical {
       border: 1px solid rgb(229, 230, 235);
       border-left: none;
-      &.@{component}-right {
+      &.yc-tabs-right {
         border-left: 1px solid rgb(229, 230, 235);
         border-right: none;
       }
     }
   }
 }
-.@{component}-type-card-gutter {
-  .@{component}-nav {
-    .@{component}-nav-tab {
-      .@{component}-nav-tab-list {
+.yc-tabs-type-card-gutter {
+  .yc-tabs-nav {
+    .yc-tabs-nav-tab {
+      .yc-tabs-nav-tab-list {
         gap: 4px;
       }
     }
   }
 }
-.@{component}-type-capsule {
-  .@{component}-nav {
-    .@{component}-nav-tab {
+.yc-tabs-type-capsule {
+  .yc-tabs-nav {
+    .yc-tabs-nav-tab {
       justify-content: flex-end;
-      .@{component}-nav-tab-list {
+      .yc-tabs-nav-tab-list {
         flex: unset;
         padding: 3px;
         background-color: rgb(242, 243, 245);

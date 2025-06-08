@@ -1,22 +1,21 @@
-@component: yc-steps;
-.@{component} {
+.yc-steps {
   display: flex;
 }
-.@{component}-vertical {
+.yc-steps-vertical {
   flex-direction: column;
 }
 // mode
-.@{component}-mode-default,
-.@{component}-mode-navigation {
-  .@{component}-item {
+.yc-steps-mode-default,
+.yc-steps-mode-navigation {
+  .yc-steps-item {
     position: relative;
     overflow: hidden;
     white-space: nowrap;
     text-align: left;
     margin-right: 12px;
 
-    .@{component}-item-node {
-      .@{component}-icon {
+    .yc-steps-item-node {
+      .yc-steps-icon {
         width: 28px;
         height: 28px;
         border-radius: 50%;
@@ -25,28 +24,28 @@
         align-items: center;
       }
     }
-    .@{component}-item-content {
-      .@{component}-item-title {
+    .yc-steps-item-content {
+      .yc-steps-item-title {
         position: relative;
         padding-right: 12px;
         width: fit-content;
         white-space: nowrap;
       }
-      .@{component}-item-description {
+      .yc-steps-item-description {
         max-width: 140px;
         margin-top: 2px;
         white-space: normal;
       }
     }
   }
-  .@{component}-item-horizontal {
+  .yc-steps-item-horizontal {
     display: flex;
     gap: 12px;
     &:not(:last-child) {
       flex: 1;
     }
-    &:not(.@{component}-item-line-less):not(.@{component}-item-label-vertical) {
-      .@{component}-item-title {
+    &:not(.yc-steps-item-line-less):not(.yc-steps-item-label-vertical) {
+      .yc-steps-item-title {
         &::after {
           content: '';
           display: block;
@@ -58,17 +57,17 @@
         }
       }
     }
-    .@{component}-item-content {
+    .yc-steps-item-content {
       display: flex;
       flex-direction: column;
       gap: 2px;
     }
   }
-  .@{component}-item-vertical {
+  .yc-steps-item-vertical {
     display: flex;
     gap: 12px;
-    &:not(.@{component}-item-line-less) {
-      .@{component}-item-tail {
+    &:not(.yc-steps-item-line-less) {
+      .yc-steps-item-tail {
         top: 0;
         left: 13.5px;
         bottom: 0;
@@ -83,17 +82,17 @@
         }
       }
     }
-    .@{component}-item-content {
+    .yc-steps-item-content {
       min-height: 90px;
     }
   }
   // label
-  .@{component}-item-label-vertical {
+  .yc-steps-item-label-vertical {
     flex-direction: column;
     gap: 2px;
     overflow: visible;
-    &:not(.@{component}-item-line-less) {
-      .@{component}-item-tail {
+    &:not(.yc-steps-item-line-less) {
+      .yc-steps-item-tail {
         position: absolute;
         top: 13.5px;
         left: 96px;
@@ -108,9 +107,9 @@
         }
       }
     }
-    .@{component}-item-node {
+    .yc-steps-item-node {
       margin-left: 56px;
-      .@{component}-icon {
+      .yc-steps-icon {
         width: 28px;
         height: 28px;
         border-radius: 50%;
@@ -119,47 +118,47 @@
         align-items: center;
       }
     }
-    .@{component}-item-content {
+    .yc-steps-item-content {
       width: 140px;
       text-align: center;
-      .@{component}-item-title {
+      .yc-steps-item-title {
         padding-right: 0;
         width: 100%;
       }
     }
   }
   //size
-  .@{component}-item-size-small {
-    .@{component}-item-node {
+  .yc-steps-item-size-small {
+    .yc-steps-item-node {
       font-size: 14px;
-      .@{component}-icon {
+      .yc-steps-icon {
         width: 24px;
         height: 24px;
       }
     }
-    .@{component}-item-content {
-      .@{component}-item-title {
+    .yc-steps-item-content {
+      .yc-steps-item-title {
         font-size: 14px;
         line-height: 24px;
       }
     }
-    &:not(.@{component}-item-line-less) {
-      &:not(.@{component}-item-label-vertical) {
-        .@{component}-item-title {
+    &:not(.yc-steps-item-line-less) {
+      &:not(.yc-steps-item-label-vertical) {
+        .yc-steps-item-title {
           &::after {
             top: 11.5px;
           }
         }
       }
-      &.@{component}-item-vertical {
-        .@{component}-item-tail {
+      &.yc-steps-item-vertical {
+        .yc-steps-item-tail {
           top: 0;
           left: 11.5px;
           padding: 30px 0 6px;
         }
       }
-      &.@{component}-item-label-vertical {
-        .@{component}-item-tail {
+      &.yc-steps-item-label-vertical {
+        .yc-steps-item-tail {
           top: 11.5px;
           left: 94px;
           padding-right: 36px;
@@ -168,7 +167,7 @@
     }
   }
   // active
-  .@{component}-item-active {
+  .yc-steps-item-active {
     &::after {
       content: '';
       position: absolute;
@@ -178,22 +177,22 @@
       left: 0;
       bottom: 0;
     }
-    &.@{component}-item-finish {
+    &.yc-steps-item-finish {
       &::after {
         background-color: rgb(232, 243, 255);
       }
     }
-    &.@{component}-item-wait {
+    &.yc-steps-item-wait {
       &::after {
         background-color: rgb(247, 248, 250);
       }
     }
-    &.@{component}-item-error {
+    &.yc-steps-item-error {
       &::after {
         background-color: rgb(245, 63, 63);
       }
     }
-    &.@{component}-item-process {
+    &.yc-steps-item-process {
       &::after {
         background-color: rgb(22, 93, 255);
       }
@@ -201,13 +200,13 @@
   }
   // status
   .set-steps-item-status(@icon-color, @icon-bg-color, @title-color: null) {
-    .@{component}-icon {
+    .yc-steps-icon {
       color: @icon-color;
       background-color: @icon-bg-color;
     }
     & when not (@title-color = null) {
-      .@{component}-item-content {
-        .@{component}-item-title {
+      .yc-steps-item-content {
+        .yc-steps-item-title {
           color: @title-color;
         }
       }
@@ -224,38 +223,38 @@
     error: .set-steps-item-status(#fff, rgb(245, 63, 63));
   };
   each(@steps-item-status, {
-        .@{component}-item-@{key} {
+        .yc-steps-item-@{key} {
           @value();
         }
       });
 }
-.@{component}-mode-dot {
-  .@{component}-item {
+.yc-steps-mode-dot {
+  .yc-steps-item {
     position: relative;
-    &.@{component}-item-horizontal {
+    &.yc-steps-item-horizontal {
       &:not(:last-child) {
         margin-right: 16px;
       }
-      .@{component}-item-tail {
+      .yc-steps-item-tail {
         left: 78px;
         width: 100%;
         height: 1px;
       }
-      .@{component}-item-node {
+      .yc-steps-item-node {
         margin-left: 67px;
       }
-      &.@{component}-item-process {
-        .@{component}-item-node {
+      &.yc-steps-item-process {
+        .yc-steps-item-node {
           margin-top: -1px;
           margin-left: 65px;
         }
       }
     }
-    &.@{component}-item-vertical {
+    &.yc-steps-item-vertical {
       &:not(:last-child) {
         margin-bottom: 4px;
       }
-      .@{component}-item-tail {
+      .yc-steps-item-tail {
         bottom: 0;
         left: 4px;
         transform: translateX(-50%);
@@ -263,24 +262,24 @@
         height: 100%;
         padding: 16px 0 2px 0;
       }
-      .@{component}-item-node {
+      .yc-steps-item-node {
         margin-top: 8px;
       }
-      &.@{component}-item-process {
-        .@{component}-item-node {
+      &.yc-steps-item-process {
+        .yc-steps-item-node {
           margin-top: 6px;
           margin-left: -1px;
         }
       }
     }
-    &.@{component}-item-process {
-      .@{component}-item-node {
+    &.yc-steps-item-process {
+      .yc-steps-item-node {
         width: 10px;
         height: 10px;
       }
     }
-    &:not(.@{component}-item-line-less) {
-      .@{component}-item-tail {
+    &:not(.yc-steps-item-line-less) {
+      .yc-steps-item-tail {
         &::after {
           content: '';
           height: 100%;
@@ -289,19 +288,19 @@
         }
       }
     }
-    .@{component}-item-tail {
+    .yc-steps-item-tail {
       position: absolute;
       top: 3.5px;
       background-color: transparent;
     }
-    .@{component}-item-node {
+    .yc-steps-item-node {
       width: 8px;
       height: 8px;
       border-radius: 50%;
     }
   }
   // vertical
-  .@{component}-item-horizontal {
+  .yc-steps-item-horizontal {
     display: flex;
     flex-direction: column;
     gap: 4px;
@@ -309,20 +308,20 @@
     &:not(:last-child) {
       flex: 1;
     }
-    .@{component}-item-content {
+    .yc-steps-item-content {
       width: 140px;
       text-align: center;
       gap: 4px;
     }
   }
-  .@{component}-item-vertical {
+  .yc-steps-item-vertical {
     min-height: 90px;
     display: flex;
     gap: 16px;
 
-    .@{component}-item-content {
+    .yc-steps-item-content {
       gap: 4px;
-      .@{component}-item-title {
+      .yc-steps-item-title {
         margin-top: -2px;
       }
     }
@@ -335,8 +334,8 @@
     error: rgb(245, 63, 63);
   };
   each(@steps-item-status, {
-    .@{component}-item-@{key} {
-      .@{component}-item-node {
+    .yc-steps-item-@{key} {
+      .yc-steps-item-node {
         background-color: @value;
         border-color: @value;
         
@@ -348,9 +347,9 @@
     }
   });
 }
-.@{component}-mode-arrow {
+.yc-steps-mode-arrow {
   gap: 4px;
-  .@{component}-item {
+  .yc-steps-item {
     flex: 1;
     position: relative;
     overflow: visible;
@@ -381,11 +380,11 @@
       border-bottom: 36px solid transparent;
     }
     &:first-child {
-      .@{component}-item-content {
+      .yc-steps-item-content {
         padding-left: 16px;
       }
     }
-    .@{component}-item-content {
+    .yc-steps-item-content {
       flex: 1;
       padding-left: 52px;
       height: 72px;
@@ -393,7 +392,7 @@
     }
   }
   // small
-  &.@{component}-item-size-small {
+  &.yc-steps-item-size-small {
     height: 40px;
     &:not(:first-child)::before {
       border-top: 20px solid transparent;
@@ -405,9 +404,9 @@
       border-top: 20px solid transparent;
       border-bottom: 20px solid transparent;
     }
-    .@{component}-item-content {
+    .yc-steps-item-content {
       height: 40px;
-      .@{component}-item-description {
+      .yc-steps-item-description {
         display: none;
       }
     }
@@ -418,9 +417,9 @@
       border-left: 36px solid @bg-color;
     }
     & when not (@text-color = null) {
-      .@{component}-item-content {
-        .@{component}-item-title,
-        .@{component}-item-description {
+      .yc-steps-item-content {
+        .yc-steps-item-title,
+        .yc-steps-item-description {
           color: @text-color;
         }
       }
@@ -433,14 +432,14 @@
     error: .set-steps-item-status(rgb(245, 63, 63), #fff);
   };
   each(@steps-item-status, {
-      .@{component}-item-@{key} {
+      .yc-steps-item-@{key} {
         @value();
       }
     });
 }
-.@{component}-mode-navigation {
+.yc-steps-mode-navigation {
   gap: 32px;
-  .@{component}-item {
+  .yc-steps-item {
     flex: 1;
     overflow: hidden;
     padding: 0 10px 0 20px;
@@ -457,9 +456,9 @@
       background-color: #fff;
       transform: rotate(45deg);
     }
-    .@{component}-item-content {
+    .yc-steps-item-content {
       margin-bottom: 20px;
-      .@{component}-item-description {
+      .yc-steps-item-description {
         max-width: unset;
         white-space: nowrap;
       }
@@ -467,14 +466,14 @@
   }
 }
 //changeable
-.@{component}-changeable {
-  .@{component}-item {
-    &:not(.@{component}-item-process) {
+.yc-steps-changeable {
+  .yc-steps-item {
+    &:not(.yc-steps-item-process) {
       cursor: pointer;
       &:hover {
-        .@{component}-item-content {
-          .@{component}-item-title,
-          .@{component}-item-description {
+        .yc-steps-item-content {
+          .yc-steps-item-title,
+          .yc-steps-item-description {
             color: rgb(22, 93, 255);
           }
         }

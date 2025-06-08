@@ -1,18 +1,17 @@
-@component: yc-modal;
-.@{component}-container {
+.yc-modal-container {
   inset: 0 0 0 0;
   position: fixed;
-  .@{component}-mask {
+  .yc-modal-mask {
     position: absolute;
     inset: 0 0 0 0;
     background-color: rgba(29, 33, 41, 0.6);
   }
-  .@{component}-wrapper {
+  .yc-modal-wrapper {
     position: absolute;
     inset: 0 0 0 0;
     overflow: auto;
 
-    .@{component} {
+    .yc-modal {
       position: absolute;
       border-radius: 4px;
       background-color: #fff;
@@ -20,34 +19,34 @@
       display: flex;
       flex-direction: column;
       // 全屏
-      &.@{component}-fullscreen {
+      &.yc-modal-fullscreen {
         height: 100%;
-        .@{component}-body {
+        .yc-modal-body {
           flex: 1;
         }
       }
       // 推拽
-      &.@{component}-draggable {
-        .@{component}-header {
+      &.yc-modal-draggable {
+        .yc-modal-header {
           cursor: move;
           user-select: none;
         }
       }
-      .@{component}-footer,
-      .@{component}-body,
-      .@{component}-header,
-      .@{component}-title,
-      .@{component}-close-button {
+      .yc-modal-footer,
+      .yc-modal-body,
+      .yc-modal-header,
+      .yc-modal-title,
+      .yc-modal-close-button {
         flex-shrink: 0;
       }
-      .@{component}-header {
+      .yc-modal-header {
         height: 48px;
         width: 100%;
         padding: 0 20px;
         border-bottom: 1px solid rgb(229, 230, 235);
         display: flex;
         align-items: center;
-        .@{component}-title {
+        .yc-modal-title {
           flex: 1;
           span {
             font-size: 16px;
@@ -58,16 +57,16 @@
             text-align: center;
           }
         }
-        .@{component}-close-button {
+        .yc-modal-close-button {
           margin-left: -12px;
         }
       }
-      .@{component}-body {
+      .yc-modal-body {
         padding: 24px 20px;
         color: rgb(29, 33, 41);
         font-size: 14px;
       }
-      .@{component}-footer {
+      .yc-modal-footer {
         height: 64px;
         width: 100%;
         padding: 16px 20px;
@@ -81,25 +80,25 @@
   }
 }
 
-.@{component}-position-absolute {
+.yc-modal-position-absolute {
   position: absolute;
 }
 
-.@{component}-simple {
-  .@{component}-wrapper {
-    .@{component} {
+.yc-modal-simple {
+  .yc-modal-wrapper {
+    .yc-modal {
       width: 400px;
       padding: 24px 32px 32px;
-      .@{component}-header,
-      .@{component}-footer,
-      .@{component}-body {
+      .yc-modal-header,
+      .yc-modal-footer,
+      .yc-modal-body {
         height: unset;
         padding: 0;
         border: none;
-        &.@{component}-header {
+        &.yc-modal-header {
           margin-bottom: 24px;
         }
-        &.@{component}-footer {
+        &.yc-modal-footer {
           margin-top: 24px;
           justify-content: center;
         }

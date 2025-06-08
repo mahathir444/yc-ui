@@ -1,54 +1,53 @@
-@component: yc-comment;
-.@{component} {
+.yc-comment {
   font-size: 14px;
   line-height: 1.5715;
   display: flex;
   flex-wrap: nowrap;
   gap: 12px;
-  .@{component}-avatar {
+  .yc-comment-avatar {
     flex-shrink: 0;
     cursor: pointer;
   }
-  .@{component}-inner {
+  .yc-comment-inner {
     flex: 1;
     display: flex;
     flex-direction: column;
     gap: 20px;
-    .@{component}-inner-content {
+    .yc-comment-inner-content {
       display: flex;
       flex-direction: column;
-      .@{component}-title {
+      .yc-comment-title {
         display: flex;
         align-items: center;
         gap: 8px;
-        .@{component}-author {
+        .yc-comment-author {
           color: rgb(78, 89, 105);
           font-size: 14px;
         }
-        .@{component}-datetime {
+        .yc-comment-datetime {
           color: rgb(134, 144, 156);
           font-size: 12px;
         }
-        &.@{component}-title-align-right {
+        &.yc-comment-title-align-right {
           justify-content: space-between;
         }
       }
-      .@{component}-content {
+      .yc-comment-content {
         color: rgb(29, 33, 41);
       }
-      .@{component}-actions {
+      .yc-comment-actions {
         margin-top: 8px;
         color: rgb(78, 89, 105);
         font-size: 14px;
         display: flex;
         align-items: center;
         gap: 8px;
-        &.@{component}-actions-align-right {
+        &.yc-comment-actions-align-right {
           justify-content: flex-end;
         }
       }
     }
-    .@{component}-inner-comment {
+    .yc-comment-inner-comment {
       display: flex;
       flex-direction: column;
       gap: 20px;

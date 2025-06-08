@@ -1,34 +1,33 @@
-@component: yc-drawer;
-.@{component}-wrapper {
+.yc-drawer-wrapper {
   inset: 0 0 0 0;
   position: fixed;
 
-  .@{component}-mask {
+  .yc-drawer-mask {
     position: absolute;
     inset: 0 0 0 0;
     background-color: rgba(29, 33, 41, 0.6);
   }
-  .@{component}-container {
+  .yc-drawer-container {
     position: absolute;
     height: 100%;
     background-color: #fff;
     display: flex;
     flex-direction: column;
-    .@{component}-footer,
-    .@{component}-body,
-    .@{component}-header,
-    .@{component}-title,
-    .@{component}-close-button {
+    .yc-drawer-footer,
+    .yc-drawer-body,
+    .yc-drawer-header,
+    .yc-drawer-title,
+    .yc-drawer-close-button {
       flex-shrink: 0;
     }
-    .@{component}-header {
+    .yc-drawer-header {
       height: 48px;
       width: 100%;
       padding: 0 16px;
       border-bottom: 1px solid rgb(229, 230, 235);
       display: flex;
       align-items: center;
-      .@{component}-title {
+      .yc-drawer-title {
         flex: 1;
         span {
           font-size: 16px;
@@ -36,17 +35,17 @@
           color: rgb(29, 33, 41);
         }
       }
-      .@{component}-close-button {
+      .yc-drawer-close-button {
         margin-left: -12px;
       }
     }
-    .@{component}-body {
+    .yc-drawer-body {
       flex: 1;
       padding: 12px 16px;
       color: rgb(29, 33, 41);
       font-size: 14px;
     }
-    .@{component}-footer {
+    .yc-drawer-footer {
       height: 64px;
       width: 100%;
       padding: 0 16px;
@@ -58,14 +57,14 @@
     }
   }
 }
-.@{component}-position-absolute {
+.yc-drawer-position-absolute {
   position: absolute;
 }
 // placement
 @drawer-placements: left, right, bottom, top;
 each(@drawer-placements, .(@key){
-  .@{component}-placement-@{key} {
-    .@{component}-container {
+  .yc-drawer-placement-@{key} {
+    .yc-drawer-container {
       & when (@key = left),(@key = top),(@key = bottom){
         left: 0;
       }

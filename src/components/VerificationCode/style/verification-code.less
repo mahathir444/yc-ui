@@ -1,6 +1,4 @@
-@component: yc-verification-code;
-
-.@{component} {
+.yc-verification-code {
   width: 100%;
   display: flex;
   justify-content: space-between;
@@ -33,7 +31,7 @@
   large: 36px;
 };
 each(@size, {
-    .@{component}-size-@{key} {
+    .yc-verification-code-size-@{key} {
       &:deep(.yc-input-wrapper) {
         width: @value;
       }

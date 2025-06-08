@@ -1,6 +1,5 @@
-@component: yc-divider;
-.@{component} {
-  .@{component}-text {
+.yc-divider {
+  .yc-divider-text {
     position: absolute;
     top: 50%;
     padding: 0 16px;
@@ -12,13 +11,13 @@
   }
 }
 // direction
-.@{component}-direction-horizontal {
+.yc-divider-direction-horizontal {
   position: relative;
   min-width: 100%;
   max-width: 100%;
   width: 100%;
 }
-.@{component}-direction-vertical {
+.yc-divider-direction-vertical {
   display: inline-block;
   vertical-align: middle;
   height: 100%;
@@ -33,7 +32,7 @@
   right: 0;
 };
 each(@position, {
-  .@{component}-text-@{key} {
+  .yc-divider-text-@{key} {
     @{key}: if(key = center, 50%, 24px);
     & when(@key = center){
       left: 50%;

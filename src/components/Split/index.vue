@@ -80,9 +80,13 @@ const rate = computed(() => {
 const { isDragging, x, y } = useDraggable(triggerRef, {
   onMove() {
     emits('moving');
+    const { offsetWidth, offsetHeight } = triggerRef.value!;
     const base = direction.value == 'horizontal' ? left.value : top.value;
     const minValue = base + getValue(min.value);
-    const maxValue = base + getValue(max.value);
+    const maxValue =
+      base +
+      getValue(max.value) -
+      (direction.value == 'horizontal' ? offsetWidth : offsetHeight);
     if (direction.value == 'horizontal') {
       x.value = x.value < minValue ? minValue : x.value;
       x.value = x.value > maxValue ? maxValue : x.value;

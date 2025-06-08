@@ -1,5 +1,4 @@
-@component: yc-tag;
-.@{component} {
+.yc-tag {
   padding: 0 8px;
   vertical-align: middle;
   border: 1px solid transparent;
@@ -8,31 +7,31 @@
   display: inline-flex;
   align-items: center;
 
-  .@{component}-icon {
+  .yc-tag-icon {
     flex-shrink: 0;
     margin-right: 4px;
   }
-  .@{component}-loading-icon,
-  .@{component}-close-button {
+  .yc-tag-loading-icon,
+  .yc-tag-close-button {
     flex-shrink: 0;
     margin-left: 4px;
     font-size: 12px;
     color: inherit;
   }
-  .@{component}-label {
+  .yc-tag-label {
     width: fit-content;
   }
 }
 // wrap
-.@{component}-wrap {
+.yc-tag-wrap {
   height: fit-content;
   white-space: pre-wrap;
   word-break: break-word;
 }
 // no-wrap
-.@{component}-no-wrap {
+.yc-tag-no-wrap {
   overflow: hidden;
-  .@{component}-label {
+  .yc-tag-label {
     flex: 1;
     flex-shrink: 0;
     overflow: hidden;
@@ -41,12 +40,12 @@
   }
 }
 // loading
-.@{component}-loading {
+.yc-tag-loading {
   opacity: 0.8;
   cursor: default;
 }
 // checked
-.@{component}-checked {
+.yc-tag-checked {
   cursor: pointer;
   user-select: none;
 }
@@ -70,24 +69,24 @@
 };
 each(@size, .(@value,@name){
   @key:replace(~"@{name}", "@", "");
-  .@{component}-size-@{key} {
+  .yc-tag-size-@{key} {
     min-height: @value[min-height];
     font-size: @value[font-size];
     line-height: @value[line-height];
   }
 });
 // color
-.@{component}-preset-color {
+.yc-tag-preset-color {
   color: rgb(29, 33, 41);
   background-color: #fff;
   &:hover {
     background-color: rgb(242, 243, 245);
   }
-  &.@{component}-bordered {
+  &.yc-tag-bordered {
     border-color: rgb(229, 230, 235);
   }
 }
-.@{component}-custom-color {
+.yc-tag-custom-color {
   color: #fff;
 }
 @color: {
@@ -178,8 +177,8 @@ each(@size, .(@value,@name){
 };
 each(@color, .(@value,@name){
   @key:replace(~"@{name}", "@", "");
-  .@{component}-color-@{key} {
-    &.@{component}-checked {
+  .yc-tag-color-@{key} {
+    &.yc-tag-checked {
       color: @value[color];
       background-color: @value[bg];
       & when(@key = default){
@@ -187,11 +186,11 @@ each(@color, .(@value,@name){
           color: rgb(78,89,105);
         }
       }
-      &.@{component}-checkable:hover {
+      &.yc-tag-checkable:hover {
         border-color: transparent;
         background-color: @value[hover];
       }
-      &.@{component}-bordered {
+      &.yc-tag-bordered {
         border-color: @value[border];
       }
     }

@@ -1,23 +1,24 @@
-@component: yc-scrollbar;
-.@{component} {
+.yc-scrollbar {
   position: relative;
   overflow: hidden;
+  width: fit-content;
+  height: fit-content;
 
-  &:hover .@{component}-track {
-    .@{component}-thumb-bar {
+  &:hover .yc-scrollbar-track {
+    .yc-scrollbar-thumb-bar {
       opacity: 1;
     }
   }
-  .@{component}-container {
+  .yc-scrollbar-container {
     overflow: auto;
-    .@{component}-content {
+    .yc-scrollbar-content {
       height: fit-content;
       width: fit-content;
       min-width: 100%;
     }
   }
-  &:not(.@{component}-real) {
-    .@{component}-container {
+  &:not(.yc-scrollbar-real) {
+    .yc-scrollbar-container {
       &::-webkit-scrollbar {
         width: 0;
         height: 0;
@@ -26,18 +27,18 @@
   }
 }
 // 自动填充
-.@{component}-auto-fill {
+.yc-scrollbar-auto-fill {
   flex: 1;
   display: flex;
   height: 100%;
-  .@{component}-container {
+  .yc-scrollbar-container {
     flex: 1;
     flex-shrink: 0;
     height: 100%;
   }
 }
 // 双向轨道
-.@{component}-both-track {
+.yc-scrollbar-both-track {
   &::before {
     z-index: 10;
     position: absolute;
@@ -52,38 +53,38 @@
   }
 }
 // 横向
-.@{component}-vertical-track {
-  .@{component}-container {
+.yc-scrollbar-vertical-track {
+  .yc-scrollbar-container {
     padding-right: 15px;
   }
-  &:deep(.@{component}-track-direction-vertical) {
+  &:deep(.yc-scrollbar-track-direction-vertical) {
     background-color: rgb(247, 248, 250);
     border-left: 1px solid rgb(229, 230, 235);
     border-right: 1px solid rgb(229, 230, 235);
   }
 }
 // 纵向
-.@{component}-horizontal-track {
-  .@{component}-container {
+.yc-scrollbar-horizontal-track {
+  .yc-scrollbar-container {
     padding-bottom: 15px;
   }
-  &:deep(.@{component}-track-direction-horizontal) {
+  &:deep(.yc-scrollbar-track-direction-horizontal) {
     background-color: rgb(247, 248, 250);
     border-top: 1px solid rgb(229, 230, 235);
     border-bottom: 1px solid rgb(229, 230, 235);
   }
 }
 // track
-.@{component}-track {
+.yc-scrollbar-track {
   position: absolute;
   width: 15px;
 
-  .@{component}-thumb {
+  .yc-scrollbar-thumb {
     position: absolute;
     display: flex;
     justify-content: center;
     align-items: center;
-    .@{component}-thumb-bar {
+    .yc-scrollbar-thumb-bar {
       width: 9px;
       user-select: none;
       border-radius: 5px;
@@ -102,30 +103,32 @@
   }
 }
 // track-dir
-.@{component}-track-direction-vertical {
+.yc-scrollbar-track-direction-vertical {
+  width: 15px;
   top: 0;
   bottom: 0;
   right: 0;
   display: flex;
   justify-content: center;
+  // thubm-dir
+  .yc-scrollbar-thumb-direction-vertical {
+    width: 100%;
+    .yc-scrollbar-thumb-bar {
+      height: 100%;
+    }
+  }
 }
-.@{component}-track-direction-horizontal {
+.yc-scrollbar-track-direction-horizontal {
+  height: 15px;
   left: 0;
   right: 0;
   bottom: 0;
   display: flex;
   align-items: center;
-}
-// thubm-dir
-.@{component}-thumb-direction-vertical {
-  width: 100%;
-  .@{component}-thumb-bar {
+  .yc-scrollbar-thumb-direction-horizontal {
     height: 100%;
-  }
-}
-.@{component}-thumb-direction-horizontal {
-  height: 100%;
-  .@{component}-thumb-bar {
-    width: 100%;
+    .yc-scrollbar-thumb-bar {
+      width: 100%;
+    }
   }
 }

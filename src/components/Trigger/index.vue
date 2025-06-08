@@ -61,12 +61,7 @@ import {
   TriggerSlots,
   TriggerExpose,
 } from './type';
-import {
-  findFirstLegitChild,
-  unrefElement,
-  sleep,
-  getGlobalConfig,
-} from '@shared/utils';
+import { findFirstLegitChild, getGlobalConfig } from '@shared/utils';
 import useTriggerVisible from './hooks/useTriggerVisible';
 import useTriggerPosition from './hooks/useTriggerPosition';
 import { YcPreventFocus } from '@shared/components';
@@ -126,7 +121,10 @@ const arrowRef = ref<HTMLElement>();
 // 获取插槽
 const slots = useSlots();
 // slots
-const vNode = computed(() => findFirstLegitChild(slots.default?.() || []));
+const vNode = computed(() => {
+  console.log(findFirstLegitChild(slots.default?.() || []), 'scroll');
+  return findFirstLegitChild(slots.default?.() || []);
+});
 // 处理trigger关闭与开启
 const {
   computedVisible,
@@ -144,54 +142,15 @@ const {
   triggerRef,
 });
 // 计算wrapper与arrow的位置信息
-const {
-  left,
-  top,
-  right,
-  bottom,
-  triggerHeight,
-  triggerWidth,
-  popupHeight,
-  popupWidth,
-  position,
-  popupStyle,
-  contentStyle,
-  arrowStyle,
-} = useTriggerPosition({
+const { position, popupStyle, contentStyle, arrowStyle } = useTriggerPosition({
   props,
+  computedVisible,
   popupRef,
   triggerRef,
   arrowRef,
   mouseX,
   mouseY,
 });
-// 强制重新获取位置
-watch(
-  () => computedVisible.value,
-  async (val) => {
-    if (!val) return;
-    await sleep(0);
-    const {
-      left: _left,
-      right: _right,
-      top: _top,
-      bottom: _bottom,
-      width: _triggerWidth,
-      height: _triggerHeight,
-    } = unrefElement(triggerRef)!.getBoundingClientRect();
-    const { offsetWidth: _popupWidth, offsetHeight: _popupHeight } =
-      unrefElement(popupRef)!;
-    left.value = _left;
-    right.value = _right;
-    top.value = _top;
-    bottom.value = _bottom;
-    triggerWidth.value = _triggerWidth;
-    triggerHeight.value = _triggerHeight;
-    popupWidth.value = _popupWidth;
-    popupHeight.value = _popupHeight;
-    position.value = props.position;
-  }
-);
 defineExpose<TriggerExpose>({
   hide() {
     computedVisible.value = false;

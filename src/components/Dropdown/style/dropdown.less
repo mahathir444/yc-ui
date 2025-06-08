@@ -1,13 +1,12 @@
-@component: yc-dropdown;
-.@{component} {
+.yc-dropdown {
   padding: 4px 0;
   border-radius: 4px;
   box-shadow: 0 4px 10px #0000001a;
-  .@{component}-list {
+  .yc-dropdown-list {
     display: flex;
     flex-direction: column;
   }
-  .@{component}-footer {
+  .yc-dropdown-footer {
     border-top: 1px solid rgb(229, 230, 235);
   }
 }
@@ -24,7 +23,7 @@
 };
 each(@theme,.(@value,@name){
   @key:replace(~"@{name}", "@", "");
-  .@{component}-theme-@{key}{
+  .yc-dropdown-theme-@{key}{
     background-color: @value[bg];
     border: @value[border];
   }

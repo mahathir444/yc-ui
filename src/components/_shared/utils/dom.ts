@@ -121,17 +121,13 @@ export function findFirstScrollableParent(element?: HTMLElement) {
   while (currentElement && currentElement !== document.body) {
     const style = window.getComputedStyle(currentElement);
     const overflow = style.overflowY || style.overflow;
-    // 检查元素是否可滚动（垂直方向）
-    const isScrollable = overflow === 'auto' || overflow === 'scroll';
+    const isScrollable = ['auto', 'scroll'].includes(overflow);
     const canScroll = currentElement.scrollHeight > currentElement.clientHeight;
-
     if (isScrollable && canScroll) {
       return currentElement;
     }
     currentElement = currentElement.parentElement;
   }
-
-  return;
 }
 
 /**

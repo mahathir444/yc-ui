@@ -1,19 +1,28 @@
-import { computed, CSSProperties, Ref, ref, toRefs } from 'vue';
+import { watch, computed, CSSProperties, Ref, ref, toRefs } from 'vue';
 import { useElementBounding, useElementSize } from '@vueuse/core';
 import { TriggerPostion } from '../type';
 import { TriggerProps } from './useContext';
 import { Props } from '@shared/type';
-import { getGlobalConfig } from '@shared/utils';
+import { getGlobalConfig, unrefElement, sleep } from '@shared/utils';
 
 export default (params: {
   props: Props;
   popupRef: Ref<HTMLDivElement | undefined>;
   triggerRef: Ref<HTMLElement | undefined>;
   arrowRef: Ref<HTMLElement | undefined>;
+  computedVisible: Ref<boolean>;
   mouseX: Ref<number>;
   mouseY: Ref<number>;
 }) => {
-  const { props, popupRef, triggerRef, arrowRef, mouseX, mouseY } = params;
+  const {
+    props,
+    computedVisible,
+    popupRef,
+    triggerRef,
+    arrowRef,
+    mouseX,
+    mouseY,
+  } = params;
   // 解构需要使用的属性
   const {
     trigger,
@@ -127,9 +136,9 @@ export default (params: {
   // contentStyle
   const contentStyle = computed(() => {
     return {
-      ..._contentStyle.value,
       width: autoFitPopupWidth.value ? `${triggerWidth.value}px` : '',
       minWidth: autoFitPopupMinWidth.value ? `${triggerWidth.value}px` : '',
+      ..._contentStyle.value,
     } as CSSProperties;
   });
   // arrowStyle
@@ -391,6 +400,48 @@ export default (params: {
     });
     return target?.[2] ?? position.value;
   }
+  // 强制重新获取位置
+  watch(
+    () => computedVisible.value,
+    async (val) => {
+      if (!val) return;
+      await sleep(0);
+      position.value = _position.value;
+      const triggerDom = unrefElement(triggerRef);
+      const popupDom = unrefElement(popupRef);
+      if (triggerDom) {
+        // 获取trigger
+        const {
+          left: _left,
+          right: _right,
+          top: _top,
+          bottom: _bottom,
+          width: _triggerWidth,
+          height: _triggerHeight,
+        } = triggerDom.getBoundingClientRect();
+        left.value = _left;
+        right.value = _right;
+        top.value = _top;
+        bottom.value = _bottom;
+        triggerWidth.value = _triggerWidth;
+        triggerHeight.value = _triggerHeight;
+      }
+      // 获取popup
+      if (popupDom) {
+        const { offsetWidth: _popupWidth, offsetHeight: _popupHeight } =
+          popupDom;
+        popupWidth.value = _popupWidth;
+        popupHeight.value = _popupHeight;
+      }
+      // 回去arrow
+      if (arrowRef.value) {
+        const { offsetWidth: _arrowWidth, offsetHeight: _arrowHeight } =
+          arrowRef.value;
+        arrowWidth.value = _arrowWidth;
+        arrowHeight.value = _arrowHeight;
+      }
+    }
+  );
   return {
     position,
     left,
@@ -401,6 +452,8 @@ export default (params: {
     popupHeight,
     triggerWidth,
     triggerHeight,
+    arrowWidth,
+    arrowHeight,
     popupStyle,
     contentStyle,
     arrowStyle,

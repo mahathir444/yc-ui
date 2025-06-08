@@ -1,6 +1,5 @@
-@component: yc-skeleton;
 // shape
-.@{component}-shape {
+.yc-skeleton-shape {
   background-color: rgb(242, 243, 245);
 }
 // size
@@ -12,7 +11,7 @@
 };
 // Generate Size Classes
 each(@size, {
-  .@{component}-shape-size-@{key} {
+  .yc-skeleton-shape-size-@{key} {
     width: @value;
     height:@value;
   }
@@ -23,22 +22,22 @@ each(@size, {
   circle: 50%;
 };
 each(@shape, {
-  .@{component}-shape-shape-@{key} {
+  .yc-skeleton-shape-shape-@{key} {
     border-radius: @value;
   }
 });
 // line
-.@{component}-line {
+.yc-skeleton-line {
   width: 100%;
   display: flex;
   flex-direction: column;
-  .@{component}-line-row {
+  .yc-skeleton-line-row {
     background-color: rgb(242, 243, 245);
   }
 }
 
 // animation
-.@{component}-animation {
+.yc-skeleton-animation {
   @keyframes skeleton-circle {
     0% {
       background-position: 100% 50%;
@@ -47,8 +46,8 @@ each(@shape, {
       background-position: 0 50%;
     }
   }
-  .@{component}-shape,
-  .@{component}-line:deep(.@{component}-line-row) {
+  .yc-skeleton-shape,
+  .yc-skeleton-line:deep(.yc-skeleton-line-row) {
     background: linear-gradient(
       90deg,
       rgb(242, 243, 245) 25%,

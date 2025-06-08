@@ -1,5 +1,4 @@
-@component: yc-menu-item;
-.@{component} {
+.yc-menu-item {
   cursor: pointer;
   flex-shrink: 0;
   padding: 0 12px;
@@ -17,7 +16,7 @@
     margin-right: 16px;
     color: rgb(134, 144, 156);
   }
-  .@{component}-title {
+  .yc-menu-item-title {
     flex-shrink: 0;
     flex: 1;
   }
@@ -26,22 +25,22 @@
   }
 }
 // collapsed
-.@{component}-collapsed {
+.yc-menu-item-collapsed {
   .yc-menu-icon {
     margin-right: 0;
   }
 }
 // mode
-.@{component}-mode-horizontal {
+.yc-menu-item-mode-horizontal {
   flex-shrink: 0;
   position: relative;
-  .@{component} {
+  .yc-menu-item {
     min-height: 30px;
     line-height: 30px;
     .yc-menu-icon-suffix {
       margin-left: 6px;
     }
-    &.@{component}-selected {
+    &.yc-menu-item-selected {
       background-color: transparent;
       &::after {
         content: '';
@@ -56,7 +55,7 @@
   }
 }
 // 省略
-.@{component}-ellipsis {
+.yc-menu-item-ellipsis {
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
@@ -78,14 +77,14 @@
 };
 each(@theme, .(@value,@name){
   @key:replace(~"@{name}", "@", "");
-  .@{component}-theme-@{key} {
-    &:not(.@{component}-disabled) {
+  .yc-menu-item-theme-@{key} {
+    &:not(.yc-menu-item-disabled) {
       color: @value[color];
       &:hover {
         background-color: @value[hover-bg];
       }
     }
-    &.@{component}-selected{
+    &.yc-menu-item-selected{
       font-weight: 500;
       color: @value[selected-color];
       background-color: @value[hover-bg];
@@ -93,7 +92,7 @@ each(@theme, .(@value,@name){
         color: @value[selected-color];
       }
     }
-    &.@{component}-disabled{
+    &.yc-menu-item-disabled{
       color: @value[disabled-color];
     }
   }

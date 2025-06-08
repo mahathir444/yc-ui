@@ -1,5 +1,4 @@
-@component: yc-switch;
-.@{component} {
+.yc-switch {
   cursor: pointer;
   position: relative;
   padding: 0;
@@ -8,7 +7,7 @@
   border-radius: 20px;
   vertical-align: middle;
   transition: background-color 0.2s cubic-bezier(0.34, 0.69, 0.1, 1);
-  .@{component}-handle {
+  .yc-switch-handle {
     z-index: 1;
     position: absolute;
     top: 50%;
@@ -18,7 +17,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    .@{component}-handle-icon {
+    .yc-switch-handle-icon {
       font-size: inherit;
       display: flex;
       align-items: center;
@@ -29,135 +28,135 @@
       }
     }
   }
-  .@{component}-text {
+  .yc-switch-text {
     position: absolute;
     font-size: 12px;
   }
-  .@{component}-placeholder {
+  .yc-switch-placeholder {
     visibility: hidden;
     font-size: 12px;
     margin: 0 8px 0 26px;
   }
 }
 // unchecked
-.@{component}-unchecked {
-  .@{component}-handle {
+.yc-switch-unchecked {
+  .yc-switch-handle {
     background-color: #fff;
     color: rgb(229, 230, 235);
   }
-  .@{component}-text {
+  .yc-switch-text {
     left: 26px;
     color: #fff;
   }
 }
 // checked
-.@{component}-checked {
-  .@{component}-handle {
+.yc-switch-checked {
+  .yc-switch-handle {
     background-color: #fff;
     color: rgb(22, 93, 255);
   }
-  .@{component}-text {
+  .yc-switch-text {
     left: 8px;
     color: #fff;
   }
-  .@{component}-placeholder {
+  .yc-switch-placeholder {
     margin: 0 26px 0 8px;
   }
 }
 // loading disabled
-.@{component}-loading,
-.@{component}-disabled {
-  &.@{component}-unchecked {
+.yc-switch-loading,
+.yc-switch-disabled {
+  &.yc-switch-unchecked {
     background-color: rgb(242, 243, 245);
     &::after {
       background-color: rgb(242, 243, 245);
     }
-    .@{component}-handle {
+    .yc-switch-handle {
       color: rgb(229, 230, 235);
     }
-    .@{component}-text {
+    .yc-switch-text {
       color: #fff;
     }
   }
-  &.@{component}-checked {
+  &.yc-switch-checked {
     background-color: rgb(148, 191, 255);
     &::after {
       background-color: rgb(148, 191, 255);
     }
-    .@{component}-handle {
+    .yc-switch-handle {
       color: rgb(148, 191, 255);
     }
-    .@{component}-text {
+    .yc-switch-text {
       color: rgb(232, 243, 255);
     }
   }
 }
-.@{component}-disabled {
+.yc-switch-disabled {
   cursor: not-allowed;
 }
 // size
-.@{component}-size-small {
+.yc-switch-size-small {
   min-width: 28px;
   height: 16px;
   line-height: 16px;
-  .@{component}-handle {
+  .yc-switch-handle {
     left: 2px;
     width: 12px;
     height: 12px;
     font-size: 8px;
   }
-  &.@{component}-checked {
-    .@{component}-handle {
+  &.yc-switch-checked {
+    .yc-switch-handle {
       left: calc(100% - 14px);
     }
   }
-  &.@{component}-shape-line {
+  &.yc-switch-shape-line {
     min-width: 28px;
     height: 16px;
     line-height: 16px;
-    .@{component}-handle {
+    .yc-switch-handle {
       width: 16px;
       height: 16px;
     }
-    &.@{component}-checked {
-      .@{component}-handle {
+    &.yc-switch-checked {
+      .yc-switch-handle {
         left: calc(100% - 16px);
       }
     }
   }
 }
-.@{component}-size-medium {
+.yc-switch-size-medium {
   min-width: 40px;
   height: 24px;
   line-height: 24px;
-  .@{component}-handle {
+  .yc-switch-handle {
     left: 4px;
     width: 16px;
     height: 16px;
     font-size: 12px;
   }
-  &.@{component}-checked {
-    .@{component}-handle {
+  &.yc-switch-checked {
+    .yc-switch-handle {
       left: calc(100% - 20px);
     }
   }
-  &.@{component}-shape-line {
+  &.yc-switch-shape-line {
     min-width: 36px;
     overflow: unset;
-    .@{component}-handle {
+    .yc-switch-handle {
       left: 0;
       width: 20px;
       height: 20px;
     }
-    &.@{component}-checked {
-      .@{component}-handle {
+    &.yc-switch-checked {
+      .yc-switch-handle {
         left: calc(100% - 20px);
       }
     }
   }
 }
 // type-line
-.@{component}-shape-line {
+.yc-switch-shape-line {
   background: transparent;
   &::after {
     content: '';
@@ -169,13 +168,13 @@
     height: 6px;
     border-radius: 3px;
   }
-  .@{component}-handle {
+  .yc-switch-handle {
     box-shadow: 0 1px 3px rgb(134, 144, 156);
   }
 }
-.@{component}-shape-round {
+.yc-switch-shape-round {
   border-radius: 2px;
-  .@{component}-handle {
+  .yc-switch-handle {
     border-radius: 2px;
   }
 }

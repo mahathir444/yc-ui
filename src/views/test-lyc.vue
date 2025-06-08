@@ -1,41 +1,35 @@
 <template>
-  <div class="test">
-    <a-steps changeable :current="current" @change="setCurrent">
-      <a-step description="This is a description">Succeeded</a-step>
-      <a-step description="This is a description">Processing</a-step>
-      <a-step description="This is a description">Pending</a-step>
-    </a-steps>
-    <yc-steps changeable :current="current" @change="setCurrent">
-      <yc-step description="This is a description">Succeeded</yc-step>
-      <yc-step description="This is a description">Processing</yc-step>
-      <yc-step description="This is a description">Pending</yc-step>
-    </yc-steps>
-    <a-space size="large">
-      <a-button type="secondary" :disabled="current <= 1" @click="onPrev">
-        <IconLeft /> Back
-      </a-button>
-      <a-button type="primary" :disabled="current >= 3" @click="onNext">
-        Next <IconRight />
-      </a-button>
-    </a-space>
+  <div class="test" id="test">
+    <!-- <yc-popover
+      :contentStyle="{
+        width: '200px',
+      }"
+    >
+      <yc-button style="width: 100px">点击测试</yc-button>
+      <template #content>
+        <yc-empty />
+      </template>
+    </yc-popover> -->
+    <div>
+      <yc-scrollbar style="height: 200px; width: 200px; overflow: auto">
+        <div
+          style="
+            height: 2000px;
+            width: 2000px;
+            background-color: var(--color-primary-light-4);
+          "
+        >
+          Content
+        </div>
+      </yc-scrollbar>
+    </div>
   </div>
 </template>
 
 <script lang="ts" setup>
-import { ref, h } from 'vue';
-const current = ref(1);
-
-function onPrev() {
-  current.value = Math.max(1, current.value - 1);
-}
-
-function onNext() {
-  current.value = Math.min(3, current.value + 1);
-}
-
-function setCurrent(current) {
-  current = current;
-}
+import { ref } from 'vue';
+import { AffixInstance } from '@arco-design/web-vue';
+const size = ref(0.5);
 </script>
 
 <style lang="less" scoped>
@@ -44,43 +38,20 @@ function setCurrent(current) {
   width: 100%;
   display: flex;
   flex-direction: column;
-  // align-items: center;
-  // justify-content: center;
+
   gap: 10px;
+  overflow: auto;
 }
 
-.frame-bg {
-  max-width: 780px;
-  padding: 40px;
-  background: var(--color-fill-2);
+.trigger-demo-nest {
+  padding: 10px;
+  width: 200px;
+  background-color: var(--color-bg-popup);
+  border-radius: 4px;
+  box-shadow: 0 2px 8px 0 rgba(0, 0, 0, 0.15);
 }
 
-.frame-body {
-  display: flex;
-  background: var(--color-bg-2);
-}
-
-.frame-aside {
-  padding: 24px;
-  height: 272px;
-  border-right: 1px solid var(--color-border);
-}
-
-.frame-main {
-  width: 100%;
-}
-
-.main-content {
-  text-align: center;
-  line-height: 200px;
-}
-
-.main-bottom {
-  display: flex;
-  justify-content: center;
-
-  button {
-    margin: 0 20px;
-  }
+.trigger-demo-nest-popup-content {
+  text-align: right;
 }
 </style>

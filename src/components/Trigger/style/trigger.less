@@ -1,9 +1,7 @@
-@component: yc-trigger;
-.@{component} {
+.yc-trigger {
   position: absolute;
 
-  .@{component}-arrow {
-    z-index: -1;
+  .yc-trigger-arrow {
     position: absolute;
     width: 8px;
     height: 8px;
@@ -12,41 +10,41 @@
 }
 
 // arrow
-.@{component} {
-  &.@{component}-position-top,
-  &.@{component}-position-tl,
-  &.@{component}-position-tr {
-    .@{component}-arrow {
+.yc-trigger {
+  &.yc-trigger-position-top,
+  &.yc-trigger-position-tl,
+  &.yc-trigger-position-tr {
+    .yc-trigger-arrow {
       transform: translate(-50%, 50%) rotate(45deg);
       border-bottom-right-radius: 2px;
       border-top: none;
       border-left: none;
     }
   }
-  &.@{component}-position-bottom,
-  &.@{component}-position-bl,
-  &.@{component}-position-br {
-    .@{component}-arrow {
+  &.yc-trigger-position-bottom,
+  &.yc-trigger-position-bl,
+  &.yc-trigger-position-br {
+    .yc-trigger-arrow {
       transform: translate(-50%, -50%) rotate(45deg);
       border-top-left-radius: 2px;
       border-bottom: none;
       border-right: none;
     }
   }
-  &.@{component}-position-left,
-  &.@{component}-position-lt,
-  &.@{component}-position-lb {
-    .@{component}-arrow {
+  &.yc-trigger-position-left,
+  &.yc-trigger-position-lt,
+  &.yc-trigger-position-lb {
+    .yc-trigger-arrow {
       transform: translate(50%, -50%) rotate(45deg);
       border-top-right-radius: 2px;
       border-bottom: none;
       border-left: none;
     }
   }
-  &.@{component}-position-right,
-  &.@{component}-position-rt,
-  &.@{component}-position-rb {
-    .@{component}-arrow {
+  &.yc-trigger-position-right,
+  &.yc-trigger-position-rt,
+  &.yc-trigger-position-rb {
+    .yc-trigger-arrow {
       transform: translate(-50%, -50%) rotate(45deg);
       border-bottom-left-radius: 2px;
       border-top: none;
@@ -69,10 +67,10 @@
   lt: 100% 0;
   lb: 100% 100%;
 };
-.@{component}-transform-origin {
+.yc-trigger-transform-origin {
   each(@trigger-positions, .(@origin, @position) {
-    &.@{component}-position-@{position} {
-      .@{component}-content {
+    &.yc-trigger-position-@{position} {
+      .yc-trigger-content {
         transform-origin: @origin;
       }
     }

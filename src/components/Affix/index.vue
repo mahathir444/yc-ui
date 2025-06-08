@@ -29,8 +29,9 @@ import {
   onMounted,
   CSSProperties,
   onBeforeUnmount,
+  watch,
 } from 'vue';
-import { AffixProps, AffixSlots } from './type';
+import { AffixProps, AffixEmits, AffixSlots, AffixExpose } from './type';
 import { useResizeObserver } from '@vueuse/core';
 import {
   isUndefined,
@@ -48,6 +49,7 @@ const props = withDefaults(defineProps<AffixProps>(), {
   target: undefined,
   targetContainer: undefined,
 });
+const emits = defineEmits<AffixEmits>();
 const {
   target: _target,
   targetContainer: _targetContainer,
@@ -90,6 +92,13 @@ const { stop } = useResizeObserver(
     box: 'border-box',
   }
 );
+// 检测isFixed触发事件
+watch(
+  () => isFixed.value,
+  (val) => {
+    emits('change', val);
+  }
+);
 // 处理滚动
 const handleScroll = throttleByRaf(() => {
   if (!target.value || !targetContainer.value || !wrapperRef.value) return;
@@ -114,5 +123,10 @@ onMounted(() => {
 onBeforeUnmount(() => {
   target.value?.removeEventListener('scroll', handleScroll);
   stop();
+});
+defineExpose<AffixExpose>({
+  updatePosition() {
+    handleScroll();
+  },
 });
 </script>

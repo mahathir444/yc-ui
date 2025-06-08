@@ -1,19 +1,18 @@
-@component: yc-image-preview;
-.@{component} {
+.yc-image-preview {
   position: fixed;
   inset: 0 0 0 0;
-  .@{component}-mask {
+  .yc-image-preview-mask {
     position: absolute;
     inset: 0 0 0 0;
     background-color: rgba(29, 33, 41, 0.6);
   }
-  .@{component}-wrapper {
+  .yc-image-preview-wrapper {
     position: absolute;
     inset: 0 0 0 0;
-    .@{component}-img-container {
+    .yc-image-preview-img-container {
       inset: 0 0 0 0;
       position: absolute;
-      .@{component}-img {
+      .yc-image-preview-img {
         left: 50%;
         top: 50%;
         position: absolute;
@@ -25,7 +24,7 @@
         user-select: none;
       }
     }
-    .@{component}-toolbar {
+    .yc-image-preview-toolbar {
       position: absolute;
       bottom: 46px;
       left: 50%;
@@ -35,7 +34,7 @@
       border-radius: 4px;
       display: flex;
       align-items: flex-start;
-      .@{component}-toolbar-action {
+      .yc-image-preview-toolbar-action {
         cursor: pointer;
         border-radius: 2px;
         background-color: transparent;
@@ -44,22 +43,22 @@
         display: flex;
         align-items: center;
         justify-content: center;
-        .@{component}-toolbar-action-content {
+        .yc-image-preview-toolbar-action-content {
           padding: 13px;
           line-height: 1;
         }
-        &:not(.@{component}-toolbar-action-disabled):hover {
+        &:not(.yc-image-preview-toolbar-action-disabled):hover {
           color: rgb(22, 93, 255);
           background-color: rgb(242, 243, 245);
         }
       }
-      .@{component}-toolbar-action-disabled {
+      .yc-image-preview-toolbar-action-disabled {
         color: rgb(201, 205, 212);
         background-color: transparent;
         cursor: not-allowed;
       }
     }
-    .@{component}-close-btn {
+    .yc-image-preview-close-btn {
       cursor: pointer;
       position: absolute;
       top: 36px;
@@ -78,6 +77,6 @@
   }
 }
 
-.@{component}-absolute {
+.yc-image-preview-absolute {
   position: absolute;
 }

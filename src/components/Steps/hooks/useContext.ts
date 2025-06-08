@@ -14,7 +14,6 @@ import {
   StepType,
 } from '../type';
 import { isUndefined, useControlValue } from '@shared/utils';
-
 export const STEPS_CONTEXT_KEY = 'card-context';
 
 export interface StepsContext {
@@ -23,7 +22,7 @@ export interface StepsContext {
   lineLess: Ref<boolean>;
   direction: Ref<Direction>;
   labelPlacement: Ref<Direction>;
-  statusArr: Ref<Ref<string>[]>;
+  statusArr: Ref<Ref<StepStatus>[]>;
   status: Ref<StepStatus>;
   small: Ref<boolean>;
   type: Ref<StepType>;
@@ -72,10 +71,10 @@ export default () => {
         return 'horizontal';
       }
     });
-    // status
-    const statusArr = ref<Ref<string>[]>([]);
     // step
     const step = ref<number>(0);
+    // statusArr
+    const statusArr = ref<Ref<StepStatus>[]>([]);
     _provide<StepsContext>(STEPS_CONTEXT_KEY, {
       step,
       computedCurrent,
@@ -130,7 +129,9 @@ export default () => {
         return 'wait';
       }
     });
+    // 获取下一个status
     const nextStatus = computed(() => statusArr.value[curStep.value]?.value);
+    // 收集
     statusArr.value[curStep.value - 1] = status;
     return {
       ...injection,

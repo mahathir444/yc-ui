@@ -1,9 +1,8 @@
-@component: yc-list;
-.@{component}-wrapper {
+.yc-list-wrapper {
   position: relative;
   width: 100%;
 
-  .@{component}-spin {
+  .yc-list-spin {
     width: 100%;
     display: flex;
     flex-direction: column;
@@ -17,22 +16,22 @@
         }
       }
     }
-    .@{component}-content-wrapper {
+    .yc-list-content-wrapper {
       display: flex;
       flex-direction: column;
       color: rgb(29, 33, 41);
       font-size: 14px;
       line-height: 1.5715;
-      .@{component}-header {
+      .yc-list-header {
         font-weight: 500;
         font-size: 16px;
         line-height: 1.5;
       }
-      .@{component}-content {
+      .yc-list-content {
         display: flex;
         flex-direction: column;
       }
-      .@{component}-scroll-loading {
+      .yc-list-scroll-loading {
         position: absolute;
         left: 0;
         right: 0;
@@ -42,31 +41,31 @@
   }
 }
 // bordered
-.@{component}-bordered {
+.yc-list-bordered {
   .yc-scrollbar {
     &:deep(.yc-scrollbar-container) {
       border: 1px solid rgb(229, 230, 235);
     }
   }
 }
-.@{component}-split {
-  .@{component}-header {
+.yc-list-split {
+  .yc-list-header {
     border-bottom: 1px solid rgb(229, 230, 235);
   }
-  .@{component}-content {
-    &:deep(.@{component}-item) {
+  .yc-list-content {
+    &:deep(.yc-list-item) {
       &:not(:last-child) {
         border-bottom: 1px solid rgb(229, 230, 235);
       }
     }
   }
-  .@{component}-footer {
+  .yc-list-footer {
     border-top: 1px solid rgb(229, 230, 235);
   }
 }
 // hoverable
-.@{component}-hoverable {
-  &:deep(.@{component}-item) {
+.yc-list-hoverable {
+  &:deep(.yc-list-item) {
     &:hover {
       background-color: rgb(247, 248, 250);
     }
@@ -89,11 +88,11 @@
 };
 each(@size, .(@value,@name){
     @key:replace(~"@{name}", "@", "");
-    .@{component}-size-@{key} {
-     .@{component}-header,.@{component}-footer,.@{component}-scroll-loading{
+    .yc-list-size-@{key} {
+     .yc-list-header,.yc-list-footer,.yc-list-scroll-loading{
       padding: @value[header-padding];
      }
-     &:deep(.@{component}-item){
+     &:deep(.yc-list-item){
       padding: @value[item-padding];
      }
     }

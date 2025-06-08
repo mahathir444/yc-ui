@@ -1,5 +1,4 @@
-@component: yc-button;
-.@{component} {
+.yc-button {
   cursor: pointer;
   user-select: none;
   outline: none;
@@ -10,7 +9,7 @@
   justify-content: center;
   align-items: center;
 
-  .@{component}-icon {
+  .yc-button-icon {
     flex-shrink: 0;
     display: flex;
     justify-content: center;
@@ -23,8 +22,8 @@
 }
 
 // loading
-.@{component}-loading,
-.@{component}-disabled {
+.yc-button-loading,
+.yc-button-disabled {
   cursor: default;
   position: relative;
 
@@ -37,12 +36,12 @@
     background-color: #fff;
     opacity: 0.4;
   }
-  &.@{component}-disabled {
+  &.yc-button-disabled {
     cursor: not-allowed;
   }
 }
 // loading
-.@{component}-long {
+.yc-button-long {
   width: 100%;
 }
 
@@ -216,10 +215,10 @@
 };
 each(@type, .(@type-value, @type-name) {
   @type-key: replace(~"@{type-name}", "@", "");
-  .@{component}.@{component}-@{type-key} {
+  .yc-button.yc-button-@{type-key} {
     each(@type-value, .(@status-value, @status-name) {
       @status-key: replace(~"@{status-name}", "@", "");
-      &.@{component}-status-@{status-key} {
+      &.yc-button-status-@{status-key} {
         color: @status-value[text];
         & when(isdefined(@status-value[bg])){
           background-color: @status-value[bg];
@@ -227,7 +226,7 @@ each(@type, .(@type-value, @type-name) {
         & when(isdefined(@status-value[border])){
           border-color: @status-value[border];
         }
-         &:not(.@{component}-disabled):not(.@{component}-loading) {
+         &:not(.yc-button-disabled):not(.yc-button-loading) {
             &:hover {
               & when(isdefined(@status-value[hover])){
                 background-color: @status-value[hover];
@@ -256,7 +255,7 @@ each(@type, .(@type-value, @type-name) {
         }
         & when(@type-key = text){
           background-color: transparent;
-          &:not(.@{component}-disabled):not(.@{component}-loading) {
+          &:not(.yc-button-disabled):not(.yc-button-loading) {
             &:hover {
               background-color: @colors[text-hover];
             }
@@ -299,23 +298,23 @@ each(@type, .(@type-value, @type-name) {
 };
 each(@size,.(@value,@name){
        @key: replace(~"@{name}", "@", "");
-      .@{component}-size-@{key} {
+      .yc-button-size-@{key} {
         height: @value[height];
         padding: 0  @value[padding];
         font-size: @value[font-size];
-        .@{component}-icon {
+        .yc-button-icon {
           width: @value[font-size];
           height: @value[font-size];
           margin-right: @value[margin-right];
         }
-        &.@{component}-shape-circle{
+        &.yc-button-shape-circle{
           width: @value[height];
           padding: 0;
         }
-        &.@{component}-only-icon{
+        &.yc-button-only-icon{
           width: @value[height];
           padding: 0;
-          .@{component}-icon {
+          .yc-button-icon {
             margin: 0 ;
           }
         }
@@ -328,7 +327,7 @@ each(@size,.(@value,@name){
   circle: 50%;
 };
 each(@shape, {
-      .@{component}-shape-@{key} {
+      .yc-button-shape-@{key} {
         border-radius: @value;
       }
 });

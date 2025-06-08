@@ -1,6 +1,5 @@
-@component: yc-textarea;
 // wrapper
-.@{component}-wrapper {
+.yc-textarea-wrapper {
   position: relative;
   cursor: text;
   width: 100%;
@@ -18,12 +17,12 @@
   overflow: hidden;
   display: inline-flex;
   align-items: center;
-  &:not(.@{component}-disabled) {
+  &:not(.yc-textarea-disabled) {
     &:hover {
       background-color: rgb(229, 230, 235);
       border-color: transparent;
     }
-    &:hover .@{component}-clear-button {
+    &:hover .yc-textarea-clear-button {
       visibility: visible;
     }
     &:focus-within {
@@ -33,7 +32,7 @@
     }
   }
 
-  .@{component}-word-limit {
+  .yc-textarea-word-limit {
     position: absolute;
     right: 10px;
     bottom: 6px;
@@ -41,15 +40,15 @@
     color: rgb(134, 144, 156);
     font-size: 12px;
   }
-  .@{component}-clear-button {
+  .yc-textarea-clear-button {
     visibility: hidden;
     position: absolute;
     top: 50%;
     right: 10px;
     transform: translateY(-50%);
   }
-  .@{component},
-  .@{component}-mirror {
+  .yc-textarea,
+  .yc-textarea-mirror {
     display: block;
     width: 100%;
     padding: 4px 12px;
@@ -70,13 +69,13 @@
     white-space: pre-wrap;
     overflow-wrap: break-word;
   }
-  .@{component} {
+  .yc-textarea {
     resize: vertical;
     &::placeholder {
       color: rgb(134, 144, 156);
     }
   }
-  .@{component}-mirror {
+  .yc-textarea-mirror {
     position: absolute;
     top: 0;
     left: 0;
@@ -84,15 +83,15 @@
   }
 }
 // auto-size
-.@{component}-auto-size {
-  .@{component} {
+.yc-textarea-auto-size {
+  .yc-textarea {
     resize: none;
   }
 }
 // error
-.@{component}-error {
+.yc-textarea-error {
   background-color: rgb(255, 236, 232);
-  &:not(.@{component}-disabled) {
+  &:not(.yc-textarea-disabled) {
     &:hover {
       background-color: rgb(253, 205, 197);
       border-color: transparent;
@@ -105,7 +104,7 @@
   }
 }
 // disabled
-.@{component}-disabled {
+.yc-textarea-disabled {
   cursor: not-allowed;
   border-color: transparent;
   background-color: rgb(242, 243, 245);

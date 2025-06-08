@@ -1,5 +1,4 @@
-@component: yc-link;
-.@{component} {
+.yc-link {
   cursor: pointer;
   padding: 1px 4px;
   line-height: 1.5715;
@@ -14,7 +13,7 @@
   align-items: center;
   gap: 6px;
 
-  .@{component}-icon {
+  .yc-link-icon {
     flex-shrink: 0;
     color: inherit;
     font-size: 12px;
@@ -28,7 +27,7 @@
   }
 }
 // hoverable
-.@{component}-hoverable {
+.yc-link-hoverable {
   &:hover {
     background-color: rgb(242, 243, 245);
   }
@@ -37,12 +36,12 @@
   }
 }
 // disabled
-.@{component}-disabled {
+.yc-link-disabled {
   opacity: 0.4;
   cursor: not-allowed;
 }
 // loading
-.@{component}-loading {
+.yc-link-loading {
   cursor: default;
   position: relative;
 
@@ -66,7 +65,7 @@
   danger: rgb(245, 63, 63);
 };
 each(@status, {
-  .@{component}-status-@{key} {
+  .yc-link-status-@{key} {
     color: @value;
   }
 });

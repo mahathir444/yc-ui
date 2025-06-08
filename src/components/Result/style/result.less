@@ -1,14 +1,13 @@
-@component: yc-result;
-.@{component} {
+.yc-result {
   width: 100%;
   padding: 32px 32px 24px;
   display: flex;
   flex-direction: column;
   align-items: center;
-  .@{component}-icon {
+  .yc-result-icon {
     font-size: 20px;
     margin-bottom: 16px;
-    .@{component}-icon-tip {
+    .yc-result-icon-tip {
       width: 45px;
       height: 45px;
       border-radius: 50%;
@@ -18,27 +17,27 @@
     }
   }
 
-  .@{component}-title,
-  .@{component}-subtitle {
+  .yc-result-title,
+  .yc-result-subtitle {
     color: rgb(78, 89, 105);
     font-size: 14px;
     line-height: 1.5715;
     text-align: center;
-    &.@{component}-title {
+    &.yc-result-title {
       color: rgb(29, 33, 41);
     }
   }
-  .@{component}-extra {
+  .yc-result-extra {
     margin-top: 20px;
   }
-  .@{component}-content {
+  .yc-result-content {
     margin-top: 20px;
     width: 100%;
   }
 }
 
 // icon-type
-.@{component} {
+.yc-result {
   // type
   @type: {
     @info: {
@@ -60,18 +59,18 @@
   };
   each(@type, .(@value,@name){
     @key:replace(~"@{name}", "@", "");
-    .@{component}-icon-@{key} {
+    .yc-result-icon-@{key} {
       color: @value[icon-color];
-      .@{component}-icon-tip {
+      .yc-result-icon-tip {
         background-color: @value[bg];
       }
     }
   });
-  .@{component}-icon-403,
-  .@{component}-icon-404,
-  .@{component}-icon-500 {
+  .yc-result-icon-403,
+  .yc-result-icon-404,
+  .yc-result-icon-500 {
     padding-top: 24px;
-    .@{component}-icon-tip {
+    .yc-result-icon-tip {
       width: 92px;
       height: 92px;
       line-height: 92px;

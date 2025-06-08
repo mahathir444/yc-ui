@@ -1,15 +1,14 @@
-@component: yc-split;
-.@{component} {
+.yc-split {
   display: flex;
-  .@{component}-pane {
+  .yc-split-pane {
     overflow: auto;
   }
-  .@{component}-pane-second {
+  .yc-split-pane-second {
     flex: 1;
   }
 
-  .@{component}-trigger {
-    .@{component}-trigger-icon-wrapper {
+  .yc-split-trigger {
+    .yc-split-trigger-icon-wrapper {
       color: rgb(29, 33, 41);
       font-size: 12px;
       line-height: 1;
@@ -18,27 +17,27 @@
       align-items: center;
       justify-content: center;
 
-      .@{component}-trigger-icon {
+      .yc-split-trigger-icon {
         margin: 0 -3px;
       }
     }
   }
 }
 // direction
-.@{component}-direction-horizontal {
+.yc-split-direction-horizontal {
   flex-direction: row;
-  .@{component}-trigger {
+  .yc-split-trigger {
     cursor: col-resize;
-    .@{component}-trigger-icon-wrapper {
+    .yc-split-trigger-icon-wrapper {
       height: 100%;
     }
   }
 }
-.@{component}-direction-vertical {
+.yc-split-direction-vertical {
   flex-direction: column;
-  .@{component}-trigger {
+  .yc-split-trigger {
     cursor: row-resize;
-    .@{component}-trigger-icon-wrapper {
+    .yc-split-trigger-icon-wrapper {
       width: 100%;
     }
   }

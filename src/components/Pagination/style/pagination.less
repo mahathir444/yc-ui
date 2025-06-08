@@ -1,33 +1,32 @@
-@component: yc-pagination;
-.@{component} {
+.yc-pagination {
   display: flex;
   align-items: center;
   gap: 8px;
-  .@{component}-total {
+  .yc-pagination-total {
     height: 100%;
     color: rgb(29, 33, 41);
     white-space: nowrap;
   }
-  .@{component}-list {
+  .yc-pagination-list {
     display: flex;
     align-items: center;
     gap: 8px;
   }
-  .@{component}-simple {
+  .yc-pagination-simple {
     display: flex;
     align-items: center;
-    .@{component}-jumper-simple {
+    .yc-pagination-jumper-simple {
       gap: 0;
       padding: 0 4px;
-      .@{component}-jumper-separator {
+      .yc-pagination-jumper-separator {
         padding: 0 12px;
       }
-      .@{component}-jumper-total-page {
+      .yc-pagination-jumper-total-page {
         padding-right: 8px;
       }
     }
   }
-  .@{component}-item {
+  .yc-pagination-item {
     outline: 0;
     cursor: pointer;
     user-select: none;
@@ -38,33 +37,33 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    &:not(.@{component}-item-disabled):not(.@{component}-item-active):hover {
+    &:not(.yc-pagination-item-disabled):not(.yc-pagination-item-active):hover {
       color: rgb(78, 89, 105);
       background-color: rgb(247, 248, 250);
       transition:
         color 0.2s cubic-bezier(0, 0, 1, 1),
         background-color 0.2s cubic-bezier(0, 0, 1, 1);
-      &.@{component}-item-previous,
-      &.@{component}-item-next {
+      &.yc-pagination-item-previous,
+      &.yc-pagination-item-next {
         color: rgb(22, 93, 255);
       }
     }
-    &.@{component}-item-disabled {
+    &.yc-pagination-item-disabled {
       color: rgb(201, 205, 212);
       cursor: not-allowed;
       background-color: transparent;
     }
-    &.@{component}-item-active {
+    &.yc-pagination-item-active {
       color: rgb(22, 93, 255);
       background-color: rgb(232, 243, 255);
     }
   }
-  .@{component}-options {
+  .yc-pagination-options {
     &:deep(.yc-select) {
       width: 110px;
     }
   }
-  .@{component}-jumper {
+  .yc-pagination-jumper {
     display: flex;
     align-items: center;
     gap: 8px;
@@ -76,7 +75,7 @@
         text-align: center;
       }
     }
-    .@{component}-jumper-text-goto {
+    .yc-pagination-jumper-text-goto {
       color: rgb(134, 144, 156);
       white-space: nowrap;
     }
@@ -103,23 +102,23 @@
 };
 each(@size, .(@value,@name){
   @key:replace(~"@{name}", "@", "");
-  .@{component}-size-@{key} {
-    .@{component}-total {
+  .yc-pagination-size-@{key} {
+    .yc-pagination-total {
       font-size:  @value[font-size];
       line-height:  @value[item-size];
     }
-    .@{component}-item {
+    .yc-pagination-item {
       min-width:  @value[item-size];
       height:  @value[item-size];
       font-size:  @value[font-size];
       line-height:  @value[item-size];
     }
-    .@{component}-jumper > span {
+    .yc-pagination-jumper > span {
       font-size:  @value[font-size];
     }
     
     & when (@key = mini) {
-      .@{component}-options:deep(.yc-select) {
+      .yc-pagination-options:deep(.yc-select) {
         width:  102px;
       }
     }

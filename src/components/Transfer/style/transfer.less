@@ -1,9 +1,8 @@
-@component: yc-transfer;
-.@{component} {
+.yc-transfer {
   display: flex;
   align-items: center;
 
-  .@{component}-view {
+  .yc-transfer-view {
     overflow: hidden;
     width: 200px;
     height: 224px;
@@ -12,7 +11,7 @@
     display: flex;
     flex-direction: column;
 
-    .@{component}-view-header {
+    .yc-transfer-view-header {
       height: 40px;
       padding: 0 10px;
       color: rgb(29, 33, 41);
@@ -23,16 +22,16 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      .@{component}-view-header-count {
+      .yc-transfer-view-header-count {
         color: rgb(134, 144, 156);
         font-size: 12px;
         font-weight: 400;
       }
     }
-    .@{component}-view-search {
+    .yc-transfer-view-search {
       padding: 8px 12px 4px 12px;
     }
-    .@{component}-view-body {
+    .yc-transfer-view-body {
       height: calc(100% - 40px);
       .yc-scrollbar {
         height: 100%;
@@ -45,11 +44,11 @@
           }
         }
       }
-      .@{component}-list {
+      .yc-transfer-list {
         width: 100%;
         display: flex;
         flex-direction: column;
-        .@{component}-list-item {
+        .yc-transfer-list-item {
           flex-shrink: 0;
           overflow: hidden;
           height: 36px;
@@ -68,10 +67,10 @@
           .yc-checkbox {
             flex: 1;
           }
-          .@{component}-list-item-content {
+          .yc-transfer-list-item-content {
             flex: 1;
           }
-          &.@{component}-list-item-disabled {
+          &.yc-transfer-list-item-disabled {
             color: rgb(201, 205, 212);
             background: transparent;
             cursor: not-allowed;
@@ -80,7 +79,7 @@
       }
     }
   }
-  .@{component}-operations {
+  .yc-transfer-operations {
     padding: 0 20px;
     display: flex;
     flex-direction: column;
@@ -88,17 +87,17 @@
   }
 }
 // simple
-.@{component}-simple {
-  .@{component}-view {
+.yc-transfer-simple {
+  .yc-transfer-view {
     &:last-child {
       border-left: 0;
     }
   }
 }
 // has-search
-.@{component}-has-search {
-  .@{component}-view {
-    .@{component}-view-body {
+.yc-transfer-has-search {
+  .yc-transfer-view {
+    .yc-transfer-view-body {
       height: calc(100% - 88px);
     }
   }

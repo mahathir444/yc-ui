@@ -1,17 +1,16 @@
 @import './animation.less';
-@component: yc-carousel;
-.@{component} {
+.yc-carousel {
   position: relative;
-  &:hover .@{component}-arrow-show-hover {
+  &:hover .yc-carousel-arrow-show-hover {
     opacity: 1;
   }
-  .@{component}-slide {
+  .yc-carousel-slide {
     overflow: hidden;
     position: relative;
     width: 100%;
     height: 100%;
     display: flex;
-    .@{component}-item {
+    .yc-carousel-item {
       position: absolute;
       inset: 0 0 0 0;
       user-select: none;
@@ -20,40 +19,40 @@
   }
 }
 // animation
-.@{component}-animation-slide {
-  .@{component}-item {
+.yc-carousel-animation-slide {
+  .yc-carousel-item {
     visibility: hidden;
 
-    &.@{component}-item-current {
+    &.yc-carousel-item-current {
       visibility: visible;
     }
   }
 }
-.@{component}-animation-fade {
-  .@{component}-item {
+.yc-carousel-animation-fade {
+  .yc-carousel-item {
     opacity: 0;
 
-    &.@{component}-item-current {
+    &.yc-carousel-item-current {
       opacity: 1;
     }
   }
 }
-.@{component}-animation-card {
-  .@{component}-item {
+.yc-carousel-animation-card {
+  .yc-carousel-item {
     visibility: hidden;
   }
-  .@{component}-item-prev {
+  .yc-carousel-item-prev {
     visibility: visible;
     transform: translateX(-100%) translateZ(-200px);
     opacity: 0.4;
     animation: carousel-card-top-to-middle;
   }
-  .@{component}-item-current {
+  .yc-carousel-item-current {
     visibility: visible;
     z-index: 1;
     animation: carousel-card-middle-to-top;
   }
-  .@{component}-item-next {
+  .yc-carousel-item-next {
     visibility: visible;
     transform: translateX(0%) translateZ(-200px);
     opacity: 0.4;
@@ -61,15 +60,15 @@
   }
 }
 // direction
-.@{component}-direction-vertical {
+.yc-carousel-direction-vertical {
   flex-direction: column;
 }
 // outer
-.@{component}-indicator-outer {
+.yc-carousel-indicator-outer {
   margin-bottom: 30px;
 }
 // arrow
-.@{component}-arrow {
+.yc-carousel-arrow {
   position: absolute;
   z-index: 2;
   display: flex;
@@ -86,151 +85,151 @@
   }
 }
 // show-hover
-.@{component}-arrow-show-hover {
+.yc-carousel-arrow-show-hover {
   opacity: 0;
   transition: all 0.3s;
 }
 // arrow-positon
-.@{component}-arrow-left,
-.@{component}-arrow-right {
+.yc-carousel-arrow-left,
+.yc-carousel-arrow-right {
   transform: translateY(-50%);
   top: 50%;
-  &.@{component}-arrow-left {
+  &.yc-carousel-arrow-left {
     left: 12px;
   }
-  &.@{component}-arrow-right {
+  &.yc-carousel-arrow-right {
     right: 12px;
   }
 }
-.@{component}-arrow-top,
-.@{component}-arrow-bottom {
+.yc-carousel-arrow-top,
+.yc-carousel-arrow-bottom {
   left: 50%;
   transform: translateX(-50%);
-  &.@{component}-arrow-top {
+  &.yc-carousel-arrow-top {
     top: 12px;
   }
-  &.@{component}-arrow-bottom {
+  &.yc-carousel-arrow-bottom {
     bottom: 12px;
   }
 }
 // indicator
-.@{component}-indicator {
+.yc-carousel-indicator {
   position: absolute;
   display: flex;
-  &.@{component}-indicator-position-outer {
-    .@{component}-indicator-item {
+  &.yc-carousel-indicator-position-outer {
+    .yc-carousel-indicator-item {
       background-color: rgba(201, 205, 212, 0.5);
       &:hover,
-      &.@{component}-indicator-item-active {
+      &.yc-carousel-indicator-item-active {
         background-color: rgb(201, 205, 212);
       }
     }
-    &.@{component}-indicator-shape-slider {
+    &.yc-carousel-indicator-shape-slider {
       background-color: rgba(201, 205, 212, 0.5);
-      .@{component}-indicator-item-slider {
+      .yc-carousel-indicator-item-slider {
         background-color: rgb(201, 205, 212);
       }
     }
   }
 
-  .@{component}-indicator-item {
+  .yc-carousel-indicator-item {
     background-color: rgba(255, 255, 255, 0.3);
     border-radius: 4px;
     cursor: pointer;
     &:hover,
-    &.@{component}-indicator-item-active {
+    &.yc-carousel-indicator-item-active {
       background-color: #fff;
     }
   }
 }
 // indicator-position
-.@{component}-indicator-position-top,
-.@{component}-indicator-position-bottom {
+.yc-carousel-indicator-position-top,
+.yc-carousel-indicator-position-bottom {
   z-index: 2;
   top: 12px;
   left: 50%;
   transform: translateX(-50%);
-  &.@{component}-indicator-position-bottom {
+  &.yc-carousel-indicator-position-bottom {
     top: unset;
     bottom: 12px;
   }
 }
-.@{component}-indicator-position-left,
-.@{component}-indicator-position-right {
+.yc-carousel-indicator-position-left,
+.yc-carousel-indicator-position-right {
   left: 12px;
   top: 50%;
   transform: translateY(-50%);
   flex-direction: column;
-  &.@{component}-indicator-position-right {
+  &.yc-carousel-indicator-position-right {
     left: unset;
     right: 12px;
   }
 }
-.@{component}-indicator-position-outer {
+.yc-carousel-indicator-position-outer {
   left: 50%;
   transform: translateX(-50%);
-  &.@{component}-indicator-shape-slider {
+  &.yc-carousel-indicator-shape-slider {
     bottom: -16px;
   }
-  &.@{component}-indicator-shape-dot {
+  &.yc-carousel-indicator-shape-dot {
     bottom: -22px;
   }
-  &.@{component}-indicator-shape-line {
+  &.yc-carousel-indicator-shape-line {
     bottom: -20px;
   }
 }
 // indicator-shape
-.@{component}-indicator-shape-dot {
+.yc-carousel-indicator-shape-dot {
   gap: 8px;
-  .@{component}-indicator-item {
+  .yc-carousel-indicator-item {
     width: 6px;
     height: 6px;
     border-radius: 50%;
   }
 }
-.@{component}-indicator-shape-line {
+.yc-carousel-indicator-shape-line {
   gap: 8px;
-  &.@{component}-indicator-position-left,
-  &.@{component}-indicator-position-right {
-    .@{component}-indicator-item {
+  &.yc-carousel-indicator-position-left,
+  &.yc-carousel-indicator-position-right {
+    .yc-carousel-indicator-item {
       height: 12px;
       width: 4px;
     }
   }
-  &.@{component}-indicator-position-top,
-  &.@{component}-indicator-position-bottom {
-    .@{component}-indicator-item {
+  &.yc-carousel-indicator-position-top,
+  &.yc-carousel-indicator-position-bottom {
+    .yc-carousel-indicator-item {
       width: 12px;
       height: 4px;
     }
   }
 }
-.@{component}-indicator-shape-slider {
+.yc-carousel-indicator-shape-slider {
   cursor: pointer;
   border-radius: 4px;
   background-color: rgba(255, 255, 255, 0.3);
-  &.@{component}-indicator-position-left,
-  &.@{component}-indicator-position-right {
+  &.yc-carousel-indicator-position-left,
+  &.yc-carousel-indicator-position-right {
     height: 48px;
     width: 4px;
-    .@{component}-indicator-item-slider {
+    .yc-carousel-indicator-item-slider {
       width: 100%;
     }
   }
-  &.@{component}-indicator-position-top,
-  &.@{component}-indicator-position-bottom {
+  &.yc-carousel-indicator-position-top,
+  &.yc-carousel-indicator-position-bottom {
     width: 48px;
     height: 4px;
-    .@{component}-indicator-item {
+    .yc-carousel-indicator-item {
       height: 100%;
     }
   }
-  .@{component}-indicator-item {
+  .yc-carousel-indicator-item {
     flex-shrink: 0;
     flex: 1;
     opacity: 0;
   }
-  .@{component}-indicator-item-slider {
+  .yc-carousel-indicator-item-slider {
     position: absolute;
     border-radius: 4px;
     transition: transform 0.3s;

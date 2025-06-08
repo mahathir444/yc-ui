@@ -1,9 +1,8 @@
-@component: yc-slider;
-.@{component} {
+.yc-slider {
   display: inline-flex;
   align-items: center;
   gap: 20px;
-  .@{component}-track {
+  .yc-slider-track {
     flex: 1;
     flex-shrink: 0;
     position: relative;
@@ -15,12 +14,12 @@
       border-radius: 2px;
       background-color: rgb(229, 230, 235);
     }
-    .@{component}-bar {
+    .yc-slider-bar {
       position: absolute;
       border-radius: 2px;
       background-color: rgb(22, 93, 255);
     }
-    .@{component}-btn {
+    .yc-slider-btn {
       z-index: 2;
       user-select: none;
       cursor: pointer;
@@ -47,10 +46,10 @@
       }
     }
   }
-  .@{component}-input {
+  .yc-slider-input {
     display: flex;
     align-items: center;
-    .@{component}-input-divider {
+    .yc-slider-input-divider {
       margin: 0 6px;
       width: 8px;
       height: 2px;
@@ -66,34 +65,34 @@
       }
     }
   }
-  .@{component}-ticks,
-  .@{component}-dots,
-  .@{component}-marks {
+  .yc-slider-ticks,
+  .yc-slider-dots,
+  .yc-slider-marks {
     z-index: 1;
     position: absolute;
     //   tick
-    .@{component}-tick {
+    .yc-slider-tick {
       position: absolute;
       background: rgb(229, 230, 235);
-      &.@{component}-tick-active {
+      &.yc-slider-tick-active {
         background-color: rgb(22, 93, 255);
       }
     }
     //   dot
-    .@{component}-dot {
+    .yc-slider-dot {
       position: absolute;
       width: 8px;
       height: 8px;
       background-color: #fff;
       border: 2px solid rgb(229, 230, 235);
       border-radius: 50%;
-      &.@{component}-dot-active {
+      &.yc-slider-dot-active {
         background-color: #fff;
         border-color: rgb(22, 93, 255);
       }
     }
     //   mark
-    .@{component}-mark {
+    .yc-slider-mark {
       position: absolute;
       cursor: pointer;
       color: rgb(134, 144, 156);
@@ -104,18 +103,18 @@
   }
 }
 // direction
-.@{component}-direction-horizontal {
+.yc-slider-direction-horizontal {
   width: 100%;
   min-height: 32px;
-  .@{component}-track {
+  .yc-slider-track {
     &::before,
-    .@{component}-bar,
-    .@{component}-btn {
+    .yc-slider-bar,
+    .yc-slider-btn {
       left: 0;
       top: 50%;
     }
     &::before,
-    .@{component}-bar {
+    .yc-slider-bar {
       transform: translateY(-50%);
     }
     &::before {
@@ -123,49 +122,49 @@
       width: 100%;
       right: 0;
     }
-    .@{component}-bar {
+    .yc-slider-bar {
       height: 2px;
     }
   }
-  .@{component}-ticks,
-  .@{component}-dots,
-  .@{component}-marks {
+  .yc-slider-ticks,
+  .yc-slider-dots,
+  .yc-slider-marks {
     top: 50%;
     left: 0;
     right: 0;
     transform: translateY(-50%);
-    .@{component}-tick {
+    .yc-slider-tick {
       top: -4px;
       width: 1px;
       height: 3px;
       border-top-left-radius: 1px;
       border-top-right-radius: 1px;
     }
-    .@{component}-dot {
+    .yc-slider-dot {
       transform: translateY(-50%);
     }
-    &.@{component}-marks {
+    &.yc-slider-marks {
       transform: translateY(calc(-50% + 10px));
     }
   }
 }
-.@{component}-direction-vertical {
+.yc-slider-direction-vertical {
   height: 100%;
   min-width: 32px;
   flex-direction: column;
 
-  .@{component}-track {
+  .yc-slider-track {
     display: flex;
     flex-direction: column;
     justify-content: center;
     &::before,
-    .@{component}-bar,
-    .@{component}-btn {
+    .yc-slider-bar,
+    .yc-slider-btn {
       bottom: 0;
       left: 50%;
     }
     &::before,
-    .@{component}-bar {
+    .yc-slider-bar {
       transform: translateX(-50%);
     }
     &::before {
@@ -173,43 +172,43 @@
       width: 2px;
       height: 100%;
     }
-    .@{component}-bar {
+    .yc-slider-bar {
       width: 2px;
     }
   }
-  .@{component}-ticks,
-  .@{component}-dots,
-  .@{component}-marks {
+  .yc-slider-ticks,
+  .yc-slider-dots,
+  .yc-slider-marks {
     left: 50%;
     transform: translateX(-50%);
     top: 0;
     bottom: 0;
-    &.@{component}-marks {
+    &.yc-slider-marks {
       transform: translateX(calc(-50% + 10px));
     }
 
-    .@{component}-tick {
+    .yc-slider-tick {
       left: 0;
       width: 3px;
       height: 1px;
       border-top-left-radius: 1px;
       border-top-right-radius: 1px;
     }
-    .@{component}-dot {
+    .yc-slider-dot {
       transform: translateX(-50%);
     }
   }
 }
 // disabled
-.@{component}-disabled {
-  .@{component}-track {
+.yc-slider-disabled {
+  .yc-slider-track {
     &::before {
       background-color: rgb(242, 243, 245);
     }
-    .@{component}-bar {
+    .yc-slider-bar {
       background-color: rgb(229, 230, 235);
     }
-    .@{component}-btn {
+    .yc-slider-btn {
       cursor: not-allowed;
       &::before {
         border-color: rgb(229, 230, 235);

@@ -1,5 +1,4 @@
-@component: yc-button-group;
-.@{component} {
+.yc-button-group {
   display: inline-flex;
   align-items: center;
   .yc-button {
@@ -22,40 +21,40 @@
 }
 
 // type
-.@{component}-primary,
-.@{component}-secondary,
-.@{component}-text {
-  &.@{component}-primary {
+.yc-button-group-primary,
+.yc-button-group-secondary,
+.yc-button-group-text {
+  &.yc-button-group-primary {
     .yc-button:not(:last-child) {
       border-right: 1px solid rgb(64, 128, 255);
     }
   }
-  &.@{component}-secondary {
+  &.yc-button-group-secondary {
     .yc-button:not(:last-child) {
       border-right: 1px solid rgb(229, 230, 235);
     }
   }
   //   warning
-  &.@{component}-status-warning {
+  &.yc-button-group-status-warning {
     .yc-button:not(:last-child) {
       border-right: 1px solid rgb(255, 154, 46);
     }
   }
   //   success
-  &.@{component}-status-success {
+  &.yc-button-group-status-success {
     .yc-button:not(:last-child) {
       border-right: 1px solid rgb(35, 195, 67);
     }
   }
   //   danger
-  &.@{component}-status-danger {
+  &.yc-button-group-status-danger {
     .yc-button:not(:last-child) {
       border-right: 1px solid rgb(247, 101, 96);
     }
   }
 }
-.@{component}-dashed,
-.@{component}-outline {
+.yc-button-group-dashed,
+.yc-button-group-outline {
   .yc-button:not(:first-child) {
     border-left: none;
   }

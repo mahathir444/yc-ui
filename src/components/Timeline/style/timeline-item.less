@@ -1,21 +1,20 @@
-@component: yc-timeline-item;
-.@{component} {
+.yc-timeline-item {
   position: relative;
   color: rgb(29, 33, 41);
   font-size: 14px;
   &:not(:last-child) {
-    .@{component}-dot-line {
+    .yc-timeline-item-dot-line {
       position: absolute;
       border-color: rgb(229, 230, 235);
     }
   }
-  .@{component}-dot-wrapper {
+  .yc-timeline-item-dot-wrapper {
     position: absolute;
 
-    .@{component}-dot-content {
+    .yc-timeline-item-dot-content {
       position: relative;
 
-      .@{component}-dot-custom {
+      .yc-timeline-item-dot-custom {
         position: absolute;
         top: 50%;
         left: 50%;
@@ -26,55 +25,55 @@
         transform-origin: center;
       }
 
-      .@{component}-dot {
+      .yc-timeline-item-dot {
         position: relative;
         width: 6px;
         height: 6px;
         color: rgb(22, 93, 255);
         border-radius: 50%;
 
-        &.@{component}-dot-solid {
+        &.yc-timeline-item-dot-solid {
           background-color: rgb(22, 93, 255);
         }
-        &.@{component}-dot-hollow {
+        &.yc-timeline-item-dot-hollow {
           background-color: #fff;
           border: 2px solid rgb(22, 93, 255);
         }
       }
     }
   }
-  .@{component}-content-wrapper {
+  .yc-timeline-item-content-wrapper {
     position: relative;
     display: flex;
     flex-direction: column;
 
     gap: 4px;
-    .@{component}-content {
+    .yc-timeline-item-content {
       color: rgb(29, 33, 41);
       font-size: 14px;
       line-height: 1.5715;
     }
   }
-  .@{component}-label {
+  .yc-timeline-item-label {
     color: rgb(134, 144, 156);
     font-size: 12px;
     line-height: 1.667;
   }
 }
-.@{component}-ghost {
-  .@{component}-dot-wrapper {
-    .@{component}-dot-content {
-      .@{component}-dot-custom {
+.yc-timeline-item-ghost {
+  .yc-timeline-item-dot-wrapper {
+    .yc-timeline-item-dot-content {
+      .yc-timeline-item-dot-custom {
         left: 0;
       }
     }
   }
 }
 // direction
-.@{component}-direction-vertical {
+.yc-timeline-item-direction-vertical {
   min-height: 78px;
   &:not(:last-child) {
-    .@{component}-dot-line {
+    .yc-timeline-item-dot-line {
       top: 18px;
       bottom: -4px;
       left: 50%;
@@ -83,24 +82,24 @@
       border-left-width: 1px;
     }
   }
-  .@{component}-dot-wrapper {
+  .yc-timeline-item-dot-wrapper {
     height: 100%;
     text-align: center;
-    .@{component}-dot-content {
+    .yc-timeline-item-dot-content {
       width: 6px;
       height: 22px;
       line-height: 22px;
-      .@{component}-dot {
+      .yc-timeline-item-dot {
         top: 50%;
         margin-top: -50%;
       }
     }
   }
 }
-.@{component}-direction-horizontal {
+.yc-timeline-item-direction-horizontal {
   flex: 1;
   &:not(:last-child) {
-    .@{component}-dot-line {
+    .yc-timeline-item-dot-line {
       right: 4px;
       left: 12px;
       top: 50%;
@@ -109,9 +108,9 @@
       border-top-width: 1px;
     }
   }
-  .@{component}-dot-wrapper {
+  .yc-timeline-item-dot-wrapper {
     width: 100%;
-    .@{component}-dot-content {
+    .yc-timeline-item-dot-content {
       height: 6px;
       line-height: 6px;
     }
@@ -119,10 +118,10 @@
 }
 // label-positon
 .set-label-relative(@direction,@position) {
-  &.@{component}-direction-@{direction} {
-    &.@{component}-@{position} {
+  &.yc-timeline-item-direction-@{direction} {
+    &.yc-timeline-item-@{position} {
       margin-@{position}: if(@direction = vertical, 100px, 50px);
-      .@{component}-label {
+      .yc-timeline-item-label {
         @{position}: 0;
         & when(@position = left) {
           padding-right: 16px;
@@ -142,20 +141,20 @@
         }
       }
       & when(@position = right) {
-        .@{component}-content {
+        .yc-timeline-item-content {
           text-align: right;
         }
       }
     }
   }
 }
-.@{component}-label-is-relative {
-  .@{component}-label {
+.yc-timeline-item-label-is-relative {
+  .yc-timeline-item-label {
     position: absolute;
     top: 0;
     max-width: 100px;
   }
-  &:not(.@{component}-alternate) {
+  &:not(.yc-timeline-item-alternate) {
     .set-label-relative(horizontal,top);
     .set-label-relative(horizontal,bottom);
     .set-label-relative(vertical,left);
@@ -166,35 +165,35 @@
 @positions: left, top, right, bottom;
 .set-time-line-position(@position) {
   padding-@{position}: 6px;
-  .@{component}-dot-wrapper {
+  .yc-timeline-item-dot-wrapper {
     @{position}: 0;
   }
-  .@{component}-content-wrapper {
+  .yc-timeline-item-content-wrapper {
     margin-@{position}: 16px;
   }
 }
 each(@positions,.(@value,@key){
-    .@{component}-@{value}{
+    .yc-timeline-item-@{value}{
       .set-time-line-position(@value)
     }
   });
-.@{component}-alternate {
-  &.@{component}-direction-vertical {
+.yc-timeline-item-alternate {
+  &.yc-timeline-item-direction-vertical {
     .set-time-line-position(left);
     &:nth-child(2n) {
-      .@{component}-content-wrapper {
+      .yc-timeline-item-content-wrapper {
         width: fit-content;
         text-align: right;
         margin-left: calc(-50% - 22px);
       }
     }
-    &.@{component}-label-is-relative {
-      .@{component}-label {
+    &.yc-timeline-item-label-is-relative {
+      .yc-timeline-item-label {
         text-align: right;
         transform: translateX(calc(-100% - 22px));
       }
       &:nth-child(2n) {
-        .@{component}-label {
+        .yc-timeline-item-label {
           text-align: left;
           transform: translate(16px);
         }
@@ -202,22 +201,22 @@ each(@positions,.(@value,@key){
     }
   }
 
-  &.@{component}-direction-horizontal {
+  &.yc-timeline-item-direction-horizontal {
     .set-time-line-position(top);
     &:nth-child(2n) {
-      .@{component}-content-wrapper {
+      .yc-timeline-item-content-wrapper {
         margin-top: calc(-100% + 16px);
       }
     }
-    &.@{component}-label-is-relative {
-      .@{component}-label {
+    &.yc-timeline-item-label-is-relative {
+      .yc-timeline-item-label {
         transform: translateY(calc(-100% - 16px));
       }
       &:nth-child(2n) {
-        .@{component}-content-wrapper {
+        .yc-timeline-item-content-wrapper {
           transform: translateY(20px);
         }
-        .@{component}-label {
+        .yc-timeline-item-label {
           transform: translateY(22px);
         }
       }

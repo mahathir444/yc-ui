@@ -1,5 +1,4 @@
-@component: yc-alert;
-.@{component} {
+.yc-alert {
   overflow: hidden;
   width: 100%;
   padding: 8px 15px;
@@ -11,31 +10,31 @@
   gap: 8px;
   transform-origin: 50% 0;
 
-  .@{component}-icon {
+  .yc-alert-icon {
     font-size: 16px;
     height: 22px;
     display: flex;
     justify-content: center;
     align-items: center;
   }
-  .@{component}-body {
+  .yc-alert-body {
     flex: 1;
     display: flex;
     flex-direction: column;
     justify-content: center;
-    .@{component}-title {
+    .yc-alert-title {
       margin-bottom: 4px;
       font-weight: 500;
       font-size: 16px;
       line-height: 1.5;
       color: rgb(29, 33, 41);
     }
-    .@{component}-content {
+    .yc-alert-content {
       // color: rgb(78, 89, 105);
       color: rgb(29, 33, 41);
     }
   }
-  .@{component}-close-btn {
+  .yc-alert-close-btn {
     height: 22px;
     display: flex;
     justify-content: center;
@@ -43,30 +42,30 @@
   }
 }
 // title
-.@{component}-has-title {
+.yc-alert-has-title {
   padding: 15px;
   align-items: flex-start;
-  .@{component}-icon {
+  .yc-alert-icon {
     font-size: 18px;
     height: 24px;
   }
 }
 // center
-.@{component}-center {
-  .@{component}-body {
-    .@{component}-title {
+.yc-alert-center {
+  .yc-alert-body {
+    .yc-alert-title {
       text-align: center;
     }
-    .@{component}-content {
+    .yc-alert-content {
       text-align: center;
     }
   }
 }
 // banner
-.@{component}-banner {
+.yc-alert-banner {
   border-radius: 0;
   justify-content: center;
-  .@{component}-body {
+  .yc-alert-body {
     flex: unset;
   }
 }
@@ -96,9 +95,9 @@
 };
 each(@type,.(@value,@name){
   @key:replace(~"@{name}", "@", "");
-  .@{component}-@{key}{
+  .yc-alert-@{key}{
     background-color: @value[bg];
-    .@{component}-icon {
+    .yc-alert-icon {
      color: @value[icon-color]
     }
   }

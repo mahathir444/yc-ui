@@ -1,10 +1,9 @@
-@component: yc-badge;
-.@{component} {
+.yc-badge {
   position: relative;
   display: inline-block;
   line-height: 1;
-  .@{component}-text,
-  .@{component}-number {
+  .yc-badge-text,
+  .yc-badge-number {
     min-width: 20px;
     height: 20px;
     padding: 0 6px;
@@ -13,10 +12,10 @@
     font-size: 12px;
     line-height: 20px;
   }
-  .@{component}-dot,
-  .@{component}-text,
-  .@{component}-number,
-  .@{component}-custom-dot {
+  .yc-badge-dot,
+  .yc-badge-text,
+  .yc-badge-number,
+  .yc-badge-custom-dot {
     z-index: 2;
     position: absolute;
     background-color: rgb(245, 63, 63);
@@ -26,38 +25,38 @@
     border-radius: 20px;
     transform: translate(50%, -50%);
     transform-origin: 100% 0%;
-    &.@{component}-dot {
+    &.yc-badge-dot {
       width: 6px;
       height: 6px;
       border-radius: 50%;
     }
-    &.@{component}-custom-dot {
+    &.yc-badge-custom-dot {
       background-color: #fff;
       box-shadow: none;
     }
   }
 
-  .@{component}-stauts-wrapper {
+  .yc-badge-stauts-wrapper {
     display: inline-flex;
     align-items: center;
     gap: 8px;
-    .@{component}-stauts-dot {
+    .yc-badge-stauts-dot {
       width: 6px;
       height: 6px;
       border-radius: 50%;
     }
-    .@{component}-status-text {
+    .yc-badge-status-text {
       color: rgb(29, 33, 41);
       font-size: 12px;
       line-height: 1.5715;
     }
   }
 }
-.@{component}-no-children {
-  .@{component}-dot,
-  .@{component}-text,
-  .@{component}-number,
-  .@{component}-custom-dot {
+.yc-badge-no-children {
+  .yc-badge-dot,
+  .yc-badge-text,
+  .yc-badge-number,
+  .yc-badge-custom-dot {
     position: relative;
     transform: none;
   }
@@ -73,7 +72,7 @@
 };
 // status
 each(@status,{
-  .@{component}-status-@{key}{
+  .yc-badge-status-@{key}{
     background-color: @value;
   }
 })
@@ -94,7 +93,7 @@ each(@status,{
   gray: rgb(134, 144, 156);
 }
 each(@color, {
-  .@{component}-color-@{key} {
+  .yc-badge-color-@{key} {
     background-color: @value;
   }
 });

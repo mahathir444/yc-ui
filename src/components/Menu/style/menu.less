@@ -1,13 +1,12 @@
-@component: yc-menu;
-.@{component} {
+.yc-menu {
   position: relative;
   transition: width 0.2s cubic-bezier(0.34, 0.69, 0.1, 1);
-  .@{component}-inner {
+  .yc-menu-inner {
     overflow: auto;
     padding: 4px 8px;
     display: flex;
   }
-  .@{component}-collapse-button {
+  .yc-menu-collapse-button {
     cursor: pointer;
     position: absolute;
     right: 12px;
@@ -22,17 +21,17 @@
   }
 }
 // mode
-.@{component}-mode-vertical {
+.yc-menu-mode-vertical {
   height: 100%;
-  .@{component}-inner {
+  .yc-menu-inner {
     height: 100%;
     flex-direction: column;
     gap: 4px;
   }
 }
-.@{component}-mode-horizontal {
+.yc-menu-mode-horizontal {
   width: 100%;
-  .@{component}-inner {
+  .yc-menu-inner {
     position: relative;
     overflow: hidden;
     min-height: 58px;
@@ -42,7 +41,7 @@
     align-items: center;
     gap: 12px;
 
-    &:deep(.@{component}-inline) {
+    &:deep(.yc-menu-inline) {
       flex-shrink: 0;
     }
   }
@@ -64,9 +63,9 @@
 };
 each(@theme, .(@value,@name){
   @key:replace(~"@{name}", "@", "");
-  .@{component}-theme-@{key} {
+  .yc-menu-theme-@{key} {
     background-color: @value[bg];
-    .@{component}-collapse-button {
+    .yc-menu-collapse-button {
       color: @value[btn-color];
       background-color: @value[btn-bg];
       &:hover {
