@@ -304,7 +304,7 @@ export default () => {
     return {
       computedCollapsed,
       breakpoint,
-      collapsedWidth,
+      collapsedWidth: computed(() => `${collapsedWidth.value}px`),
       menuTree,
       max,
     };

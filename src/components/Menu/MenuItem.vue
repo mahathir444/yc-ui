@@ -67,7 +67,9 @@
         position: mode == 'horizontal' ? 'bl' : 'rt',
         animationName:
           mode == 'horizontal' ? 'slide-dynamic-origin' : 'zoom-in-fade-out',
-        popupOffset: mode == 'vertical' ? 18 : 16,
+        popupOffset: mode == 'vertical' ? 14 : 18,
+        showArrow: true,
+        arrowClass: 'yc-menu-item-popup-arrow',
         ...triggerProps,
       }"
       @select="handleSelect"
@@ -91,6 +93,7 @@
       :trigger-props="{
         autoFitPosition: false,
         popupOffset: mode == 'vertical' ? 14 : 18,
+        showArrow: true,
         ...tooltipProps,
         ...triggerProps,
       }"
@@ -253,4 +256,8 @@ onMounted(() => {
 
 <style lang="less" scoped>
 @import './style/menu-item.less';
+</style>
+
+<style lang="less">
+@import './style/menu-item-popup.less';
 </style>

@@ -1,10 +1,13 @@
 <template>
   <div
-    :class="['yc-menu', `yc-menu-mode-${mode}`, `yc-menu-theme-${theme}`]"
-    :style="{
-      width:
-        computedCollapsed && mode != 'horizontal' ? `${collapsedWidth}px` : '',
-    }"
+    :class="[
+      'yc-menu',
+      `yc-menu-mode-${mode}`,
+      `yc-menu-theme-${theme}`,
+      {
+        'yc-menu-collapsed': computedCollapsed && mode != 'horizontal',
+      },
+    ]"
   >
     <div class="yc-menu-inner" ref="menuRef">
       <slot />
@@ -41,7 +44,7 @@ const props = withDefaults(defineProps<MenuProps>(), {
   autoOpen: false,
   collapsed: undefined,
   defaultCollapsed: false,
-  collapsedWidth: 64,
+  collapsedWidth: 48,
   accordion: false,
   autoScrollIntoView: false,
   showCollapseButton: false,
@@ -80,4 +83,11 @@ mediaQueryHandler((_, order, i) => {
 
 <style lang="less" scoped>
 @import './style/menu.less';
+// 收缩
+.yc-menu-collapsed {
+  width: v-bind(collapsedWidth) !important;
+  .yc-menu-inner {
+    padding: 4px;
+  }
+}
 </style>

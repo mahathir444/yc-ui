@@ -111,6 +111,7 @@ declare module 'vue' {
     AutoComplete: typeof import('./src/components/AutoComplete/index.vue')['default']
     Avatar: typeof import('./src/components/Avatar/Avatar.vue')['default']
     AvatarGroup: typeof import('./src/components/Avatar/AvatarGroup.vue')['default']
+    AWatermark: typeof import('@arco-design/web-vue')['Watermark']
     BackTop: typeof import('./src/components/BackTop/index.vue')['default']
     Badge: typeof import('./src/components/Badge/index.vue')['default']
     Breadcrumb: typeof import('./src/components/Breadcrumb/Breadcrumb.vue')['default']

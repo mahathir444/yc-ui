@@ -8,4 +8,6 @@
 7. timeline反向轴线位置问题  mode = alternate的样式 问题
 8. step优化收集的问题
 ## 完成测试的组件
-1. Button Link Typography Divider Grid Layout Avatar Badge Calendar Card Carousel Collapse Comment Descriptions Image List  Popover Statistic Tabs Tag Timeline Tooltip Alert Drawer Modal Popconfirm Progress Result Spin Skeleton Breadcrumb Dropdown PageHeader Pagination Steps Affix Anchor BackTop Trigger Split Scrollbar OverflowList
+1. Button Link Typography Divider Grid Layout Avatar Badge Calendar Card Carousel Collapse Comment Descriptions Image List  Popover Statistic Tabs Tag Timeline Tooltip Alert Drawer Modal Popconfirm Progress Result Spin Skeleton Breadcrumb Dropdown PageHeader Pagination Steps Affix Anchor BackTop Trigger Split Scrollbar OverflowList Watermark
+## 尚未测试的组件
+1. Menu Message ResizeBox  Notifcation 表单组件
