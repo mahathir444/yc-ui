@@ -10,13 +10,14 @@
     :auto-fit-popup-min-width="
       !alignPoint && ['top', 'bottom'].includes(position)
     "
+    :class="['yc-dropdown-popup', , `yc-dropdown-theme-${theme}`]"
     animation-name="slide-dynamic-origin"
     need-transform-origin
     v-bind="triggerProps"
   >
     <slot />
     <template #content>
-      <div :class="['yc-dropdown', `yc-dropdown-theme-${theme}`]">
+      <div class="yc-dropdown">
         <yc-scrollbar
           :style="{
             maxHeight: popupMaxHeight,
@@ -104,6 +105,6 @@ defineExpose<DropdownExpose>({
 });
 </script>
 
-<style lang="less" scoped>
+<style lang="less">
 @import './style/dropdown.less';
 </style>

@@ -69,7 +69,6 @@
           mode == 'horizontal' ? 'slide-dynamic-origin' : 'zoom-in-fade-out',
         popupOffset: mode == 'vertical' ? 14 : 18,
         showArrow: true,
-        arrowClass: 'yc-menu-item-popup-arrow',
         ...triggerProps,
       }"
       @select="handleSelect"
@@ -256,8 +255,4 @@ onMounted(() => {
 
 <style lang="less" scoped>
 @import './style/menu-item.less';
-</style>
-
-<style lang="less">
-@import './style/menu-item-popup.less';
 </style>

@@ -24,7 +24,14 @@
 each(@theme,.(@value,@name){
   @key:replace(~"@{name}", "@", "");
   .yc-dropdown-theme-@{key}{
-    background-color: @value[bg];
-    border: @value[border];
+     .yc-dropdown{
+      background-color: @value[bg];
+      border: @value[border];
+     }
+    .yc-trigger-arrow {
+      border: @value[border];
+    }
   }
+  
+
 });

@@ -5,6 +5,9 @@
         :style="{ width: '200px', height: '400px' }"
         :default-open-keys="['0']"
         :default-selected-keys="['0_2']"
+        :trigger-props="{
+          trigger: 'click',
+        }"
         show-collapse-button
         breakpoint="xl"
         @collapse="onCollapse"

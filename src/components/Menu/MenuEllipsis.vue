@@ -5,8 +5,9 @@
       :theme="theme"
       :trigger-props="{
         position: 'bl',
+        popupOffset: 18,
+        showArrow: true,
         ...triggerProps,
-        popupOffset: 16,
       }"
       @select="handleSelect"
     >
