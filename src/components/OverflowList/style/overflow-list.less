@@ -1,7 +1,7 @@
 .yc-overflow-list {
   position: relative;
   display: flex;
-
+  align-items: center;
   &:deep(.yc-tag) {
     flex-shrink: 0;
     overflow: hidden;
@@ -10,5 +10,19 @@
     .yc-tag-label {
       text-wrap: nowrap;
     }
+  }
+  .yc-overflow-tag {
+    position: absolute;
+  }
+}
+// from
+.yc-overflow-list-from-start {
+  .yc-overflow-tag {
+    left: 0;
+  }
+}
+.yc-overflow-list-from-end {
+  .yc-overflow-tag {
+    right: 0;
   }
 }

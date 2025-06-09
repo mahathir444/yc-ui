@@ -16,7 +16,7 @@
         :class="[
           'yc-scrollbar-thumb-bar',
           {
-            'is-dragging': isDragging,
+            'yc-scrollbar-thumb-bar-dragging': isDragging,
           },
         ]"
       ></div>

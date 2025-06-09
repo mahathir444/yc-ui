@@ -5,31 +5,47 @@
         width: '200px',
       }"
     >
-      <yc-button style="width: 100px">点击测试</yc-button>
+      <yc-input />
       <template #content>
         <yc-empty />
       </template>
     </yc-popover> -->
-    <div>
-      <yc-scrollbar style="height: 200px; width: 200px; overflow: auto">
-        <div
-          style="
-            height: 2000px;
-            width: 2000px;
-            background-color: var(--color-primary-light-4);
-          "
-        >
-          Content
-        </div>
-      </yc-scrollbar>
+    <a-form auto-label-width>
+      <a-form-item label="Tag Number">
+        <a-input-number
+          v-model="number"
+          :min="0"
+          :max="20"
+          style="width: 200px"
+        />
+      </a-form-item>
+      <a-form-item label="List Width">
+        <a-slider v-model="width" :min="0" :max="800" />
+      </a-form-item>
+    </a-form>
+    <div :style="{ width: `${width}px`, marginTop: '20px' }">
+      <a-overflow-list from="start">
+        <div>DIV Element</div>
+        <a-tag v-for="item of tags" :key="item">Tag{{ item }}</a-tag>
+      </a-overflow-list>
+    </div>
+    <div :style="{ width: `${width}px`, marginTop: '20px' }">
+      <yc-overflow-list from="start">
+        <div>DIV Element</div>
+        <yc-tag v-for="item of tags" :key="item">Tag{{ item }}</yc-tag>
+      </yc-overflow-list>
     </div>
   </div>
 </template>
 
 <script lang="ts" setup>
-import { ref } from 'vue';
-import { AffixInstance } from '@arco-design/web-vue';
+import { ref, computed } from 'vue';
 const size = ref(0.5);
+const width = ref(500);
+const number = ref(10);
+const tags = computed(() =>
+  Array.from({ length: number.value }, (_, idx) => idx + 1)
+);
 </script>
 
 <style lang="less" scoped>

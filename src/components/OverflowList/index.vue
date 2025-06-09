@@ -1,8 +1,8 @@
 <template>
   <div
-    class="yc-overflow-list"
+    :class="['yc-overflow-list', `yc-overflow-list-from-${from}`]"
     :style="{
-      gap: margin + 'px',
+      gap: `${margin}px`,
       padding:
         from == 'start'
           ? `0 0 0 ${overFlowWidth}px`
@@ -14,20 +14,13 @@
       <component v-if="i < max" id="overflowTag" :is="node" />
     </template>
     <!-- overflow -->
-    <slot name="overflow" :number="overflowNumber">
-      <yc-tag
-        v-if="max < tags.length"
-        :style="{
-          visibility: max < tags.length ? 'visible' : 'hidden',
-          position: max < tags.length ? 'static' : 'absolute',
-          left: from == 'start' ? '0' : '',
-          right: from == 'end' ? '0' : '',
-        }"
-        ref="overflowRef"
-      >
-        {{ `+${overflowNumber}` }}
-      </yc-tag>
-    </slot>
+    <div v-if="max < tags.length" class="yc-overflow-tag" ref="overflowRef">
+      <slot name="overflow" :number="overflowNumber">
+        <yc-tag>
+          {{ `+${overflowNumber}` }}
+        </yc-tag>
+      </slot>
+    </div>
   </div>
 </template>
 
@@ -123,11 +116,11 @@ watch(
 watch(
   () => tags.value.length,
   async () => {
-    await nextTick();
+    max.value = 100000;
+    await sleep(0);
     const cur = [...document.querySelectorAll('#overflowTag')].map((item) => {
       return (item as HTMLSpanElement).offsetWidth as number;
     });
-    if (cur.length < widths.value.length) return;
     widths.value = cur;
   },
   {
