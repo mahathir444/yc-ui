@@ -12,6 +12,7 @@ declare module 'vue' {
     AAlert: typeof import('@arco-design/web-vue')['Alert']
     AAnchor: typeof import('@arco-design/web-vue')['Anchor']
     AAnchorLink: typeof import('@arco-design/web-vue')['AnchorLink']
+    AAutoComplete: typeof import('@arco-design/web-vue')['AutoComplete']
     AAvatar: typeof import('@arco-design/web-vue')['Avatar']
     AAvatarGroup: typeof import('@arco-design/web-vue')['AvatarGroup']
     ABackTop: typeof import('@arco-design/web-vue')['BackTop']

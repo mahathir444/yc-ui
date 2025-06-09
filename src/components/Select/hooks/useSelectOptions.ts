@@ -54,7 +54,7 @@ export default (params: {
   const renderOptions = computed<SelectOptions>(() => {
     return [...provideOptions.value, ...fallbackOptions.value].map((item) => {
       let option = item;
-      if (!isObject) {
+      if (!isObject(item)) {
         option = {
           label: item,
           value: item,
@@ -62,7 +62,7 @@ export default (params: {
       }
       return {
         id: nanoid(),
-        ...option,
+        ...(option as ObjectData),
       };
     });
   });

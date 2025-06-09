@@ -33,6 +33,7 @@ export interface SelectContext {
   renderOptions: Ref<ObjectData[]>;
   fieldKey: Ref<Record<string, string>>;
   isEmpty: Ref<boolean>;
+  showEmpty: Ref<boolean>;
   slots: Slots;
   blur: () => void;
   filterOption: FilterOption;
@@ -66,6 +67,7 @@ export default () => {
       valueKey,
       hotkeys,
       options: provideOptions,
+      showEmpty,
     } = toRefs(props as SelectProps);
     const { formatLabel, fallbackOption, filterOption } = props as SelectProps;
     // popupVisible
@@ -140,7 +142,7 @@ export default () => {
     }
     // 失焦
     function blur() {
-      inputRef.value.blur();
+      inputRef.value?.blur();
     }
     // 提供值
     _provide<SelectContext>(SELECT_CONTEXT_KEY, {
@@ -152,7 +154,8 @@ export default () => {
       options,
       isEmpty,
       fieldKey,
-      renderOptions,
+      showEmpty,
+      renderOptions: renderOptions as Ref<ObjectData[]>,
       slots: useSlots(),
       filterOption,
       blur,
@@ -179,6 +182,7 @@ export default () => {
       renderOptions: ref([]),
       isEmpty: ref(false),
       fieldKey: ref({}),
+      showEmpty: ref(false),
       slots: {},
       blur: () => {},
       filterOption: () => true,

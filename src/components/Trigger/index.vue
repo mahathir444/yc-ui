@@ -122,7 +122,6 @@ const arrowRef = ref<HTMLElement>();
 const slots = useSlots();
 // slots
 const vNode = computed(() => {
-  console.log(findFirstLegitChild(slots.default?.() || []), 'scroll');
   return findFirstLegitChild(slots.default?.() || []);
 });
 // 处理trigger关闭与开启

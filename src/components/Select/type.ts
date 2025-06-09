@@ -40,6 +40,8 @@ export interface SelectProps {
   tagNowrap?: boolean;
   // 是否开启快捷键
   hotkeys?: boolean;
+  // 是否展示empty
+  showEmpty?: boolean;
 }
 
 export interface SelectEmits {
@@ -120,6 +122,7 @@ export type SelectOptionGroup = {
 };
 
 export type SelectOptions = (
+  | SelectValue
   | SelectOptionData
   | SelectOptionGroup
   | ObjectData

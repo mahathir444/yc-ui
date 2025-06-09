@@ -1,7 +1,4 @@
-// 谓词函数，用于检测变量类型
-/* ---------------------------------------------------------------------------------------------------- */
-const objProto = Object.prototype;
-const objToString = objProto.toString;
+const objToString = Object.prototype.toString;
 
 // 检查给定的值是否是 dom 元素
 export function isElement(value: unknown): value is Element {
@@ -65,19 +62,11 @@ export function isArray(value: unknown): value is Array<unknown> {
   return Array.isArray(value);
 }
 
-// 检查给定的值是否是对象 (不包括数组、函数、null等)
+// 检查给定的值是否是对象
 export function isObject(value: unknown): value is Record<string, unknown> {
-  return (
-    value !== null &&
-    typeof value === 'object' &&
-    !Array.isArray(value) &&
-    !isRegExp(value) &&
-    !isDate(value)
-  );
+  return value !== null && typeof value === 'object';
 }
 
-// 以默认导出的形式导出所有谓词函数
-/* ---------------------------------------------------------------------------------------------------- */
 export default {
   element: isElement,
   null: isNull,

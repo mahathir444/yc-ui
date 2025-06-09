@@ -1,16 +1,23 @@
 <template>
-  <define-compt>
-    <div
-      :class="[
-        'yc-input-wrapper',
-        `yc-input-size-${size}`,
-
-        {
-          'yc-input-disabled': disabled,
-          'yc-input-error': error,
-        },
-      ]"
-    >
+  <!-- outer -->
+  <div
+    :class="[
+      'yc-input-outer',
+      `yc-input-size-${size}`,
+      {
+        'yc-input-disabled': disabled,
+        'yc-input-error': error,
+        'yc-input-has-prepend': $slots.prepend,
+        'yc-input-has-append': $slots.append,
+      },
+    ]"
+  >
+    <!-- prepend -->
+    <yc-prevent-focus v-if="$slots.prepend" class="yc-input-prepend">
+      <slot name="prepend" />
+    </yc-prevent-focus>
+    <!-- wrapper -->
+    <div class="yc-input-wrapper">
       <!-- prefix-icon -->
       <yc-prevent-focus v-if="$slots.prefix" class="yc-input-prefix">
         <slot name="prefix" />
@@ -67,47 +74,22 @@
         </template>
       </input-suffix>
     </div>
-  </define-compt>
-  <!-- outer -->
-  <div
-    v-if="$slots.append || $slots.prepend"
-    :class="[
-      'yc-input-outer',
-      `yc-input-outer-size-${size}`,
-      {
-        'yc-input-outer-disabled': disabled,
-        'yc-input-has-prepend': $slots.prepend,
-        'yc-input-has-append': $slots.append,
-      },
-    ]"
-    v-bind="$attrs"
-  >
-    <!-- prepend -->
-    <yc-prevent-focus v-if="$slots.prepend" class="yc-input-prepend">
-      <slot name="prepend" />
-    </yc-prevent-focus>
-    <!-- wrapper -->
-    <reuse-compt />
     <!-- append -->
     <yc-prevent-focus v-if="$slots.append" class="yc-input-append">
       <slot name="append" />
     </yc-prevent-focus>
   </div>
-  <!-- wrapper -->
-  <reuse-compt v-else v-bind="$attrs" />
 </template>
 
 <script lang="ts" setup>
 import { ref, toRefs, computed } from 'vue';
 import { InputProps, InputEmits, InputSlots, InputExpose } from './type';
-import { createReusableTemplate } from '@vueuse/core';
 import { useControlValue, getGlobalConfig } from '@shared/utils';
 import useLimitedInput from './hooks/useLimitedInput';
 import { YcPreventFocus } from '@shared/components';
 import InputSuffix from './InputSuffix.vue';
 defineOptions({
   name: 'Input',
-  inheritAttrs: false,
 });
 defineSlots<InputSlots>();
 const props = withDefaults(defineProps<InputProps>(), {
@@ -140,8 +122,6 @@ const props = withDefaults(defineProps<InputProps>(), {
 });
 const emits = defineEmits<InputEmits>();
 const { visibility, defaultVisibility } = toRefs(props);
-// 定义重用模板
-const { define: DefineCompt, reuse: ReuseCompt } = createReusableTemplate();
 // 获取全局属性
 const { size } = getGlobalConfig(props);
 // 输入实例

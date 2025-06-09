@@ -3,10 +3,11 @@ import {
   FilterOption,
   VirtualListProps,
 } from '@/components/Select';
-import { PopupContainer, ObjectData } from '@shared/type';
+import { PopupContainer, ObjectData, Pick } from '@shared/type';
 import { TriggerProps } from '@/components/Trigger';
+import { InputProps } from '@/components/Input';
 
-export interface AutoCompleteProps {
+export type AutoCompleteProps = {
   modelValue?: string;
   defaultValue?: string;
   disabled?: boolean;
@@ -21,7 +22,7 @@ export interface AutoCompleteProps {
   isSelectSetValue?: boolean;
   isSearch?: boolean;
   type?: 'textarea' | 'input';
-}
+};
 
 export interface AutoCompleteEmits {
   (e: 'update:modelValue', value: string): void;

@@ -76,7 +76,7 @@ export default (params: {
       return {
         top: `${mouseY.value + offsetY}px`,
         left: `${mouseX.value - (autoFitPosition.value ? 0 : popupWidth.value / 2) + offsetX}px`,
-        zIndex,
+        zIndex: zIndex.value,
       };
     }
     // 计算初始位置
@@ -96,7 +96,7 @@ export default (params: {
       return {
         top: `${offsetTop + offsetY}px`,
         left: `${offsetLeft + offsetX}px`,
-        zIndex,
+        zIndex: zIndex.value,
       };
     }
     // 边界检测
@@ -130,7 +130,7 @@ export default (params: {
     return {
       left: `${newLeft + newOffsetX}px`,
       top: `${newTop + newOffsetY}px`,
-      zIndex,
+      zIndex: zIndex.value,
     };
   });
   // contentStyle

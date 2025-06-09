@@ -49,19 +49,36 @@
     flex: 1;
   }
 }
-.yc-input-search-append {
-  &:deep(.yc-input-append) {
-    padding: 0;
-    .yc-button {
-      border-top-left-radius: 0;
-      border-bottom-left-radius: 0;
+// error
+.yc-input-error {
+  .yc-input-wrapper {
+    background-color: rgb(255, 236, 232);
+    &:not(.yc-input-disabled) {
+      &:hover {
+        border-color: transparent;
+        background-color: rgb(253, 205, 197);
+      }
+      &:focus-within {
+        background: #fff;
+        border-color: rgb(245, 63, 63);
+        box-shadow: 0 0 0 0 rgb(253, 205, 197);
+      }
     }
   }
 }
-.yc-input-outer-disabled {
+// disabled
+.yc-input-disabled {
   cursor: not-allowed;
+  .yc-input-wrapper {
+    border-color: transparent;
+    background-color: rgb(242, 243, 245);
+    color: rgb(201, 205, 212);
+    .yc-input-prefix,
+    .yc-input-suffix {
+      color: inherit;
+    }
+  }
 }
-
 // yc-input-wrapper
 .yc-input-wrapper {
   width: 100%;
@@ -134,32 +151,7 @@
     }
   }
 }
-// error
-.yc-input-error {
-  background-color: rgb(255, 236, 232);
-  &:not(.yc-input-disabled) {
-    &:hover {
-      border-color: transparent;
-      background-color: rgb(253, 205, 197);
-    }
-    &:focus-within {
-      background: #fff;
-      border-color: rgb(245, 63, 63);
-      box-shadow: 0 0 0 0 rgb(253, 205, 197);
-    }
-  }
-}
-// disabled
-.yc-input-disabled {
-  cursor: not-allowed;
-  border-color: transparent;
-  background-color: rgb(242, 243, 245);
-  color: rgb(201, 205, 212);
-  .yc-input-prefix,
-  .yc-input-suffix {
-    color: inherit;
-  }
-}
+
 //size
 @sizes: {
   @mini: {
@@ -187,17 +179,16 @@
     line-height: 1.5715;
   };
 };
-
 each(@sizes, .(@value, @name) {
   @key: replace(~"@{name}", "@", "");
-  .yc-input-size-@{key},
-  .yc-input-outer-size-@{key} {
+  .yc-input-size-@{key} {
     font-size: @value[font-size];
     height: @value[height];
-    
-    .yc-input {
-      padding: @value[padding] 0;
-      line-height: @value[line-height];
+    .yc-input-wrapper{
+      .yc-input {
+        padding: @value[padding] 0;
+        line-height: @value[line-height];
+      }
     }
   }
 });

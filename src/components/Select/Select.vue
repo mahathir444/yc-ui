@@ -14,17 +14,18 @@
     ref="popupRef"
     v-bind="triggerProps"
   >
-    <slot name="trigger">
-      <div
-        :class="[
-          'yc-select',
-          {
-            'yc-select-allow-search': allowSearch,
-            'yc-select-allow-clear': showClearBtn,
-            'yc-select-no-border': !bordered,
-          },
-        ]"
-      >
+    <div
+      :class="[
+        'yc-select',
+        {
+          'yc-select-allow-search': allowSearch,
+          'yc-select-allow-clear': showClearBtn,
+          'yc-select-no-border': !bordered,
+        },
+      ]"
+      v-bind="$attrs"
+    >
+      <slot name="trigger">
         <!-- single  -->
         <yc-input
           v-if="!multiple"
@@ -35,7 +36,6 @@
           :size="size"
           :error="error"
           :placeholder="selectOptions[0]?.label?.toString() || ''"
-          v-bind="$attrs"
           ref="inputRef"
           @click="handleEvent('focus')"
           @blur="handleEvent('blur')"
@@ -77,7 +77,6 @@
           :max-tag-count="maxTagCount"
           :tag-nowrap="tagNowrap"
           :allow-create="allowCreate"
-          v-bind="$attrs"
           ref="inputRef"
           @focus="handleEvent('focus')"
           @blur="handleEvent('blur')"
@@ -98,8 +97,8 @@
             />
           </template>
         </yc-input-tag>
-      </div>
-    </slot>
+      </slot>
+    </div>
     <!-- dropdown -->
     <template #content>
       <select-view
@@ -185,6 +184,7 @@ const props = withDefaults(defineProps<SelectProps>(), {
   tagNowrap: false,
   hotKeys: false,
   virtualListProps: undefined,
+  showEmpty: true,
 });
 const emits = defineEmits<SelectEmits>();
 const {

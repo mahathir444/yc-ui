@@ -24,3 +24,7 @@ export type ObjectData = Record<string, any>;
 export type RequiredDeep<T> = {
   [P in keyof T]-?: T[P] extends object ? RequiredDeep<T[P]> : T[P];
 };
+
+export type Pick<T, K extends keyof T> = {
+  [P in K]: T[P];
+};

@@ -34,10 +34,13 @@
     <div v-if="showSearch" class="yc-transfer-view-search">
       <yc-input
         v-model="keywords"
-        is-search
         v-bind="inputProps"
         @input="(v) => emits('search', v, type)"
-      />
+      >
+        <template #suffix>
+          <icon-search />
+        </template>
+      </yc-input>
     </div>
     <!--body-->
     <div class="yc-transfer-view-body">
@@ -95,7 +98,7 @@
 <script lang="ts" setup>
 import { ref, toRefs, computed } from 'vue';
 import { TransferItem, TransferPanelSlots } from './type';
-import { IconDelete, IconClose } from '@shared/icons';
+import { IconDelete, IconClose, IconSearch } from '@shared/icons';
 import useContext from './hooks/useContext';
 import { getGlobalConfig } from '@shared/utils';
 import YcCheckbox from '@/components/Checkbox';

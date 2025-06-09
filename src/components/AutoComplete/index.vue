@@ -5,47 +5,47 @@
     :popup-container="popupContainer"
     :trigger-props="triggerProps"
     :virtual-list-props="vistualListProps"
+    :show-empty="false"
     hotkeys
     ref="selectRef"
+    class="yc-auto-complete"
     @dropdown-scroll="(ev) => $emit('dropdown-scroll', ev)"
     @dropdown-reach-bottom="(ev) => $emit('dropdown-reach-bottom', ev)"
     @select="(v) => handleEvent('select', null, v as string)"
   >
     <template #trigger>
       <slot name="trigger">
-        <div class="yc-auto-complete">
-          <yc-input
-            v-if="type == 'input'"
-            v-model="computedValue"
-            :disabled="disabled"
-            :allow-clear="allowClear"
-            ref="inputRef"
-            v-bind="$attrs"
-            @input="(v, ev) => handleEvent('input', ev, v)"
-            @change="(v) => $emit('change', v)"
-            @focus="(ev) => handleEvent('focus', ev)"
-            @keydown="(ev) => handleEvent('keydown', ev)"
-            @blur="(ev) => handleEvent('blur', ev)"
-            @clear="(ev) => handleEvent('clear', ev)"
-          />
-          <yc-textarea
-            v-else
-            v-model="computedValue"
-            :disabled="disabled"
-            :allow-clear="allowClear"
-            enter-prevent
-            show-mirror
-            ref="inputRef"
-            v-bind="$attrs"
-            @input="(v, ev) => handleEvent('input', ev, v)"
-            @change="(v) => $emit('change', v)"
-            @clear="(ev) => handleEvent('clear', ev)"
-            @keydown="(ev) => $emit('keydown', ev)"
-            @focus="(ev) => handleEvent('focus', ev)"
-            @blur="(ev) => handleEvent('blur', ev)"
-          >
-          </yc-textarea>
-        </div>
+        <yc-input
+          v-if="type == 'input'"
+          v-model="computedValue"
+          :disabled="disabled"
+          :allow-clear="allowClear"
+          v-bind="$attrs"
+          ref="inputRef"
+          @input="(v, ev) => handleEvent('input', ev, v)"
+          @change="(v) => $emit('change', v)"
+          @focus="(ev) => handleEvent('focus', ev)"
+          @keydown="(ev) => handleEvent('keydown', ev)"
+          @blur="(ev) => handleEvent('blur', ev)"
+          @clear="(ev) => handleEvent('clear', ev)"
+        />
+        <yc-textarea
+          v-else
+          v-model="computedValue"
+          :disabled="disabled"
+          :allow-clear="allowClear"
+          enter-prevent
+          show-mirror
+          v-bind="$attrs"
+          ref="inputRef"
+          @input="(v, ev) => handleEvent('input', ev, v)"
+          @change="(v) => $emit('change', v)"
+          @clear="(ev) => handleEvent('clear', ev)"
+          @keydown="(ev) => $emit('keydown', ev)"
+          @focus="(ev) => handleEvent('focus', ev)"
+          @blur="(ev) => handleEvent('blur', ev)"
+        >
+        </yc-textarea>
       </slot>
     </template>
     <template v-if="$slots.option" #option>
@@ -58,19 +58,19 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, toRefs } from 'vue';
+import { ref, toRefs, nextTick } from 'vue';
 import {
   AutoCompleteProps,
   AutoCompleteEmits,
   AutoCompleteSlots,
   AutoCompleteExpose,
 } from './type';
-import { sleep, useControlValue } from '@shared/utils';
+import { useControlValue, isObject } from '@shared/utils';
 import {
   default as YcSelect,
   SelectOptionData,
-  SelectOptions,
   SelectInstance,
+  SelectOptions,
 } from '@/components/Select';
 import { default as YcTextarea, TextareaInstance } from '@/components/Textarea';
 import { default as YcInput, InputInstance } from '@/components/Input';
@@ -113,22 +113,13 @@ const computedValue = useControlValue<string>(
   }
 );
 //当前的选项
-const curOptions = ref<SelectOptions>(data.value);
+const curOptions = ref<SelectOptions>([]);
 // 默认过滤函数
 const defaultFilter = (inputValue: string, option: SelectOptionData) => {
-  const label = strict.value
-    ? option.label
-    : (option.label as string).toLowerCase();
+  const labelValue = option.label as string;
+  const label = strict.value ? labelValue : labelValue.toLowerCase();
   const value = strict.value ? inputValue : inputValue.toLowerCase();
   return label?.includes(value);
-};
-// 获取过滤结果
-const getFilterResult = (value: string) => {
-  return data.value.filter((option) => {
-    return filterOption
-      ? filterOption(value, option)
-      : defaultFilter(value, option);
-  });
 };
 // 处理事件
 const handleEvent = async (
@@ -139,18 +130,23 @@ const handleEvent = async (
   switch (type) {
     case 'input':
       {
-        if (!value) {
-          popupVisible.value = false;
-          return;
+        computedValue.value = value;
+        const oldOptions = [...data.value];
+        await nextTick();
+        if (
+          JSON.stringify(oldOptions) == JSON.stringify(data.value) &&
+          isSearch.value
+        ) {
+          curOptions.value = data.value.filter((v) => {
+            const option = isObject(v) ? v : { label: v, value: v };
+            return (
+              filterOption?.(value, option) ?? defaultFilter(value, option)
+            );
+          });
+        } else {
+          curOptions.value = data.value;
         }
-        emits('input', value, ev as Event);
-        const filterOptions = getFilterResult(value);
-        popupVisible.value = !!filterOptions.length;
-        if (popupVisible.value && isSearch.value) {
-          curOptions.value = filterOptions;
-        }
-        await sleep(500);
-        emits('search', value);
+        popupVisible.value = !!curOptions.value.length;
       }
       break;
     case 'select':
@@ -164,6 +160,7 @@ const handleEvent = async (
       break;
     case 'focus':
       {
+        popupVisible.value = !!curOptions.value.length;
         emits('focus', ev as FocusEvent);
       }
       break;
@@ -201,6 +198,6 @@ defineExpose<AutoCompleteExpose>({
 });
 </script>
 
-<style>
+<style lang="less">
 @import './style/auto-complete.less';
 </style>

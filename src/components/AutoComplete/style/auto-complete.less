@@ -1,5 +1,13 @@
-.yc-auto-complete {
-  height: fit-content;
-  width: 100%;
-  display: inline-flex;
+.yc-select {
+  &.yc-auto-complete {
+    .yc-input-outer {
+      .yc-input-wrapper {
+        .yc-input {
+          &::placeholder {
+            color: rgb(134, 144, 156);
+          }
+        }
+      }
+    }
+  }
 }

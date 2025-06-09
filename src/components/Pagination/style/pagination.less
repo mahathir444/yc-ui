@@ -67,12 +67,15 @@
     display: flex;
     align-items: center;
     gap: 8px;
-    &:deep(.yc-input-wrapper) {
-      padding-left: 2px;
-      padding-right: 2px;
+    &:deep(.yc-input-outer) {
       width: 40px;
-      .yc-input {
-        text-align: center;
+      .yc-input-wrapper {
+        padding-left: 2px;
+        padding-right: 2px;
+
+        .yc-input {
+          text-align: center;
+        }
       }
     }
     .yc-pagination-jumper-text-goto {

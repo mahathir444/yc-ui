@@ -5,7 +5,7 @@
       :theme="theme"
       :trigger-props="{
         position: 'bl',
-        popupOffset: 18,
+        popupOffset: 20,
         showArrow: true,
         ...triggerProps,
       }"
