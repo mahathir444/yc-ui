@@ -10,30 +10,16 @@
         <yc-empty />
       </template>
     </yc-popover> -->
-    <a-form auto-label-width>
-      <a-form-item label="Tag Number">
-        <a-input-number
-          v-model="number"
-          :min="0"
-          :max="20"
-          style="width: 200px"
-        />
-      </a-form-item>
-      <a-form-item label="List Width">
-        <a-slider v-model="width" :min="0" :max="800" />
-      </a-form-item>
-    </a-form>
-    <div :style="{ width: `${width}px`, marginTop: '20px' }">
-      <a-overflow-list from="start">
-        <div>DIV Element</div>
-        <a-tag v-for="item of tags" :key="item">Tag{{ item }}</a-tag>
-      </a-overflow-list>
-    </div>
-    <div :style="{ width: `${width}px`, marginTop: '20px' }">
-      <yc-overflow-list from="start">
-        <div>DIV Element</div>
-        <yc-tag v-for="item of tags" :key="item">Tag{{ item }}</yc-tag>
-      </yc-overflow-list>
+    <div>
+      <yc-steps :current="2">
+        <yc-step>Succeeded</yc-step>
+        <yc-step>Processing</yc-step>
+        <yc-step>Pending</yc-step>
+      </yc-steps>
+      <yc-divider />
+      <div style="line-height: 140px; text-align: center; color: #c9cdd4">
+        Step 2 Content
+      </div>
     </div>
   </div>
 </template>

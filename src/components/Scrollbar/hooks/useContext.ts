@@ -9,6 +9,7 @@ export interface ScrollbarContext {
   movableTop: Ref<number>;
   thumbHeight: Ref<number>;
   thumbWidth: Ref<number>;
+  isDragging: Ref<boolean>;
   scrollRef: Ref<HTMLDivElement | undefined>;
 }
 
@@ -25,6 +26,7 @@ export default () => {
       thumbHeight: ref(0),
       thumbWidth: ref(0),
       scrollRef: ref(),
+      isDragging: ref(false),
     });
   };
   return {

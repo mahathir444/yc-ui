@@ -17,6 +17,7 @@
           'yc-scrollbar-thumb-bar',
           {
             'yc-scrollbar-thumb-bar-dragging': isDragging,
+            'yc-scrollbar-thumb-bar-hover': !isDragging && _isDragging,
           },
         ]"
       ></div>
@@ -25,7 +26,7 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, toRefs, computed, onBeforeUnmount } from 'vue';
+import { ref, toRefs, computed, onBeforeUnmount, watchEffect } from 'vue';
 import { useDraggable, useResizeObserver } from '@vueuse/core';
 import { Direction } from '@shared/type';
 import useContext from './hooks/useContext';
@@ -51,6 +52,7 @@ const {
   movableTop,
   curTop,
   curLeft,
+  isDragging: _isDragging,
 } = useContext().inject();
 // 是否是垂直
 const isVertical = computed(() => direction.value == 'vertical');
@@ -93,6 +95,11 @@ const { x, y, isDragging } = useDraggable(dragRef, {
     }
   },
 });
+// 检测是否拖拽
+watchEffect(() => {
+  _isDragging.value = isDragging.value;
+});
+
 // 处理鼠标点击
 const handleClick = (e: MouseEvent) => {
   const { offsetX, offsetY } = e;

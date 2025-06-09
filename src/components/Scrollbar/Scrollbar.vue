@@ -75,8 +75,6 @@ const props = withDefaults(defineProps<ScrollbarProps>(), {
 const emits = defineEmits<ScrollbarEmits>();
 // 解构属性
 const { type, offsetBottom, offsetRight, scrollbar } = toRefs(props);
-// 注入属性
-
 // contentRef
 const contentRef = ref<HTMLElement>();
 // scrollRef
@@ -244,6 +242,7 @@ function initScrollbar() {
     thumbHeight,
     thumbWidth,
     scrollRef,
+    isDragging: ref<boolean>(false),
   });
   return {
     hasVerticalBar,

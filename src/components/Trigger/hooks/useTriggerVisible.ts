@@ -91,10 +91,10 @@ export default (params: {
   };
   // 鼠标进入
   const handleMouseenter = () => {
-    mouseEnterHandler();
     if (trigger.value != 'hover' || disabled.value) {
       return;
     }
+    mouseEnterHandler();
     if (timeout.value) {
       clearTimeout(timeout.value);
     }
