@@ -23,15 +23,16 @@
 };
 each(@theme,.(@value,@name){
   @key:replace(~"@{name}", "@", "");
-  .yc-dropdown-theme-@{key}{
-     .yc-dropdown{
-      background-color: @value[bg];
-      border: @value[border];
+    .yc-dropdown-popup{
+      &.yc-dropdown-theme-@{key}{
+        .yc-dropdown{
+         background-color: @value[bg];
+         border: @value[border];
+        }
+       .yc-trigger-arrow {
+         background-color: @value[bg];
+         border: @value[border];
+       }
      }
-    .yc-trigger-arrow {
-      border: @value[border];
     }
-  }
-  
-
 });

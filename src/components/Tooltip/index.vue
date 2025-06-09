@@ -14,7 +14,7 @@
     ]"
     :content-style="arrowStyle"
     :popup-offset="10"
-    :class="`yc-tooltip ${$attrs.class}`"
+    :class="['yc-tooltip', 'yc-tooltip-popup', $attrs.class]"
     animation-name="zoom-in-fade-out"
     need-transform-origin
     show-arrow

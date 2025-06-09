@@ -50,15 +50,15 @@
 @theme: {
   @light: {
     bg: #fff;
-    btn-color: #fff;
-    btn-bg: rgb(22, 93, 255);
-    btn-hover-bg: rgb(14, 66, 210);
-  };
-  @dark: {
-    bg: #232324;
     btn-color: rgb(134, 144, 156);
     btn-bg: rgb(247, 248, 250);
     btn-hover-bg: rgb(229, 230, 235);
+  };
+  @dark: {
+    bg: #232324;
+    btn-color: #fff;
+    btn-bg: rgb(22, 93, 255);
+    btn-hover-bg: rgb(14, 66, 210);
   };
 };
 each(@theme, .(@value,@name){

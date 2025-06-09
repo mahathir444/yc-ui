@@ -67,7 +67,7 @@
         position: mode == 'horizontal' ? 'bl' : 'rt',
         animationName:
           mode == 'horizontal' ? 'slide-dynamic-origin' : 'zoom-in-fade-out',
-        popupOffset: mode == 'vertical' ? 14 : 18,
+        popupOffset: mode == 'vertical' ? 14 : 20,
         showArrow: true,
         ...triggerProps,
       }"

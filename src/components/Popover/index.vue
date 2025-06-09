@@ -9,7 +9,7 @@
     :content-class="['yc-popover-popup-content', contentClass as string]"
     :content-style="contentStyle"
     :popup-offset="10"
-    :class="['yc-popover', $attrs.class]"
+    :class="['yc-popover', 'yc-popover-popup', $attrs.class]"
     animation-name="zoom-in-fade-out"
     need-transform-origin
     show-arrow
