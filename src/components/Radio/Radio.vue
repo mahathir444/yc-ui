@@ -4,10 +4,10 @@
     :prevent-focus="preventFocus"
     :class="[
       `yc-radio-button-size-${size}`,
-      type == 'radio' ? 'yc-radio' : 'yc-radio-button',
-      computedChecked ? 'yc-radio-checked' : 'yc-radio-unchecked',
+      `yc-radio${computedType == 'radio' ? '' : '-button'}`,
+      `yc-radio-${checked ? 'checked' : 'unchecked'}`,
       {
-        'yc-radio-disabled': disabled,
+        'yc-radio-disabled': computedDisabled,
       },
     ]"
   >
@@ -15,16 +15,16 @@
       type="radio"
       class="yc-radio-target"
       :value="value"
-      :checked="computedChecked"
-      :disabled="disabled"
+      :checked="checked"
+      :disabled="computedDisabled"
       @change="handleCollect"
     />
-    <slot name="radio" :checked="computedChecked" :disabled="disabled">
+    <slot name="radio" :checked="checked" :disabled="computedDisabled">
       <template v-if="type == 'radio'">
         <yc-icon-button
           :hover-size="24"
           :hover-color="
-            computedChecked || disabled ? 'transparent' : 'rgb(242, 243, 245)'
+            checked || computedDisabled ? 'transparent' : 'rgb(242, 243, 245)'
           "
         >
           <span class="yc-radio-icon"> </span>
@@ -55,15 +55,28 @@ const props = withDefaults(defineProps<RadioProps>(), {
   defaultChecked: false,
   disabled: false,
   value: true,
-  type: 'radio',
+  type: undefined,
   preventFocus: false,
 });
 const emits = defineEmits<RadioEmits>();
-const { modelValue, defaultChecked, value: radioValue } = toRefs(props);
+const {
+  modelValue,
+  defaultChecked,
+  value: radioValue,
+  disabled,
+  type,
+} = toRefs(props);
 // 接收注入
-const { computedValue, disabled, type, size } = useContext().inject(props);
+const {
+  computedValue: _computedValue,
+  disabled: injectDisabled,
+  type: injectType,
+  size,
+  hasGroup,
+  emits: _emits,
+} = useContext().inject();
 // checkbox受控的值
-const _computedValue = useControlValue<RadioValue>(
+const computedValue = useControlValue<RadioValue>(
   modelValue,
   defaultChecked.value,
   (val) => {
@@ -71,20 +84,27 @@ const _computedValue = useControlValue<RadioValue>(
   }
 );
 // 用于显示的值
-const computedChecked = computed(() => {
-  if (isUndefined(computedValue.value)) {
-    return _computedValue.value == radioValue.value;
-  } else {
-    return computedValue.value == radioValue.value;
-  }
+const checked = computed(() => {
+  return hasGroup.value
+    ? _computedValue.value == radioValue.value
+    : computedValue.value == radioValue.value;
+});
+// 计算的disabled
+const computedDisabled = computed(() => {
+  return injectDisabled.value || disabled.value;
+});
+// 计算的type
+const computedType = computed(() => {
+  return type.value ?? injectType.value;
 });
 // 处理check发生改变
 const handleCollect = (e: Event) => {
-  const { value } = radioValue;
-  _computedValue.value = value;
-  emits('change', _computedValue.value, e);
-  if (isUndefined(computedValue.value)) return;
-  computedValue.value = value;
+  if (hasGroup.value) {
+    _computedValue.value = radioValue.value;
+  } else {
+    computedValue.value = radioValue.value;
+  }
+  emits('change', radioValue.value, e);
 };
 </script>
 

@@ -11,7 +11,7 @@ export interface RadioProps {
 
 export interface RadioEmits {
   (e: 'update:modelValue', value: boolean): void;
-  (e: 'change', value: boolean, ev: Event): void;
+  (e: 'change', value: RadioValue, ev: Event): void;
 }
 
 export interface RadioSlots {
@@ -31,7 +31,7 @@ export interface RadioGroupProps {
 
 export interface RadioGroupEmits {
   (e: 'update:modelValue', value: RadioValue): void;
-  (e: 'change', value: RadioValue, ev: Event): void;
+  (e: 'change', value: RadioValue): void;
 }
 
 export interface RadioGroupSlots {
@@ -40,11 +40,14 @@ export interface RadioGroupSlots {
   label(data: ObjectData): void;
 }
 
-export interface RadioOption {
-  label?: string;
-  value: RadioValue;
-  disabled?: boolean;
-}
+export type RadioOption = (
+  | RadioValue
+  | {
+      label?: string;
+      value: RadioValue;
+      disabled?: boolean;
+    }
+)[];
 
 export type RadioValue = string | number | boolean;
 export type RadioType = 'radio' | 'button';

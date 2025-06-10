@@ -30,7 +30,7 @@ export interface CheckboxGroupProps {
 
 export interface CheckboxGroupEmits {
   (e: 'update:modelValue', value: CheckboxValue[]): void;
-  (e: 'change', value: CheckboxValue[], ev?: Event): void;
+  (e: 'change', value: CheckboxValue[]): void;
 }
 
 export interface CheckboxGroupSlots {
@@ -39,11 +39,14 @@ export interface CheckboxGroupSlots {
   label(data: ObjectData): void;
 }
 
-export interface CheckboxOption {
-  label?: string;
-  value: CheckboxValue;
-  disabled?: boolean;
-  indeterminate?: boolean;
-}
+export type CheckboxOption = (
+  | CheckboxValue
+  | {
+      label?: string;
+      value: CheckboxValue;
+      disabled?: boolean;
+      indeterminate?: boolean;
+    }
+)[];
 
 export type CheckboxValue = string | number | boolean;

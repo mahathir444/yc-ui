@@ -47,7 +47,7 @@
 <script lang="ts" setup>
 import { toRefs, computed } from 'vue';
 import { CheckboxProps, CheckboxEmits, CheckboxSlots } from './type';
-import { useControlValue } from '@shared/utils';
+import { useControlValue, isUndefined } from '@shared/utils';
 import useContext from './hooks/useContext';
 import { IconCheckboxChecked } from '@shared/icons';
 import { YcPreventFocus, YcIconButton } from '@shared/components';
@@ -96,7 +96,7 @@ const computedDisabled = computed(() => {
   return (
     disabled.value ||
     injectDisabled.value ||
-    (hasGroup.value &&
+    (!isUndefined(max.value) &&
       !computedChecked.value &&
       computedValue.value.length >= max.value)
   );
