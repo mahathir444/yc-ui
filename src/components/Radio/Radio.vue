@@ -10,6 +10,7 @@
         'yc-radio-disabled': computedDisabled,
       },
     ]"
+    @click="handleChange"
   >
     <input
       type="radio"
@@ -17,10 +18,9 @@
       :value="value"
       :checked="checked"
       :disabled="computedDisabled"
-      @change="handleCollect"
     />
     <slot name="radio" :checked="checked" :disabled="computedDisabled">
-      <template v-if="type == 'radio'">
+      <template v-if="computedType == 'radio'">
         <yc-icon-button
           :hover-size="24"
           :hover-color="
@@ -43,7 +43,7 @@
 <script lang="ts" setup>
 import { toRefs, computed } from 'vue';
 import { RadioProps, RadioEmits, RadioSlots, RadioValue } from './type';
-import { useControlValue, isUndefined } from '@shared/utils';
+import { useControlValue } from '@shared/utils';
 import useContext from './hooks/useContext';
 import { YcPreventFocus, YcIconButton } from '@shared/components';
 defineOptions({
@@ -87,7 +87,7 @@ const computedValue = useControlValue<RadioValue>(
 const checked = computed(() => {
   return hasGroup.value
     ? _computedValue.value == radioValue.value
-    : computedValue.value == radioValue.value;
+    : computedValue.value;
 });
 // 计算的disabled
 const computedDisabled = computed(() => {
@@ -98,13 +98,14 @@ const computedType = computed(() => {
   return type.value ?? injectType.value;
 });
 // 处理check发生改变
-const handleCollect = (e: Event) => {
+const handleChange = (e: Event) => {
+  if (computedDisabled.value) return;
   if (hasGroup.value) {
     _computedValue.value = radioValue.value;
   } else {
     computedValue.value = radioValue.value;
+    emits('change', radioValue.value, e);
   }
-  emits('change', radioValue.value, e);
 };
 </script>
 

@@ -13,7 +13,8 @@
       gap,
     }"
   >
-    <template v-for="(node, index) in nodes" :key="index">
+    <slot />
+    <!-- <template v-for="(node, index) in nodes" :key="index">
       <div class="yc-space-item">
         <component :is="getSlotFunction(node as any as string)" />
       </div>
@@ -23,7 +24,7 @@
       >
         <slot name="split" />
       </div>
-    </template>
+    </template> -->
   </div>
 </template>
 

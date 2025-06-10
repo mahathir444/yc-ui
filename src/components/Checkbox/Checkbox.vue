@@ -107,15 +107,11 @@ const handleCollect = (e: Event) => {
   if (!hasGroup.value) {
     const curChecked = (e.target as HTMLInputElement)?.checked;
     checked.value = curChecked;
-    return emits('change', curChecked, e);
-  }
-  // true->false
-  if (computedChecked.value) {
-    computedValue.value = computedValue.value.filter(
-      (item) => item != checkboxValue.value
-    );
+    emits('change', curChecked, e);
   } else {
-    computedValue.value = [...computedValue.value, checkboxValue.value];
+    computedValue.value = computedChecked.value
+      ? computedValue.value.filter((item) => item != checkboxValue.value)
+      : [...computedValue.value, checkboxValue.value];
   }
 };
 </script>
