@@ -10,7 +10,7 @@ export interface MenuProps {
   autoOpen?: boolean;
   collapsed?: boolean;
   defaultCollapsed?: boolean;
-  collapsedWidth?: number;
+  collapsedWidth?: number | string;
   accordion?: boolean;
   showCollapseButton?: boolean;
   selectedKeys?: string;

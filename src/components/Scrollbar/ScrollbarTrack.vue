@@ -29,6 +29,7 @@
 import { ref, toRefs, computed, onBeforeUnmount, watchEffect } from 'vue';
 import { useDraggable, useResizeObserver } from '@vueuse/core';
 import { Direction } from '@shared/type';
+import { numberToPx } from '@shared/utils';
 import useContext from './hooks/useContext';
 const props = withDefaults(
   defineProps<{
@@ -60,12 +61,12 @@ const isVertical = computed(() => direction.value == 'vertical');
 const thmubStyle = computed(() => {
   return isVertical.value
     ? {
-        height: `${thumbHeight.value}px`,
-        transform: `translateY(${curTop.value}px)`,
+        height: numberToPx(thumbHeight.value),
+        transform: `translateY(${numberToPx(curTop.value)})`,
       }
     : {
-        width: `${thumbWidth.value}px`,
-        transform: `translateX(${curLeft.value}px)`,
+        width: numberToPx(thumbWidth.value),
+        transform: `translateX(${numberToPx(curLeft.value)})`,
       };
 });
 // 获取轨道的宽度

@@ -8,7 +8,7 @@
 <script lang="ts" setup>
 import { computed, toRefs, CSSProperties } from 'vue';
 import { IconProps, IconSlots } from './type';
-import { isUndefined, isString, isNumber } from '@shared/utils';
+import { isUndefined, isString, isNumber, numberToPx } from '@shared/utils';
 defineOptions({
   name: 'Icon',
 });
@@ -21,12 +21,10 @@ const { size, rotate, spin } = toRefs(props);
 const calcSize = (type: 'width' | 'height') => {
   if (isUndefined(size.value)) {
     return '1em';
-  } else if (isString(size.value)) {
-    return `${size.value.replace('px', '')}px`;
-  } else if (isNumber(size.value)) {
-    return `${size.value}px`;
+  } else if (Array.isArray(size.value)) {
+    return numberToPx(size.value[type == 'height' ? 1 : 0]);
   } else {
-    return size.value[type == 'height' ? 1 : 0] + 'px';
+    return numberToPx(size.value);
   }
 };
 // 计算内部style

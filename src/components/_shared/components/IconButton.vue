@@ -9,6 +9,7 @@
 <script lang="ts" setup>
 import { toRefs, computed } from 'vue';
 import { IconClose } from '@shared/icons';
+import { numberToPx } from '@shared/utils';
 import YcPreventFocus from './PreventFocus.vue';
 const props = withDefaults(
   defineProps<{
@@ -23,7 +24,7 @@ const props = withDefaults(
   }
 );
 const { hoverSize: _hoverSize } = toRefs(props);
-const hoverSize = computed(() => _hoverSize.value + 'px');
+const hoverSize = computed(() => numberToPx(_hoverSize.value));
 </script>
 
 <style lang="less" scoped>

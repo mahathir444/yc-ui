@@ -3,7 +3,12 @@ import { useElementBounding, useElementSize } from '@vueuse/core';
 import { TriggerPostion } from '../type';
 import { TriggerProps } from './useContext';
 import { Props } from '@shared/type';
-import { getGlobalConfig, unrefElement, sleep } from '@shared/utils';
+import {
+  getGlobalConfig,
+  unrefElement,
+  sleep,
+  numberToPx,
+} from '@shared/utils';
 
 export default (params: {
   props: Props;
@@ -74,8 +79,12 @@ export default (params: {
     // 如果跟随鼠标点击位置
     if (autoSetPosition.value || isMousePosition) {
       return {
-        top: `${mouseY.value + offsetY}px`,
-        left: `${mouseX.value - (autoFitPosition.value ? 0 : popupWidth.value / 2) + offsetX}px`,
+        top: numberToPx(mouseY.value + offsetY),
+        left: numberToPx(
+          mouseX.value -
+            (autoFitPosition.value ? 0 : popupWidth.value / 2) +
+            offsetX
+        ),
         zIndex: zIndex.value,
       };
     }
@@ -94,8 +103,8 @@ export default (params: {
     // 如果不进行边界检测
     if (!autoFitPosition.value) {
       return {
-        top: `${offsetTop + offsetY}px`,
-        left: `${offsetLeft + offsetX}px`,
+        top: numberToPx(offsetTop + offsetY),
+        left: numberToPx(offsetLeft + offsetX),
         zIndex: zIndex.value,
       };
     }
@@ -128,16 +137,18 @@ export default (params: {
     const [newOffsetX, newOffsetY] = calcPopupOffset();
     // 返回最终结果
     return {
-      left: `${newLeft + newOffsetX}px`,
-      top: `${newTop + newOffsetY}px`,
+      left: numberToPx(newLeft + newOffsetX),
+      top: numberToPx(newTop + newOffsetY),
       zIndex: zIndex.value,
     };
   });
   // contentStyle
   const contentStyle = computed(() => {
     return {
-      width: autoFitPopupWidth.value ? `${triggerWidth.value}px` : '',
-      minWidth: autoFitPopupMinWidth.value ? `${triggerWidth.value}px` : '',
+      width: autoFitPopupWidth.value ? numberToPx(triggerWidth.value) : '',
+      minWidth: autoFitPopupMinWidth.value
+        ? numberToPx(triggerWidth.value)
+        : '',
       ..._contentStyle.value,
     } as CSSProperties;
   });
@@ -321,11 +332,11 @@ export default (params: {
       let arrowLeft = '';
       let arrowRight = '';
       if (['top', 'bottom'].includes(position)) {
-        arrowLeft = `${(popupWidth - arrowWidth) / 2}px`;
+        arrowLeft = numberToPx((popupWidth - arrowWidth) / 2);
       } else if (['tl', 'bl'].includes(position)) {
-        arrowLeft = `${(triggerWidth - arrowWidth) / 2}px`;
+        arrowLeft = numberToPx((triggerWidth - arrowWidth) / 2);
       } else {
-        arrowRight = `${(triggerWidth - arrowWidth) / 2}px`;
+        arrowRight = numberToPx((triggerWidth - arrowWidth) / 2);
       }
       inset = {
         top: position.startsWith('b') ? '0' : '',
@@ -337,11 +348,11 @@ export default (params: {
       let arrowTop = '';
       let arrowBottom = '';
       if (['left', 'right'].includes(position)) {
-        arrowTop = `${(popupHeight - arrowHeight) / 2}px`;
+        arrowTop = numberToPx((popupHeight - arrowHeight) / 2);
       } else if (['lt', 'rt'].includes(position)) {
-        arrowTop = `${(triggerHeight - arrowHeight) / 2}px`;
+        arrowTop = numberToPx((triggerHeight - arrowHeight) / 2);
       } else {
-        arrowBottom = `${(triggerHeight - arrowHeight) / 2}px`;
+        arrowBottom = numberToPx((triggerHeight - arrowHeight) / 2);
       }
       inset = {
         top: arrowTop,

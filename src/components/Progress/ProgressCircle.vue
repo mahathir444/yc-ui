@@ -5,7 +5,7 @@
     aria-valuemax="100"
     :aria-valuenow="percent"
     :class="`yc-progress-circle-wrapper`"
-    :style="{ width: `${width}px`, height: `${width}px` }"
+    :style="{ width: numberToPx(width), height: numberToPx(width) }"
   >
     <icon-check
       v-if="type === 'circle' && size === 'mini' && status === 'success'"
@@ -77,7 +77,7 @@
 <script lang="ts" setup>
 import { toRefs, computed } from 'vue';
 import { ProgressColor, ProgressStatus } from './type';
-import { isObject } from '@shared/utils';
+import { isObject, numberToPx } from '@shared/utils';
 import { Size } from '@shared/type';
 import { IconCheck, IconExclamation } from '@shared/icons';
 import { TYPE_ICON_COLOR_MAP } from '@shared/constants';

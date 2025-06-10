@@ -12,7 +12,7 @@ export interface ListProps {
   hoverable?: boolean;
   paginationProps?: PaginationProps;
   gridProps?: GridProps;
-  maxHeight?: number;
+  maxHeight?: number | string;
   bottomOffset?: number;
   virtualListProps?: VirtualListProps;
   scrollbar?: boolean;

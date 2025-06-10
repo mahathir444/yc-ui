@@ -6,6 +6,7 @@
 
 <script lang="ts" setup>
 import { ObjectData } from '@shared/type';
+import { numberToPx } from '@shared/utils';
 // 过渡时间
 const transitions: ObjectData = {
   onBeforeEnter(el: HTMLDivElement) {
@@ -13,7 +14,7 @@ const transitions: ObjectData = {
     el.style.opacity = '0';
   },
   onEnter(el: HTMLDivElement) {
-    el.style.maxHeight = `${el.scrollHeight}px`;
+    el.style.maxHeight = numberToPx(el.scrollHeight);
     el.style.opacity = '1';
   },
   onAfterEnter(el: HTMLDivElement) {
@@ -22,7 +23,7 @@ const transitions: ObjectData = {
   },
   // 收起的时候卡顿
   onBeforeLeave(el: HTMLDivElement) {
-    el.style.maxHeight = `${el.scrollHeight}px`;
+    el.style.maxHeight = numberToPx(el.scrollHeight);
     el.style.opacity = '1';
   },
   onLeave(el: HTMLDivElement) {

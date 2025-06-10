@@ -8,7 +8,7 @@
     <div
       class="yc-menu-group-content"
       :style="{
-        paddingLeft: `${levelIndent}px`,
+        paddingLeft: numberToPx(levelIndent),
       }"
     >
       <slot />
@@ -18,6 +18,7 @@
 
 <script lang="ts" setup>
 import { MenuItemGroupProps, MenuItemGroupSlots } from './type';
+import { numberToPx } from '@shared/utils';
 import useContext from './hooks/useContext';
 defineOptions({
   name: 'MenuItemGroup',

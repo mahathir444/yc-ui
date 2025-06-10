@@ -14,7 +14,7 @@
 <script lang="ts" setup>
 import { toRefs, computed, CSSProperties } from 'vue';
 import { GridColProps, GridColSlots } from './type';
-import { getBreakpointValue } from '@shared/utils';
+import { getBreakpointValue, numberToPx } from '@shared/utils';
 import useContext from './hooks/useContext';
 defineOptions({
   name: 'Col',
@@ -31,7 +31,7 @@ const { gutter, div, breakpoint } = useContext().inject();
 const style = computed<CSSProperties>(() => {
   return {
     width: `calc((100% / 24) * ${getBreakpointValue(breakpoint.value, span.value, 24)})`,
-    padding: `${gutter.value[1] / 2}px ${gutter.value[0] / 2}px`,
+    padding: `${numberToPx(gutter.value[1] / 2)} ${numberToPx(gutter.value[0] / 2)}`,
     marginLeft: offset.value
       ? `calc((100% / 24) * ${getBreakpointValue(breakpoint.value, offset.value, 0)})`
       : '',

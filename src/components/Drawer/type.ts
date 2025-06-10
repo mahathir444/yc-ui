@@ -16,8 +16,8 @@ export interface DrawerProps {
   okButtonProps?: ButtonProps;
   cancelButtonProps?: ButtonProps;
   unmountOnClose?: boolean;
-  width?: number;
-  height?: number;
+  width?: number | string;
+  height?: number | string;
   popupContainer?: PopupContainer;
   drawerStyle?: CSSProperties;
   escToClose?: boolean;

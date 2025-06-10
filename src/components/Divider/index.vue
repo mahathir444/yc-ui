@@ -20,7 +20,7 @@
 <script lang="ts" setup>
 import { toRefs, computed } from 'vue';
 import { DividerProps, DividerSlots } from './type';
-import { isUndefined } from '@shared/utils';
+import { isUndefined, numberToPx } from '@shared/utils';
 defineOptions({
   name: 'Divider',
 });
@@ -38,12 +38,12 @@ const margin = computed(() => {
     return direction.value == 'horizontal' ? '20px 0' : '0 12px';
   }
   return direction.value == 'horizontal'
-    ? `${_margin.value}px 0`
-    : `0 ${_margin.value}px `;
+    ? `${numberToPx(_margin.value)} 0`
+    : `0 ${numberToPx(_margin.value)}`;
 });
 // border
 const border = computed(
-  () => `${size.value}px ${type.value} rgb(229, 230, 235)`
+  () => `${numberToPx(size.value)} ${type.value} rgb(229, 230, 235)`
 );
 </script>
 

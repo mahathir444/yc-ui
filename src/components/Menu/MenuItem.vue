@@ -27,8 +27,8 @@
           v-if="!isRoot"
           class="yc-menu-indent"
           :style="{
-            width: `${levelIndent * curNode.level}px`,
-            height: `${levelIndent}px`,
+            width: numberToPx(levelIndent * curNode.level),
+            height: numberToPx(levelIndent),
           }"
         ></div>
         <!-- icon -->
@@ -111,7 +111,7 @@
 import { ref, toRefs, computed, onMounted, useAttrs } from 'vue';
 import { MenuItemProps, MenuItemSlots, PopupMaxHeight } from './type';
 import { createReusableTemplate } from '@vueuse/core';
-import { isUndefined } from '@shared/utils';
+import { isUndefined, numberToPx } from '@shared/utils';
 import {
   default as useContext,
   MenuTreeNode,

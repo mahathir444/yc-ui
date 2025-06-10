@@ -31,7 +31,7 @@
 <script lang="ts" setup>
 import { toRefs, computed, useSlots, VNode } from 'vue';
 import { SpaceProps, SpaceSlots } from './type';
-import { isNumber, getSlotFunction } from '@shared/utils';
+import { isNumber, numberToPx } from '@shared/utils';
 defineOptions({
   name: 'Space',
 });
@@ -48,16 +48,13 @@ const { size } = toRefs(props);
 const slots = useSlots();
 // 计算gap
 const gap = computed(() => {
-  if (isNumber(size.value)) {
-    return size.value + 'px';
-  }
   const map = {
     mini: 4,
     small: 8,
     medium: 16,
     large: 24,
   };
-  return map[size.value] + 'px';
+  return numberToPx(isNumber(size.value) ? size.value : map[size.value]);
 });
 // node
 const nodes = computed(() => {

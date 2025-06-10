@@ -35,6 +35,7 @@
 <script lang="ts" setup>
 import { computed, toRefs, useSlots } from 'vue';
 import { BadgeProps, BadgeSlots } from './type';
+import { numberToPx } from '@shared/utils';
 import { TAG_PRESET_COLORS } from '@shared/constants';
 defineOptions({
   name: 'Badge',
@@ -61,8 +62,8 @@ const slots = useSlots();
 // style
 const style = computed(() => {
   return {
-    right: `${slots.default ? offset.value[0] : ''}px `,
-    top: `${slots.default ? offset.value[1] : ''}px `,
+    right: slots.default ? numberToPx(offset.value[0]) : '',
+    top: slots.default ? numberToPx(offset.value[1]) : '',
     ...dotStyle.value,
   };
 });

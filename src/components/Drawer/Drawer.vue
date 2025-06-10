@@ -87,7 +87,7 @@
 <script lang="ts" setup>
 import { toRefs, computed, CSSProperties, useAttrs } from 'vue';
 import { DrawerProps, DrawerEmits, DrawerSlots } from './type';
-import { getGlobalConfig } from '@shared/utils';
+import { getGlobalConfig, numberToPx } from '@shared/utils';
 import useDrawerClose from '@/components/Modal/hooks/useModalClose';
 import YcButton from '@/components/Button';
 import { YcIconButton } from '@shared/components';
@@ -156,10 +156,10 @@ const drawerStyle = computed(() => {
     height:
       placement.value == 'left' || placement.value == 'right'
         ? '100%'
-        : `${height.value}px`,
+        : numberToPx(height.value),
     width:
       placement.value == 'left' || placement.value == 'right'
-        ? `${width.value}px`
+        ? numberToPx(width.value)
         : `100%`,
     // 传入样式
     ..._drawerStyle.value,

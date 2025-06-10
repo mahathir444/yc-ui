@@ -1,3 +1,5 @@
+import { isNumber, isString, isUndefined } from './is';
+
 //睡眠函数
 export const sleep = (ms: number) => {
   return new Promise((resolve) => {
@@ -85,3 +87,18 @@ export function throttle<T extends (...args: any[]) => any>(
     }
   };
 }
+
+export const numberToPx = (value: string | number | undefined) => {
+  if (isUndefined(value)) return '';
+  // 检查是否是数字类型，或者是可以转换为数字的字符串
+  if (
+    isNumber(value) ||
+    (isString(value) &&
+      !isNaN(Number.parseInt(value)) &&
+      !isNaN(Number.parseFloat(value)))
+  ) {
+    return value + 'px';
+  }
+  // 其他情况直接返回原始值（如果是字符串）
+  return value;
+};

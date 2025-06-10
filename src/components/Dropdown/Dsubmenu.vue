@@ -25,7 +25,7 @@
       <div :class="['yc-dropdown', `yc-dropdown-theme-${theme}`]">
         <yc-scrollbar
           :style="{
-            maxHeight: `${popupMaxHeight}px`,
+            maxHeight: popupMaxHeight,
           }"
         >
           <div class="yc-dropdown-list">
@@ -50,7 +50,7 @@ import {
   DsubmenuEmits,
   Doption as YcDoption,
 } from './index';
-import { isUndefined, isBoolean } from '@shared/utils';
+import { isUndefined, isBoolean, numberToPx } from '@shared/utils';
 import useContext from './hooks/useContext';
 import { default as YcTrigger, TriggerInstance } from '@/components/Trigger';
 import YcScrollbar from '@/components/Scrollbar';
@@ -108,9 +108,9 @@ const popupMaxHeight = computed(() => {
   ) {
     return '';
   }
-  return isBoolean(_popupMaxHeight.value)
-    ? '200px'
-    : `${_popupMaxHeight.value}px`;
+  return numberToPx(
+    isBoolean(_popupMaxHeight.value) ? 200 : _popupMaxHeight.value
+  );
 });
 // 处理计算style
 const handleCalcStyle = async () => {

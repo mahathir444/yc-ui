@@ -2,7 +2,7 @@
   <div
     class="yc-grid"
     :style="{
-      gap: `${rowGap}px ${colGap}px`,
+      gap: `${numberToPx(rowGap)} ${numberToPx(rowGap)}`,
       gridTemplateColumns: `repeat(${cols}, minmax(0px, 1fr))`,
     }"
   >
@@ -12,7 +12,7 @@
 
 <script lang="ts" setup>
 import { GridProps, GridSlots } from './type';
-import { mediaQueryHandler } from '@shared/utils';
+import { mediaQueryHandler, numberToPx } from '@shared/utils';
 import useContext from './hooks/useContext';
 defineOptions({
   name: 'Grid',

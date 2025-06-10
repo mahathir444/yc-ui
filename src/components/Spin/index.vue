@@ -11,7 +11,7 @@
           },
         ]"
         :style="{
-          fontSize: !isSizeInherit ? `${size}px` : '',
+          fontSize: !isSizeInherit ? numberToPx(size) : '',
         }"
       >
         <slot name="icon">
@@ -46,7 +46,7 @@
 <script lang="ts" setup>
 import { SpinProps, SpinSlots } from './type';
 import { createReusableTemplate } from '@vueuse/core';
-import { getGlobalConfig } from '@shared/utils';
+import { getGlobalConfig, numberToPx } from '@shared/utils';
 import { YcPreventFocus, SlotRender } from '@shared/components';
 defineOptions({
   name: 'Spin',

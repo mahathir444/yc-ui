@@ -2,6 +2,7 @@ import { Ref, computed } from 'vue';
 import { useElementSize } from '@vueuse/core';
 import { ObjectData } from '@shared/type';
 import { AutoSize } from '../type';
+import { numberToPx } from '@shared/utils';
 
 export default (
   mirrorRef: Ref<HTMLDivElement | undefined>,
@@ -29,8 +30,8 @@ export default (
     height = height < minHeight ? minHeight : height;
     height = height > maxHeight ? maxHeight : height;
     return {
-      minHeight: `${minHeight}px`,
-      height: `${height}px`,
+      minHeight: numberToPx(minHeight),
+      height: numberToPx(height),
     };
   });
   return {

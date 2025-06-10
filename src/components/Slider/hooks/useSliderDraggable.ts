@@ -1,6 +1,7 @@
 import { reactive, Ref, watch, nextTick, computed } from 'vue';
 import { Direction } from '@shared/type';
 import { useDraggable } from '@vueuse/core';
+import { numberToPx } from '@shared/utils';
 
 export interface RangeData {
   minLeft: number;
@@ -124,11 +125,11 @@ export default (params: {
     if (direction.value == 'vertical') {
       position.top = 100 - distance;
       position.bottom = distance;
-      position.transform = `translate(-50%,calc(${-translateY}px + 50%))`;
+      position.transform = `translate(-50%,calc(${numberToPx(-translateY)} + 50%))`;
     } else {
       position.left = distance;
       position.right = 100 - distance;
-      position.transform = `translate(calc(${translateX}px - 50%),-50%)`;
+      position.transform = `translate(calc(${numberToPx(translateX)} - 50%),-50%)`;
     }
   };
   // 检测min,max计算范围

@@ -1,6 +1,6 @@
 import { ref, Ref, computed, CSSProperties, watch } from 'vue';
 import { useDraggable } from '@vueuse/core';
-import { sleep } from '@shared/utils';
+import { sleep, numberToPx } from '@shared/utils';
 
 export default (params: {
   draggable: Ref<boolean>;
@@ -43,11 +43,11 @@ export default (params: {
     return isDraggable.value &&
       (x.value != originX.value || y.value != originY.value)
       ? {
-          transform: `translate(${x.value}px,${y.value}px)`,
+          transform: `translate(${numberToPx(x.value)},${numberToPx(y.value)})`,
         }
       : {
-          left: `${originX.value}px`,
-          top: `${originY.value}px`,
+          left: numberToPx(originX.value),
+          top: numberToPx(originY.value),
         };
   });
   // 计算初始位置

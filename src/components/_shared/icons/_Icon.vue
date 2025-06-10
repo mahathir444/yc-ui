@@ -15,6 +15,7 @@
 
 <script lang="ts" setup>
 import { toRefs, computed, CSSProperties, useAttrs } from 'vue';
+import { numberToPx } from '@shared/utils';
 type IconProps = {
   strokeWidth?: number;
   strokeLinecap?: 'butt' | 'round' | 'square';
@@ -45,11 +46,11 @@ const style = computed(() => {
   let width = '';
   let height = '';
   if (Array.isArray(size.value)) {
-    width = size.value[0] + 'px';
-    height = size.value[1] + 'px';
+    width = numberToPx(size.value[0]);
+    height = numberToPx(size.value[1]);
   } else {
-    width = size.value ? size.value + 'px' : '1em';
-    height = size.value ? size.value + 'px' : '1em';
+    width = size.value ? numberToPx(size.value) : '1em';
+    height = size.value ? numberToPx(size.value) : '1em';
   }
   return {
     width,

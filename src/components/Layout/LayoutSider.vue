@@ -4,9 +4,6 @@
     v-if="resizeDirections.length"
     v-model:width="width"
     :class="['yc-layout-sider', `yc-layout-sider-${theme}`]"
-    :style="{
-      minWidth: `${collapsedWidth}px`,
-    }"
   >
     <slot />
     <slot v-if="!hideTrigger" name="trigger" :collapsed="computedCollapsed">
@@ -21,7 +18,6 @@
       </yc-icon-button>
     </slot>
   </yc-resize-box>
-
   <!-- 默认元素 -->
   <aside
     v-else
@@ -29,10 +25,10 @@
       'yc-layout-sider',
       'yc-layout-sider-translation',
       `yc-layout-sider-${theme}`,
+      {
+        'yc-layout-sider-collapsed': computedCollapsed,
+      },
     ]"
-    :style="{
-      width: `${computedCollapsed ? collapsedWidth : width}px`,
-    }"
   >
     <slot />
     <slot v-if="!hideTrigger" name="trigger" :collapsed="computedCollapsed">
@@ -51,9 +47,9 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, toRefs } from 'vue';
+import { ref, toRefs, computed } from 'vue';
 import { LayoutSiderProps, LayoutSiderEmits, LayoutSiderSlots } from './type';
-import { useControlValue, mediaQueryHandler } from '@shared/utils';
+import { useControlValue, mediaQueryHandler, numberToPx } from '@shared/utils';
 import { IconArrowRight } from '@shared/icons';
 import { YcIconButton } from '@shared/components';
 import YcResizeBox from '@/components/ResizeBox';
@@ -86,6 +82,8 @@ const {
 } = toRefs(props);
 // 宽度
 const width = useControlValue<number>(ref(), _width.value);
+// 计算width
+const computedWidth = computed(() => numberToPx(width.value));
 // 受控的收缩
 const computedCollapsed = useControlValue<boolean>(
   collapsed,
@@ -113,4 +111,7 @@ mediaQueryHandler((_, order, i) => {
 
 <style lang="less" scoped>
 @import './style/layout.less';
+.yc-layout-sider-collapsed {
+  width: v-bind(computedWidth) !important;
+}
 </style>

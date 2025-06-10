@@ -1,8 +1,8 @@
 import { ClassName, PopupContainer } from '@shared/type';
 export interface ImageProps {
   src?: string;
-  width?: number;
-  height?: number;
+  width?: number | string;
+  height?: number | string;
   title?: string;
   description?: string;
   fit?: ImageObjectFit;

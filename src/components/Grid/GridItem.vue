@@ -7,7 +7,7 @@
 <script lang="ts" setup>
 import { toRefs, computed, CSSProperties } from 'vue';
 import { GridItemProps, GridItemSlots } from './type';
-import { getBreakpointValue } from '@shared/utils';
+import { getBreakpointValue, numberToPx } from '@shared/utils';
 import useContext from './hooks/useContext';
 defineOptions({
   name: 'GridItem',
@@ -48,7 +48,7 @@ const style = computed<CSSProperties>(() => {
   return {
     gridColumn: `${start} / span ${span.value}`,
     marginLeft: offset.value
-      ? `calc(${(100 / span.value) * offset.value}% + ${offset.value * colGap!.value}px )`
+      ? `calc(${(100 / span.value) * offset.value}% + ${numberToPx(offset.value * colGap!.value)})`
       : '',
   };
 });

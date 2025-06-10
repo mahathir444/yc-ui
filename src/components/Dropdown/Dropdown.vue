@@ -43,7 +43,7 @@ import {
   DropdownSlots,
   DropdownExpose,
 } from './type';
-import { isUndefined, isBoolean } from '@shared/utils';
+import { isUndefined, isBoolean, numberToPx } from '@shared/utils';
 import useContext from './hooks/useContext';
 import YcTrigger from '@/components/Trigger';
 import YcScrollbar from '@/components/Scrollbar';
@@ -91,9 +91,9 @@ const popupMaxHeight = computed(() => {
   ) {
     return '';
   }
-  return isBoolean(_popupMaxHeight.value)
-    ? '200px'
-    : `${_popupMaxHeight.value}px`;
+  return numberToPx(
+    isBoolean(_popupMaxHeight.value) ? 200 : _popupMaxHeight.value
+  );
 });
 defineExpose<DropdownExpose>({
   show() {

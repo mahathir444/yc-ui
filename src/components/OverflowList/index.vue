@@ -2,11 +2,11 @@
   <div
     :class="['yc-overflow-list', `yc-overflow-list-from-${from}`]"
     :style="{
-      gap: `${margin}px`,
+      gap: numberToPx(margin),
       padding:
         from == 'start'
-          ? `0 0 0 ${overFlowWidth}px`
-          : ` 0 ${overFlowWidth}px 0 0`,
+          ? `0 0 0 ${numberToPx(overFlowWidth)}`
+          : ` 0 ${numberToPx(overFlowWidth)} 0 0`,
     }"
     ref="listRef"
   >
@@ -25,15 +25,7 @@
 </template>
 
 <script lang="ts" setup>
-import {
-  ref,
-  watch,
-  toRefs,
-  computed,
-  onBeforeUnmount,
-  nextTick,
-  useSlots,
-} from 'vue';
+import { ref, watch, toRefs, computed, onBeforeUnmount, useSlots } from 'vue';
 import {
   OverflowListProps,
   OverflowListEmits,
@@ -44,6 +36,7 @@ import {
   sleep,
   unrefElement,
   findComponentsFromVnodes,
+  numberToPx,
 } from '@shared/utils';
 import { useResizeObserver } from '@vueuse/core';
 import { default as YcTag } from '@/components/Tag';

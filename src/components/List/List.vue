@@ -14,7 +14,7 @@
       <!-- 渲染真实列表 -->
       <yc-scrollbar
         :style="{
-          maxHeight: isVirtualList ? '' : maxHeight,
+          maxHeight: isVirtualList ? '' : numberToPx(maxHeight),
         }"
         :offset-bottom="bottomOffset"
         :scrollbar="scrollbar"
@@ -33,7 +33,7 @@
             :virtual-list-props="virtualListProps"
             :offset-bottom="bottomOffset"
             :style="{
-              maxHeight,
+              maxHeight: numberToPx(maxHeight),
             }"
             @reach-bottom="$emit('reach-bottom')"
             @scroll="handleScroll"
@@ -93,7 +93,7 @@
 <script lang="ts" setup>
 import { ref, toRefs, computed } from 'vue';
 import { ListProps, ListEmits, ListSlots } from './type';
-import { getGlobalConfig, useControlValue } from '@shared/utils';
+import { getGlobalConfig, useControlValue, numberToPx } from '@shared/utils';
 import YcSpin from '@/components/Spin';
 import YcEmpty from '@/components/Empty';
 import YcScrollbar from '@/components/Scrollbar';
@@ -119,16 +119,9 @@ const props = withDefaults(defineProps<ListProps>(), {
   scrollbar: true,
 });
 const emits = defineEmits<ListEmits>();
-const {
-  data,
-  paginationProps,
-  virtualListProps,
-  gridProps,
-  maxHeight: _maxHeight,
-} = toRefs(props);
+const { data, paginationProps, virtualListProps, gridProps } = toRefs(props);
 // 注入全局属性
 const { size, slots: configSlots, renderEmpty } = getGlobalConfig(props);
-const maxHeight = computed(() => `${_maxHeight.value}px`);
 // 是否触底
 const isBottomReached = ref<boolean>(false);
 // current
