@@ -4,6 +4,7 @@
       'yc-rate',
       {
         'yc-rate-disabled': disabled,
+        'yc-rate-readonly': readonly,
       },
     ]"
   >
@@ -19,7 +20,7 @@
         :style="{
           color:
             (i - 0.5 <= computedValue && !curHover) || i - 0.5 <= curHover
-              ? getColor(i)
+              ? (getColor(i) as string)
               : '',
         }"
         @click.stop="handleClick(i - 0.5)"
@@ -36,7 +37,7 @@
         :style="{
           color:
             (i <= computedValue && !curHover) || i <= curHover
-              ? getColor(i)
+              ? (getColor(i) as string)
               : '',
         }"
         @click="handleClick(i)"
@@ -97,9 +98,14 @@ const computedValue = useControlValue<number>(
 );
 // 获取颜色
 const getColor = (i: number) => {
-  return isObject(color.value)
-    ? (color.value[i] ?? 'rgb(247, 186, 30)')
-    : color.value;
+  if (isObject(color.value)) {
+    return (
+      Object.entries(color.value).find(([key]) => i <= +key)?.[1] ??
+      'rgb(247, 186, 30)'
+    );
+  } else {
+    return color.value ?? 'rgb(247, 186, 30)';
+  }
 };
 // 点击评分
 const handleClick = async (index: number) => {

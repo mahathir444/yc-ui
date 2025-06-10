@@ -103,6 +103,7 @@ const {
   showWordLimit,
   showClearBtn,
   curLength,
+  maxLength,
   handleInput,
   handleComposition,
 } = useLimitedInput({
