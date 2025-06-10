@@ -1,5 +1,5 @@
 <template>
-  <div class="data-show">
+  <div class="datyc-show">
     <!-- avatar -->
     <yc-space size="large">
       <yc-avatar>A</yc-avatar>
@@ -32,6 +32,8 @@
         <yc-avatar shape="square" />
       </yc-badge>
     </yc-space>
+    <!-- Calendar -->
+    <yc-calendar />
     <!-- card -->
     <yc-card :style="{ width: '360px' }">
       <template #actions>
@@ -61,7 +63,7 @@
             <yc-avatar :size="24" :style="{ marginRight: '8px' }">
               A
             </yc-avatar>
-            <a-typography-text>Username</a-typography-text>
+            <yc-typography-text>Username</yc-typography-text>
           </div>
         </template>
       </yc-card-meta>
@@ -97,75 +99,6 @@
           />
         </yc-carousel-item>
       </yc-carousel>
-    </yc-space>
-    <!-- empty -->
-    <yc-empty style="height: fit-content; width: fit-content" />
-    <!-- image -->
-    <yc-image
-      src="https://p1-arco.byteimg.com/tos-cn-i-uwbnlip3yd/a8c8cdb109cb051163646151a4a5083b.png~tplv-uwbnlip3yd-webp.webp"
-      title="A user’s avatar"
-      description="Present by Arco Design"
-      :width="260"
-      style="margin-right: 67px; vertical-align: top"
-    >
-      <template #extra>
-        <div class="actions">
-          <span class="action"><icon-eye /></span>
-          <span class="action"><icon-download /></span>
-          <yc-tooltip content="A user’s avatar">
-            <span class="action"><icon-info-circle /></span>
-          </yc-tooltip>
-        </div>
-      </template>
-    </yc-image>
-    <!-- list -->
-    <yc-list
-      :max-height="560"
-      :scrollbar="false"
-      :data="list"
-      :style="{ width: `600px` }"
-      @reach-bottom="handleReach"
-    >
-      <template #scroll-loading>
-        <yc-spin :loading="true" style="width: 100%">
-          <div style="height: 30px; width: 100%"></div>
-        </yc-spin>
-      </template>
-      <template #item="{ item, index }">
-        <yc-list-item :key="index">
-          <yc-list-item-meta
-            :title="item.title"
-            :description="item.description"
-          >
-            <template #avatar>
-              <yc-avatar shape="square"> A </yc-avatar>
-            </template>
-          </yc-list-item-meta>
-        </yc-list-item>
-      </template>
-    </yc-list>
-    <!-- popover -->
-    <yc-space>
-      <yc-popover title="Title">
-        <yc-button>Hover Me</yc-button>
-        <template #content>
-          <p>Here is the text content</p>
-          <p>Here is the text content</p>
-        </template>
-      </yc-popover>
-      <yc-popover title="Title" trigger="click">
-        <yc-button>Click Me</yc-button>
-        <template #content>
-          <p>Here is the text content</p>
-          <p>Here is the text content</p>
-        </template>
-      </yc-popover>
-    </yc-space>
-    <!-- tag -->
-    <yc-space wrap style="max-width: 100%">
-      <div v-for="(color, index) of colors" :key="index">
-        <yc-tag :color="color" closable>{{ color }}</yc-tag>
-      </div>
     </yc-space>
     <!-- collapse -->
     <yc-collapse style="width: fit-content; height: fit-content">
@@ -230,10 +163,7 @@
         </yc-comment>
       </yc-comment>
     </yc-comment>
-    <div style="display: flex; flex-direction: column; align-items: center">
-      <yc-countdown title="Countdown" format="HH:mm:ss.SSS" :start="start" />
-      <yc-button @click="start = !start">点击开启及时</yc-button>
-    </div>
+    <!-- descriptions -->
     <yc-descriptions :column="3" :data="data" title="User Info" bordered>
       <yc-descriptions-item
         v-for="item of data"
@@ -243,6 +173,107 @@
         <yc-tag>{{ item.value }}</yc-tag>
       </yc-descriptions-item>
     </yc-descriptions>
+    <!-- empty -->
+    <yc-empty style="height: fit-content; width: fit-content" />
+    <!-- image -->
+    <yc-image
+      src="https://p1-arco.byteimg.com/tos-cn-i-uwbnlip3yd/a8c8cdb109cb051163646151a4a5083b.png~tplv-uwbnlip3yd-webp.webp"
+      title="A user’s avatar"
+      description="Present by Arco Design"
+      :width="260"
+      style="margin-right: 67px; vertical-align: top"
+    >
+      <template #extra>
+        <div class="actions">
+          <span class="action"><icon-eye /></span>
+          <span class="action"><icon-download /></span>
+          <yc-tooltip content="A user’s avatar">
+            <span class="action"><icon-info-circle /></span>
+          </yc-tooltip>
+        </div>
+      </template>
+    </yc-image>
+    <!-- list -->
+    <yc-list
+      :max-height="560"
+      :scrollbar="false"
+      :data="list"
+      :style="{ width: `600px` }"
+      @reach-bottom="handleReach"
+    >
+      <template #scroll-loading>
+        <yc-spin :loading="true" style="width: 100%">
+          <div style="height: 30px; width: 100%"></div>
+        </yc-spin>
+      </template>
+      <template #item="{ item, index }">
+        <yc-list-item :key="index">
+          <yc-list-item-meta
+            :title="item.title"
+            :description="item.description"
+          >
+            <template #avatar>
+              <yc-avatar shape="square"> A </yc-avatar>
+            </template>
+          </yc-list-item-meta>
+        </yc-list-item>
+      </template>
+    </yc-list>
+    <!-- popover -->
+    <yc-space>
+      <yc-popover title="Title">
+        <yc-button>Hover Me</yc-button>
+        <template #content>
+          <p>Here is the text content</p>
+          <p>Here is the text content</p>
+        </template>
+      </yc-popover>
+      <yc-popover title="Title" trigger="click">
+        <yc-button>Click Me</yc-button>
+        <template #content>
+          <p>Here is the text content</p>
+          <p>Here is the text content</p>
+        </template>
+      </yc-popover>
+    </yc-space>
+    <!-- Statistic -->
+    <div style="display: flex; flex-direction: column; align-items: center">
+      <yc-countdown title="Countdown" format="HH:mm:ss.SSS" :start="start" />
+      <yc-button @click="start = !start">点击开启及时</yc-button>
+    </div>
+    <!-- tabs -->
+    <yc-tabs default-active-key="2">
+      <yc-tab-pane path="1" title="Tab 1"> Content of Tab Panel 1 </yc-tab-pane>
+      <yc-tab-pane path="2" title="Tab 2"> Content of Tab Panel 2 </yc-tab-pane>
+      <yc-tab-pane path="3">
+        <template #title>Tab 3</template>
+        Content of Tab Panel 3
+      </yc-tab-pane>
+    </yc-tabs>
+    <!-- tag -->
+    <yc-space wrap style="max-width: 100%">
+      <div v-for="(color, index) of colors" :key="index">
+        <yc-tag :color="color" closable>{{ color }}</yc-tag>
+      </div>
+    </yc-space>
+    <!-- timeline -->
+    <yc-timeline>
+      <yc-timeline-item label="2017-03-10" dotColor="#00B42A">
+        The first milestone
+      </yc-timeline-item>
+      <yc-timeline-item label="2018-05-22"
+        >The second milestone</yc-timeline-item
+      >
+      <yc-timeline-item label="2020-06-22" dotColor="#F53F3F">
+        The third milestone
+        <IconExclamationCircleFill
+          :style="{ color: 'F53F3F', fontSize: '12px', marginLeft: '4px' }"
+        />
+      </yc-timeline-item>
+      <yc-timeline-item label="2020-09-30" dotColor="#C9CDD4">
+        The fourth milestone
+      </yc-timeline-item>
+    </yc-timeline>
     <!-- tooltip -->
     <yc-space>
       <yc-tooltip content="This is tooltip content">
@@ -337,7 +368,7 @@ const handleReach = () => {
 </script>
 
 <style lang="less" scoped>
-.data-show {
+.datyc-show {
   height: 300vh;
   width: 100%;
   display: flex;

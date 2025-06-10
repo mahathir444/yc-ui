@@ -23,10 +23,6 @@ const menus = [
     path: 'lyc',
   },
   {
-    title: '开发-lsh',
-    path: 'lsh',
-  },
-  {
     title: '通用(4/4)',
     path: 'common',
   },

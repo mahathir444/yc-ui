@@ -29,12 +29,6 @@ const router = createRouter({
               component: () => import('@/views/test-lyc.vue'),
             },
             {
-              path: 'lsh',
-              name: 'lsh',
-              component: () => import('@/views/test-lsh.vue'),
-            },
-
-            {
               path: 'common',
               name: 'common',
               component: () => import('@/views/demo/Common.vue'),
