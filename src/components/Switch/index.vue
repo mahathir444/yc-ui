@@ -27,7 +27,9 @@
     </span>
     <!-- placeholder -->
     <span v-if="showText" class="yc-switch-placeholder">
-      {{ compuedChecked ? checkedText : uncheckedText }}
+      <slot :name="compuedChecked ? 'checked' : 'unchecked'">
+        {{ compuedChecked ? checkedText : uncheckedText }}
+      </slot>
     </span>
     <!-- text -->
     <span v-if="showText" class="yc-switch-text">
@@ -39,7 +41,7 @@
 </template>
 
 <script lang="ts" setup>
-import { toRefs, computed } from 'vue';
+import { ref, toRefs, computed, useSlots } from 'vue';
 import { SwitchProps, SwitchEmits, SwitchSlots, SwitchValue } from './type';
 import { useControlValue, getGlobalConfig, isBoolean } from '@shared/utils';
 import YcSpin from '@/components/Spin';
@@ -49,7 +51,7 @@ defineOptions({
 defineSlots<SwitchSlots>();
 const props = withDefaults(defineProps<SwitchProps>(), {
   modelValue: undefined,
-  defaultValue: false,
+  defaultChecked: false,
   disabled: false,
   loading: false,
   type: 'circle',
@@ -67,24 +69,25 @@ const props = withDefaults(defineProps<SwitchProps>(), {
 const emits = defineEmits<SwitchEmits>();
 const {
   modelValue,
-  defaultValue,
+  defaultChecked,
   checkedValue,
   uncheckedValue,
-  loading,
   disabled,
   type,
   checkedText,
   uncheckedText,
   checkedColor,
   uncheckedColor,
+  loading: _loading,
 } = toRefs(props);
 const { beforeChange } = props;
+const slots = useSlots();
 // 获取全局配置
 const { size } = getGlobalConfig(props);
 // 计算值
 const computedValue = useControlValue<SwitchValue>(
   modelValue,
-  defaultValue.value,
+  defaultChecked.value,
   (val) => {
     emits('update:modelValue', val);
   }
@@ -95,8 +98,10 @@ const compuedChecked = computed(() => {
 });
 // 是否展示text
 const showText = computed(() => {
-  const showCheckedText = compuedChecked.value && checkedText.value;
-  const showUncheckedText = !compuedChecked.value && uncheckedText.value;
+  const showCheckedText =
+    compuedChecked.value && (checkedText.value || slots.checked);
+  const showUncheckedText =
+    !compuedChecked.value && (uncheckedText.value || slots.unchecked);
   return (
     type.value != 'line' &&
     size.value != 'small' &&
@@ -107,9 +112,14 @@ const showText = computed(() => {
 const background = computed(() =>
   compuedChecked.value ? checkedColor.value : uncheckedColor.value
 );
+//切换loading
+const switchLoading = ref<boolean>(false);
+// lkoading
+const loading = computed(() => switchLoading.value || _loading.value);
 // 处理beforeChange
 const handleBeforeChange = async (newValue: SwitchValue) => {
   let isChange = true;
+  switchLoading.value = true;
   const changeResult = beforeChange(newValue);
   if (isBoolean(changeResult)) {
     isChange = changeResult;
@@ -123,6 +133,7 @@ const handleBeforeChange = async (newValue: SwitchValue) => {
       isChange = false;
     }
   }
+  switchLoading.value = false;
   return isChange;
 };
 // 处理点击

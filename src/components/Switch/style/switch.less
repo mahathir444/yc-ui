@@ -67,7 +67,9 @@
 .yc-switch-loading,
 .yc-switch-disabled {
   &.yc-switch-unchecked {
-    background-color: rgb(242, 243, 245);
+    &:not(.yc-switch-shape-line) {
+      background-color: rgb(242, 243, 245);
+    }
     &::after {
       background-color: rgb(242, 243, 245);
     }
@@ -79,7 +81,9 @@
     }
   }
   &.yc-switch-checked {
-    background-color: rgb(148, 191, 255);
+    &:not(.yc-switch-shape-line) {
+      background-color: rgb(148, 191, 255);
+    }
     &::after {
       background-color: rgb(148, 191, 255);
     }

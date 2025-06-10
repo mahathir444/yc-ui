@@ -1,6 +1,6 @@
 export interface SwitchProps {
   modelValue?: SwitchValue;
-  defaultValue?: SwitchValue;
+  defaultChecked?: SwitchValue;
   disabled?: boolean;
   loading?: boolean;
   type?: SwitchType;
