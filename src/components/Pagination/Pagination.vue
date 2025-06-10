@@ -26,9 +26,7 @@
           :page="isNumber(i) ? i : -1"
         >
           <slot v-if="isNumber(i)" name="page-item" :page="i">
-            <template>
-              {{ i }}
-            </template>
+            {{ i }}
           </slot>
           <slot
             v-else-if="$slots['page-item-ellipsis']"

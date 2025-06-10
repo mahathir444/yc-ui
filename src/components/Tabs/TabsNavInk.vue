@@ -4,6 +4,7 @@
 
 <script lang="ts" setup>
 import { computed, toRefs } from 'vue';
+import { numberToPx } from '@shared/utils';
 import useContext from './hooks/useContext';
 const props = defineProps<{
   curIndex: number;
@@ -17,17 +18,23 @@ const sliderStyle = computed(() => {
     const listLeft = listRef.value?.getBoundingClientRect?.()?.left || 0;
     const targetLeft =
       titleRefs.value[curIndex.value]?.getBoundingClientRect?.()?.left || 0;
+    const width =
+      titleRefs.value[curIndex.value]?.offsetWidth + (editable.value ? 22 : 0);
+    const left = targetLeft - listLeft;
     return {
-      width: `${titleRefs.value[curIndex.value]?.offsetWidth + (editable.value ? 22 : 0)}px`,
-      left: `${targetLeft - listLeft}px`,
+      width: numberToPx(width),
+      left: numberToPx(left),
     };
   } else {
     const listTop = listRef.value?.getBoundingClientRect?.()?.top || 0;
     const targetTop =
       titleRefs.value[curIndex.value]?.getBoundingClientRect?.()?.top || 0;
+    const height =
+      titleRefs.value[curIndex.value]?.offsetHeight + (editable.value ? 22 : 0);
+    const top = targetTop - listTop;
     return {
-      height: `${titleRefs.value[curIndex.value]?.offsetHeight + (editable.value ? 22 : 0)}px`,
-      top: `${targetTop - listTop}px`,
+      height: numberToPx(height),
+      top: numberToPx(top),
     };
   }
 });

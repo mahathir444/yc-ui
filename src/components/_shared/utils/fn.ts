@@ -89,7 +89,6 @@ export function throttle<T extends (...args: any[]) => any>(
 }
 
 export const numberToPx = (value: string | number | undefined) => {
-  if (isUndefined(value)) return '';
   // 检查是否是数字类型，或者是可以转换为数字的字符串
   if (
     isNumber(value) ||
@@ -99,6 +98,5 @@ export const numberToPx = (value: string | number | undefined) => {
   ) {
     return value + 'px';
   }
-  // 其他情况直接返回原始值（如果是字符串）
-  return value;
+  return value as string;
 };
