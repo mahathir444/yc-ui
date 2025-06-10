@@ -31,7 +31,7 @@
         />
         <yc-textarea
           v-else
-          v-model="computedValue"
+          :model-value="computedValue"
           :disabled="disabled"
           :allow-clear="allowClear"
           enter-prevent
@@ -109,6 +109,7 @@ const computedValue = useControlValue<string>(
   modelValue,
   defaultValue.value,
   (val) => {
+    console.log(val, 'val');
     emits('update:modelValue', val);
   }
 );
@@ -130,7 +131,6 @@ const handleEvent = async (
   switch (type) {
     case 'input':
       {
-        computedValue.value = value;
         const oldOptions = [...data.value];
         await nextTick();
         if (

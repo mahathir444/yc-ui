@@ -9,5 +9,7 @@
 4. tab的样式问题，tab的滚动问题
 5. timeline反向轴线位置问题  mode = alternate的样式 问题
 6. step优化收集的问题
+## 测试完成
+AutoComplete
 ## 尚未测试的组件
 1.  Message ResizeBox  Notifcation TimePicker 表单组件

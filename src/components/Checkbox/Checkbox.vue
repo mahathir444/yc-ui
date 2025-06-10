@@ -64,11 +64,21 @@ const props = withDefaults(defineProps<CheckboxProps>(), {
   preventFocus: false,
 });
 const emits = defineEmits<CheckboxEmits>();
-const { modelValue, defaultChecked, value: checkboxValue } = toRefs(props);
+const {
+  modelValue,
+  defaultChecked,
+  value: checkboxValue,
+  disabled,
+} = toRefs(props);
 // 接收注入
-const { computedValue, max, disabled } = useContext().inject(props);
+const {
+  computedValue,
+  max,
+  hasGroup,
+  disabled: injectDisabled,
+} = useContext().inject();
 // checkbox受控的值
-const _checked = useControlValue<boolean>(
+const checked = useControlValue<boolean>(
   modelValue,
   defaultChecked.value,
   (val) => {
@@ -77,28 +87,35 @@ const _checked = useControlValue<boolean>(
 );
 // 用于显示的值
 const computedChecked = computed(() => {
-  if (!computedValue.value) return _checked.value;
-  return computedValue.value.includes(checkboxValue.value);
+  return hasGroup.value
+    ? computedValue.value.includes(checkboxValue.value)
+    : checked.value;
 });
 // 禁用
 const computedDisabled = computed(() => {
-  if (!max.value || !computedValue.value) return disabled.value;
-  return computedValue.value.length >= max.value && !computedChecked.value;
+  return (
+    disabled.value ||
+    injectDisabled.value ||
+    (hasGroup.value &&
+      !computedChecked.value &&
+      computedValue.value.length >= max.value)
+  );
 });
 // 处理check发生改变
 const handleCollect = (e: Event) => {
   // 如果外面没有嵌套checkbox-group则执行收集就可以了
-  if (!computedValue.value) {
-    const checked = (e.target as HTMLInputElement)?.checked;
-    _checked.value = checked;
-    return emits('change', checked, e);
+  if (!hasGroup.value) {
+    const curChecked = (e.target as HTMLInputElement)?.checked;
+    checked.value = curChecked;
+    return emits('change', curChecked, e);
   }
-  const { value } = checkboxValue;
   // true->false
   if (computedChecked.value) {
-    computedValue.value = computedValue.value.filter((item) => item != value);
+    computedValue.value = computedValue.value.filter(
+      (item) => item != checkboxValue.value
+    );
   } else {
-    computedValue.value = [...computedValue.value, value];
+    computedValue.value = [...computedValue.value, checkboxValue.value];
   }
 };
 </script>

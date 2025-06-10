@@ -110,6 +110,10 @@ export default (params: {
       e.target as HTMLInputElement;
     isComposition.value = e.type !== 'compositionend';
     if (isComposition.value) {
+      if (isUndefined(maxLength.value)) {
+        emits('input', value, e);
+        computedValue.value = value;
+      }
       return;
     }
     if (
@@ -128,7 +132,6 @@ export default (params: {
     const { value } = e.target as HTMLInputElement;
     // 中文合成退出
     if (isComposition.value) {
-      isUndefined(maxLength.value) && emits('input', value, e);
       return;
     }
     recordWordMaxLength();

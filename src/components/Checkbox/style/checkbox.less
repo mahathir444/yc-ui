@@ -70,7 +70,7 @@
 // 全选和半选
 // transition: border-color 0.1s cubic-bezier(0, 0, 1, 1);
 .yc-checkbox-unchecked {
-  &:hover .yc-icon-button {
+  &:not(.yc-checkbox-disabled):hover .yc-icon-button {
     &::before {
       background-color: rgba(242, 243, 245);
     }

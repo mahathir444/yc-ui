@@ -4,8 +4,8 @@
   >
     <slot />
     <yc-checkbox
-      v-for="(item, index) in options"
-      :key="index"
+      v-for="(item, i) in options"
+      :key="i"
       :value="item.value"
       :disabled="item.disabled"
       :indeterminate="item.indeterminate"
@@ -23,7 +23,11 @@
 </template>
 
 <script lang="ts" setup>
-import { CheckboxGroupProps, CheckboxEmits, CheckboxGroupSlots } from './type';
+import {
+  CheckboxGroupProps,
+  CheckboxGroupEmits,
+  CheckboxGroupSlots,
+} from './type';
 import useContext from './hooks/useContext';
 import YcCheckbox from './Checkbox.vue';
 defineOptions({
@@ -38,9 +42,9 @@ const props = withDefaults(defineProps<CheckboxGroupProps>(), {
   direction: 'horizontal',
   disabled: false,
 });
-const emits = defineEmits<CheckboxEmits>();
+const emits = defineEmits<CheckboxGroupEmits>();
 // 注入数据
-useContext().provide(props, emits);
+const { options } = useContext().provide(props, emits);
 </script>
 
 <style lang="less">

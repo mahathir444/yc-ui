@@ -23,14 +23,14 @@ export interface CheckboxGroupProps {
   modelValue?: CheckboxValue[];
   defaultValue?: CheckboxValue[];
   max?: number;
-  options?: CheckboxOption[];
+  options?: (CheckboxOption | CheckboxValue)[];
   direction?: Direction;
   disabled?: boolean;
 }
 
 export interface CheckboxGroupEmits {
   (e: 'update:modelValue', value: CheckboxValue[]): void;
-  (e: 'change', value: CheckboxValue[], ev: Event): void;
+  (e: 'change', value: CheckboxValue[], ev?: Event): void;
 }
 
 export interface CheckboxGroupSlots {
