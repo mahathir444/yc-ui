@@ -7,7 +7,7 @@
       </template>
     </yc-alert>
     <yc-button type="primary" @click="visible = true">Open Drawer</yc-button>
-    <yc-drawer :width="340" v-model:visible="visible" unmountOnClose>
+    <yc-drawer :width="340" unmountOnClose>
       <template #title> Title </template>
       <div>
         You can customize modal body text by the current situation. This modal
@@ -35,7 +35,7 @@
       >
     </yc-space>
     <yc-button @click="visible = true">Open Modal</yc-button>
-    <yc-modal>
+    <yc-modal v-model:visible="visible">
       <template #title> Title </template>
       <div>
         You can customize modal body text by the current situation. This modal

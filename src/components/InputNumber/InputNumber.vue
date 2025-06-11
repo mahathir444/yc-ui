@@ -205,17 +205,17 @@ const handleUpdateValue = (
   type: 'blur' | 'pressEnter',
   e: FocusEvent | KeyboardEvent
 ) => {
+  if (type == 'blur') {
+    emits('blur', e as FocusEvent);
+  } else {
+    emits('pressEnter', e as KeyboardEvent);
+  }
   if (!computedValue.value) return;
   let value = +parserValue(computedValue.value);
   value = value < min.value ? min.value : value;
   value = value > max.value ? max.value : value;
   // 处理精度
   computedValue.value = handlePrecision(value, 'number');
-  if (type == 'blur') {
-    emits('blur', e as FocusEvent);
-  } else {
-    emits('pressEnter', e as KeyboardEvent);
-  }
 };
 // 处理输入
 const handleInput = (v: string, e: Event) => {

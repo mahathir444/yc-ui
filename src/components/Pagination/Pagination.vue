@@ -78,8 +78,10 @@
         hide-button
         :size="size"
         :disabled="disabled"
+        :min="1"
+        :max="pages"
         @focus="tempCurrent = computedCurrent"
-        @blur="computedCurrent = tempCurrent"
+        @blur="handleBlur"
       />
     </span>
   </div>
@@ -88,7 +90,7 @@
 <script lang="ts" setup>
 import { ref, watch } from 'vue';
 import { PaginationProps, PaginationEmits, PaginationSlots } from './type';
-import { isNumber } from '@shared/utils';
+import { isNumber, sleep } from '@shared/utils';
 import useContext from './hooks/useContext';
 import PaginationItem from './PaginationItem.vue';
 import YcSelect from '@/components/Select';
@@ -143,6 +145,17 @@ watch(
     tempCurrent.value = computedCurrent.value;
   }
 );
+// 处理失焦
+const handleBlur = async (e: Event) => {
+  if (`${tempCurrent.value}`.length) {
+    computedCurrent.value = tempCurrent.value;
+  }
+  await sleep(0);
+  const target = e.target as HTMLInputElement;
+  if (+target.value != computedCurrent.value) {
+    target.value = computedCurrent.value;
+  }
+};
 </script>
 
 <style lang="less" scoped>
