@@ -18,7 +18,7 @@
       <icon-eye-close v-else />
     </yc-icon-button>
     <!-- suffix -->
-    <slot name="suffix" />
+    <slot v-if="$slots.suffix" name="suffix" />
   </yc-prevent-focus>
 </template>
 

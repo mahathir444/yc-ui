@@ -22,7 +22,7 @@
       />
       <component
         v-if="separator?.(i, inputValue[i])"
-        :is="separator(i, inputValue[i])"
+        :is="getSlotFunction(separator(i, inputValue[i]) as unknown as string)"
       />
     </template>
   </div>
@@ -31,7 +31,15 @@
 <script lang="ts" setup>
 import { ref, toRefs, computed } from 'vue';
 import { VerificationCodeProps, VerificationCodeEmits } from './type';
-import { useControlValue, getGlobalConfig, sleep } from '@shared/utils';
+import {
+  useControlValue,
+  getGlobalConfig,
+  sleep,
+  getSlotFunction,
+  isFunction,
+  isNumber,
+  isString,
+} from '@shared/utils';
 import { nanoid } from 'nanoid';
 import { default as YcInput, InputInstance } from '@/components/Input';
 defineOptions({
@@ -76,9 +84,8 @@ const inputValue = computed(() => {
     base[i] = '';
   }
   return base.map((item, i) => {
-    return item && formatter
-      ? formatter(item, i, formatValue.value.join(''))
-      : item;
+    const format = formatter?.(item, i, formatValue.value.join(''));
+    return item && (isNumber(format) || isString(format)) ? format : item;
   });
 });
 // 输入实例
@@ -94,8 +101,10 @@ const isWritable = (i: number) => {
 const handleInput = async (v: string, ev: Event, i: number) => {
   // 处理字符串
   const value = (v ? v.at(v.length - 1) : ' ') as string;
-  formatValue.value[i] =
-    formatter?.(value, i, formatValue.value.join('')) ?? value;
+  const format = formatter?.(value, i, formatValue.value.join(''));
+  if (isFunction(formatter) && !isNumber(format) && !isString(format)) {
+    return;
+  }
   // 触发事件
   emits('input', value, ev, i);
   // 拼接字符串

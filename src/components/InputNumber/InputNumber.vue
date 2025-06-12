@@ -12,7 +12,7 @@
     ref="inputRef"
     @input="handleInput"
     @change="(v, ev) => $emit('change', +v, ev)"
-    @clear="(ev) => $emit('clear', ev)"
+    @clear="handleClear"
     @focus="(ev) => $emit('focus', ev)"
     @blur="(ev) => handleUpdateValue('blur', ev)"
     @keydown="(ev) => $emit('keydown', ev)"
@@ -27,20 +27,6 @@
       <slot name="suffix">
         <div class="yc-input-number-step">
           <yc-opera-btn
-            type="minus"
-            :mode="mode"
-            :computed-value="computedValue"
-            :disabled="disabled"
-            :min="min"
-            :max="min"
-            :size="size"
-            @click="handleStep"
-          >
-            <template v-if="$slots.minus" #icon>
-              <slot name="minus" />
-            </template>
-          </yc-opera-btn>
-          <yc-opera-btn
             type="plus"
             :mode="mode"
             :computed-value="computedValue"
@@ -50,8 +36,22 @@
             :size="size"
             @click="handleStep"
           >
-            <template v-if="$slots.plus" #icon>
+            <template v-if="$slots.minus" #icon>
               <slot name="plus" />
+            </template>
+          </yc-opera-btn>
+          <yc-opera-btn
+            type="minus"
+            :mode="mode"
+            :computed-value="computedValue"
+            :disabled="disabled"
+            :min="min"
+            :max="max"
+            :size="size"
+            @click="handleStep"
+          >
+            <template v-if="$slots.plus" #icon>
+              <slot name="minus" />
             </template>
           </yc-opera-btn>
         </div>
@@ -236,6 +236,11 @@ const handleInput = (v: string, e: Event) => {
   }
   computedValue.value = handleValue;
   emits('input', handleValue, e);
+};
+// 处理清除
+const handleClear = (ev: MouseEvent) => {
+  computedValue.value = '';
+  emits('clear', ev);
 };
 // 暴漏方法
 defineExpose<InputNumberExpose>({

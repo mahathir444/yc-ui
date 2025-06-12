@@ -1,26 +1,27 @@
 <template>
   <div class="test">
-    <a-input-password
-      v-model:visibility="visibility"
-      placeholder="Please enter something"
-      :style="{ width: '320px' }"
-      :defaultVisibility="false"
-      allow-clear
+    <a-verification-code
+      defaultValue="1x3456"
+      style="width: 300px"
+      :formatter="
+        (inputValue) => (/^\d*$/.test(inputValue) ? inputValue : false)
+      "
     />
-    <yc-input
-      v-model:visibility="visibility"
-      is-password
-      placeholder="Please enter something"
-      :style="{ width: '320px' }"
-      :defaultVisibility="false"
-      allow-clear
+    <yc-verification-code
+      defaultValue="123456"
+      style="width: 300px"
+      :formatter="
+        (inputValue) => (/^\d*$/.test(inputValue) ? inputValue : false)
+      "
     />
   </div>
 </template>
 
 <script lang="ts" setup>
 import { ref } from 'vue';
-const visibility = ref(true);
+import { Message } from '@arco-design/web-vue';
+const value = ref('654321');
+const onFinish = (value) => Message.info(`Verification code: ${value}`);
 </script>
 
 <style lang="less" scoped>

@@ -1,7 +1,7 @@
 <template>
   <yc-button
     :size="size"
-    :disabled="disabledMinus"
+    :disabled="disabled"
     :class="[
       {
         'yc-input-number-plus-embed': mode == 'embed',
@@ -13,7 +13,7 @@
       <slot name="icon">
         <icon-arrow-down
           v-if="mode == 'embed'"
-          :rotate="type == 'plus' ? 0 : 180"
+          :rotate="type == 'plus' ? 180 : 0"
         />
         <template v-else>
           <icon-minus v-if="type == 'minus'" />
@@ -42,10 +42,10 @@ const props = defineProps<{
 defineEmits<{
   (e: 'click', type: 'minus' | 'plus'): void;
 }>();
-const { disabled, computedValue, min, max, type } = toRefs(props);
+const { disabled: _disabled, computedValue, min, max, type } = toRefs(props);
 // 禁用递减
-const disabledMinus = computed(() => {
-  if (disabled.value) return disabled.value;
+const disabled = computed(() => {
+  if (_disabled.value) return _disabled.value;
   return type.value == 'minus'
     ? +computedValue.value <= min.value
     : +computedValue.value >= max.value;
