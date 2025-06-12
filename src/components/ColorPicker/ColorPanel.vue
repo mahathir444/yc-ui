@@ -11,6 +11,7 @@
       v-model:color="computedColor"
       :base-color="baseColor"
       :popup-visible="popupVisible"
+      :hide-trigger="hideTrigger"
       :disabled="disabled"
       ref="paletteRef"
     />
@@ -23,6 +24,7 @@
             v-model:base-color="baseColor"
             :popup-visible="popupVisible"
             :disabled="disabled"
+            :hide-trigger="hideTrigger"
             ref="colorBarRef"
             @change="(v) => paletteRef?.setPosition(v)"
           />
@@ -34,6 +36,7 @@
               :base-color="baseColor"
               :popup-visible="popupVisible"
               :disabled="disabled"
+              :hide-trigger="hideTrigger"
               ref="alphaBarRef"
             />
           </div>
@@ -49,7 +52,6 @@
         v-model:color="computedColor"
         v-model:base-color="baseColor"
         v-model:alpha="alpha"
-        v-model:format="format"
         :disabled="disabled"
         :disabled-alpha="disabledAlpha"
         @change="handleChange"
@@ -73,23 +75,26 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, toRefs } from 'vue';
+import { ref } from 'vue';
 import useContext from './hooks/useContext';
 import ColorPalette from './ColorPalette.vue';
 import ColorInput from './ColorInput.vue';
 import ColorList from './ColorList.vue';
 import ColorControl from './ColorControl.vue';
 // 注入值
-const { props, popupVisible, computedColor, baseColor, alpha, format } =
-  useContext().inject();
 const {
+  popupVisible,
+  computedColor,
+  baseColor,
+  alpha,
   disabled,
   disabledAlpha,
   showHistory,
   showPreset,
-  historyColors,
+  hideTrigger,
   presetColors,
-} = toRefs(props!);
+  historyColors,
+} = useContext().inject();
 // 组件实例
 const colorBarRef = ref<InstanceType<typeof ColorControl>>();
 const alphaBarRef = ref<InstanceType<typeof ColorControl>>();

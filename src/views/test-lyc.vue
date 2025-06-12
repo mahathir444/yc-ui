@@ -1,20 +1,27 @@
 <template>
   <div class="test">
-    <a-rate :color="color" />
+    <a-color-picker defaultValue="#165DFF" hideTrigger showHistory showPreset />
+    <a-color-picker defaultValue="#12D2AC" disabled hideTrigger showPreset />
+    <yc-color-picker
+      defaultValue="#165DFF"
+      hideTrigger
+      showHistory
+      showPreset
+    />
+    <yc-color-picker defaultValue="#12D2AC" showPreset />
   </div>
 </template>
 
 <script lang="ts" setup>
-const color = {
-  2: 'red',
-  4: 'green',
-  5: 'blue',
-};
+import { ColorPicker as AColorPicker } from '@arco-design/web-vue';
+import { ref } from 'vue';
+
+const value = ref('#165DFF');
 </script>
 
 <style lang="less" scoped>
 .test {
-  height: 100%;
+  height: 150vh;
   width: 100%;
   display: flex;
   flex-direction: column;

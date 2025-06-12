@@ -26,12 +26,13 @@ const props = defineProps<{
   baseColor: string;
   popupVisible: boolean;
   disabled: boolean;
+  hideTrigger: boolean;
 }>();
 const emits = defineEmits<{
   (e: 'update:color', value: string): void;
   (e: 'update:baseColor', value: string): void;
 }>();
-const { popupVisible, baseColor, disabled } = toRefs(props);
+const { popupVisible, baseColor, disabled, hideTrigger } = toRefs(props);
 // btn实例
 const btnRef = ref<HTMLDivElement>();
 // 面板实例
@@ -85,12 +86,13 @@ const setColor = () => {
 watch(
   () => popupVisible.value,
   async (val) => {
-    if (!val) return;
-    await sleep(0);
-    x.value = hsv.value.s;
-    y.value = 1 - hsv.value.v;
-    oldX = x.value;
-    oldY = y.value;
+    if (val || hideTrigger.value) {
+      await sleep(0);
+      x.value = hsv.value.s;
+      y.value = 1 - hsv.value.v;
+      oldX = x.value;
+      oldY = y.value;
+    }
   },
   {
     immediate: true,

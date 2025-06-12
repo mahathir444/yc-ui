@@ -31,6 +31,7 @@ const props = defineProps<{
   baseColor: string;
   popupVisible: boolean;
   disabled: boolean;
+  hideTrigger: boolean;
   mode: 'alpha' | 'color';
 }>();
 const emits = defineEmits<{
@@ -39,7 +40,7 @@ const emits = defineEmits<{
   (e: 'update:baseColor', value: string): void;
   (e: 'change', value: string): void;
 }>();
-const { color, mode, popupVisible, disabled } = toRefs(props);
+const { color, mode, popupVisible, disabled, hideTrigger } = toRefs(props);
 // btnRef
 const btnRef = ref<HTMLDivElement>();
 // barRef
@@ -103,14 +104,15 @@ const handleClick = (e: MouseEvent) => {
 watch(
   () => popupVisible.value,
   async (val) => {
-    if (!val) return;
-    await sleep(0);
-    const { left, right } = barRef.value!.getBoundingClientRect();
-    range.value = {
-      min: left,
-      max: right,
-    };
-    setPosition(color.value);
+    if (val || hideTrigger.value) {
+      await sleep(0);
+      const { left, right } = barRef.value!.getBoundingClientRect();
+      range.value = {
+        min: left,
+        max: right,
+      };
+      setPosition(color.value);
+    }
   },
   {
     immediate: true,

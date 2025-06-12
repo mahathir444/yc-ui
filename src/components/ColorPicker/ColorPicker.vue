@@ -3,24 +3,37 @@
     v-if="!hideTrigger"
     v-model:popup-visible="popupVisible"
     :popup-offset="4"
+    :disabled="disabled"
     need-transform-origin
     animation-name="slide-dynamic-origin"
     trigger="click"
     position="bl"
     v-bind="triggerProps"
-    @popupVisibleChange="(v: boolean) => $emit('popupVisibleChange', v)"
+    @popupVisibleChange="
+      (v: boolean) => $emit('popupVisibleChange', v, computedColor)
+    "
   >
-    <div :class="['yc-color-picker', `yc-color-picker-size-${size}`]">
+    <slot>
       <div
-        class="yc-color-picker-preview"
-        :style="{
-          backgroundColor: computedColor,
-        }"
-      ></div>
-      <span v-if="showText" class="yc-color-picker-value">
-        {{ computedColor }}
-      </span>
-    </div>
+        :class="[
+          'yc-color-picker',
+          `yc-color-picker-size-${size}`,
+          {
+            'yc-color-picker-disabled': disabled,
+          },
+        ]"
+      >
+        <div
+          class="yc-color-picker-preview"
+          :style="{
+            backgroundColor: computedColor,
+          }"
+        ></div>
+        <span v-if="showText" class="yc-color-picker-value">
+          {{ computedColor }}
+        </span>
+      </div>
+    </slot>
     <template #content>
       <color-panel />
     </template>

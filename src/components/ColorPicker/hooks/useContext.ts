@@ -1,4 +1,11 @@
-import { ref, toRefs, Ref, provide as _provide, inject as _inject } from 'vue';
+import {
+  ref,
+  toRefs,
+  Ref,
+  provide as _provide,
+  inject as _inject,
+  watch,
+} from 'vue';
 import { RequiredDeep, Props } from '@shared/type';
 import {
   ColorPickerProps as _ColorPickerProps,
@@ -10,12 +17,18 @@ import { useControlValue, parseColor, getGlobalConfig } from '@shared/utils';
 export const COLOR_PICKER_CONTEXT_KEY = 'color-picker-context';
 
 export type ColorPickerContext = {
-  props: Props;
   popupVisible: Ref<boolean>;
   computedColor: Ref<string>;
   baseColor: Ref<string>;
   format: Ref<ColorFormat>;
   alpha: Ref<number>;
+  disabled: Ref<boolean>;
+  disabledAlpha: Ref<boolean>;
+  showHistory: Ref<boolean>;
+  showPreset: Ref<boolean>;
+  hideTrigger: Ref<boolean>;
+  historyColors: Ref<string[]>;
+  presetColors: Ref<string[]>;
   emits: ColorPickerEmits;
 };
 
@@ -26,12 +39,17 @@ export default () => {
     const {
       modelValue,
       defaultValue,
-      format: _format,
+      format,
+      disabled,
+      disabledAlpha,
+      showHistory,
+      showPreset,
+      historyColors,
+      presetColors,
+      hideTrigger,
     } = toRefs(props as ColorPickerProps);
     // 获取全局配置
     const { size } = getGlobalConfig(props);
-    // 当前的format
-    const format = useControlValue<string>(ref(undefined), _format.value);
     // 透明度
     const alpha = ref<number>(100);
     // 控制值
@@ -61,13 +79,19 @@ export default () => {
     const popupVisible = ref<boolean>(false);
     // 提供属性
     _provide<ColorPickerContext>(COLOR_PICKER_CONTEXT_KEY, {
-      props,
       emits,
       popupVisible,
       computedColor,
       baseColor,
       alpha,
       format,
+      disabled,
+      disabledAlpha,
+      showHistory,
+      showPreset,
+      hideTrigger,
+      presetColors,
+      historyColors,
     });
     return {
       popupVisible,
@@ -78,13 +102,19 @@ export default () => {
   const inject = () => {
     // 接收的值
     return _inject<ColorPickerContext>(COLOR_PICKER_CONTEXT_KEY, {
-      props: {},
       emits: () => {},
       popupVisible: ref(false),
       computedColor: ref(''),
       baseColor: ref(''),
       alpha: ref(100),
       format: ref('hex'),
+      disabled: ref(false),
+      disabledAlpha: ref(false),
+      showHistory: ref(false),
+      showPreset: ref(false),
+      hideTrigger: ref(false),
+      presetColors: ref([]),
+      historyColors: ref([]),
     });
   };
   return {

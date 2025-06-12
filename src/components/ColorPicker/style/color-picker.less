@@ -235,53 +235,59 @@
 // picker
 .yc-color-picker {
   cursor: pointer;
-  padding: 4px;
   background-color: rgb(242, 243, 245);
   border-radius: 2px;
   display: inline-flex;
   align-items: center;
   gap: 4px;
-  &:hover {
+  &:not(.yc-color-picker-disabled):hover {
     background-color: rgb(229, 230, 235);
   }
-  .yc-color-picker-preview {
-    width: 24px;
-    height: 24px;
+  .yc-color-picker-value {
     color: rgb(29, 33, 41);
     font-weight: 400;
+  }
+}
+// disabled
+.yc-color-picker-disabled {
+  cursor: not-allowed;
+  background-color: rgb(242, 243, 245);
+  .yc-color-picker-value {
+    color: rgb(201, 205, 212);
   }
 }
 // size
 @size: {
   @mini: {
     font-size: 12px;
-    padding-bottom: 2px;
-    bordered-padding: 3px;
+    size: 24px;
+    padding: 4px;
   };
   @small: {
     font-size: 14px;
-    padding-bottom: 4px;
-    bordered-padding: 3px;
+    size: 28px;
+    padding: 3px 4px;
   };
   @medium: {
     font-size: 14px;
-    padding-bottom: 8px;
-    bordered-padding: 5px;
+    size: 32px;
+    padding: 4px;
   };
   @large: {
     font-size: 14px;
-    padding-bottom: 16px;
-    bordered-padding: 9px;
+    size: 36px;
+    padding: 5px;
   };
 };
 each(@size, .(@value,@name){
   @key:replace(~"@{name}", "@", "");
-  .yc-descriptions-item-cell-size-@{key} {
+   .yc-color-picker-size-@{key}{
+    height:@value[size];
+    padding: @value[padding];
     font-size: @value[font-size];
-    padding: 0 20px @value[padding-bottom] 0;
-    
-    &.yc-descriptions-item-cell-bordered {
-      padding: @value[bordered-padding] 20px;
+    .yc-color-picker-preview{
+        height: 100%;
+        width: if(@key = large,calc(@value[size] - 10px),calc(@value[size] - 8px));
     }
-  }
+   }
 });

@@ -2,13 +2,12 @@
   <div class="yc-color-picker-input-wrapper">
     <div class="yc-color-picker-format">
       <yc-select
-        :model-value="format"
+        v-model="format"
         :options="COLOR_PICKER_FORMAT_OPTIONS"
         :trigger-props="{
           contentClass: 'yc-color-picker-format-popup-content',
         }"
         size="mini"
-        @change="(v) => $emit('update:format', v as ColorFormat)"
       />
     </div>
     <div class="yc-color-picker-color">
@@ -89,19 +88,19 @@ import YcInputNumber from '@/components/InputNumber';
 const props = defineProps<{
   color: string;
   baseColor: string;
-  format: ColorFormat;
   alpha: number;
-  disabledAlpha: boolean;
   disabled: boolean;
+  disabledAlpha: boolean;
 }>();
 const emits = defineEmits<{
   (e: 'update:color', value: string): void;
   (e: 'update:baseColor', value: string): void;
   (e: 'update:alpha', value: number): void;
-  (e: 'update:format', value: ColorFormat): void;
   (e: 'change', color: string, type: 'alpha' | 'color'): void;
 }>();
 const { color, alpha: _alpha } = toRefs(props);
+// format
+const format = ref<ColorFormat>('hex');
 // hex
 const hex = ref<string>('');
 // rgb对象
@@ -141,6 +140,7 @@ watch(
     immediate: true,
   }
 );
+// 检测alpha的改变
 watch(
   () => _alpha.value,
   () => {
