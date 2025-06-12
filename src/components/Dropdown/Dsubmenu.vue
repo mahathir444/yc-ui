@@ -43,15 +43,20 @@
 <script lang="ts" setup>
 import { ref, computed, toRefs, nextTick } from 'vue';
 import { IconArrowRight } from '@shared/icons';
-import { useControlValue, unrefElement } from '@shared/utils';
+import {
+  useControlValue,
+  unrefElement,
+  isUndefined,
+  isBoolean,
+  numberToPx,
+} from '@shared/utils';
+import useContext from './hooks/useContext';
 import {
   DsubmenuProps,
   DsubmenuSlots,
   DsubmenuEmits,
   Doption as YcDoption,
 } from './index';
-import { isUndefined, isBoolean, numberToPx } from '@shared/utils';
-import useContext from './hooks/useContext';
 import { default as YcTrigger, TriggerInstance } from '@/components/Trigger';
 import YcScrollbar from '@/components/Scrollbar';
 defineOptions({

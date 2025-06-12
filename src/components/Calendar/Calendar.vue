@@ -77,7 +77,7 @@ import {
 } from './type';
 import { useControlValue } from '@shared/utils';
 import YcButton from '@/components/Button';
-import { RadioGroup as YcRadioGroup, RadioValue } from '@/components/Radio';
+import { RadioGroup as YcRadioGroup } from '@/components/Radio';
 import { IconArrowRight } from '@shared/icons';
 import { YcIconButton } from '@shared/components';
 import { CalendarCellData } from '@shared/utils';

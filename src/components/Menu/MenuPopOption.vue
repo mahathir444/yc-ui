@@ -37,7 +37,6 @@ import {
   Dsubmenu as YcDsubmenu,
 } from '@/components/Dropdown';
 import { TriggerProps } from '@/components/Trigger';
-import { Theme } from '@shared/type';
 defineOptions({
   name: 'PopOption',
 });

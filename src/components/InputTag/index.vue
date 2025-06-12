@@ -106,6 +106,7 @@ import {
   isObject,
   numberToPx,
 } from '@shared/utils';
+import YcTag from '@/components/Tag';
 import { YcPreventFocus, YcIconButton } from '@shared/components';
 defineOptions({
   name: 'InputTag',

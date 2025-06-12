@@ -98,6 +98,7 @@ import YcSpin from '@/components/Spin';
 import YcEmpty from '@/components/Empty';
 import YcScrollbar from '@/components/Scrollbar';
 import YcPagination from '@/components/Pagination';
+import { default as YcGrid, GridItem as YcGridItem } from '@/components/Grid';
 import VirtualList from './ListVirtual.vue';
 import { SlotRender } from '@shared/components';
 defineOptions({

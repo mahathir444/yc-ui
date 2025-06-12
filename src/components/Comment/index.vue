@@ -65,9 +65,8 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, useSlots } from 'vue';
 import { CommentProps, CommentSlots } from './type';
-import { isObject, findComponentsFromVnodes } from '@shared/utils';
+import { isObject } from '@shared/utils';
 import useContext from './hooks/useContext';
 import YcAvatar from '@/components/Avatar';
 defineOptions({

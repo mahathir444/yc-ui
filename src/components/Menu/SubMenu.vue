@@ -39,7 +39,7 @@
 <script lang="ts" setup>
 import { SubMenuProps, SubMenuSlots } from './type';
 import useContext from './hooks/useContext';
-import { IconArrowDown, IconArrowRight } from '@shared/icons';
+import { IconArrowDown } from '@shared/icons';
 import { ExpandTransition } from '@shared/components';
 import { MenuItem as YcMenuItem } from './index';
 defineOptions({
