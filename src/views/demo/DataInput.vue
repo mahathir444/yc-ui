@@ -1,6 +1,15 @@
 <template>
   <div class="form">
     <div style="width: 300px">
+      <yc-input allow-clear placeholder="input" show-word-limit />
+    </div>
+    <div style="width: 300px">
+      <yc-textarea allow-clear show-word-limit placeholder="textarea" />
+    </div>
+    <div style="width: 300px">
+      <yc-input-number placeholder="input-number" :precision="1" :min="0" />
+    </div>
+    <div style="width: 300px">
       <yc-select allow-clear multiple placeholder="select">
         <yc-option
           v-for="item in options"
@@ -10,37 +19,18 @@
           {{ item.label }}
         </yc-option>
       </yc-select>
-      <a-button @click="handleClick"> 点击添加options </a-button>
     </div>
     <div style="width: 300px">
       <yc-input-tag placeholder="input-tag" allow-clear />
     </div>
     <div style="width: 300px">
+      <yc-mention placeholder="mention" allow-clear />
+    </div>
+    <div style="width: 300px">
       <yc-auto-complete placeholder="auto-complete" />
     </div>
     <div style="width: 300px">
-      <yc-input
-        allow-clear
-        placeholder="input"
-        :max-length="{
-          length: 8,
-          errorOnly: true,
-        }"
-        :word-length="(value) => value.length - 2"
-        :word-slice="(value, maxLength) => value.slice(1, maxLength + 1)"
-        show-word-limit
-      />
-    </div>
-    <div style="width: 300px">
       <yc-time-picker placeholder="time-picker" />
-    </div>
-    <div style="width: 300px">
-      <yc-textarea
-        allow-clear
-        :max-length="20"
-        show-word-limit
-        placeholder="textarea"
-      />
     </div>
     <div style="width: 300px">
       <yc-checkbox-group>
@@ -53,9 +43,6 @@
       <yc-radio-group>
         <yc-radio v-for="i in 5" :key="i" :value="i">选项{{ i }} </yc-radio>
       </yc-radio-group>
-    </div>
-    <div style="width: 300px">
-      <yc-input-number placeholder="input-number" :precision="1" :min="0" />
     </div>
     <div style="width: 300px">
       <yc-switch checked-text="启动" unchecked-text="关闭">

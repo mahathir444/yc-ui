@@ -26,7 +26,7 @@
     <template v-if="$slots.suffix || (!hideButton && mode == 'embed')" #suffix>
       <slot name="suffix">
         <div class="yc-input-number-step">
-          <yc-opera-btn
+          <opera-btn
             type="plus"
             :mode="mode"
             :computed-value="computedValue"
@@ -39,8 +39,8 @@
             <template v-if="$slots.minus" #icon>
               <slot name="plus" />
             </template>
-          </yc-opera-btn>
-          <yc-opera-btn
+          </opera-btn>
+          <opera-btn
             type="minus"
             :mode="mode"
             :computed-value="computedValue"
@@ -53,7 +53,7 @@
             <template v-if="$slots.plus" #icon>
               <slot name="minus" />
             </template>
-          </yc-opera-btn>
+          </opera-btn>
         </div>
       </slot>
     </template>
@@ -63,7 +63,7 @@
       #prepend
     >
       <slot name="prepend">
-        <yc-opera-btn
+        <opera-btn
           type="minus"
           :mode="mode"
           :computed-value="computedValue"
@@ -76,13 +76,13 @@
           <template v-if="$slots.minus" #icon>
             <slot name="minus" />
           </template>
-        </yc-opera-btn>
+        </opera-btn>
       </slot>
     </template>
     <!-- append -->
     <template v-if="$slots.append || (!hideButton && mode == 'button')" #append>
       <slot name="append">
-        <yc-opera-btn
+        <opera-btn
           type="plus"
           :mode="mode"
           :computed-value="computedValue"
@@ -95,7 +95,7 @@
           <template v-if="$slots.plus" #icon>
             <slot name="plus" />
           </template>
-        </yc-opera-btn>
+        </opera-btn>
       </slot>
     </template>
   </yc-input>
@@ -111,7 +111,7 @@ import {
   InputNumberValue,
 } from './type';
 import { isNumber, isString, isFunction, useControlValue } from '@shared/utils';
-import YcOperaBtn from './InputOperaBtn.vue';
+import OperaBtn from './InputOperaBtn.vue';
 import { default as YcInput, InputInstance } from '@/components/Input';
 defineOptions({
   name: 'InputNumber',

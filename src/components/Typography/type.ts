@@ -41,12 +41,12 @@ export interface TypographyBaseSlots {
 }
 
 export interface TypographyParagraphProps {
-  blockquote: boolean;
-  spacing: 'default' | 'close';
+  blockquote?: boolean;
+  spacing?: 'default' | 'close';
 }
 
 export interface TypographyTitleProps {
-  heading: 1 | 2 | 3 | 4 | 5 | 6;
+  heading?: 1 | 2 | 3 | 4 | 5 | 6;
 }
 
 export type EllipsisConfig = {

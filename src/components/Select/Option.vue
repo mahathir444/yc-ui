@@ -4,7 +4,7 @@
     :class="[
       'yc-select-option',
       {
-        'yc-select-option-active': options[curIndex]?.value == value,
+        'yc-select-option-active': options[curIndex]?.value == optionValue,
         'yc-select-option-disabled': disabled,
       },
     ]"
@@ -43,7 +43,7 @@
 </template>
 
 <script lang="ts" setup>
-import { toRefs, ref, computed } from 'vue';
+import { toRefs, ref, computed, watch } from 'vue';
 import { OptionProps, OptionSlots } from './type';
 import { ObjectData } from '@shared/type';
 import { isUndefined } from '@shared/utils';

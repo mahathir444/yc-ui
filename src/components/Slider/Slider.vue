@@ -1,36 +1,36 @@
 <template>
   <div
     :class="[
-      'yc-slider',
-      `yc-slider-direction-${direction}`,
+      'slider',
+      `slider-direction-${direction}`,
       {
-        'yc-slider-disabled': disabled,
+        'slider-disabled': disabled,
       },
     ]"
   >
-    <div class="yc-slider-track" ref="trackRef">
+    <div class="slider-track" ref="trackRef">
       <!-- ticks -->
-      <yc-slider-ticks v-if="showTicks" type="ticks" :data="ticks" />
-      <yc-slider-ticks v-if="marks.length" type="dots" :data="marks" />
-      <yc-slider-ticks v-if="marks.length" type="marks" :data="marks" />
+      <slider-ticks v-if="showTicks" type="ticks" :data="ticks" />
+      <slider-ticks v-if="marks.length" type="dots" :data="marks" />
+      <slider-ticks v-if="marks.length" type="marks" :data="marks" />
       <!-- bar -->
       <div
-        class="yc-slider-bar"
+        class="slider-bar"
         role="slider"
         tabindex="0"
         :aria-disabled="disabled"
         :style="position"
       ></div>
       <!-- start -->
-      <yc-slider-btn v-model:position="startPosition" type="start" />
+      <slider-btn v-model:position="startPosition" type="start" />
       <!-- end  -->
-      <yc-slider-btn v-if="range" v-model:position="endPosition" type="end" />
+      <slider-btn v-if="range" v-model:position="endPosition" type="end" />
     </div>
     <!-- input -->
-    <div v-if="showInput" class="yc-slider-input">
-      <yc-slider-input type="start" />
-      <div v-if="range" class="yc-slider-input-divider"></div>
-      <yc-slider-input v-if="range" type="end" />
+    <div v-if="showInput" class="slider-input">
+      <slider-input type="start" />
+      <div v-if="range" class="slider-input-divider"></div>
+      <slider-input v-if="range" type="end" />
     </div>
   </div>
 </template>
@@ -40,9 +40,9 @@ import { ref, computed } from 'vue';
 import { SliderProps, SliderEmits } from './type';
 import { PositionData } from './hooks/useSliderDraggable';
 import useContext from './hooks/useContext';
-import YcSliderTicks from './SliderTicks.vue';
-import YcSliderBtn from './SliderBtn.vue';
-import YcSliderInput from './SliderInput.vue';
+import SliderTicks from './SliderTicks.vue';
+import SliderBtn from './SliderBtn.vue';
+import SliderInput from './SliderInput.vue';
 defineOptions({
   name: 'Slider',
 });

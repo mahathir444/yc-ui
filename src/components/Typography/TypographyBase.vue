@@ -206,14 +206,14 @@ const handleCopy = async () => {
 };
 
 onMounted(() => {
-  const config = isBoolean(ellipsis.value) ? {} : ellipsis.value;
-  ellipsisInfo.value = calculateEllipsis(
-    contentRef.value!,
-    config,
-    [],
-    getDomText(contentRef)
-  );
-  console.log(ellipsisInfo.value);
+  // const config = isBoolean(ellipsis.value) ? {} : ellipsis.value;
+  // ellipsisInfo.value = calculateEllipsis(
+  //   contentRef.value!,
+  //   config,
+  //   [],
+  //   getDomText(contentRef)
+  // );
+  // console.log(ellipsisInfo.value);
 });
 </script>
 

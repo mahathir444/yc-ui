@@ -1,7 +1,8 @@
 <template>
   <!-- input模式 -->
   <yc-auto-complete
-    v-model="computedValue"
+    :model-value="modelValue"
+    :default-value="defaultValue"
     :popupVisible="popupVisible"
     :data="data"
     :disabled="disabled"
@@ -16,6 +17,7 @@
     class="yc-mention"
     ref="autoCompleteRef"
     v-bind="$attrs"
+    @update:model-value="(v) => (computedValue = v)"
     @input="(v, ev) => handleEvent('input', ev, v)"
     @change="(v) => $emit('change', v as string)"
     @search="(v) => $emit('search', v)"
@@ -23,7 +25,7 @@
     @select="(v) => handleEvent('select', null, v)"
     @focus="(ev) => handleEvent('focus', ev)"
     @blur="(ev) => handleEvent('blur', ev)"
-    @keydown="updatePopPosition"
+    @keydown="(ev) => handleEvent('keydown', ev)"
   >
     <template v-if="$slots.option" #option="{ data }">
       <slot name="option" :data="data" />
@@ -40,7 +42,7 @@ import {
   MentionExpose,
 } from './type';
 import { ObjectData } from '@shared/type';
-import { isNull, isArray, debounce, useControlValue } from '@shared/utils';
+import { isNull, isArray, useControlValue } from '@shared/utils';
 import useCursor from '@/components/Input/hooks/useCursor';
 import { SelectValue } from '@/components/Select';
 import {
@@ -57,7 +59,7 @@ const props = withDefaults(defineProps<MentionProps>(), {
   data: () => [],
   prefix: '@',
   split: '',
-  type: 'textarea',
+  type: 'input',
   disabled: false,
   allowClear: false,
 });
@@ -93,7 +95,7 @@ const prefixTexts = computed(() => {
     : data.value.map((op) => prefix.value + (op as ObjectData).value);
 });
 // 记录光标位置
-const { recordCursor, getCursor: _getCursor, setCursor } = useCursor(inputRef);
+const { recordCursor, getCursor: _getCursor } = useCursor(inputRef);
 // 是否匹配前缀
 const isMatchPrefix = (ch: string) => {
   return isArray(prefix.value) ? prefix.value.includes(ch) : prefix.value == ch;
@@ -103,7 +105,6 @@ const getCursor = () => {
   recordCursor();
   const { selectionStart } = inputRef.value!;
   const cursor = _getCursor() ?? selectionStart;
-  console.log(cursor, 'cursor');
   return cursor as number;
 };
 // 设置pop位置
@@ -121,20 +122,6 @@ const setPopPosition = (cursor: number) => {
   const { bottom } = inputRef.value!.getBoundingClientRect();
   autoCompleteRef.value?.updatePosition(x, y > bottom ? bottom : y);
 };
-// 更新pop位置
-const updatePopPosition = debounce(
-  (e: KeyboardEvent, isUpdate: boolean = false) => {
-    if (isUpdate || !['ArrowRight', 'ArrowLeft', 'Backspace'].includes(e.key)) {
-      return;
-    }
-    const target = e.target as HTMLInputElement;
-    const cursor = getCursor();
-    popupVisible.value = isMatchPrefix(target.value[cursor - 1]);
-    if (!popupVisible.value || mentionType.value != 'textarea') return;
-    setPopPosition(cursor);
-  },
-  100
-);
 // 处理事件
 const handleEvent = async (
   type: string,
@@ -176,21 +163,11 @@ const handleEvent = async (
             value +
             computedValue.value.slice(cursor);
         }
-        const newCursor = cursor + value.toString().length;
-        inputRef.value?.setSelectionRange(newCursor, newCursor);
-        await nextTick();
-        updatePopPosition(ev as KeyboardEvent, true);
       }
       break;
     case 'focus':
       {
         emits('focus', ev as FocusEvent);
-        popupVisible.value = isMatchPrefix(
-          computedValue.value[computedValue.value.length - 1]
-        );
-        if (!popupVisible.value || mentionType.value != 'textarea') return;
-        const cursor = getCursor();
-        setPopPosition(cursor);
       }
       break;
     case 'blur':
@@ -199,6 +176,17 @@ const handleEvent = async (
         emits('blur', ev as FocusEvent);
       }
       break;
+    case 'keydown': {
+      const e = ev as KeyboardEvent;
+      if (!['Backspace'].includes(e.key)) {
+        return;
+      }
+      const target = e.target as HTMLInputElement;
+      const cursor = getCursor();
+      popupVisible.value = isMatchPrefix(target.value[cursor - 1]);
+      if (!popupVisible.value || mentionType.value != 'textarea') return;
+      setPopPosition(cursor);
+    }
   }
 };
 onMounted(() => {

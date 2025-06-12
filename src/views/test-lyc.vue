@@ -1,27 +1,24 @@
 <template>
   <div class="test">
-    <a-input-tag
-      :default-value="['one', 'two', 'three', 'four']"
-      :style="{ width: '380px' }"
-      placeholder="Please Enter"
-      :max-tag-count="3"
-      allow-clear
+    <a-mention
+      v-model="text"
+      :data="['Bytedance', 'Bytedesign', 'Bytenumner']"
+      type="textarea"
+      placeholder="enter something"
     />
-    <yc-input-tag
-      :default-value="['one', 'two', 'three', 'four']"
-      :style="{ width: '380px' }"
-      placeholder="Please Enter"
-      :max-tag-count="3"
-      allow-clear
+    <yc-mention
+      v-model="text"
+      :data="['Bytedance', 'Bytedesign', 'Bytenumner']"
+      type="textarea"
+      placeholder="enter something"
     />
+    <yc-auto-complete :data="['1', '2', '3']" />
   </div>
 </template>
 
 <script lang="ts" setup>
 import { ref } from 'vue';
-import { Message } from '@arco-design/web-vue';
-const value = ref('654321');
-const onFinish = (value) => Message.info(`Verification code: ${value}`);
+const text = ref('');
 </script>
 
 <style lang="less" scoped>

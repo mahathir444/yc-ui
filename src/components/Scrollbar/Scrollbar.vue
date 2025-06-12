@@ -197,11 +197,29 @@ function initScrollbar() {
   const curLeft = ref<number>(0);
   // 是否有纵向滚动条
   const hasVerticalBar = computed(() => {
-    return contentHeight.value > scrollHeight.value;
+    const style = scrollRef.value
+      ? getComputedStyle(scrollRef.value as HTMLDivElement)
+      : { overflowY: '', overflow: '' };
+    const overflowY = style.overflowY;
+    const overflow = style.overflow;
+    const allowScroll = ['auto', 'scroll'];
+    return (
+      contentHeight.value > scrollHeight.value &&
+      (allowScroll.includes(overflowY) || allowScroll.includes(overflow))
+    );
   });
   // 是否有很想滚动条
   const hashorizontalBar = computed(() => {
-    return contentWidth.value > scrollWidth.value;
+    const style = scrollRef.value
+      ? getComputedStyle(scrollRef.value as HTMLDivElement)
+      : { overflowX: '', overflow: '' };
+    const overflowX = style.overflowX;
+    const overflow = style.overflow;
+    const allowScroll = ['auto', 'scroll'];
+    return (
+      contentWidth.value > scrollWidth.value &&
+      (allowScroll.includes(overflowX) || allowScroll.includes(overflow))
+    );
   });
   // 计算滚动条高度
   const thumbHeight = computed(() => {

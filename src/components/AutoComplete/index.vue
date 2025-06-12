@@ -17,27 +17,31 @@
       <slot name="trigger">
         <yc-input
           v-if="type == 'input'"
-          v-model="computedValue"
+          :model-value="modelValue"
+          :default-value="defaultValue"
           :disabled="disabled"
           :allow-clear="allowClear"
           v-bind="$attrs"
           ref="inputRef"
+          @update:model-value="(v) => $emit('update:modelValue', v)"
           @input="(v, ev) => handleEvent('input', ev, v)"
           @change="(v) => $emit('change', v)"
-          @focus="(ev) => handleEvent('focus', ev)"
-          @keydown="(ev) => handleEvent('keydown', ev)"
-          @blur="(ev) => handleEvent('blur', ev)"
           @clear="(ev) => handleEvent('clear', ev)"
+          @keydown="(ev) => handleEvent('keydown', ev)"
+          @focus="(ev) => handleEvent('focus', ev)"
+          @blur="(ev) => handleEvent('blur', ev)"
         />
         <yc-textarea
           v-else
-          :model-value="computedValue"
+          :model-value="modelValue"
+          :default-value="defaultValue"
           :disabled="disabled"
           :allow-clear="allowClear"
           enter-prevent
           show-mirror
           v-bind="$attrs"
           ref="inputRef"
+          @update:model-value="(v) => $emit('update:modelValue', v)"
           @input="(v, ev) => handleEvent('input', ev, v)"
           @change="(v) => $emit('change', v)"
           @clear="(ev) => handleEvent('clear', ev)"
@@ -109,7 +113,6 @@ const computedValue = useControlValue<string>(
   modelValue,
   defaultValue.value,
   (val) => {
-    console.log(val, 'val');
     emits('update:modelValue', val);
   }
 );
@@ -131,6 +134,7 @@ const handleEvent = async (
   switch (type) {
     case 'input':
       {
+        emits('input', value, ev as Event);
         const oldOptions = [...data.value];
         await nextTick();
         if (
