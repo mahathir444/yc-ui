@@ -17,13 +17,11 @@
       <slot name="trigger">
         <yc-input
           v-if="type == 'input'"
-          :model-value="modelValue"
-          :default-value="defaultValue"
+          v-model="computedValue"
           :disabled="disabled"
           :allow-clear="allowClear"
           v-bind="$attrs"
           ref="inputRef"
-          @update:model-value="(v) => $emit('update:modelValue', v)"
           @input="(v, ev) => handleEvent('input', ev, v)"
           @change="(v) => $emit('change', v)"
           @clear="(ev) => handleEvent('clear', ev)"
@@ -33,15 +31,13 @@
         />
         <yc-textarea
           v-else
-          :model-value="modelValue"
-          :default-value="defaultValue"
+          v-model="computedValue"
           :disabled="disabled"
           :allow-clear="allowClear"
           enter-prevent
           show-mirror
           v-bind="$attrs"
           ref="inputRef"
-          @update:model-value="(v) => $emit('update:modelValue', v)"
           @input="(v, ev) => handleEvent('input', ev, v)"
           @change="(v) => $emit('change', v)"
           @clear="(ev) => handleEvent('clear', ev)"

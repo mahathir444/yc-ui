@@ -1,24 +1,13 @@
 <template>
   <div class="test">
-    <a-mention
-      v-model="text"
-      :data="['Bytedance', 'Bytedesign', 'Bytenumner']"
-      type="textarea"
-      placeholder="enter something"
-    />
-    <yc-mention
-      v-model="text"
-      :data="['Bytedance', 'Bytedesign', 'Bytenumner']"
-      type="textarea"
-      placeholder="enter something"
-    />
-    <yc-auto-complete :data="['1', '2', '3']" />
+    <yc-auto-complete v-model="value" :data="['1', '2', '3']" />
   </div>
 </template>
 
 <script lang="ts" setup>
 import { ref } from 'vue';
 const text = ref('');
+const value = ref('');
 </script>
 
 <style lang="less" scoped>

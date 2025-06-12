@@ -9,6 +9,7 @@
 4. tab的样式问题，tab的滚动问题
 5. timeline反向轴线位置问题  mode = alternate的样式 问题
 6. step优化收集的问题
+7. Form组件因为useControlValue导致删除光标乱跳的文体
 ## 测试完成
 AutoComplete Checkbox Radio Switch Textarea Rate ColorPicker Input InputNumber VerificationCode InputTag Mention
 ## 尚未测试的组件

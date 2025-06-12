@@ -5,7 +5,6 @@ import {
 } from '@/components/Select';
 import { PopupContainer, ObjectData, Pick } from '@shared/type';
 import { TriggerProps } from '@/components/Trigger';
-import { InputProps } from '@/components/Input';
 
 export type AutoCompleteProps = {
   modelValue?: string;

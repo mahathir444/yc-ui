@@ -4,6 +4,7 @@
     :min="min"
     :max="max"
     :disabled="disabled"
+    hide-button
     @blur="handleSet"
     @press-enter="handleSet"
   />

@@ -7,6 +7,9 @@
       <yc-textarea allow-clear show-word-limit placeholder="textarea" />
     </div>
     <div style="width: 300px">
+      <yc-input-tag placeholder="input-tag" allow-clear />
+    </div>
+    <div style="width: 300px">
       <yc-input-number placeholder="input-number" :precision="1" :min="0" />
     </div>
     <div style="width: 300px">
@@ -19,9 +22,6 @@
           {{ item.label }}
         </yc-option>
       </yc-select>
-    </div>
-    <div style="width: 300px">
-      <yc-input-tag placeholder="input-tag" allow-clear />
     </div>
     <div style="width: 300px">
       <yc-mention placeholder="mention" allow-clear />

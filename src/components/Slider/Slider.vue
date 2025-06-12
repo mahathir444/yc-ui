@@ -1,21 +1,21 @@
 <template>
   <div
     :class="[
-      'slider',
-      `slider-direction-${direction}`,
+      'yc-slider',
+      `yc-slider-direction-${direction}`,
       {
-        'slider-disabled': disabled,
+        'yc-slider-disabled': disabled,
       },
     ]"
   >
-    <div class="slider-track" ref="trackRef">
+    <div class="yc-slider-track" ref="trackRef">
       <!-- ticks -->
       <slider-ticks v-if="showTicks" type="ticks" :data="ticks" />
       <slider-ticks v-if="marks.length" type="dots" :data="marks" />
       <slider-ticks v-if="marks.length" type="marks" :data="marks" />
       <!-- bar -->
       <div
-        class="slider-bar"
+        class="yc-slider-bar"
         role="slider"
         tabindex="0"
         :aria-disabled="disabled"
@@ -27,9 +27,9 @@
       <slider-btn v-if="range" v-model:position="endPosition" type="end" />
     </div>
     <!-- input -->
-    <div v-if="showInput" class="slider-input">
+    <div v-if="showInput" class="yc-slider-input">
       <slider-input type="start" />
-      <div v-if="range" class="slider-input-divider"></div>
+      <div v-if="range" class="yc-slider-input-divider"></div>
       <slider-input v-if="range" type="end" />
     </div>
   </div>
