@@ -14,7 +14,7 @@
   display: inline-flex;
   align-items: center;
   &:not(.yc-input-tag-disabled) {
-    &:hover.yc-input-tag-clear-button {
+    &:hover .yc-input-tag-clear-button {
       visibility: visible;
     }
     &:hover {
@@ -129,6 +129,19 @@
   .yc-input-tag-prefix,
   .yc-input-tag-suffix {
     color: inherit;
+  }
+  .yc-input-tag-inner {
+    &:deep(.yc-tag) {
+      cursor: not-allowed;
+      color: rgb(201, 205, 212);
+      background-color: rgb(242, 243, 245);
+      border-color: rgb(229, 230, 235);
+      &:hover {
+        color: rgb(201, 205, 212);
+        background-color: rgb(242, 243, 245);
+        border-color: rgb(229, 230, 235);
+      }
+    }
   }
 }
 // size

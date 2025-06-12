@@ -29,10 +29,9 @@
       <template v-for="item in curList.visibleList" :key="item?.[fieldKey.id]">
         <slot name="tag" :data="item">
           <yc-tag
-            :closeable="item?.[fieldKey.closeable] ?? true"
-            :bordered="item?.[fieldKey.tagProps]?.bordered ?? true"
-            :nowrap="item?.[fieldKey.tagProps]?.nowrap ?? tagNowrap"
-            :size="size == 'mini' ? 'small' : size"
+            :closable="item[fieldKey.closable]"
+            :bordered="item[fieldKey.tagProps].bordered"
+            :nowrap="item[fieldKey.tagProps].nowrap"
             :checked="false"
             prevent-focus
             @close="(ev) => handleEvent('close', ev, item?.[fieldKey.id])"
@@ -43,12 +42,11 @@
       </template>
       <yc-tag
         v-if="maxTagCount > 0 && computedValue.length > maxTagCount"
-        key="yc-select-value-tag"
-        :size="size == 'mini' ? 'small' : size"
         :nowrap="tagNowrap"
         :checked="false"
         bordered
         prevent-focus
+        key="yc-select-value-tag"
       >
         +{{ curList.hideList.length }}...
       </yc-tag>
@@ -124,7 +122,7 @@ const props = withDefaults(defineProps<InputTagProps>(), {
   readonly: false,
   allowClear: false,
   size: undefined,
-  maxTagCount: 5,
+  maxTagCount: 0,
   retainInputValue: false,
   uniqueValue: false,
   tagNowrap: false,
@@ -163,13 +161,12 @@ const inputRef = ref<HTMLInputElement>();
 const mirrorRef = ref<HTMLDivElement>();
 // fieldKey
 const fieldKey = computed(() => {
-  return {
-    id: fieldNames.value['id'] ?? 'id',
-    label: fieldNames.value['label'] ?? 'label',
-    value: fieldNames.value['value'] ?? 'value',
-    closeable: fieldNames.value['closeable'] ?? 'closeable',
-    tagProps: fieldNames.value['tagProps'] ?? 'tagProps',
-  };
+  return Object.fromEntries(
+    ['id', 'label', 'value', 'closable', 'tagProps'].map((key) => [
+      key,
+      fieldNames.value[key] ?? key,
+    ])
+  );
 });
 // 获取miorr的宽度用于模拟
 const { width } = useElementSize(mirrorRef, undefined, {
@@ -181,13 +178,27 @@ const computedValue = useControlValue<InputTagValue>(
   defaultValue.value,
   (val) => emits('update:modelValue', val),
   (val: InputTagValue) => {
-    if (isObject(val[0]) && val[0]?.id) return val;
-    const { id, label, value } = fieldKey.value;
+    const { id, label, value, closable, tagProps } = fieldKey.value;
     return val.map((v) => {
+      if (isObject(v)) {
+        const val = v as ObjectData;
+        val[id] = val[id] ?? nanoid();
+        val[closable] = val[closable] ?? true;
+        val[tagProps] = val[tagProps] ?? {
+          bordered: true,
+          nowrap: tagNowrap.value,
+        };
+        return v;
+      }
       const tagData: ObjectData = {};
       tagData[id] = nanoid();
       tagData[label] = v;
       tagData[value] = v;
+      tagData[closable] = true;
+      tagData[tagProps] = {
+        bordered: true,
+        nowrap: tagNowrap.value,
+      };
       return tagData;
     });
   }

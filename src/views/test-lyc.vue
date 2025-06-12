@@ -1,18 +1,18 @@
 <template>
   <div class="test">
-    <a-verification-code
-      defaultValue="1x3456"
-      style="width: 300px"
-      :formatter="
-        (inputValue) => (/^\d*$/.test(inputValue) ? inputValue : false)
-      "
+    <a-input-tag
+      :default-value="['one', 'two', 'three', 'four']"
+      :style="{ width: '380px' }"
+      placeholder="Please Enter"
+      :max-tag-count="3"
+      allow-clear
     />
-    <yc-verification-code
-      defaultValue="123456"
-      style="width: 300px"
-      :formatter="
-        (inputValue) => (/^\d*$/.test(inputValue) ? inputValue : false)
-      "
+    <yc-input-tag
+      :default-value="['one', 'two', 'three', 'four']"
+      :style="{ width: '380px' }"
+      placeholder="Please Enter"
+      :max-tag-count="3"
+      allow-clear
     />
   </div>
 </template>

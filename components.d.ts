@@ -58,6 +58,7 @@ declare module 'vue' {
     AInput: typeof import('@arco-design/web-vue')['Input']
     AInputNumber: typeof import('@arco-design/web-vue')['InputNumber']
     AInputPassword: typeof import('@arco-design/web-vue')['InputPassword']
+    AInputTag: typeof import('@arco-design/web-vue')['InputTag']
     ALayout: typeof import('@arco-design/web-vue')['Layout']
     ALayoutContent: typeof import('@arco-design/web-vue')['LayoutContent']
     ALayoutFooter: typeof import('@arco-design/web-vue')['LayoutFooter']
