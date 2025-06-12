@@ -1,27 +1,31 @@
 <template>
   <div class="test">
-    <a-color-picker defaultValue="#165DFF" hideTrigger showHistory showPreset />
-    <a-color-picker defaultValue="#12D2AC" disabled hideTrigger showPreset />
-    <yc-color-picker
-      defaultValue="#165DFF"
-      hideTrigger
-      showHistory
-      showPreset
+    <a-input-password
+      v-model:visibility="visibility"
+      placeholder="Please enter something"
+      :style="{ width: '320px' }"
+      :defaultVisibility="false"
+      allow-clear
     />
-    <yc-color-picker defaultValue="#12D2AC" showPreset />
+    <yc-input
+      v-model:visibility="visibility"
+      is-password
+      placeholder="Please enter something"
+      :style="{ width: '320px' }"
+      :defaultVisibility="false"
+      allow-clear
+    />
   </div>
 </template>
 
 <script lang="ts" setup>
-import { ColorPicker as AColorPicker } from '@arco-design/web-vue';
 import { ref } from 'vue';
-
-const value = ref('#165DFF');
+const visibility = ref(true);
 </script>
 
 <style lang="less" scoped>
 .test {
-  height: 150vh;
+  height: 100%;
   width: 100%;
   display: flex;
   flex-direction: column;

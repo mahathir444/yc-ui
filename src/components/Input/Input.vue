@@ -17,7 +17,9 @@
       <slot name="prepend" />
     </yc-prevent-focus>
     <!-- wrapper -->
-    <div class="yc-input-wrapper">
+    <div
+      :class="['yc-input-wrapper', { 'yc-input-wrapper-disabled': disabled }]"
+    >
       <!-- prefix-icon -->
       <yc-prevent-focus v-if="$slots.prefix" class="yc-input-prefix">
         <slot name="prefix" />
@@ -50,23 +52,22 @@
       >
         <slot name="label" />
       </yc-prevent-focus>
+      <!-- clear-btn -->
+      <yc-icon-button
+        v-if="showClearBtn"
+        class="yc-input-clear-button"
+        @click="handleEvent('clear', $event)"
+      />
       <!-- suffix -->
       <input-suffix
-        v-if="
-          $slots.suffix ||
-          showWordLimit ||
-          showClearBtn ||
-          (isPassword && invisibleButton)
-        "
+        v-if="$slots.suffix || showWordLimit || (isPassword && invisibleButton)"
         :cur-length="curLength"
         :max-length="maxLength"
         :computed-value="computedValue"
-        :show-clear-btn="showClearBtn"
         :show-word-limit="showWordLimit"
         :computed-visibility="computedVisibility"
         :invisible-button="invisibleButton"
         :is-password="isPassword"
-        @clear="(ev) => handleEvent('clear', ev)"
         @visibility-change="(v) => (computedVisibility = v)"
       >
         <template v-if="$slots.suffix" #suffix>
@@ -86,7 +87,7 @@ import { ref, toRefs, computed } from 'vue';
 import { InputProps, InputEmits, InputSlots, InputExpose } from './type';
 import { useControlValue, getGlobalConfig } from '@shared/utils';
 import useLimitedInput from './hooks/useLimitedInput';
-import { YcPreventFocus } from '@shared/components';
+import { YcPreventFocus, YcIconButton } from '@shared/components';
 import InputSuffix from './InputSuffix.vue';
 defineOptions({
   name: 'Input',

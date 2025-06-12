@@ -1,20 +1,12 @@
 <template>
   <yc-prevent-focus class="yc-input-suffix">
-    <!-- clear-btn -->
-    <yc-icon-button
-      v-if="showClearBtn"
-      class="yc-input-clear-button"
-      @click="$emit('clear', $event)"
-    />
     <!-- word-limit -->
     <yc-prevent-focus
       v-if="showWordLimit"
       tag="span"
       class="yc-input-word-limit"
     >
-      {{ curLength }}
-      /
-      {{ maxLength }}
+      {{ curLength }}/{{ maxLength }}
     </yc-prevent-focus>
     <!-- password -->
     <yc-icon-button
@@ -22,7 +14,7 @@
       :size="14"
       @click="$emit('visibilityChange', !computedVisibility)"
     >
-      <icon-eye-open v-if="!computedVisibility" />
+      <icon-eye-open v-if="computedVisibility" />
       <icon-eye-close v-else />
     </yc-icon-button>
     <!-- suffix -->
@@ -36,7 +28,6 @@ import { YcPreventFocus, YcIconButton } from '@shared/components';
 defineProps<{
   curLength: number;
   maxLength?: number;
-  showClearBtn: boolean;
   showWordLimit: boolean;
   computedValue: string;
   computedVisibility: boolean;

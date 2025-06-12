@@ -12,6 +12,7 @@
   }
   .yc-input-prepend,
   .yc-input-append {
+    overflow: hidden;
     height: 100%;
     padding: 0 12px;
     color: rgb(29, 33, 41);
@@ -34,26 +35,22 @@
   }
 }
 .yc-input-has-prepend {
-  overflow: hidden;
   .yc-input-wrapper {
     border-top-left-radius: 0;
     border-bottom-left-radius: 0;
-    flex: 1;
   }
 }
 .yc-input-has-append {
-  overflow: hidden;
   .yc-input-wrapper {
     border-top-right-radius: 0;
     border-bottom-right-radius: 0;
-    flex: 1;
   }
 }
 // error
 .yc-input-error {
   .yc-input-wrapper {
     background-color: rgb(255, 236, 232);
-    &:not(.yc-input-disabled) {
+    &:not(.yc-input-wrapper-disabled) {
       &:hover {
         border-color: transparent;
         background-color: rgb(253, 205, 197);
@@ -70,6 +67,7 @@
 .yc-input-disabled {
   cursor: not-allowed;
   .yc-input-wrapper {
+    cursor: not-allowed;
     border-color: transparent;
     background-color: rgb(242, 243, 245);
     color: rgb(201, 205, 212);
@@ -77,12 +75,16 @@
     .yc-input-suffix {
       color: inherit;
     }
+    .yc-input {
+      &::placeholder {
+        color: rgb(201, 205, 212);
+      }
+    }
   }
 }
 // yc-input-wrapper
 .yc-input-wrapper {
-  width: 100%;
-  height: 100%;
+  flex: 1;
   cursor: text;
   padding: 0 12px;
   background-color: rgb(242, 243, 245);
@@ -97,7 +99,7 @@
   font-weight: 400;
   display: flex;
   align-items: center;
-  &:not(.yc-input-disabled) {
+  &:not(.yc-input-wrapper-disabled) {
     &:hover {
       border-color: transparent;
       background-color: rgb(229, 230, 235);
@@ -125,12 +127,11 @@
     justify-content: center;
     align-items: center;
     .yc-input-word-limit {
-      margin: 0 6px;
       color: rgb(134, 144, 156);
       font-size: 12px;
     }
-    .yc-input-clear-button {
-      visibility: hidden;
+    .yc-icon-button {
+      color: inherit;
     }
     &.yc-input-prefix {
       padding-right: 12px;
@@ -138,6 +139,9 @@
     &.yc-input-suffix {
       padding-left: 12px;
     }
+  }
+  .yc-input-clear-button {
+    visibility: hidden;
   }
   .yc-input {
     flex: 1;
