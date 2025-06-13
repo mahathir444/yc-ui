@@ -11,7 +11,5 @@
 6. step优化收集的问题
 7. Form组件因为useControlValue导致删除光标乱跳的文体
 8. transfer实现的title和list插槽实现几个callback
-## 测试完成
-AutoComplete Checkbox Radio Switch Textarea Rate ColorPicker Input InputNumber VerificationCode InputTag Mention Transfer Select
 ## 尚未测试的组件
-1.  Message ResizeBox  Notifcation TimePicker Select Slider
+1.  Message ResizeBox  Notifcation TimePicker 

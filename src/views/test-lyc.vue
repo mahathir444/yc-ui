@@ -1,22 +1,34 @@
 <template>
   <div class="test">
     <a-slider
+      direction="vertical"
       :default-value="5"
       :style="{ width: '300px' }"
       :max="15"
-      :marks="marks"
+      :marks="{
+        5: '5km',
+        10: '10km',
+      }"
     />
-    <yc-slider :style="{ width: '300px' }" :max="1000" show-ticks :step="50" />
+
+    <yc-slider
+      direction="vertical"
+      :default-value="5"
+      :style="{ width: '300px', height: '300px' }"
+      :max="15"
+      :marks="{
+        5: '5km',
+        10: '10km',
+      }"
+    />
   </div>
 </template>
 
 <script lang="ts" setup>
 import { ref, reactive } from 'vue';
-const marks = {
-  0: '0km',
-  5: '5km',
-  10: '10km',
-  15: '15km',
+const value = ref([5, 10]);
+const formatter = (value) => {
+  return `${Math.round((value / 50) * 100)}%`;
 };
 </script>
 
