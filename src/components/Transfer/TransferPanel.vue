@@ -107,7 +107,7 @@
 
 <script lang="ts" setup>
 import { ref, toRefs, computed } from 'vue';
-import { TransferItem, TransferPanelSlots } from './type';
+import { TransferItem, TransferPanelSlots, TransferItemValue } from './type';
 import { IconDelete, IconClose, IconSearch } from '@shared/icons';
 import useContext from './hooks/useContext';
 import { getGlobalConfig } from '@shared/utils';
@@ -236,6 +236,10 @@ const renderTitle = () => {
     searchValue: keywords.value,
     checked: selectedAll.value,
     indeterminate: indeterminate.value,
+    onSelectAllChange: (v: boolean) => {
+      selectedAll.value = v;
+    },
+    onClear: handleClear,
   });
 };
 // 渲染item
@@ -243,6 +247,9 @@ const renderList = () => {
   return slots[type.value]?.({
     selectedKeys: curSeleced.value,
     data: curData.value,
+    onSelect: (val: TransferItemValue[]) => {
+      computedSelected.value = val;
+    },
   });
 };
 // 渲染item

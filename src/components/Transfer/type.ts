@@ -17,10 +17,10 @@ export interface TransferProps {
 }
 
 export interface TransferEmits {
-  (e: 'update:selected', value: string[]): void;
-  (e: 'update:modelValue', value: string[]): void;
-  (e: 'change', value: string[]): void;
-  (e: 'select', value: string[]): void;
+  (e: 'update:selected', value: TransferItemValue[]): void;
+  (e: 'update:modelValue', value: TransferItemValue[]): void;
+  (e: 'change', value: TransferItemValue[]): void;
+  (e: 'select', value: TransferItemValue[]): void;
   (e: 'search', value: string, type: 'target' | 'source'): void;
 }
 
@@ -42,9 +42,11 @@ export interface TransferPanelSlots {
 
 export interface TransferItem {
   label?: string;
-  value?: string;
+  value?: TransferItemValue;
   disabled?: boolean;
 }
+
+export type TransferItemValue = string | number;
 
 type TitleSlots = {
   countTotal: number;
@@ -52,6 +54,12 @@ type TitleSlots = {
   searchValue: string;
   checked: boolean;
   indeterminate: boolean;
+  onSelectAllChange: (checked: boolean) => void;
+  onClear: () => void;
 };
 
-type DefaultSlots = { data: TransferItem[]; selectedKeys: string[] };
+type DefaultSlots = {
+  data: TransferItem[];
+  selectedKeys: string[];
+  onSelect: (value: TransferItemValue[]) => void;
+};

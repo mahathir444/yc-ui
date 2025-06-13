@@ -13,6 +13,7 @@ import {
   TransferEmits,
   TransferItem,
   TransferProps as _TransferProps,
+  TransferItemValue,
 } from '../type';
 import { RequiredDeep, Props } from '@shared/type';
 import { useControlValue } from '@shared/utils';
@@ -20,10 +21,10 @@ import { useControlValue } from '@shared/utils';
 export const TRANSFER_CONTEXT_KEY = 'transfer-context';
 
 export interface TransferContext {
-  computedValue: Ref<string[]>;
-  computedSelected: Ref<string[]>;
-  targetChecked: Ref<string[]>;
-  sourceChecked: Ref<string[]>;
+  computedValue: Ref<TransferItemValue[]>;
+  computedSelected: Ref<TransferItemValue[]>;
+  targetChecked: Ref<TransferItemValue[]>;
+  sourceChecked: Ref<TransferItemValue[]>;
   sourceOptions: Ref<TransferItem[]>;
   targetOptions: Ref<TransferItem[]>;
   showSelectAll: Ref<boolean>;
@@ -63,7 +64,7 @@ export default () => {
       return Object.fromEntries(data.value.map((item) => [item.value, item]));
     });
     // 计算的value
-    const computedValue = useControlValue<string[]>(
+    const computedValue = useControlValue<TransferItemValue[]>(
       modelValue,
       defaultValue.value,
       (val) => {
@@ -74,13 +75,13 @@ export default () => {
     // target
     const computedValueMap = computed(() => {
       return new Map(
-        (computedValue.value as string[]).map((item) => {
+        (computedValue.value as TransferItemValue[]).map((item) => {
           return [item, item];
         })
       );
     });
     // 选中的value
-    const computedSelected = useControlValue<string[]>(
+    const computedSelected = useControlValue<TransferItemValue[]>(
       selected,
       defaultSelected.value,
       (val) => {
