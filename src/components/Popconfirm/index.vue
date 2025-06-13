@@ -1,6 +1,7 @@
 <template>
   <yc-trigger
-    v-model:popup-visible="computedVisible"
+    :popup-visible="popupVisible"
+    :default-popup-visible="defaultPopupVisible"
     :position="position"
     :popup-container="popupContainer"
     :arrow-class="[' yc-popconfirm-popup-arrow', arrowClass as string]"
@@ -20,6 +21,8 @@
     show-arrow
     ref="triggerRef"
     v-bind="triggerProps"
+    @update:popup-visible="(v) => $emit('update:popupVisible', v)"
+    @popup-visible-change="(v) => $emit('popup-visible-change', v)"
   >
     <slot />
     <template #content>
@@ -55,9 +58,13 @@
 
 <script lang="ts" setup>
 import { ref, toRefs } from 'vue';
-import { PopconfirmProps, PopconfirmEmits, PopconfirmSlots } from './type';
+import {
+  PopconfirmProps,
+  PopconfirmEmits,
+  PopconfirmSlots,
+  PopconfirmExpose,
+} from './type';
 import { TYPE_ICON_MAP } from '@shared/constants';
-import { useControlValue } from '@shared/utils';
 import useOnBeforeClose from '@/components/Modal/hooks/useOnBeforeClose';
 import { default as YcTrigger, TriggerInstance } from '@/components/Trigger';
 import YcButton from '@/components/Button';
@@ -96,21 +103,12 @@ const props = withDefaults(defineProps<PopconfirmProps>(), {
   onBeforeCancel: () => true,
 });
 const emits = defineEmits<PopconfirmEmits>();
-const { popupVisible, defaultPopupVisible, type } = toRefs(props);
+const { type } = toRefs(props);
 const { onBeforeOk, onBeforeCancel } = props;
 // 异步关闭的loading
 const asyncLoading = ref<boolean>(false);
 // 触发器实例
 const triggerRef = ref<TriggerInstance>();
-// 受控的visible
-const computedVisible = useControlValue<boolean>(
-  popupVisible,
-  defaultPopupVisible.value,
-  (val) => {
-    emits('update:popupVisible', val);
-    emits('popup-visible-change', val);
-  }
-);
 // 处理确认
 const handleOk = () => {
   const isClose = useOnBeforeClose(
@@ -135,6 +133,14 @@ const handleCancel = () => {
   emits('cancel');
   triggerRef.value?.hide();
 };
+defineExpose<PopconfirmExpose>({
+  show() {
+    triggerRef.value?.show();
+  },
+  hide() {
+    triggerRef.value?.hide();
+  },
+});
 </script>
 
 <style lang="less">

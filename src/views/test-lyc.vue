@@ -1,12 +1,17 @@
 <template>
   <div class="test">
-    <yc-auto-complete v-model="value" :data="['1', '2', '3']" />
+    <yc-input v-model="value" />
+    <a-popover>
+      <a-button>测试</a-button>
+      <template #content>
+        <span>测试</span>
+      </template>
+    </a-popover>
   </div>
 </template>
 
 <script lang="ts" setup>
 import { ref } from 'vue';
-const text = ref('');
 const value = ref('');
 </script>
 

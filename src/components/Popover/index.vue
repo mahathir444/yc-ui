@@ -1,6 +1,7 @@
 <template>
   <yc-trigger
-    v-model:popup-visible="computedVisible"
+    :popup-visible="popupVisible"
+    :default-popup-visible="defaultPopupVisible"
     :trigger="trigger"
     :position="position"
     :popup-container="popupContainer"
@@ -13,7 +14,10 @@
     animation-name="zoom-in-fade-out"
     need-transform-origin
     show-arrow
+    ref="triggerRef"
     v-bind="triggerProps"
+    @update:popup-visible="(v) => $emit('update:popupVisible', v)"
+    @popup-visible-change="(v) => $emit('popup-visible-change', v)"
   >
     <slot />
     <template #content>
@@ -30,25 +34,24 @@
 </template>
 
 <script lang="ts" setup>
-import { toRefs } from 'vue';
+import { ref } from 'vue';
 import {
   PopoverProps,
   PopoverEmits,
   PopoverSlots,
   PopoverExpose,
 } from './type';
-import { useControlValue } from '@shared/utils';
-import YcTrigger from '@/components/Trigger';
+import { default as YcTrigger, TriggerInstance } from '@/components/Trigger';
 defineOptions({
   name: 'Popover',
 });
 defineSlots<PopoverSlots>();
-const props = withDefaults(defineProps<PopoverProps>(), {
+withDefaults(defineProps<PopoverProps>(), {
   popupVisible: undefined,
   defaultPopupVisible: false,
   title: '',
   content: '',
-  trigger: 'click',
+  trigger: 'hover',
   position: 'bottom',
   contentClass: '',
   contentStyle: () => {
@@ -64,23 +67,14 @@ const props = withDefaults(defineProps<PopoverProps>(), {
   },
 });
 const emits = defineEmits<PopoverEmits>();
-const { popupVisible, defaultPopupVisible } = toRefs(props);
-// 受控的visible
-const computedVisible = useControlValue<boolean>(
-  popupVisible,
-  defaultPopupVisible.value,
-  (val) => {
-    emits('update:popupVisible', val);
-    emits('popup-visible-change', val);
-  }
-);
-
+// trigger触发器
+const triggerRef = ref<TriggerInstance>();
 defineExpose<PopoverExpose>({
   show() {
-    computedVisible.value = true;
+    triggerRef.value?.show();
   },
   hide() {
-    computedVisible.value = false;
+    triggerRef.value?.hide();
   },
 });
 </script>

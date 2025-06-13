@@ -2,33 +2,36 @@
   <div class="yc-transfer-view">
     <!-- header -->
     <div class="yc-transfer-view-header">
-      <span class="yc-transfer-view-header-title">
-        <component
-          v-if="!showSelectAll || simple || oneWay"
-          :is="renderTitle"
-        />
-        <yc-checkbox
-          v-else
-          v-model="selectedAll"
-          :indeterminate="indeterminate"
-          :disabled="!curData.length || disabled"
-        >
-          <component :is="renderTitle" />
-        </yc-checkbox>
-      </span>
-      <span class="yc-transfer-view-header-count">
-        <template v-if="!oneWay && !simple">
-          {{ curSeleced.length }} /{{ curData.length }}
+      <slot-render :render="renderTitle">
+        <template v-if="!slots[`${type}-title`]">
+          <span class="yc-transfer-view-header-title">
+            <yc-checkbox
+              v-if="showSelectAll && !simple && (!oneWay || type != 'target')"
+              v-model="selectedAll"
+              :indeterminate="indeterminate"
+              :disabled="!curData.length || disabled"
+            >
+              {{ title }}
+            </yc-checkbox>
+            <template v-else>
+              {{ title }}
+            </template>
+          </span>
+          <span class="yc-transfer-view-header-count">
+            <template v-if="!simple && (!oneWay || type != 'target')">
+              {{ curSeleced.length }} / {{ curData.length }}
+            </template>
+            <yc-icon-button
+              v-else-if="type == 'target'"
+              :size="14"
+              :hover-size="20"
+              @click="handleClear"
+            >
+              <icon-delete />
+            </yc-icon-button>
+          </span>
         </template>
-        <yc-icon-button
-          v-else-if="type == 'target'"
-          :size="14"
-          :hover-size="20"
-          @click="handleClear"
-        >
-          <icon-delete />
-        </yc-icon-button>
-      </span>
+      </slot-render>
     </div>
     <!-- search -->
     <div v-if="showSearch" class="yc-transfer-view-search">
@@ -48,41 +51,48 @@
         <slot-render :render="renderList">
           <div v-if="!slots[type]" role="list" class="yc-transfer-list">
             <template v-for="item in curData" :key="item.value">
-              <slot-render :render="renderItem">
-                <div
-                  v-if="!slots.item"
-                  role="listitem"
-                  :class="[
-                    'yc-transfer-list-item',
-                    {
-                      'yc-transfer-list-item-disabled':
-                        item.disabled || disabled,
-                    },
-                  ]"
-                  @click="handleClick(item)"
+              <div
+                role="listitem"
+                :class="[
+                  'yc-transfer-list-item',
+                  {
+                    'yc-transfer-list-item-disabled': item.disabled || disabled,
+                  },
+                ]"
+                @click="handleClick(item)"
+              >
+                <!-- checkbox -->
+                <yc-checkbox
+                  v-if="(!oneWay || (oneWay && type == 'source')) && !simple"
+                  :model-value="curSeleced.includes(item.value as string)"
+                  :disabled="item.disabled || disabled"
+                  @change="
+                    (isSelected) =>
+                      handleCheck(isSelected, item.value as string)
+                  "
                 >
-                  <!-- checkbox -->
-                  <yc-checkbox
-                    v-if="(!oneWay || (oneWay && type == 'source')) && !simple"
-                    :model-value="curSeleced.includes(item.value as string)"
-                    :disabled="item.disabled || disabled"
-                    @change="
-                      (isSelected) =>
-                        handleCheck(isSelected, item.value as string)
-                    "
-                  >
-                    {{ item.label }}
-                  </yc-checkbox>
-                  <template v-else>
-                    <span class="yc-transfer-list-item-content text-ellipsis">
+                  <slot-render :render="renderItem(item)">
+                    <template v-if="!slots.item">
                       {{ item.label }}
-                    </span>
-                    <yc-icon-button v-if="type == 'target'" :hover-size="20">
-                      <icon-close />
-                    </yc-icon-button>
-                  </template>
-                </div>
-              </slot-render>
+                    </template>
+                  </slot-render>
+                </yc-checkbox>
+                <template v-else>
+                  <span class="yc-transfer-list-item-content text-ellipsis">
+                    <slot-render :render="renderItem(item)">
+                      <template v-if="!slots.item">
+                        {{ item.label }}
+                      </template>
+                    </slot-render>
+                  </span>
+                  <yc-icon-button
+                    v-if="type == 'target' && !simple"
+                    :hover-size="20"
+                  >
+                    <icon-close />
+                  </yc-icon-button>
+                </template>
+              </div>
             </template>
           </div>
         </slot-render>
@@ -214,21 +224,19 @@ const handleClear = () => {
 };
 // 获取title渲染函数
 const renderTitle = () => {
-  return (
-    slots[type.value == 'source' ? 'source-title' : 'target-title']?.({
-      countTotal:
-        type.value == 'source'
-          ? sourceOptions.value.length
-          : targetOptions.value.length,
-      countSelected:
-        type.value == 'source'
-          ? sourceChecked.value.length
-          : targetChecked.value.length,
-      searchValue: keywords.value,
-      checked: selectedAll.value,
-      indeterminate: indeterminate.value,
-    }) || title.value
-  );
+  return slots[type.value == 'source' ? 'source-title' : 'target-title']?.({
+    countTotal:
+      type.value == 'source'
+        ? sourceOptions.value.length
+        : targetOptions.value.length,
+    countSelected:
+      type.value == 'source'
+        ? sourceChecked.value.length
+        : targetChecked.value.length,
+    searchValue: keywords.value,
+    checked: selectedAll.value,
+    indeterminate: indeterminate.value,
+  });
 };
 // 渲染item
 const renderList = () => {
@@ -239,10 +247,7 @@ const renderList = () => {
 };
 // 渲染item
 const renderItem = (item: TransferItem) => {
-  return slots.item?.({
-    label: item.label,
-    value: item.value,
-  });
+  return () => slots.item?.(item);
 };
 </script>
 

@@ -10,7 +10,8 @@
 5. timeline反向轴线位置问题  mode = alternate的样式 问题
 6. step优化收集的问题
 7. Form组件因为useControlValue导致删除光标乱跳的文体
+8. transfer实现的title和list插槽实现几个callback
 ## 测试完成
-AutoComplete Checkbox Radio Switch Textarea Rate ColorPicker Input InputNumber VerificationCode InputTag Mention
+AutoComplete Checkbox Radio Switch Textarea Rate ColorPicker Input InputNumber VerificationCode InputTag Mention Transfer
 ## 尚未测试的组件
 1.  Message ResizeBox  Notifcation TimePicker 表单组件

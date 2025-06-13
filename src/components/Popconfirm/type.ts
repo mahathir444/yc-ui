@@ -40,3 +40,8 @@ export interface PopconfirmSlots {
 }
 
 export type PopconfirmType = 'info' | 'success' | 'warning' | 'error';
+
+export interface PopconfirmExpose {
+  hide(): void;
+  show(): void;
+}

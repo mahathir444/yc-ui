@@ -44,7 +44,7 @@ export default () => {
     } = toRefs(props as PaginationProps);
     const { size } = getGlobalConfig(props);
     // total
-    const total = useControlValue(
+    const total = useControlValue<number>(
       autoAdjust.value ? _total : ref(),
       autoAdjust.value ? 0 : _total.value
     );

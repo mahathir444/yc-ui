@@ -117,7 +117,7 @@ const { zIndex, popupContainer } = getGlobalConfig(props);
 // imageRef
 const imageRef = ref<HTMLImageElement>();
 // scale
-const scale = useControlValue(ref(), defaultScale.value);
+const scale = useControlValue<number>(ref(), defaultScale.value);
 // rotate
 const rotate = ref<number>(0);
 // 处理Modal关闭

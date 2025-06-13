@@ -6,9 +6,8 @@ import {
   provide as _provide,
   inject as _inject,
   toRefs,
-  useAttrs,
 } from 'vue';
-import { ObjectData, Props } from '@shared/type';
+import { Props } from '@shared/type';
 import { findComponentsFromVnodes, useControlValue } from '@shared/utils';
 import Image from '../Image.vue';
 import { ImagePreviewGroupEmits } from '../type';

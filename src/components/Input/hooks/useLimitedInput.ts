@@ -41,12 +41,14 @@ export default (params: {
     isNumber(_maxLength.value) ? false : _maxLength.value?.errorOnly
   );
   //error状态
-  const error = useControlValue(_error, false);
+  const error = useControlValue<boolean>(_error, false);
   // 受控值
   const computedValue = useControlValue<string>(
     modelValue,
     defaultValue.value,
-    (val) => emits('update:modelValue', val)
+    (val) => {
+      emits('update:modelValue', val);
+    }
   );
   // 是否展示字数限制
   const showWordLimit = computed(() => {

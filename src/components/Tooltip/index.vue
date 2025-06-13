@@ -1,6 +1,7 @@
 <template>
   <yc-trigger
-    v-model:popup-visible="computedVisible"
+    :popup-visible="popupVisible"
+    :default-popup-visible="defaultPopupVisible"
     :popup-container="popupContainer"
     :position="position"
     :arrow-class="['yc-tooltip-popup-arrow', arrowClass as string]"
@@ -18,7 +19,10 @@
     animation-name="zoom-in-fade-out"
     need-transform-origin
     show-arrow
+    ref="triggerRef"
     v-bind="triggerProps"
+    @update:popup-visible="(v) => $emit('update:popupVisible', v)"
+    @popup-visible-change="(v) => $emit('popup-visible-change', v)"
   >
     <slot />
     <template #content>
@@ -30,10 +34,15 @@
 </template>
 
 <script lang="ts" setup>
+import { ref } from 'vue';
 import { toRefs, computed, CSSProperties } from 'vue';
-import { TooltipProps, TooltipEmits, TooltipSlots } from './type';
-import { useControlValue } from '@shared/utils';
-import YcTrigger from '@/components/Trigger';
+import {
+  TooltipProps,
+  TooltipEmits,
+  TooltipSlots,
+  TooltipExpose,
+} from './type';
+import { default as YcTrigger, TriggerInstance } from '@/components/Trigger';
 defineOptions({
   name: 'Tooltip',
 });
@@ -64,16 +73,6 @@ const {
   contentStyle: _contentStyle,
   backgroundColor,
 } = toRefs(props);
-const { popupVisible, defaultPopupVisible } = toRefs(props);
-// 受控的visible
-const computedVisible = useControlValue<boolean>(
-  popupVisible,
-  defaultPopupVisible.value,
-  (val) => {
-    emits('update:popupVisible', val);
-    emits('popup-visible-change', val);
-  }
-);
 // content-style
 const contentStyle = computed(() => {
   return {
@@ -87,6 +86,16 @@ const arrowStyle = computed(() => {
     backgroundColor: backgroundColor.value,
     ..._arrowStyle.value,
   };
+});
+// triggerRef
+const triggerRef = ref<TriggerInstance>();
+defineExpose<TooltipExpose>({
+  show() {
+    triggerRef.value?.show();
+  },
+  hide() {
+    triggerRef.value?.hide();
+  },
 });
 </script>
 

@@ -1,6 +1,7 @@
 <template>
   <yc-trigger
-    v-model:popup-visible="computedVisible"
+    :popup-visible="popupVisible"
+    :default-popup-visible="defaultPopupVisible"
     :trigger="trigger"
     :position="position"
     :popup-offset="4"
@@ -13,7 +14,10 @@
     :class="['yc-dropdown-popup', , `yc-dropdown-theme-${theme}`]"
     animation-name="slide-dynamic-origin"
     need-transform-origin
+    ref="triggerRef"
     v-bind="triggerProps"
+    @update:popup-visible="(v) => $emit('update:popupVisible', v)"
+    @popup-visible-change="(v) => $emit('popup-visible-change', v)"
   >
     <slot />
     <template #content>
@@ -36,7 +40,7 @@
 </template>
 
 <script lang="ts" setup>
-import { toRefs, computed } from 'vue';
+import { ref, toRefs, computed } from 'vue';
 import {
   DropdownProps,
   DoptionValue,
@@ -45,7 +49,7 @@ import {
 } from './type';
 import { isUndefined, isBoolean, numberToPx } from '@shared/utils';
 import useContext from './hooks/useContext';
-import YcTrigger from '@/components/Trigger';
+import { default as YcTrigger, TriggerInstance } from '@/components/Trigger';
 import YcScrollbar from '@/components/Scrollbar';
 defineOptions({
   name: 'Dropdown',
@@ -75,8 +79,10 @@ const {
   position: _position,
   popupMaxHeight: _popupMaxHeight,
 } = toRefs(props);
+// 触发器实例
+const triggerRef = ref<TriggerInstance>();
 // 注入
-const { computedVisible } = useContext().provide(props, emits);
+useContext().provide(props, emits, triggerRef);
 // 位置
 const position = computed(() => {
   return ['top', 'tl', 'tr', 'bottom', 'bl', 'br'].includes(_position.value)
@@ -97,10 +103,10 @@ const popupMaxHeight = computed(() => {
 });
 defineExpose<DropdownExpose>({
   show() {
-    computedVisible.value = true;
+    triggerRef.value?.show();
   },
   hide() {
-    computedVisible.value = false;
+    triggerRef.value?.hide();
   },
 });
 </script>

@@ -27,3 +27,8 @@ export interface TooltipSlots {
   default(): void;
   content(): void;
 }
+
+export interface TooltipExpose {
+  hide(): void;
+  show(): void;
+}
