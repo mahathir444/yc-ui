@@ -13,17 +13,14 @@ import { isObject } from '@shared/utils';
 
 export default (params: {
   multiple: Ref<boolean>;
-  allowSearch: Ref<boolean>;
   computedValue: Ref<SelectValue>;
   provideOptions: Ref<SelectOptions>;
   showExtraOptions: Ref<boolean>;
-  filterOption: (option: SelectOptionData) => boolean;
   getValue: (value: string | ObjectData) => SelectValue;
   fallbackOption?: FallbackOption;
   formatLabel?: FormatLabel;
 }) => {
   const {
-    allowSearch,
     computedValue,
     multiple,
     provideOptions,
@@ -31,7 +28,6 @@ export default (params: {
     getValue,
     fallbackOption,
     formatLabel,
-    filterOption,
   } = params;
   // optionMap
   const optionMap = reactive<Map<string, ObjectData>>(new Map());
@@ -91,13 +87,6 @@ export default (params: {
       };
     });
   });
-  // 搜索项
-  const isEmpty = computed(() => {
-    if (!allowSearch.value) return !options.value.length;
-    return options.value.every((item) => {
-      return filterOption(item);
-    });
-  });
   // 收集option
   const collectOption = (props: Props, optionLabel: Ref<string>) => {
     if (props.isFallbackOption) return;
@@ -117,7 +106,6 @@ export default (params: {
     createOptions,
     renderOptions,
     selectOptions,
-    isEmpty,
     collectOption,
   };
 };

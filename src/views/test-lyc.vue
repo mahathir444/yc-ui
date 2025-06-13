@@ -1,5 +1,6 @@
 <template>
   <div class="test">
+    <a-select allow-search :options="[1, 2, 3, 4, 5]" />
     <yc-select allow-search :options="[1, 2, 3, 4, 5]" />
   </div>
 </template>

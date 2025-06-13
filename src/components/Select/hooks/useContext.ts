@@ -138,18 +138,15 @@ export default () => {
       renderOptions,
       createOptions,
       selectOptions,
-      isEmpty,
       collectOption,
     } = useSelectOptions({
       computedValue,
       multiple,
       showExtraOptions,
       provideOptions,
-      allowSearch,
       getValue,
       fallbackOption,
       formatLabel,
-      filterOption,
     });
     // 初始化快捷键
     const { curIndex } = useSelectHotkeys({
@@ -161,6 +158,15 @@ export default () => {
       options,
       blur,
       emits,
+    });
+    // 搜索为空的情况
+    const isEmpty = computed(() => {
+      if (!allowSearch.value || (isBoolean(_filterOption) && !filterOption)) {
+        return !options.value.length;
+      }
+      return options.value.every((item) => {
+        return !filterOption(item);
+      });
     });
     // 获取value
     function getValue(value: SelectValue) {
