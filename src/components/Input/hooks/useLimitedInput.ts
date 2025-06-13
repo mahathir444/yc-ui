@@ -33,13 +33,15 @@ export default (params: {
   // 初始化记录光标位置的hook
   const { setCursor, recordCursor } = useCursor(inputRef);
   // 最大长度
-  const maxLength = computed(() =>
-    isNumber(_maxLength.value) ? _maxLength.value : _maxLength.value?.length
-  );
+  const maxLength = computed(() => {
+    return isNumber(_maxLength.value)
+      ? _maxLength.value
+      : _maxLength.value?.length;
+  });
   // 是否只报错
-  const maxLengthErrorOnly = computed(() =>
-    isNumber(_maxLength.value) ? false : _maxLength.value?.errorOnly
-  );
+  const maxLengthErrorOnly = computed(() => {
+    return isNumber(_maxLength.value) ? false : _maxLength.value?.errorOnly;
+  });
   //error状态
   const error = useControlValue<boolean>(_error, false);
   // 受控值
@@ -55,13 +57,14 @@ export default (params: {
     return isNumber(maxLength.value) && _showWordLimit.value;
   });
   // 显示i清楚按钮
-  const showClearBtn = computed(
-    () =>
+  const showClearBtn = computed(() => {
+    return (
       allowClear.value &&
       !disabled.value &&
       !readonly.value &&
       !!computedValue.value.length
-  );
+    );
+  });
   // wordLeng下的maxLength
   let wordLengthMax = 0;
   //   当前显示的长度

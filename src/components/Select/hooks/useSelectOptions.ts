@@ -9,15 +9,15 @@ import {
   FormatLabel,
   SelectOptionData,
 } from '../index';
-import { getDomText, isObject } from '@shared/utils';
+import { isObject } from '@shared/utils';
 
 export default (params: {
   multiple: Ref<boolean>;
   allowSearch: Ref<boolean>;
   computedValue: Ref<SelectValue>;
-  computedInputValue: Ref<string>;
   provideOptions: Ref<SelectOptions>;
   showExtraOptions: Ref<boolean>;
+  filterOption: (option: SelectOptionData) => boolean;
   getValue: (value: string | ObjectData) => SelectValue;
   fallbackOption?: FallbackOption;
   formatLabel?: FormatLabel;
@@ -25,13 +25,13 @@ export default (params: {
   const {
     allowSearch,
     computedValue,
-    computedInputValue,
     multiple,
     provideOptions,
     showExtraOptions,
     getValue,
     fallbackOption,
     formatLabel,
+    filterOption,
   } = params;
   // optionMap
   const optionMap = reactive<Map<string, ObjectData>>(new Map());
@@ -95,14 +95,11 @@ export default (params: {
   const isEmpty = computed(() => {
     if (!allowSearch.value) return !options.value.length;
     return options.value.every((item) => {
-      return !item.label?.includes(computedInputValue.value);
+      return filterOption(item);
     });
   });
   // 收集option
-  const collectOption = (
-    props: Props,
-    contentRef: Ref<HTMLDivElement | undefined>
-  ) => {
+  const collectOption = (props: Props, optionLabel: Ref<string>) => {
     if (props.isFallbackOption) return;
     const id = nanoid();
     // 挂载的时候收集option
@@ -110,8 +107,8 @@ export default (params: {
       const value = `${getValue(props.value)}`;
       optionMap.set(id, {
         ...props,
-        label: props.label ? props.label : getDomText(contentRef),
-        value: value ? props.value : getDomText(contentRef),
+        label: optionLabel.value,
+        value: value ? props.value : optionLabel.value,
       } as OptionProps);
     });
   };

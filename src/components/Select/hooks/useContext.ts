@@ -11,13 +11,12 @@ import {
 import {
   SelectValue,
   SelectOptionData,
-  FilterOption,
   SelectEmits,
   SelectProps as _SelectProps,
 } from '../type';
 import { ObjectData, RequiredDeep, Props } from '@shared/type';
 import { InputInstance } from '@/components/Input';
-import { useControlValue } from '@shared/utils';
+import { isBoolean, isUndefined, useControlValue } from '@shared/utils';
 import useSelectOptions from './useSelectOptions';
 import useSelectHotkeys from './useSelectHotkeys';
 
@@ -37,13 +36,10 @@ export interface SelectContext {
   allowSearch: Ref<boolean>;
   slots: Slots;
   blur: () => void;
-  filterOption?: FilterOption;
+  filterOption: (option: SelectOptionData) => boolean;
   getValue: (value: SelectValue | ObjectData) => SelectValue;
   emits: SelectEmits;
-  collectOption: (
-    props: Props,
-    titleRef: Ref<HTMLDivElement | undefined>
-  ) => void;
+  collectOption: (props: Props, optionLabel: Ref<string>) => void;
 }
 
 type SelectProps = RequiredDeep<_SelectProps>;
@@ -71,7 +67,11 @@ export default () => {
       showEmpty,
       allowSearch,
     } = toRefs(props as SelectProps);
-    const { formatLabel, fallbackOption, filterOption } = props as SelectProps;
+    const {
+      formatLabel,
+      fallbackOption,
+      filterOption: _filterOption,
+    } = props as SelectProps;
     // popupVisible
     const computedVisible = useControlValue<boolean>(
       popupVisible,
@@ -121,6 +121,17 @@ export default () => {
         })
       );
     });
+    // 过滤函数
+    const filterOption = (option: SelectOptionData) => {
+      if (isBoolean(_filterOption) || isUndefined(_filterOption)) {
+        return !_filterOption && !allowSearch.value
+          ? true
+          : !!option?.label
+              ?.toLowerCase()
+              ?.includes(computedInputValue.value.toLowerCase());
+      }
+      return _filterOption(computedInputValue.value, option);
+    };
     // 获取选项的值
     const {
       options,
@@ -131,7 +142,6 @@ export default () => {
       collectOption,
     } = useSelectOptions({
       computedValue,
-      computedInputValue,
       multiple,
       showExtraOptions,
       provideOptions,
@@ -139,6 +149,7 @@ export default () => {
       getValue,
       fallbackOption,
       formatLabel,
+      filterOption,
     });
     // 初始化快捷键
     const { curIndex } = useSelectHotkeys({
@@ -203,7 +214,9 @@ export default () => {
       allowSearch: ref(false),
       slots: {},
       blur: () => {},
-      filterOption: undefined,
+      filterOption: () => {
+        return true;
+      },
       getValue: () => '',
       emits: () => {},
       collectOption: () => {},

@@ -1,6 +1,12 @@
 <template>
   <div
-    v-show="!allowSearch || filterOption(computedInputValue, props)"
+    v-show="
+      !allowSearch ||
+      filterOption({
+        ...$props,
+        label: optionLabel,
+      })
+    "
     :class="[
       'yc-select-option',
       {
@@ -15,7 +21,7 @@
     <!-- 多选 -->
     <yc-checkbox
       v-if="multiple"
-      :model-value="value"
+      :model-value="checked"
       :disabled="disabled"
       @update:model-value="handleMuti"
       class="yc-select-option-content"
@@ -45,9 +51,9 @@
 
 <script lang="ts" setup>
 import { toRefs, ref, computed, Ref } from 'vue';
-import { OptionProps, OptionSlots, SelectOptionData } from './type';
+import { OptionProps, OptionSlots } from './type';
 import { ObjectData } from '@shared/type';
-import { isUndefined, getDomText, isBoolean } from '@shared/utils';
+import { isUndefined, getDomText } from '@shared/utils';
 import useContext from './hooks/useContext';
 import YcCheckbox from '@/components/Checkbox';
 defineOptions({
@@ -64,40 +70,37 @@ const { label, disabled } = toRefs(props);
 // 解构父级provide的属性
 const {
   computedValue,
-  computedInputValue,
   multiple,
   limit,
   curIndex,
   options,
   allowSearch,
   blur,
-  filterOption: _filterOption,
+  filterOption,
   getValue,
   emits,
   collectOption,
 } = useContext().inject();
+// contentRef
+const contentRef = ref<HTMLDivElement>();
 // optionsValue
 const optionValue = computed(() => {
   return `${props.value}`
     ? props.value
     : getDomText(contentRef as Ref<HTMLElement>);
 });
-// contentRef
-const contentRef = ref<HTMLDivElement>();
+// optionLabel
+const optionLabel = computed(() => {
+  return props.label ? props.label : getDomText(contentRef as Ref<HTMLElement>);
+});
 // value
-const value = computed(() => {
+const checked = computed(() => {
   if (!multiple.value) return false;
   const index = (computedValue.value as ObjectData[]).findIndex((item) => {
     return getValue(item) === getValue(optionValue.value);
   });
   return index != -1;
 });
-const filterOption = (inputValue: string, option: SelectOptionData) => {
-  if (isBoolean(_filterOption) || isUndefined(_filterOption)) {
-    return !_filterOption ? true : !!option?.label?.includes(inputValue);
-  }
-  return _filterOption(inputValue, option);
-};
 // 处理单选
 const handleSingle = () => {
   if (disabled.value || isUndefined(computedValue.value)) return;
@@ -120,7 +123,7 @@ const handleMuti = (v: boolean) => {
   }
 };
 // 收集option
-collectOption(props, contentRef);
+collectOption(props, optionLabel);
 </script>
 
 <style lang="less" scoped>

@@ -1,17 +1,6 @@
 <template>
   <div class="test">
-    <a-select
-      :style="{ width: '320px' }"
-      :options="options"
-      placeholder="Please select ..."
-      :virtual-list-props="{ height: 200 }"
-    />
-    <yc-select
-      :style="{ width: '320px' }"
-      :options="options"
-      placeholder="Please select ..."
-      :virtual-list-props="{ itemHeight: 36 }"
-    />
+    <yc-select allow-search :options="[1, 2, 3, 4, 5]" />
   </div>
 </template>
 
