@@ -75,6 +75,8 @@ declare module 'vue' {
     AModal: typeof import('@arco-design/web-vue')['Modal']
     Anchor: typeof import('./src/components/Anchor/Anchor.vue')['default']
     AnchorLink: typeof import('./src/components/Anchor/AnchorLink.vue')['default']
+    AOptgroup: typeof import('@arco-design/web-vue')['Optgroup']
+    AOption: typeof import('@arco-design/web-vue')['Option']
     AOverflowList: typeof import('@arco-design/web-vue')['OverflowList']
     APageHeader: typeof import('@arco-design/web-vue')['PageHeader']
     APagination: typeof import('@arco-design/web-vue')['Pagination']

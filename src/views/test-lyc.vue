@@ -1,18 +1,25 @@
 <template>
   <div class="test">
-    <yc-input v-model="value" />
-    <a-popover>
-      <a-button>测试</a-button>
-      <template #content>
-        <span>测试</span>
-      </template>
-    </a-popover>
+    <a-select
+      :style="{ width: '320px' }"
+      :options="options"
+      placeholder="Please select ..."
+      :virtual-list-props="{ height: 200 }"
+    />
+    <yc-select
+      :style="{ width: '320px' }"
+      :options="options"
+      placeholder="Please select ..."
+      :virtual-list-props="{ itemHeight: 36 }"
+    />
   </div>
 </template>
 
 <script lang="ts" setup>
-import { ref } from 'vue';
-const value = ref('');
+import { ref, reactive } from 'vue';
+const options = Array(1000)
+  .fill(null)
+  .map((_, index) => `Option ${index}`);
 </script>
 
 <style lang="less" scoped>

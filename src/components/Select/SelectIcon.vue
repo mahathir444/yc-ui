@@ -25,7 +25,7 @@
     <yc-icon-button
       v-if="showClearBtn"
       class="yc-select-clear-icon"
-      @click="emits('clear')"
+      @click.stop="$emit('clear')"
     />
   </template>
 </template>
@@ -41,8 +41,11 @@ defineProps<{
   showClearBtn: boolean;
   allowSearch: boolean;
 }>();
+defineEmits<{
+  (e: 'clear'): void;
+}>();
 // 接收注入
-const { slots, emits } = useContext().inject();
+const { slots } = useContext().inject();
 // 渲染icon
 const renderIcon = (name: string) => {
   return slots[name];

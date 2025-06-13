@@ -34,9 +34,10 @@ export interface SelectContext {
   fieldKey: Ref<Record<string, string>>;
   isEmpty: Ref<boolean>;
   showEmpty: Ref<boolean>;
+  allowSearch: Ref<boolean>;
   slots: Slots;
   blur: () => void;
-  filterOption: FilterOption;
+  filterOption?: FilterOption;
   getValue: (value: SelectValue | ObjectData) => SelectValue;
   emits: SelectEmits;
   collectOption: (
@@ -68,6 +69,7 @@ export default () => {
       hotkeys,
       options: provideOptions,
       showEmpty,
+      allowSearch,
     } = toRefs(props as SelectProps);
     const { formatLabel, fallbackOption, filterOption } = props as SelectProps;
     // popupVisible
@@ -86,6 +88,12 @@ export default () => {
       (val) => {
         emits('change', val);
         emits('update:modelValue', val);
+      },
+      (val) => {
+        if (multiple.value) {
+          return Array.isArray(val) ? val : [val];
+        }
+        return val;
       }
     );
     // 输入框的值
@@ -114,17 +122,24 @@ export default () => {
       );
     });
     // 获取选项的值
-    const { options, renderOptions, selectOptions, isEmpty, collectOption } =
-      useSelectOptions({
-        computedValue,
-        computedInputValue,
-        multiple,
-        showExtraOptions,
-        provideOptions,
-        getValue,
-        fallbackOption,
-        formatLabel,
-      });
+    const {
+      options,
+      renderOptions,
+      createOptions,
+      selectOptions,
+      isEmpty,
+      collectOption,
+    } = useSelectOptions({
+      computedValue,
+      computedInputValue,
+      multiple,
+      showExtraOptions,
+      provideOptions,
+      allowSearch,
+      getValue,
+      fallbackOption,
+      formatLabel,
+    });
     // 初始化快捷键
     const { curIndex } = useSelectHotkeys({
       computedValue,
@@ -155,6 +170,7 @@ export default () => {
       isEmpty,
       fieldKey,
       showEmpty,
+      allowSearch,
       renderOptions: renderOptions as Ref<ObjectData[]>,
       slots: useSlots(),
       filterOption,
@@ -168,6 +184,7 @@ export default () => {
       computedValue,
       computedInputValue,
       selectOptions,
+      createOptions,
       options,
     };
   };
@@ -183,9 +200,10 @@ export default () => {
       isEmpty: ref(false),
       fieldKey: ref({}),
       showEmpty: ref(false),
+      allowSearch: ref(false),
       slots: {},
       blur: () => {},
-      filterOption: () => true,
+      filterOption: undefined,
       getValue: () => '',
       emits: () => {},
       collectOption: () => {},

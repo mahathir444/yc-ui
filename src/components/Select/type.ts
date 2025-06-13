@@ -128,11 +128,9 @@ export type SelectOptions = (
   | ObjectData
 )[];
 
-export type FilterOption = (
-  inputValue: string,
-  option: SelectOptionData
-) => boolean;
-
+export type FilterOption =
+  | boolean
+  | ((inputValue: string, option: SelectOptionData) => boolean);
 export type FallbackOption = (value: SelectValue) => SelectOptionData;
 
 export type FormatLabel = (data: SelectOptionData) => string;

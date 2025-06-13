@@ -31,7 +31,7 @@
           v-if="!multiple"
           v-model="computedInputValue"
           :show-input="computedVisible"
-          :readonly="!allowSearch || loading"
+          :readonly="isReadonly"
           :disabled="disabled"
           :size="size"
           :error="error"
@@ -40,6 +40,7 @@
           @click="handleEvent('focus')"
           @blur="handleEvent('blur')"
           @input="(v) => handleEvent('search', v)"
+          @press-enter="handleEvent('create')"
         >
           <template #label>
             <slot name="label" :data="selectOptions[0]">
@@ -61,6 +62,7 @@
               :allow-search="allowSearch"
               :loading="loading"
               :show-clear-btn="showClearBtn"
+              @clear="handleEvent('clear')"
             />
           </template>
         </yc-input>
@@ -70,18 +72,18 @@
           v-model:input-value="computedInputValue"
           :model-value="selectOptions"
           :placeholder="placeholder"
-          :readonly="!allowSearch || loading"
+          :readonly="isReadonly"
           :disabled="disabled"
           :size="size"
           :error="error"
           :max-tag-count="maxTagCount"
           :tag-nowrap="tagNowrap"
-          :allow-create="allowCreate"
           ref="inputRef"
           @focus="handleEvent('focus')"
           @blur="handleEvent('blur')"
           @input="(v) => handleEvent('search', v)"
           @remove="$emit('remove')"
+          @press-enter="handleEvent('create')"
           @update:model-value="(v) => handleEvent('updateValue', v)"
         >
           <template #tag="scope">
@@ -94,6 +96,7 @@
               :allow-search="allowSearch"
               :loading="loading"
               :show-clear-btn="showClearBtn"
+              @clear="handleEvent('clear')"
             />
           </template>
         </yc-input-tag>
@@ -114,14 +117,8 @@
 
 <script lang="ts" setup>
 import { ref, computed, toRefs } from 'vue';
-import {
-  SelectProps,
-  SelectEmits,
-  SelectSlots,
-  SelectExpose,
-  SelectOptionData,
-} from './type';
-import { sleep } from '@shared/utils';
+import { SelectProps, SelectEmits, SelectSlots, SelectExpose } from './type';
+import { sleep, isUndefined } from '@shared/utils';
 import useContext from './hooks/useContext';
 import SelectIcon from './SelectIcon.vue';
 import SelectView from './SelectView.vue';
@@ -157,9 +154,7 @@ const props = withDefaults(defineProps<SelectProps>(), {
   popupVisible: undefined,
   defaultPopupVisible: false,
   unmountOnClose: false,
-  filterOption: (inputValue: string, option: SelectOptionData) => {
-    return !!option?.label?.includes(inputValue);
-  },
+  filterOption: undefined,
   options: () => [],
   showExtraOptions: true,
   valueKey: '',
@@ -196,6 +191,7 @@ const {
   showHeaderOnEmpty,
   multiple,
   allowSearch,
+  allowCreate,
   virtualListProps,
 } = toRefs(props);
 // 输入实例
@@ -203,8 +199,13 @@ const inputRef = ref<InputInstance>();
 // triggerRef
 const popupRef = ref<TriggerInstance>();
 // 注入值
-const { computedVisible, computedValue, computedInputValue, selectOptions } =
-  useContext().provide(props, emits, inputRef);
+const {
+  computedVisible,
+  computedValue,
+  computedInputValue,
+  selectOptions,
+  createOptions,
+} = useContext().provide(props, emits, inputRef);
 // 是否展示清除按钮
 const showClearBtn = computed(() => {
   const hasValue = multiple.value
@@ -212,12 +213,37 @@ const showClearBtn = computed(() => {
     : String(computedValue.value).length;
   return allowClear.value && !disabled.value && !loading.value && !!hasValue;
 });
+// 是否只读
+const isReadonly = computed(() => {
+  return (
+    (!allowSearch.value || loading.value) &&
+    !allowCreate.value &&
+    isUndefined(props.filterOption)
+  );
+});
 // 处理事件
 const handleEvent = async (
   type: string,
   value: string | InputTagValue = ''
 ) => {
   switch (type) {
+    case 'create':
+      {
+        if (!allowCreate.value) return;
+        const target = createOptions.value.find(
+          (item) => item == computedInputValue.value
+        );
+        if (target) return;
+
+        createOptions.value.push({
+          label: computedInputValue.value,
+          value: computedInputValue.value,
+        });
+        if (allowSearch.value) {
+          inputRef.value?.blur();
+        }
+      }
+      break;
     case 'clear':
       {
         computedValue.value = multiple.value ? [] : '';
@@ -232,6 +258,7 @@ const handleEvent = async (
       break;
     case 'focus':
       {
+        if (disabled.value) return;
         if (computedVisible.value) {
           return inputRef.value?.blur();
         }
@@ -255,7 +282,6 @@ const handleEvent = async (
       break;
   }
 };
-
 defineExpose<SelectExpose>({
   focus() {
     inputRef.value?.focus();

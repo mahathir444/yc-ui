@@ -1,6 +1,6 @@
 <template>
   <div
-    v-show="filterOption(computedInputValue, props)"
+    v-show="!allowSearch || filterOption(computedInputValue, props)"
     :class="[
       'yc-select-option',
       {
@@ -16,6 +16,7 @@
     <yc-checkbox
       v-if="multiple"
       :model-value="value"
+      :disabled="disabled"
       @update:model-value="handleMuti"
       class="yc-select-option-content"
     >
@@ -43,10 +44,10 @@
 </template>
 
 <script lang="ts" setup>
-import { toRefs, ref, computed, watch } from 'vue';
-import { OptionProps, OptionSlots } from './type';
+import { toRefs, ref, computed, Ref } from 'vue';
+import { OptionProps, OptionSlots, SelectOptionData } from './type';
 import { ObjectData } from '@shared/type';
-import { isUndefined } from '@shared/utils';
+import { isUndefined, getDomText, isBoolean } from '@shared/utils';
 import useContext from './hooks/useContext';
 import YcCheckbox from '@/components/Checkbox';
 defineOptions({
@@ -59,7 +60,7 @@ const props = withDefaults(defineProps<OptionProps>(), {
   disabled: false,
   isFallbackOption: false,
 });
-const { label, value: optionValue, disabled } = toRefs(props);
+const { label, disabled } = toRefs(props);
 // 解构父级provide的属性
 const {
   computedValue,
@@ -68,12 +69,19 @@ const {
   limit,
   curIndex,
   options,
+  allowSearch,
   blur,
-  filterOption,
+  filterOption: _filterOption,
   getValue,
   emits,
   collectOption,
 } = useContext().inject();
+// optionsValue
+const optionValue = computed(() => {
+  return `${props.value}`
+    ? props.value
+    : getDomText(contentRef as Ref<HTMLElement>);
+});
 // contentRef
 const contentRef = ref<HTMLDivElement>();
 // value
@@ -84,6 +92,12 @@ const value = computed(() => {
   });
   return index != -1;
 });
+const filterOption = (inputValue: string, option: SelectOptionData) => {
+  if (isBoolean(_filterOption) || isUndefined(_filterOption)) {
+    return !_filterOption ? true : !!option?.label?.includes(inputValue);
+  }
+  return _filterOption(inputValue, option);
+};
 // 处理单选
 const handleSingle = () => {
   if (disabled.value || isUndefined(computedValue.value)) return;
