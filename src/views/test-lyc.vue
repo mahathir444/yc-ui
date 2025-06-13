@@ -6,7 +6,7 @@
       :max="15"
       :marks="marks"
     />
-    <yc-slider :style="{ width: '300px' }" :min="1" :max="100" :marks="marks" />
+    <yc-slider :style="{ width: '300px' }" :max="1000" show-ticks :step="50" />
   </div>
 </template>
 

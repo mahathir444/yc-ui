@@ -99,11 +99,13 @@ export default () => {
     const tempEndValue = ref<number>(endValue.value);
     // 刻度线
     const ticks = computed(() => {
+      const digit = getDecimalPlaces(step.value);
       const result = [];
-      for (let i = 1; i <= Math.floor(100 / step.value) - 1; i++) {
+      for (let i = 1; i < Math.floor(max.value / step.value); i++) {
+        const value = +(i * step.value).toFixed(digit);
         result.push({
-          value: i * step.value,
-          label: i * step.value,
+          label: value,
+          value: value,
         });
       }
       return result;

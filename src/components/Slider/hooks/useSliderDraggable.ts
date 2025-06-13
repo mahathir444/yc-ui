@@ -62,11 +62,16 @@ export default (params: {
       // value为标准值，需要将其还原
       value = denormalizeValue(value);
       setPositionFromValue(value);
+      if (value == computedValue.value) {
+        return;
+      }
       computedValue.value = value;
     },
   });
-  // 最大值
-  const maxValue = computed(() => normalizeValue(max.value));
+  // 标准化最大值
+  const normalizeMax = computed(() => normalizeValue(max.value));
+  // 标准化step
+  const normalizeStep = computed(() => normalizeValue(step.value));
   // 水平情况下的距离
   const position = reactive<PositionData>({
     bottom: 0,
@@ -92,10 +97,10 @@ export default (params: {
     // 计算比例
     const rate =
       direction.value == 'vertical'
-        ? ((sliderBottom - distance) / sliderHeight) * maxValue.value
-        : ((distance - sliderLeft) / sliderWidth) * maxValue.value;
+        ? ((sliderBottom - distance) / sliderHeight) * normalizeMax.value
+        : ((distance - sliderLeft) / sliderWidth) * normalizeMax.value;
     // 处理步长
-    return Math.floor(rate / step.value) * step.value;
+    return Math.floor(rate / normalizeStep.value) * normalizeStep.value;
   };
   // 计算position
   const calcPositionFromValue = (distance: number) => {
@@ -107,23 +112,23 @@ export default (params: {
       height: sliderHeight,
     } = trackRef.value!.getBoundingClientRect();
     // 处理步长
-    distance = Math.floor(distance / step.value) * step.value;
+    distance = Math.floor(distance / normalizeStep.value) * normalizeStep.value;
     // 计算值
     return direction.value == 'vertical'
-      ? sliderBottom - (distance / maxValue.value) * sliderHeight
-      : (distance / maxValue.value) * sliderWidth + sliderLeft;
+      ? sliderBottom - (distance / normalizeMax.value) * sliderHeight
+      : (distance / normalizeMax.value) * sliderWidth + sliderLeft;
   };
   // 设置位置
   const setPositionFromValue = (distance: number) => {
-    const { width: sliderWidth, height: sliderHeight } =
-      trackRef.value!.getBoundingClientRect();
     // 处理比例问题
     distance = normalizeValue(distance);
+    const { width: sliderWidth, height: sliderHeight } =
+      trackRef.value!.getBoundingClientRect();
     // 计算偏移位置
     const translateY =
-      (normalizeValue(computedValue.value) / maxValue.value) * sliderHeight;
+      (normalizeValue(computedValue.value) / normalizeMax.value) * sliderHeight;
     const translateX =
-      (normalizeValue(computedValue.value) / maxValue.value) * sliderWidth;
+      (normalizeValue(computedValue.value) / normalizeMax.value) * sliderWidth;
     if (direction.value == 'vertical') {
       position.top = 100 - distance;
       position.bottom = distance;
