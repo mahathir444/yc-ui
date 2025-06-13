@@ -21,7 +21,7 @@
       <select-real-list v-else :scrollbar="scrollbar" />
       <!-- empty -->
       <slot-render
-        v-if="showEmpty && isEmpty"
+        v-if="isEmpty"
         :render="slots.empty || renderEmpty('Select')"
       >
         <yc-empty v-if="!slots.empty && !configSlots.empty" />
@@ -56,7 +56,7 @@ const props = defineProps<{
 }>();
 const { virtualListProps } = toRefs(props);
 // 接收注入
-const { slots, options, isEmpty, showEmpty } = useContext().inject();
+const { slots, options, isEmpty } = useContext().inject();
 // configProvider
 const { slots: configSlots, renderEmpty } = getGlobalConfig();
 // 是否是虚拟列表

@@ -34,11 +34,11 @@ defineEmits<{
 }>();
 const { type } = toRefs(props);
 // 接收注入
-const { min, max, startValue, endValue, range, direction, handleRangeValue } =
+const { min, max, startValue, endValue, range, direction, normalizeValue } =
   useContext().inject();
 // 计算position
 const getPosition = (value: number) => {
-  const curValue = handleRangeValue(value);
+  const curValue = normalizeValue(value);
   if (type.value == 'ticks') {
     return `calc(${curValue}% - 0.5px)`;
   } else if (type.value == 'dots') {
@@ -49,11 +49,11 @@ const getPosition = (value: number) => {
 };
 // 是否在区间之内
 const isInRange = (value: number) => {
-  const curValue = handleRangeValue(value);
-  const start = handleRangeValue(startValue.value);
-  const end = handleRangeValue(endValue.value);
-  const rangeMin = handleRangeValue(min.value);
-  const rangeMax = handleRangeValue(max.value);
+  const curValue = normalizeValue(value);
+  const start = normalizeValue(startValue.value);
+  const end = normalizeValue(endValue.value);
+  const rangeMin = normalizeValue(min.value);
+  const rangeMax = normalizeValue(max.value);
   if (!range.value) {
     return start >= curValue && curValue >= rangeMin && curValue <= rangeMax;
   } else {

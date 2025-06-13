@@ -31,7 +31,8 @@ export interface SliderContext {
   disabled: Ref<boolean>;
   trackRef: Ref<HTMLDivElement | undefined>;
   formatTooltip?: FormatTooltip;
-  handleRangeValue: (value: number) => number;
+  normalizeValue: (value: number) => number;
+  denormalizeValue: (value: number) => number;
 }
 
 export type SliderProp = RequiredDeep<_SliderProps>;
@@ -101,8 +102,8 @@ export default () => {
       const result = [];
       for (let i = 1; i <= Math.floor(100 / step.value) - 1; i++) {
         result.push({
-          value: i,
-          label: i,
+          value: i * step.value,
+          label: i * step.value,
         });
       }
       return result;
@@ -116,9 +117,26 @@ export default () => {
         };
       });
     });
-    function handleRangeValue(value: number) {
-      const maxValue = max.value <= 100 ? 100 : max.value;
-      return (value * 100) / maxValue;
+    // 获取小数点位数
+    function getDecimalPlaces(num: number): number {
+      const str = num.toString();
+      const decimalIndex = str.indexOf('.');
+      return decimalIndex === -1 ? 0 : str.length - decimalIndex - 1;
+    }
+    // 标准化结果
+    function normalizeValue(value: number) {
+      const totalSteps = (max.value - min.value) / step.value;
+      const currentStep = (value - min.value) / step.value;
+      const normalized = (currentStep / totalSteps) * 100;
+      return Math.round(normalized);
+    }
+    // 转化原始结果
+    function denormalizeValue(value: number): number {
+      const totalSteps = (max.value - min.value) / step.value;
+      const stepPosition = (value / 100) * totalSteps;
+      const exactValue = min.value + stepPosition * step.value;
+      const digit = getDecimalPlaces(step.value);
+      return +(Math.round(exactValue / step.value) * step.value).toFixed(digit);
     }
     _provide<SliderContext>(SLIDER_CONTEXT_KEY, {
       startValue,
@@ -134,7 +152,8 @@ export default () => {
       direction,
       trackRef,
       formatTooltip,
-      handleRangeValue,
+      normalizeValue,
+      denormalizeValue,
     });
     return {
       range,
@@ -148,7 +167,7 @@ export default () => {
       marks,
       min,
       max,
-      handleRangeValue,
+      normalizeValue,
     };
   };
   const inject = () => {
@@ -165,7 +184,10 @@ export default () => {
       disabled: ref(false),
       showTooltip: ref(true),
       trackRef: ref(),
-      handleRangeValue: (value: number) => {
+      normalizeValue: (value: number) => {
+        return value;
+      },
+      denormalizeValue: (value: number) => {
         return value;
       },
     });

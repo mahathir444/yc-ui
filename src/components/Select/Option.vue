@@ -1,7 +1,6 @@
 <template>
   <div
     v-show="
-      !allowSearch ||
       filterOption({
         ...$props,
         label: optionLabel,
@@ -74,7 +73,6 @@ const {
   limit,
   curIndex,
   options,
-  allowSearch,
   blur,
   filterOption,
   getValue,

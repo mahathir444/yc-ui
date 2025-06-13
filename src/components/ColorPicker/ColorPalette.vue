@@ -45,10 +45,9 @@ const { width, height, top, left } = useElementBounding(paletteRef, {
 const hsv = computed(() => {
   return parseColor(baseColor.value).toHsv();
 });
-let oldX = 0;
-let oldY = 0;
 // dragger
 const { x, y } = useDraggable(btnRef, {
+  disabled,
   onMove() {
     setColor();
   },
@@ -62,11 +61,6 @@ const handleClick = (e: MouseEvent) => {
 };
 // 设置颜色
 const setColor = () => {
-  if (disabled.value) {
-    x.value = oldX;
-    y.value = oldY;
-    return;
-  }
   x.value = (x.value - left.value) / width.value;
   x.value = x.value < 0 ? 0 : x.value;
   x.value = x.value > 1 ? 1 : x.value;
@@ -79,8 +73,6 @@ const setColor = () => {
     v: 1 - y.value,
   }).toHexString();
   emits('update:color', color);
-  oldX = x.value;
-  oldY = y.value;
 };
 // 检测visible
 watch(
@@ -90,8 +82,6 @@ watch(
       await sleep(0);
       x.value = hsv.value.s;
       y.value = 1 - hsv.value.v;
-      oldX = x.value;
-      oldY = y.value;
     }
   },
   {

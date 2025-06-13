@@ -48,6 +48,8 @@ const {
   startValue,
   endValue,
   formatTooltip,
+  normalizeValue,
+  denormalizeValue,
 } = useContext().inject();
 // 计算值
 const computedValue = computed({
@@ -72,6 +74,8 @@ const { position, isDragging } = useSliderDraggable({
   min,
   max,
   disabled,
+  denormalizeValue,
+  normalizeValue,
 });
 // 检测位置改变传递
 watch(position, () => {

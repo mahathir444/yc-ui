@@ -45,8 +45,6 @@ const { color, mode, popupVisible, disabled, hideTrigger } = toRefs(props);
 const btnRef = ref<HTMLDivElement>();
 // barRef
 const barRef = ref<HTMLDivElement>();
-// 旧的x
-let oldX = 0;
 // 位移范围
 const range = ref<Record<string, number>>({
   min: 0,
@@ -56,6 +54,7 @@ const range = ref<Record<string, number>>({
 const calculator = new GradientColorCalculator();
 // draggable hook
 const { x } = useDraggable(btnRef, {
+  disabled,
   onMove() {
     setColor();
   },
@@ -70,18 +69,12 @@ const setPosition = (color: string) => {
   } else {
     x.value = calculator.getPositionForColor(color, max - min) + min;
   }
-  oldX = x.value;
 };
 // 设置颜色
 const setColor = () => {
-  if (disabled.value) {
-    x.value = oldX;
-    return;
-  }
   const { min, max } = range.value;
   x.value = x.value < min ? min : x.value;
   x.value = x.value > max ? max : x.value;
-  oldX = x.value;
   let tempColor = '';
   if (mode.value == 'alpha') {
     const a = +((x.value - min) / (max - min)).toFixed(2);

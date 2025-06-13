@@ -69,7 +69,7 @@ const emits = defineEmits<SliderEmits>();
 // trackRef
 const trackRef = ref<HTMLDivElement>();
 // 注入
-const { ticks, marks, range, direction, min, handleRangeValue } =
+const { ticks, marks, range, direction, min, normalizeValue } =
   useContext().provide(props, emits, trackRef);
 // 开始按钮的位置
 const startPosition = ref<PositionData>({
@@ -92,10 +92,10 @@ const position = computed(() => {
     return direction.value == 'vertical'
       ? {
           top: top + '%',
-          bottom: handleRangeValue(min.value) + '%',
+          bottom: normalizeValue(min.value) + '%',
         }
       : {
-          left: handleRangeValue(min.value) + '%',
+          left: normalizeValue(min.value) + '%',
           right: right + '%',
         };
   }

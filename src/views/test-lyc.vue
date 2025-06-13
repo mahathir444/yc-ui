@@ -1,15 +1,23 @@
 <template>
   <div class="test">
-    <a-select allow-search :options="[1, 2, 3, 4, 5]" />
-    <yc-select allow-search :options="[1, 2, 3, 4, 5]" />
+    <a-slider
+      :default-value="5"
+      :style="{ width: '300px' }"
+      :max="15"
+      :marks="marks"
+    />
+    <yc-slider :style="{ width: '300px' }" :min="1" :max="100" :marks="marks" />
   </div>
 </template>
 
 <script lang="ts" setup>
 import { ref, reactive } from 'vue';
-const options = Array(1000)
-  .fill(null)
-  .map((_, index) => `Option ${index}`);
+const marks = {
+  0: '0km',
+  5: '5km',
+  10: '10km',
+  15: '15km',
+};
 </script>
 
 <style lang="less" scoped>

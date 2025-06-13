@@ -27,6 +27,8 @@ export default (params: {
   step: Ref<number>;
   disabled: Ref<boolean>;
   direction: Ref<Direction>;
+  normalizeValue: (value: number) => number;
+  denormalizeValue: (value: number) => number;
 }) => {
   const {
     trackRef,
@@ -37,14 +39,13 @@ export default (params: {
     min,
     step,
     disabled,
+    normalizeValue,
+    denormalizeValue,
   } = params;
   // 处理Button拖动
   const { x, y, isDragging } = useDraggable(triggerRef, {
+    disabled,
     onMove() {
-      if (disabled.value) {
-        y.value = oldY;
-        x.value = oldX;
-      }
       // 给出范围
       const { minTop, maxTop, minLeft, maxLeft } = moveRange;
       let value;
@@ -52,22 +53,20 @@ export default (params: {
       if (direction.value == 'vertical') {
         y.value = y.value > minTop ? minTop : y.value;
         y.value = y.value < maxTop ? maxTop : y.value;
-        oldY = y.value;
         value = calcValueFromPosition(y.value);
       } else {
         x.value = x.value < minLeft ? minLeft : x.value;
         x.value = x.value > maxLeft ? maxLeft : x.value;
-        oldX = x.value;
         value = calcValueFromPosition(x.value);
       }
+      // value为标准值，需要将其还原
+      value = denormalizeValue(value);
       setPositionFromValue(value);
       computedValue.value = value;
     },
   });
-  let oldX = x.value;
-  let oldY = y.value;
   // 最大值
-  const maxValue = computed(() => (max.value <= 100 ? 100 : max.value));
+  const maxValue = computed(() => normalizeValue(max.value));
   // 水平情况下的距离
   const position = reactive<PositionData>({
     bottom: 0,
@@ -100,6 +99,7 @@ export default (params: {
   };
   // 计算position
   const calcPositionFromValue = (distance: number) => {
+    distance = normalizeValue(distance);
     const {
       left: sliderLeft,
       bottom: sliderBottom,
@@ -118,10 +118,12 @@ export default (params: {
     const { width: sliderWidth, height: sliderHeight } =
       trackRef.value!.getBoundingClientRect();
     // 处理比例问题
-    distance = (distance / maxValue.value) * 100;
+    distance = normalizeValue(distance);
     // 计算偏移位置
-    const translateY = (computedValue.value / maxValue.value) * sliderHeight;
-    const translateX = (computedValue.value / maxValue.value) * sliderWidth;
+    const translateY =
+      (normalizeValue(computedValue.value) / maxValue.value) * sliderHeight;
+    const translateX =
+      (normalizeValue(computedValue.value) / maxValue.value) * sliderWidth;
     if (direction.value == 'vertical') {
       position.top = 100 - distance;
       position.bottom = distance;
@@ -146,8 +148,7 @@ export default (params: {
       } else if (computedValue.value < min.value) {
         computedValue.value = min.value;
       }
-      position.bottom = computedValue.value;
-      position.left = computedValue.value;
+      setPositionFromValue(computedValue.value);
     },
     {
       immediate: true,
