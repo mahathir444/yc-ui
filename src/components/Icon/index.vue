@@ -8,7 +8,7 @@
 <script lang="ts" setup>
 import { computed, toRefs, CSSProperties } from 'vue';
 import { IconProps, IconSlots } from './type';
-import { isUndefined, isString, isNumber, numberToPx } from '@shared/utils';
+import { isUndefined, isString, isNumber, valueToPx } from '@shared/utils';
 defineOptions({
   name: 'Icon',
 });
@@ -22,9 +22,9 @@ const calcSize = (type: 'width' | 'height') => {
   if (isUndefined(size.value)) {
     return '1em';
   } else if (Array.isArray(size.value)) {
-    return numberToPx(size.value[type == 'height' ? 1 : 0]);
+    return valueToPx(size.value[type == 'height' ? 1 : 0]);
   } else {
-    return numberToPx(size.value);
+    return valueToPx(size.value);
   }
 };
 // 计算内部style

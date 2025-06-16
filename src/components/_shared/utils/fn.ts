@@ -1,4 +1,4 @@
-import { isNumber, isString, isUndefined } from './is';
+import { isNumber, isString } from './is';
 
 //睡眠函数
 export const sleep = (ms: number) => {
@@ -31,6 +31,7 @@ export function throttleByRaf(cb: (...args: any[]) => void) {
   return throttle;
 }
 
+// 防抖函数
 export function debounce<T extends (...args: any[]) => any>(
   func: T,
   delay: number,
@@ -88,7 +89,8 @@ export function throttle<T extends (...args: any[]) => any>(
   };
 }
 
-export const numberToPx = (value: string | number | undefined) => {
+// 将value转换px
+export const valueToPx = (value: string | number | undefined) => {
   // 检查是否是数字类型，或者是可以转换为数字的字符串
   if (
     isNumber(value) ||

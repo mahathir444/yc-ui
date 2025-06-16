@@ -46,12 +46,7 @@
 <script lang="ts" setup>
 import { ref, computed, toRefs, nextTick } from 'vue';
 import { IconArrowRight } from '@shared/icons';
-import {
-  unrefElement,
-  isUndefined,
-  isBoolean,
-  numberToPx,
-} from '@shared/utils';
+import { unrefElement, isUndefined, isBoolean, valueToPx } from '@shared/utils';
 import useContext from './hooks/useContext';
 import {
   DsubmenuProps,
@@ -107,7 +102,7 @@ const popupMaxHeight = computed(() => {
   ) {
     return '';
   }
-  return numberToPx(
+  return valueToPx(
     isBoolean(_popupMaxHeight.value) ? 200 : _popupMaxHeight.value
   );
 });

@@ -35,7 +35,9 @@ defineSlots<TimelineSlots>();
 const props = withDefaults(defineProps<TimelineProps>(), {
   reverse: false,
   direction: 'vertical',
-  mode: 'left',
+  mode: (props) => {
+    return props.direction == 'horizontal' ? 'top' : 'left';
+  },
   pending: false,
   labelPosition: 'same',
 });

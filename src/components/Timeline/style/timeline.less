@@ -5,6 +5,25 @@
 
 .yc-timeline-reverse {
   flex-direction: column-reverse;
+  &:deep(.yc-timeline-item-direction-vertical) {
+    &:first-child {
+      .yc-timeline-item-dot-line {
+        display: none;
+      }
+    }
+    &:last-child {
+      .yc-timeline-item-dot-line {
+        position: absolute;
+        top: 18px;
+        bottom: -4px;
+        left: 50%;
+        transform: translate(-50%);
+        width: 1px;
+        border-left-width: 1px;
+        border-color: rgb(229, 230, 235);
+      }
+    }
+  }
 }
 
 .yc-timeline-direction-horizontal {

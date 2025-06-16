@@ -4,7 +4,7 @@
     <div
       class="yc-split-pane yc-split-pane-first"
       :style="{
-        flex: `0 0 calc(${rate} - ${numberToPx((triggerRef?.offsetWidth || 0) / 2)})`,
+        flex: `0 0 calc(${rate} - ${valueToPx((triggerRef?.offsetWidth || 0) / 2)})`,
       }"
     >
       <slot name="first" />
@@ -13,8 +13,8 @@
     <div
       class="yc-split-trigger"
       :style="{
-        height: direction == 'horizontal' ? numberToPx(height) : '',
-        width: direction == 'vertical' ? numberToPx(width) : '',
+        height: direction == 'horizontal' ? valueToPx(height) : '',
+        width: direction == 'vertical' ? valueToPx(width) : '',
       }"
       ref="triggerRef"
     >
@@ -40,7 +40,7 @@
 import { ref, toRefs, computed, watch, onMounted } from 'vue';
 import { SplitProps, SplitEmits, SplitSlots } from './type';
 import { IconDragDotVertical, IconDragDot } from '@shared/icons';
-import { useControlValue, sleep, numberToPx } from '@shared/utils';
+import { useControlValue, sleep, valueToPx } from '@shared/utils';
 import { useElementBounding, useDraggable } from '@vueuse/core';
 defineOptions({
   name: 'Split',

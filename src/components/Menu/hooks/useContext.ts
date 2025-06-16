@@ -22,7 +22,7 @@ import {
   isNumber,
   isUndefined,
   isBoolean,
-  numberToPx,
+  valueToPx,
 } from '@shared/utils';
 import { SubMenu, MenuItem } from '../index';
 import { nanoid } from 'nanoid';
@@ -305,7 +305,7 @@ export default () => {
     return {
       computedCollapsed,
       breakpoint,
-      collapsedWidth: computed(() => numberToPx(collapsedWidth.value)),
+      collapsedWidth: computed(() => valueToPx(collapsedWidth.value)),
       menuTree,
       max,
     };

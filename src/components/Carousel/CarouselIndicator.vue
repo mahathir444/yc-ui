@@ -26,14 +26,14 @@
       class="yc-carousel-indicator-item-slider"
       :style="{
         width: ['top', 'bottom'].includes(indicatorPosition)
-          ? numberToPx(48 / length)
+          ? valueToPx(48 / length)
           : '',
         height: ['left', 'right'].includes(indicatorPosition)
-          ? numberToPx(48 / length)
+          ? valueToPx(48 / length)
           : '',
         transform: ['top', 'bottom'].includes(indicatorPosition)
-          ? `translateX(calc(${numberToPx((48 / length) * computedCurrent)} - 100%))`
-          : `translateY(calc(${numberToPx((48 / length) * computedCurrent)} - 100%))`,
+          ? `translateX(calc(${valueToPx((48 / length) * computedCurrent)} - 100%))`
+          : `translateY(calc(${valueToPx((48 / length) * computedCurrent)} - 100%))`,
       }"
     ></div>
   </div>
@@ -42,7 +42,7 @@
 <script lang="ts" setup>
 import { IndicatorTrigger, IndicatorType, IndicatorPosition } from './type';
 import { ClassName } from '@shared/type';
-import { numberToPx } from '@shared/utils';
+import { valueToPx } from '@shared/utils';
 import useContext from './hooks/useContext';
 defineProps<{
   trigger: IndicatorTrigger;

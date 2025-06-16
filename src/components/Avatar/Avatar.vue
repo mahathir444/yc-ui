@@ -2,9 +2,9 @@
   <div
     :class="['yc-avatar', `yc-avatar-shape-${shape}`]"
     :style="{
-      width: numberToPx(size),
-      height: numberToPx(size),
-      fontSize: numberToPx(size),
+      width: valueToPx(size),
+      height: valueToPx(size),
+      fontSize: valueToPx(size),
     }"
     ref="avatarRef"
     @click="$emit('click', $event)"
@@ -54,7 +54,7 @@
 import { ref, onBeforeUnmount } from 'vue';
 import { useResizeObserver } from '@vueuse/core';
 import { IconImageClose } from '@shared/icons';
-import { numberToPx } from '@shared/utils';
+import { valueToPx } from '@shared/utils';
 import { AvatarProps, AvatarSlots, AvatarEmits } from './type';
 import useContext from './hooks/useContext';
 defineOptions({

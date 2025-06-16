@@ -10,7 +10,7 @@
     <div
       class="yc-color-picker-handler"
       :style="{
-        transform: `translate(calc(${numberToPx(x * width)} - 50%),calc(${numberToPx(y * height)} - 50%))`,
+        transform: `translate(calc(${valueToPx(x * width)} - 50%),calc(${valueToPx(y * height)} - 50%))`,
       }"
       ref="btnRef"
     ></div>
@@ -20,7 +20,7 @@
 <script lang="ts" setup>
 import { ref, watch, toRefs, computed } from 'vue';
 import { useDraggable, useElementBounding } from '@vueuse/core';
-import { sleep, parseColor, numberToPx } from '@shared/utils';
+import { sleep, parseColor, valueToPx } from '@shared/utils';
 const props = defineProps<{
   color: string;
   baseColor: string;

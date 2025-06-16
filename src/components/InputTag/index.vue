@@ -58,7 +58,7 @@
         :readonly="readonly"
         :placeholder="computedValue.length ? '' : placeholder"
         :style="{
-          width: numberToPx(width),
+          width: valueToPx(width),
         }"
         class="yc-input-tag-input"
         ref="inputRef"
@@ -104,7 +104,7 @@ import {
   getGlobalConfig,
   isBoolean,
   isObject,
-  numberToPx,
+  valueToPx,
 } from '@shared/utils';
 import YcTag from '@/components/Tag';
 import { YcPreventFocus, YcIconButton } from '@shared/components';

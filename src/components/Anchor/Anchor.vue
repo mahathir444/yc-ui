@@ -4,7 +4,7 @@
       <div
         class="yc-anchor-line-slider"
         :style="{
-          top: numberToPx(top),
+          top: valueToPx(top),
         }"
       ></div>
     </div>
@@ -17,7 +17,7 @@
 <script lang="ts" setup>
 import { computed, onMounted, ref } from 'vue';
 import { AnchorProps, AnchorSlots } from './type';
-import { numberToPx } from '@shared/utils';
+import { valueToPx } from '@shared/utils';
 import useContext from './hooks/useContext';
 defineOptions({
   name: 'Anchor',

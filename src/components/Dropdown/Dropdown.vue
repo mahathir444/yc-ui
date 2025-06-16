@@ -47,7 +47,7 @@ import {
   DropdownSlots,
   DropdownExpose,
 } from './type';
-import { isUndefined, isBoolean, numberToPx } from '@shared/utils';
+import { isUndefined, isBoolean, valueToPx } from '@shared/utils';
 import useContext from './hooks/useContext';
 import { default as YcTrigger, TriggerInstance } from '@/components/Trigger';
 import YcScrollbar from '@/components/Scrollbar';
@@ -97,7 +97,7 @@ const popupMaxHeight = computed(() => {
   ) {
     return '';
   }
-  return numberToPx(
+  return valueToPx(
     isBoolean(_popupMaxHeight.value) ? 200 : _popupMaxHeight.value
   );
 });

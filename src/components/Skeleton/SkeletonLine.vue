@@ -10,8 +10,8 @@
       v-for="i in rows"
       :key="i"
       :style="{
-        height: numberToPx(lineHeight),
-        width: widths[i] ? numberToPx(widths[i]) : '100%',
+        height: valueToPx(lineHeight),
+        width: widths[i] ? valueToPx(widths[i]) : '100%',
       }"
     ></div>
   </div>
@@ -20,7 +20,7 @@
 <script lang="ts" setup>
 import { toRefs, computed } from 'vue';
 import { SkeletonLineProps } from './type';
-import { numberToPx } from '@shared/utils';
+import { valueToPx } from '@shared/utils';
 defineOptions({
   name: 'SkeletonLine',
 });
@@ -32,7 +32,7 @@ const props = withDefaults(defineProps<SkeletonLineProps>(), {
 });
 const { lineSpacing } = toRefs(props);
 // gap
-const gap = computed(() => numberToPx(lineSpacing.value));
+const gap = computed(() => valueToPx(lineSpacing.value));
 </script>
 
 <style lang="less" scoped>

@@ -9,7 +9,7 @@
       },
     ]"
     :style="{
-      margin: `0 ${numberToPx(-gutter[0] / 2)}`,
+      margin: `0 ${valueToPx(-gutter[0] / 2)}`,
     }"
   >
     <slot />
@@ -19,7 +19,7 @@
 <script lang="ts" setup>
 import { toRefs } from 'vue';
 import { GridRowProps, GridRowSlots } from './type';
-import { mediaQueryHandler, numberToPx } from '@shared/utils';
+import { mediaQueryHandler, valueToPx } from '@shared/utils';
 import useContext from './hooks/useContext';
 defineOptions({
   name: 'Row',

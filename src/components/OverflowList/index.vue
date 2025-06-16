@@ -2,11 +2,11 @@
   <div
     :class="['yc-overflow-list', `yc-overflow-list-from-${from}`]"
     :style="{
-      gap: numberToPx(margin),
+      gap: valueToPx(margin),
       padding:
         from == 'start'
-          ? `0 0 0 ${numberToPx(overFlowWidth)}`
-          : ` 0 ${numberToPx(overFlowWidth)} 0 0`,
+          ? `0 0 0 ${valueToPx(overFlowWidth)}`
+          : ` 0 ${valueToPx(overFlowWidth)} 0 0`,
     }"
     ref="listRef"
   >
@@ -36,7 +36,7 @@ import {
   sleep,
   unrefElement,
   findComponentsFromVnodes,
-  numberToPx,
+  valueToPx,
 } from '@shared/utils';
 import { useResizeObserver } from '@vueuse/core';
 import { default as YcTag } from '@/components/Tag';

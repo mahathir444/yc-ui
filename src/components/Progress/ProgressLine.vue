@@ -27,7 +27,7 @@ import { toRefs, computed } from 'vue';
 import { ProgressColor, ProgressStatus } from './type';
 import { Size } from '@shared/type';
 import { TYPE_ICON_MAP, TYPE_ICON_COLOR_MAP } from '@shared/constants';
-import { isObject, numberToPx } from '@shared/utils';
+import { isObject, valueToPx } from '@shared/utils';
 const props = defineProps<{
   size: Size;
   percent: number;
@@ -58,8 +58,8 @@ const strokeWidth = computed(() => {
 });
 // style
 const style = computed(() => ({
-  width: numberToPx(width.value),
-  height: numberToPx(strokeWidth.value),
+  width: valueToPx(width.value),
+  height: valueToPx(strokeWidth.value),
   backgroundColor: trackColor.value,
 }));
 // barStyle

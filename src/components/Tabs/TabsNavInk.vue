@@ -4,7 +4,7 @@
 
 <script lang="ts" setup>
 import { computed, toRefs } from 'vue';
-import { numberToPx } from '@shared/utils';
+import { valueToPx } from '@shared/utils';
 import useContext from './hooks/useContext';
 const props = defineProps<{
   curIndex: number;
@@ -22,8 +22,8 @@ const sliderStyle = computed(() => {
       titleRefs.value[curIndex.value]?.offsetWidth + (editable.value ? 22 : 0);
     const left = targetLeft - listLeft;
     return {
-      width: numberToPx(width),
-      left: numberToPx(left),
+      width: valueToPx(width),
+      left: valueToPx(left),
     };
   } else {
     const listTop = listRef.value?.getBoundingClientRect?.()?.top || 0;
@@ -33,8 +33,8 @@ const sliderStyle = computed(() => {
       titleRefs.value[curIndex.value]?.offsetHeight + (editable.value ? 22 : 0);
     const top = targetTop - listTop;
     return {
-      height: numberToPx(height),
-      top: numberToPx(top),
+      height: valueToPx(height),
+      top: valueToPx(top),
     };
   }
 });

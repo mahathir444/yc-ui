@@ -49,7 +49,7 @@
 <script lang="ts" setup>
 import { ref, toRefs, computed } from 'vue';
 import { LayoutSiderProps, LayoutSiderEmits, LayoutSiderSlots } from './type';
-import { useControlValue, mediaQueryHandler, numberToPx } from '@shared/utils';
+import { useControlValue, mediaQueryHandler, valueToPx } from '@shared/utils';
 import { IconArrowRight } from '@shared/icons';
 import { YcIconButton } from '@shared/components';
 import YcResizeBox from '@/components/ResizeBox';
@@ -83,7 +83,7 @@ const {
 // 宽度
 const width = useControlValue<number>(ref(), _width.value);
 // 计算width
-const computedWidth = computed(() => numberToPx(width.value));
+const computedWidth = computed(() => valueToPx(width.value));
 // 受控的收缩
 const computedCollapsed = useControlValue<boolean>(
   collapsed,

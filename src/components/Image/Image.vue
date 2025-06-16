@@ -2,8 +2,8 @@
   <div
     class="yc-image"
     :style="{
-      width: numberToPx(width),
-      height: numberToPx(height),
+      width: valueToPx(width),
+      height: valueToPx(height),
     }"
   >
     <!-- image -->
@@ -12,8 +12,8 @@
       :title="title"
       :alt="alt ?? description"
       :style="{
-        width: numberToPx(width),
-        height: numberToPx(height),
+        width: valueToPx(width),
+        height: valueToPx(height),
         objectFit: fit,
       }"
       class="yc-image-img"
@@ -87,7 +87,7 @@
 <script lang="ts" setup>
 import { ref, toRefs, watch } from 'vue';
 import { ImageProps, ImageEmits, ImageSlots } from './type';
-import { useControlValue, numberToPx } from '@shared/utils';
+import { useControlValue, valueToPx } from '@shared/utils';
 import { IconImageClose } from '@shared/icons';
 import useContext from './hooks/useContext';
 import YcSpin from '@/components/Spin';

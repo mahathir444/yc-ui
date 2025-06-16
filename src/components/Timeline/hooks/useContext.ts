@@ -14,12 +14,13 @@ export const TIMELINE_CONTEXT_KEY = 'timeline-context';
 export interface TimelineContext {
   direction: Ref<Direction>;
   mode: Ref<TimelineMode>;
+  reverse: Ref<boolean>;
   labelPosition: Ref<TimelineLabelPosition>;
 }
 
 export default () => {
   const provide = (props: Props) => {
-    const { direction, labelPosition, mode: _mode } = toRefs(props);
+    const { direction, labelPosition, reverse, mode: _mode } = toRefs(props);
     // 动态计算mode
     const mode = computed(() => {
       if (direction.value == 'vertical') {
@@ -37,6 +38,7 @@ export default () => {
       direction,
       mode,
       labelPosition,
+      reverse,
     });
     return {
       direction,
@@ -48,6 +50,7 @@ export default () => {
       direction: ref('vertical'),
       mode: ref('left'),
       labelPosition: ref('same'),
+      reverse: ref(false),
     });
   };
   return {

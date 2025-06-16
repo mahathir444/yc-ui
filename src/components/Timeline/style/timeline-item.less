@@ -2,7 +2,8 @@
   position: relative;
   color: rgb(29, 33, 41);
   font-size: 14px;
-  &:not(:last-child) {
+  &:not(:last-child),
+  &.yc-timeline-item-reverse:last-child {
     .yc-timeline-item-dot-line {
       position: absolute;
       border-color: rgb(229, 230, 235);
@@ -72,7 +73,8 @@
 // direction
 .yc-timeline-item-direction-vertical {
   min-height: 78px;
-  &:not(:last-child) {
+  &:not(:last-child),
+  &.yc-timeline-item-reverse:last-child {
     .yc-timeline-item-dot-line {
       top: 18px;
       bottom: -4px;
@@ -98,7 +100,8 @@
 }
 .yc-timeline-item-direction-horizontal {
   flex: 1;
-  &:not(:last-child) {
+  &:not(:last-child),
+  &.yc-timeline-item-reverse:last-child {
     .yc-timeline-item-dot-line {
       right: 4px;
       left: 12px;
@@ -113,6 +116,14 @@
     .yc-timeline-item-dot-content {
       height: 6px;
       line-height: 6px;
+    }
+  }
+}
+// reverser
+.yc-timeline-item-reverse {
+  &:first-child {
+    .yc-timeline-item-dot-line {
+      display: none;
     }
   }
 }

@@ -1,42 +1,26 @@
 <template>
   <div class="test">
-    <yc-list
-      :maxHeight="500"
-      :virtualListProps="{
-        itemHeight: 103,
-      }"
-      :data="list"
-      @reachBottom="() => console.log('触底了')"
-    >
-      <template #item="{ item, index }">
-        <yc-list-item :key="index">
-          <yc-list-item-meta
-            :title="item.title"
-            :description="item.description"
-          >
-            <template #avatar>
-              <yc-avatar shape="square"> A </yc-avatar>
-            </template>
-          </yc-list-item-meta>
-        </yc-list-item>
-      </template>
-    </yc-list>
+    <a-timeline direction="horizontal" mode="top" reverse>
+      <a-timeline-item label="2017-03-10">The first milestone</a-timeline-item>
+      <a-timeline-item label="2018-05-12">The second milestone</a-timeline-item>
+      <a-timeline-item label="2020-09-30">The third milestone</a-timeline-item>
+    </a-timeline>
+    <yc-timeline direction="horizontal" reverse>
+      <yc-timeline-item label="2017-03-10">
+        The first milestone
+      </yc-timeline-item>
+      <yc-timeline-item label="2018-05-12">
+        The second milestone
+      </yc-timeline-item>
+      <yc-timeline-item label="2020-09-30">
+        The third milestone
+      </yc-timeline-item>
+    </yc-timeline>
   </div>
 </template>
 
 <script lang="ts" setup>
 import { ref, reactive } from 'vue';
-const list = reactive(
-  Array(10000)
-    .fill(null)
-    .map((_, index) => {
-      const prefix = `0000${index}`.slice(-5);
-      return {
-        title: 'Beijing Bytedance Technology Co., Ltd.',
-        description: `(${prefix}) Beijing ByteDance Technology Co., Ltd. is an enterprise located in China.`,
-      };
-    })
-);
 </script>
 
 <style lang="less" scoped>

@@ -6,7 +6,7 @@
     :aria-valuenow="percent"
     class="yc-progress-steps-wrapper"
   >
-    <div class="yc-progress-steps" :style="{ height: numberToPx(strokeWidth) }">
+    <div class="yc-progress-steps" :style="{ height: valueToPx(strokeWidth) }">
       <div
         v-for="(active, i) of stepList"
         :key="i"
@@ -39,7 +39,7 @@ import { computed, toRefs } from 'vue';
 import { ProgressColor } from './type';
 import { Size } from '@shared/type';
 import { TYPE_ICON_MAP, TYPE_ICON_COLOR_MAP } from '@shared/constants';
-import { numberToPx } from '@shared/utils';
+import { valueToPx } from '@shared/utils';
 const props = defineProps<{
   steps: number;
   percent: number;

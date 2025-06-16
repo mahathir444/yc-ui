@@ -3,12 +3,7 @@ import { useElementBounding, useElementSize } from '@vueuse/core';
 import { TriggerPostion } from '../type';
 import { TriggerProps } from './useContext';
 import { Props } from '@shared/type';
-import {
-  getGlobalConfig,
-  unrefElement,
-  sleep,
-  numberToPx,
-} from '@shared/utils';
+import { getGlobalConfig, unrefElement, sleep, valueToPx } from '@shared/utils';
 
 export default (params: {
   props: Props;
@@ -79,8 +74,8 @@ export default (params: {
     // 如果跟随鼠标点击位置
     if (autoSetPosition.value || isMousePosition) {
       return {
-        top: numberToPx(mouseY.value + offsetY),
-        left: numberToPx(
+        top: valueToPx(mouseY.value + offsetY),
+        left: valueToPx(
           mouseX.value -
             (autoFitPosition.value ? 0 : popupWidth.value / 2) +
             offsetX
@@ -103,8 +98,8 @@ export default (params: {
     // 如果不进行边界检测
     if (!autoFitPosition.value) {
       return {
-        top: numberToPx(offsetTop + offsetY),
-        left: numberToPx(offsetLeft + offsetX),
+        top: valueToPx(offsetTop + offsetY),
+        left: valueToPx(offsetLeft + offsetX),
         zIndex: zIndex.value,
       };
     }
@@ -137,18 +132,16 @@ export default (params: {
     const [newOffsetX, newOffsetY] = calcPopupOffset();
     // 返回最终结果
     return {
-      left: numberToPx(newLeft + newOffsetX),
-      top: numberToPx(newTop + newOffsetY),
+      left: valueToPx(newLeft + newOffsetX),
+      top: valueToPx(newTop + newOffsetY),
       zIndex: zIndex.value,
     };
   });
   // contentStyle
   const contentStyle = computed(() => {
     return {
-      width: autoFitPopupWidth.value ? numberToPx(triggerWidth.value) : '',
-      minWidth: autoFitPopupMinWidth.value
-        ? numberToPx(triggerWidth.value)
-        : '',
+      width: autoFitPopupWidth.value ? valueToPx(triggerWidth.value) : '',
+      minWidth: autoFitPopupMinWidth.value ? valueToPx(triggerWidth.value) : '',
       ..._contentStyle.value,
     } as CSSProperties;
   });
@@ -332,11 +325,11 @@ export default (params: {
       let arrowLeft = '';
       let arrowRight = '';
       if (['top', 'bottom'].includes(position)) {
-        arrowLeft = numberToPx((popupWidth - arrowWidth) / 2);
+        arrowLeft = valueToPx((popupWidth - arrowWidth) / 2);
       } else if (['tl', 'bl'].includes(position)) {
-        arrowLeft = numberToPx((triggerWidth - arrowWidth) / 2);
+        arrowLeft = valueToPx((triggerWidth - arrowWidth) / 2);
       } else {
-        arrowRight = numberToPx((triggerWidth - arrowWidth) / 2);
+        arrowRight = valueToPx((triggerWidth - arrowWidth) / 2);
       }
       inset = {
         top: position.startsWith('b') ? '0' : '',
@@ -348,11 +341,11 @@ export default (params: {
       let arrowTop = '';
       let arrowBottom = '';
       if (['left', 'right'].includes(position)) {
-        arrowTop = numberToPx((popupHeight - arrowHeight) / 2);
+        arrowTop = valueToPx((popupHeight - arrowHeight) / 2);
       } else if (['lt', 'rt'].includes(position)) {
-        arrowTop = numberToPx((triggerHeight - arrowHeight) / 2);
+        arrowTop = valueToPx((triggerHeight - arrowHeight) / 2);
       } else {
-        arrowBottom = numberToPx((triggerHeight - arrowHeight) / 2);
+        arrowBottom = valueToPx((triggerHeight - arrowHeight) / 2);
       }
       inset = {
         top: arrowTop,

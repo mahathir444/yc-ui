@@ -8,6 +8,7 @@
       {
         'yc-timeline-item-label-is-relative': labelPosition == 'relative',
         'yc-timeline-item-ghost': isGhost,
+        'yc-timeline-item-reverse': reverse,
       },
     ]"
   >
@@ -69,7 +70,7 @@ withDefaults(defineProps<TimelineItemProps>(), {
   isGhost: false,
 });
 // 注入数据
-const { direction, mode, labelPosition } = useContext().inject();
+const { direction, mode, labelPosition, reverse } = useContext().inject();
 </script>
 
 <style lang="less" scoped>

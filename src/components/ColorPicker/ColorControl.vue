@@ -14,7 +14,7 @@
       class="yc-color-picker-control-bar-handler"
       :style="{
         color,
-        transform: `translate(calc(${numberToPx(x - range.min)} - 50%),-50%)`,
+        transform: `translate(calc(${valueToPx(x - range.min)} - 50%),-50%)`,
       }"
       ref="btnRef"
     ></div>
@@ -24,7 +24,7 @@
 <script lang="ts" setup>
 import { ref, watch, toRefs } from 'vue';
 import { useDraggable } from '@vueuse/core';
-import { sleep, numberToPx } from '@shared/utils';
+import { sleep, valueToPx } from '@shared/utils';
 import { GradientColorCalculator, parseColor } from '@shared/utils';
 const props = defineProps<{
   color: string;

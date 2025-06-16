@@ -14,7 +14,7 @@
       <!-- 渲染真实列表 -->
       <yc-scrollbar
         :style="{
-          maxHeight: isVirtualList ? '' : numberToPx(maxHeight),
+          maxHeight: isVirtualList ? '' : valueToPx(maxHeight),
         }"
         :offset-bottom="bottomOffset"
         :scrollbar="scrollbar"
@@ -33,7 +33,7 @@
             :virtual-list-props="virtualListProps"
             :offset-bottom="bottomOffset"
             :style="{
-              maxHeight: numberToPx(maxHeight),
+              maxHeight: valueToPx(maxHeight),
             }"
             @reach-bottom="$emit('reach-bottom')"
             @scroll="handleScroll"
@@ -93,7 +93,7 @@
 <script lang="ts" setup>
 import { ref, toRefs, computed } from 'vue';
 import { ListProps, ListEmits, ListSlots } from './type';
-import { getGlobalConfig, useControlValue, numberToPx } from '@shared/utils';
+import { getGlobalConfig, useControlValue, valueToPx } from '@shared/utils';
 import YcSpin from '@/components/Spin';
 import YcEmpty from '@/components/Empty';
 import YcScrollbar from '@/components/Scrollbar';

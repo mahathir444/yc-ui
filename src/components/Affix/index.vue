@@ -3,8 +3,8 @@
     <div
       v-if="isFixed"
       :style="{
-        width: numberToPx(width),
-        height: numberToPx(height),
+        width: valueToPx(width),
+        height: valueToPx(height),
       }"
     ></div>
     <div
@@ -38,7 +38,7 @@ import {
   findFirstScrollableParent,
   getElement,
   throttleByRaf,
-  numberToPx,
+  valueToPx,
 } from '@shared/utils';
 defineOptions({
   name: 'Affix',
@@ -112,8 +112,8 @@ const handleScroll = throttleByRaf(() => {
     : targetBottom - wrapperBottom <= offsetBottom.value;
   if (isFixed.value) {
     style.value = isUndefined(offsetBottom.value)
-      ? { position: 'fixed', top: numberToPx(targetTop + offsetTop.value) }
-      : { position: 'fixed', bottom: numberToPx(offsetBottom.value) };
+      ? { position: 'fixed', top: valueToPx(targetTop + offsetTop.value) }
+      : { position: 'fixed', bottom: valueToPx(offsetBottom.value) };
   } else {
     style.value = {};
   }
