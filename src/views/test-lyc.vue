@@ -1,24 +1,18 @@
 <template>
   <div class="test">
     <div style="width: 800px">
-      <a-tabs>
-        <a-tab-pane
-          v-for="(item, index) of data"
-          :key="item.key"
-          :title="item.title"
-          :closable="index % 2 == 0"
-        >
+      <a-tabs editable show-add-button>
+        <a-tab-pane v-for="item of data" :key="item.key" :title="item.title">
           {{ item?.content }}
         </a-tab-pane>
       </a-tabs>
     </div>
-    <yc-tabs default-active-key="19">
+    <yc-tabs editable :default-active-key="15">
       <yc-tab-pane
-        v-for="(item, index) of data"
+        v-for="item of data"
         :key="item.key"
         :path="item.key"
         :title="item.title"
-        :closable="index !== 2"
       >
         {{ item?.content }}
       </yc-tab-pane>

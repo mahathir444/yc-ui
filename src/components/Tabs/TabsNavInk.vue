@@ -18,11 +18,14 @@ const { titleRefs, listRef, direction, editable } = useContext().inject();
 const sliderStyle = computed(() => {
   // 当前的pane
   const curPane = panes.value[curIndex.value];
-  const isClosable =
-    editable.value && (isUndefined(curPane.closable) || curPane.closable);
-  const closeWidth = isClosable ? 22 : 0;
+  // 计算关闭图标的宽度
+  const closeWidth =
+    editable.value && (isUndefined(curPane.closable) || curPane.closable)
+      ? 22
+      : 0;
   // 当前的title
   const titleRef = titleRefs.value[curIndex.value];
+  // 获取坐标信息
   const { left, top } = listRef.value?.getBoundingClientRect?.() ?? {
     left: 0,
     top: 0,

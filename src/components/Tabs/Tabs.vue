@@ -19,9 +19,14 @@
     <div class="yc-tabs-nav">
       <div class="yc-tabs-nav-tab">
         <!-- pre -->
-        <tab-button v-if="isScroll" @click="handleScroll('pre')">
+        <tab-button
+          v-if="isScroll"
+          :disabled="!curScrollIndex"
+          @click="handleScroll('pre')"
+        >
           <icon-arrow-right :rotate="180" />
         </tab-button>
+        <!-- list -->
         <div class="yc-tabs-nav-tab-list" ref="listRef">
           <tabs-tab
             v-for="(item, i) in panes"
@@ -37,7 +42,11 @@
           />
         </div>
         <!-- next -->
-        <tab-button v-if="isScroll" @click="handleScroll('next')">
+        <tab-button
+          v-if="isScroll"
+          :disabled="curScrollIndex == panes.length - 1"
+          @click="handleScroll('next')"
+        >
           <icon-arrow-right />
         </tab-button>
       </div>
@@ -46,7 +55,7 @@
         <!-- 新增按钮 -->
         <tab-button
           v-if="showAddButton"
-          class="yc-tabs-tab-add-btn"
+          class="yc-tabs-nav-add-btn"
           @click="handleAdd"
         >
           <icon-plus />
@@ -105,8 +114,15 @@ const emits = defineEmits<TabsEmits>();
 // tablist
 const listRef = ref<HTMLDivElement>();
 // 注入
-const { computedActiveKey, size, direction, autoSwitch, position, tabRefs } =
-  useContext().provide(props, emits, listRef);
+const {
+  computedActiveKey,
+  size,
+  direction,
+  autoSwitch,
+  position,
+  tabRefs,
+  curScrollIndex,
+} = useContext().provide(props, emits, listRef);
 // 获取tabPane的数据
 const slots = useSlots();
 // tabPanes
@@ -142,6 +158,7 @@ const curIndex = computed(() => {
 const isScroll = ref<boolean>(false);
 // 检测List的宽度
 const { stop } = useResizeObserver(listRef, () => calcScrollable());
+// 卸载时停止监听
 onBeforeUnmount(() => {
   stop();
 });
@@ -162,18 +179,52 @@ const calcScrollable = () => {
 };
 // 处理滚动
 const handleScroll = (type: 'pre' | 'next') => {
-  const { left, right } = listRef.value!.getBoundingClientRect();
-  const tabs = type == 'pre' ? tabRefs.value.reverse() : tabRefs.value;
-  const scrollTab = tabs.find((tab) => {
-    const { left: _left, right: _right } = tab.getBoundingClientRect();
-    return type == 'pre' ? _right <= left : right <= _left;
-  });
-  if (!scrollTab) return;
-  scrollTab.scrollIntoView({
-    behavior: 'smooth',
-    block: 'center',
-    inline: 'nearest',
-  });
+  if (
+    (type == 'pre' && !curScrollIndex.value) ||
+    (type == 'next' && curScrollIndex.value == tabRefs.value.length - 1)
+  ) {
+    return;
+  }
+  const { left, right, top, bottom } = listRef.value!.getBoundingClientRect();
+  if (direction.value == 'horizontal') {
+    // 查找第一个可滚动的tab
+    curScrollIndex.value = (
+      type == 'pre' ? tabRefs.value.reverse() : tabRefs.value
+    ).findIndex((tab) => {
+      const { left: _left, right: _right } = tab.getBoundingClientRect();
+      if (type == 'pre') {
+        return _right <= left || _left < left;
+      } else {
+        return right <= _left || right < _right;
+      }
+    });
+    if (curScrollIndex.value == -1) {
+      return;
+    }
+    tabRefs.value[curScrollIndex.value].scrollIntoView({
+      behavior: 'smooth',
+      inline: 'nearest',
+    });
+  } else {
+    // 查找第一个可滚动的tab
+    curScrollIndex.value = (
+      type == 'pre' ? tabRefs.value.reverse() : tabRefs.value
+    ).findIndex((tab) => {
+      const { top: _top, bottom: _bottom } = tab.getBoundingClientRect();
+      if (type == 'pre') {
+        return _bottom <= top || _top < top;
+      } else {
+        return bottom <= _top || _bottom < bottom;
+      }
+    });
+    if (curScrollIndex.value == -1) {
+      return;
+    }
+    tabRefs.value[curScrollIndex.value].scrollIntoView({
+      behavior: 'smooth',
+      block: 'nearest',
+    });
+  }
 };
 // 处理新增
 const handleAdd = async () => {

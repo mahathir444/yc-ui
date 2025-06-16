@@ -39,7 +39,7 @@
 </template>
 
 <script lang="ts" setup>
-import { onMounted } from 'vue';
+import { toRefs, onMounted } from 'vue';
 import { default as useContext, PaneNode } from './hooks/useContext';
 import { isUndefined } from '@shared/utils';
 import TabButton from './TabButton.vue';
@@ -47,6 +47,7 @@ const props = defineProps<{
   node: PaneNode;
   index: number;
 }>();
+const { node, index } = toRefs(props);
 // 接收注入
 const {
   computedActiveKey,
@@ -59,6 +60,7 @@ const {
   position,
   headerPadding,
   size,
+  curScrollIndex,
   emits,
 } = useContext().inject();
 // 渲染title
@@ -86,12 +88,17 @@ const handleDel = async (node: PaneNode) => {
 };
 // 自动滚动
 onMounted(() => {
-  if (computedActiveKey.value != props.node.path) return;
-  titleRefs.value[props.index].scrollIntoView({
+  if (computedActiveKey.value != node.value.path) {
+    if (computedActiveKey.value || index.value) return;
+    computedActiveKey.value = node.value.path;
+    return;
+  }
+  titleRefs.value[index.value].scrollIntoView({
     behavior: 'smooth',
+    inline: 'center',
     block: 'center',
-    inline: 'nearest',
   });
+  curScrollIndex.value = index.value;
 });
 </script>
 

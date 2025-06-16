@@ -1,5 +1,12 @@
 <template>
-  <yc-prevent-focus class="yc-icon-button">
+  <yc-prevent-focus
+    :class="[
+      'yc-icon-button',
+      {
+        'yc-icon-button-disabled': disabled,
+      },
+    ]"
+  >
     <slot>
       <icon-close :size="size" />
     </slot>
@@ -16,11 +23,13 @@ const props = withDefaults(
     size?: number;
     hoverColor?: string;
     hoverSize?: number;
+    disabled?: boolean;
   }>(),
   {
     size: 12,
     hoverColor: 'rgb(242, 243, 245)',
     hoverSize: 20,
+    disabled: false,
   }
 );
 const { hoverSize: _hoverSize } = toRefs(props);
@@ -37,7 +46,7 @@ const hoverSize = computed(() => valueToPx(_hoverSize.value));
   justify-content: center;
   align-items: center;
 
-  &:hover::before {
+  &:not(.yc-icon-button-disabled):hover::before {
     background-color: v-bind(hoverColor);
   }
   &::before {
@@ -55,5 +64,9 @@ const hoverSize = computed(() => valueToPx(_hoverSize.value));
   &:deep(.yc-icon) {
     z-index: 1;
   }
+}
+
+.yc-icon-button-disabled {
+  color: rgb(201, 205, 212);
 }
 </style>
