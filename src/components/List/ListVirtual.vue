@@ -1,7 +1,12 @@
 <template>
-  <!-- @scroll="isReach" -->
-  <div class="yc-virtual-list" v-bind="containerProps">
-    <div class="yc-list-content" v-bind="wrapperProps">
+  <div class="yc-virtual-list" @scroll="isReach" v-bind="containerProps">
+    <div
+      class="yc-list-content"
+      :el="
+        (el: HTMLDivElement) => (listRef = el.parentElement as HTMLDivElement)
+      "
+      v-bind="wrapperProps"
+    >
       <!-- 虚拟列表 -->
       <template v-for="{ data, index: i } in list" :key="i">
         <slot name="item" :index="i" :item="data" />
@@ -34,25 +39,25 @@ const { list, containerProps, wrapperProps } = useVirtualList(data, {
   overscan: virtualListProps.value?.buffer || 10,
 });
 // 处理触底逻辑
-// const { isReach } = useScrollReach({
-//   offsetBottom,
-//   offsetRight: ref(0),
-//   scrolCb: (params) => {
-//     const { isBottomReached } = params;
-//     emits('scroll', isBottomReached);
-//   },
-//   reachBottomCb: () => emits('reachBottom'),
-// });
+const { isReach } = useScrollReach({
+  offsetBottom,
+  offsetRight: ref(0),
+  scrolCb: (params) => {
+    const { isBottomReached } = params;
+    emits('scroll', isBottomReached);
+  },
+  reachBottomCb: () => emits('reachBottom'),
+});
 
-// watch(
-//   () => data.value.length,
-//   async () => {
-//     await nextTick();
-//     isReach({
-//       e: listRef.value as HTMLDivElement,
-//     } as unknown as Event);
-//   }
-// );
+watch(
+  () => data.value.length,
+  async () => {
+    await nextTick();
+    isReach({
+      e: listRef.value as HTMLDivElement,
+    } as unknown as Event);
+  }
+);
 </script>
 
 <style lang="less">

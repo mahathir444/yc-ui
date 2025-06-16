@@ -1,22 +1,26 @@
 <template>
   <div class="test">
-    <a-list
+    <yc-list
+      :maxHeight="500"
       :virtualListProps="{
-        height: 500,
+        itemHeight: 103,
       }"
       :data="list"
       @reachBottom="() => console.log('触底了')"
     >
       <template #item="{ item, index }">
-        <a-list-item :key="index">
-          <a-list-item-meta :title="item.title" :description="item.description">
+        <yc-list-item :key="index">
+          <yc-list-item-meta
+            :title="item.title"
+            :description="item.description"
+          >
             <template #avatar>
-              <a-avatar shape="square"> A </a-avatar>
+              <yc-avatar shape="square"> A </yc-avatar>
             </template>
-          </a-list-item-meta>
-        </a-list-item>
+          </yc-list-item-meta>
+        </yc-list-item>
       </template>
-    </a-list>
+    </yc-list>
   </div>
 </template>
 
