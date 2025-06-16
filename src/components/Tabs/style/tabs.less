@@ -16,8 +16,9 @@
         margin-left: 10px;
       }
       .yc-tabs-nav-tab-list {
-        overflow: auto;
         position: relative;
+        overflow: hidden;
+        // overflow: auto;
         transition: transform 0.2s cubic-bezier(0.34, 0.69, 0.1, 1);
         display: flex;
         align-items: center;
@@ -32,6 +33,7 @@
       }
     }
     .yc-tabs-nav-extra {
+      flex-shrink: 0;
       height: 100%;
       display: flex;
       align-items: center;
@@ -61,7 +63,7 @@
   .yc-tabs-nav {
     width: 100%;
     .yc-tabs-nav-tab {
-      flex: 1;
+      // flex: 1;
       display: flex;
       .yc-tabs-nav-tab-list {
         flex: 1;

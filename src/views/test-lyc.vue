@@ -7,7 +7,7 @@
         </a-tab-pane>
       </a-tabs>
     </div>
-    <yc-tabs editable :default-active-key="15">
+    <yc-tabs editable show-add-button>
       <yc-tab-pane
         v-for="item of data"
         :key="item.key"
@@ -23,7 +23,7 @@
 <script lang="ts" setup>
 import { ref, reactive } from 'vue';
 const data = ref(
-  new Array(20).fill(0).map((_, i) => {
+  new Array(15).fill(0).map((_, i) => {
     return {
       key: `${i}`,
       title: `tab ${i}`,

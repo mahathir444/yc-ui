@@ -17,7 +17,14 @@
     ]"
   >
     <div class="yc-tabs-nav">
-      <div class="yc-tabs-nav-tab">
+      <div
+        class="yc-tabs-nav-tab"
+        :style="{
+          maxWidth:
+            direction == 'horizontal' && maxDis ? valueToPx(maxDis) : '',
+          maxHeight: direction == 'vertical' && maxDis ? valueToPx(maxDis) : '',
+        }"
+      >
         <!-- pre -->
         <tab-button
           v-if="isScroll"
@@ -27,7 +34,13 @@
           <icon-arrow-right :rotate="180" />
         </tab-button>
         <!-- list -->
-        <div class="yc-tabs-nav-tab-list" ref="listRef">
+        <div
+          class="yc-tabs-nav-tab-list"
+          :style="{
+            transform,
+          }"
+          ref="listRef"
+        >
           <tabs-tab
             v-for="(item, i) in panes"
             :key="i"
@@ -79,7 +92,7 @@
 <script lang="ts" setup>
 import { ref, watch, computed, nextTick, onBeforeUnmount, useSlots } from 'vue';
 import { TabsProps, TabsEmits, TabsSlots } from './type';
-import { sleep, findComponentsFromVnodes } from '@shared/utils';
+import { sleep, findComponentsFromVnodes, valueToPx } from '@shared/utils';
 import useContext from './hooks/useContext';
 import { IconPlus, IconArrowRight } from '@shared/icons';
 import { useResizeObserver } from '@vueuse/core';
@@ -156,6 +169,10 @@ const curIndex = computed(() => {
 });
 // 是否可滚动
 const isScroll = ref<boolean>(false);
+// 最大的dis
+const maxDis = ref(0);
+//
+const transform = ref('');
 // 检测List的宽度
 const { stop } = useResizeObserver(listRef, () => calcScrollable());
 // 卸载时停止监听
@@ -171,11 +188,22 @@ watch(
 );
 // 计算是否可滚动
 const calcScrollable = () => {
-  const { scrollWidth, offsetWidth, scrollHeight, offsetHeight } =
-    listRef.value!;
+  const {
+    scrollWidth,
+    offsetWidth,
+    scrollHeight,
+    offsetHeight,
+    parentElement,
+  } = listRef.value!;
   isScroll.value =
     (direction.value == 'horizontal' && scrollWidth > offsetWidth) ||
     (direction.value == 'vertical' && scrollHeight > offsetHeight);
+  const container = parentElement!.parentElement!;
+  const extra = (container?.children[1] as HTMLDivElement)!;
+  maxDis.value =
+    direction.value == 'horizontal'
+      ? container?.offsetWidth - extra.offsetWidth
+      : container?.offsetHeight - extra.offsetHeight;
 };
 // 处理滚动
 const handleScroll = (type: 'pre' | 'next') => {
@@ -186,30 +214,19 @@ const handleScroll = (type: 'pre' | 'next') => {
     return;
   }
   const { left, right, top, bottom } = listRef.value!.getBoundingClientRect();
+  const tabs = type == 'pre' ? tabRefs.value.reverse() : tabRefs.value;
+  // 查找第一个可滚动的tab
   if (direction.value == 'horizontal') {
-    // 查找第一个可滚动的tab
-    curScrollIndex.value = (
-      type == 'pre' ? tabRefs.value.reverse() : tabRefs.value
-    ).findIndex((tab) => {
+    curScrollIndex.value = tabs.findIndex((tab) => {
       const { left: _left, right: _right } = tab.getBoundingClientRect();
       if (type == 'pre') {
-        return _right <= left || _left < left;
+        return _right <= left;
       } else {
-        return right <= _left || right < _right;
+        return right <= _left;
       }
     });
-    if (curScrollIndex.value == -1) {
-      return;
-    }
-    tabRefs.value[curScrollIndex.value].scrollIntoView({
-      behavior: 'smooth',
-      inline: 'nearest',
-    });
   } else {
-    // 查找第一个可滚动的tab
-    curScrollIndex.value = (
-      type == 'pre' ? tabRefs.value.reverse() : tabRefs.value
-    ).findIndex((tab) => {
+    curScrollIndex.value = tabs.findIndex((tab) => {
       const { top: _top, bottom: _bottom } = tab.getBoundingClientRect();
       if (type == 'pre') {
         return _bottom <= top || _top < top;
@@ -217,14 +234,25 @@ const handleScroll = (type: 'pre' | 'next') => {
         return bottom <= _top || _bottom < bottom;
       }
     });
-    if (curScrollIndex.value == -1) {
-      return;
-    }
-    tabRefs.value[curScrollIndex.value].scrollIntoView({
-      behavior: 'smooth',
-      block: 'nearest',
-    });
   }
+  if (curScrollIndex.value == -1) {
+    return;
+  }
+  // transform.value = `translateX(${ - left}px)`;
+  // const scrollOptions: ScrollIntoViewOptions = {
+  //   behavior: 'smooth',
+  // };
+  // if (curScrollIndex.value == 1) {
+  //   scrollOptions.inline = 'start';
+  //   scrollOptions.block = 'start';
+  // } else if (curScrollIndex.value == tabRefs.value.length - 1) {
+  //   scrollOptions.inline = 'end';
+  //   scrollOptions.block = 'end';
+  // } else {
+  //   scrollOptions.inline = 'nearest';
+  //   scrollOptions.block = 'nearest';
+  // }
+  // tabRefs.value[curScrollIndex.value].scrollIntoView(scrollOptions);
 };
 // 处理新增
 const handleAdd = async () => {
