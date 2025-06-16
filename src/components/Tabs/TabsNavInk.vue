@@ -23,19 +23,33 @@ const sliderStyle = computed(() => {
   const closeWidth = isClosable ? 22 : 0;
   // 当前的title
   const titleRef = titleRefs.value[curIndex.value];
+  const { left, top } = listRef.value?.getBoundingClientRect?.() ?? {
+    left: 0,
+    top: 0,
+  };
+  const { scrollLeft, scrollTop } = listRef.value ?? {
+    scrollLeft: 0,
+    scrollTop: 0,
+  };
+  const { left: curLeft, top: curTop } =
+    titleRef?.getBoundingClientRect?.() ?? {
+      left: 0,
+      top: 0,
+    };
+  const { offsetHeight, offsetWidth } = titleRef ?? {
+    offsetHeight: 0,
+    offsetWidth: 0,
+  };
   // 分方向计算
   if (direction.value == 'horizontal') {
-    const titleLeft = titleRef?.getBoundingClientRect?.()?.left ?? 0;
-    const listLeft = listRef.value?.getBoundingClientRect?.()?.left ?? 0;
     return {
-      width: valueToPx(titleRef?.offsetWidth + closeWidth),
-      left: valueToPx(titleLeft - listLeft),
+      width: valueToPx(offsetWidth + closeWidth),
+      left: valueToPx(curLeft - left + scrollLeft),
     };
   } else {
-    const titleTop = titleRef?.getBoundingClientRect?.()?.top || 0;
     return {
-      height: valueToPx(titleRef?.offsetHeight),
-      top: valueToPx(titleTop),
+      height: valueToPx(offsetHeight),
+      top: valueToPx(curTop - top + scrollTop),
     };
   }
 });
