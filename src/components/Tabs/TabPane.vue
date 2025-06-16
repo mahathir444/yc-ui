@@ -22,7 +22,7 @@ const props = withDefaults(defineProps<TabPaneProps>(), {
   title: '',
   path: '',
   disabled: false,
-  closable: false,
+  closable: undefined,
   destoryOnHide: undefined,
 });
 // 接收注入

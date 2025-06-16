@@ -30,7 +30,11 @@
             :node="item"
           />
           <!-- ink -->
-          <tabs-nav-ink v-if="type == 'line'" :cur-index="curIndex" />
+          <tabs-nav-ink
+            v-if="type == 'line'"
+            :cur-index="curIndex"
+            :panes="panes"
+          />
         </div>
         <!-- next -->
         <tab-button v-if="isScroll" @click="handleScroll('next')">
@@ -101,15 +105,8 @@ const emits = defineEmits<TabsEmits>();
 // tablist
 const listRef = ref<HTMLDivElement>();
 // 注入
-const {
-  computedActiveKey,
-  size,
-  direction,
-  autoSwitch,
-  position,
-  scrollPosition,
-  tabRefs,
-} = useContext().provide(props, emits, listRef);
+const { computedActiveKey, size, direction, autoSwitch, position, tabRefs } =
+  useContext().provide(props, emits, listRef);
 // 获取tabPane的数据
 const slots = useSlots();
 // tabPanes
@@ -123,8 +120,6 @@ const panes = computed(() => {
       title: '',
       path: '',
       disabled: false,
-      closable: false,
-      destoryOnHide: undefined,
       ...(item.props || {}),
       slots: item.children,
     };
@@ -147,6 +142,9 @@ const curIndex = computed(() => {
 const isScroll = ref<boolean>(false);
 // 检测List的宽度
 const { stop } = useResizeObserver(listRef, () => calcScrollable());
+onBeforeUnmount(() => {
+  stop();
+});
 watch(
   () => panes.value.length,
   async () => {
@@ -173,8 +171,8 @@ const handleScroll = (type: 'pre' | 'next') => {
   if (!scrollTab) return;
   scrollTab.scrollIntoView({
     behavior: 'smooth',
-    inline: direction.value == 'horizontal' ? scrollPosition?.value : undefined,
-    block: direction.value == 'vertical' ? scrollPosition?.value : undefined,
+    block: 'center',
+    inline: 'nearest',
   });
 };
 // 处理新增
@@ -184,9 +182,6 @@ const handleAdd = async () => {
   await nextTick();
   computedActiveKey.value = panes.value[panes.value.length - 1].path;
 };
-onBeforeUnmount(() => {
-  stop();
-});
 </script>
 
 <style lang="less" scoped>

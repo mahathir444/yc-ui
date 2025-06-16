@@ -20,6 +20,7 @@
     @mouseenter="handleChange(node, 'hover')"
     @click="handleChange(node, 'click')"
   >
+    <!-- title -->
     <span
       class="yc-tabs-tab-title"
       :ref="(el) => (titleRefs[index] = el as HTMLSpanElement)"
@@ -28,10 +29,9 @@
     </span>
     <!-- 删除按钮 -->
     <tab-button
-      v-if="
-        (editable || node.closable) &&
-        ['line', 'card', 'card-gutter'].includes(type)
-      "
+      v-if="editable && (isUndefined(node.closable) || node.closable)"
+      :class-name="false"
+      :size="14"
       class="yc-tabs-tab-close-btn"
       @click="handleDel(node)"
     />
@@ -39,9 +39,11 @@
 </template>
 
 <script lang="ts" setup>
+import { onMounted } from 'vue';
 import { default as useContext, PaneNode } from './hooks/useContext';
+import { isUndefined } from '@shared/utils';
 import TabButton from './TabButton.vue';
-defineProps<{
+const props = defineProps<{
   node: PaneNode;
   index: number;
 }>();
@@ -82,6 +84,15 @@ const handleChange = (node: PaneNode, triggerType: string) => {
 const handleDel = async (node: PaneNode) => {
   emits('delete', node.path);
 };
+// 自动滚动
+onMounted(() => {
+  if (computedActiveKey.value != props.node.path) return;
+  titleRefs.value[props.index].scrollIntoView({
+    behavior: 'smooth',
+    block: 'center',
+    inline: 'nearest',
+  });
+});
 </script>
 
 <style lang="less" scoped>
