@@ -8,17 +8,21 @@
     overflow: hidden;
     display: flex;
     align-items: center;
-
+    .yc-tabs-nav-button {
+      margin-right: 6px;
+      margin-left: 10px;
+    }
+    .yc-tabs-nav-add-btn {
+      padding: 0 8px;
+    }
     .yc-tabs-nav-tab {
-      &:deep(.yc-tabs-nav-button) {
-        flex-shrink: 0;
-        margin-right: 6px;
-        margin-left: 10px;
+      &.yc-tabs-nav-tab-scroll {
+        flex: 1;
+        overflow: hidden;
       }
       .yc-tabs-nav-tab-list {
         position: relative;
         overflow: hidden;
-        // overflow: auto;
         transition: transform 0.2s cubic-bezier(0.34, 0.69, 0.1, 1);
         display: flex;
         align-items: center;
@@ -33,14 +37,9 @@
       }
     }
     .yc-tabs-nav-extra {
-      flex-shrink: 0;
       height: 100%;
       display: flex;
       align-items: center;
-      .yc-tabs-nav-add-btn {
-        padding: 0 8px;
-        font-size: 12px;
-      }
     }
   }
   .yc-tabs-content {
@@ -63,10 +62,8 @@
   .yc-tabs-nav {
     width: 100%;
     .yc-tabs-nav-tab {
-      // flex: 1;
-      display: flex;
       .yc-tabs-nav-tab-list {
-        flex: 1;
+        // flex: 1;
         .yc-tabs-nav-ink {
           bottom: 0;
           height: 2px;
@@ -112,9 +109,6 @@
       }
     }
   }
-  .yc-tabs-content {
-    flex: 1;
-  }
   &:not(.yc-tabs-type-card):not(.yc-tabs-type-card-gutter) {
     .yc-tabs-nav {
       .yc-tabs-nav-tab {
@@ -125,6 +119,7 @@
     }
   }
   .yc-tabs-content {
+    flex: 1;
     padding-left: 16px;
     height: 100%;
     .yc-tabs-content-list {

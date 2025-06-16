@@ -17,27 +17,27 @@
     ]"
   >
     <div class="yc-tabs-nav">
-      <div
-        class="yc-tabs-nav-tab"
-        :style="{
-          maxWidth:
-            direction == 'horizontal' && maxDis ? valueToPx(maxDis) : '',
-          maxHeight: direction == 'vertical' && maxDis ? valueToPx(maxDis) : '',
-        }"
+      <!-- pre -->
+      <tab-button
+        v-if="isScroll"
+        :disabled="!curScrollIndex"
+        @click="handleScroll('pre')"
       >
-        <!-- pre -->
-        <tab-button
-          v-if="isScroll"
-          :disabled="!curScrollIndex"
-          @click="handleScroll('pre')"
-        >
-          <icon-arrow-right :rotate="180" />
-        </tab-button>
-        <!-- list -->
+        <icon-arrow-right :rotate="180" />
+      </tab-button>
+      <!-- list -->
+      <div
+        :class="[
+          'yc-tabs-nav-tab',
+          {
+            'yc-tabs-nav-tab-scroll': isScroll,
+          },
+        ]"
+      >
         <div
           class="yc-tabs-nav-tab-list"
           :style="{
-            transform,
+            transform: `translateX(${valueToPx(moveDis)})`,
           }"
           ref="listRef"
         >
@@ -54,28 +54,30 @@
             :panes="panes"
           />
         </div>
-        <!-- next -->
-        <tab-button
-          v-if="isScroll"
-          :disabled="curScrollIndex == panes.length - 1"
-          @click="handleScroll('next')"
-        >
-          <icon-arrow-right />
-        </tab-button>
       </div>
+      <!-- next -->
+      <tab-button
+        v-if="isScroll"
+        :disabled="curScrollIndex == panes.length - 1"
+        @click="handleScroll('next')"
+      >
+        <icon-arrow-right />
+      </tab-button>
+      <!-- 新增按钮 -->
+      <tab-button
+        v-if="showAddButton"
+        :class-name="false"
+        class="yc-tabs-nav-add-btn"
+        @click="handleAdd"
+      >
+        <icon-plus />
+      </tab-button>
       <!-- extra -->
-      <div v-if="$slots.extra || showAddButton" class="yc-tabs-nav-extra">
-        <!-- 新增按钮 -->
-        <tab-button
-          v-if="showAddButton"
-          class="yc-tabs-nav-add-btn"
-          @click="handleAdd"
-        >
-          <icon-plus />
-        </tab-button>
+      <div v-if="$slots.extra" class="yc-tabs-nav-extra">
         <slot name="extra" />
       </div>
     </div>
+    <!-- content -->
     <div v-if="!hideContent" class="yc-tabs-content">
       <div
         class="yc-tabs-content-list"
@@ -171,8 +173,8 @@ const curIndex = computed(() => {
 const isScroll = ref<boolean>(false);
 // 最大的dis
 const maxDis = ref(0);
-//
-const transform = ref('');
+// 移动的距离
+const moveDis = ref(0);
 // 检测List的宽度
 const { stop } = useResizeObserver(listRef, () => calcScrollable());
 // 卸载时停止监听
@@ -188,22 +190,11 @@ watch(
 );
 // 计算是否可滚动
 const calcScrollable = () => {
-  const {
-    scrollWidth,
-    offsetWidth,
-    scrollHeight,
-    offsetHeight,
-    parentElement,
-  } = listRef.value!;
+  const { scrollWidth, offsetWidth, scrollHeight, offsetHeight } =
+    listRef.value!;
   isScroll.value =
     (direction.value == 'horizontal' && scrollWidth > offsetWidth) ||
     (direction.value == 'vertical' && scrollHeight > offsetHeight);
-  const container = parentElement!.parentElement!;
-  const extra = (container?.children[1] as HTMLDivElement)!;
-  maxDis.value =
-    direction.value == 'horizontal'
-      ? container?.offsetWidth - extra.offsetWidth
-      : container?.offsetHeight - extra.offsetHeight;
 };
 // 处理滚动
 const handleScroll = (type: 'pre' | 'next') => {
@@ -213,46 +204,16 @@ const handleScroll = (type: 'pre' | 'next') => {
   ) {
     return;
   }
-  const { left, right, top, bottom } = listRef.value!.getBoundingClientRect();
-  const tabs = type == 'pre' ? tabRefs.value.reverse() : tabRefs.value;
-  // 查找第一个可滚动的tab
-  if (direction.value == 'horizontal') {
-    curScrollIndex.value = tabs.findIndex((tab) => {
-      const { left: _left, right: _right } = tab.getBoundingClientRect();
-      if (type == 'pre') {
-        return _right <= left;
-      } else {
-        return right <= _left;
-      }
-    });
-  } else {
-    curScrollIndex.value = tabs.findIndex((tab) => {
-      const { top: _top, bottom: _bottom } = tab.getBoundingClientRect();
-      if (type == 'pre') {
-        return _bottom <= top || _top < top;
-      } else {
-        return bottom <= _top || _bottom < bottom;
-      }
-    });
-  }
   if (curScrollIndex.value == -1) {
     return;
   }
-  // transform.value = `translateX(${ - left}px)`;
-  // const scrollOptions: ScrollIntoViewOptions = {
-  //   behavior: 'smooth',
-  // };
-  // if (curScrollIndex.value == 1) {
-  //   scrollOptions.inline = 'start';
-  //   scrollOptions.block = 'start';
-  // } else if (curScrollIndex.value == tabRefs.value.length - 1) {
-  //   scrollOptions.inline = 'end';
-  //   scrollOptions.block = 'end';
-  // } else {
-  //   scrollOptions.inline = 'nearest';
-  //   scrollOptions.block = 'nearest';
-  // }
-  // tabRefs.value[curScrollIndex.value].scrollIntoView(scrollOptions);
+  console.log(curScrollIndex);
+  const tabRef = tabRefs.value[curScrollIndex.value];
+  const width =
+    tabRef.offsetWidth + Number.parseFloat(getComputedStyle(tabRef).margin) * 2;
+  console.log(width, 'width');
+  moveDis.value =
+    type == 'next' ? moveDis.value - width : moveDis.value + width;
 };
 // 处理新增
 const handleAdd = async () => {
