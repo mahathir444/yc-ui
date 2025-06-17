@@ -1,7 +1,6 @@
 <template>
   <yc-trigger
-    :popup-visible="popupVisible"
-    :default-popup-visible="defaultPopupVisible"
+    v-model:popup-visible="computedVisible"
     :trigger="trigger"
     :position="position"
     :popup-container="popupContainer"
@@ -14,10 +13,7 @@
     animation-name="zoom-in-fade-out"
     need-transform-origin
     show-arrow
-    ref="triggerRef"
     v-bind="triggerProps"
-    @update:popup-visible="(v) => $emit('update:popupVisible', v)"
-    @popup-visible-change="(v) => $emit('popup-visible-change', v)"
   >
     <slot />
     <template #content>
@@ -34,24 +30,25 @@
 </template>
 
 <script lang="ts" setup>
-import { ref } from 'vue';
+import { toRefs } from 'vue';
 import {
   PopoverProps,
   PopoverEmits,
   PopoverSlots,
   PopoverExpose,
 } from './type';
-import { default as YcTrigger, TriggerInstance } from '@/components/Trigger';
+import { useControlValue } from '@shared/utils';
+import YcTrigger from '@/components/Trigger';
 defineOptions({
   name: 'Popover',
 });
 defineSlots<PopoverSlots>();
-withDefaults(defineProps<PopoverProps>(), {
+const props = withDefaults(defineProps<PopoverProps>(), {
   popupVisible: undefined,
   defaultPopupVisible: false,
   title: '',
   content: '',
-  trigger: 'hover',
+  trigger: 'click',
   position: 'bottom',
   contentClass: '',
   contentStyle: () => {
@@ -67,14 +64,22 @@ withDefaults(defineProps<PopoverProps>(), {
   },
 });
 const emits = defineEmits<PopoverEmits>();
-// trigger触发器
-const triggerRef = ref<TriggerInstance>();
+const { popupVisible, defaultPopupVisible } = toRefs(props);
+// 受控的visible
+const computedVisible = useControlValue<boolean>(
+  popupVisible,
+  defaultPopupVisible.value,
+  (val) => {
+    emits('update:popupVisible', val);
+    emits('popup-visible-change', val);
+  }
+);
 defineExpose<PopoverExpose>({
   show() {
-    triggerRef.value?.show();
+    computedVisible.value = true;
   },
   hide() {
-    triggerRef.value?.hide();
+    computedVisible.value = false;
   },
 });
 </script>

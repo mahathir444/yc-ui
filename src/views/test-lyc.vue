@@ -1,7 +1,18 @@
 <template>
   <div class="test">
-    <div style="width: 300px">
-      <yc-input />
+    <div style="width: 500px">
+      <a-mention
+        v-model="value"
+        :data="['Bytedance', 'Bytedesign', 'Bytenumner']"
+        type="textarea"
+        placeholder="enter something"
+      />
+      <yc-mention
+        v-model="value"
+        :data="['Bytedance', 'Bytedesign', 'Bytenumner']"
+        type="textarea"
+        placeholder="enter something"
+      />
     </div>
     <!-- <div style="width: 100%">
       <a-tabs editable show-add-button>
@@ -34,7 +45,7 @@ const data = ref(
     };
   })
 );
-const value = ref('123');
+const value = ref('');
 </script>
 
 <style lang="less" scoped>

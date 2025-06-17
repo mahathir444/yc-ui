@@ -1,8 +1,7 @@
 <template>
   <!-- input模式 -->
   <yc-auto-complete
-    :model-value="modelValue"
-    :default-value="defaultValue"
+    v-model="computedValue"
     :popupVisible="popupVisible"
     :data="data"
     :disabled="disabled"
@@ -17,7 +16,6 @@
     class="yc-mention"
     ref="autoCompleteRef"
     v-bind="$attrs"
-    @update:model-value="(v) => (computedValue = v)"
     @input="(v, ev) => handleEvent('input', ev, v)"
     @change="(v) => $emit('change', v as string)"
     @search="(v) => $emit('search', v)"
@@ -134,7 +132,7 @@ const handleEvent = async (
         emits('input', value, ev as Event);
         await nextTick();
         const cursor = getCursor();
-        if (isNull(cursor)) return;
+        if (isNull(cursor) || !data.value.length) return;
         popupVisible.value = isMatchPrefix(value[cursor - 1]);
         if (!popupVisible.value || mentionType.value != 'textarea') return;
         setPopPosition(cursor);

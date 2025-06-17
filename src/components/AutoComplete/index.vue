@@ -140,7 +140,8 @@ const handleEvent = async (
           curOptions.value = data.value.filter((v) => {
             const option = isObject(v) ? v : { label: v, value: v };
             return (
-              filterOption?.(value, option) ?? defaultFilter(value, option)
+              (filterOption as Function)?.(value, option) ??
+              defaultFilter(value, option)
             );
           });
         } else {

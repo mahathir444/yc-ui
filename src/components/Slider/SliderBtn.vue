@@ -1,13 +1,12 @@
 <template>
   <!-- start -->
   <yc-tooltip
-    :popup-visible="popupVisible || isDragging"
+    v-model:popup-visible="computedVisible"
     :disabled="!showTooltip"
     :position="direction == 'vertical' ? 'right' : 'bottom'"
     :content="
       formatTooltip ? formatTooltip(computedValue) : String(computedValue)
     "
-    @update:popup-visible="(v) => (popupVisible = v)"
   >
     <div
       class="yc-slider-btn"
@@ -24,6 +23,7 @@ import { ref, computed, watch, toRefs } from 'vue';
 import useContext from './hooks/useContext';
 import useSliderDraggable, { PositionData } from './hooks/useSliderDraggable';
 import YcTooltip from '@/components/Tooltip';
+import { useControlValue } from '@shared/utils';
 const props = defineProps<{
   type: 'start' | 'end';
   position: PositionData;
@@ -32,8 +32,6 @@ const emits = defineEmits<{
   (e: 'update:position', value: PositionData): void;
 }>();
 const { type } = toRefs(props);
-// 可见性
-const popupVisible = ref<boolean>(false);
 // 触发dom
 const triggerRef = ref<HTMLDivElement>();
 // 解构父级属性通用
@@ -77,6 +75,15 @@ const { position, isDragging } = useSliderDraggable({
   denormalizeValue,
   normalizeValue,
 });
+// 可见性
+const computedVisible = useControlValue(
+  ref(),
+  false,
+  () => {},
+  (val) => {
+    return isDragging.value || val;
+  }
+);
 // 检测位置改变传递
 watch(position, () => {
   emits('update:position', position);

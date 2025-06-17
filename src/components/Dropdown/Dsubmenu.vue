@@ -1,7 +1,6 @@
 <template>
   <yc-trigger
-    :popup-visible="popupVisible"
-    :default-popup-visible="defaultPopupVisible"
+    v-model:popup-visible="computedVisible"
     :trigger="trigger"
     :position="position"
     :popup-offset="4"
@@ -15,8 +14,6 @@
     auto-fit-popup-min-width
     ref="triggerRef"
     v-bind="triggerProps"
-    @update:popup-visible="(v) => $emit('update:popupVisible', v)"
-    @popup-visible-change="(v) => $emit('popup-visible-change', v)"
   >
     <yc-doption :disabled="disabled" :theme="theme" is-submenu ref="optionRef">
       <slot />
@@ -46,7 +43,13 @@
 <script lang="ts" setup>
 import { ref, computed, toRefs, nextTick } from 'vue';
 import { IconArrowRight } from '@shared/icons';
-import { unrefElement, isUndefined, isBoolean, valueToPx } from '@shared/utils';
+import {
+  unrefElement,
+  isUndefined,
+  isBoolean,
+  valueToPx,
+  useControlValue,
+} from '@shared/utils';
 import useContext from './hooks/useContext';
 import {
   DsubmenuProps,
@@ -82,6 +85,15 @@ const {
 } = toRefs(props);
 // 接收注入
 const { theme } = useContext().inject();
+// 受控的visible
+const computedVisible = useControlValue<boolean>(
+  popupVisible,
+  defaultPopupVisible.value,
+  (val) => {
+    emits('update:popupVisible', val);
+    emits('popup-visible-change', val);
+  }
+);
 // option的实例
 const optionRef = ref();
 // 触发器实例
@@ -118,10 +130,10 @@ const handleCalcStyle = async () => {
 };
 defineExpose<DropdownExpose>({
   show() {
-    triggerRef.value?.show();
+    computedVisible.value = true;
   },
   hide() {
-    triggerRef.value?.hide();
+    computedVisible.value = false;
   },
 });
 </script>

@@ -88,8 +88,8 @@ export default (params: {
   }
   // 保持受控
   const keepControl = async () => {
-    await nextTick();
     recordCursor();
+    await nextTick();
     if (inputRef.value && computedValue.value !== inputRef.value.value) {
       inputRef.value.value = computedValue.value;
       setCursor();
