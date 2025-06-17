@@ -78,6 +78,8 @@ const computedValue = useControlValue<string>(
   defaultValue.value,
   (val) => emits('update:modelValue', val)
 );
+// 记录cursor
+const cursor = ref<number>(0);
 // 可见性
 const popupVisible = ref<boolean>(false);
 // autoCompleteRef
@@ -93,31 +95,39 @@ const prefixTexts = computed(() => {
     : data.value.map((op) => prefix.value + (op as ObjectData).value);
 });
 // 记录光标位置
-const { recordCursor, getCursor: _getCursor } = useCursor(inputRef);
-// 是否匹配前缀
-const isMatchPrefix = (ch: string) => {
-  return isArray(prefix.value) ? prefix.value.includes(ch) : prefix.value == ch;
-};
-// 获取光标
-const getCursor = () => {
+const { recordCursor, getCursor } = useCursor(inputRef);
+// 展示popup
+const showPopup = async (value: string, ev: Event) => {
+  await nextTick();
+  // 记录光标
   recordCursor();
-  const { selectionStart } = inputRef.value!;
-  const cursor = _getCursor() ?? selectionStart;
-  return cursor as number;
-};
-// 设置pop位置
-const setPopPosition = (cursor: number) => {
+  // 计算光标
+  const { selectionStart } = ev.target as HTMLInputElement;
+  cursor.value = (getCursor() ?? selectionStart) as number;
+  if (isNull(cursor) || !data.value.length) {
+    return;
+  }
+  // 处理光标匹配的字符
+  const ch = value[cursor.value - 1];
+  // 判断是否能显示
+  popupVisible.value = isArray(prefix.value)
+    ? prefix.value.includes(ch)
+    : prefix.value == ch;
+  if (!popupVisible.value || mentionType.value != 'textarea') {
+    return;
+  }
   const el = autoCompleteRef.value!.getMirrorRef();
   // 创建一个临时的范围对象
   const range = document.createRange();
   // 获取文本节点（纯文本div只有一个文本节点）
   const textNode = el!.childNodes[0];
   // 设置范围
-  range.setStart(textNode, cursor);
-  range.setEnd(textNode, cursor);
+  range.setStart(textNode, cursor.value);
+  range.setEnd(textNode, cursor.value);
   // 获取位置信息
   const { bottom: y, left: x } = range.getBoundingClientRect();
   const { bottom } = inputRef.value!.getBoundingClientRect();
+  // 设置popup的位置
   autoCompleteRef.value?.updatePosition(x, y > bottom ? bottom : y);
 };
 // 处理事件
@@ -130,36 +140,32 @@ const handleEvent = async (
     case 'input':
       {
         emits('input', value, ev as Event);
-        await nextTick();
-        const cursor = getCursor();
-        if (isNull(cursor) || !data.value.length) return;
-        popupVisible.value = isMatchPrefix(value[cursor - 1]);
-        if (!popupVisible.value || mentionType.value != 'textarea') return;
-        setPopPosition(cursor);
+        showPopup(value, ev as Event);
       }
       break;
     case 'select':
       {
-        const { selectionStart } = inputRef.value!;
-        const cursor = (getCursor() ?? selectionStart) as number;
         emits('select', value as SelectValue);
         popupVisible.value = false;
-        const needSplit = prefixTexts.value.some((prefixText) =>
-          computedValue.value.includes(prefixText)
-        );
+        const needSplit = prefixTexts.value.some((prefixText) => {
+          return computedValue.value.includes(prefixText);
+        });
         if (needSplit) {
           // 之前的值
-          const preValue = computedValue.value.slice(0, cursor - 1);
+          const preValue = computedValue.value.slice(0, cursor.value - 1);
           // 现在的值
-          const prefixCh = computedValue.value.slice(cursor - 1, cursor);
-          const curValue = computedValue.value.slice(cursor);
+          const prefixCh = computedValue.value.slice(
+            cursor.value - 1,
+            cursor.value
+          );
+          const curValue = computedValue.value.slice(cursor.value);
           computedValue.value =
             preValue + split.value + prefixCh + value + curValue;
         } else {
           computedValue.value =
-            computedValue.value.slice(0, cursor) +
+            computedValue.value.slice(0, cursor.value) +
             value +
-            computedValue.value.slice(cursor);
+            computedValue.value.slice(cursor.value);
         }
       }
       break;
@@ -179,11 +185,7 @@ const handleEvent = async (
       if (!['Backspace'].includes(e.key)) {
         return;
       }
-      const target = e.target as HTMLInputElement;
-      const cursor = getCursor();
-      popupVisible.value = isMatchPrefix(target.value[cursor - 1]);
-      if (!popupVisible.value || mentionType.value != 'textarea') return;
-      setPopPosition(cursor);
+      showPopup(value, ev as Event);
     }
   }
 };
