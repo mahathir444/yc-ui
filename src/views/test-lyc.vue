@@ -1,6 +1,9 @@
 <template>
   <div class="test">
-    <div style="width: 800px">
+    <div style="width: 300px">
+      <yc-input />
+    </div>
+    <!-- <div style="width: 100%">
       <a-tabs editable show-add-button>
         <a-tab-pane v-for="item of data" :key="item.key" :title="item.title">
           {{ item?.content }}
@@ -16,12 +19,12 @@
       >
         {{ item?.content }}
       </yc-tab-pane>
-    </yc-tabs>
+    </yc-tabs> -->
   </div>
 </template>
 
 <script lang="ts" setup>
-import { ref, reactive } from 'vue';
+import { ref, watch } from 'vue';
 const data = ref(
   new Array(15).fill(0).map((_, i) => {
     return {
@@ -31,6 +34,7 @@ const data = ref(
     };
   })
 );
+const value = ref('123');
 </script>
 
 <style lang="less" scoped>

@@ -7,5 +7,3 @@
 3. trigger边界检测过后不能重新计算恢复的问题
 4. Menu在递归组件下无法获取vnode层级的问题（后期尝试解决）
 5. tabs组件支持scrollPosition
-## 待修复问题
-1. Form组件因为useControlValue导致删除光标乱跳的文体

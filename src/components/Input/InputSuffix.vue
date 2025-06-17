@@ -29,7 +29,6 @@ defineProps<{
   curLength: number;
   maxLength?: number;
   showWordLimit: boolean;
-  computedValue: string;
   computedVisibility: boolean;
   isPassword: boolean;
   invisibleButton: boolean;

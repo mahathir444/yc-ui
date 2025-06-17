@@ -1,4 +1,4 @@
-import { computed, Ref, ref, toRefs } from 'vue';
+import { computed, Ref, ref, toRefs, nextTick } from 'vue';
 import { Props, RequiredDeep } from '@shared/type';
 import { TextareaEmits } from '@/components/Textarea';
 import { InputProps as _InputProps, InputEmits } from '@/components/Input';
@@ -87,7 +87,8 @@ export default (params: {
     return value?.length || 0;
   }
   // 保持受控
-  const keepControl = () => {
+  const keepControl = async () => {
+    await nextTick();
     recordCursor();
     if (inputRef.value && computedValue.value !== inputRef.value.value) {
       inputRef.value.value = computedValue.value;

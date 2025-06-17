@@ -171,8 +171,6 @@ const curIndex = computed(() => {
 });
 // 是否可滚动
 const isScroll = ref<boolean>(false);
-// 最大的dis
-const maxDis = ref(0);
 // 移动的距离
 const moveDis = ref(0);
 // 检测List的宽度
@@ -197,24 +195,7 @@ const calcScrollable = () => {
     (direction.value == 'vertical' && scrollHeight > offsetHeight);
 };
 // 处理滚动
-const handleScroll = (type: 'pre' | 'next') => {
-  if (
-    (type == 'pre' && !curScrollIndex.value) ||
-    (type == 'next' && curScrollIndex.value == tabRefs.value.length - 1)
-  ) {
-    return;
-  }
-  if (curScrollIndex.value == -1) {
-    return;
-  }
-  console.log(curScrollIndex);
-  const tabRef = tabRefs.value[curScrollIndex.value];
-  const width =
-    tabRef.offsetWidth + Number.parseFloat(getComputedStyle(tabRef).margin) * 2;
-  console.log(width, 'width');
-  moveDis.value =
-    type == 'next' ? moveDis.value - width : moveDis.value + width;
-};
+const handleScroll = (type: 'pre' | 'next') => {};
 // 处理新增
 const handleAdd = async () => {
   emits('add');
