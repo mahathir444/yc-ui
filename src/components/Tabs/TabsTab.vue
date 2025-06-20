@@ -30,9 +30,7 @@
     <!-- 删除按钮 -->
     <tab-button
       v-if="editable && (isUndefined(node.closable) || node.closable)"
-      :class-name="false"
-      :size="14"
-      class="yc-tabs-tab-close-btn"
+      type="close"
       @click="handleDel(node)"
     />
   </div>

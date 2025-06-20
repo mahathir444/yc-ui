@@ -1,10 +1,10 @@
 <template>
   <yc-icon-button
-    :size="12"
+    :size="14"
     :hover-size="20"
     :class="[
+      `yc-tabs-nav-${type ? `${type}-` : ''}button`,
       {
-        'yc-tabs-nav-button': className,
         [`yc-tabs-nav-button-${direction}`]: direction,
       },
     ]"
@@ -20,6 +20,7 @@ import { YcIconButton } from '@shared/components';
 withDefaults(
   defineProps<{
     className?: boolean;
+    type?: 'add' | 'close';
     direction?: 'left' | 'up' | 'right' | 'down';
   }>(),
   {
@@ -41,6 +42,13 @@ withDefaults(
   }
   &.yc-tabs-nav-button-down {
     margin-top: 10px;
+  }
+  &.yc-tabs-tab-close-btn {
+    user-select: none;
+    color: inherit;
+  }
+  &.yc-tabs-nav-add-btn {
+    padding: 0 8px;
   }
 }
 </style>

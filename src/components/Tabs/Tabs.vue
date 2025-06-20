@@ -24,7 +24,10 @@
         :direction="direction == 'horizontal' ? 'left' : 'up'"
         @click="handleScroll('pre')"
       >
-        <icon-arrow-right :rotate="direction == 'horizontal' ? 180 : -90" />
+        <icon-arrow-right
+          :rotate="direction == 'horizontal' ? 180 : -90"
+          :size="14"
+        />
       </tab-button>
       <!-- list -->
       <div
@@ -63,16 +66,14 @@
         :direction="direction == 'horizontal' ? 'right' : 'down'"
         @click="handleScroll('next')"
       >
-        <icon-arrow-right :rotate="direction == 'horizontal' ? 0 : 90" />
+        <icon-arrow-right
+          :rotate="direction == 'horizontal' ? 0 : 90"
+          :size="14"
+        />
       </tab-button>
       <!-- 新增按钮 -->
-      <tab-button
-        v-if="showAddButton"
-        :class-name="false"
-        class="yc-tabs-nav-add-btn"
-        @click="handleAdd"
-      >
-        <icon-plus />
+      <tab-button v-if="showAddButton" type="add" size="12" @click="handleAdd">
+        <icon-plus :size="12" />
       </tab-button>
       <!-- extra -->
       <div v-if="$slots.extra" class="yc-tabs-nav-extra">

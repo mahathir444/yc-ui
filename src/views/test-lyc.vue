@@ -1,6 +1,6 @@
 <template>
   <div class="test">
-    <yc-tabs type="card-gutter" style="height: 500px">
+    <yc-tabs type="card-gutter" style="height: 500px" editable show-add-button>
       <yc-tab-pane
         v-for="item of data"
         :key="item.key"
