@@ -90,11 +90,7 @@
       <div
         class="yc-tabs-content-list"
         :style="{
-          marginLeft: direction == 'horizontal' ? `${-curIndex * 100}%` : '',
-          marginTop:
-            direction == 'vertical'
-              ? `${valueToPx(-curIndex * navHeight)}`
-              : '',
+          transform: `translate${direction == 'horizontal' ? 'X' : 'Y'}(${-curIndex * 100}%)`,
         }"
       >
         <component v-for="(node, i) in tabPanes" :key="i" :is="node" />
@@ -135,7 +131,6 @@ const props = withDefaults(defineProps<TabsProps>(), {
   autoSwitch: false,
   hideContent: false,
   trigger: 'click',
-  // scrollPosition: 'nearest',
 });
 const emits = defineEmits<TabsEmits>();
 // tablist

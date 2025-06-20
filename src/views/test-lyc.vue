@@ -1,17 +1,15 @@
 <template>
   <div class="test">
-    <div style="width: 100%">
-      <yc-tabs position="left" type="card" style="height: 500px">
-        <yc-tab-pane
-          v-for="item of data"
-          :key="item.key"
-          :title="item.title"
-          :path="item.key"
-        >
-          {{ item?.content }}
-        </yc-tab-pane>
-      </yc-tabs>
-    </div>
+    <yc-tabs type="card-gutter" style="height: 500px">
+      <yc-tab-pane
+        v-for="item of data"
+        :key="item.key"
+        :title="item.title"
+        :path="item.key"
+      >
+        {{ item?.content }}
+      </yc-tab-pane>
+    </yc-tabs>
   </div>
 </template>
 
