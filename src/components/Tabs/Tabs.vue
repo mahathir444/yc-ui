@@ -21,9 +21,10 @@
       <tab-button
         v-if="isScroll"
         :disabled="!curScrollIndex"
+        :direction="direction == 'horizontal' ? 'left' : 'up'"
         @click="handleScroll('pre')"
       >
-        <icon-arrow-right :rotate="180" />
+        <icon-arrow-right :rotate="direction == 'horizontal' ? 180 : -90" />
       </tab-button>
       <!-- list -->
       <div
@@ -59,9 +60,10 @@
       <tab-button
         v-if="isScroll"
         :disabled="curScrollIndex == panes.length - 1"
+        :direction="direction == 'horizontal' ? 'right' : 'down'"
         @click="handleScroll('next')"
       >
-        <icon-arrow-right />
+        <icon-arrow-right :rotate="direction == 'horizontal' ? 180 : 90" />
       </tab-button>
       <!-- 新增按钮 -->
       <tab-button
@@ -82,7 +84,8 @@
       <div
         class="yc-tabs-content-list"
         :style="{
-          marginLeft: `${-curIndex * 100}%`,
+          marginLeft: direction == 'horizontal' ? `${-curIndex * 100}%` : '',
+          marginTop: direction == 'vertical' ? `${-curIndex * 100}%` : '',
         }"
       >
         <component v-for="(node, i) in tabPanes" :key="i" :is="node" />
@@ -190,12 +193,46 @@ watch(
 const calcScrollable = () => {
   const { scrollWidth, offsetWidth, scrollHeight, offsetHeight } =
     listRef.value!;
+  const totalHeight = tabRefs.value
+    .map((item) => item.offsetHeight)
+    .reduce((pre, cur) => pre + cur, 0);
+  const height = listRef.value!.parentElement!.offsetHeight;
+
   isScroll.value =
     (direction.value == 'horizontal' && scrollWidth > offsetWidth) ||
-    (direction.value == 'vertical' && scrollHeight > offsetHeight);
+    (direction.value == 'vertical' && totalHeight > height);
 };
 // 处理滚动
-const handleScroll = (type: 'pre' | 'next') => {};
+const handleScroll = (type: 'pre' | 'next') => {
+  if (!listRef.value || !isScroll.value) return;
+  const container = listRef.value.parentElement;
+  if (!container) return;
+  const containerWidth = container.clientWidth;
+  const listWidth = listRef.value.scrollWidth;
+  if (!tabRefs.value.length) return;
+  const scrollStep = containerWidth * 0.8;
+  let newMoveDis = moveDis.value;
+  if (type === 'next') {
+    // 向右滚动，确保不会滚动超过内容末尾
+    newMoveDis = Math.max(
+      moveDis.value - scrollStep,
+      containerWidth - listWidth
+    );
+  } else {
+    // 向左滚动，确保不会滚动超过内容开头
+    newMoveDis = Math.min(moveDis.value + scrollStep, 0);
+  }
+  // 更新当前可见的第一个标签索引
+  const tabSizes = tabRefs.value.map((tab) => ({
+    offsetLeft: (tab as HTMLElement).offsetLeft,
+  }));
+  const newScrollIndex = tabSizes.findIndex(
+    (tab) => tab.offsetLeft >= -newMoveDis
+  );
+  moveDis.value = newMoveDis;
+  curScrollIndex.value = newScrollIndex;
+  console.log(curScrollIndex.value, 'cur');
+};
 // 处理新增
 const handleAdd = async () => {
   emits('add');
