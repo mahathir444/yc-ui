@@ -1,19 +1,6 @@
 <template>
   <div class="test">
-    <div style="width: 500px">
-      <a-mention
-        v-model="value"
-        :data="['Bytedance', 'Bytedesign', 'Bytenumner']"
-        type="textarea"
-        placeholder="enter something"
-      />
-      <yc-mention
-        v-model="value"
-        :data="['Bytedance', 'Bytedesign', 'Bytenumner']"
-        type="textarea"
-        placeholder="enter something"
-      />
-    </div>
+    <div style="width: 500px"></div>
     <!-- <div style="width: 100%">
       <a-tabs editable show-add-button>
         <a-tab-pane v-for="item of data" :key="item.key" :title="item.title">

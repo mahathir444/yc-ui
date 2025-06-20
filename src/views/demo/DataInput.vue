@@ -24,7 +24,11 @@
       </yc-select>
     </div>
     <div style="width: 300px">
-      <yc-mention placeholder="mention" allow-clear />
+      <yc-mention
+        :data="['Bytedance', 'Bytedesign', 'Bytenumner']"
+        type="textarea"
+        placeholder="mention"
+      />
     </div>
     <div style="width: 300px">
       <yc-auto-complete placeholder="auto-complete" />
