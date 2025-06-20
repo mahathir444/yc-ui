@@ -1,5 +1,5 @@
 <template>
-  <yc-prevent-focus
+  <prevent-focus
     :class="[
       'yc-input-tag',
       `yc-input-tag-size-${size}`,
@@ -13,9 +13,9 @@
     @click="inputRef?.focus()"
   >
     <!-- prefix-icon -->
-    <yc-prevent-focus v-if="$slots.prefix" class="yc-input-tag-prefix">
+    <prevent-focus v-if="$slots.prefix" class="yc-input-tag-prefix">
       <slot name="prefix" />
-    </yc-prevent-focus>
+    </prevent-focus>
     <!-- mirror -->
     <div class="yc-input-tag-mirror" ref="mirrorRef">
       {{ computedInputValue || (computedValue.length ? '' : placeholder) }}
@@ -71,19 +71,19 @@
       />
     </transition-group>
     <!-- suffix-icon -->
-    <yc-prevent-focus
+    <prevent-focus
       v-if="$slots.suffix || showClearBtn"
       class="yc-input-tag-suffix"
     >
       <!-- clear-btn -->
-      <yc-icon-button
+      <icon-button
         v-if="showClearBtn"
         class="yc-input-tag-clear-button"
         @click="handleEvent('clear', $event)"
       />
       <slot name="suffix" />
-    </yc-prevent-focus>
-  </yc-prevent-focus>
+    </prevent-focus>
+  </prevent-focus>
 </template>
 
 <script lang="ts" setup>
@@ -107,7 +107,7 @@ import {
   valueToPx,
 } from '@shared/utils';
 import YcTag from '@/components/Tag';
-import { YcPreventFocus, YcIconButton } from '@shared/components';
+import { PreventFocus, IconButton } from '@shared/components';
 defineOptions({
   name: 'InputTag',
 });

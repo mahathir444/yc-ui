@@ -1,5 +1,5 @@
 <template>
-  <yc-prevent-focus
+  <prevent-focus
     :class="[
       'yc-icon-button',
       {
@@ -10,14 +10,14 @@
     <slot>
       <icon-close :size="size" />
     </slot>
-  </yc-prevent-focus>
+  </prevent-focus>
 </template>
 
 <script lang="ts" setup>
 import { toRefs, computed } from 'vue';
 import { IconClose } from '@shared/icons';
 import { valueToPx } from '@shared/utils';
-import YcPreventFocus from './PreventFocus.vue';
+import PreventFocus from './PreventFocus.vue';
 const props = withDefaults(
   defineProps<{
     size?: number;

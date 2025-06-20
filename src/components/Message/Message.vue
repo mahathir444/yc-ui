@@ -12,7 +12,7 @@
         </slot>
       </span>
       <span class="yc-message-content">{{ content }}</span>
-      <yc-icon-button
+      <icon-button
         v-if="closable"
         class="yc-message-close"
         @click="emits('close')"
@@ -26,7 +26,7 @@ import { onMounted, onUpdated, ref, computed, useSlots } from 'vue';
 import { MessageProps } from './type';
 import { useTimeoutFn } from '@vueuse/core';
 import { TYPE_ICON_MAP } from '@shared/constants';
-import { YcIconButton } from '@shared/components';
+import { IconButton } from '@shared/components';
 defineOptions({
   name: 'Message',
 });

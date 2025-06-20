@@ -47,7 +47,7 @@
                 </slot>
               </div>
               <!-- close-btn -->
-              <yc-icon-button
+              <icon-button
                 v-if="closable"
                 class="yc-modal-close-button"
                 @click="handleClose('closeBtn', $event)"
@@ -90,7 +90,7 @@ import { DrawerProps, DrawerEmits, DrawerSlots } from './type';
 import { getGlobalConfig, valueToPx } from '@shared/utils';
 import useDrawerClose from '@/components/Modal/hooks/useModalClose';
 import YcButton from '@/components/Button';
-import { YcIconButton } from '@shared/components';
+import { IconButton } from '@shared/components';
 defineOptions({
   name: 'Drawer',
   inheritAttrs: false,

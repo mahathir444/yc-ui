@@ -1,5 +1,5 @@
 <template>
-  <yc-prevent-focus
+  <prevent-focus
     tag="label"
     :prevent-focus="preventFocus"
     :class="[
@@ -21,14 +21,14 @@
     />
     <slot name="radio" :checked="checked" :disabled="computedDisabled">
       <template v-if="computedType == 'radio'">
-        <yc-icon-button
+        <icon-button
           :hover-size="24"
           :hover-color="
             checked || computedDisabled ? 'transparent' : 'rgb(242, 243, 245)'
           "
         >
           <span class="yc-radio-icon"> </span>
-        </yc-icon-button>
+        </icon-button>
         <span class="yc-radio-label text-ellipsis">
           <slot />
         </span>
@@ -37,7 +37,7 @@
         <slot />
       </span>
     </slot>
-  </yc-prevent-focus>
+  </prevent-focus>
 </template>
 
 <script lang="ts" setup>
@@ -45,7 +45,7 @@ import { toRefs, computed } from 'vue';
 import { RadioProps, RadioEmits, RadioSlots, RadioValue } from './type';
 import { useControlValue } from '@shared/utils';
 import useContext from './hooks/useContext';
-import { YcPreventFocus, YcIconButton } from '@shared/components';
+import { PreventFocus, IconButton } from '@shared/components';
 defineOptions({
   name: 'Radio',
 });

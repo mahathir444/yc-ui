@@ -1,5 +1,5 @@
 <template>
-  <yc-icon-button
+  <icon-button
     :size="14"
     :hover-size="20"
     :class="[
@@ -12,11 +12,11 @@
     v-bind="$attrs"
   >
     <slot v-if="$slots.default" />
-  </yc-icon-button>
+  </icon-button>
 </template>
 
 <script lang="ts" setup>
-import { YcIconButton } from '@shared/components';
+import { IconButton } from '@shared/components';
 withDefaults(
   defineProps<{
     className?: boolean;

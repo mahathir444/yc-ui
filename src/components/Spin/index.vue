@@ -1,5 +1,5 @@
 <template>
-  <yc-prevent-focus :prevent-focus="preventFocus" class="yc-spin">
+  <prevent-focus :prevent-focus="preventFocus" class="yc-spin">
     <!-- 定义通用模板 -->
     <define-template>
       <div
@@ -40,14 +40,14 @@
       </transition>
     </template>
     <slot />
-  </yc-prevent-focus>
+  </prevent-focus>
 </template>
 
 <script lang="ts" setup>
 import { SpinProps, SpinSlots } from './type';
 import { createReusableTemplate } from '@vueuse/core';
 import { getGlobalConfig, valueToPx } from '@shared/utils';
-import { YcPreventFocus, SlotRender } from '@shared/components';
+import { PreventFocus, SlotRender } from '@shared/components';
 defineOptions({
   name: 'Spin',
 });

@@ -43,7 +43,7 @@
       @blur="handleEvent('blur', $event)"
     ></textarea>
     <!-- wordlimit -->
-    <yc-prevent-focus
+    <prevent-focus
       v-if="showWordLimit"
       tag="span"
       class="yc-textarea-word-limit"
@@ -51,9 +51,9 @@
       {{ curLength }}
       /
       {{ maxLength }}
-    </yc-prevent-focus>
+    </prevent-focus>
     <!-- clear -->
-    <yc-icon-button
+    <icon-button
       v-if="showClearBtn"
       class="yc-textarea-clear-button"
       @click="handleEvent('clear', $event)"
@@ -66,7 +66,7 @@ import { ref, toRefs } from 'vue';
 import { TextareaProps, TextareaEmits, TextareaExpose } from './type';
 import useTextareaHeight from './hooks/useTextareaHeight';
 import useLimitedInput from '@/components/Input/hooks/useLimitedInput';
-import { YcPreventFocus, YcIconButton } from '@shared/components';
+import { PreventFocus, IconButton } from '@shared/components';
 defineOptions({
   name: 'Textarea',
 });

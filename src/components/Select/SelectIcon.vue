@@ -12,17 +12,17 @@
   </yc-spin>
   <template v-else>
     <!-- default -->
-    <yc-prevent-focus class="yc-select-suffix-icon">
+    <prevent-focus class="yc-select-suffix-icon">
       <component v-if="slots['arrow-icon']" :is="renderIcon('arrow-icon')" />
       <icon-arrow-down v-else :rotate="popupVisible ? 180 : 0" />
-    </yc-prevent-focus>
+    </prevent-focus>
     <!-- search -->
-    <yc-prevent-focus v-if="allowSearch" class="yc-select-search-icon">
+    <prevent-focus v-if="allowSearch" class="yc-select-search-icon">
       <component v-if="slots['search-icon']" :is="renderIcon('search-icon')" />
       <icon-search v-else />
-    </yc-prevent-focus>
+    </prevent-focus>
     <!-- clear -->
-    <yc-icon-button
+    <icon-button
       v-if="showClearBtn"
       class="yc-select-clear-icon"
       @click.stop="$emit('clear')"
@@ -33,7 +33,7 @@
 <script lang="ts" setup>
 import useContext from './hooks/useContext';
 import { IconArrowDown } from '@shared/icons';
-import { YcIconButton, YcPreventFocus } from '@shared/components';
+import { IconButton, PreventFocus } from '@shared/components';
 import YcSpin from '@/components/Spin';
 defineProps<{
   loading: boolean;

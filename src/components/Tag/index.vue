@@ -1,5 +1,5 @@
 <template>
-  <yc-prevent-focus
+  <prevent-focus
     tag="label"
     :prevent-focus="preventFocus"
     :class="[
@@ -33,7 +33,7 @@
       <slot />
     </span>
     <!-- close -->
-    <yc-icon-button
+    <icon-button
       v-if="closable"
       :hover-size="16"
       hover-color="rgba(255, 255, 255, 0.2)"
@@ -41,10 +41,10 @@
       @click="handleEvent('close', $event)"
     >
       <slot v-if="$slots['close-icon']" name="close-icon" />
-    </yc-icon-button>
+    </icon-button>
     <!-- loading -->
     <yc-spin v-if="loading" :size="12" class="yc-tag-loading-icon" />
-  </yc-prevent-focus>
+  </prevent-focus>
 </template>
 
 <script lang="ts" setup>
@@ -53,7 +53,7 @@ import { TagProps, TagEmits, TagSlots } from './type';
 import { TAG_PRESET_COLORS } from '@shared/constants';
 import { useControlValue, getGlobalConfig } from '@shared/utils';
 import YcSpin from '@/components/Spin';
-import { YcPreventFocus, YcIconButton } from '@shared/components';
+import { PreventFocus, IconButton } from '@shared/components';
 defineOptions({
   name: 'Tag',
 });

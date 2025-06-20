@@ -13,17 +13,17 @@
     ]"
   >
     <!-- prepend -->
-    <yc-prevent-focus v-if="$slots.prepend" class="yc-input-prepend">
+    <prevent-focus v-if="$slots.prepend" class="yc-input-prepend">
       <slot name="prepend" />
-    </yc-prevent-focus>
+    </prevent-focus>
     <!-- wrapper -->
     <div
       :class="['yc-input-wrapper', { 'yc-input-wrapper-disabled': disabled }]"
     >
       <!-- prefix-icon -->
-      <yc-prevent-focus v-if="$slots.prefix" class="yc-input-prefix">
+      <prevent-focus v-if="$slots.prefix" class="yc-input-prefix">
         <slot name="prefix" />
-      </yc-prevent-focus>
+      </prevent-focus>
       <!-- input -->
       <input
         v-show="!$slots.label || ($slots.label && showInput)"
@@ -45,15 +45,15 @@
         @keydown.enter="handleEvent('keydown', $event)"
       />
       <!-- select模式下的label -->
-      <yc-prevent-focus
+      <prevent-focus
         v-if="$slots.label"
         v-show="!showInput"
         class="yc-input text-ellipsis"
       >
         <slot name="label" />
-      </yc-prevent-focus>
+      </prevent-focus>
       <!-- clear-btn -->
-      <yc-icon-button
+      <icon-button
         v-if="showClearBtn"
         class="yc-input-clear-button"
         @click="handleEvent('clear', $event)"
@@ -76,9 +76,9 @@
       </input-suffix>
     </div>
     <!-- append -->
-    <yc-prevent-focus v-if="$slots.append" class="yc-input-append">
+    <prevent-focus v-if="$slots.append" class="yc-input-append">
       <slot name="append" />
-    </yc-prevent-focus>
+    </prevent-focus>
   </div>
 </template>
 
@@ -87,7 +87,7 @@ import { ref, toRefs, computed } from 'vue';
 import { InputProps, InputEmits, InputSlots, InputExpose } from './type';
 import { useControlValue, getGlobalConfig } from '@shared/utils';
 import useLimitedInput from './hooks/useLimitedInput';
-import { YcPreventFocus, YcIconButton } from '@shared/components';
+import { PreventFocus, IconButton } from '@shared/components';
 import InputSuffix from './InputSuffix.vue';
 defineOptions({
   name: 'Input',

@@ -72,7 +72,7 @@
                   </slot>
                 </div>
                 <!-- close-btn -->
-                <yc-icon-button
+                <icon-button
                   v-if="closable && !simple"
                   class="yc-modal-close-button"
                   @click="handleClose('closeBtn', $event)"
@@ -117,7 +117,7 @@ import { getGlobalConfig, valueToPx } from '@shared/utils';
 import useModalClose from './hooks/useModalClose';
 import useModalDraggable from './hooks/useModalDraggable';
 import YcButton from '@/components/Button';
-import { YcIconButton } from '@shared/components';
+import { IconButton } from '@shared/components';
 defineOptions({
   name: 'Modal',
   inheritAttrs: false,

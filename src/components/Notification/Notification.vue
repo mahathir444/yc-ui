@@ -19,13 +19,9 @@
         <slot name="footer" />
       </div>
     </div>
-    <yc-icon-button
-      v-if="closable"
-      class="yc-close-btn"
-      @click="emits('close')"
-    >
+    <icon-button v-if="closable" class="yc-close-btn" @click="emits('close')">
       <slot v-if="$slots['close-icon']" name="close-icon"> </slot>
-    </yc-icon-button>
+    </icon-button>
   </div>
 </template>
 
@@ -34,7 +30,7 @@ import { onMounted, onUpdated, computed, useSlots, ref } from 'vue';
 import { NotificationProps } from './type';
 import { useTimeoutFn } from '@vueuse/core';
 import { TYPE_ICON_MAP } from '@shared/constants';
-import { YcIconButton } from '@shared/components';
+import { IconButton } from '@shared/components';
 defineOptions({
   name: 'Notification',
 });

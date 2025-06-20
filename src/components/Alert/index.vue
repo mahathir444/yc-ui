@@ -36,9 +36,9 @@
         role="button"
         aria-label="Close"
       >
-        <yc-icon-button @click="handleClose">
+        <icon-button @click="handleClose">
           <slot v-if="$slots['close-element']" name="close-element" />
-        </yc-icon-button>
+        </icon-button>
       </div>
     </div>
   </transition>
@@ -48,7 +48,7 @@
 import { ref } from 'vue';
 import { AlertProps, AlertEmits, AlertSlots } from './type';
 import { TYPE_ICON_MAP } from '@shared/constants';
-import { YcIconButton } from '@shared/components';
+import { IconButton } from '@shared/components';
 defineOptions({
   name: 'Alert',
 });

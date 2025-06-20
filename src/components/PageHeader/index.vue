@@ -6,7 +6,7 @@
       </div>
       <div class="yc-page-header-header">
         <div class="yc-page-header-main">
-          <yc-icon-button
+          <icon-button
             :size="14"
             :hover-size="30"
             @click="$emit('back', $event)"
@@ -14,7 +14,7 @@
             <slot name="back-icon">
               <icon-arrow-right />
             </slot>
-          </yc-icon-button>
+          </icon-button>
           <div
             v-if="$slots.title || title"
             class="yc-page-header-title text-ellipsis"
@@ -51,7 +51,7 @@
 import { PageHeaderProp, PageHeaderEmits, PageHeaderSlots } from './type';
 import { IconArrowRight } from '@shared/icons';
 import YcDivider from '@/components/Divider';
-import { YcIconButton } from '@shared/components';
+import { IconButton } from '@shared/components';
 defineOptions({
   name: 'PageHeader',
 });

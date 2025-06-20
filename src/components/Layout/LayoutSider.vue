@@ -7,7 +7,7 @@
   >
     <slot />
     <slot v-if="!hideTrigger" name="trigger" :collapsed="computedCollapsed">
-      <yc-icon-button
+      <icon-button
         :hover-size="24"
         class="yc-collapse-button"
         @click="handleCollapse"
@@ -15,7 +15,7 @@
         <icon-arrow-right
           :rotate="computedCollapsed && !reverseArrow ? 0 : 180"
         />
-      </yc-icon-button>
+      </icon-button>
     </slot>
   </yc-resize-box>
   <!-- 默认元素 -->
@@ -32,7 +32,7 @@
   >
     <slot />
     <slot v-if="!hideTrigger" name="trigger" :collapsed="computedCollapsed">
-      <yc-icon-button
+      <icon-button
         :size="14"
         :hover-size="24"
         class="yc-collapse-button"
@@ -41,7 +41,7 @@
         <icon-arrow-right
           :rotate="computedCollapsed && !reverseArrow ? 0 : 180"
         />
-      </yc-icon-button>
+      </icon-button>
     </slot>
   </aside>
 </template>
@@ -51,7 +51,7 @@ import { ref, toRefs, computed } from 'vue';
 import { LayoutSiderProps, LayoutSiderEmits, LayoutSiderSlots } from './type';
 import { useControlValue, mediaQueryHandler, valueToPx } from '@shared/utils';
 import { IconArrowRight } from '@shared/icons';
-import { YcIconButton } from '@shared/components';
+import { IconButton } from '@shared/components';
 import YcResizeBox from '@/components/ResizeBox';
 defineOptions({
   name: 'LayoutSider',

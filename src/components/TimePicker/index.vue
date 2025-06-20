@@ -50,7 +50,7 @@
           :readonly="readonly"
         />
       </div>
-      <YcPreventFocus
+      <PreventFocus
         :class="{
           'yc-picker-suffix': true,
           allowClear: allowClear && !readonly && !disabled,
@@ -61,13 +61,13 @@
             <IconTime :size="14" />
           </slot>
         </div>
-        <YcIconButton
+        <IconButton
           :size="14"
           class="yc-close-icon"
           @click="hanClear"
           v-if="allowClear && !readonly && !disabled"
         />
-      </YcPreventFocus>
+      </PreventFocus>
     </div>
     <template #content>
       <div class="yc-picker-box">
@@ -138,7 +138,7 @@ import { useControlValue } from '@shared/utils';
 import dayjs from 'dayjs';
 import isSameOrBefore from 'dayjs/plugin/isSameOrBefore';
 import BTween from 'b-tween';
-import { YcIconButton, YcPreventFocus } from '@shared/components';
+import { IconButton, PreventFocus } from '@shared/components';
 import { IconTime } from '@shared/icons';
 defineOptions({
   name: 'TimePicker',

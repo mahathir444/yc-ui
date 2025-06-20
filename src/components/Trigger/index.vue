@@ -17,7 +17,7 @@
       @after-enter="$emit('show')"
     >
       <!-- wrapper -->
-      <yc-prevent-focus
+      <prevent-focus
         v-if="!unmountOnClose || (computedVisible && !disabled)"
         v-show="computedVisible && !disabled"
         :prevent-focus="preventFocus"
@@ -48,7 +48,7 @@
           :style="arrowStyle"
           ref="arrowRef"
         ></div>
-      </yc-prevent-focus>
+      </prevent-focus>
     </transition>
   </teleport>
 </template>
@@ -64,7 +64,7 @@ import {
 import { findFirstLegitChild, getGlobalConfig } from '@shared/utils';
 import useTriggerVisible from './hooks/useTriggerVisible';
 import useTriggerPosition from './hooks/useTriggerPosition';
-import { YcPreventFocus } from '@shared/components';
+import { PreventFocus } from '@shared/components';
 defineOptions({
   name: 'Trigger',
   inheritAttrs: false,

@@ -1,5 +1,5 @@
 <template>
-  <yc-prevent-focus
+  <prevent-focus
     tag="label"
     :prevent-focus="preventFocus"
     :class="[
@@ -25,7 +25,7 @@
       :checked="computedChecked"
       :disabled="computedDisabled"
     >
-      <yc-icon-button
+      <icon-button
         :hover-size="24"
         :hover-color="
           computedChecked || computedDisabled
@@ -36,12 +36,12 @@
         <span class="yc-checkbox-icon">
           <icon-checkbox-checked :size="[8, 10]" />
         </span>
-      </yc-icon-button>
+      </icon-button>
       <span class="yc-checkbox-label text-ellipsis">
         <slot />
       </span>
     </slot>
-  </yc-prevent-focus>
+  </prevent-focus>
 </template>
 
 <script lang="ts" setup>
@@ -50,7 +50,7 @@ import { CheckboxProps, CheckboxEmits, CheckboxSlots } from './type';
 import { useControlValue, isUndefined } from '@shared/utils';
 import useContext from './hooks/useContext';
 import { IconCheckboxChecked } from '@shared/icons';
-import { YcPreventFocus, YcIconButton } from '@shared/components';
+import { PreventFocus, IconButton } from '@shared/components';
 defineOptions({
   name: 'Checkbox',
 });

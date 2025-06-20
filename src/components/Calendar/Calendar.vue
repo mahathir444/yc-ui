@@ -2,7 +2,7 @@
   <div :class="['yc-calendar', `yc-calendar-mode-${computedMode}`]">
     <div class="yc-calendar-header">
       <div class="yc-calendar-header-left">
-        <yc-icon-button
+        <icon-button
           class="yc-calendar-header-icon"
           role="button"
           tabindex="0"
@@ -11,14 +11,14 @@
           @click="handleDateChange('pre')"
         >
           <icon-arrow-right :rotate="180" />
-        </yc-icon-button>
+        </icon-button>
 
         <div class="yc-calendar-header-value">
           <slot name="header" :year="recordDate.year" :month="recordDate.month">
             {{ recordDate.year }} 年 {{ recordDate.month }} 月
           </slot>
         </div>
-        <yc-icon-button
+        <icon-button
           role="button"
           tabindex="0"
           class="yc-calendar-header-icon"
@@ -27,7 +27,7 @@
           @click="handleDateChange('next')"
         >
           <icon-arrow-right />
-        </yc-icon-button>
+        </icon-button>
         <yc-button @click="handleDateChange('today')" size="small">
           今天
         </yc-button>
@@ -79,7 +79,7 @@ import { useControlValue } from '@shared/utils';
 import YcButton from '@/components/Button';
 import { RadioGroup as YcRadioGroup } from '@/components/Radio';
 import { IconArrowRight } from '@shared/icons';
-import { YcIconButton } from '@shared/components';
+import { IconButton } from '@shared/components';
 import { CalendarCellData } from '@shared/utils';
 import MonthCalendar from './CalendarMonth.vue';
 import YearCalendar from './CalendarYear.vue';

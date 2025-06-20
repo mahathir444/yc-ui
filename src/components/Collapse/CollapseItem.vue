@@ -9,10 +9,7 @@
     ]"
   >
     <div role="button" class="yc-collapse-item-header" @click="handleClick">
-      <yc-icon-button
-        v-if="showExpandIcon"
-        class="yc-collapse-item-header-icon"
-      >
+      <icon-button v-if="showExpandIcon" class="yc-collapse-item-header-icon">
         <slot
           name="expand-icon"
           :active="computedActiveKey.includes(path)"
@@ -35,7 +32,7 @@
             />
           </slot-render>
         </slot>
-      </yc-icon-button>
+      </icon-button>
       <div class="yc-collapse-item-header-title text-ellipsis">
         <slot name="header">
           {{ header }}
@@ -65,7 +62,7 @@ import { toRefs } from 'vue';
 import { CollapseItemProps, CollapseItemSlots } from './type';
 import useContext from './hooks/useContext';
 import { IconRight } from '@shared/icons';
-import { YcIconButton, ExpandTransition } from '@shared/components';
+import { IconButton, ExpandTransition } from '@shared/components';
 import { SlotRender } from '@shared/components';
 defineOptions({
   name: 'CollapseItem',

@@ -21,14 +21,14 @@
             <template v-if="!simple && (!oneWay || type != 'target')">
               {{ curSeleced.length }} / {{ curData.length }}
             </template>
-            <yc-icon-button
+            <icon-button
               v-else-if="type == 'target'"
               :size="14"
               :hover-size="20"
               @click="handleClear"
             >
               <icon-delete />
-            </yc-icon-button>
+            </icon-button>
           </span>
         </template>
       </slot-render>
@@ -85,12 +85,12 @@
                       </template>
                     </slot-render>
                   </span>
-                  <yc-icon-button
+                  <icon-button
                     v-if="type == 'target' && !simple"
                     :hover-size="20"
                   >
                     <icon-close />
-                  </yc-icon-button>
+                  </icon-button>
                 </template>
               </div>
             </template>
@@ -115,7 +115,7 @@ import YcCheckbox from '@/components/Checkbox';
 import YcScrollbar from '@/components/Scrollbar';
 import YcInput from '@/components/Input';
 import YcEmpty from '@/components/Empty';
-import { YcIconButton, SlotRender } from '@shared/components';
+import { IconButton, SlotRender } from '@shared/components';
 defineSlots<TransferPanelSlots>();
 const props = defineProps<{
   type: 'source' | 'target';
