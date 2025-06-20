@@ -130,7 +130,9 @@
       border-bottom: 1px solid rgb(229, 230, 235);
     }
     &.yc-tabs-tab-type-card {
-      border-top: none;
+      &:not(:first-child) {
+        border-top: none;
+      }
     }
     &.yc-tabs-tab-active {
       background-color: transparent;

@@ -93,11 +93,7 @@
     .yc-tabs-nav {
       .yc-tabs-nav-tab {
         .yc-tabs-nav-tab-list {
-          .yc-tabs-tab {
-            &:not(:first-child) {
-              margin-top: 12px;
-            }
-          }
+          gap: 12px;
         }
       }
     }
@@ -225,11 +221,15 @@
       }
     }
     &.yc-tabs-vertical {
-      border: 1px solid rgb(229, 230, 235);
-      border-left: none;
       &.yc-tabs-right {
-        border-left: 1px solid rgb(229, 230, 235);
         border-right: none;
+      }
+      .yc-tabs-content {
+        border: 1px solid rgb(229, 230, 235);
+        border-left: none;
+        &.yc-tabs-right {
+          border-right: none;
+        }
       }
     }
   }

@@ -16,7 +16,7 @@
       },
     ]"
   >
-    <div class="yc-tabs-nav" ref="navListRef">
+    <div class="yc-tabs-nav">
       <!-- pre -->
       <tab-button
         v-if="isScrollable"
@@ -140,10 +140,8 @@ const props = withDefaults(defineProps<TabsProps>(), {
 const emits = defineEmits<TabsEmits>();
 // tablist
 const listRef = ref<HTMLDivElement>();
-// navListRef
-const navListRef = ref<HTMLDivElement>();
 // 注入
-const { computedActiveKey, size, direction, autoSwitch, position, tabRefs } =
+const { computedActiveKey, size, direction, autoSwitch, position } =
   useContext().provide(props, emits, listRef);
 // 获取tabPane的数据
 const slots = useSlots();
@@ -185,9 +183,7 @@ const {
   navHeight,
   handleScroll,
 } = useTabsScroll({
-  tabRefs,
   listRef,
-  navListRef,
   panes,
   direction,
 });

@@ -4,30 +4,24 @@ import { Direction, ObjectData } from '@shared/type';
 import { sleep } from '@shared/utils';
 export default (params: {
   direction: Ref<Direction>;
-  listRef: Ref<HTMLDivElement | undefined>;
-  navListRef: Ref<HTMLDivElement | undefined>;
   panes: Ref<ObjectData[]>;
-  tabRefs: Ref<HTMLDivElement[]>;
+  listRef: Ref<HTMLDivElement | undefined>;
 }) => {
-  const { direction, listRef, panes, tabRefs, navListRef } = params;
+  const { direction, panes, listRef } = params;
   // 是否可滚动
   const isScrollable = ref<boolean>(false);
   // 移动的距离
   const scrollDis = ref(0);
   // 计算总的宽度
-  const totalWidth = ref(0);
+  const listWidth = ref(0);
   // 计算总的高度
-  const totalHeight = ref(0);
+  const listHeight = ref(0);
+  // 容器宽度
+  const containerWidth = ref(0);
+  // 容器高度
+  const containerHeight = ref(0);
   // navHeight
   const navHeight = ref(0);
-  // 容器宽度
-  const containerWidth = computed(() => {
-    return listRef.value ? listRef.value!.parentElement!.offsetWidth : 0;
-  });
-  // 容器高度
-  const containerHeight = computed(() => {
-    return listRef.value ? listRef.value!.parentElement!.offsetHeight : 0;
-  });
   // 向左向上按钮的禁用
   const preDisabled = computed(() => {
     return !scrollDis.value;
@@ -35,8 +29,8 @@ export default (params: {
   // 向下/右滚动的禁用
   const nextDisabled = computed(() => {
     return direction.value == 'horizontal'
-      ? Math.abs(scrollDis.value) + containerWidth.value >= totalWidth.value
-      : Math.abs(scrollDis.value) + containerHeight.value >= totalHeight.value;
+      ? Math.abs(scrollDis.value) + containerWidth.value >= listWidth.value
+      : Math.abs(scrollDis.value) + containerHeight.value >= listHeight.value;
   });
   // 检测List的宽度
   const { stop } = useResizeObserver(listRef, () => calcScrollable());
@@ -52,42 +46,33 @@ export default (params: {
       calcScrollable();
     }
   );
+  // 获取元素尺寸
+  const getElementSize = () => {
+    listHeight.value = listRef.value!.scrollHeight;
+    listWidth.value = listRef.value!.scrollWidth;
+    containerWidth.value = listRef.value!.parentElement!.offsetWidth;
+    containerHeight.value = listRef.value!.parentElement!.offsetHeight;
+    navHeight.value = listRef.value!.parentElement!.parentElement!.offsetHeight;
+  };
   // 计算是否可滚动
   const calcScrollable = () => {
-    totalWidth.value = tabRefs.value
-      .map((item) => {
-        const style = getComputedStyle(item);
-        return item.offsetWidth + Number.parseFloat(style.marginLeft);
-      })
-      .reduce((pre, cur) => pre + cur, 0);
-    totalHeight.value = tabRefs.value
-      .map((item) => {
-        const style = getComputedStyle(item);
-        return item.offsetHeight + Number.parseFloat(style.marginTop);
-      })
-      .reduce((pre, cur) => pre + cur, 0);
-    navHeight.value = navListRef.value!.offsetHeight;
+    getElementSize();
     if (direction.value == 'horizontal') {
-      isScrollable.value = totalWidth.value > containerWidth.value;
+      isScrollable.value = listWidth.value > containerWidth.value;
     } else {
-      isScrollable.value = totalHeight.value > containerHeight.value;
+      isScrollable.value = listHeight.value > containerHeight.value;
     }
   };
   // 处理滚动
   const handleScroll = (type: 'pre' | 'next') => {
-    if (!listRef.value || !isScrollable.value) return;
-    const container = listRef.value.parentElement;
-    if (!container) return;
+    getElementSize();
     // 根据方向获取相应的尺寸属性
     const containerSize =
       direction.value === 'horizontal'
-        ? container.clientWidth
-        : container.clientHeight;
+        ? containerWidth.value
+        : containerHeight.value;
     const listSize =
-      direction.value === 'horizontal'
-        ? listRef.value.scrollWidth
-        : listRef.value.scrollHeight;
-    if (!tabRefs.value.length) return;
+      direction.value === 'horizontal' ? listWidth.value : listHeight.value;
     // 计算滚动步长（容器尺寸的80%）
     const scrollStep = containerSize * 0.8;
     // 计算新的scrollDis
