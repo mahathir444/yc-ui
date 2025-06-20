@@ -5,6 +5,9 @@ import {
   inject as _inject,
   Ref,
   toRefs,
+  reactive,
+  Reactive,
+  onBeforeUnmount,
 } from 'vue';
 import { Props, Direction, RequiredDeep } from '@shared/type';
 import {
@@ -14,10 +17,11 @@ import {
   StepType,
 } from '../type';
 import { isUndefined, useControlValue } from '@shared/utils';
+import { nanoid } from 'nanoid';
 export const STEPS_CONTEXT_KEY = 'card-context';
 
 export interface StepsContext {
-  step: Ref<number>;
+  stepMap: Reactive<Map<string, string>>;
   computedCurrent: Ref<number>;
   lineLess: Ref<boolean>;
   direction: Ref<Direction>;
@@ -71,12 +75,12 @@ export default () => {
         return 'horizontal';
       }
     });
-    // step
-    const step = ref<number>(0);
+    // StepMap
+    const stepMap = reactive<Map<string, string>>(new Map());
     // statusArr
     const statusArr = ref<Ref<StepStatus>[]>([]);
     _provide<StepsContext>(STEPS_CONTEXT_KEY, {
-      step,
+      stepMap,
       computedCurrent,
       lineLess,
       direction,
@@ -97,7 +101,7 @@ export default () => {
   const inject = (props: Props) => {
     const { status: _status } = toRefs(props);
     const injection = _inject<StepsContext>(STEPS_CONTEXT_KEY, {
-      step: ref(0),
+      stepMap: reactive(new Map()),
       computedCurrent: ref(0),
       lineLess: ref(false),
       direction: ref('horizontal'),
@@ -109,30 +113,50 @@ export default () => {
       labelPlacement: ref('horizontal'),
       emits: () => {},
     });
-    const {
-      step,
-      computedCurrent,
-      statusArr,
-      status: injectStatus,
-    } = injection;
-    const curStep = ref(++step.value);
-    // status
-    const status = computed(() => {
-      if (!isUndefined(_status.value)) {
-        return _status.value;
-      }
-      if (curStep.value < computedCurrent.value) {
-        return 'finish';
-      } else if (curStep.value == computedCurrent.value) {
-        return injectStatus.value ?? 'process';
-      } else {
-        return 'wait';
-      }
-    });
-    // 获取下一个status
-    const nextStatus = computed(() => statusArr.value[curStep.value]?.value);
+    // 收集step
+    const collectStep = () => {
+      const {
+        stepMap,
+        computedCurrent,
+        statusArr,
+        status: injectStatus,
+      } = injection;
+      const id = nanoid();
+      stepMap.set(id, id);
+      // 当前的step
+      const curStep = computed(() => {
+        return [...stepMap.values()].findIndex((item) => item == id) + 1;
+      });
+      // status
+      const status = computed(() => {
+        if (!isUndefined(_status.value)) {
+          return _status.value;
+        }
+        if (curStep.value < computedCurrent.value) {
+          return 'finish';
+        } else if (curStep.value == computedCurrent.value) {
+          return injectStatus.value ?? 'process';
+        } else {
+          return 'wait';
+        }
+      });
+      // 获取下一个status
+      const nextStatus = computed(() => statusArr.value[curStep.value]?.value);
+      // 收集
+      statusArr.value[curStep.value - 1] = status;
+      // 移除
+      onBeforeUnmount(() => {
+        stepMap.delete(id);
+        statusArr.value.splice(curStep.value - 1, 1);
+      });
+      return {
+        curStep,
+        status,
+        nextStatus,
+      };
+    };
     // 收集
-    statusArr.value[curStep.value - 1] = status;
+    const { curStep, status, nextStatus } = collectStep();
     return {
       ...injection,
       curStep,

@@ -80,8 +80,8 @@ const { disabled } = toRefs(props);
 // 接收注入
 const {
   curStep,
+  stepMap,
   computedCurrent,
-  step,
   type,
   changeable,
   status,
@@ -100,7 +100,7 @@ const small = computed(() => {
 const lineLess = computed(() => {
   return (
     _lineLess.value ||
-    curStep.value == step.value ||
+    curStep.value == stepMap.size ||
     ['arrow', 'navigation'].includes(type.value)
   );
 });
@@ -108,7 +108,7 @@ const lineLess = computed(() => {
 const handleClick = (e: Event) => {
   if (!changeable.value || disabled.value) return;
   computedCurrent.value = curStep.value;
-  emits('change', computedCurrent.value, e);
+  emits('change', curStep.value, e);
 };
 </script>
 
