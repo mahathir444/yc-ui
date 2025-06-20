@@ -60,8 +60,6 @@ const {
   position,
   headerPadding,
   size,
-  curScrollIndex,
-  listRef,
   emits,
 } = useContext().inject();
 // 渲染title
@@ -94,20 +92,6 @@ onMounted(() => {
     computedActiveKey.value = node.value.path;
     return;
   }
-  curScrollIndex.value = index.value;
-  // const { right, bottom } = listRef.value!.getBoundingClientRect();
-  // 查找第一个可滚动的tab
-  // if (direction.value == 'horizontal') {
-  //   curScrollIndex.value = tabRefs.value.findIndex((tab) => {
-  //     const { left: _left, right: _right } = tab.getBoundingClientRect();
-  //     return right <= _left;
-  //   });
-  // } else {
-  //   curScrollIndex.value = tabRefs.value.findIndex((tab) => {
-  //     const { top: _top, bottom: _bottom } = tab.getBoundingClientRect();
-  //     return bottom <= _top;
-  //   });
-  // }
 });
 </script>
 

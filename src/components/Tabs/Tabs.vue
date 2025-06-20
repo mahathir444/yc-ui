@@ -16,11 +16,11 @@
       },
     ]"
   >
-    <div class="yc-tabs-nav">
+    <div class="yc-tabs-nav" ref="navListRef">
       <!-- pre -->
       <tab-button
-        v-if="isScroll"
-        :disabled="!curScrollIndex"
+        v-if="isScrollable"
+        :disabled="preDisabled"
         :direction="direction == 'horizontal' ? 'left' : 'up'"
         @click="handleScroll('pre')"
       >
@@ -31,14 +31,14 @@
         :class="[
           'yc-tabs-nav-tab',
           {
-            'yc-tabs-nav-tab-scroll': isScroll,
+            'yc-tabs-nav-tab-scroll': isScrollable,
           },
         ]"
       >
         <div
           class="yc-tabs-nav-tab-list"
           :style="{
-            transform: `translateX(${valueToPx(moveDis)})`,
+            transform: `translate${direction == 'horizontal' ? 'X' : 'Y'}(${valueToPx(scrollDis)})`,
           }"
           ref="listRef"
         >
@@ -58,12 +58,12 @@
       </div>
       <!-- next -->
       <tab-button
-        v-if="isScroll"
-        :disabled="curScrollIndex == panes.length - 1"
+        v-if="isScrollable"
+        :disabled="nextDisabled"
         :direction="direction == 'horizontal' ? 'right' : 'down'"
         @click="handleScroll('next')"
       >
-        <icon-arrow-right :rotate="direction == 'horizontal' ? 180 : 90" />
+        <icon-arrow-right :rotate="direction == 'horizontal' ? 0 : 90" />
       </tab-button>
       <!-- 新增按钮 -->
       <tab-button
@@ -80,12 +80,21 @@
       </div>
     </div>
     <!-- content -->
-    <div v-if="!hideContent" class="yc-tabs-content">
+    <div
+      v-if="!hideContent"
+      class="yc-tabs-content"
+      :style="{
+        height: direction == 'vertical' ? `${valueToPx(navHeight)}` : '',
+      }"
+    >
       <div
         class="yc-tabs-content-list"
         :style="{
           marginLeft: direction == 'horizontal' ? `${-curIndex * 100}%` : '',
-          marginTop: direction == 'vertical' ? `${-curIndex * 100}%` : '',
+          marginTop:
+            direction == 'vertical'
+              ? `${valueToPx(-curIndex * navHeight)}`
+              : '',
         }"
       >
         <component v-for="(node, i) in tabPanes" :key="i" :is="node" />
@@ -95,12 +104,12 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, watch, computed, nextTick, onBeforeUnmount, useSlots } from 'vue';
+import { ref, computed, nextTick, useSlots } from 'vue';
 import { TabsProps, TabsEmits, TabsSlots } from './type';
-import { sleep, findComponentsFromVnodes, valueToPx } from '@shared/utils';
+import { findComponentsFromVnodes, valueToPx } from '@shared/utils';
 import useContext from './hooks/useContext';
+import useTabsScroll from './hooks/useTabsScroll';
 import { IconPlus, IconArrowRight } from '@shared/icons';
-import { useResizeObserver } from '@vueuse/core';
 import TabPane from './TabPane.vue';
 import TabsTab from './TabsTab.vue';
 import TabsNavInk from './TabsNavInk.vue';
@@ -126,21 +135,16 @@ const props = withDefaults(defineProps<TabsProps>(), {
   autoSwitch: false,
   hideContent: false,
   trigger: 'click',
-  scrollPosition: 'nearest',
+  // scrollPosition: 'nearest',
 });
 const emits = defineEmits<TabsEmits>();
 // tablist
 const listRef = ref<HTMLDivElement>();
+// navListRef
+const navListRef = ref<HTMLDivElement>();
 // 注入
-const {
-  computedActiveKey,
-  size,
-  direction,
-  autoSwitch,
-  position,
-  tabRefs,
-  curScrollIndex,
-} = useContext().provide(props, emits, listRef);
+const { computedActiveKey, size, direction, autoSwitch, position, tabRefs } =
+  useContext().provide(props, emits, listRef);
 // 获取tabPane的数据
 const slots = useSlots();
 // tabPanes
@@ -172,67 +176,21 @@ const curIndex = computed(() => {
   });
   return index < 0 ? 0 : index;
 });
-// 是否可滚动
-const isScroll = ref<boolean>(false);
-// 移动的距离
-const moveDis = ref(0);
-// 检测List的宽度
-const { stop } = useResizeObserver(listRef, () => calcScrollable());
-// 卸载时停止监听
-onBeforeUnmount(() => {
-  stop();
+// 初始化滚动hook
+const {
+  scrollDis,
+  isScrollable,
+  preDisabled,
+  nextDisabled,
+  navHeight,
+  handleScroll,
+} = useTabsScroll({
+  tabRefs,
+  listRef,
+  navListRef,
+  panes,
+  direction,
 });
-watch(
-  () => panes.value.length,
-  async () => {
-    await sleep(0);
-    calcScrollable();
-  }
-);
-// 计算是否可滚动
-const calcScrollable = () => {
-  const { scrollWidth, offsetWidth, scrollHeight, offsetHeight } =
-    listRef.value!;
-  const totalHeight = tabRefs.value
-    .map((item) => item.offsetHeight)
-    .reduce((pre, cur) => pre + cur, 0);
-  const height = listRef.value!.parentElement!.offsetHeight;
-
-  isScroll.value =
-    (direction.value == 'horizontal' && scrollWidth > offsetWidth) ||
-    (direction.value == 'vertical' && totalHeight > height);
-};
-// 处理滚动
-const handleScroll = (type: 'pre' | 'next') => {
-  if (!listRef.value || !isScroll.value) return;
-  const container = listRef.value.parentElement;
-  if (!container) return;
-  const containerWidth = container.clientWidth;
-  const listWidth = listRef.value.scrollWidth;
-  if (!tabRefs.value.length) return;
-  const scrollStep = containerWidth * 0.8;
-  let newMoveDis = moveDis.value;
-  if (type === 'next') {
-    // 向右滚动，确保不会滚动超过内容末尾
-    newMoveDis = Math.max(
-      moveDis.value - scrollStep,
-      containerWidth - listWidth
-    );
-  } else {
-    // 向左滚动，确保不会滚动超过内容开头
-    newMoveDis = Math.min(moveDis.value + scrollStep, 0);
-  }
-  // 更新当前可见的第一个标签索引
-  const tabSizes = tabRefs.value.map((tab) => ({
-    offsetLeft: (tab as HTMLElement).offsetLeft,
-  }));
-  const newScrollIndex = tabSizes.findIndex(
-    (tab) => tab.offsetLeft >= -newMoveDis
-  );
-  moveDis.value = newMoveDis;
-  curScrollIndex.value = newScrollIndex;
-  console.log(curScrollIndex.value, 'cur');
-};
 // 处理新增
 const handleAdd = async () => {
   emits('add');

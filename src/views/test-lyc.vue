@@ -1,7 +1,7 @@
 <template>
   <div class="test">
     <div style="width: 100%">
-      <yc-tabs position="left" style="height: 500px">
+      <yc-tabs position="left" type="card">
         <yc-tab-pane
           v-for="item of data"
           :key="item.key"

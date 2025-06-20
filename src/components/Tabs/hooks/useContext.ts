@@ -35,7 +35,6 @@ export interface TabsContext {
   tabRefs: Ref<HTMLDivElement[]>;
   scrollPosition: Ref<TabScrollPosition>;
   headerPadding: Ref<boolean>;
-  curScrollIndex: Ref<number>;
   size: Ref<Size>;
   emits: TabsEmits;
 }
@@ -105,7 +104,6 @@ export default () => {
       listRef,
       titleRefs,
       tabRefs,
-      curScrollIndex,
       emits,
     });
     return {
@@ -117,7 +115,6 @@ export default () => {
       scrollPosition,
       titleRefs,
       tabRefs,
-      curScrollIndex,
     };
   };
   const inject = () => {
@@ -135,7 +132,6 @@ export default () => {
       titleRefs: ref([]),
       listRef: ref(),
       tabRefs: ref([]),
-      curScrollIndex: ref(0),
       emits: () => {},
     });
   };

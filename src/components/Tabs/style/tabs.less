@@ -93,7 +93,11 @@
     .yc-tabs-nav {
       .yc-tabs-nav-tab {
         .yc-tabs-nav-tab-list {
-          gap: 12px;
+          .yc-tabs-tab {
+            &:not(:first-child) {
+              margin-top: 12px;
+            }
+          }
         }
       }
     }
