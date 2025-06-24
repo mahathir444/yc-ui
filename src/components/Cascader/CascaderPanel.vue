@@ -17,7 +17,6 @@
               curPath.slice(0, i - 1)
             )"
             :key="i1"
-            :is-selected="isSelected(option)"
             v-bind="option"
           />
         </ul>
@@ -27,27 +26,10 @@
 </template>
 
 <script lang="ts" setup>
-import { CascaderOptionProps, CascaderOptionValue } from './type';
 import { default as useContext, findOptions } from './hooks/useContext';
 import YcCascaderOption from './CascaderOption.vue';
 import YcScrollbar from '@/components/Scrollbar';
-const { options, curLevel, curPath, computedValue, pathMode, multiple } =
-  useContext().inject();
-
-const isSelected = (option: CascaderOptionProps) => {
-  if (multiple.value) {
-    return pathMode.value
-      ? (computedValue.value as number[][]).find(
-          (item) => item.join('') == option.valuePath?.join('')
-        )
-      : (computedValue.value as number[]).join('') ==
-          option.valuePath?.join('');
-  } else {
-    return pathMode.value
-      ? (computedValue.value as number[]).join('') == option.valuePath?.join('')
-      : computedValue.value == option.value;
-  }
-};
+const { options, curLevel, curPath } = useContext().inject();
 </script>
 
 <style lang="less" scoped>

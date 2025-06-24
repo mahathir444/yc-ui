@@ -36,7 +36,7 @@ export type CascaderContext = {
 };
 
 // 增强option添加indexPath,valuePath,level,labelPath
-export function enhanceCascaderOptions(
+export function transformOptions(
   options: CascaderOption[],
   startLevel: number = 1,
   parentIndices: number[] = [],
@@ -71,7 +71,7 @@ export function enhanceCascaderOptions(
     };
     // 递归处理子节点
     if (enhancedOption.children && enhancedOption.children.length > 0) {
-      enhancedOption.children = enhanceCascaderOptions(
+      enhancedOption.children = transformOptions(
         enhancedOption.children,
         startLevel + 1,
         currentIndexPath,
@@ -83,7 +83,7 @@ export function enhanceCascaderOptions(
   });
 }
 // 扁平化options
-export function flattenCascaderOptions(options: CascaderOptionProps[]) {
+export function flattenOptions(options: CascaderOptionProps[]) {
   const result: CascaderOptionProps[] = [];
   const traverse = (options: CascaderOptionProps[]) => {
     options.forEach((option) => {
@@ -175,13 +175,13 @@ export default () => {
         'isLeaf',
       ];
       return Object.fromEntries(
-        keys.map((key) => [key, fieldNames.value[key] ?? key])
+        keys.map((key) => [key, fieldNames.value?.[key] ?? key])
       ) as Record<string, string>;
     });
     // options
     const options = computed(() => {
-      return flattenCascaderOptions(
-        enhanceCascaderOptions(
+      return flattenOptions(
+        transformOptions(
           _options.value.map((item) => {
             const keys = [
               'label',
@@ -245,16 +245,16 @@ export default () => {
       computedInputValue,
       computedVisible,
       selectOptions,
-      searchDelay,
+      curLevel,
+      curPath,
+      options,
       multiple,
       pathMode,
       disabled,
       allowClear,
       allowSearch,
+      searchDelay,
       loading,
-      curLevel,
-      curPath,
-      options,
     };
   };
   const inject = () => {

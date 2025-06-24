@@ -7,6 +7,7 @@
       'yc-cascader-option',
       {
         'yc-cascader-option-selected': isSelected,
+        'yc-cascader-option-disabled': disabled,
       },
     ]"
     @click="handleClick"
@@ -19,7 +20,7 @@
 </template>
 
 <script lang="ts" setup>
-import { toRefs } from 'vue';
+import { computed, toRefs } from 'vue';
 import { CascaderOptionProps } from './type';
 import { IconArrowRight } from '@shared/icons';
 import useContext from './hooks/useContext';
@@ -33,7 +34,6 @@ const props = withDefaults(defineProps<CascaderOptionProps>(), {
   },
   children: () => [],
   isLeaf: false,
-  isSelected: false,
   level: -1,
   path: () => [],
   valuePath: () => [],
@@ -41,8 +41,18 @@ const props = withDefaults(defineProps<CascaderOptionProps>(), {
 });
 const { path, level, children, value, valuePath, disabled } = toRefs(props);
 // 接收注入
-const { computedValue, computedVisible, pathMode, curLevel, curPath } =
-  useContext().inject();
+const {
+  computedValue,
+  computedVisible,
+  pathMode,
+  curLevel,
+  curPath,
+  getValue,
+} = useContext().inject();
+//是否选中
+const isSelected = computed(() => {
+  return false;
+});
 // 处理点击
 const handleClick = () => {
   if (disabled.value) {
@@ -76,7 +86,7 @@ const handleClick = () => {
   transition: all 0.2s cubic-bezier(0, 0, 1, 1);
   display: flex;
   align-items: center;
-  &:hover {
+  &:not(.yc-cascader-option-disabled):hover {
     background-color: rgb(242, 243, 245);
   }
   .yc-cascader-option-label {
@@ -93,5 +103,10 @@ const handleClick = () => {
 }
 .yc-cascader-option-selected {
   background-color: rgb(242, 243, 245);
+}
+.yc-cascader-option-disabled {
+  color: rgb(201, 205, 212);
+  background-color: transparent;
+  cursor: not-allowed;
 }
 </style>

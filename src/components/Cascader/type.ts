@@ -23,12 +23,18 @@ export interface CascaderProps {
   filterOption?: (inputValue: string, option: CascaderOption) => boolean;
   popupContainer?: PopupContainer;
   maxTagCount?: number;
-  formatLabel?: (options: CascaderOption[]) => string;
+  // formatLabel?: (options: CascaderOption[]) => string;
   triggerProps?: TriggerProps;
+  // check-strictly
+  // load-more
   loading?: boolean;
+  // search-option-only-label
   searchDelay?: number;
   fieldNames?: Record<string, string>;
   valueKey?: string;
+  // fallback
+  // expand-child
+  // virtual-list-props
   tagNowrap?: boolean;
 }
 
@@ -63,7 +69,6 @@ export type CascaderOption = {
 };
 
 export type CascaderOptionProps = {
-  isSelected?: boolean;
   level?: number;
   path?: number[];
   valuePath?: CascaderOptionValue[];

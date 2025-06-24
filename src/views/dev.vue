@@ -1,6 +1,6 @@
 <template>
   <div class="test">
-    <a-cascader :options="options" path-mode multiple />
+    <a-cascader :options="options" path-mode />
     <yc-cascader :options="options" />
   </div>
 </template>

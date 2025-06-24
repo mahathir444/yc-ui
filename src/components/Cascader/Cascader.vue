@@ -2,6 +2,7 @@
   <yc-trigger
     v-model:popup-visible="computedVisible"
     :popup-offset="4"
+    :popup-container="popupContainer"
     position="bl"
     trigger="focus"
     animation-name="slide-dynamic-origin"
@@ -129,14 +130,16 @@ const props = withDefaults(defineProps<CascaderProps>(), {
   },
   popupContainer: undefined,
   maxTagCount: 0,
-  //   formatLabel: (option:) => {
-
-  // },
   triggerProps: () => {
     return {};
   },
   loading: false,
+  searchDelay: 500,
+  fieldNames: () => {
+    return {};
+  },
   valueKey: 'value',
+  tagNowrap: false,
 });
 const emits = defineEmits<CascaderEmits>();
 // 注入数据
