@@ -16,7 +16,6 @@ import {
   TabsEmits,
   TabTrigger,
   TabType,
-  TabScrollPosition,
   TabPositon,
 } from '../type';
 
@@ -33,7 +32,6 @@ export interface TabsContext {
   listRef: Ref<HTMLDivElement | undefined>;
   titleRefs: Ref<HTMLSpanElement[]>;
   tabRefs: Ref<HTMLDivElement[]>;
-  scrollPosition: Ref<TabScrollPosition>;
   headerPadding: Ref<boolean>;
   size: Ref<Size>;
   emits: TabsEmits;
@@ -63,7 +61,6 @@ export default () => {
       type,
       editable,
       headerPadding,
-      scrollPosition,
       destoryOnHide,
       direction: _direction,
     } = toRefs(props as TabsProps);
@@ -88,8 +85,6 @@ export default () => {
       }
       return _direction.value;
     });
-    // 当前滚动的Index
-    const curScrollIndex = ref(0);
     _provide<TabsContext>(TABS_CONTEXT_KEY, {
       computedActiveKey,
       editable,
@@ -97,7 +92,6 @@ export default () => {
       trigger,
       type,
       destoryOnHide,
-      scrollPosition,
       position,
       headerPadding,
       size,
@@ -112,7 +106,6 @@ export default () => {
       direction,
       position,
       autoSwitch,
-      scrollPosition,
       titleRefs,
       tabRefs,
     };
@@ -125,7 +118,6 @@ export default () => {
       trigger: ref('click'),
       type: ref('line'),
       direction: ref('horizontal'),
-      scrollPosition: ref('nearest'),
       destoryOnHide: ref(false),
       position: ref('top'),
       size: ref('medium'),

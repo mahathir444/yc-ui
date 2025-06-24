@@ -1,1 +1,71 @@
-export interface CascaderProps {}
+import { RenderFunction } from 'vue';
+import { PopupContainer, Size } from '@shared/type';
+import { TagProps } from '../Tag';
+import { TriggerProps } from '../Trigger';
+
+export interface CascaderProps {
+  pathMode?: boolean;
+  multiple?: boolean;
+  modelValue?: CascaderValue;
+  defaultValue?: CascaderValue;
+  options?: CascaderOption[];
+  disabled?: boolean;
+  error?: boolean;
+  size?: Size;
+  allowSearch?: boolean;
+  allowClear?: boolean;
+  inputValue?: string;
+  defaultInputValue?: string;
+  popupVisible?: boolean;
+  defaultPopupVisible?: boolean;
+  expandTrigger?: 'click' | 'hover';
+  placeholder?: string;
+  filterOption?: (inputValue: string, option: CascaderOption) => boolean;
+  popupContainer?: PopupContainer;
+  maxTagCount?: number;
+  formatLabel?: (options: CascaderOption[]) => string;
+  triggerProps?: TriggerProps;
+  loading?: boolean;
+  searchDelay?: number;
+  fieldNames?: Record<string, string>;
+  valueKey?: string;
+  tagNowrap?: boolean;
+}
+
+export interface CascaderEmits {
+  (e: 'update:modelValue', value: CascaderValue): void;
+  (e: 'update:inputValue', value: string): void;
+  (e: 'update:popupVisible', value: boolean): void;
+  (e: 'change', value: CascaderValue): void;
+  (e: 'input-value-change', value: string): void;
+  (e: 'clear'): void;
+  (e: 'search', value: string): void;
+  (e: 'popup-visible-change', value: boolean): void;
+  (e: 'focus', ev: FocusEvent): void;
+  (e: 'blur', ev: FocusEvent): void;
+}
+
+export type CascaderValue =
+  | CascaderOptionValue
+  | CascaderOptionValue[]
+  | CascaderOptionValue[][];
+
+export type CascaderOptionValue = string | number | Record<string, any>;
+
+export type CascaderOption = {
+  label?: string;
+  value?: CascaderOptionValue;
+  render?: RenderFunction;
+  disabled?: boolean;
+  tagProps?: TagProps;
+  children?: CascaderOption[];
+  isLeaf?: boolean;
+};
+
+export type CascaderOptionProps = {
+  isSelected?: boolean;
+  level?: number;
+  path?: number[];
+  valuePath?: CascaderOptionValue[];
+  labelPath?: string[];
+} & CascaderOption;

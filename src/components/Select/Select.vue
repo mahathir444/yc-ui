@@ -84,7 +84,6 @@
           @input="(v) => handleEvent('search', v)"
           @remove="$emit('remove')"
           @press-enter="handleEvent('create')"
-          @update:model-value="(v) => handleEvent('updateValue', v)"
         >
           <template #tag="scope">
             <slot v-if="$slots.label" name="label" v-bind="scope" />
@@ -123,11 +122,7 @@ import useContext from './hooks/useContext';
 import SelectIcon from './SelectIcon.vue';
 import SelectView from './SelectView.vue';
 import { default as YcInput, InputInstance } from '@/components/Input';
-import {
-  default as YcInputTag,
-  TagData,
-  InputTagValue,
-} from '@/components/InputTag';
+import { default as YcInputTag, InputTagValue } from '@/components/InputTag';
 import { default as YcTrigger, TriggerInstance } from '@/components/Trigger';
 defineOptions({
   name: 'Select',
@@ -234,7 +229,6 @@ const handleEvent = async (
           (item) => item == computedInputValue.value
         );
         if (target) return;
-
         createOptions.value.push({
           label: computedInputValue.value,
           value: computedInputValue.value,
@@ -271,13 +265,6 @@ const handleEvent = async (
       {
         computedVisible.value = false;
         computedInputValue.value = '';
-      }
-      break;
-    case 'updateValue':
-      {
-        computedValue.value = (value as InputTagValue).map(
-          (item) => (item as TagData).value
-        );
       }
       break;
   }
