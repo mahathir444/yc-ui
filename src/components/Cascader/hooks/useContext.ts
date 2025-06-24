@@ -17,6 +17,7 @@ import {
   CascaderOptionValue,
   CascaderOptionProps,
 } from '../type';
+import { InputInstance } from '@/components/Input';
 import { isObject, useControlValue } from '@shared/utils';
 
 export const CASCADER_CONTEXT_KEY = 'cascader-context';
@@ -31,6 +32,7 @@ export type CascaderContext = {
   pathMode: Ref<boolean>;
   multiple: Ref<boolean>;
   slots: Slots;
+  blur: () => void;
   getValue: (...arg: any) => any;
   emits: CascaderEmits;
 };
@@ -115,7 +117,11 @@ export const findOptions = (
 };
 
 export default () => {
-  const provide = (props: Props, emits: CascaderEmits) => {
+  const provide = (
+    props: Props,
+    emits: CascaderEmits,
+    inputRef: Ref<InputInstance | undefined>
+  ) => {
     const {
       modelValue,
       defaultValue,
@@ -226,6 +232,10 @@ export default () => {
     const getValue = (value: CascaderOptionValue) => {
       return isObject(value) ? value[valueKey.value] : value;
     };
+    // 失焦
+    function blur() {
+      inputRef.value?.blur();
+    }
     // 提供给子组件
     _provide<CascaderContext>(CASCADER_CONTEXT_KEY, {
       computedValue,
@@ -237,6 +247,7 @@ export default () => {
       pathMode,
       multiple,
       slots,
+      blur,
       getValue,
       emits,
     });
@@ -269,6 +280,7 @@ export default () => {
       pathMode: ref(false),
       multiple: ref(false),
       slots: {},
+      blur: () => {},
       getValue: () => {},
       emits: () => {},
     });

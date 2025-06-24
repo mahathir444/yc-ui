@@ -2,7 +2,6 @@
   <li
     tabindex="0"
     role="menuitem"
-    class=""
     :class="[
       'yc-cascader-option',
       {
@@ -21,8 +20,9 @@
 
 <script lang="ts" setup>
 import { computed, toRefs } from 'vue';
-import { CascaderOptionProps } from './type';
+import { CascaderOptionProps, CascaderOptionValue } from './type';
 import { IconArrowRight } from '@shared/icons';
+import { isArray } from '@shared/utils';
 import useContext from './hooks/useContext';
 const props = withDefaults(defineProps<CascaderOptionProps>(), {
   label: '',
@@ -43,15 +43,35 @@ const { path, level, children, value, valuePath, disabled } = toRefs(props);
 // 接收注入
 const {
   computedValue,
-  computedVisible,
   pathMode,
   curLevel,
   curPath,
+  multiple,
+  options,
   getValue,
+  blur,
 } = useContext().inject();
+// 判断选项是否选中
+const isOptionSelected = (v: CascaderOptionValue) => {
+  const option = options.value.find((v1) => {
+    if (isArray(v) && isArray(v1)) {
+      return (
+        v.map((item) => getValue(item)).toString() ==
+        v1.map((item) => getValue(item)).toString()
+      );
+    } else {
+      return getValue(v) == getValue(v1);
+    }
+  })!;
+  return option.valuePath?.[level.value - 1] == value.value;
+};
 //是否选中
 const isSelected = computed(() => {
-  return false;
+  return multiple.value
+    ? (computedValue.value as CascaderOptionValue[]).find((v) => {
+        return isOptionSelected(v);
+      })
+    : computedValue.value && isOptionSelected(computedValue.value);
 });
 // 处理点击
 const handleClick = () => {
@@ -68,7 +88,7 @@ const handleClick = () => {
       : path.value;
   } else {
     computedValue.value = pathMode.value ? valuePath.value : value.value;
-    computedVisible.value = false;
+    blur();
   }
 };
 </script>
@@ -103,6 +123,8 @@ const handleClick = () => {
 }
 .yc-cascader-option-selected {
   background-color: rgb(242, 243, 245);
+  color: #165dff;
+  font-weight: 500;
 }
 .yc-cascader-option-disabled {
   color: rgb(201, 205, 212);

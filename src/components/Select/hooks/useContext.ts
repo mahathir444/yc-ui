@@ -37,7 +37,6 @@ export interface SelectContext {
   renderOptions: Ref<ObjectData[]>;
   fieldKey: Ref<Record<string, string>>;
   isEmpty: Ref<boolean>;
-
   slots: Slots;
   blur: () => void;
   filterOption: (option: SelectOptionData) => boolean;

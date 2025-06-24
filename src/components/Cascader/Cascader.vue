@@ -142,6 +142,8 @@ const props = withDefaults(defineProps<CascaderProps>(), {
   tagNowrap: false,
 });
 const emits = defineEmits<CascaderEmits>();
+// 输入实例
+const inputRef = ref<InputInstance>();
 // 注入数据
 const {
   computedValue,
@@ -158,9 +160,7 @@ const {
   options,
   curLevel,
   curPath,
-} = useContext().provide(props, emits);
-// 输入实例
-const inputRef = ref<InputInstance>();
+} = useContext().provide(props, emits, inputRef);
 // 是否展示清除按钮
 const showClearBtn = computed(() => {
   const hasValue = multiple.value
@@ -230,43 +230,4 @@ const handleEvent = async (
 
 <style lang="less" scoped>
 @import './style/cascader.less';
-// allow-search
-.yc-cascader-allow-search {
-  &:deep(.yc-cascader-search-icon) {
-    display: none;
-  }
-  &:focus-within {
-    &:deep(.yc-cascader-clear-icon),
-    &:deep(.yc-cascader-suffix-icon) {
-      display: none;
-    }
-    &:deep(.yc-cascader-search-icon) {
-      display: block;
-    }
-  }
-  &:deep(.yc-input-outer) {
-    .yc-input-wrapper {
-      .yc-input {
-        &::placeholder {
-          color: rgb(134, 144, 156);
-        }
-      }
-    }
-  }
-}
-// allow-clear
-.yc-cascader-allow-clear {
-  &:deep(.yc-cascader-clear-icon) {
-    display: none;
-  }
-  &:hover {
-    &:deep(.yc-cascader-search-icon),
-    &:deep(.yc-cascader-suffix-icon) {
-      display: none;
-    }
-    &:deep(.yc-cascader-clear-icon) {
-      display: flex;
-    }
-  }
-}
 </style>
