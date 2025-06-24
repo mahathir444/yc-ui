@@ -35,6 +35,7 @@ export { default as IconStar } from './IconStar.vue';
 export { default as IconSuccess } from './IconSuccess.vue';
 export { default as IconTime } from './IconTime.vue';
 export { default as IconToTop } from './IconToTop.vue';
+export { default as IconUpload } from './IconUpload.vue';
 export { default as IconWarning } from './IconWarning.vue';
 export { default as IconZoomIn } from './IconZoomIn.vue';
 export { default as IconZoomOut } from './IconZoomOut.vue';

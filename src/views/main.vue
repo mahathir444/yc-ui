@@ -16,11 +16,11 @@ import { ref, watch } from 'vue';
 import { useRouter, useRoute } from 'vue-router';
 const router = useRouter();
 const route = useRoute();
-const keys = ref('lyc');
+const keys = ref('dev');
 const menus = [
   {
-    title: '开发-lyc',
-    path: 'lyc',
+    title: '开发',
+    path: 'dev',
   },
   {
     title: '通用(4/4)',

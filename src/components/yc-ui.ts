@@ -3,7 +3,7 @@ import Affix from './Affix';
 import Alert from './Alert';
 import { default as Anchor, AnchorLink } from './Anchor';
 import AutoComplete from './AutoComplete';
-import Avatar from './Avatar';
+import { default as Avatar, AvatarGroup } from './Avatar';
 import BackTop from './BackTop';
 import Badge from './Badge';
 import Button, { ButtonGroup } from './Button';
@@ -14,6 +14,7 @@ import { default as Carousel, CarouselItem } from './Carousel';
 import { default as Checkbox, CheckboxGroup } from './Checkbox';
 import Collapse, { CollapseItem } from './Collapse';
 import ColorPicker from './ColorPicker';
+import Cascader from './Cascader';
 import Comment from './Comment';
 import ConfigProvider from './ConfigProvider';
 import { default as Descriptions, DescriptionsItem } from './Descriptions';
@@ -84,9 +85,9 @@ import {
   TypographyParagraph,
 } from './Typography';
 import { default as Tabs, TabPane } from './Tabs';
+import Upload from './Upload';
 import VerificationCode from './VerificationCode';
 import Watermark from './Watermark';
-import { AvatarGroup } from '@arco-design/web-vue';
 
 export const components: Record<string, Plugin> = {
   Affix,
@@ -104,6 +105,7 @@ export const components: Record<string, Plugin> = {
   Checkbox,
   Collapse,
   ColorPicker,
+  Cascader,
   Comment,
   ConfigProvider,
   Descriptions,
@@ -152,6 +154,7 @@ export const components: Record<string, Plugin> = {
   Trigger,
   Typography,
   Tabs,
+  Upload,
   VerificationCode,
   Watermark,
 };

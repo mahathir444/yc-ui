@@ -315,6 +315,8 @@ declare module 'vue' {
     TypographyParagraph: typeof import('./src/components/Typography/TypographyParagraph.vue')['default']
     TypographyText: typeof import('./src/components/Typography/TypographyText.vue')['default']
     TypographyTitle: typeof import('./src/components/Typography/TypographyTitle.vue')['default']
+    Upload: typeof import('./src/components/Upload/index.vue')['default']
+    UploadFileList: typeof import('./src/components/Upload/UploadFileList.vue')['default']
     VerificationCode: typeof import('./src/components/VerificationCode/index.vue')['default']
     Watermark: typeof import('./src/components/Watermark/index.vue')['default']
   }
