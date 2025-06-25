@@ -36,7 +36,6 @@ export type CascaderContext = {
   slots: Slots;
   expandTrigger: Ref<ExpandTrigger>;
   blur: () => void;
-  getValue: (...arg: any) => any;
   getValueKey: (...arg: any) => any;
   emits: CascaderEmits;
 };
@@ -270,7 +269,6 @@ export default () => {
       loading,
       slots,
       blur,
-      getValue,
       getValueKey,
       emits,
     });
@@ -310,7 +308,6 @@ export default () => {
       slots: {},
       emits: () => {},
       blur: () => {},
-      getValue: () => {},
       getValueKey: () => {},
     });
   };
