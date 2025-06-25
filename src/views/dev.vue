@@ -1,6 +1,9 @@
 <template>
   <div class="test">
-    <a-cascader :options="options" path-mode />
+    <a-cascader
+      :options="options"
+      :format-label="(options) => options.map((item) => item.label).join('、')"
+    />
     <yc-cascader :options="options" />
   </div>
 </template>

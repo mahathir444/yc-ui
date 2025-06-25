@@ -3,6 +3,7 @@
     v-model:popup-visible="computedVisible"
     :popup-offset="4"
     :popup-container="popupContainer"
+    :disabled="disabled"
     position="bl"
     trigger="focus"
     animation-name="slide-dynamic-origin"
@@ -130,6 +131,7 @@ const props = withDefaults(defineProps<CascaderProps>(), {
   },
   popupContainer: undefined,
   maxTagCount: 0,
+  formatLabel: undefined,
   triggerProps: () => {
     return {};
   },
@@ -163,9 +165,16 @@ const {
 } = useContext().provide(props, emits, inputRef);
 // 是否展示清除按钮
 const showClearBtn = computed(() => {
-  const hasValue = multiple.value
-    ? computedValue.value.length
-    : String(computedValue.value).length;
+  let hasValue = true;
+  if (pathMode.value) {
+    hasValue = multiple.value
+      ? computedValue.value.flat(1).length
+      : computedValue.value.length;
+  } else {
+    hasValue = multiple.value
+      ? computedValue.value.length
+      : computedValue.value;
+  }
   return allowClear.value && !disabled.value && !loading.value && !!hasValue;
 });
 // 是否只读

@@ -219,7 +219,9 @@ export default () => {
             : computedValue.value.join('') == item.valuePath?.join('');
         } else {
           return multiple.value
-            ? computedValue.value.find((v: number) => item.value == v)
+            ? computedValue.value.find(
+                (v: CascaderOptionValue) => item.value == v
+              )
             : computedValue.value == item.value;
         }
       });

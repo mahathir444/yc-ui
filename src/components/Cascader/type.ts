@@ -23,7 +23,7 @@ export interface CascaderProps {
   filterOption?: (inputValue: string, option: CascaderOption) => boolean;
   popupContainer?: PopupContainer;
   maxTagCount?: number;
-  // formatLabel?: (options: CascaderOption[]) => string;
+  formatLabel?: (options: CascaderOption[]) => string;
   triggerProps?: TriggerProps;
   // check-strictly
   // load-more

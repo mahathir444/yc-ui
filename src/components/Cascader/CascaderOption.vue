@@ -79,13 +79,8 @@ const handleClick = () => {
     return;
   }
   if (children.value.length) {
-    const isAtCurLevel =
-      curLevel.value == level.value + 1 &&
-      curPath.value.join('-') == path.value.join('-');
-    curLevel.value = isAtCurLevel ? level.value : level.value + 1;
-    curPath.value = isAtCurLevel
-      ? path.value.slice(0, path.value.length)
-      : path.value;
+    curLevel.value = level.value + 1;
+    curPath.value = path.value;
   } else {
     computedValue.value = pathMode.value ? valuePath.value : value.value;
     blur();
@@ -123,8 +118,6 @@ const handleClick = () => {
 }
 .yc-cascader-option-selected {
   background-color: rgb(242, 243, 245);
-  color: #165dff;
-  font-weight: 500;
 }
 .yc-cascader-option-disabled {
   color: rgb(201, 205, 212);
