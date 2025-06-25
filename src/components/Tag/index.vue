@@ -1,7 +1,5 @@
 <template>
-  <prevent-focus
-    tag="label"
-    :prevent-focus="preventFocus"
+  <label
     :class="[
       'yc-tag',
       `yc-tag-color-${color}`,
@@ -23,6 +21,7 @@
       background,
     }"
     @click="handleEvent('check', $event)"
+    @mousedown="(e) => preventFocus && e.preventDefault()"
   >
     <!-- icon -->
     <div v-if="$slots.icon" class="yc-tag-icon">
@@ -44,7 +43,7 @@
     </icon-button>
     <!-- loading -->
     <yc-spin v-if="loading" :size="12" class="yc-tag-loading-icon" />
-  </prevent-focus>
+  </label>
 </template>
 
 <script lang="ts" setup>
@@ -53,7 +52,7 @@ import { TagProps, TagEmits, TagSlots } from './type';
 import { TAG_PRESET_COLORS } from '@shared/constants';
 import { useControlValue, getGlobalConfig } from '@shared/utils';
 import YcSpin from '@/components/Spin';
-import { PreventFocus, IconButton } from '@shared/components';
+import { IconButton } from '@shared/components';
 defineOptions({
   name: 'Tag',
 });

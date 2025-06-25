@@ -1,7 +1,5 @@
 <template>
-  <prevent-focus
-    tag="label"
-    :prevent-focus="preventFocus"
+  <label
     :class="[
       'yc-checkbox',
       {
@@ -11,6 +9,7 @@
         'yc-checkbox-checked': computedChecked,
       },
     ]"
+    @mousedown="(e) => preventFocus && e.preventDefault()"
   >
     <input
       type="checkbox"
@@ -41,7 +40,7 @@
         <slot />
       </span>
     </slot>
-  </prevent-focus>
+  </label>
 </template>
 
 <script lang="ts" setup>
@@ -50,7 +49,7 @@ import { CheckboxProps, CheckboxEmits, CheckboxSlots } from './type';
 import { useControlValue, isUndefined } from '@shared/utils';
 import useContext from './hooks/useContext';
 import { IconCheckboxChecked } from '@shared/icons';
-import { PreventFocus, IconButton } from '@shared/components';
+import { IconButton } from '@shared/components';
 defineOptions({
   name: 'Checkbox',
 });

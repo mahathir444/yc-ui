@@ -18,7 +18,7 @@ export interface CascaderProps {
   defaultInputValue?: string;
   popupVisible?: boolean;
   defaultPopupVisible?: boolean;
-  expandTrigger?: 'click' | 'hover';
+  expandTrigger?: ExpandTrigger;
   placeholder?: string;
   filterOption?: (inputValue: string, option: CascaderOption) => boolean;
   popupContainer?: PopupContainer;
@@ -73,3 +73,5 @@ export type CascaderOptionProps = {
   index?: number;
   nodePath?: CascaderOptionProps[];
 } & CascaderOption;
+
+export type ExpandTrigger = 'click' | 'hover';

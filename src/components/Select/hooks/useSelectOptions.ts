@@ -77,7 +77,7 @@ export default (params: {
   const selectOptions = computed(() => {
     const opts = [...options.value, ...fallbackOptions.value];
     // 计算input-tag需要显示的值
-    return selectValue.value.map((v) => {
+    const result = selectValue.value.map((v) => {
       const option = (opts.find((item) => getValue(item.value) == v) ||
         {}) as SelectOptionData;
       return {
@@ -86,6 +86,8 @@ export default (params: {
         label: option ? (formatLabel?.(option) ?? option?.label) : v,
       };
     });
+    console.log(result, 'rest');
+    return result;
   });
   // 收集option
   const collectOption = (props: Props, optionLabel: Ref<string>) => {

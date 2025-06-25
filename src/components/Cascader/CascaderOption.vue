@@ -9,7 +9,8 @@
         'yc-cascader-option-disabled': disabled,
       },
     ]"
-    @click="handleClick"
+    @mouseenter="handleClick('hover')"
+    @click="handleClick('click')"
   >
     <div class="yc-cascader-option-label">
       {{ label }}
@@ -47,6 +48,7 @@ const {
   curPath,
   multiple,
   options,
+  expandTrigger,
   getValue,
   blur,
 } = useContext().inject();
@@ -82,14 +84,16 @@ const isSelected = computed(() => {
     : computedValue.value && isOptionSelected(computedValue.value);
 });
 // 处理点击
-const handleClick = () => {
+const handleClick = (type: 'click' | 'hover') => {
   if (disabled.value) {
     return;
   }
-  if (children.value.length) {
+  const isLeafNode = !children.value.length;
+  if (!isLeafNode && expandTrigger.value == type) {
     curLevel.value = level.value + 1;
     curPath.value = nodePath.value.map((item) => item.index!);
-  } else {
+  }
+  if (isLeafNode && type == 'click') {
     computedValue.value = pathMode.value
       ? nodePath.value.map((item) => item.value)
       : value.value;

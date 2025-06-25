@@ -16,6 +16,7 @@ import {
   CascaderOption,
   CascaderOptionValue,
   CascaderOptionProps,
+  ExpandTrigger,
 } from '../type';
 import { InputInstance } from '@/components/Input';
 import { isObject, useControlValue } from '@shared/utils';
@@ -33,6 +34,7 @@ export type CascaderContext = {
   multiple: Ref<boolean>;
   loading: Ref<boolean>;
   slots: Slots;
+  expandTrigger: Ref<ExpandTrigger>;
   blur: () => void;
   getValue: (...arg: any) => any;
   emits: CascaderEmits;
@@ -126,8 +128,10 @@ export default () => {
       loading,
       fieldNames,
       valueKey,
+      expandTrigger,
       options: _options,
     } = toRefs(props as RequiredDeep<CascaderProps>);
+    const { formatLabel } = props;
     // 插槽
     const slots = useSlots();
     // 受控的值
@@ -183,35 +187,40 @@ export default () => {
         );
       });
       // 转换options
-      const result = flattenOptions(transformOptions(tempOptions));
-      console.log(result, 'options');
-      return result;
+      return flattenOptions(transformOptions(tempOptions));
     });
     // 选中的option
     const selectOptions = computed(() => {
-      return options.value.filter((option) => {
+      const result = options.value.filter((option) => {
         if (pathMode.value) {
           return multiple.value
-            ? computedValue.value.find(
-                (v: CascaderOptionValue[]) =>
+            ? computedValue.value.find((v: CascaderOptionValue[]) => {
+                return (
                   option.nodePath
                     ?.map((item) => getValue(item.value!))
                     ?.join('-') == v.map((item) => getValue(item)).join('-')
-              )
+                );
+              })
             : computedValue.value
                 .map((item: CascaderOptionValue) => getValue(item))
                 .join('-') ==
                 option.nodePath?.map((item) => getValue(item.value!)).join('-');
         } else {
           return multiple.value
-            ? computedValue.value.find(
-                (v: CascaderOptionValue) =>
-                  getValue(option.value!) == getValue(v)
-              )
+            ? computedValue.value.find((v: CascaderOptionValue) => {
+                return getValue(option.value!) == getValue(v);
+              })
             : getValue(computedValue.value) == getValue(option.value!);
         }
       });
-      return [];
+      return result.map((item) => {
+        const option = {
+          ...item,
+          id: item.nodePath?.map((item) => item.index).join('-'),
+          label: formatLabel?.(item.nodePath) ?? item.label,
+        };
+        return option;
+      });
     });
     // 当前的层级
     const curLevel = ref<number>(1);
@@ -233,6 +242,7 @@ export default () => {
       options,
       curLevel,
       curPath,
+      expandTrigger,
       pathMode,
       multiple,
       loading,
@@ -266,6 +276,7 @@ export default () => {
       computedInputValue: ref(''),
       computedVisible: ref(false),
       options: ref([]),
+      expandTrigger: ref('click'),
       curLevel: ref(1),
       curPath: ref([]),
       pathMode: ref(false),

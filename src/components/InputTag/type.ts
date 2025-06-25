@@ -29,7 +29,7 @@ export interface InputTagEmits {
   (e: 'focus', ev: FocusEvent): void;
   (e: 'blur', ev: FocusEvent): void;
   (e: 'pressEnter', ev: KeyboardEvent): void;
-  (e: 'remove', ev: MouseEvent | KeyboardEvent): void;
+  (e: 'remove', value: number | string, ev: MouseEvent | KeyboardEvent): void;
   (e: 'clear', ev: MouseEvent): void;
 }
 

@@ -51,7 +51,7 @@ export interface SelectEmits {
   (e: 'change', value: SelectValue): void;
   (e: 'input-value-change', value: string): void;
   (e: 'clear'): void;
-  (e: 'remove'): void;
+  (e: 'remove', index: number | string, ev: Event): void;
   (e: 'search', value: string): void;
   (e: 'exceedLimit', value: SelectValue, ev?: MouseEvent): void;
   (e: 'popupVisibleChange', value: boolean): void;

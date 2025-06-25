@@ -1,7 +1,5 @@
 <template>
-  <prevent-focus
-    tag="label"
-    :prevent-focus="preventFocus"
+  <label
     :class="[
       `yc-radio-button-size-${size}`,
       `yc-radio${computedType == 'radio' ? '' : '-button'}`,
@@ -10,6 +8,7 @@
         'yc-radio-disabled': computedDisabled,
       },
     ]"
+    @mousedown="(e) => preventFocus && e.preventDefault()"
     @click="handleChange"
   >
     <input
@@ -37,7 +36,7 @@
         <slot />
       </span>
     </slot>
-  </prevent-focus>
+  </label>
 </template>
 
 <script lang="ts" setup>
@@ -45,7 +44,7 @@ import { toRefs, computed } from 'vue';
 import { RadioProps, RadioEmits, RadioSlots, RadioValue } from './type';
 import { useControlValue } from '@shared/utils';
 import useContext from './hooks/useContext';
-import { PreventFocus, IconButton } from '@shared/components';
+import { IconButton } from '@shared/components';
 defineOptions({
   name: 'Radio',
 });

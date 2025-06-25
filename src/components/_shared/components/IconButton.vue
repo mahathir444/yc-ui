@@ -1,23 +1,23 @@
 <template>
-  <prevent-focus
+  <div
     :class="[
       'yc-icon-button',
       {
         'yc-icon-button-disabled': disabled,
       },
     ]"
+    @mousedown="(e) => e.preventDefault()"
   >
     <slot>
       <icon-close :size="size" />
     </slot>
-  </prevent-focus>
+  </div>
 </template>
 
 <script lang="ts" setup>
 import { toRefs, computed } from 'vue';
 import { IconClose } from '@shared/icons';
 import { valueToPx } from '@shared/utils';
-import PreventFocus from './PreventFocus.vue';
 const props = withDefaults(
   defineProps<{
     size?: number;

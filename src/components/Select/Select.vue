@@ -35,7 +35,7 @@
           :disabled="disabled"
           :size="size"
           :error="error"
-          :placeholder="selectOptions[0]?.label?.toString() || ''"
+          :placeholder="(selectOptions[0]?.label as string) || ''"
           ref="inputRef"
           @click="handleEvent('focus')"
           @blur="handleEvent('blur')"
@@ -47,7 +47,7 @@
               <span
                 :class="[
                   {
-                    'yc-input-placeholder': !selectOptions[0]?.label,
+                    'yc-input-placeholder': !selectOptions.length,
                   },
                 ]"
               >
@@ -82,8 +82,9 @@
           @focus="handleEvent('focus')"
           @blur="handleEvent('blur')"
           @input="(v) => handleEvent('search', v)"
-          @remove="$emit('remove')"
+          @remove="(v, ev) => $emit('remove', v, ev)"
           @press-enter="handleEvent('create')"
+          @update:model-value="(v) => handleEvent('updateValue', v)"
         >
           <template #tag="scope">
             <slot v-if="$slots.label" name="label" v-bind="scope" />
@@ -122,7 +123,11 @@ import useContext from './hooks/useContext';
 import SelectIcon from './SelectIcon.vue';
 import SelectView from './SelectView.vue';
 import { default as YcInput, InputInstance } from '@/components/Input';
-import { default as YcInputTag, InputTagValue } from '@/components/InputTag';
+import {
+  default as YcInputTag,
+  InputTagValue,
+  TagData,
+} from '@/components/InputTag';
 import { default as YcTrigger, TriggerInstance } from '@/components/Trigger';
 defineOptions({
   name: 'Select',
@@ -265,6 +270,13 @@ const handleEvent = async (
       {
         computedVisible.value = false;
         computedInputValue.value = '';
+      }
+      break;
+    case 'updateValue':
+      {
+        computedValue.value = (value as InputTagValue).map(
+          (item) => (item as TagData).value
+        );
       }
       break;
   }

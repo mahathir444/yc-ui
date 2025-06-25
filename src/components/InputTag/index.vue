@@ -1,5 +1,5 @@
 <template>
-  <prevent-focus
+  <div
     :class="[
       'yc-input-tag',
       `yc-input-tag-size-${size}`,
@@ -10,6 +10,7 @@
         'yc-input-tag-has-suffix': $slots.suffix || showClearBtn,
       },
     ]"
+    @mousedown="(e) => e.preventDefault()"
     @click="inputRef?.focus()"
   >
     <!-- prefix-icon -->
@@ -83,7 +84,7 @@
       />
       <slot name="suffix" />
     </prevent-focus>
-  </prevent-focus>
+  </div>
 </template>
 
 <script lang="ts" setup>
@@ -284,20 +285,21 @@ const handleEvent = (type: string, e: Event, id?: string) => {
       break;
     case 'close':
       {
-        computedValue.value = (computedValue.value as TagData[]).filter(
-          (_, index) => computedValue.value[index].id != id
-        );
-        emits('remove', e as MouseEvent);
+        const arr = computedValue.value as TagData[];
+        const value = arr.find((v) => v.id == id);
+        computedValue.value = arr.filter((v) => v.id != id);
+        emits('remove', value?.value, e as MouseEvent);
       }
       break;
     case 'remove':
       {
         if (inputVal || !computedValue.value?.length) return;
+        const value = computedValue.value[computedValue.value.length - 1];
         computedValue.value = computedValue.value.slice(
           0,
           computedValue.value.length - 1
         );
-        emits('remove', e as MouseEvent);
+        emits('remove', value.value, e as MouseEvent);
       }
       break;
     case 'clear':
