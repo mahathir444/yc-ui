@@ -1,30 +1,27 @@
 <template>
   <TransitionGroup tag="div" name="cascader-slide" class="yc-cascader-panel">
-    <yc-spin v-if="loading" />
-    <template v-else>
-      <div
-        v-for="i in curLevel"
-        :key="i"
-        :style="{
-          zIndex: curLevel + 1 - i,
-        }"
-        class="yc-cascader-panel-column"
-      >
-        <yc-scrollbar class="yc-cascader-column-content">
-          <ul role="menu" class="yc-cascader-list">
-            <yc-cascader-option
-              v-for="(option, i1) in findOptions(
-                options,
-                i,
-                curPath.slice(0, i - 1)
-              )"
-              :key="i1"
-              v-bind="option"
-            />
-          </ul>
-        </yc-scrollbar>
-      </div>
-    </template>
+    <div
+      v-for="i in curLevel"
+      :key="i"
+      :style="{
+        zIndex: curLevel + 1 - i,
+      }"
+      class="yc-cascader-panel-column"
+    >
+      <yc-scrollbar class="yc-cascader-column-content">
+        <ul role="menu" class="yc-cascader-list">
+          <yc-cascader-option
+            v-for="(option, i1) in findOptions(
+              options,
+              i,
+              curPath.slice(0, i - 1)
+            )"
+            :key="i1"
+            v-bind="option"
+          />
+        </ul>
+      </yc-scrollbar>
+    </div>
   </TransitionGroup>
 </template>
 

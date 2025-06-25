@@ -5,14 +5,18 @@ import { TriggerProps } from '../Trigger';
 
 export interface CascaderProps {
   pathMode?: boolean;
+  //
   multiple?: boolean;
+  //
   modelValue?: CascaderValue;
   defaultValue?: CascaderValue;
   options?: CascaderOption[];
   disabled?: boolean;
   error?: boolean;
   size?: Size;
+  //
   allowSearch?: boolean;
+  //
   allowClear?: boolean;
   inputValue?: string;
   defaultInputValue?: string;
@@ -20,7 +24,9 @@ export interface CascaderProps {
   defaultPopupVisible?: boolean;
   expandTrigger?: ExpandTrigger;
   placeholder?: string;
+  //
   filterOption?: (inputValue: string, option: CascaderOption) => boolean;
+  //
   popupContainer?: PopupContainer;
   maxTagCount?: number;
   formatLabel?: (options: CascaderOption[]) => string;
@@ -49,6 +55,16 @@ export interface CascaderEmits {
   (e: 'popup-visible-change', value: boolean): void;
   (e: 'focus', ev: FocusEvent): void;
   (e: 'blur', ev: FocusEvent): void;
+}
+
+export interface CascaderSlots {
+  label(params: { data: CascaderOption }): void;
+  prefix(): void;
+  ['arrow-icon'](): void;
+  ['loading-icon'](): void;
+  ['search-icon'](): void;
+  empty(): void;
+  option(params: { data: CascaderOption }): void;
 }
 
 export type CascaderValue =

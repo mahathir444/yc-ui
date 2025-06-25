@@ -19,15 +19,15 @@ import {
   ExpandTrigger,
 } from '../type';
 import { InputInstance } from '@/components/Input';
-import { isObject, useControlValue } from '@shared/utils';
+import { isObject, useControlValue, isArray } from '@shared/utils';
 
 export const CASCADER_CONTEXT_KEY = 'cascader-context';
 
 export type CascaderContext = {
   computedValue: Ref<CascaderValue>;
   computedInputValue: Ref<string>;
-  computedVisible: Ref<boolean>;
   options: Ref<CascaderOptionProps[]>;
+  optionMap: Ref<Record<string, CascaderOptionProps>>;
   curLevel: Ref<number>;
   curPath: Ref<number[]>;
   pathMode: Ref<boolean>;
@@ -37,6 +37,7 @@ export type CascaderContext = {
   expandTrigger: Ref<ExpandTrigger>;
   blur: () => void;
   getValue: (...arg: any) => any;
+  getValueKey: (...arg: any) => any;
   emits: CascaderEmits;
 };
 
@@ -105,6 +106,21 @@ export const findOptions = (
         );
       });
 };
+// 获取所有的子夜节点
+export function getLeafNodes(node: CascaderOptionProps) {
+  const leafNodes: CascaderOptionProps[] = [];
+  function traverse(currentNode: CascaderOptionProps) {
+    if (!currentNode.children || currentNode.children.length === 0) {
+      // 没有子节点，是叶子节点
+      leafNodes.push(currentNode);
+      return;
+    }
+    // 有子节点，继续递归遍历
+    currentNode.children.forEach((child) => traverse(child));
+  }
+  traverse(node);
+  return leafNodes;
+}
 
 export default () => {
   const provide = (
@@ -132,8 +148,6 @@ export default () => {
       options: _options,
     } = toRefs(props as RequiredDeep<CascaderProps>);
     const { formatLabel } = props;
-    // 插槽
-    const slots = useSlots();
     // 受控的值
     const computedValue = useControlValue<CascaderValue>(
       modelValue,
@@ -189,35 +203,33 @@ export default () => {
       // 转换options
       return flattenOptions(transformOptions(tempOptions));
     });
+    // optionMap
+    const optionMap = computed(() => {
+      return Object.fromEntries([
+        ...options.value.map((item) => {
+          return [getValueKey(item.nodePath!.map((item) => item.value!)), item];
+        }),
+        ...options.value.map((item) => {
+          return [getValueKey(item), item];
+        }),
+      ]);
+    });
     // 选中的option
     const selectOptions = computed(() => {
-      const result = options.value.filter((option) => {
-        if (pathMode.value) {
-          return multiple.value
-            ? computedValue.value.find((v: CascaderOptionValue[]) => {
-                return (
-                  option.nodePath
-                    ?.map((item) => getValue(item.value!))
-                    ?.join('-') == v.map((item) => getValue(item)).join('-')
-                );
-              })
-            : computedValue.value
-                .map((item: CascaderOptionValue) => getValue(item))
-                .join('-') ==
-                option.nodePath?.map((item) => getValue(item.value!)).join('-');
-        } else {
-          return multiple.value
-            ? computedValue.value.find((v: CascaderOptionValue) => {
-                return getValue(option.value!) == getValue(v);
-              })
-            : getValue(computedValue.value) == getValue(option.value!);
-        }
-      });
+      const result: CascaderOptionProps[] = multiple.value
+        ? computedValue.value.map(
+            (item: CascaderOptionValue[]) => optionMap.value[getValueKey(item)]
+          )
+        : [optionMap.value[getValueKey(computedValue.value)]];
       return result.map((item) => {
         const option = {
           ...item,
           id: item.nodePath?.map((item) => item.index).join('-'),
-          label: formatLabel?.(item.nodePath) ?? item.label,
+          label:
+            formatLabel?.(item.nodePath) ??
+            (multiple.value
+              ? item.nodePath?.map((item) => item.label).join(' / ')
+              : item.label),
         };
         return option;
       });
@@ -226,9 +238,19 @@ export default () => {
     const curLevel = ref<number>(1);
     // 当前的index
     const curPath = ref<number[]>([]);
+    // 插槽
+    const slots = useSlots();
     // 获取value
     const getValue = (value: CascaderOptionValue) => {
       return isObject(value) ? value[valueKey.value] : value;
+    };
+    // 获取valueKey
+    const getValueKey = (
+      value: CascaderOptionValue | CascaderOptionValue[]
+    ) => {
+      return isArray(value)
+        ? value.map((v) => getValue(v as CascaderOptionValue)).join('-')
+        : (getValue(value) as string);
     };
     // 失焦
     function blur() {
@@ -238,8 +260,8 @@ export default () => {
     _provide<CascaderContext>(CASCADER_CONTEXT_KEY, {
       computedValue,
       computedInputValue,
-      computedVisible,
       options,
+      optionMap,
       curLevel,
       curPath,
       expandTrigger,
@@ -249,6 +271,7 @@ export default () => {
       slots,
       blur,
       getValue,
+      getValueKey,
       emits,
     });
     return {
@@ -274,8 +297,8 @@ export default () => {
     return _inject<CascaderContext>(CASCADER_CONTEXT_KEY, {
       computedValue: ref(''),
       computedInputValue: ref(''),
-      computedVisible: ref(false),
       options: ref([]),
+      optionMap: ref({}),
       expandTrigger: ref('click'),
       curLevel: ref(1),
       curPath: ref([]),
@@ -286,6 +309,7 @@ export default () => {
       emits: () => {},
       blur: () => {},
       getValue: () => {},
+      getValueKey: () => {},
     });
   };
   return {

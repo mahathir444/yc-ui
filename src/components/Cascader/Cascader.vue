@@ -37,6 +37,13 @@
         @input="(v) => handleEvent('search', v)"
         @update:model-value="(v) => handleEvent('updateValue', v)"
       >
+        <template v-if="$slots.label" #tag="scope">
+          <slot name="label" v-bind="scope" />
+        </template>
+        <!-- prefix -->
+        <template v-if="$slots.prefix" #prefix>
+          <slot name="prefix" />
+        </template>
         <!-- suffix -->
         <template #suffix>
           <cascader-icon
@@ -74,6 +81,10 @@
               {{ selectOptions[0]?.label || placeholder }}
             </span>
           </slot>
+        </template>
+        <!-- prefix -->
+        <template v-if="$slots.prefix" #prefix>
+          <slot name="prefix" />
         </template>
         <!-- suffix -->
         <template #suffix>
@@ -114,7 +125,9 @@ const props = withDefaults(defineProps<CascaderProps>(), {
   pathMode: false,
   multiple: false,
   modelValue: undefined,
-  defaultValue: '',
+  defaultValue: (props) => {
+    return props.multiple ? [] : '';
+  },
   options: () => [],
   disabled: false,
   error: false,

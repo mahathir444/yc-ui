@@ -1,17 +1,20 @@
 <template>
   <div class="test">
-    <a-cascader
-      loading
-      :options="options"
-      :format-label="(options) => options.map((item) => item.label).join('、')"
-    />
-    <a-select loading />
-    <yc-cascader :options="options" />
+    <a-cascader v-model="value" multiple path-mode :options="options" />
+
+    <yc-cascader v-model="value" :options="options" multiple />
   </div>
 </template>
 
 <script lang="ts" setup>
 import { ref, watch } from 'vue';
+const value = ref([]);
+watch(
+  () => value.value.length,
+  () => {
+    console.log(value.value);
+  }
+);
 const options = [
   {
     value: 'beijing',

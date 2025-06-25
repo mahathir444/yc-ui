@@ -28,7 +28,7 @@
         >
           <span class="yc-radio-icon"> </span>
         </icon-button>
-        <span class="yc-radio-label text-ellipsis">
+        <span v-if="$slots.default" class="yc-radio-label text-ellipsis">
           <slot />
         </span>
       </template>

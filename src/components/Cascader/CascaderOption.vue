@@ -5,14 +5,23 @@
     :class="[
       'yc-cascader-option',
       {
-        'yc-cascader-option-selected': isSelected,
+        'yc-cascader-option-selected': checked,
         'yc-cascader-option-disabled': disabled,
       },
     ]"
-    @mouseenter="handleClick('hover')"
-    @click="handleClick('click')"
   >
-    <div class="yc-cascader-option-label">
+    <yc-checkbox
+      v-if="multiple"
+      :disabled="disabled"
+      :model-value="checked"
+      :indeterminate="indeterminate"
+      @update:model-value="handleMuti"
+    />
+    <div
+      class="yc-cascader-option-label text-ellipsis"
+      @mouseenter="handleEvent('hover')"
+      @click="handleEvent('click')"
+    >
       {{ label }}
       <icon-arrow-right v-if="children.length" />
     </div>
@@ -24,7 +33,8 @@ import { computed, toRefs } from 'vue';
 import { CascaderOptionProps, CascaderOptionValue } from './type';
 import { IconArrowRight } from '@shared/icons';
 import { isArray } from '@shared/utils';
-import useContext from './hooks/useContext';
+import YcCheckbox from '@/components/Checkbox';
+import { default as useContext, getLeafNodes } from './hooks/useContext';
 const props = withDefaults(defineProps<CascaderOptionProps>(), {
   label: '',
   value: '',
@@ -39,61 +49,95 @@ const props = withDefaults(defineProps<CascaderOptionProps>(), {
   index: -1,
   nodePath: () => [],
 });
-const { level, children, value, disabled, nodePath } = toRefs(props);
+const { value, disabled, level, children, nodePath } = toRefs(props);
 // 接收注入
 const {
   computedValue,
+  optionMap,
   pathMode,
   curLevel,
   curPath,
   multiple,
-  options,
   expandTrigger,
   getValue,
+  getValueKey,
   blur,
 } = useContext().inject();
-// 判断值是否相等
-const isValueEqual = (v: any, v1: any) => {
-  if (isArray(v) && isArray(v1)) {
-    return (
-      v.map((item) => getValue(item)).toString() ==
-      v1.map((item) => getValue(item)).toString()
-    );
+// 是否全选
+const checked = computed(() => {
+  if (!multiple.value) {
+    if (!computedValue.value) {
+      return false;
+    }
+    const option = optionMap.value[getValueKey(computedValue.value)];
+    return option.nodePath?.some((node) => {
+      return getValueKey(node.value!) == getValueKey(value.value);
+    });
   } else {
-    return getValue(v) == getValue(v1);
+    const options = (computedValue.value as CascaderOptionValue[]).map((v) => {
+      return optionMap.value[getValueKey(v)];
+    });
+    return;
+  }
+});
+// 是否半选
+const indeterminate = computed(() => {
+  return false;
+});
+// 组装valueMap
+const getValueMap = (value: CascaderOptionValue[]) => {
+  return Object.fromEntries(
+    value.map((v) => {
+      const key = isArray(v)
+        ? v.map((v1) => getValue(v1)).join('-')
+        : getValue(v);
+      return [key, v];
+    })
+  );
+};
+// 处理对选
+const handleMuti = (val: boolean) => {
+  const option = optionMap.value[getValueKey(value.value)];
+  const leafNodes = getLeafNodes(option);
+  const curValue = computedValue.value as CascaderOptionValue[];
+  if (val) {
+    const valueMap = getValueMap(curValue);
+    computedValue.value = [
+      ...curValue,
+      ...leafNodes
+        .map((item) => {
+          return pathMode.value
+            ? item.nodePath!.map((v) => v.value)
+            : item.value;
+        })
+        .filter((item) => {
+          return !valueMap[getValueKey(item!)];
+        }),
+    ];
+  } else {
+    const valueMap = getValueMap(
+      leafNodes.map((item) => {
+        return pathMode.value ? item.nodePath!.map((v) => v.value) : item.value;
+      }) as CascaderOptionValue[]
+    );
+    computedValue.value = curValue.filter((item) => {
+      return !valueMap[getValueKey(item!)];
+    });
   }
 };
-// 判断选项是否选中
-const isOptionSelected = (v: CascaderOptionValue) => {
-  const option = options.value.find((v1) => {
-    return isValueEqual(
-      v,
-      v1.nodePath!.map((item) => item.value)
-    );
-  })!;
-  return option.nodePath?.some((node) => {
-    return isValueEqual(node.value, value.value);
-  });
-};
-//是否选中
-const isSelected = computed(() => {
-  return multiple.value
-    ? (computedValue.value as CascaderOptionValue[]).find((v) => {
-        return isOptionSelected(v);
-      })
-    : computedValue.value && isOptionSelected(computedValue.value);
-});
 // 处理点击
-const handleClick = (type: 'click' | 'hover') => {
+const handleEvent = (type: 'click' | 'hover') => {
   if (disabled.value) {
     return;
   }
   const isLeafNode = !children.value.length;
+  // 处理展开
   if (!isLeafNode && expandTrigger.value == type) {
     curLevel.value = level.value + 1;
     curPath.value = nodePath.value.map((item) => item.index!);
   }
-  if (isLeafNode && type == 'click') {
+  // 处理点击
+  if (isLeafNode && type == 'click' && !multiple.value) {
     computedValue.value = pathMode.value
       ? nodePath.value.map((item) => item.value)
       : value.value;
@@ -103,39 +147,5 @@ const handleClick = (type: 'click' | 'hover') => {
 </script>
 
 <style lang="less" scoped>
-.yc-cascader-option {
-  cursor: pointer;
-  position: relative;
-  height: 36px;
-  min-width: 100px;
-  background-color: transparent;
-  color: rgb(29, 33, 41);
-  font-size: 14px;
-  line-height: 36px;
-  transition: all 0.2s cubic-bezier(0, 0, 1, 1);
-  display: flex;
-  align-items: center;
-  &:not(.yc-cascader-option-disabled):hover {
-    background-color: rgb(242, 243, 245);
-  }
-  .yc-cascader-option-label {
-    padding: 0 34px 0 12px;
-    .yc-icon {
-      position: absolute;
-      top: 50%;
-      right: 10px;
-      transform: translateY(-50%);
-      color: rgb(78, 89, 105);
-      font-size: 12px;
-    }
-  }
-}
-.yc-cascader-option-selected {
-  background-color: rgb(242, 243, 245);
-}
-.yc-cascader-option-disabled {
-  color: rgb(201, 205, 212);
-  background-color: transparent;
-  cursor: not-allowed;
-}
+@import './style/option.less';
 </style>

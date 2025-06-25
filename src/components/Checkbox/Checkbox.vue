@@ -36,7 +36,7 @@
           <icon-checkbox-checked :size="[8, 10]" />
         </span>
       </icon-button>
-      <span class="yc-checkbox-label text-ellipsis">
+      <span v-if="$slots.default" class="yc-checkbox-label text-ellipsis">
         <slot />
       </span>
     </slot>
