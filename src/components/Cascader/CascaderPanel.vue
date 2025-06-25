@@ -29,7 +29,8 @@
 import { default as useContext, findOptions } from './hooks/useContext';
 import YcCascaderOption from './CascaderOption.vue';
 import YcScrollbar from '@/components/Scrollbar';
-const { options, curLevel, curPath } = useContext().inject();
+import YcSpin from '@/components/Spin';
+const { options, curLevel, curPath, loading } = useContext().inject();
 </script>
 
 <style lang="less" scoped>

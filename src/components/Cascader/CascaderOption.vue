@@ -35,11 +35,10 @@ const props = withDefaults(defineProps<CascaderOptionProps>(), {
   children: () => [],
   isLeaf: false,
   level: -1,
-  path: () => [],
-  valuePath: () => [],
-  labelPath: () => [],
+  index: -1,
+  nodePath: () => [],
 });
-const { path, level, children, value, valuePath, disabled } = toRefs(props);
+const { level, children, value, disabled, nodePath } = toRefs(props);
 // 接收注入
 const {
   computedValue,
@@ -51,19 +50,28 @@ const {
   getValue,
   blur,
 } = useContext().inject();
+// 判断值是否相等
+const isValueEqual = (v: any, v1: any) => {
+  if (isArray(v) && isArray(v1)) {
+    return (
+      v.map((item) => getValue(item)).toString() ==
+      v1.map((item) => getValue(item)).toString()
+    );
+  } else {
+    return getValue(v) == getValue(v1);
+  }
+};
 // 判断选项是否选中
 const isOptionSelected = (v: CascaderOptionValue) => {
   const option = options.value.find((v1) => {
-    if (isArray(v) && isArray(v1)) {
-      return (
-        v.map((item) => getValue(item)).toString() ==
-        v1.map((item) => getValue(item)).toString()
-      );
-    } else {
-      return getValue(v) == getValue(v1);
-    }
+    return isValueEqual(
+      v,
+      v1.nodePath!.map((item) => item.value)
+    );
   })!;
-  return option.valuePath?.[level.value - 1] == value.value;
+  return option.nodePath?.some((node) => {
+    return isValueEqual(node.value, value.value);
+  });
 };
 //是否选中
 const isSelected = computed(() => {
@@ -80,9 +88,11 @@ const handleClick = () => {
   }
   if (children.value.length) {
     curLevel.value = level.value + 1;
-    curPath.value = path.value;
+    curPath.value = nodePath.value.map((item) => item.index!);
   } else {
-    computedValue.value = pathMode.value ? valuePath.value : value.value;
+    computedValue.value = pathMode.value
+      ? nodePath.value.map((item) => item.value)
+      : value.value;
     blur();
   }
 };

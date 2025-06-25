@@ -70,7 +70,6 @@ export type CascaderOption = {
 
 export type CascaderOptionProps = {
   level?: number;
-  path?: number[];
-  valuePath?: CascaderOptionValue[];
-  labelPath?: string[];
+  index?: number;
+  nodePath?: CascaderOptionProps[];
 } & CascaderOption;

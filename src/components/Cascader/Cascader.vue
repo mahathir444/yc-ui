@@ -92,15 +92,11 @@
 
 <script lang="ts" setup>
 import { ref, computed } from 'vue';
-import { CascaderProps, CascaderEmits } from './type';
+import { CascaderProps, CascaderEmits, CascaderOptionValue } from './type';
 import { sleep } from '@shared/utils';
 import useContext from './hooks/useContext';
 import { default as YcInput, InputInstance } from '@/components/Input';
-import {
-  default as YcInputTag,
-  InputTagValue,
-  TagData,
-} from '@/components/InputTag';
+import { default as YcInputTag, InputTagValue } from '@/components/InputTag';
 import YcTrigger from '@/components/Trigger';
 import CascaderPanel from './CascaderPanel.vue';
 import CascaderIcon from './CascaderIcon.vue';
@@ -162,6 +158,7 @@ const {
   options,
   curLevel,
   curPath,
+  getValue,
 } = useContext().provide(props, emits, inputRef);
 // 是否展示清除按钮
 const showClearBtn = computed(() => {
@@ -207,20 +204,26 @@ const handleEvent = async (
         }
         computedVisible.value = true;
         // 计算回显的面板
-        const target = options.value.find((item) => {
+        const target = options.value.find((option) => {
           if (pathMode.value) {
-            const optionPath = item.path?.join('');
-            return multiple.value
-              ? computedValue.value?.[0]?.join('') == optionPath
-              : computedValue.value.join('') == optionPath;
+            const curValue = multiple.value
+              ? computedValue.value[0]
+              : computedValue.value;
+            return (
+              curValue
+                .map((value: CascaderOptionValue) => getValue(value))
+                .join('-') ==
+              option.nodePath?.map((item) => getValue(item.value!)).join('-')
+            );
           } else {
-            return multiple.value
-              ? computedValue.value?.[0] == item.value
-              : computedValue.value == item.value;
+            const curValue = multiple.value
+              ? computedValue.value[0]
+              : computedValue.value;
+            return getValue(curValue) == getValue(option.value!);
           }
         });
         if (target) {
-          curPath.value = target.path!;
+          curPath.value = target.nodePath!.map((item) => item.index!);
           curLevel.value = target.level!;
         }
         await sleep(0);

@@ -31,6 +31,7 @@ export type CascaderContext = {
   curPath: Ref<number[]>;
   pathMode: Ref<boolean>;
   multiple: Ref<boolean>;
+  loading: Ref<boolean>;
   slots: Slots;
   blur: () => void;
   getValue: (...arg: any) => any;
@@ -40,45 +41,29 @@ export type CascaderContext = {
 // 增强option添加indexPath,valuePath,level,labelPath
 export function transformOptions(
   options: CascaderOption[],
-  startLevel: number = 1,
-  parentIndices: number[] = [],
-  parentValuePath: Array<string | number | Record<string, any>> = [],
-  parentLabelPath: string[] = []
+  level: number = 1,
+  nodePath: CascaderOption[] = []
 ): CascaderOptionProps[] {
-  return options.map((option, currentIndex) => {
-    // 当前节点的索引路径
-    const currentIndexPath = [...parentIndices, currentIndex];
-    // 当前节点的value路径
-    const currentValuePath = [...parentValuePath];
-    if (option.value !== undefined) {
-      currentValuePath.push(option.value);
-    }
-    // 当前节点的label路径
-    const currentLabelPath = [...parentLabelPath];
-    if (option.label !== undefined) {
-      currentLabelPath.push(option.label);
-    }
-    // 创建增强后的选项
-    const enhancedOption: CascaderOption & {
-      level: number;
-      path: number[];
-      valuePath: Array<string | number | Record<string, any>>;
-      labelPath: string[];
-    } = {
+  return options.map((option, index) => {
+    // 构建baseOption
+    const baseOption = {
       ...option,
-      level: startLevel,
-      path: currentIndexPath,
-      valuePath: currentValuePath,
-      labelPath: currentLabelPath,
+      index,
+      level,
+    };
+    // 构建path
+    const curNodePath = [...nodePath, baseOption];
+    // 构建option
+    const enhancedOption: CascaderOptionProps = {
+      ...baseOption,
+      nodePath: curNodePath,
     };
     // 递归处理子节点
     if (enhancedOption.children && enhancedOption.children.length > 0) {
       enhancedOption.children = transformOptions(
         enhancedOption.children,
-        startLevel + 1,
-        currentIndexPath,
-        currentValuePath,
-        currentLabelPath
+        level + 1,
+        curNodePath
       );
     }
     return enhancedOption;
@@ -104,14 +89,17 @@ export function flattenOptions(options: CascaderOptionProps[]) {
 export const findOptions = (
   options: CascaderOptionProps[],
   level: number,
-  path: number[]
+  parentPath: number[]
 ) => {
   return level == 1
     ? options.filter((item) => item.level == level)
     : options.filter((v) => {
         return (
           v.level == level &&
-          v.path?.slice(0, v.path.length - 1).join('') == path.join('')
+          v.nodePath
+            ?.slice(0, v.nodePath.length - 1)
+            .map((item) => item.index)
+            .join('') == parentPath.join('')
         );
       });
 };
@@ -136,9 +124,9 @@ export default () => {
       allowClear,
       allowSearch,
       loading,
-      options: _options,
       fieldNames,
       valueKey,
+      options: _options,
     } = toRefs(props as RequiredDeep<CascaderProps>);
     // 插槽
     const slots = useSlots();
@@ -169,8 +157,9 @@ export default () => {
         emits('popup-visible-change', val);
       }
     );
-    // fieldKeys
-    const fieldKeys = computed(() => {
+    // options
+    const options = computed(() => {
+      // 转换fieldKeys
       const keys = [
         'label',
         'value',
@@ -180,51 +169,49 @@ export default () => {
         'children',
         'isLeaf',
       ];
-      return Object.fromEntries(
+      // 转换字段
+      const fieldKeys = Object.fromEntries(
         keys.map((key) => [key, fieldNames.value?.[key] ?? key])
       ) as Record<string, string>;
-    });
-    // options
-    const options = computed(() => {
-      return flattenOptions(
-        transformOptions(
-          _options.value.map((item) => {
-            const keys = [
-              'label',
-              'value',
-              'render',
-              'disabled',
-              'tagProps',
-              'children',
-              'isLeaf',
-            ];
-            return Object.fromEntries(
-              keys.map((key) => [
-                key,
-                (item as Record<string, string>)[fieldKeys.value[key]],
-              ])
-            );
-          })
-        )
-      );
+      // 转换option的字段
+      const tempOptions = _options.value.map((item) => {
+        return Object.fromEntries(
+          keys.map((key) => [
+            key,
+            (item as Record<string, string>)[fieldKeys[key]],
+          ])
+        );
+      });
+      // 转换options
+      const result = flattenOptions(transformOptions(tempOptions));
+      console.log(result, 'options');
+      return result;
     });
     // 选中的option
     const selectOptions = computed(() => {
-      return options.value.filter((item) => {
+      return options.value.filter((option) => {
         if (pathMode.value) {
           return multiple.value
             ? computedValue.value.find(
-                (v: number[]) => item.valuePath?.join('') == v.join('')
+                (v: CascaderOptionValue[]) =>
+                  option.nodePath
+                    ?.map((item) => getValue(item.value!))
+                    ?.join('-') == v.map((item) => getValue(item)).join('-')
               )
-            : computedValue.value.join('') == item.valuePath?.join('');
+            : computedValue.value
+                .map((item: CascaderOptionValue) => getValue(item))
+                .join('-') ==
+                option.nodePath?.map((item) => getValue(item.value!)).join('-');
         } else {
           return multiple.value
             ? computedValue.value.find(
-                (v: CascaderOptionValue) => item.value == v
+                (v: CascaderOptionValue) =>
+                  getValue(option.value!) == getValue(v)
               )
-            : computedValue.value == item.value;
+            : getValue(computedValue.value) == getValue(option.value!);
         }
       });
+      return [];
     });
     // 当前的层级
     const curLevel = ref<number>(1);
@@ -248,6 +235,7 @@ export default () => {
       curPath,
       pathMode,
       multiple,
+      loading,
       slots,
       blur,
       getValue,
@@ -268,6 +256,7 @@ export default () => {
       allowSearch,
       searchDelay,
       loading,
+      getValue,
     };
   };
   const inject = () => {
@@ -281,10 +270,11 @@ export default () => {
       curPath: ref([]),
       pathMode: ref(false),
       multiple: ref(false),
+      loading: ref(false),
       slots: {},
+      emits: () => {},
       blur: () => {},
       getValue: () => {},
-      emits: () => {},
     });
   };
   return {
