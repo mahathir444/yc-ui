@@ -1,8 +1,8 @@
 <template>
   <div class="test">
-    <a-cascader v-model="value" multiple path-mode :options="options" />
+    <a-cascader multiple path-mode :options="options" />
 
-    <yc-cascader v-model="value" :options="options" multiple />
+    <yc-cascader v-model="value" :options="options" multiple allow-clear />
   </div>
 </template>
 

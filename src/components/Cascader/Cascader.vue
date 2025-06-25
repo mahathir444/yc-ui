@@ -5,17 +5,17 @@
     :popup-container="popupContainer"
     :disabled="disabled"
     :unmount-on-close="false"
+    prevent-focus
     position="bl"
     trigger="focus"
     animation-name="slide-dynamic-origin"
-    prevent-focus
     v-bind="triggerProps"
   >
     <div
       :class="[
         'yc-cascader',
         {
-          'yc-cascader-allow-clear': allowClear,
+          'yc-cascader-allow-clear': showClearBtn,
           'yc-cascader-allow-search': allowSearch,
         },
       ]"
@@ -106,7 +106,7 @@
 
 <script lang="ts" setup>
 import { ref, computed } from 'vue';
-import { CascaderProps, CascaderEmits, CascaderOptionValue } from './type';
+import { CascaderProps, CascaderEmits, CascaderOptionProps } from './type';
 import { sleep } from '@shared/utils';
 import useContext from './hooks/useContext';
 import { default as YcInput, InputInstance } from '@/components/Input';
@@ -167,6 +167,8 @@ const {
   computedValue,
   computedInputValue,
   computedVisible,
+  optionMap,
+  selectOptions,
   searchDelay,
   multiple,
   pathMode,
@@ -174,11 +176,9 @@ const {
   allowClear,
   allowSearch,
   loading,
-  selectOptions,
-  options,
   curLevel,
   curPath,
-  getValue,
+  getValueKey,
 } = useContext().provide(props, emits, inputRef);
 // 是否展示清除按钮
 const showClearBtn = computed(() => {
@@ -218,34 +218,25 @@ const handleEvent = async (
       break;
     case 'focus':
       {
-        if (disabled.value) return;
+        if (disabled.value) {
+          return;
+        }
         if (computedVisible.value) {
           return inputRef.value?.blur();
         }
-        computedVisible.value = true;
         // 计算回显的面板
-        const target = options.value.find((option) => {
-          if (pathMode.value) {
-            const curValue = multiple.value
-              ? computedValue.value[0]
-              : computedValue.value;
-            return (
-              curValue
-                .map((value: CascaderOptionValue) => getValue(value))
-                .join('-') ==
-              option.nodePath?.map((item) => getValue(item.value!)).join('-')
-            );
-          } else {
-            const curValue = multiple.value
-              ? computedValue.value[0]
-              : computedValue.value;
-            return getValue(curValue) == getValue(option.value!);
-          }
-        });
-        if (target) {
-          curPath.value = target.nodePath!.map((item) => item.index!);
-          curLevel.value = target.level!;
+        const key = getValueKey(
+          multiple.value ? computedValue.value[0] : computedValue.value
+        );
+        if (key) {
+          const option = optionMap.value[key] as CascaderOptionProps;
+          curPath.value = option.nodePath!.map((item) => item.index!);
+          curLevel.value = option.level!;
+        } else {
+          curPath.value = [];
+          curLevel.value = 1;
         }
+        computedVisible.value = true;
         await sleep(0);
         inputRef.value?.focus();
       }

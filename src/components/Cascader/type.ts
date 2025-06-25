@@ -5,9 +5,7 @@ import { TriggerProps } from '../Trigger';
 
 export interface CascaderProps {
   pathMode?: boolean;
-  //
   multiple?: boolean;
-  //
   modelValue?: CascaderValue;
   defaultValue?: CascaderValue;
   options?: CascaderOption[];
@@ -16,7 +14,6 @@ export interface CascaderProps {
   size?: Size;
   //
   allowSearch?: boolean;
-  //
   allowClear?: boolean;
   inputValue?: string;
   defaultInputValue?: string;
@@ -26,7 +23,6 @@ export interface CascaderProps {
   placeholder?: string;
   //
   filterOption?: (inputValue: string, option: CascaderOption) => boolean;
-  //
   popupContainer?: PopupContainer;
   maxTagCount?: number;
   formatLabel?: (options: CascaderOption[]) => string;

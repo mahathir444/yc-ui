@@ -279,9 +279,10 @@ export default () => {
       computedInputValue,
       computedVisible,
       selectOptions,
+      options,
+      optionMap,
       curLevel,
       curPath,
-      options,
       multiple,
       pathMode,
       disabled,
@@ -290,6 +291,7 @@ export default () => {
       searchDelay,
       loading,
       getValue,
+      getValueKey,
     };
   };
   const inject = () => {

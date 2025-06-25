@@ -32,7 +32,6 @@
 import { computed, toRefs } from 'vue';
 import { CascaderOptionProps, CascaderOptionValue } from './type';
 import { IconArrowRight } from '@shared/icons';
-import { isArray } from '@shared/utils';
 import YcCheckbox from '@/components/Checkbox';
 import { default as useContext, getLeafNodes } from './hooks/useContext';
 const props = withDefaults(defineProps<CascaderOptionProps>(), {
@@ -59,49 +58,69 @@ const {
   curPath,
   multiple,
   expandTrigger,
-  getValue,
   getValueKey,
   blur,
 } = useContext().inject();
 // 是否全选
 const checked = computed(() => {
+  if (!computedValue.value) {
+    return false;
+  }
   if (!multiple.value) {
-    if (!computedValue.value) {
-      return false;
-    }
     const option = optionMap.value[getValueKey(computedValue.value)];
     return option.nodePath?.some((node) => {
       return getValueKey(node.value!) == getValueKey(value.value);
     });
   } else {
-    const options = (computedValue.value as CascaderOptionValue[]).map((v) => {
-      return optionMap.value[getValueKey(v)];
-    });
-    return;
+    const valueOptions = (computedValue.value as CascaderOptionValue[]).map(
+      (v) => {
+        return optionMap.value[getValueKey(v)];
+      }
+    );
+    const valueMap = Object.fromEntries(
+      valueOptions.map((option) => [getValueKey(option.value), option])
+    );
+    const leafNodes = getLeafNodes(props);
+    const isLeaf = leafNodes[0].level == level.value;
+    return isLeaf
+      ? valueOptions.some(
+          (option) => getValueKey(option.value) == getValueKey(value.value)
+        )
+      : leafNodes.every((node) => {
+          return valueMap[getValueKey(node.value)];
+        });
   }
 });
 // 是否半选
 const indeterminate = computed(() => {
-  return false;
-});
-// 组装valueMap
-const getValueMap = (value: CascaderOptionValue[]) => {
-  return Object.fromEntries(
-    value.map((v) => {
-      const key = isArray(v)
-        ? v.map((v1) => getValue(v1)).join('-')
-        : getValue(v);
-      return [key, v];
-    })
+  const valueOptions = (computedValue.value as CascaderOptionValue[]).map(
+    (v) => {
+      return optionMap.value[getValueKey(v)];
+    }
   );
-};
+  const valueMap = Object.fromEntries(
+    valueOptions.map((option) => [getValueKey(option.value), option])
+  );
+  const leafNodes = getLeafNodes(props);
+  const isLeaf = leafNodes[0].level == level.value;
+  return isLeaf
+    ? false
+    : leafNodes.some((node) => {
+        return valueMap[getValueKey(node.value)];
+      });
+});
 // 处理对选
-const handleMuti = (val: boolean) => {
-  const option = optionMap.value[getValueKey(value.value)];
-  const leafNodes = getLeafNodes(option);
+const handleMuti = (checked: boolean) => {
+  // 拿到当前所有的子叶节点
+  const leafNodes = getLeafNodes(props);
+  // 处理当前的value
   const curValue = computedValue.value as CascaderOptionValue[];
-  if (val) {
-    const valueMap = getValueMap(curValue);
+  if (checked) {
+    const valueMap = Object.fromEntries(
+      curValue.map((v) => {
+        return [getValueKey(v), v];
+      })
+    );
     computedValue.value = [
       ...curValue,
       ...leafNodes
@@ -115,10 +134,15 @@ const handleMuti = (val: boolean) => {
         }),
     ];
   } else {
-    const valueMap = getValueMap(
-      leafNodes.map((item) => {
-        return pathMode.value ? item.nodePath!.map((v) => v.value) : item.value;
-      }) as CascaderOptionValue[]
+    // 计算当前的node
+    const nodes = leafNodes.map((item) => {
+      return pathMode.value ? item.nodePath!.map((v) => v.value) : item.value;
+    }) as CascaderOptionValue[];
+    // 计算当前的valueMap
+    const valueMap = Object.fromEntries(
+      nodes.map((v) => {
+        return [getValueKey(v), v];
+      })
     );
     computedValue.value = curValue.filter((item) => {
       return !valueMap[getValueKey(item!)];

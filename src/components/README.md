@@ -1,5 +1,5 @@
 ## 待实现的组件
-Cascader Form  Upload TreeSelect DatePicker Tree Table
+Form Upload TreeSelect DatePicker Tree Table
 ## 待完善的功能
 1. configProvider prefix-cls locale
 2. Typography的省略功能
