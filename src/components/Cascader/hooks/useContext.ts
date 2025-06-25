@@ -33,11 +33,10 @@ export type CascaderContext = {
   pathMode: Ref<boolean>;
   multiple: Ref<boolean>;
   loading: Ref<boolean>;
-  slots: Slots;
   expandTrigger: Ref<ExpandTrigger>;
+  slots: Slots;
   blur: () => void;
   getValueKey: (...arg: any) => any;
-  emits: CascaderEmits;
 };
 
 // 增强option添加indexPath,valuePath,level,labelPath
@@ -270,15 +269,14 @@ export default () => {
       slots,
       blur,
       getValueKey,
-      emits,
     });
     return {
       computedValue,
       computedInputValue,
       computedVisible,
-      selectOptions,
       options,
       optionMap,
+      selectOptions,
       curLevel,
       curPath,
       multiple,
@@ -306,7 +304,6 @@ export default () => {
       multiple: ref(false),
       loading: ref(false),
       slots: {},
-      emits: () => {},
       blur: () => {},
       getValueKey: () => {},
     });

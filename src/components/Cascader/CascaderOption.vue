@@ -5,7 +5,7 @@
     :class="[
       'yc-cascader-option',
       {
-        'yc-cascader-option-selected': checked,
+        'yc-cascader-option-selected': checked || indeterminate,
         'yc-cascader-option-disabled': disabled,
       },
     ]"
@@ -61,6 +61,14 @@ const {
   getValueKey,
   blur,
 } = useContext().inject();
+// 获取所有的子叶节点
+const leafNodes = computed(() => {
+  return getLeafNodes({ children: children.value });
+});
+// 判断是否是子叶节点
+const isLeafNode = computed(() => {
+  return !children.value.length;
+});
 // 是否全选
 const checked = computed(() => {
   if (!computedValue.value) {
@@ -71,28 +79,27 @@ const checked = computed(() => {
     return option.nodePath?.some((node) => {
       return getValueKey(node.value!) == getValueKey(value.value);
     });
-  } else {
-    const valueOptions = (computedValue.value as CascaderOptionValue[]).map(
-      (v) => {
-        return optionMap.value[getValueKey(v)];
-      }
-    );
-    const valueMap = Object.fromEntries(
-      valueOptions.map((option) => [getValueKey(option.value), option])
-    );
-    const leafNodes = getLeafNodes(props);
-    const isLeaf = leafNodes[0].level == level.value;
-    return isLeaf
-      ? valueOptions.some(
-          (option) => getValueKey(option.value) == getValueKey(value.value)
-        )
-      : leafNodes.every((node) => {
-          return valueMap[getValueKey(node.value)];
-        });
   }
+  const valueOptions = (computedValue.value as CascaderOptionValue[]).map(
+    (v) => {
+      return optionMap.value[getValueKey(v)];
+    }
+  );
+  if (isLeafNode.value) {
+    return valueOptions.some(
+      (option) => getValueKey(option.value) == getValueKey(value.value)
+    );
+  }
+  const valueMap = Object.fromEntries(
+    valueOptions.map((option) => [getValueKey(option.value), option])
+  );
+  return leafNodes.value.every((node) => valueMap[getValueKey(node.value)]);
 });
 // 是否半选
 const indeterminate = computed(() => {
+  if (isLeafNode.value) {
+    return false;
+  }
   const valueOptions = (computedValue.value as CascaderOptionValue[]).map(
     (v) => {
       return optionMap.value[getValueKey(v)];
@@ -101,18 +108,10 @@ const indeterminate = computed(() => {
   const valueMap = Object.fromEntries(
     valueOptions.map((option) => [getValueKey(option.value), option])
   );
-  const leafNodes = getLeafNodes(props);
-  const isLeaf = leafNodes[0].level == level.value;
-  return isLeaf
-    ? false
-    : leafNodes.some((node) => {
-        return valueMap[getValueKey(node.value)];
-      });
+  return leafNodes.value.some((node) => valueMap[getValueKey(node.value)]);
 });
 // 处理对选
 const handleMuti = (checked: boolean) => {
-  // 拿到当前所有的子叶节点
-  const leafNodes = getLeafNodes(props);
   // 处理当前的value
   const curValue = computedValue.value as CascaderOptionValue[];
   if (checked) {
@@ -123,7 +122,7 @@ const handleMuti = (checked: boolean) => {
     );
     computedValue.value = [
       ...curValue,
-      ...leafNodes
+      ...leafNodes.value
         .map((item) => {
           return pathMode.value
             ? item.nodePath!.map((v) => v.value)
@@ -134,16 +133,19 @@ const handleMuti = (checked: boolean) => {
         }),
     ];
   } else {
-    // 计算当前的node
-    const nodes = leafNodes.map((item) => {
-      return pathMode.value ? item.nodePath!.map((v) => v.value) : item.value;
-    }) as CascaderOptionValue[];
     // 计算当前的valueMap
     const valueMap = Object.fromEntries(
-      nodes.map((v) => {
-        return [getValueKey(v), v];
-      })
+      leafNodes.value
+        .map((item) => {
+          return pathMode.value
+            ? item.nodePath!.map((v) => v.value)
+            : item.value;
+        })
+        .map((v) => {
+          return [getValueKey(v), v];
+        })
     );
+    // 过滤值
     computedValue.value = curValue.filter((item) => {
       return !valueMap[getValueKey(item!)];
     });
@@ -154,14 +156,13 @@ const handleEvent = (type: 'click' | 'hover') => {
   if (disabled.value) {
     return;
   }
-  const isLeafNode = !children.value.length;
   // 处理展开
-  if (!isLeafNode && expandTrigger.value == type) {
+  if (!isLeafNode.value && expandTrigger.value == type) {
     curLevel.value = level.value + 1;
     curPath.value = nodePath.value.map((item) => item.index!);
   }
   // 处理点击
-  if (isLeafNode && type == 'click' && !multiple.value) {
+  if (isLeafNode.value && type == 'click' && !multiple.value) {
     computedValue.value = pathMode.value
       ? nodePath.value.map((item) => item.value)
       : value.value;
