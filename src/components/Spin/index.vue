@@ -1,5 +1,5 @@
 <template>
-  <prevent-focus :prevent-focus="preventFocus" class="yc-spin">
+  <div class="yc-spin" @mousedown="(e) => preventFocus && e.preventDefault()">
     <!-- 定义通用模板 -->
     <define-template>
       <div
@@ -40,7 +40,7 @@
       </transition>
     </template>
     <slot />
-  </prevent-focus>
+  </div>
 </template>
 
 <script lang="ts" setup>

@@ -1,9 +1,11 @@
 <template>
   <div class="test">
     <a-cascader
+      loading
       :options="options"
       :format-label="(options) => options.map((item) => item.label).join('、')"
     />
+    <a-select loading />
     <yc-cascader :options="options" />
   </div>
 </template>

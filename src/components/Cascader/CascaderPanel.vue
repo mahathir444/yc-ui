@@ -1,27 +1,30 @@
 <template>
   <TransitionGroup tag="div" name="cascader-slide" class="yc-cascader-panel">
-    <div
-      v-for="i in curLevel"
-      :key="i"
-      :style="{
-        zIndex: curLevel + 1 - i,
-      }"
-      class="yc-cascader-panel-column"
-    >
-      <yc-scrollbar class="yc-cascader-column-content">
-        <ul role="menu" class="yc-cascader-list">
-          <yc-cascader-option
-            v-for="(option, i1) in findOptions(
-              options,
-              i,
-              curPath.slice(0, i - 1)
-            )"
-            :key="i1"
-            v-bind="option"
-          />
-        </ul>
-      </yc-scrollbar>
-    </div>
+    <yc-spin v-if="loading" />
+    <template v-else>
+      <div
+        v-for="i in curLevel"
+        :key="i"
+        :style="{
+          zIndex: curLevel + 1 - i,
+        }"
+        class="yc-cascader-panel-column"
+      >
+        <yc-scrollbar class="yc-cascader-column-content">
+          <ul role="menu" class="yc-cascader-list">
+            <yc-cascader-option
+              v-for="(option, i1) in findOptions(
+                options,
+                i,
+                curPath.slice(0, i - 1)
+              )"
+              :key="i1"
+              v-bind="option"
+            />
+          </ul>
+        </yc-scrollbar>
+      </div>
+    </template>
   </TransitionGroup>
 </template>
 
@@ -57,6 +60,13 @@ const { options, curLevel, curPath, loading } = useContext().inject();
         overflow-y: auto;
       }
     }
+  }
+  .yc-spin {
+    height: 100%;
+    min-width: 120px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
   }
 }
 </style>

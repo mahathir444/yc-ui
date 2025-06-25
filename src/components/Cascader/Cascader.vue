@@ -4,6 +4,7 @@
     :popup-offset="4"
     :popup-container="popupContainer"
     :disabled="disabled"
+    :unmount-on-close="false"
     position="bl"
     trigger="focus"
     animation-name="slide-dynamic-origin"
@@ -34,6 +35,7 @@
         @focus="handleEvent('focus')"
         @blur="handleEvent('blur')"
         @input="(v) => handleEvent('search', v)"
+        @update:model-value="(v) => handleEvent('updateValue', v)"
       >
         <!-- suffix -->
         <template #suffix>
@@ -51,8 +53,8 @@
         v-model="computedInputValue"
         :show-input="computedVisible"
         :readonly="isReadonly"
-        :size="size"
         :disabled="disabled"
+        :size="size"
         :error="error"
         :placeholder="selectOptions[0]?.label?.toString() || ''"
         ref="inputRef"
@@ -97,7 +99,11 @@ import { CascaderProps, CascaderEmits, CascaderOptionValue } from './type';
 import { sleep } from '@shared/utils';
 import useContext from './hooks/useContext';
 import { default as YcInput, InputInstance } from '@/components/Input';
-import { default as YcInputTag, InputTagValue } from '@/components/InputTag';
+import {
+  default as YcInputTag,
+  InputTagValue,
+  TagData,
+} from '@/components/InputTag';
 import YcTrigger from '@/components/Trigger';
 import CascaderPanel from './CascaderPanel.vue';
 import CascaderIcon from './CascaderIcon.vue';
@@ -235,6 +241,13 @@ const handleEvent = async (
       {
         computedVisible.value = false;
         computedInputValue.value = '';
+      }
+      break;
+    case 'updateValue':
+      {
+        computedValue.value = (value as InputTagValue).map(
+          (item) => (item as TagData).value
+        );
       }
       break;
   }
