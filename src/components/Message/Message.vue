@@ -1,6 +1,6 @@
 <!-- 消息 -->
 <template>
-  <transition name="fade" appear>
+  <transition name="fade">
     <div
       :class="['yc-message-box', `yc-message-box-${type}`]"
       @mouseenter="handleMouseenter"

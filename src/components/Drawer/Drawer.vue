@@ -15,7 +15,7 @@
       }"
     >
       <!-- mask -->
-      <transition name="fade" appear>
+      <transition name="fade">
         <div
           v-if="mask"
           v-show="innerVisible"
@@ -26,7 +26,6 @@
       <!-- drawer -->
       <transition
         :name="`slide-drawer-${placement}`"
-        appear
         @before-enter="$emit('beforeOpen')"
         @before-leave="$emit('beforeClose')"
         @after-enter="$emit('open')"

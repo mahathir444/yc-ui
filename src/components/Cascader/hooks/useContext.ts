@@ -105,7 +105,7 @@ export const findOptions = (
       });
 };
 // 获取所有的子夜节点
-export function getLeafNodes(node: CascaderOptionProps) {
+export function getLeafNodes(nodes: CascaderOptionProps[]) {
   const leafNodes: CascaderOptionProps[] = [];
   function traverse(currentNode: CascaderOptionProps) {
     if (!currentNode.children || currentNode.children.length === 0) {
@@ -116,7 +116,8 @@ export function getLeafNodes(node: CascaderOptionProps) {
     // 有子节点，继续递归遍历
     currentNode.children.forEach((child) => traverse(child));
   }
-  traverse(node);
+  // 遍历传入的每个节点
+  nodes.forEach((node) => traverse(node));
   return leafNodes;
 }
 

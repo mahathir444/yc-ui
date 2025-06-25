@@ -98,9 +98,7 @@
         </slot-render>
       </yc-scrollbar>
       <!-- 渲染empty -->
-      <slot-render :render="renderEmpty('Transfer')">
-        <yc-empty v-if="!configSlots.empty" />
-      </slot-render>
+      <slot-render :render="renderEmpty('Transfer')" />
     </div>
   </div>
 </template>
@@ -114,7 +112,6 @@ import { getGlobalConfig } from '@shared/utils';
 import YcCheckbox from '@/components/Checkbox';
 import YcScrollbar from '@/components/Scrollbar';
 import YcInput from '@/components/Input';
-import YcEmpty from '@/components/Empty';
 import { IconButton, SlotRender } from '@shared/components';
 defineSlots<TransferPanelSlots>();
 const props = defineProps<{
@@ -122,7 +119,7 @@ const props = defineProps<{
 }>();
 const { type } = toRefs(props);
 // configProvider
-const { slots: configSlots, renderEmpty } = getGlobalConfig();
+const { renderEmpty } = getGlobalConfig();
 // 接收注入
 const {
   computedValue,

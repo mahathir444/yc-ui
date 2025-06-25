@@ -29,9 +29,7 @@
       <slot-render
         v-if="isEmpty"
         :render="slots.empty || renderEmpty('Select')"
-      >
-        <yc-empty v-if="!slots.empty && !configSlots.empty" />
-      </slot-render>
+      />
       <!-- footer -->
       <div
         v-if="slots.footer && (showFooterOnEmpty || !isEmpty)"
@@ -51,7 +49,6 @@ import useContext from './hooks/useContext';
 import SelectVirtualList from './SelectVirtualList.vue';
 import SelectRealList from './SelectRealList.vue';
 import YcSpin from '@/components/Spin';
-import YcEmpty from '@/components/Empty';
 import { SlotRender } from '@shared/components';
 const props = defineProps<{
   loading: boolean;
@@ -64,7 +61,7 @@ const { virtualListProps } = toRefs(props);
 // 接收注入
 const { slots, options, isEmpty } = useContext().inject();
 // configProvider
-const { slots: configSlots, renderEmpty } = getGlobalConfig();
+const { renderEmpty } = getGlobalConfig();
 // 是否是虚拟列表
 const isVirtualList = computed(() => {
   if (!virtualListProps.value) {

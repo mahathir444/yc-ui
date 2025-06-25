@@ -63,9 +63,7 @@
           <slot-render
             v-if="!$slots.default && !curList.length"
             :render="$slots.empty || renderEmpty('List')"
-          >
-            <yc-empty v-if="!$slots.empty && !configSlots.empty" />
-          </slot-render>
+          />
           <!-- footer -->
           <div v-if="$slots.footer" class="yc-list-footer">
             <slot name="footer" />
@@ -95,7 +93,6 @@ import { ref, toRefs, computed } from 'vue';
 import { ListProps, ListEmits, ListSlots } from './type';
 import { getGlobalConfig, useControlValue, valueToPx } from '@shared/utils';
 import YcSpin from '@/components/Spin';
-import YcEmpty from '@/components/Empty';
 import YcScrollbar from '@/components/Scrollbar';
 import YcPagination from '@/components/Pagination';
 import { default as YcGrid, GridItem as YcGridItem } from '@/components/Grid';
@@ -122,7 +119,7 @@ const props = withDefaults(defineProps<ListProps>(), {
 const emits = defineEmits<ListEmits>();
 const { data, paginationProps, virtualListProps, gridProps } = toRefs(props);
 // 注入全局属性
-const { size, slots: configSlots, renderEmpty } = getGlobalConfig(props);
+const { size, renderEmpty } = getGlobalConfig(props);
 // 是否触底
 const isBottomReached = ref<boolean>(false);
 // current

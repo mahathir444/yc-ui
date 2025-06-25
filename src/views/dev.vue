@@ -1,7 +1,6 @@
 <template>
   <div class="test">
-    <a-cascader multiple path-mode :options="options" />
-
+    <a-cascader multiple path-mode :options="options" allow-search />
     <yc-cascader v-model="value" :options="options" multiple allow-clear />
   </div>
 </template>

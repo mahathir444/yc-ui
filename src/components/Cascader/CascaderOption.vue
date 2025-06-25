@@ -63,7 +63,9 @@ const {
 } = useContext().inject();
 // 获取所有的子叶节点
 const leafNodes = computed(() => {
-  return getLeafNodes({ children: children.value });
+  return children.value.length
+    ? getLeafNodes(children.value)
+    : [optionMap.value[getValueKey(value.value!)]];
 });
 // 判断是否是子叶节点
 const isLeafNode = computed(() => {

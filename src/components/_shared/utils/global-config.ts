@@ -1,7 +1,8 @@
-import { toRefs, inject, ref, isReactive, reactive, Ref } from 'vue';
+import { toRefs, inject, ref, isReactive, reactive, Ref, VNode } from 'vue';
 import { ConfigconfigSlots, EmptyComponent } from '@/components/ConfigProvider';
 import { PopupContainer, Props, Size } from '@shared/type';
 import { isString, isUndefined } from '../utils';
+import YcEmpty from '@/components/Empty';
 
 export const CONFIG_PROVIDER_PROVIDE_KEY = 'config-props';
 
@@ -43,10 +44,12 @@ export const getGlobalConfig = (props: Props = {}) => {
   });
   // 渲染empty
   const renderEmpty = (name: EmptyComponent) => {
-    return () =>
-      slots.empty?.({
-        component: name,
-      });
+    return slots.empty
+      ? () =>
+          slots.empty?.({
+            component: name,
+          })
+      : (YcEmpty as VNode);
   };
   // 接收属性
   const { size, updateAtScroll, scrollToClose, exchangeTime, popupContainer } =

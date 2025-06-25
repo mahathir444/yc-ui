@@ -15,7 +15,7 @@
       }"
     >
       <!-- mask -->
-      <transition :name="maskAnimationName" appear>
+      <transition :name="maskAnimationName">
         <div
           v-if="mask"
           v-show="innerVisible"
@@ -27,7 +27,6 @@
       <div class="yc-modal-wrapper" @click="handleClose('mask', $event)">
         <transition
           :name="modalAnimationName"
-          appear
           @before-enter="$emit('beforeOpen')"
           @before-leave="$emit('beforeClose')"
           @after-enter="$emit('open')"

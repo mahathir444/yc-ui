@@ -1,27 +1,36 @@
 <template>
   <TransitionGroup tag="div" name="cascader-slide" class="yc-cascader-panel">
-    <div
-      v-for="i in curLevel"
-      :key="i"
-      :style="{
-        zIndex: curLevel + 1 - i,
-      }"
-      class="yc-cascader-panel-column"
-    >
-      <yc-scrollbar class="yc-cascader-column-content">
-        <ul role="menu" class="yc-cascader-list">
-          <yc-cascader-option
-            v-for="(option, i1) in findOptions(
-              options,
-              i,
-              curPath.slice(0, i - 1)
-            )"
-            :key="i1"
-            v-bind="option"
-          />
-        </ul>
-      </yc-scrollbar>
-    </div>
+    <!-- loading -->
+    <yc-spin v-if="loading" :loading="loading" />
+    <!-- empty -->
+    <slot-render
+      v-else-if="!options.length"
+      :render="slots.empty || renderEmpty('Select')"
+    />
+    <template v-else>
+      <div
+        v-for="i in curLevel"
+        :key="i"
+        :style="{
+          zIndex: curLevel + 1 - i,
+        }"
+        class="yc-cascader-panel-column"
+      >
+        <yc-scrollbar class="yc-cascader-column-content">
+          <ul role="menu" class="yc-cascader-list">
+            <yc-cascader-option
+              v-for="(option, i1) in findOptions(
+                options,
+                i,
+                curPath.slice(0, i - 1)
+              )"
+              :key="i1"
+              v-bind="option"
+            />
+          </ul>
+        </yc-scrollbar>
+      </div>
+    </template>
   </TransitionGroup>
 </template>
 
@@ -29,8 +38,13 @@
 import { default as useContext, findOptions } from './hooks/useContext';
 import YcCascaderOption from './CascaderOption.vue';
 import YcScrollbar from '@/components/Scrollbar';
+import { getGlobalConfig } from '@shared/utils';
+import { SlotRender } from '@shared/components';
 import YcSpin from '@/components/Spin';
-const { options, curLevel, curPath, loading } = useContext().inject();
+// configProvider
+const { renderEmpty } = getGlobalConfig();
+// 接收注入
+const { options, curLevel, curPath, loading, slots } = useContext().inject();
 </script>
 
 <style lang="less" scoped>
@@ -64,6 +78,9 @@ const { options, curLevel, curPath, loading } = useContext().inject();
     display: flex;
     justify-content: center;
     align-items: center;
+  }
+  &:deep(.yc-empty) {
+    min-width: 120px;
   }
 }
 </style>
