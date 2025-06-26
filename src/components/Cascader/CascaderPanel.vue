@@ -1,5 +1,6 @@
 <template>
-  <TransitionGroup tag="div" name="cascader-slide" class="yc-cascader-panel">
+  <!-- 渲染group -->
+  <transition-group tag="div" name="cascader-slide" class="yc-cascader-panel">
     <!-- loading -->
     <yc-spin v-if="loading" :loading="loading" />
     <!-- empty -->
@@ -7,6 +8,7 @@
       v-else-if="!options.length"
       :render="slots.empty || renderEmpty('Select')"
     />
+    <!-- 渲染panel -->
     <template v-else>
       <div
         v-for="i in curLevel"
@@ -31,7 +33,7 @@
         </yc-scrollbar>
       </div>
     </template>
-  </TransitionGroup>
+  </transition-group>
 </template>
 
 <script lang="ts" setup>
@@ -48,39 +50,5 @@ const { options, curLevel, curPath, loading, slots } = useContext().inject();
 </script>
 
 <style lang="less" scoped>
-.yc-cascader-panel {
-  height: 200px;
-  background-color: #fff;
-  border-radius: 4px;
-  border: 1px solid rgb(229, 230, 235);
-  box-shadow: 0 4px 10px #0000001a;
-  display: inline-flex;
-  .yc-cascader-panel-column {
-    position: relative;
-    min-width: 120px;
-    background-color: #fff;
-    border-right: 1px solid transparent;
-    display: inline-flex;
-    flex-direction: column;
-    &:not(:last-child) {
-      border-right-color: rgb(229, 230, 235);
-    }
-    .yc-scrollbar {
-      &:deep(.yc-scrollbar-container) {
-        max-height: 200px;
-        overflow-y: auto;
-      }
-    }
-  }
-  .yc-spin {
-    height: 100%;
-    min-width: 120px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-  &:deep(.yc-empty) {
-    min-width: 120px;
-  }
-}
+@import './style/panel.less';
 </style>

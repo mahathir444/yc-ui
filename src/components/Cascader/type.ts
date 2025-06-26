@@ -12,7 +12,6 @@ export interface CascaderProps {
   disabled?: boolean;
   error?: boolean;
   size?: Size;
-  //
   allowSearch?: boolean;
   allowClear?: boolean;
   inputValue?: string;
@@ -21,21 +20,22 @@ export interface CascaderProps {
   defaultPopupVisible?: boolean;
   expandTrigger?: ExpandTrigger;
   placeholder?: string;
-  //
   filterOption?: (inputValue: string, option: CascaderOption) => boolean;
   popupContainer?: PopupContainer;
   maxTagCount?: number;
   formatLabel?: (options: CascaderOption[]) => string;
   triggerProps?: TriggerProps;
-  // check-strictly
-  // load-more
+  // checkStrictly?:boolean;
+  // loadMore?:( option: CascaderOption, done: (children?: CascaderOption[]) => void) => void
   loading?: boolean;
-  // search-option-only-label
+  searchOptionOnlyLabel?: boolean;
   searchDelay?: number;
   fieldNames?: Record<string, string>;
   valueKey?: string;
-  // fallback
-  // expand-child
+  fallback?:
+    | boolean
+    | ((value: CascaderOptionValue | CascaderOptionValue[]) => string);
+  expandChild?: boolean;
   // virtual-list-props
   tagNowrap?: boolean;
 }
@@ -77,6 +77,7 @@ export type CascaderOption = {
   disabled?: boolean;
   tagProps?: TagProps;
   children?: CascaderOption[];
+  // 用于懒加载的
   isLeaf?: boolean;
 };
 

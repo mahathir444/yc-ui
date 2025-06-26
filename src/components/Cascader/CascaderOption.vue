@@ -22,7 +22,7 @@
       @mouseenter="handleEvent('hover')"
       @click="handleEvent('click')"
     >
-      {{ label }}
+      <component :is="renderLabel" />
       <icon-arrow-right v-if="children.length" />
     </div>
   </li>
@@ -48,16 +48,18 @@ const props = withDefaults(defineProps<CascaderOptionProps>(), {
   index: -1,
   nodePath: () => [],
 });
-const { value, disabled, level, children, nodePath } = toRefs(props);
+const { label, value, disabled, level, children, nodePath } = toRefs(props);
 // 接收注入
 const {
   computedValue,
-  optionMap,
   pathMode,
   curLevel,
   curPath,
   multiple,
   expandTrigger,
+  expandChild,
+  slots,
+  getOption,
   getValueKey,
   blur,
 } = useContext().inject();
@@ -65,7 +67,7 @@ const {
 const leafNodes = computed(() => {
   return children.value.length
     ? getLeafNodes(children.value)
-    : [optionMap.value[getValueKey(value.value!)]];
+    : [getOption(value.value!)];
 });
 // 判断是否是子叶节点
 const isLeafNode = computed(() => {
@@ -77,23 +79,23 @@ const checked = computed(() => {
     return false;
   }
   if (!multiple.value) {
-    const option = optionMap.value[getValueKey(computedValue.value)];
+    const option = getOption(computedValue.value) ?? {};
     return option.nodePath?.some((node) => {
       return getValueKey(node.value!) == getValueKey(value.value);
     });
   }
   const valueOptions = (computedValue.value as CascaderOptionValue[]).map(
     (v) => {
-      return optionMap.value[getValueKey(v)];
+      return getOption(v) ?? {};
     }
   );
   if (isLeafNode.value) {
     return valueOptions.some(
-      (option) => getValueKey(option.value) == getValueKey(value.value)
+      (option) => getValueKey(option?.value) == getValueKey(value.value)
     );
   }
   const valueMap = Object.fromEntries(
-    valueOptions.map((option) => [getValueKey(option.value), option])
+    valueOptions.map((option) => [getValueKey(option?.value), option])
   );
   return leafNodes.value.every((node) => valueMap[getValueKey(node.value)]);
 });
@@ -104,7 +106,7 @@ const indeterminate = computed(() => {
   }
   const valueOptions = (computedValue.value as CascaderOptionValue[]).map(
     (v) => {
-      return optionMap.value[getValueKey(v)];
+      return getOption(v) ?? {};
     }
   );
   const valueMap = Object.fromEntries(
@@ -160,8 +162,12 @@ const handleEvent = (type: 'click' | 'hover') => {
   }
   // 处理展开
   if (!isLeafNode.value && expandTrigger.value == type) {
-    curLevel.value = level.value + 1;
-    curPath.value = nodePath.value.map((item) => item.index!);
+    curLevel.value = expandChild.value
+      ? leafNodes.value[0].level!
+      : level.value + 1;
+    curPath.value = expandChild.value
+      ? leafNodes.value[0].nodePath!.map((item) => item.index!)
+      : nodePath.value.map((item) => item.index!);
   }
   // 处理点击
   if (isLeafNode.value && type == 'click' && !multiple.value) {
@@ -170,6 +176,14 @@ const handleEvent = (type: 'click' | 'hover') => {
       : value.value;
     blur();
   }
+};
+// 渲染label
+const renderLabel = () => {
+  return (
+    slots.option?.({
+      data: props,
+    }) ?? label.value
+  );
 };
 </script>
 

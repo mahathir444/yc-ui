@@ -1,7 +1,20 @@
 <template>
   <div class="test">
-    <a-cascader multiple path-mode :options="options" allow-search />
-    <yc-cascader v-model="value" :options="options" multiple allow-clear />
+    <a-cascader
+      :options="options"
+      multiple
+      path-mode
+      search-option-only-label
+      expand-child
+    />
+    <yc-cascader
+      v-model="value"
+      :options="options"
+      multiple
+      path-mode
+      allow-clear
+      allow-search
+    />
   </div>
 </template>
 
@@ -89,8 +102,6 @@ const options = [
   width: 100%;
   display: flex;
   flex-direction: column;
-  // justify-content: center;
-  // align-items: center;
   gap: 10px;
 }
 </style>

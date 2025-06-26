@@ -19,7 +19,13 @@ import {
   ExpandTrigger,
 } from '../type';
 import { InputInstance } from '@/components/Input';
-import { isObject, useControlValue, isArray } from '@shared/utils';
+import {
+  isObject,
+  useControlValue,
+  isArray,
+  isBoolean,
+  isFunction,
+} from '@shared/utils';
 
 export const CASCADER_CONTEXT_KEY = 'cascader-context';
 
@@ -27,16 +33,21 @@ export type CascaderContext = {
   computedValue: Ref<CascaderValue>;
   computedInputValue: Ref<string>;
   options: Ref<CascaderOptionProps[]>;
-  optionMap: Ref<Record<string, CascaderOptionProps>>;
+  searchOptions: Ref<CascaderOptionProps[]>;
   curLevel: Ref<number>;
   curPath: Ref<number[]>;
   pathMode: Ref<boolean>;
   multiple: Ref<boolean>;
   loading: Ref<boolean>;
   expandTrigger: Ref<ExpandTrigger>;
+  expandChild: Ref<boolean>;
+  searchOptionOnlyLabel: Ref<boolean>;
   slots: Slots;
   blur: () => void;
   getValueKey: (...arg: any) => any;
+  getOption: (
+    value: CascaderOptionValue | CascaderOptionValue[]
+  ) => CascaderOptionProps;
 };
 
 // 增强option添加indexPath,valuePath,level,labelPath
@@ -144,9 +155,12 @@ export default () => {
       fieldNames,
       valueKey,
       expandTrigger,
+      expandChild,
+      searchOptionOnlyLabel,
       options: _options,
     } = toRefs(props as RequiredDeep<CascaderProps>);
-    const { formatLabel } = props;
+    const { formatLabel, fallback, filterOption } =
+      props as RequiredDeep<CascaderProps>;
     // 受控的值
     const computedValue = useControlValue<CascaderValue>(
       modelValue,
@@ -213,25 +227,45 @@ export default () => {
         }),
       ]);
     });
+    // 子叶option
+    const leafOptions = computed(() => {
+      return options.value.filter((option) => !option.children?.length);
+    });
+    // 搜索options
+    const searchOptions = computed(() => {
+      return leafOptions.value.filter((item) =>
+        filterOption(computedInputValue.value, item)
+      );
+    });
     // 选中的option
     const selectOptions = computed(() => {
-      const result: CascaderOptionProps[] = multiple.value
-        ? computedValue.value.map(
-            (item: CascaderOptionValue[]) => optionMap.value[getValueKey(item)]
-          )
-        : [optionMap.value[getValueKey(computedValue.value)]];
-      return result.map((item) => {
-        const option = {
-          ...item,
-          id: item.nodePath?.map((item) => item.index).join('-'),
-          label:
-            formatLabel?.(item.nodePath) ??
-            (multiple.value
-              ? item.nodePath?.map((item) => item.label).join(' / ')
-              : item.label),
-        };
-        return option;
-      });
+      const value = multiple.value
+        ? computedValue.value
+        : [computedValue.value];
+      return value
+        .map((v: CascaderOptionValue[]) => {
+          const option = getOption(v);
+          if (option) {
+            return {
+              ...option,
+              id: option.nodePath?.map((v1) => v1.index).join('-'),
+              label:
+                formatLabel?.(option.nodePath!) ??
+                (multiple.value
+                  ? option.nodePath?.map((v1) => v1.label).join(' / ')
+                  : option.label),
+            };
+          }
+          if ((isBoolean(fallback) && fallback) || isFunction(fallback)) {
+            return {
+              id: getValueKey(v),
+              label: isFunction(fallback) ? fallback(v) : getValueKey(v),
+              value: getValueKey(v),
+            };
+          }
+          return null;
+        })
+        .filter((v: CascaderOptionProps) => v);
     });
     // 当前的层级
     const curLevel = ref<number>(1);
@@ -248,8 +282,12 @@ export default () => {
       value: CascaderOptionValue | CascaderOptionValue[]
     ) => {
       return isArray(value)
-        ? value.map((v) => getValue(v as CascaderOptionValue)).join('-')
+        ? value.map((v) => getValue(v as CascaderOptionValue)).join(' / ')
         : (getValue(value) as string);
+    };
+    // 获取option
+    const getOption = (value: CascaderOptionValue | CascaderOptionValue[]) => {
+      return optionMap.value[getValueKey(value)] as CascaderOptionProps;
     };
     // 失焦
     function blur() {
@@ -260,16 +298,19 @@ export default () => {
       computedValue,
       computedInputValue,
       options,
-      optionMap,
+      searchOptions,
       curLevel,
       curPath,
       expandTrigger,
+      expandChild,
       pathMode,
       multiple,
       loading,
+      searchOptionOnlyLabel,
       slots,
       blur,
       getValueKey,
+      getOption,
     });
     return {
       computedValue,
@@ -289,6 +330,7 @@ export default () => {
       loading,
       getValue,
       getValueKey,
+      getOption,
     };
   };
   const inject = () => {
@@ -297,16 +339,21 @@ export default () => {
       computedValue: ref(''),
       computedInputValue: ref(''),
       options: ref([]),
-      optionMap: ref({}),
+      searchOptions: ref([]),
       expandTrigger: ref('click'),
+      expandChild: ref(false),
       curLevel: ref(1),
       curPath: ref([]),
       pathMode: ref(false),
       multiple: ref(false),
       loading: ref(false),
+      searchOptionOnlyLabel: ref(false),
       slots: {},
       blur: () => {},
       getValueKey: () => {},
+      getOption: (_) => {
+        return {};
+      },
     });
   };
   return {

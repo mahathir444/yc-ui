@@ -4,7 +4,7 @@
     :popup-offset="4"
     :popup-container="popupContainer"
     :disabled="disabled"
-    :unmount-on-close="false"
+    auto-fit-popup-width
     prevent-focus
     position="bl"
     trigger="focus"
@@ -99,14 +99,15 @@
       </yc-input>
     </div>
     <template #content>
-      <cascader-panel />
+      <cascader-search-panel v-if="isSearchMode" />
+      <cascader-panel v-else />
     </template>
   </yc-trigger>
 </template>
 
 <script lang="ts" setup>
 import { ref, computed } from 'vue';
-import { CascaderProps, CascaderEmits, CascaderOptionProps } from './type';
+import { CascaderProps, CascaderEmits } from './type';
 import { sleep } from '@shared/utils';
 import useContext from './hooks/useContext';
 import { default as YcInput, InputInstance } from '@/components/Input';
@@ -117,6 +118,7 @@ import {
 } from '@/components/InputTag';
 import YcTrigger from '@/components/Trigger';
 import CascaderPanel from './CascaderPanel.vue';
+import CascaderSearchPanel from './CascaderSearchPanel.vue';
 import CascaderIcon from './CascaderIcon.vue';
 defineOptions({
   name: 'Cascader',
@@ -141,9 +143,8 @@ const props = withDefaults(defineProps<CascaderProps>(), {
   expandTrigger: 'click',
   placeholder: '',
   filterOption: (inputValue, option) => {
-    return (
-      option.label?.toLowerCase().includes(inputValue.toLowerCase()) || true
-    );
+    const label = (option.label ?? '').toLowerCase();
+    return label.includes(inputValue.toLowerCase());
   },
   popupContainer: undefined,
   maxTagCount: 0,
@@ -152,11 +153,14 @@ const props = withDefaults(defineProps<CascaderProps>(), {
     return {};
   },
   loading: false,
+  searchOptionOnlyLabel: false,
   searchDelay: 500,
   fieldNames: () => {
     return {};
   },
   valueKey: 'value',
+  fallback: true,
+  expandChild: false,
   tagNowrap: false,
 });
 const emits = defineEmits<CascaderEmits>();
@@ -167,7 +171,6 @@ const {
   computedValue,
   computedInputValue,
   computedVisible,
-  optionMap,
   selectOptions,
   searchDelay,
   multiple,
@@ -179,6 +182,7 @@ const {
   curLevel,
   curPath,
   getValueKey,
+  getOption,
 } = useContext().provide(props, emits, inputRef);
 // 是否展示清除按钮
 const showClearBtn = computed(() => {
@@ -197,6 +201,10 @@ const showClearBtn = computed(() => {
 // 是否只读
 const isReadonly = computed(() => {
   return !allowSearch.value || loading.value;
+});
+// 是否搜索模式
+const isSearchMode = computed(() => {
+  return allowSearch.value && computedInputValue.value;
 });
 // 处理事件
 const handleEvent = async (
@@ -225,11 +233,11 @@ const handleEvent = async (
           return inputRef.value?.blur();
         }
         // 计算回显的面板
-        const key = getValueKey(
+        const value = getValueKey(
           multiple.value ? computedValue.value[0] : computedValue.value
         );
-        if (key) {
-          const option = optionMap.value[key] as CascaderOptionProps;
+        const option = value ? getOption(value) : null;
+        if (option) {
           curPath.value = option.nodePath!.map((item) => item.index!);
           curLevel.value = option.level!;
         } else {
