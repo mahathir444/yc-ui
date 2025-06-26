@@ -21,7 +21,9 @@
       is-submenu
       ref="optionRef"
       :class="[$attrs.class]"
-      :style="<StyleValue>$attrs.style"
+      :style="{
+        ...($attrs.style ?? {}),
+      }"
     >
       <slot />
       <template #suffix>

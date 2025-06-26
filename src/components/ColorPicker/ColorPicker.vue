@@ -23,7 +23,9 @@
           },
           $attrs.class,
         ]"
-        :style="<StyleValue>$attrs.style"
+        :style="{
+          ...($attrs.style ?? {}),
+        }"
       >
         <div
           class="yc-color-picker-preview"

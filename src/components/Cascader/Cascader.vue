@@ -19,7 +19,9 @@
         },
         $attrs.class,
       ]"
-      :style="<StyleValue>$attrs.style"
+      :style="{
+        ...($attrs.style ?? {}),
+      }"
     >
       <!-- multiple -->
       <yc-input-tag
@@ -109,7 +111,7 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, computed, StyleValue } from 'vue';
+import { ref, computed } from 'vue';
 import { CascaderProps, CascaderEmits } from './type';
 import { sleep } from '@shared/utils';
 import useContext from './hooks/useContext';
@@ -259,9 +261,11 @@ const handleEvent = async (
       break;
     case 'updateValue':
       {
+        console.log('updateValue', value);
         computedValue.value = (value as InputTagValue).map(
           (item) => (item as TagData).value
         );
+        console.log(computedValue.value, 'value');
       }
       break;
   }

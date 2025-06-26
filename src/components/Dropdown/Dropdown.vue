@@ -10,7 +10,7 @@
     :auto-fit-popup-min-width="
       !alignPoint && ['top', 'bottom'].includes(position)
     "
-    :class="['yc-dropdown-popup', , `yc-dropdown-theme-${theme}`]"
+    :class="['yc-dropdown-popup', , `yc-dropdown-theme-${theme}`, $attrs.class]"
     animation-name="slide-dynamic-origin"
     need-transform-origin
     v-bind="triggerProps"

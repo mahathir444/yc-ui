@@ -24,7 +24,9 @@
         },
         $attrs.class,
       ]"
-      :style="<StyleValue>$attrs.style"
+      :style="{
+        ...($attrs.style ?? {}),
+      }"
     >
       <slot name="trigger">
         <!-- single  -->
@@ -137,7 +139,9 @@ defineSlots<SelectSlots>();
 const props = withDefaults(defineProps<SelectProps>(), {
   multiple: false,
   modelValue: undefined,
-  defaultValue: '',
+  defaultValue: (props) => {
+    return props.multiple ? [] : '';
+  },
   inputValue: undefined,
   defaultInputValue: '',
   size: undefined,

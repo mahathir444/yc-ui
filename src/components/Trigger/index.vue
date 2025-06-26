@@ -25,7 +25,6 @@
         :class="[
           'yc-trigger',
           `yc-trigger-position-${position}`,
-          $attrs.class,
           {
             'yc-trigger-transform-origin': needTransformOrigin,
           },
@@ -54,7 +53,7 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, computed, watch, useSlots } from 'vue';
+import { ref, computed, useSlots } from 'vue';
 import {
   TriggerProps,
   TriggerEmits,

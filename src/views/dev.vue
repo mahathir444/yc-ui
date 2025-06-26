@@ -1,23 +1,18 @@
 <template>
   <div class="test">
-    <a-cascader
-      :options="options"
-      :style="{ width: '320px' }"
-      placeholder="Please select ..."
-      expand-child
-    />
     <yc-cascader
+      v-model="value"
       :options="options"
       :style="{ width: '320px' }"
+      :multiple="true"
       placeholder="Please select ..."
-      expand-child
     />
   </div>
 </template>
 
 <script lang="ts" setup>
-import { ref, reactive } from 'vue';
-const fieldNames = { value: 'city', label: 'text' };
+import { ref, watch } from 'vue';
+const value = ref([]);
 const options = [
   {
     value: 'beijing',
