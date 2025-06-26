@@ -11,7 +11,8 @@
     <!-- 渲染panel -->
     <template v-else>
       <div
-        v-for="i in curLevel"
+        v-show="curLevel >= i"
+        v-for="i in maxLevel"
         :key="i"
         :style="{
           zIndex: curLevel + 1 - i,
@@ -46,7 +47,8 @@ import YcSpin from '@/components/Spin';
 // configProvider
 const { renderEmpty } = getGlobalConfig();
 // 接收注入
-const { options, curLevel, curPath, loading, slots } = useContext().inject();
+const { options, curLevel, curPath, maxLevel, loading, slots } =
+  useContext().inject();
 </script>
 
 <style lang="less" scoped>

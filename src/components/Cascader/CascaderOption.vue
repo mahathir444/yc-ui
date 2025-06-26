@@ -136,6 +136,10 @@ const handleMuti = (checked: boolean) => {
           return !valueMap[getValueKey(item!)];
         }),
     ];
+    curLevel.value = leafNodes.value?.[0]?.level ?? curLevel.value;
+    curPath.value =
+      leafNodes.value?.[0]?.nodePath?.map((item) => item.index!) ??
+      curPath.value;
   } else {
     // 计算当前的valueMap
     const valueMap = Object.fromEntries(
@@ -153,6 +157,8 @@ const handleMuti = (checked: boolean) => {
     computedValue.value = curValue.filter((item) => {
       return !valueMap[getValueKey(item!)];
     });
+    curLevel.value = level.value;
+    curPath.value = nodePath.value.map((item) => item.index!);
   }
 };
 // 处理点击

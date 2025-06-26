@@ -35,13 +35,13 @@ export type CascaderContext = {
   options: Ref<CascaderOptionProps[]>;
   searchOptions: Ref<CascaderOptionProps[]>;
   curLevel: Ref<number>;
+  maxLevel: Ref<number>;
   curPath: Ref<number[]>;
   pathMode: Ref<boolean>;
   multiple: Ref<boolean>;
   loading: Ref<boolean>;
   expandTrigger: Ref<ExpandTrigger>;
   expandChild: Ref<boolean>;
-  searchOptionOnlyLabel: Ref<boolean>;
   slots: Slots;
   blur: () => void;
   getValueKey: (...arg: any) => any;
@@ -233,9 +233,16 @@ export default () => {
     });
     // 搜索options
     const searchOptions = computed(() => {
-      return leafOptions.value.filter((item) =>
-        filterOption(computedInputValue.value, item)
-      );
+      return leafOptions.value
+        .filter((item) => filterOption(computedInputValue.value, item))
+        .map((item) => {
+          return {
+            ...item,
+            label: searchOptionOnlyLabel.value
+              ? item.label
+              : item.nodePath?.map((item) => item.label).join(' / '),
+          };
+        });
     });
     // 选中的option
     const selectOptions = computed(() => {
@@ -269,6 +276,8 @@ export default () => {
     });
     // 当前的层级
     const curLevel = ref<number>(1);
+    // 最大level
+    const maxLevel = computed(() => leafOptions.value?.[0]?.level || 0);
     // 当前的index
     const curPath = ref<number[]>([]);
     // 插槽
@@ -300,13 +309,13 @@ export default () => {
       options,
       searchOptions,
       curLevel,
+      maxLevel,
       curPath,
       expandTrigger,
       expandChild,
       pathMode,
       multiple,
       loading,
-      searchOptionOnlyLabel,
       slots,
       blur,
       getValueKey,
@@ -343,11 +352,11 @@ export default () => {
       expandTrigger: ref('click'),
       expandChild: ref(false),
       curLevel: ref(1),
+      maxLevel: ref(0),
       curPath: ref([]),
       pathMode: ref(false),
       multiple: ref(false),
       loading: ref(false),
-      searchOptionOnlyLabel: ref(false),
       slots: {},
       blur: () => {},
       getValueKey: () => {},

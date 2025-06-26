@@ -269,7 +269,6 @@ const handleEvent = async (
     case 'blur':
       {
         computedVisible.value = false;
-        computedInputValue.value = '';
       }
       break;
     case 'updateValue':

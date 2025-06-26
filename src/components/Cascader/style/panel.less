@@ -1,4 +1,5 @@
 .yc-cascader-panel {
+  overflow: hidden;
   height: 200px;
   background-color: #fff;
   border-radius: 4px;
@@ -8,18 +9,18 @@
   .yc-cascader-panel-column {
     position: relative;
     min-width: 120px;
-    background-color: #fff;
     border-right: 1px solid transparent;
+    background-color: #fff;
     display: inline-flex;
     flex-direction: column;
     &:not(:last-child) {
       border-right-color: rgb(229, 230, 235);
     }
-    .yc-scrollbar {
-      &:deep(.yc-scrollbar-container) {
-        max-height: 200px;
-        overflow-y: auto;
-      }
+  }
+  .yc-scrollbar {
+    &:deep(.yc-scrollbar-container) {
+      max-height: 200px;
+      overflow-y: auto;
     }
   }
   .yc-spin {
@@ -31,5 +32,12 @@
   }
   &:deep(.yc-empty) {
     min-width: 120px;
+  }
+}
+
+.yc-cascader-search-panel {
+  width: 100%;
+  .yc-scrollbar {
+    width: 100%;
   }
 }

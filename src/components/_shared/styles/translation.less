@@ -113,10 +113,7 @@ each(@slide-directions, {
 }
 
 // used by cascader
-.cascader-slide-enter-active,
-.cascader-slide-leave-active {
-  transition: margin 0.3s cubic-bezier(0.34, 0.69, 0.1, 1);
-}
+
 .cascader-slide-enter-from,
 .cascader-slide-leave-to {
   margin-left: -120px;
@@ -124,4 +121,8 @@ each(@slide-directions, {
 .cascader-slide-enter-to,
 .cascader-slide-leave-from {
   margin-left: 0;
+}
+.cascader-slide-enter-active,
+.cascader-slide-leave-active {
+  transition: all 0.3s cubic-bezier(0.34, 0.69, 0.1, 1);
 }

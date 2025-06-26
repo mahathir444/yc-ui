@@ -4,7 +4,6 @@
     :popup-offset="4"
     :popup-container="popupContainer"
     :disabled="disabled"
-    auto-fit-popup-width
     prevent-focus
     position="bl"
     trigger="focus"
@@ -20,6 +19,7 @@
         },
       ]"
     >
+      <!-- multiple -->
       <yc-input-tag
         v-if="multiple"
         v-model:input-value="computedInputValue"
@@ -55,6 +55,7 @@
           />
         </template>
       </yc-input-tag>
+      <!-- single -->
       <yc-input
         v-else
         v-model="computedInputValue"
@@ -252,7 +253,6 @@ const handleEvent = async (
     case 'blur':
       {
         computedVisible.value = false;
-        computedInputValue.value = '';
       }
       break;
     case 'updateValue':
