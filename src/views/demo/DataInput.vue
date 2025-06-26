@@ -24,6 +24,9 @@
       </yc-select>
     </div>
     <div style="width: 300px">
+      <yc-cascader :options="options" :multiple="true" placeholder="cascader" />
+    </div>
+    <div style="width: 300px">
       <yc-mention
         :data="['Bytedance', 'Bytedesign', 'Bytenumner']"
         type="textarea"
@@ -113,6 +116,56 @@ const handleClick = () => {
     });
   }
 };
+const option1s = [
+  {
+    value: 'beijing',
+    label: 'Beijing',
+    children: [
+      {
+        value: 'chaoyang',
+        label: 'ChaoYang',
+        children: [
+          {
+            value: 'datunli',
+            label: 'Datunli',
+          },
+        ],
+      },
+      {
+        value: 'haidian',
+        label: 'Haidian',
+      },
+      {
+        value: 'dongcheng',
+        label: 'Dongcheng',
+      },
+      {
+        value: 'xicheng',
+        label: 'Xicheng',
+        children: [
+          {
+            value: 'jinrongjie',
+            label: 'Jinrongjie',
+          },
+          {
+            value: 'tianqiao',
+            label: 'Tianqiao',
+          },
+        ],
+      },
+    ],
+  },
+  {
+    value: 'shanghai',
+    label: 'Shanghai',
+    children: [
+      {
+        value: 'huangpu',
+        label: 'Huangpu',
+      },
+    ],
+  },
+];
 </script>
 
 <style lang="less" scoped>

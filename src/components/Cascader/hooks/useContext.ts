@@ -7,6 +7,7 @@ import {
   computed,
   useSlots,
   Slots,
+  watch,
 } from 'vue';
 import { Props, RequiredDeep } from '@shared/type';
 import {
@@ -17,6 +18,7 @@ import {
   CascaderOptionValue,
   CascaderOptionProps,
   ExpandTrigger,
+  LoadMore,
 } from '../type';
 import { InputInstance } from '@/components/Input';
 import {
@@ -26,13 +28,13 @@ import {
   isBoolean,
   isFunction,
 } from '@shared/utils';
-import result from '@/components/yc-ui';
 
 export const CASCADER_CONTEXT_KEY = 'cascader-context';
 
 export type CascaderContext = {
   computedValue: Ref<CascaderValue>;
   computedInputValue: Ref<string>;
+  totalOptions: Ref<CascaderOption[]>;
   options: Ref<CascaderOptionProps[]>;
   searchOptions: Ref<CascaderOptionProps[]>;
   curLevel: Ref<number>;
@@ -46,6 +48,7 @@ export type CascaderContext = {
   slots: Slots;
   blur: () => void;
   getValueKey: (...arg: any) => any;
+  loadMore?: LoadMore;
   getOption: (
     value: CascaderOptionValue | CascaderOptionValue[]
   ) => CascaderOptionProps;
@@ -116,6 +119,40 @@ export const findOptions = (
         );
       });
 };
+// 依靠level和value查找option
+export function findOptionByValueAndLevel(
+  options: CascaderOption[],
+  value: CascaderOptionValue,
+  level: number,
+  currentLevel: number = 1
+): CascaderOption | undefined {
+  // 如果当前层级大于目标层级，停止搜索
+  if (currentLevel > level) {
+    return undefined;
+  }
+  // 遍历当前层级的选项
+  for (const option of options) {
+    // 如果当前层级是目标层级，并且值匹配，返回该选项
+    if (currentLevel === level && option.value === value) {
+      return option;
+    }
+    // 如果有子节点，递归搜索下一层级
+    if (option.children && option.children.length > 0) {
+      const found = findOptionByValueAndLevel(
+        option.children,
+        value,
+        level,
+        currentLevel + 1
+      );
+      // 如果在子节点中找到匹配项，直接返回
+      if (found) {
+        return found;
+      }
+    }
+  }
+  // 没有找到匹配项
+  return undefined;
+}
 // 获取所有的子叶节点
 export const getLeafNodes = (nodes: CascaderOptionProps[]) => {
   const leafNodes: CascaderOptionProps[] = [];
@@ -196,7 +233,7 @@ export default () => {
       searchOptionOnlyLabel,
       options: _options,
     } = toRefs(props as RequiredDeep<CascaderProps>);
-    const { formatLabel, fallback, filterOption } =
+    const { formatLabel, fallback, filterOption, loadMore } =
       props as RequiredDeep<CascaderProps>;
     // 受控的值
     const computedValue = useControlValue<CascaderValue>(
@@ -225,6 +262,8 @@ export default () => {
         emits('popup-visible-change', val);
       }
     );
+    // 总的options
+    const totalOptions = ref<CascaderOption[]>([]);
     // options
     const options = computed(() => {
       // 转换fieldKeys
@@ -243,7 +282,7 @@ export default () => {
       ) as Record<string, string>;
       // 转换options
       return flattenOptions(
-        transformOptions(transformField(_options.value, fieldKeys))
+        transformOptions(transformField(totalOptions.value, fieldKeys))
       );
     });
     // optionMap
@@ -330,11 +369,23 @@ export default () => {
     function blur() {
       inputRef.value?.blur();
     }
+    // 查找options
+    watch(
+      _options,
+      () => {
+        totalOptions.value = _options.value;
+      },
+      {
+        deep: true,
+        immediate: true,
+      }
+    );
     // 提供给子组件
     _provide<CascaderContext>(CASCADER_CONTEXT_KEY, {
       computedValue,
       computedInputValue,
       options,
+      totalOptions,
       searchOptions,
       curLevel,
       maxLevel,
@@ -348,6 +399,7 @@ export default () => {
       blur,
       getValueKey,
       getOption,
+      loadMore,
     });
     return {
       computedValue,
@@ -376,6 +428,7 @@ export default () => {
       computedValue: ref(''),
       computedInputValue: ref(''),
       options: ref([]),
+      totalOptions: ref([]),
       searchOptions: ref([]),
       expandTrigger: ref('click'),
       expandChild: ref(false),

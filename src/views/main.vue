@@ -35,7 +35,7 @@ const menus = [
     path: 'dataShow',
   },
   {
-    title: '数据输入(16/21)',
+    title: '数据输入(17/21)',
     path: 'form',
   },
   {

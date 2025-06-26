@@ -132,9 +132,7 @@ export type FilterOption =
   | boolean
   | ((inputValue: string, option: SelectOptionData) => boolean);
 export type FallbackOption = (value: SelectValue) => SelectOptionData;
-
 export type FormatLabel = (data: SelectOptionData) => string;
-
 export type VirtualListProps = {
   itemHeight?: number;
   buffer?: number;

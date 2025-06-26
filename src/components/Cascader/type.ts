@@ -26,15 +26,13 @@ export interface CascaderProps {
   formatLabel?: (options: CascaderOption[]) => string;
   triggerProps?: TriggerProps;
   // checkStrictly?:boolean;
-  // loadMore?:( option: CascaderOption, done: (children?: CascaderOption[]) => void) => void
+  loadMore?: LoadMore;
   loading?: boolean;
   searchOptionOnlyLabel?: boolean;
   searchDelay?: number;
   fieldNames?: Record<string, string>;
   valueKey?: string;
-  fallback?:
-    | boolean
-    | ((value: CascaderOptionValue | CascaderOptionValue[]) => string);
+  fallback?: FallBack;
   expandChild?: boolean;
   // virtual-list-props
   tagNowrap?: boolean;
@@ -88,3 +86,10 @@ export type CascaderOptionProps = {
 } & CascaderOption;
 
 export type ExpandTrigger = 'click' | 'hover';
+export type LoadMore = (
+  option: CascaderOption,
+  done: (children?: CascaderOption[]) => void
+) => void;
+export type FallBack =
+  | boolean
+  | ((value: CascaderOptionValue | CascaderOptionValue[]) => string);

@@ -23,17 +23,23 @@
       @click="handleEvent('click')"
     >
       <component :is="renderLabel" />
-      <icon-arrow-right v-if="children.length" />
+      <icon-arrow-right v-if="showArrow && !loading" />
+      <icon-loading color="rgb(22,93,255)" spin v-if="loading" />
     </div>
   </li>
 </template>
 
 <script lang="ts" setup>
-import { computed, toRefs } from 'vue';
+import { computed, toRefs, nextTick, ref } from 'vue';
 import { CascaderOptionProps, CascaderOptionValue } from './type';
-import { IconArrowRight } from '@shared/icons';
+import { IconArrowRight, IconLoading } from '@shared/icons';
+import { isFunction } from '@shared/utils';
 import YcCheckbox from '@/components/Checkbox';
-import { default as useContext, getLeafNodes } from './hooks/useContext';
+import {
+  default as useContext,
+  getLeafNodes,
+  findOptionByValueAndLevel,
+} from './hooks/useContext';
 const props = withDefaults(defineProps<CascaderOptionProps>(), {
   label: '',
   value: '',
@@ -48,9 +54,11 @@ const props = withDefaults(defineProps<CascaderOptionProps>(), {
   index: -1,
   nodePath: () => [],
 });
-const { label, value, disabled, level, children, nodePath } = toRefs(props);
+const { label, value, disabled, level, isLeaf, children, nodePath } =
+  toRefs(props);
 // 接收注入
 const {
+  totalOptions,
   computedValue,
   pathMode,
   curLevel,
@@ -62,7 +70,14 @@ const {
   getOption,
   getValueKey,
   blur,
+  loadMore,
 } = useContext().inject();
+// 加载中
+const loading = ref<boolean>(false);
+// 展示arrow
+const showArrow = computed(() => {
+  return children.value.length || isFunction(loadMore) || isLeaf.value;
+});
 // 获取所有的子叶节点
 const leafNodes = computed(() => {
   return children.value.length
@@ -162,9 +177,28 @@ const handleMuti = (checked: boolean) => {
   }
 };
 // 处理点击
-const handleEvent = (type: 'click' | 'hover') => {
-  if (disabled.value) {
+const handleEvent = async (type: 'click' | 'hover') => {
+  if (disabled.value || loading.value) {
     return;
+  }
+  // 懒加载数据
+  if (isLeaf.value && isFunction(loadMore) && expandTrigger.value == type) {
+    loading.value = true;
+    // 查找到option
+    const option = findOptionByValueAndLevel(
+      totalOptions.value,
+      value.value,
+      level.value
+    )!;
+    console.log(option, 'option');
+    await new Promise((resolve) => {
+      loadMore(option, (children) => {
+        option.children = children?.length ? children : option.children;
+        resolve('');
+      });
+    });
+    loading.value = false;
+    await nextTick();
   }
   // 处理展开
   if (!isLeafNode.value && expandTrigger.value == type) {

@@ -157,6 +157,7 @@ const props = withDefaults(defineProps<CascaderProps>(), {
   triggerProps: () => {
     return {};
   },
+  loadMore: undefined,
   loading: false,
   searchOptionOnlyLabel: false,
   searchDelay: 500,

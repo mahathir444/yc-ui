@@ -6,7 +6,12 @@
     fill="none"
     xmlns="http://www.w3.org/2000/svg"
     stroke="currentColor"
-    class="yc-icon"
+    :class="[
+      'yc-icon',
+      {
+        'yc-icon-spin': spin,
+      },
+    ]"
     v-bind="attrs"
   >
     <slot></slot>
@@ -57,7 +62,6 @@ const style = computed(() => {
     height,
     color: color.value ? color.value : 'inherit',
     transform: rotate ? `rotate(${rotate.value}deg)` : 'unset',
-    animation: spin.value ? 'spin 1s infinite cubic-bezier(0, 0, 1, 1)' : '',
   } as CSSProperties;
 });
 // 计算attrs
@@ -89,5 +93,8 @@ const attrs = computed(() => {
   width: 1em;
   height: 1em;
   color: inherit;
+}
+.yc-icon-spin {
+  animation: spin 1s infinite cubic-bezier(0, 0, 1, 1);
 }
 </style>

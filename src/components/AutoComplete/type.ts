@@ -1,6 +1,6 @@
 import {
   SelectOptions,
-  FilterOption,
+  SelectOptionData,
   VirtualListProps,
 } from '@/components/Select';
 import { PopupContainer, ObjectData } from '@shared/type';
@@ -13,7 +13,7 @@ export type AutoCompleteProps = {
   data?: SelectOptions;
   popupContainer?: PopupContainer;
   strict?: boolean;
-  filterOption?: FilterOption;
+  filterOption?: (inputValue: string, option: SelectOptionData) => boolean;
   triggerProps?: TriggerProps;
   allowClear?: boolean;
   vistualListProps?: VirtualListProps;
