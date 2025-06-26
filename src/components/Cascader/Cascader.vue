@@ -17,7 +17,9 @@
           'yc-cascader-allow-clear': showClearBtn,
           'yc-cascader-allow-search': allowSearch,
         },
+        $attrs.class,
       ]"
+      :style="<StyleValue>$attrs.style"
     >
       <!-- multiple -->
       <yc-input-tag
@@ -75,7 +77,7 @@
             <span
               :class="[
                 {
-                  'yc-input-placeholder': !selectOptions.length,
+                  'yc-input-placeholder': !selectOptions[0]?.label,
                 },
               ]"
             >
@@ -107,7 +109,7 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, computed } from 'vue';
+import { ref, computed, StyleValue } from 'vue';
 import { CascaderProps, CascaderEmits } from './type';
 import { sleep } from '@shared/utils';
 import useContext from './hooks/useContext';

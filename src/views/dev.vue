@@ -2,31 +2,22 @@
   <div class="test">
     <a-cascader
       :options="options"
-      multiple
-      path-mode
-      search-option-only-label
+      :style="{ width: '320px' }"
+      placeholder="Please select ..."
       expand-child
     />
     <yc-cascader
-      v-model="value"
       :options="options"
-      multiple
-      path-mode
-      allow-clear
-      allow-search
+      :style="{ width: '320px' }"
+      placeholder="Please select ..."
+      expand-child
     />
   </div>
 </template>
 
 <script lang="ts" setup>
-import { ref, watch } from 'vue';
-const value = ref([]);
-watch(
-  () => value.value.length,
-  () => {
-    console.log(value.value);
-  }
-);
+import { ref, reactive } from 'vue';
+const fieldNames = { value: 'city', label: 'text' };
 const options = [
   {
     value: 'beijing',
@@ -75,22 +66,6 @@ const options = [
         label: 'Huangpu',
       },
     ],
-  },
-  {
-    value: 'chongqing',
-    label: 'chongqing',
-  },
-  {
-    value: 'shichuan',
-    label: 'shichuan',
-  },
-  {
-    value: 'tianjing',
-    label: 'tianjing',
-  },
-  {
-    value: 'henan',
-    label: 'henan',
   },
 ];
 </script>

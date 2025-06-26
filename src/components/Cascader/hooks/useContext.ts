@@ -26,6 +26,7 @@ import {
   isBoolean,
   isFunction,
 } from '@shared/utils';
+import result from '@/components/yc-ui';
 
 export const CASCADER_CONTEXT_KEY = 'cascader-context';
 
@@ -51,11 +52,11 @@ export type CascaderContext = {
 };
 
 // 增强option添加indexPath,valuePath,level,labelPath
-export function transformOptions(
+export const transformOptions = (
   options: CascaderOption[],
   level: number = 1,
   nodePath: CascaderOption[] = []
-): CascaderOptionProps[] {
+): CascaderOptionProps[] => {
   return options.map((option, index) => {
     // 构建baseOption
     const baseOption = {
@@ -80,9 +81,9 @@ export function transformOptions(
     }
     return enhancedOption;
   });
-}
+};
 // 扁平化options
-export function flattenOptions(options: CascaderOptionProps[]) {
+export const flattenOptions = (options: CascaderOptionProps[]) => {
   const result: CascaderOptionProps[] = [];
   const traverse = (options: CascaderOptionProps[]) => {
     options.forEach((option) => {
@@ -96,7 +97,7 @@ export function flattenOptions(options: CascaderOptionProps[]) {
   };
   traverse(options);
   return result;
-}
+};
 // 基于当前的level和父级path查找options
 export const findOptions = (
   options: CascaderOptionProps[],
@@ -115,8 +116,8 @@ export const findOptions = (
         );
       });
 };
-// 获取所有的子夜节点
-export function getLeafNodes(nodes: CascaderOptionProps[]) {
+// 获取所有的子叶节点
+export const getLeafNodes = (nodes: CascaderOptionProps[]) => {
   const leafNodes: CascaderOptionProps[] = [];
   function traverse(currentNode: CascaderOptionProps) {
     if (!currentNode.children || currentNode.children.length === 0) {
@@ -130,6 +131,42 @@ export function getLeafNodes(nodes: CascaderOptionProps[]) {
   // 遍历传入的每个节点
   nodes.forEach((node) => traverse(node));
   return leafNodes;
+};
+//  转换字段
+function transformField(
+  options: any[],
+  fieldKeys: Record<string, string>
+): CascaderOption[] {
+  return options.map((option) => {
+    // 创建新对象
+    const transformed: any = {};
+    // 转换基本字段
+    transformed.label = option[fieldKeys.label] ?? option.label;
+    transformed.value = option[fieldKeys.value] ?? option.value;
+    // 转换其他可选字段
+    if (fieldKeys.render) {
+      transformed.render = option[fieldKeys.render] ?? option.render;
+    }
+    if (fieldKeys.disabled) {
+      transformed.disabled = option[fieldKeys.disabled] ?? option.disabled;
+    }
+    if (fieldKeys.tagProps) {
+      transformed.tagProps = option[fieldKeys.tagProps] ?? option.tagProps;
+    }
+    if (fieldKeys.isLeaf) {
+      transformed.isLeaf = option[fieldKeys.isLeaf] ?? option.isLeaf;
+    }
+    // 递归转换子节点
+    if (fieldKeys.children && option[fieldKeys.children]) {
+      transformed.children = transformField(
+        option[fieldKeys.children],
+        fieldKeys
+      );
+    } else if (option.children) {
+      transformed.children = transformField(option.children, fieldKeys);
+    }
+    return transformed;
+  });
 }
 
 export default () => {
@@ -204,17 +241,10 @@ export default () => {
       const fieldKeys = Object.fromEntries(
         keys.map((key) => [key, fieldNames.value?.[key] ?? key])
       ) as Record<string, string>;
-      // 转换option的字段
-      const tempOptions = _options.value.map((item) => {
-        return Object.fromEntries(
-          keys.map((key) => [
-            key,
-            (item as Record<string, string>)[fieldKeys[key]],
-          ])
-        );
-      });
       // 转换options
-      return flattenOptions(transformOptions(tempOptions));
+      return flattenOptions(
+        transformOptions(transformField(_options.value, fieldKeys))
+      );
     });
     // optionMap
     const optionMap = computed(() => {
@@ -248,7 +278,7 @@ export default () => {
     const selectOptions = computed(() => {
       const value = multiple.value
         ? computedValue.value
-        : [computedValue.value];
+        : [computedValue.value].map((item) => item);
       return value
         .map((v: CascaderOptionValue[]) => {
           const option = getOption(v);
@@ -258,9 +288,7 @@ export default () => {
               id: option.nodePath?.map((v1) => v1.index).join('-'),
               label:
                 formatLabel?.(option.nodePath!) ??
-                (multiple.value
-                  ? option.nodePath?.map((v1) => v1.label).join(' / ')
-                  : option.label),
+                option.nodePath?.map((v1) => v1.label).join(' / '),
             };
           }
           if ((isBoolean(fallback) && fallback) || isFunction(fallback)) {

@@ -70,14 +70,16 @@ export default (params: {
   });
   // 选中的value
   const selectValue = computed(() => {
-    const value = multiple.value ? computedValue.value : [computedValue.value];
+    const value = multiple.value
+      ? computedValue.value
+      : [computedValue.value].map((item) => `${item}`);
     return (value as ObjectData[]).map((item) => getValue(item));
   });
   // 选中的值
   const selectOptions = computed(() => {
     const opts = [...options.value, ...fallbackOptions.value];
     // 计算input-tag需要显示的值
-    const result = selectValue.value.map((v) => {
+    return selectValue.value.map((v) => {
       const option = (opts.find((item) => getValue(item.value) == v) ||
         {}) as SelectOptionData;
       return {
@@ -86,8 +88,6 @@ export default (params: {
         label: option ? (formatLabel?.(option) ?? option?.label) : v,
       };
     });
-    console.log(result, 'rest');
-    return result;
   });
   // 收集option
   const collectOption = (props: Props, optionLabel: Ref<string>) => {

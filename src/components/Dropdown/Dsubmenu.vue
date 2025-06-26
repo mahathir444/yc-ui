@@ -15,7 +15,14 @@
     ref="triggerRef"
     v-bind="triggerProps"
   >
-    <yc-doption :disabled="disabled" :theme="theme" is-submenu ref="optionRef">
+    <yc-doption
+      :disabled="disabled"
+      :theme="theme"
+      is-submenu
+      ref="optionRef"
+      :class="[$attrs.class]"
+      :style="<StyleValue>$attrs.style"
+    >
       <slot />
       <template #suffix>
         <icon-arrow-right />
@@ -41,7 +48,7 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, computed, toRefs, nextTick } from 'vue';
+import { ref, computed, toRefs, nextTick, StyleValue } from 'vue';
 import { IconArrowRight } from '@shared/icons';
 import {
   unrefElement,

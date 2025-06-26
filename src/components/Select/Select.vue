@@ -22,8 +22,9 @@
           'yc-select-allow-clear': showClearBtn,
           'yc-select-no-border': !bordered,
         },
+        $attrs.class,
       ]"
-      v-bind="$attrs"
+      :style="<StyleValue>$attrs.style"
     >
       <slot name="trigger">
         <!-- single  -->
@@ -116,7 +117,7 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, computed, toRefs } from 'vue';
+import { ref, computed, toRefs, StyleValue } from 'vue';
 import { SelectProps, SelectEmits, SelectSlots, SelectExpose } from './type';
 import { sleep, isUndefined } from '@shared/utils';
 import useContext from './hooks/useContext';

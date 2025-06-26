@@ -101,7 +101,7 @@ const checked = computed(() => {
 });
 // 是否半选
 const indeterminate = computed(() => {
-  if (isLeafNode.value) {
+  if (isLeafNode.value || !multiple.value) {
     return false;
   }
   const valueOptions = (computedValue.value as CascaderOptionValue[]).map(

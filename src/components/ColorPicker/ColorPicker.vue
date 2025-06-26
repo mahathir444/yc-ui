@@ -21,7 +21,9 @@
           {
             'yc-color-picker-disabled': disabled,
           },
+          $attrs.class,
         ]"
+        :style="<StyleValue>$attrs.style"
       >
         <div
           class="yc-color-picker-preview"
@@ -42,6 +44,7 @@
 </template>
 
 <script lang="ts" setup>
+import { StyleValue } from 'vue';
 import { COLOR_PICKER_PRESET_COLORS } from '@shared/constants';
 import { ColorPickerProps, ColorPickerEmits } from './type';
 import useContext from './hooks/useContext';
