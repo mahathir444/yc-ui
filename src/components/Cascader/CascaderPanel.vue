@@ -15,7 +15,7 @@
         v-for="i in maxLevel"
         :key="i"
         :style="{
-          zIndex: curLevel + 1 - i,
+          zIndex: maxLevel + 1 - i,
         }"
         class="yc-cascader-panel-column"
       >

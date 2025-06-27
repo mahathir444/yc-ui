@@ -344,7 +344,9 @@ export default () => {
     // 当前的层级
     const curLevel = ref<number>(1);
     // 最大level
-    const maxLevel = computed(() => leafOptions.value?.[0]?.level || 0);
+    const maxLevel = computed(() => {
+      return Math.max(...leafOptions.value.map((item) => item.level!)) || 0;
+    });
     // 当前的index
     const curPath = ref<number[]>([]);
     // 插槽

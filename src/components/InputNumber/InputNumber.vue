@@ -11,7 +11,12 @@
     class="yc-input-number"
     ref="inputRef"
     @input="handleInput"
-    @change="(v, ev) => $emit('change', +v, ev)"
+    @change="
+      async (v, ev) => {
+        await sleep(0);
+        $emit('change', +v, ev);
+      }
+    "
     @clear="handleClear"
     @focus="(ev) => $emit('focus', ev)"
     @blur="(ev) => handleUpdateValue('blur', ev)"
@@ -110,7 +115,13 @@ import {
   InputNumberExpose,
   InputNumberValue,
 } from './type';
-import { isNumber, isString, isFunction, useControlValue } from '@shared/utils';
+import {
+  isNumber,
+  isString,
+  isFunction,
+  useControlValue,
+  sleep,
+} from '@shared/utils';
 import OperaBtn from './InputOperaBtn.vue';
 import { default as YcInput, InputInstance } from '@/components/Input';
 defineOptions({

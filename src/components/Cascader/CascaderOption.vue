@@ -23,17 +23,17 @@
       @click="handleEvent('click')"
     >
       <component :is="renderLabel" />
-      <icon-arrow-right v-if="showArrow && !loading" />
+      <icon-arrow-right v-if="showArrow" />
       <icon-loading color="rgb(22,93,255)" spin v-if="loading" />
     </div>
   </li>
 </template>
 
 <script lang="ts" setup>
-import { computed, toRefs, nextTick, ref } from 'vue';
+import { computed, toRefs, ref } from 'vue';
 import { CascaderOptionProps, CascaderOptionValue } from './type';
 import { IconArrowRight, IconLoading } from '@shared/icons';
-import { isFunction } from '@shared/utils';
+import { isFunction, sleep } from '@shared/utils';
 import YcCheckbox from '@/components/Checkbox';
 import {
   default as useContext,
@@ -74,9 +74,13 @@ const {
 } = useContext().inject();
 // 加载中
 const loading = ref<boolean>(false);
-// 展示arrow
+// 是否显示箭头
 const showArrow = computed(() => {
-  return children.value.length || isFunction(loadMore) || isLeaf.value;
+  if (isFunction(loadMore)) {
+    return !loading.value && !isLeaf.value && !children.value.length;
+  } else {
+    return children.value.length;
+  }
 });
 // 获取所有的子叶节点
 const leafNodes = computed(() => {
@@ -182,7 +186,7 @@ const handleEvent = async (type: 'click' | 'hover') => {
     return;
   }
   // 懒加载数据
-  if (isLeaf.value && isFunction(loadMore) && expandTrigger.value == type) {
+  if (showArrow.value && isFunction(loadMore) && expandTrigger.value == type) {
     loading.value = true;
     // 查找到option
     const option = findOptionByValueAndLevel(
@@ -190,15 +194,14 @@ const handleEvent = async (type: 'click' | 'hover') => {
       value.value,
       level.value
     )!;
-    console.log(option, 'option');
     await new Promise((resolve) => {
       loadMore(option, (children) => {
-        option.children = children?.length ? children : option.children;
+        option.children = children?.length ? children : [];
         resolve('');
       });
     });
     loading.value = false;
-    await nextTick();
+    await sleep(0);
   }
   // 处理展开
   if (!isLeafNode.value && expandTrigger.value == type) {
