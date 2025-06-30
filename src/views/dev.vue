@@ -3,25 +3,32 @@
     <div style="display: flex; gap: 10px">
       <yc-button
         @click="
-          $message.info({
+          Modal.confirm({
+            title: 'ces',
             content: '111',
-            duration: 10000000,
-            showIcon: true,
-            closable: true,
-            position: 'top',
           })
         "
       >
-        测试Message
+        测试Modal
       </yc-button>
-      <yc-button @click="Message.success('测试')"> ces modal </yc-button>
+      <yc-button
+        @click="
+          $modal.confirm({
+            title: 'ces',
+            content: '111',
+          })
+        "
+      >
+        ces modal
+      </yc-button>
     </div>
   </div>
 </template>
 
 <script lang="ts" setup>
 import { h } from 'vue';
-import { Modal, Message } from '@/components';
+import { Modal } from '@arco-design/web-vue';
+import { Message } from '@/components';
 import { IconExclamationCircleFill } from '@arco-design/web-vue/es/icon';
 const renderIcon = () => h(IconExclamationCircleFill);
 </script>

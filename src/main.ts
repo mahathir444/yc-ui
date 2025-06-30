@@ -10,7 +10,7 @@ import YcUi from '@/components';
 import '@/components/index.less';
 const app = createApp(App);
 app.use(router);
-app.use(YcUi);
 app.use(ArcoIcon);
 app.use(Arco);
+app.use(YcUi);
 app.mount('#app');

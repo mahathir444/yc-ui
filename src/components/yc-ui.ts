@@ -51,6 +51,7 @@ import { default as List, ListItem, ListItemMeta } from './List';
 import { default as Menu, MenuItem, SubMenu, MenuItemGroup } from './Menu';
 import Mention from './Mention';
 import Modal from './Modal';
+import Message from './Message';
 import OverflowList from './OverflowList';
 import PageHeader from './PageHeader';
 import Pagination from './Pagination';
@@ -125,6 +126,7 @@ export const components: Record<string, Plugin> = {
   Menu,
   Mention,
   Modal,
+  Message,
   OverflowList,
   PageHeader,
   Pagination,

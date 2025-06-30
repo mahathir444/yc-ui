@@ -1,28 +1,7 @@
 <template>
   <yc-drawer
+    v-bind="props"
     v-model:visible="visible"
-    :placement="placement"
-    :title="title"
-    :mask="mask"
-    :mask-closable="maskClosable"
-    :closable="closable"
-    :ok-text="okText"
-    :cancel-text="cancelText"
-    :ok-loading="okLoading"
-    :ok-button-props="okButtonProps"
-    :cancel-button-props="cancelButtonProps"
-    :unmount-on-close="unmountOnClose"
-    :width="width"
-    :height="height"
-    :popup-container="popupContainer"
-    :drawer-style="drawerStyle"
-    :esc-to-close="escToClose"
-    :render-to-body="renderToBody"
-    :header="header"
-    :footer="footer"
-    :hide-cancel="hideCancel"
-    :on-before-ok="(done) => onBeforeOk?.(done)"
-    :on-before-cancel="onBeforeCancel"
     @ok="onOk?.()"
     @cancel="onCancel?.()"
     @before-open="onBeforeOpen?.()"
@@ -40,7 +19,7 @@
 </template>
 
 <script lang="ts" setup>
-import { ref } from 'vue';
+import { ref, onMounted } from 'vue';
 import { DrawerConfig } from './type';
 import { getSlotFunction } from '@shared/utils';
 import YcDrawer from './Drawer.vue';
@@ -62,7 +41,7 @@ const props = withDefaults(defineProps<DrawerConfig>(), {
   unmountOnClose: false,
   width: 250,
   height: 250,
-  popupContainer: undefined,
+  popupContainer: 'yc-overlay-drawer',
   drawerStyle: () => {
     return {};
   },
@@ -80,10 +59,13 @@ const props = withDefaults(defineProps<DrawerConfig>(), {
 });
 const { onClose, serviceCloseFn } = props;
 // visible
-const visible = ref<boolean>(true);
+const visible = ref<boolean>(false);
 // 处理close
 const handleClose = () => {
   serviceCloseFn?.();
   onClose?.();
 };
+onMounted(() => {
+  visible.value = true;
+});
 </script>

@@ -21,6 +21,7 @@ export const TYPE_ICON_MAP: ObjectData = {
   error: IconError,
   info: IconInfo,
   loading: IconLoading,
+  confirm: IconInfo,
   'result-403': Icon403,
   'result-404': Icon404,
   'result-500': Icon500,

@@ -72,6 +72,7 @@ export type ModalConfig = Omit<ModalProps, 'visible' | 'defaultVisible'> & {
 export type ModalReturn = { close: () => void };
 
 export type ModalMethod = {
+  open: (props: ModalConfig) => ModalReturn;
   success: (props: ModalConfig) => ModalReturn;
   error: (props: ModalConfig) => ModalReturn;
   warning: (props: ModalConfig) => ModalReturn;
