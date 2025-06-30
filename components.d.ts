@@ -8,14 +8,10 @@ export {}
 declare module 'vue' {
   export interface GlobalComponents {
     _Icon: typeof import('./src/components/_shared/icons/_Icon.vue')['default']
-    ACascader: typeof import('@arco-design/web-vue')['Cascader']
-    ADivider: typeof import('@arco-design/web-vue')['Divider']
     Affix: typeof import('./src/components/Affix/index.vue')['default']
     Alert: typeof import('./src/components/Alert/index.vue')['default']
     Anchor: typeof import('./src/components/Anchor/Anchor.vue')['default']
     AnchorLink: typeof import('./src/components/Anchor/AnchorLink.vue')['default']
-    ASelect: typeof import('@arco-design/web-vue')['Select']
-    ASlider: typeof import('@arco-design/web-vue')['Slider']
     AutoComplete: typeof import('./src/components/AutoComplete/index.vue')['default']
     Avatar: typeof import('./src/components/Avatar/Avatar.vue')['default']
     AvatarGroup: typeof import('./src/components/Avatar/AvatarGroup.vue')['default']
@@ -38,11 +34,8 @@ declare module 'vue' {
     CarouselIndicator: typeof import('./src/components/Carousel/CarouselIndicator.vue')['default']
     CarouselItem: typeof import('./src/components/Carousel/CarouselItem.vue')['default']
     Cascader: typeof import('./src/components/Cascader/Cascader.vue')['default']
-    CascaderColumn: typeof import('./src/components/Cascader/CascaderColumn.vue')['default']
     CascaderIcon: typeof import('./src/components/Cascader/CascaderIcon.vue')['default']
-    CascaderList: typeof import('./src/components/Cascader/CascaderList.vue')['default']
     CascaderOption: typeof import('./src/components/Cascader/CascaderOption.vue')['default']
-    CascaderOptions: typeof import('./src/components/Cascader/CascaderOptions.vue')['default']
     CascaderPanel: typeof import('./src/components/Cascader/CascaderPanel.vue')['default']
     CascaderSearchPanel: typeof import('./src/components/Cascader/CascaderSearchPanel.vue')['default']
     Checkbox: typeof import('./src/components/Checkbox/Checkbox.vue')['default']
@@ -145,8 +138,7 @@ declare module 'vue' {
     MenuItemGroup: typeof import('./src/components/Menu/MenuItemGroup.vue')['default']
     MenuPopOption: typeof import('./src/components/Menu/MenuPopOption.vue')['default']
     Message: typeof import('./src/components/Message/Message.vue')['default']
-    MessageContainer: typeof import('./src/components/Message/MessageContainer.vue')['default']
-    MessageList: typeof import('./src/components/YMessage/MessageList.vue')['default']
+    MessageList: typeof import('./src/components/Message/MessageList.vue')['default']
     Modal: typeof import('./src/components/Modal/Modal.vue')['default']
     ModalService: typeof import('./src/components/Modal/ModalService.vue')['default']
     Notification: typeof import('./src/components/Notification/Notification.vue')['default']
@@ -220,6 +212,5 @@ declare module 'vue' {
     UploadList: typeof import('./src/components/Upload/UploadList.vue')['default']
     VerificationCode: typeof import('./src/components/VerificationCode/index.vue')['default']
     Watermark: typeof import('./src/components/Watermark/index.vue')['default']
-    YMessage: typeof import('./src/components/YMessage/index.vue')['default']
   }
 }
