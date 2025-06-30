@@ -11,6 +11,7 @@
       !alignPoint && ['top', 'bottom'].includes(position)
     "
     :class="['yc-dropdown-popup', , `yc-dropdown-theme-${theme}`, $attrs.class]"
+    :style="$attrs.style"
     animation-name="slide-dynamic-origin"
     need-transform-origin
     v-bind="triggerProps"
@@ -36,7 +37,7 @@
 </template>
 
 <script lang="ts" setup>
-import { toRefs, computed } from 'vue';
+import { toRefs, computed, StyleValue } from 'vue';
 import {
   DropdownProps,
   DoptionValue,

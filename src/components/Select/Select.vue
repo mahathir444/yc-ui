@@ -24,9 +24,7 @@
         },
         $attrs.class,
       ]"
-      :style="{
-        ...($attrs.style ?? {}),
-      }"
+      :style="<StyleValue>$attrs.style"
     >
       <slot name="trigger">
         <!-- single  -->

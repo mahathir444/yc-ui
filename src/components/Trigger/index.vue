@@ -21,14 +21,18 @@
         v-if="!unmountOnClose || (computedVisible && !disabled)"
         v-show="computedVisible && !disabled"
         :prevent-focus="preventFocus"
-        :style="popupStyle"
         :class="[
           'yc-trigger',
           `yc-trigger-position-${position}`,
           {
             'yc-trigger-transform-origin': needTransformOrigin,
           },
+          $attrs.class,
         ]"
+        :style="{
+          ...popupStyle,
+          ...($attrs.style || {}),
+        }"
         ref="popupRef"
         @mouseenter="handleMouseenter"
         @mouseleave="handleMouseleave"

@@ -15,8 +15,8 @@
     :style="outerStyle"
   >
     <div
-      class="yc-scrollbar-container"
-      :style="style"
+      :class="['yc-scrollbar-container', $attrs.class]"
+      :style="<StyleValue>$attrs.style"
       ref="scrollRef"
       @scroll="handleScroll"
     >
@@ -42,7 +42,7 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, computed, toRefs, onBeforeUnmount } from 'vue';
+import { ref, computed, toRefs, onBeforeUnmount, StyleValue } from 'vue';
 import {
   ScrollbarProps,
   ScrollbarEmits,

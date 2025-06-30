@@ -69,6 +69,15 @@ export type ModalConfig = Omit<ModalProps, 'visible' | 'defaultVisible'> & {
   onBeforeClose?: () => void;
 };
 
+export type ModalReturn = { close: () => void };
+
+export type ModalMethod = {
+  success: (props: ModalConfig) => ModalReturn;
+  error: (props: ModalConfig) => ModalReturn;
+  warning: (props: ModalConfig) => ModalReturn;
+  info: (props: ModalConfig) => ModalReturn;
+};
+
 export type ModalType = 'info' | 'warning' | 'error' | 'success';
 
 export type ModalTitleAlign = 'start' | 'center';

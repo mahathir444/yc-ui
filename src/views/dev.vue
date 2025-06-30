@@ -1,64 +1,49 @@
 <template>
   <div class="test">
-    <a-cascader
-      :options="options"
-      :style="{ width: '320px' }"
-      check-strictly
-      placeholder="Please select ..."
-    />
-    <yc-cascader
-      :options="options"
-      :style="{ width: '320px' }"
-      placeholder="Please select ..."
-    />
+    <div>
+      <yc-button
+        @click="
+          $message.info({
+            content: '111',
+            duration: 10000000,
+            showIcon: true,
+            closable: true,
+            position: 'bottom',
+          })
+        "
+      >
+        测试Message
+      </yc-button>
+      <yc-button
+        @click="
+          Modal.success({
+            content: '测试',
+          })
+        "
+      >
+        ces modal
+      </yc-button>
+    </div>
+    <yc-message-container>
+      <yc-message content="测试" :icon="renderIcon" type="error" closable />
+      <yc-message content="测试" :icon="renderIcon" type="error" closable />
+      <yc-message content="测试" :icon="renderIcon" type="error" closable />
+      <yc-message content="测试" :icon="renderIcon" type="error" closable />
+    </yc-message-container>
   </div>
 </template>
 
 <script lang="ts" setup>
-import { ref, watch } from 'vue';
-import { IconLoading } from '@shared/icons';
-const options = [
-  {
-    value: 'beijing',
-    label: 'Beijing',
-    children: [
-      {
-        value: 'chaoyang',
-        label: 'ChaoYang',
-      },
-      {
-        value: 'haidian',
-        label: 'Haidian',
-        isLeaf: true,
-      },
-      {
-        value: 'dongcheng',
-        label: 'Dongcheng',
-        isLeaf: true,
-      },
-      {
-        value: 'xicheng',
-        label: 'Xicheng',
-      },
-    ],
-  },
-  {
-    value: 'shanghai',
-    label: 'Shanghai',
-    children: [
-      {
-        value: 'huangpu',
-        label: 'Huangpu',
-        isLeaf: true,
-      },
-    ],
-  },
-];
+import { h } from 'vue';
+import { Modal } from '@/components';
+import YcMessage from '@/components/YMessage/Message.vue';
+import YcMessageContainer from '@/components/YMessage/MessageContainer.vue';
+import { IconExclamationCircleFill } from '@arco-design/web-vue/es/icon';
+const renderIcon = () => h(IconExclamationCircleFill);
 </script>
 
 <style lang="less" scoped>
 .test {
-  overflow: hidden;
   height: 100%;
   width: 100%;
   display: flex;

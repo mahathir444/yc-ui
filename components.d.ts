@@ -217,5 +217,6 @@ declare module 'vue' {
     UploadList: typeof import('./src/components/Upload/UploadList.vue')['default']
     VerificationCode: typeof import('./src/components/VerificationCode/index.vue')['default']
     Watermark: typeof import('./src/components/Watermark/index.vue')['default']
+    YMessage: typeof import('./src/components/YMessage/index.vue')['default']
   }
 }

@@ -5,7 +5,6 @@ export interface ScrollbarProps {
   type?: TackType;
   outerClass?: ClassName;
   outerStyle?: CSSProperties;
-  style?: CSSProperties;
   // 是否自动继承高度
   autoFill?: boolean;
   // 触底偏移量

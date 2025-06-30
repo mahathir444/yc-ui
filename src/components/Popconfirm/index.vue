@@ -8,12 +8,8 @@
     :content-class="['yc-popconfirm-popup-content', contentClass as string]"
     :content-style="contentStyle"
     :popup-offset="10"
-    :class="[
-      'yc-popconfirm',
-      'yc-popconfirm-popup',
-      `yc-popconfirm-${type}`,
-      $attrs.class,
-    ]"
+    :class="['yc-popconfirm', `yc-popconfirm-${type}`, $attrs.class]"
+    :style="$attrs.style"
     trigger="click"
     animation-name="zoom-in-fade-out"
     need-transform-origin
@@ -54,7 +50,7 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, toRefs } from 'vue';
+import { ref, toRefs, StyleValue } from 'vue';
 import {
   PopconfirmProps,
   PopconfirmEmits,

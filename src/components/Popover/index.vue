@@ -9,7 +9,8 @@
     :content-class="['yc-popover-popup-content', contentClass as string]"
     :content-style="contentStyle"
     :popup-offset="10"
-    :class="['yc-popover', 'yc-popover-popup', $attrs.class]"
+    :class="['yc-popover', $attrs.class]"
+    :style="$attrs.style"
     animation-name="zoom-in-fade-out"
     need-transform-origin
     show-arrow
@@ -30,7 +31,7 @@
 </template>
 
 <script lang="ts" setup>
-import { toRefs } from 'vue';
+import { toRefs, StyleValue } from 'vue';
 import {
   PopoverProps,
   PopoverEmits,

@@ -18,12 +18,10 @@
     <yc-doption
       :disabled="disabled"
       :theme="theme"
+      :class="$attrs.class"
+      :style="$attrs.style"
       is-submenu
       ref="optionRef"
-      :class="[$attrs.class]"
-      :style="{
-        ...($attrs.style ?? {}),
-      }"
     >
       <slot />
       <template #suffix>

@@ -263,7 +263,7 @@ export default () => {
       }
     );
     // 总的options
-    const totalOptions = ref<CascaderOption[]>([]);
+    const totalOptions = ref<CascaderOption[]>([..._options.value]);
     // options
     const options = computed(() => {
       // 转换fieldKeys
@@ -379,7 +379,6 @@ export default () => {
       },
       {
         deep: true,
-        immediate: true,
       }
     );
     // 提供给子组件

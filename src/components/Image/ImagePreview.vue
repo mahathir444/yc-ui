@@ -11,7 +11,7 @@
       ]"
       :style="{
         zIndex,
-        ...($attrs.style || {}),
+        ...($attrs.style ?? {}),
       }"
     >
       <transition name="fade">

@@ -1,6 +1,12 @@
 <template>
   <slot v-if="$slots.default && !_srcList.length" />
-  <image-preview v-bind="props" v-model:visible="computedVisible" :src="src">
+  <image-preview
+    v-bind="props"
+    v-model:visible="computedVisible"
+    :src="src"
+    :class="$attrs.class"
+    :style="$attrs.style"
+  >
     <template #arrow>
       <div class="yc-image-preview-arrow">
         <image-preview-arrow type="left" @click="handleCurrentChange('pre')" />

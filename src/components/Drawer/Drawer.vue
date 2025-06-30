@@ -34,7 +34,10 @@
         <div
           v-show="innerVisible"
           :class="['yc-drawer-container', $attrs.class]"
-          :style="drawerStyle"
+          :style="{
+            ...drawerStyle,
+            ...($attrs.style ?? {}),
+          }"
         >
           <!-- header -->
           <slot name="header">
@@ -84,7 +87,7 @@
 </template>
 
 <script lang="ts" setup>
-import { toRefs, computed, CSSProperties, useAttrs } from 'vue';
+import { toRefs, computed, CSSProperties } from 'vue';
 import { DrawerProps, DrawerEmits, DrawerSlots } from './type';
 import { getGlobalConfig, valueToPx } from '@shared/utils';
 import useDrawerClose from '@/components/Modal/hooks/useModalClose';
@@ -145,8 +148,6 @@ const {
   renderToBody,
 } = toRefs(props);
 const { onBeforeOk, onBeforeCancel } = props;
-// attrs
-const attrs = useAttrs();
 // 接收configProvider
 const { zIndex, popupContainer } = getGlobalConfig(props);
 // drawer绝对定位的left,top
@@ -162,7 +163,6 @@ const drawerStyle = computed(() => {
         : `100%`,
     // 传入样式
     ..._drawerStyle.value,
-    ...(attrs.style || {}),
   } as CSSProperties;
 });
 // 处理组件关闭开启

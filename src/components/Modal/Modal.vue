@@ -37,9 +37,7 @@
             v-show="innerVisible"
             :class="[
               'yc-modal',
-              // 外被类名
               modalClass,
-              // 外面传入的类名
               $attrs.class,
               {
                 // 拖拽
@@ -48,7 +46,10 @@
                 'yc-modal-fullscreen': fullscreen,
               },
             ]"
-            :style="style"
+            :style="{
+              ...modalStyle,
+              ...($attrs.style ?? {}),
+            }"
             ref="modalRef"
             @click.stop=""
           >
@@ -110,7 +111,7 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, toRefs, computed, CSSProperties, useAttrs } from 'vue';
+import { ref, toRefs, computed, CSSProperties } from 'vue';
 import { ModalProps, ModalEmits, ModalSlots } from './type';
 import { getGlobalConfig, valueToPx } from '@shared/utils';
 import useModalClose from './hooks/useModalClose';
@@ -181,13 +182,12 @@ const {
   alignCenter,
   maskClosable,
   escToClose,
-  modalStyle,
+  modalStyle: _modalStyle,
   fullscreen,
   draggable,
   renderToBody,
 } = toRefs(props);
 const { onBeforeOk, onBeforeCancel } = props;
-const attrs = useAttrs();
 // 接收属性
 const { popupContainer, zIndex } = getGlobalConfig(props);
 // 处理组件关闭开启
@@ -221,7 +221,7 @@ const { dragStyle, isDraggable } = useModalDraggable({
   modalRef,
 });
 // modalCss
-const style = computed(() => {
+const modalStyle = computed(() => {
   return {
     width: fullscreen.value
       ? '100%'
@@ -229,8 +229,7 @@ const style = computed(() => {
         ? 'fit-content'
         : valueToPx(width.value),
     ...dragStyle.value,
-    ...modalStyle.value,
-    ...(attrs.style || {}),
+    ..._modalStyle.value,
   } as CSSProperties;
 });
 </script>

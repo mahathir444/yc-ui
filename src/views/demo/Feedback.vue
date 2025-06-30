@@ -34,7 +34,15 @@
         >Error Message</yc-button
       >
     </yc-space>
-    <yc-button @click="visible = true">Open Modal</yc-button>
+    <yc-button
+      @click="
+        Modal.open({
+          title: '测试',
+          content: 'ces',
+        })
+      "
+      >Open Modal</yc-button
+    >
     <yc-modal v-model:visible="visible">
       <template #title> Title </template>
       <div>
@@ -127,6 +135,7 @@
 
 <script lang="ts" setup>
 import { ref, reactive } from 'vue';
+import Modal from '@/components/Modal';
 import Message from '@/components/Message';
 import Notification from '@/components/Notification';
 const visible = ref(false);

@@ -1,45 +1,34 @@
 import { App, h, render } from 'vue';
-import { ModalConfig } from './type';
+import { ModalConfig, ModalMethod } from './type';
 import _ModalService from './ModalService.vue';
 import _Modal from './Modal.vue';
 
 export type ModalInstance = InstanceType<typeof _Modal>;
 export * from './type';
-type ModalServiceData = { id: string; container: HTMLDivElement | null };
-type ModalMethod = (props: ModalConfig) => { close: () => void };
-type ModalMethods = {
-  success: ModalMethod;
-  error: ModalMethod;
-  warning: ModalMethod;
-  info: ModalMethod;
-};
-
+// modalcontainer
+let container: HTMLDivElement;
 const Modal = Object.assign(_Modal, {
-  modalConfig: {
-    id: 'ycServiceModalContainer',
-    container: null,
-  },
   install: (app: App) => {
     app.component('Yc' + _Modal.name, _Modal);
   },
   open(props: ModalConfig) {
-    const modalConfig = this.modalConfig as ModalServiceData;
-    if (!modalConfig.container) {
-      const container = document.createElement('div');
-      container.id = this.modalConfig.id;
-      modalConfig.container = container;
+    // 挂在容器
+    if (!container) {
+      container = document.createElement('div');
+      container.className = 'yc-overlay yc-overlay-modal';
       document.body.append(container);
     }
     // 关闭函数
     const close = () => {
-      render(null, modalConfig.container as HTMLDivElement);
+      render(null, container as HTMLDivElement);
     };
+    // 挂在vnode
     const vnode = h(_ModalService, {
       ...props,
       serviceCloseFn: close,
     });
     // 渲染 VNode 到容器
-    render(vnode, modalConfig.container);
+    render(vnode, container);
     return {
       close,
     };
@@ -56,7 +45,7 @@ const Modal = Object.assign(_Modal, {
         },
       ];
     })
-  ) as ModalMethods),
+  ) as ModalMethod),
 });
 
 declare module 'vue' {

@@ -5,45 +5,30 @@ import _DrawerService from './DrawerService.vue';
 
 export type DrawerInstance = InstanceType<typeof _Drawer>;
 export * from './type';
-type DrawerServiceData = {
-  id: string;
-  container: HTMLDivElement | null;
-};
 
+//drawerContainer
+let container: HTMLDivElement;
 const Drawer = Object.assign(_Drawer, {
   install: (app: App) => {
     app.component('Yc' + _Drawer.name, _Drawer);
   },
-  drawerConfig: {
-    id: 'ycServiceDrawerContainer',
-    container: null,
-  },
   open(props: DrawerConfig) {
-    const drawerConfig = this.drawerConfig as DrawerServiceData;
-    if (!drawerConfig.container) {
-      const container = document.createElement('div');
-      container.id = this.drawerConfig.id;
-      drawerConfig.container = container;
+    if (!container) {
+      container = document.createElement('div');
+      container.className = 'yc-overlay yc-overlay-drawer';
       document.body.append(container);
     }
     // 关闭函数
     const close = () => {
-      render(null, drawerConfig.container as HTMLDivElement);
+      render(null, container as HTMLDivElement);
     };
-    const { onOk: _onOk, onCancel: _onCancel } = props;
+    // 挂在vnode
     const vnode = h(_DrawerService, {
       ...props,
-      async onOk() {
-        await _onOk?.();
-        close();
-      },
-      async onCancel() {
-        await _onCancel?.();
-        close();
-      },
+      serviceCloseFn: close,
     });
     // 渲染 VNode 到容器
-    render(vnode, drawerConfig.container);
+    render(vnode, container);
     return {
       close,
     };
