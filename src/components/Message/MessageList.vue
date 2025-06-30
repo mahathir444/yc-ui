@@ -14,22 +14,12 @@
 </template>
 
 <script lang="ts" setup>
-import { watch } from 'vue';
 import { MessageContainerProps } from './type';
 import YcMessage from './Message.vue';
-const props = withDefaults(defineProps<MessageContainerProps>(), {
+withDefaults(defineProps<MessageContainerProps>(), {
   messageList: () => [],
   position: 'top',
 });
-watch(
-  () => props.messageList,
-  () => {
-    console.log(props.messageList, 'list');
-  },
-  {
-    deep: true,
-  }
-);
 </script>
 
 <style lang="less" scoped>

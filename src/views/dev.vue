@@ -18,6 +18,7 @@
         @click="
           Message.open({
             content: '测试',
+            resetOnHover: true,
           })
         "
       >
@@ -30,6 +31,7 @@
 <script lang="ts" setup>
 import { h } from 'vue';
 import { Modal } from '@/components';
+import Message1 from '@/components/Message';
 import Message from '@/components/YMessage';
 import YcMessage from '@/components/YMessage/Message.vue';
 import YcMessageContainer from '@/components/YMessage/MessageList.vue';

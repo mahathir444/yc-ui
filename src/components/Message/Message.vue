@@ -1,85 +1,104 @@
-<!-- 消息 -->
 <template>
-  <transition name="fade">
-    <div
-      :class="['yc-message-box', `yc-message-box-${type}`]"
-      @mouseenter="handleMouseenter"
-      @mouseleave="handleMouseleave"
+  <li
+    role="alert"
+    :class="['yc-message', `yc-message-${type}`]"
+    @mouseenter="handleMouseenter"
+    @mouseleave="handleMouseleave"
+  >
+    <span
+      v-if="(type != 'normal' || isFunction(icon)) && showIcon"
+      class="yc-message-icon"
     >
-      <span v-if="hasIcon" :class="['yc-message-icon', type]">
-        <slot name="icon">
-          <component :is="TYPE_ICON_MAP[type]" :spin="type == 'loading'" />
-        </slot>
-      </span>
-      <span class="yc-message-content">{{ content }}</span>
-      <icon-button
-        v-if="closable"
-        class="yc-message-close"
-        @click="emits('close')"
-      />
-    </div>
-  </transition>
+      <component :is="icon ?? iconMap[type]" />
+    </span>
+    <span class="yc-message-content">
+      {{ content }}
+    </span>
+    <span v-if="closable" class="yc-message-close-btn" @click="handleClose">
+      <icon-button :size="12" />
+    </span>
+  </li>
 </template>
 
-<script setup lang="ts">
-import { onMounted, onUpdated, ref, computed, useSlots } from 'vue';
+<script lang="ts" setup>
+import { toRefs, onMounted, watch } from 'vue';
 import { MessageProps } from './type';
 import { useTimeoutFn } from '@vueuse/core';
-import { TYPE_ICON_MAP } from '@shared/constants';
+import { isFunction } from '@shared/utils';
+import {
+  IconInfo,
+  IconWarning,
+  IconSuccess,
+  IconError,
+  IconLoading,
+} from '@shared/icons';
 import { IconButton } from '@shared/components';
 defineOptions({
   name: 'Message',
 });
 const props = withDefaults(defineProps<MessageProps>(), {
+  type: 'info',
   content: '',
   id: '',
-  showIcon: false,
-  closable: false,
-  duration: 1000,
-  resetOnHover: false,
-  type: 'info',
-  resetFlag: false,
-});
-const emits = defineEmits<{
-  (e: 'close'): void;
-}>();
-const { isPending, start, stop } = useTimeoutFn(
-  () => {
-    emits('close');
+  showIcon: (props) => {
+    return props.type != 'normal';
   },
-  () => props.duration,
+  closable: false,
+  icon: undefined,
+  duration: 1500,
+  onClose: undefined,
+  onDestory: undefined,
+  resetOnHover: false,
+});
+const { type, id, duration, resetOnHover } = toRefs(props);
+const { onClose, onDestory } = props;
+// icon映射
+const iconMap: Record<string, any> = {
+  info: IconInfo,
+  warning: IconWarning,
+  success: IconSuccess,
+  error: IconError,
+  loading: IconLoading,
+};
+// 倒计时
+const { start, stop } = useTimeoutFn(
+  () => {
+    onDestory?.(id.value);
+    onClose?.(id.value);
+  },
+  () => duration.value,
   {
     immediate: false,
   }
 );
-const resetFlag = ref(props.resetFlag);
-const slots = useSlots();
-onUpdated(() => {
-  if (props.duration === 0) return;
-  if (props.resetFlag === resetFlag.value) return;
-  resetFlag.value = props.resetFlag;
+// 处理关闭
+const handleClose = () => {
   stop();
-  start();
-});
-onMounted(async () => {
-  if (props.duration === 0) return;
-  start();
-});
+  onDestory?.(id.value);
+  onClose?.(id.value);
+};
+// 处理鼠标进入
 const handleMouseenter = () => {
-  if (!props.resetOnHover) return;
-  if (!isPending.value) return;
+  if (!resetOnHover.value || duration.value <= 0) return;
   stop();
 };
+// 处理鼠标离开
 const handleMouseleave = () => {
-  if (!props.resetOnHover) return;
-  if (isPending.value) return;
-  if (props.duration === 0) return;
+  if (!resetOnHover.value || duration.value <= 0) return;
   start();
 };
-const hasIcon = computed(() => {
-  return props.showIcon || !(props.type === 'normal' && !slots.icon);
+// 检测props
+watch(props, () => {
+  if (duration.value <= 0) return;
+  stop();
+  start();
+});
+onMounted(() => {
+  if (duration.value <= 0) return;
+  start();
 });
 </script>
-<style scoped lang="less">
+
+<style lang="less" scoped>
 @import './style/message.less';
 </style>

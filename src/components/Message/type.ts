@@ -1,31 +1,47 @@
-import { VNode } from 'vue';
+import { RenderContent } from '@shared/type';
+import { RenderFunction } from 'vue';
 
 export interface MessageProps {
-  content?: string;
+  type?: MessageType;
+  content?: RenderContent;
   id?: string;
+  icon?: RenderFunction;
   showIcon?: boolean;
   closable?: boolean;
   duration?: number;
+  onClose?: (id: string | number) => void;
+  onDestory?: (id: string | number) => void;
   resetOnHover?: boolean;
-  type?: MessageType;
-  resetFlag?: boolean;
 }
-
-export interface MessageConfig extends MessageProps {
-  onClose?: (id: string) => void;
-  icon?: () => VNode;
-}
-
-export type MessageList = MessageConfig[];
 
 export interface MessageContainerProps {
-  messageList: MessageList;
+  messageList?: MessageProps[];
+  position?: MessagePostion;
 }
+
+export type MessageConfig = Omit<MessageProps, 'type' | 'onDestory'> &
+  MessageContainerProps;
+
+export type MessageReturn = {
+  close(): void;
+};
+
+export type MessageMethod = {
+  info: (config: string | MessageConfig) => MessageReturn;
+  success: (config: string | MessageConfig) => MessageReturn;
+  warning: (config: string | MessageConfig) => MessageReturn;
+  error: (config: string | MessageConfig) => MessageReturn;
+  loading: (config: string | MessageConfig) => MessageReturn;
+  normoal: (config: string | MessageConfig) => MessageReturn;
+  clear: (position: MessagePostion) => MessageReturn;
+};
+
+export type MessagePostion = 'top' | 'bottom';
 
 export type MessageType =
   | 'info'
-  | 'warning'
   | 'success'
+  | 'warning'
   | 'error'
   | 'loading'
   | 'normal';

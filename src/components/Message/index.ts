@@ -1,84 +1,65 @@
-import { App, render, ref, createVNode, reactive } from 'vue';
+import { App, ref, h, render } from 'vue';
 import _Message from './Message.vue';
-import _MessageContainer from './MessageContainer.vue';
-import { MessageConfig, MessageType } from './type';
+import _MessageList from './MessageList.vue';
+import { MessageMethod, MessageConfig, MessageProps } from './type';
+import { isString } from '../_shared/utils';
+
 export type MessageInstance = InstanceType<typeof _Message>;
 export * from './type';
 
-type MessageList = MessageConfig[];
-
-const messageList = ref<MessageList>([]);
-let id = 0;
-
-const config = {
-  containerId: 'ycServiceMessageContainer',
-};
-
-const onClose = async (id: string) => {
-  const targetItem = messageList.value.find((item) => item.id === id);
-  if (!targetItem) return;
-  targetItem?.onClose?.(id);
-  const i = messageList.value.findIndex((item) => item.id === id);
-  messageList.value.splice(i, 1);
-};
-
-const createDiv = () => {
-  if (!document.getElementById(config.containerId)) {
-    const messageContainer = document.createElement('div');
-    messageContainer.id = config.containerId;
-    document.body.append(messageContainer);
-    const vnode = createVNode(_MessageContainer, {
-      messageList: messageList.value,
-      onClose,
-    });
-    render(vnode, messageContainer);
-  }
-};
-
-const openMessage = (type: MessageType, config: MessageConfig) => {
-  createDiv();
-  const nowId = config?.id ?? '__yc_message_' + id++;
-  const existingIndex = messageList.value.findIndex(
-    (item) => item.id === nowId
-  );
-  if (existingIndex !== -1) {
-    Object.assign(messageList.value[existingIndex], {
-      ...config,
-      type,
-      id: nowId,
-      resetFlag: !messageList.value[existingIndex].resetFlag,
-    });
-  } else {
-    messageList.value.push(reactive({ ...config, type, id: nowId }));
-  }
-  return {
-    close: () => onClose(nowId),
-  };
-};
-
-const messageMethod = (
-  ['info', 'warning', 'success', 'error', 'loading', 'normal'] as MessageType[]
-).reduce(
-  (acc, type) => {
-    acc[type] = (config: MessageConfig) => openMessage(type, config);
-    return acc;
-  },
-  {} as Record<
-    MessageType,
-    (config: MessageConfig) => {
-      close: () => void;
-    }
-  >
-);
-
+// message-container
+let container: HTMLDivElement;
+// messageId
+let messageId = 1;
+const messageList = ref<MessageProps[]>([]);
 const Message = Object.assign(_Message, {
   install: (app: App) => {
     app.component('Yc' + _Message.name, _Message);
   },
-  clear: () => {
-    messageList.value.splice(0);
+  clear() {
+    messageList.value = [];
   },
-  ...messageMethod,
+  open(config: string | MessageConfig) {
+    if (!container) {
+      container = document.createElement('div');
+      container.className = 'yc-overlay yc-overlay-message';
+      document.body.appendChild(container);
+      const vnode = h(_MessageList, {
+        messageList: messageList.value,
+      });
+      render(vnode, container);
+    }
+    // 销毁
+    const onDestory = () => {
+      const index = messageList.value.findIndex((item) => item.id == id);
+      if (index == -1) return;
+      messageList.value.splice(index, 1);
+    };
+    const id =
+      isString(config) || !config.id
+        ? '__yc_message_' + messageId++
+        : config.id;
+    const index = messageList.value.findIndex((message) => message.id == id);
+    // 创建message对象
+    const message = isString(config)
+      ? { content: config, id, onDestory }
+      : { ...config, id, onDestory };
+    // 查找是否存在
+    if (index != -1) {
+      messageList.value[index] = {
+        ...messageList.value[index],
+        ...message,
+      };
+    } else {
+      messageList.value.push(message);
+    }
+  },
 });
+
+declare module 'vue' {
+  export interface GlobalComponents {
+    YcMessage: typeof Message;
+  }
+}
 
 export default Message;
