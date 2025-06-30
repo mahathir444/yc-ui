@@ -1,10 +1,11 @@
 import { App, h, render } from 'vue';
 import { ModalConfig, ModalMethod } from './type';
-import _ModalService from './ModalService.vue';
 import _Modal from './Modal.vue';
+import _ModalService from './ModalService.vue';
 
 export type ModalInstance = InstanceType<typeof _Modal>;
 export * from './type';
+
 // modalcontainer
 let container: HTMLDivElement;
 const Modal = Object.assign(_Modal, {

@@ -10,6 +10,7 @@ export interface MessageProps {
   closable?: boolean;
   duration?: number;
   onClose?: (id: string | number) => void;
+  onDestory?: (id: string | number) => void;
   resetOnHover?: boolean;
 }
 
@@ -18,7 +19,8 @@ export interface MessageContainerProps {
   position?: MessagePostion;
 }
 
-export type MessageConfig = Omit<MessageProps, 'type'> & MessageContainerProps;
+export type MessageConfig = Omit<MessageProps, 'type' | 'onDestory'> &
+  MessageContainerProps;
 
 export type MessageReturn = {
   close(): void;
