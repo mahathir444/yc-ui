@@ -31,11 +31,11 @@
 
 <script lang="ts" setup>
 import { ref, onMounted } from 'vue';
-import { ModalConfig } from './type';
+import { ModalServiceProps } from './type';
 import { getSlotFunction } from '@shared/utils';
 import { TYPE_ICON_MAP } from '@shared/constants';
 import YcModal from './Modal.vue';
-const props = withDefaults(defineProps<ModalConfig>(), {
+const props = withDefaults(defineProps<ModalServiceProps>(), {
   width: 520,
   top: 100,
   mask: true,
@@ -84,12 +84,12 @@ const props = withDefaults(defineProps<ModalConfig>(), {
   },
   content: '',
 });
-const { onClose, serviceCloseFn } = props;
+const { onClose, serviceClose } = props;
 // visible
 const visible = ref<boolean>(false);
 // 处理close
 const handleClose = () => {
-  serviceCloseFn?.();
+  serviceClose?.();
   onClose?.();
 };
 onMounted(() => {

@@ -1,5 +1,5 @@
 import { App, render, h } from 'vue';
-import { DrawerConfig } from './type';
+import { DrawerConfig, DrawerUpdateConfig } from './type';
 import _Drawer from './Drawer.vue';
 import _DrawerService from './DrawerService.vue';
 
@@ -21,15 +21,20 @@ const open = (props: DrawerConfig) => {
   const close = () => {
     render(null, container as HTMLDivElement);
   };
+  // 更新函数
+  const update = (updateProps: DrawerUpdateConfig) => {
+    console.log('函数执行了', updateProps);
+  };
   // 挂在vnode
   const vnode = h(_DrawerService, {
     ...props,
-    serviceCloseFn: close,
+    serviceClose: close,
   });
   // 渲染 VNode 到容器
   render(vnode, container);
   return {
     close,
+    update,
   };
 };
 

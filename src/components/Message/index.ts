@@ -21,7 +21,7 @@ let messageId = 1;
 // meessage
 const messageList = ref<MessageProps[]>([]);
 // 处理messageOpen
-const open = (config: string | MessageConfig, type: MessageType = 'info') => {
+const open = (props: string | MessageConfig, type: MessageType = 'info') => {
   if (!container) {
     container = document.createElement('div');
     container.className = className;
@@ -29,7 +29,7 @@ const open = (config: string | MessageConfig, type: MessageType = 'info') => {
     render(
       h(_MessageList, {
         messageList: messageList.value,
-        position: isString(config) ? 'top' : config.position,
+        position: isString(props) ? 'top' : props.position,
       }),
       container
     );
@@ -42,13 +42,13 @@ const open = (config: string | MessageConfig, type: MessageType = 'info') => {
   };
   // messageId
   const id =
-    isString(config) || !config.id ? '__yc_message_' + messageId++ : config.id;
+    isString(props) || !props.id ? '__yc_message_' + messageId++ : props.id;
   // messageIndex
   const index = messageList.value.findIndex((message) => message.id == id);
   // 创建message对象
-  const message = isString(config)
-    ? { content: config, id, onDestory, type }
-    : { ...config, id, onDestory, type };
+  const message = isString(props)
+    ? { content: props, id, onDestory, type }
+    : { ...props, id, onDestory, type };
   // 查找是否存在
   if (index != -1) {
     messageList.value[index] = {
@@ -68,11 +68,11 @@ const messageMethod = Object.fromEntries(
     (type) => {
       return [
         type,
-        (config: string | MessageConfig) => {
+        (props: string | MessageConfig) => {
           if (type == 'clear') {
             messageList.value = [];
           } else {
-            return open(config, type as MessageType);
+            return open(props, type as MessageType);
           }
         },
       ];

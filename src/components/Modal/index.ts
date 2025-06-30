@@ -1,5 +1,11 @@
-import { App, h, render } from 'vue';
-import { ModalConfig, ModalMethod, ModalType } from './type';
+import { App, h, render, ref, reactive } from 'vue';
+import {
+  ModalConfig,
+  ModalUpdateConfig,
+  ModalServiceProps,
+  ModalMethod,
+  ModalType,
+} from './type';
 import _Modal from './Modal.vue';
 import _ModalService from './ModalService.vue';
 
@@ -22,15 +28,20 @@ const open = (props: ModalConfig) => {
   const close = () => {
     render(null, container as HTMLDivElement);
   };
+  // 更新函数
+  const update = (updateProps: ModalUpdateConfig) => {
+    console.log('函数执行了', updateProps);
+  };
   // 挂在vnode
   const vnode = h(_ModalService, {
     ...props,
-    serviceCloseFn: close,
+    serviceClose: close,
   });
   // 渲染 VNode 到容器
   render(vnode, container);
   return {
     close,
+    update,
   };
 };
 // modal方法

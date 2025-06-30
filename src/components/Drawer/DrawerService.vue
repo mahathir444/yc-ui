@@ -20,10 +20,10 @@
 
 <script lang="ts" setup>
 import { ref, onMounted } from 'vue';
-import { DrawerConfig } from './type';
+import { DrawerServiceProps } from './type';
 import { getSlotFunction } from '@shared/utils';
 import YcDrawer from './Drawer.vue';
-const props = withDefaults(defineProps<DrawerConfig>(), {
+const props = withDefaults(defineProps<DrawerServiceProps>(), {
   placement: 'right',
   title: '',
   mask: true,
@@ -57,12 +57,12 @@ const props = withDefaults(defineProps<DrawerConfig>(), {
     return true;
   },
 });
-const { onClose, serviceCloseFn } = props;
+const { onClose, serviceClose } = props;
 // visible
 const visible = ref<boolean>(false);
 // 处理close
 const handleClose = () => {
-  serviceCloseFn?.();
+  serviceClose?.();
   onClose?.();
 };
 onMounted(() => {

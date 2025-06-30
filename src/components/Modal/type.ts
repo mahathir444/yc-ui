@@ -1,6 +1,7 @@
 import { CSSProperties } from 'vue';
 import { ButtonProps } from '@/components/Button';
 import { RenderContent, PopupContainer, ClassName } from '@shared/type';
+import { ModuleStatus } from 'vm';
 
 export interface ModalProps {
   visible?: boolean;
@@ -58,9 +59,8 @@ export interface ModalSlots {
 
 export type ModalConfig = Omit<ModalProps, 'visible' | 'defaultVisible'> & {
   title?: RenderContent;
-  content: RenderContent;
+  content?: RenderContent;
   type?: ModalType;
-  serviceCloseFn?: () => void;
   onOk?: () => void | Promise<void>;
   onCancel?: () => void | Promise<void>;
   onOpen?: () => void;
@@ -69,7 +69,29 @@ export type ModalConfig = Omit<ModalProps, 'visible' | 'defaultVisible'> & {
   onBeforeClose?: () => void;
 };
 
-export type ModalReturn = { close: () => void };
+export type ModalUpdateConfig = Omit<
+  ModalConfig,
+  | 'title'
+  | 'content'
+  | 'footer'
+  | 'onOk'
+  | 'onCancel'
+  | 'onBeforeOk'
+  | 'onBeforeCancel'
+  | 'onOpen'
+  | 'onClose'
+  | 'onBeforeOpen'
+  | 'onBeforeClose'
+>;
+
+export type ModalServiceProps = ModalConfig & {
+  serviceClose?: () => void;
+};
+
+export type ModalReturn = {
+  close: () => void;
+  update: (config: ModalUpdateConfig) => void;
+};
 
 export type ModalMethod = {
   open: (props: ModalConfig) => ModalReturn;
@@ -77,6 +99,7 @@ export type ModalMethod = {
   error: (props: ModalConfig) => ModalReturn;
   warning: (props: ModalConfig) => ModalReturn;
   info: (props: ModalConfig) => ModalReturn;
+  confirm: (props: ModalConfig) => ModuleStatus;
 };
 
 export type ModalType = 'info' | 'warning' | 'error' | 'success';

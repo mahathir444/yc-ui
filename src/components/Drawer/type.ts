@@ -49,13 +49,32 @@ export interface DrawerEmits {
 export type DrawerConfig = Omit<DrawerProps, 'visible' | 'defaultVisible'> & {
   content?: RenderContent;
   title?: RenderContent;
-  serviceCloseFn?: () => void;
   onOk?: () => void | Promise<void>;
   onCancel?: () => void | Promise<void>;
   onOpen?: () => void;
   onClose?: () => void;
   onBeforeOpen?: () => void;
   onBeforeClose?: () => void;
+};
+
+export declare type DrawerUpdateConfig = Omit<
+  DrawerConfig,
+  | 'title'
+  | 'content'
+  | 'onOk'
+  | 'onCancel'
+  | 'onBeforeOk'
+  | 'onBeforeCancel'
+  | 'onOpen'
+  | 'onClose'
+  | 'onBeforeOpen'
+  | 'onBeforeClose'
+  | 'header'
+  | 'footer'
+>;
+
+export type DrawerServiceProps = DrawerConfig & {
+  serviceClose?: () => void;
 };
 
 export type DrawerPlacement = 'right' | 'left' | 'top' | 'bottom';
