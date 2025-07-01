@@ -1,5 +1,28 @@
 <template>
-  <div class="test"></div>
+  <div class="test">
+    <a-resize-box
+      :directions="['left', 'right', 'top', 'bottom']"
+      style="
+        width: 500px;
+        height: 500px;
+        min-width: 100px;
+        background-color: skyblue;
+      "
+    >
+      <div></div>
+    </a-resize-box>
+    <yc-resize-box
+      :directions="['left', 'right', 'top', 'bottom']"
+      style="
+        width: 500px;
+        height: 500px;
+        min-width: 100px;
+        background-color: skyblue;
+      "
+    >
+      <div></div>
+    </yc-resize-box>
+  </div>
 </template>
 
 <script lang="ts" setup>

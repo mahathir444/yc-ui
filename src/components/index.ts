@@ -140,8 +140,8 @@ export { default as Radio } from './Radio';
 export * from './Rate';
 export { default as Rate } from './Rate';
 
-export * from './ResizeBox';
-export { default as ResizeBox } from './ResizeBox';
+export * from './ResizeBoxYc1';
+export { default as ResizeBox } from './ResizeBoxYc1';
 
 export * from './Result';
 export { default as Result } from './Result';

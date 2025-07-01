@@ -1,48 +1,48 @@
 .yc-resizebox {
-  width: 100%;
   position: relative;
   overflow: hidden;
-  &.no-select {
-    user-select: none;
-  }
+  width: 100%;
   .yc-resizebox-trigger {
     position: absolute;
-    width: fit-content;
+    user-select: none;
     .yc-resizebox-trigger-icon-wrapper {
+      height: 100%;
       background-color: rgb(229, 230, 235);
+      color: rgb(29, 33, 41);
+      font-size: 12px;
+      line-height: 1;
       display: flex;
       align-items: center;
       justify-content: center;
-    }
-    &.direction-vertical {
-      height: 100%;
-      cursor: col-resize;
-      .yc-resizebox-trigger-icon-wrapper {
-        height: 100%;
+      .yc-icon {
+        margin: -3px;
       }
-    }
-    &.direction-horizontal {
-      width: 100%;
-      cursor: row-resize;
-      .yc-resizebox-trigger-icon-wrapper {
-        width: 100%;
-      }
-    }
-    &.yc-resizebox-direction-top {
-      top: 0;
-      left: unset;
-    }
-    &.yc-resizebox-direction-bottom {
-      bottom: 0;
-      left: unset;
-    }
-    &.yc-resizebox-direction-left {
-      left: 0;
-      top: 0;
-    }
-    &.yc-resizebox-direction-right {
-      right: 0;
-      top: 0;
     }
   }
+  // 处理trigger的direction
+  @direction: {
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+  };
+  each(@direction,{
+      .yc-resizebox-direction-@{key}{
+        @{key}:@value;
+        & when not(@key = right){
+          left: 0;
+        }
+        & when not(@key = bottom){
+          top: 0;
+        }
+        & when(@key = left),(@key = right){
+          cursor: col-resize;
+          height: 100%;
+        }
+        & when(@key = top),(@key = bottom){
+          cursor: row-resize;
+          width: 100%;
+        }
+      }
+    });
 }

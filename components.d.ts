@@ -13,6 +13,8 @@ declare module 'vue' {
     Alert: typeof import('./src/components/Alert/index.vue')['default']
     Anchor: typeof import('./src/components/Anchor/Anchor.vue')['default']
     AnchorLink: typeof import('./src/components/Anchor/AnchorLink.vue')['default']
+    AResizeBox: typeof import('@arco-design/web-vue')['ResizeBox']
+    ASplit: typeof import('@arco-design/web-vue')['Split']
     AutoComplete: typeof import('./src/components/AutoComplete/index.vue')['default']
     Avatar: typeof import('./src/components/Avatar/Avatar.vue')['default']
     AvatarGroup: typeof import('./src/components/Avatar/AvatarGroup.vue')['default']
@@ -162,6 +164,7 @@ declare module 'vue' {
     RadioGroup: typeof import('./src/components/Radio/RadioGroup.vue')['default']
     Rate: typeof import('./src/components/Rate/index.vue')['default']
     ResizeBox: typeof import('./src/components/ResizeBox/index.vue')['default']
+    ResizeBoxYc1: typeof import('./src/components/ResizeBoxYc1/index.vue')['default']
     Result: typeof import('./src/components/Result/index.vue')['default']
     ReuseItem: typeof import('./src/components/Descriptions/ReuseItem.vue')['default']
     ReuseTd: typeof import('./src/components/Descriptions/ReuseTd.vue')['default']
@@ -214,5 +217,6 @@ declare module 'vue' {
     UploadList: typeof import('./src/components/Upload/UploadList.vue')['default']
     VerificationCode: typeof import('./src/components/VerificationCode/index.vue')['default']
     Watermark: typeof import('./src/components/Watermark/index.vue')['default']
+    YcResizeBox: typeof import('./src/components/YcResizeBox/index.vue')['default']
   }
 }

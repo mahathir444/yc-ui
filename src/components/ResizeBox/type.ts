@@ -1,26 +1,22 @@
 export interface ResizeBoxProps {
-  directions?: DirectionType[];
   width?: number;
   height?: number;
   component?: string;
+  directions?: ResizeBoxDirection[];
 }
 
 export interface ResizeBoxEmits {
-  (event: 'update:width', val: number): void;
-  (event: 'update:height', val: number): void;
-  (event: 'moving-start', ev: MouseEvent): void;
-  (event: 'moving-end', ev: MouseEvent): void;
-  (
-    event: 'moving',
-    ev: MouseEvent,
-    size: { width?: number; height?: number }
-  ): void;
+  (e: 'update:width', value: number): void;
+  (e: 'update:height', value: number): void;
+  (e: 'moving-start', ev: MouseEvent): void;
+  (e: 'moving', size: { width: number; height: number }, ev: MouseEvent): void;
+  (e: 'moving-end', ev: MouseEvent): void;
 }
 
 export interface ResizeBoxSlots {
   default(): void;
-  ['resize-trigger'](params: { direction: DirectionType }): void;
-  ['resize-trigger-icon'](params: { direction: DirectionType }): void;
+  ['resize-trigger'](params: { direction: ResizeBoxDirection }): void;
+  ['resize-trigger-icon'](params: { direction: ResizeBoxDirection }): void;
 }
 
-export type DirectionType = 'left' | 'right' | 'top' | 'bottom';
+export type ResizeBoxDirection = 'left' | 'right' | 'top' | 'bottom';

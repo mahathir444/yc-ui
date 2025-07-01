@@ -1,5 +1,9 @@
 <template>
-  <div :class="['yc-split', `yc-split-direction-${direction}`]" ref="splitRef">
+  <component
+    :is="component"
+    :class="['yc-split', `yc-split-direction-${direction}`]"
+    ref="splitRef"
+  >
     <!-- first -->
     <div
       class="yc-split-pane yc-split-pane-first"
@@ -19,21 +23,21 @@
       ref="triggerRef"
     >
       <slot name="resize-trigger">
-        <component :is="component" class="yc-split-trigger-icon-wrapper">
+        <div class="yc-split-trigger-icon-wrapper">
           <div class="yc-split-trigger-icon">
             <slot name="resize-trigger-icon">
               <icon-drag-dot-vertical v-if="direction == 'horizontal'" />
               <icon-drag-dot v-else />
             </slot>
           </div>
-        </component>
+        </div>
       </slot>
     </div>
     <!-- second -->
     <div class="yc-split-pane yc-split-pane-second">
       <slot name="second" />
     </div>
-  </div>
+  </component>
 </template>
 
 <script lang="ts" setup>
