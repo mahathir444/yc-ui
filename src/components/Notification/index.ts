@@ -8,7 +8,7 @@ import {
   NotificationType,
   NotificationPosition,
 } from './type';
-import { isString } from '@shared/utils';
+import { isString, sleep } from '@shared/utils';
 
 export type NotificationInstance = InstanceType<typeof _Notification>;
 export * from './type';
@@ -22,10 +22,8 @@ const notificationList = reactive({
   bottomLeft: [] as NotificationProps[],
   bottomRight: [] as NotificationProps[],
 });
-// 容器class
-let className = 'yc-overlay yc-overlay-notification';
 // NotificationId
-let NotificationId = 1;
+let notificationId = 1;
 // 移除容器
 const removeContainer = (position: NotificationPosition) => {
   if (notificationList[position].length) return;
@@ -45,7 +43,7 @@ const open = (
   // 创建container
   if (!container.has(position)) {
     const notificationContainer = document.createElement('div');
-    notificationContainer.className = className;
+    notificationContainer.className = 'yc-overlay yc-overlay-notification';
     document.body.appendChild(notificationContainer);
     container.set(position, notificationContainer);
     render(
@@ -56,6 +54,11 @@ const open = (
       notificationContainer
     );
   }
+  // NotificationId
+  const id =
+    isString(props) || !props.id
+      ? `__yc_notification_${notificationId++}`
+      : props.id;
   // 销毁
   const onDestory = () => {
     const index = list.findIndex((item) => item.id == id);
@@ -65,11 +68,6 @@ const open = (
     list.splice(index, 1);
     removeContainer(position);
   };
-  // NotificationId
-  const id =
-    isString(props) || !props.id
-      ? '__yc_Notification_' + NotificationId++
-      : props.id;
   // 创建Notification对象
   const notification = isString(props)
     ? { content: props, id, onDestory, type }

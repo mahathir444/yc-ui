@@ -8,14 +8,12 @@ export * from './type';
 
 // 容器实例
 let container: HTMLDivElement;
-// 容器class
-let className = 'yc-overlay yc-overlay-modal';
 // 打开modal
 const open = (props: ModalConfig) => {
   // 挂在容器
   if (!container) {
     container = document.createElement('div');
-    container.className = className;
+    container.className = 'yc-overlay yc-overlay-modal';
     document.body.append(container);
   }
   // 关闭函数

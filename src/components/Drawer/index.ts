@@ -8,13 +8,11 @@ export * from './type';
 
 // 容器实例
 let container: HTMLDivElement;
-// 容器的class
-const className = 'yc-overlay yc-overlay-drawer';
 // open
 const open = (props: DrawerConfig) => {
   if (!container) {
     container = document.createElement('div');
-    container.className = className;
+    container.className = 'yc-overlay yc-overlay-drawer';
     document.body.append(container);
   }
   // 关闭函数

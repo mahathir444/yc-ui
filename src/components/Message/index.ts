@@ -20,8 +20,6 @@ const messageList = reactive({
   top: [] as MessageProps[],
   bottom: [] as MessageProps[],
 });
-// 容器clas
-let className = 'yc-overlay yc-overlay-message';
 // messageId
 let messageId = 1;
 // 移除容器
@@ -38,7 +36,7 @@ const open = (props: string | MessageConfig, type: MessageType = 'info') => {
   // 创建容器
   if (!container.has(position)) {
     const messageContainer = document.createElement('div');
-    messageContainer.className = className;
+    messageContainer.className = 'yc-overlay yc-overlay-message';
     document.body.appendChild(messageContainer);
     container.set(position, messageContainer);
     render(
@@ -49,6 +47,9 @@ const open = (props: string | MessageConfig, type: MessageType = 'info') => {
       messageContainer
     );
   }
+  // messageId
+  const id =
+    isString(props) || !props.id ? `__yc_message_${messageId++}` : props.id;
   // 销毁
   const onDestory = () => {
     const index = list.findIndex((item) => item.id == id);
@@ -58,9 +59,6 @@ const open = (props: string | MessageConfig, type: MessageType = 'info') => {
     list.splice(index, 1);
     removeContainer(position);
   };
-  // messageId
-  const id =
-    isString(props) || !props.id ? '__yc_message_' + messageId++ : props.id;
   // 创建message对象
   const message = isString(props)
     ? { content: props, id, onDestory, type }

@@ -64,6 +64,7 @@ const { start, stop } = useTimeoutFn(
   () => {
     onDestory?.(id.value);
     onClose?.(id.value);
+    console.log(id.value, 'notification关闭了');
   },
   () => duration.value,
   {
@@ -71,14 +72,16 @@ const { start, stop } = useTimeoutFn(
   }
 );
 // 检测props
-watch(props, () => {
-  if (duration.value <= 0) return;
-  stop();
-  start();
-});
+// watch(props, () => {
+//   console.log('watch触发了', id.value);
+//   if (duration.value <= 0) return;
+//   stop();
+//   start();
+// });
 onMounted(() => {
   if (duration.value <= 0) return;
   start();
+  console.log('onMounted触发了', id.value);
 });
 </script>
 

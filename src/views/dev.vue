@@ -1,21 +1,26 @@
 <template>
   <div class="test">
-    <a-button type="primary" @click="handleNotification">
-      Open Notification
-    </a-button>
+    <div>
+      <a-button type="primary" @click="handleNotification">
+        Open Notification
+      </a-button>
+    </div>
+    <div class="">
+      <a-button type="primary" @click="$message.info('测的是')">
+        Open Message
+      </a-button>
+    </div>
   </div>
 </template>
 
 <script lang="ts" setup>
 import { ref, h } from 'vue';
-import { Notification } from '@arco-design/web-vue';
-import Notification1 from '@/components/Notification';
-import { Button } from '@arco-design/web-vue';
-import { IconCloseCircle } from '@arco-design/web-vue/es/icon';
-
+import Notification from '@/components/Notification';
+let id = 0;
 const handleNotification = () => {
-  Notification1.info({
-    title: 'Notification',
+  id++;
+  Notification.info({
+    title: `notification${id}`,
     content: 'This is a notification!',
     closable: true,
     style: { width: '500px' },

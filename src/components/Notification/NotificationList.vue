@@ -1,13 +1,13 @@
 <template>
   <transition-group
-    :name="fadeName"
+    :name="animationName"
     :class="['yc-notification-list', `yc-notification-list-${position}`]"
     tag="div"
   >
     <yc-notification
-      v-for="item in notificationList"
-      :key="item.id"
-      v-bind="item"
+      v-for="notification in notificationList"
+      :key="notification.id"
+      v-bind="notification"
     />
   </transition-group>
 </template>
@@ -20,7 +20,7 @@ const props = withDefaults(defineProps<NotificationContainerProps>(), {
   notificationList: () => [],
   position: 'topRight',
 });
-const fadeName = computed(() => {
+const animationName = computed(() => {
   const dir = props.position.includes('Right') ? 'right' : 'left';
   return `slide-${dir}-notification`;
 });
