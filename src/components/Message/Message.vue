@@ -6,10 +6,10 @@
     @mouseleave="handleMouseleave"
   >
     <span
-      v-if="(type != 'normal' || isFunction(icon)) && showIcon"
+      v-if="(type != 'normal' || !isUndefined(icon)) && showIcon"
       class="yc-message-icon"
     >
-      <component :is="icon ?? iconMap[type]" />
+      <component :is="icon ?? TYPE_ICON_MAP[type]" :spin="type == 'loading'" />
     </span>
     <span class="yc-message-content">
       {{ content }}
@@ -24,14 +24,8 @@
 import { toRefs, onMounted, watch } from 'vue';
 import { MessageProps } from './type';
 import { useTimeoutFn } from '@vueuse/core';
-import { isFunction } from '@shared/utils';
-import {
-  IconInfo,
-  IconWarning,
-  IconSuccess,
-  IconError,
-  IconLoading,
-} from '@shared/icons';
+import { isUndefined } from '@shared/utils';
+import { TYPE_ICON_MAP } from '@shared/constants';
 import { IconButton } from '@shared/components';
 defineOptions({
   name: 'Message',
@@ -40,26 +34,16 @@ const props = withDefaults(defineProps<MessageProps>(), {
   type: 'info',
   content: '',
   id: '',
-  showIcon: (props) => {
-    return props.type != 'normal';
-  },
+  showIcon: true,
   closable: false,
   icon: undefined,
-  duration: 1500,
+  duration: 3000,
   onClose: undefined,
   onDestory: undefined,
   resetOnHover: false,
 });
 const { type, id, duration, resetOnHover } = toRefs(props);
 const { onClose, onDestory } = props;
-// icon映射
-const iconMap: Record<string, any> = {
-  info: IconInfo,
-  warning: IconWarning,
-  success: IconSuccess,
-  error: IconError,
-  loading: IconLoading,
-};
 // 倒计时
 const { start, stop } = useTimeoutFn(
   () => {

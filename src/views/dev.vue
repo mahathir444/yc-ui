@@ -1,39 +1,22 @@
 <template>
   <div class="test">
-    <div style="display: flex; gap: 10px">
-      <yc-button
-        @click="
-          $modal.confirm({
-            title: 'ces',
-            content: '111',
-          })
-        "
-      >
-        ces modal
-      </yc-button>
-    </div>
+    <a-button
+      @click="
+        $message.info({
+          content: '测试',
+          duration: 100000000,
+          position: 'bottom',
+        })
+      "
+    ></a-button>
+    <yc-notification title="测试" content="dsa" :footer="() => h(Empty)" />
   </div>
 </template>
 
 <script lang="ts" setup>
-import { h } from 'vue';
-import { Modal } from '@/components';
-import { IconExclamationCircleFill } from '@arco-design/web-vue/es/icon';
-const renderIcon = () => h(IconExclamationCircleFill);
-const { close, update } = Modal.open({
-  title: '测试update',
-  content: '231321321',
-});
-setTimeout(() => {
-  update({
-    okLoading: true,
-  });
-}, 1500);
-setTimeout(() => {
-  update({
-    okLoading: false,
-  });
-}, 3000);
+import { ref, h } from 'vue';
+import { Empty } from '@arco-design/web-vue';
+import YcNotification from '@/components/YcNotification/Notification.vue';
 </script>
 
 <style lang="less" scoped>

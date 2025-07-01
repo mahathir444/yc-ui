@@ -1,11 +1,5 @@
-import { App, h, render, ref, reactive } from 'vue';
-import {
-  ModalConfig,
-  ModalUpdateConfig,
-  ModalServiceProps,
-  ModalMethod,
-  ModalType,
-} from './type';
+import { App, h, render } from 'vue';
+import { ModalConfig, ModalUpdateConfig, ModalMethod, ModalType } from './type';
 import _Modal from './Modal.vue';
 import _ModalService from './ModalService.vue';
 

@@ -8,6 +8,7 @@ export {}
 declare module 'vue' {
   export interface GlobalComponents {
     _Icon: typeof import('./src/components/_shared/icons/_Icon.vue')['default']
+    AButton: typeof import('@arco-design/web-vue')['Button']
     Affix: typeof import('./src/components/Affix/index.vue')['default']
     Alert: typeof import('./src/components/Alert/index.vue')['default']
     Anchor: typeof import('./src/components/Anchor/Anchor.vue')['default']
@@ -143,6 +144,7 @@ declare module 'vue' {
     ModalService: typeof import('./src/components/Modal/ModalService.vue')['default']
     Notification: typeof import('./src/components/Notification/Notification.vue')['default']
     NotificationContainer: typeof import('./src/components/Notification/NotificationContainer.vue')['default']
+    NotificationList: typeof import('./src/components/YcNotification/NotificationList.vue')['default']
     Optgroup: typeof import('./src/components/Select/Optgroup.vue')['default']
     Option: typeof import('./src/components/Select/Option.vue')['default']
     OverflowList: typeof import('./src/components/OverflowList/index.vue')['default']
