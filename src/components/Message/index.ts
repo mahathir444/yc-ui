@@ -24,10 +24,17 @@ const messageList = reactive({
 let className = 'yc-overlay yc-overlay-message';
 // messageId
 let messageId = 1;
+// 移除容器
+const removeContainer = (position: MessagePostion) => {
+  if (messageList[position].length) return;
+  document.body.removeChild(container.get(position) as HTMLDivElement);
+  container.delete(position);
+};
 // 处理messageOpen
 const open = (props: string | MessageConfig, type: MessageType = 'info') => {
   // 消息渲染的位置
   const position = isString(props) ? 'top' : (props.position ?? 'top');
+  const list = messageList[position];
   // 创建容器
   if (!container.has(position)) {
     const messageContainer = document.createElement('div');
@@ -36,7 +43,7 @@ const open = (props: string | MessageConfig, type: MessageType = 'info') => {
     container.set(position, messageContainer);
     render(
       h(_MessageList, {
-        messageList: messageList[position],
+        messageList: list,
         position,
       }),
       messageContainer
@@ -44,11 +51,12 @@ const open = (props: string | MessageConfig, type: MessageType = 'info') => {
   }
   // 销毁
   const onDestory = () => {
-    const index = messageList[position].findIndex((item) => item.id == id);
+    const index = list.findIndex((item) => item.id == id);
     if (index == -1) {
       return;
     }
-    messageList[position].splice(index, 1);
+    list.splice(index, 1);
+    removeContainer(position);
   };
   // messageId
   const id =
@@ -57,15 +65,15 @@ const open = (props: string | MessageConfig, type: MessageType = 'info') => {
   const message = isString(props)
     ? { content: props, id, onDestory, type }
     : { ...props, id, onDestory, type };
-  const index = messageList[position].findIndex((item) => item.id == id);
+  const index = list.findIndex((item) => item.id == id);
   // 查找是否存在
   if (index != -1) {
-    messageList[position].push({
-      ...messageList[position][index],
+    list[index] = {
+      ...list[index],
       ...messageList,
-    });
+    };
   } else {
-    messageList[position].push(message);
+    list.push(message);
   }
   return {
     close: onDestory,
@@ -85,6 +93,7 @@ const messageMethod = {
   ),
   clear(position: MessagePostion) {
     messageList[position].splice(0);
+    removeContainer(position);
   },
 } as MessageMethod;
 

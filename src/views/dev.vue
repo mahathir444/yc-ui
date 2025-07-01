@@ -1,21 +1,26 @@
 <template>
   <div class="test">
-    <yc-button
-      @click="
-        $notification.info({
-          content: '测试',
-          duration: 1000000000,
-          position: 'bottomLeft',
-        })
-      "
-    >
-      测试Noti
-    </yc-button>
+    <a-button type="primary" @click="handleNotification">
+      Open Notification
+    </a-button>
   </div>
 </template>
 
 <script lang="ts" setup>
 import { ref, h } from 'vue';
+import { Notification } from '@arco-design/web-vue';
+import Notification1 from '@/components/Notification';
+import { Button } from '@arco-design/web-vue';
+import { IconCloseCircle } from '@arco-design/web-vue/es/icon';
+
+const handleNotification = () => {
+  Notification1.info({
+    title: 'Notification',
+    content: 'This is a notification!',
+    closable: true,
+    style: { width: '500px' },
+  });
+};
 </script>
 
 <style lang="less" scoped>

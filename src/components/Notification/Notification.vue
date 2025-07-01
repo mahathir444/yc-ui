@@ -10,17 +10,17 @@
       </div>
     </div>
     <div class="yc-notification-right">
-      <div class="yc-notification-title">
+      <div v-if="!isUndefined(title)" class="yc-notification-title">
         <component :is="getSlotFunction(title)" />
       </div>
-      <div class="yc-notification-content">
+      <div v-if="!isUndefined(content)" class="yc-notification-content">
         <component :is="getSlotFunction(content)" />
       </div>
       <div v-if="isFunction(footer)" class="yc-notification-footer">
         <component :is="footer" />
       </div>
     </div>
-    <div class="yc-notification-close-btn">
+    <div v-if="closable" class="yc-notification-close-btn">
       <component v-if="closeIconElement" :is="closeIconElement" />
       <icon-button v-else :size="12" :hover-size="20">
         <component v-if="closeIcon" :is="closeIcon" />
@@ -33,7 +33,7 @@
 import { ref, toRefs, onMounted, watch } from 'vue';
 import { NotificationProps } from './type';
 import { TYPE_ICON_MAP } from '@shared/constants';
-import { getSlotFunction, isFunction } from '@shared/utils';
+import { getSlotFunction, isFunction, isUndefined } from '@shared/utils';
 import { IconButton } from '@shared/components';
 import { useTimeoutFn } from '@vueuse/core';
 defineOptions({

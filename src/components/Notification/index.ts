@@ -26,6 +26,12 @@ const notificationList = reactive({
 let className = 'yc-overlay yc-overlay-notification';
 // NotificationId
 let NotificationId = 1;
+// 移除容器
+const removeContainer = (position: NotificationPosition) => {
+  if (notificationList[position].length) return;
+  document.body.removeChild(container.get(position) as HTMLDivElement);
+  container.delete(position);
+};
 // 处理NotificationOpen
 const open = (
   props: string | NotificationConfig,
@@ -35,6 +41,7 @@ const open = (
   const position = isString(props)
     ? 'topRight'
     : (props.position ?? 'topRight');
+  const list = notificationList[position];
   // 创建container
   if (!container.has(position)) {
     const notificationContainer = document.createElement('div');
@@ -43,19 +50,20 @@ const open = (
     container.set(position, notificationContainer);
     render(
       h(_NotificationList, {
-        notificationList: notificationList[position],
-        position: isString(props) ? 'top' : props.position,
+        notificationList: list,
+        position,
       }),
       notificationContainer
     );
   }
   // 销毁
   const onDestory = () => {
-    const index = notificationList[position].findIndex((item) => item.id == id);
+    const index = list.findIndex((item) => item.id == id);
     if (index == -1) {
       return;
     }
-    notificationList[position].splice(index, 1);
+    list.splice(index, 1);
+    removeContainer(position);
   };
   // NotificationId
   const id =
@@ -66,15 +74,15 @@ const open = (
   const notification = isString(props)
     ? { content: props, id, onDestory, type }
     : { ...props, id, onDestory, type };
-  const index = notificationList[position].findIndex((item) => item.id == id);
+  const index = list.findIndex((item) => item.id == id);
   // 查找是否存在
   if (index != -1) {
-    notificationList[position].push({
-      ...notificationList[position][index],
-      ...notificationList,
-    });
+    list[index] = {
+      ...list[index],
+      ...notification,
+    };
   } else {
-    notificationList[position].push(notification);
+    list.push(notification);
   }
   return {
     close: onDestory,
@@ -92,9 +100,25 @@ const NotificationMethod = {
       ];
     })
   ),
-  remove(id) {},
+  remove(id) {
+    let posi: NotificationPosition = 'topRight';
+    let i: number = -1;
+    for (let [position, list] of Object.entries(notificationList)) {
+      const index = list.findIndex((item) => item.id == id);
+      if (index != -1) {
+        posi = position as NotificationPosition;
+        i = index;
+        break;
+      }
+    }
+    if (i == -1) {
+      return;
+    }
+    notificationList[posi].splice(i, 1);
+  },
   clear(position: NotificationPosition) {
     notificationList[position].splice(0);
+    removeContainer(position);
   },
 } as NotificationMethods;
 

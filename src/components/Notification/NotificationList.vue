@@ -14,8 +14,8 @@
 
 <script setup lang="ts">
 import { computed } from 'vue';
-import YcNotification from './Notification.vue';
 import { NotificationContainerProps } from './type';
+import YcNotification from './Notification.vue';
 const props = withDefaults(defineProps<NotificationContainerProps>(), {
   notificationList: () => [],
   position: 'topRight',
