@@ -13,53 +13,42 @@ import { isString } from '@shared/utils';
 export type MessageInstance = InstanceType<typeof _Message>;
 export * from './type';
 
-// messageList
-const topList = ref<MessageProps[]>([]);
-const bottomList = ref<MessageProps[]>([]);
 // message-container
-let topContainer: HTMLDivElement;
-let bottomContainer: HTMLDivElement;
+const container = new Map<string, HTMLDivElement>();
+// messageList
+const messageList = reactive({
+  top: [] as MessageProps[],
+  bottom: [] as MessageProps[],
+});
 // 容器clas
 let className = 'yc-overlay yc-overlay-message';
 // messageId
 let messageId = 1;
-// 创建container
-const createContainer = (position: MessagePostion) => {
-  if (
-    (position == 'top' && topContainer) ||
-    (position == 'bottom' && bottomContainer)
-  ) {
-    return;
-  }
-  const container = document.createElement('div');
-  container.className = className;
-  document.body.appendChild(container);
-  render(
-    h(_MessageList, {
-      messageList: position == 'top' ? topList.value : bottomList.value,
-      position,
-    }),
-    container
-  );
-  if (position == 'top') {
-    topContainer = container;
-  } else {
-    bottomContainer = container;
-  }
-};
 // 处理messageOpen
 const open = (props: string | MessageConfig, type: MessageType = 'info') => {
   // 消息渲染的位置
   const position = isString(props) ? 'top' : (props.position ?? 'top');
-  // messList
-  const messageList = position == 'top' ? topList : bottomList;
   // 创建容器
-  createContainer(position);
+  if (!container.has(position)) {
+    const messageContainer = document.createElement('div');
+    messageContainer.className = className;
+    document.body.appendChild(messageContainer);
+    container.set(position, messageContainer);
+    render(
+      h(_MessageList, {
+        messageList: messageList[position],
+        position,
+      }),
+      messageContainer
+    );
+  }
   // 销毁
   const onDestory = () => {
-    const index = messageList.value.findIndex((item) => item.id == id);
-    if (index == -1) return;
-    messageList.value.splice(index, 1);
+    const index = messageList[position].findIndex((item) => item.id == id);
+    if (index == -1) {
+      return;
+    }
+    messageList[position].splice(index, 1);
   };
   // messageId
   const id =
@@ -68,15 +57,15 @@ const open = (props: string | MessageConfig, type: MessageType = 'info') => {
   const message = isString(props)
     ? { content: props, id, onDestory, type }
     : { ...props, id, onDestory, type };
-  const index = messageList.value.findIndex((item) => item.id == id);
+  const index = messageList[position].findIndex((item) => item.id == id);
   // 查找是否存在
   if (index != -1) {
-    messageList.value.push({
-      ...messageList.value[index],
+    messageList[position].push({
+      ...messageList[position][index],
       ...messageList,
     });
   } else {
-    messageList.value.push(message);
+    messageList[position].push(message);
   }
   return {
     close: onDestory,
@@ -95,8 +84,7 @@ const messageMethod = {
     })
   ),
   clear(position: MessagePostion) {
-    const messageList = position == 'top' ? topList : bottomList;
-    messageList.value.splice(0);
+    messageList[position].splice(0);
   },
 } as MessageMethod;
 

@@ -1,8 +1,10 @@
-import { App, render, ref, createVNode, reactive, Ref } from 'vue';
+import { App, ref, h, render, reactive } from 'vue';
 import _Notification from './Notification.vue';
-import _NotificationContainer from './NotificationContainer.vue';
+import _NotificationList from './NotificationList.vue';
 import {
+  NotificationMethods,
   NotificationConfig,
+  NotificationProps,
   NotificationType,
   NotificationPosition,
 } from './type';
@@ -11,115 +13,105 @@ import { isString } from '@shared/utils';
 export type NotificationInstance = InstanceType<typeof _Notification>;
 export * from './type';
 
-const config = {
-  containerId: 'ycServiceNotificationContainer',
-};
-
-const position: NotificationPosition[] = [
-  'topLeft',
-  'topRight',
-  'bottomLeft',
-  'bottomRight',
-];
-
-const types: NotificationType[] = ['info', 'warning', 'success', 'error'];
-
-const notifManager = position.reduce(
-  (result, item) => {
-    const list = ref<NotificationConfig[]>([]);
-    result[item] = {
-      id: 0,
-      list,
-    };
-    return result;
-  },
-  {} as Record<
-    NotificationPosition,
-    {
-      id: number;
-      list: Ref<NotificationConfig[]>;
-    }
-  >
-);
-const onClose = async (id: string, pos: NotificationPosition) => {
-  const targetItem = notifManager[pos].list.value.find(
-    (item) => item.id === id
-  );
-  if (!targetItem) return;
-  targetItem?.onClose?.(id);
-  const i = notifManager[pos].list.value.findIndex((item) => item.id === id);
-  notifManager[pos].list.value.splice(i, 1);
-};
-
-const createDiv = (pos: NotificationPosition) => {
-  const id = config.containerId + '_' + pos;
-  if (!document.getElementById(id)) {
-    const listContainer = document.createElement('div');
-    listContainer.id = id;
-    document.body.append(listContainer);
-    const vnode = createVNode(_NotificationContainer, {
-      notificationList: notifManager[pos].list.value,
-      onClose,
-      position: pos,
-    });
-    render(vnode, listContainer);
+// Notification-container
+const container = new Map<string, HTMLDivElement>();
+// notificationList
+const notificationList = reactive({
+  topLeft: [] as NotificationProps[],
+  topRight: [] as NotificationProps[],
+  bottomLeft: [] as NotificationProps[],
+  bottomRight: [] as NotificationProps[],
+});
+// 容器class
+let className = 'yc-overlay yc-overlay-notification';
+// NotificationId
+let NotificationId = 1;
+// 处理NotificationOpen
+const open = (
+  props: string | NotificationConfig,
+  type: NotificationType = 'info'
+) => {
+  // 消息渲染的位置
+  const position = isString(props)
+    ? 'topRight'
+    : (props.position ?? 'topRight');
+  // 创建container
+  if (!container.has(position)) {
+    const notificationContainer = document.createElement('div');
+    notificationContainer.className = className;
+    document.body.appendChild(notificationContainer);
+    container.set(position, notificationContainer);
+    render(
+      h(_NotificationList, {
+        notificationList: notificationList[position],
+        position: isString(props) ? 'top' : props.position,
+      }),
+      notificationContainer
+    );
   }
-};
-
-const add = (type: NotificationType, config: NotificationConfig) => {
-  const { position = 'topRight' } = config;
-  createDiv(position);
-  const target = notifManager[position];
-  const nowId = config?.id ?? '__yc_notification_' + target.id++;
-  const existingIndex = target.list.value.findIndex(
-    (item) => item.id === nowId
-  );
-  if (existingIndex !== -1) {
-    Object.assign(target.list.value[existingIndex], {
-      ...config,
-      type,
-      id: nowId,
-      resetFlag: !target.list.value[existingIndex].resetFlag,
+  // 销毁
+  const onDestory = () => {
+    const index = notificationList[position].findIndex((item) => item.id == id);
+    if (index == -1) {
+      return;
+    }
+    notificationList[position].splice(index, 1);
+  };
+  // NotificationId
+  const id =
+    isString(props) || !props.id
+      ? '__yc_Notification_' + NotificationId++
+      : props.id;
+  // 创建Notification对象
+  const notification = isString(props)
+    ? { content: props, id, onDestory, type }
+    : { ...props, id, onDestory, type };
+  const index = notificationList[position].findIndex((item) => item.id == id);
+  // 查找是否存在
+  if (index != -1) {
+    notificationList[position].push({
+      ...notificationList[position][index],
+      ...notificationList,
     });
   } else {
-    target.list.value.push(reactive({ ...config, type, id: nowId }));
+    notificationList[position].push(notification);
   }
   return {
-    close: () => onClose(nowId, position),
+    close: onDestory,
   };
 };
-
-const notificationMethod = types.reduce(
-  (acc, type) => {
-    acc[type] = (config: string | NotificationConfig) => {
-      const calcCofig = isString(config) ? { content: config } : config;
-      return add(type, calcCofig);
-    };
-    return acc;
+// Notification通用函数
+const NotificationMethod = {
+  ...Object.fromEntries(
+    ['success', 'warning', 'error', 'info'].map((type) => {
+      return [
+        type,
+        (props: string | NotificationConfig) => {
+          return open(props, type as NotificationType);
+        },
+      ];
+    })
+  ),
+  remove(id) {},
+  clear(position: NotificationPosition) {
+    notificationList[position].splice(0);
   },
-  {} as Record<
-    NotificationType,
-    (config: string | NotificationConfig) => {
-      close: () => void;
-    }
-  >
-);
+} as NotificationMethods;
 
 const Notification = Object.assign(_Notification, {
   install: (app: App) => {
-    app.component('Yc' + _Notification.name, _Notification);
+    app.config.globalProperties.$notification = Object.assign(
+      _Notification,
+      NotificationMethod
+    );
   },
-  clear: (pos?: NotificationPosition | undefined) => {
-    if (!pos) {
-      position.forEach((item) => {
-        notifManager[item].list.value.splice(0);
-      });
-      return;
-    }
-    if (!notifManager[pos]) return;
-    notifManager[pos].list.value.splice(0);
-  },
-  ...notificationMethod,
+  ...NotificationMethod,
 });
+
+declare module 'vue' {
+  export interface ComponentCustomProperties {
+    $notification: typeof Notification;
+  }
+}
 
 export default Notification;

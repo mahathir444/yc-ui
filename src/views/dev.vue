@@ -1,22 +1,21 @@
 <template>
   <div class="test">
-    <a-button
+    <yc-button
       @click="
-        $message.info({
+        $notification.info({
           content: '测试',
-          duration: 100000000,
-          position: 'bottom',
+          duration: 1000000000,
+          position: 'bottomLeft',
         })
       "
-    ></a-button>
-    <yc-notification title="测试" content="dsa" :footer="() => h(Empty)" />
+    >
+      测试Noti
+    </yc-button>
   </div>
 </template>
 
 <script lang="ts" setup>
 import { ref, h } from 'vue';
-import { Empty } from '@arco-design/web-vue';
-import YcNotification from '@/components/YcNotification/Notification.vue';
 </script>
 
 <style lang="less" scoped>

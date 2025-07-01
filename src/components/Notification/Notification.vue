@@ -1,78 +1,87 @@
-<!-- 通知提醒框 -->
 <template>
-  <div :class="['yc-notification-box', `yc-notification-box-${type}`]">
+  <li
+    role="alert"
+    :class="['yc-notification', `yc-notification-${type}`, className]"
+    :style="style"
+  >
     <div class="yc-notification-left">
-      <div v-if="hasIcon" class="yc-notification-icon">
-        <slot name="icon">
-          <component :is="TYPE_ICON_MAP[type]" />
-        </slot>
+      <div v-if="showIcon" class="yc-notification-icon">
+        <component :is="icon ?? TYPE_ICON_MAP[type]" />
       </div>
     </div>
     <div class="yc-notification-right">
       <div class="yc-notification-title">
-        <slot name="title" />
+        <component :is="getSlotFunction(title)" />
       </div>
       <div class="yc-notification-content">
-        <slot name="content" />
+        <component :is="getSlotFunction(content)" />
       </div>
-      <div class="yc-notification-footer">
-        <slot name="footer" />
+      <div v-if="isFunction(footer)" class="yc-notification-footer">
+        <component :is="footer" />
       </div>
     </div>
-    <icon-button v-if="closable" class="yc-close-btn" @click="emits('close')">
-      <slot v-if="$slots['close-icon']" name="close-icon"> </slot>
-    </icon-button>
-  </div>
+    <div class="yc-notification-close-btn">
+      <component v-if="closeIconElement" :is="closeIconElement" />
+      <icon-button v-else :size="12" :hover-size="20">
+        <component v-if="closeIcon" :is="closeIcon" />
+      </icon-button>
+    </div>
+  </li>
 </template>
 
-<script setup lang="ts">
-import { onMounted, onUpdated, computed, useSlots, ref } from 'vue';
+<script lang="ts" setup>
+import { ref, toRefs, onMounted, watch } from 'vue';
 import { NotificationProps } from './type';
-import { useTimeoutFn } from '@vueuse/core';
 import { TYPE_ICON_MAP } from '@shared/constants';
+import { getSlotFunction, isFunction } from '@shared/utils';
 import { IconButton } from '@shared/components';
+import { useTimeoutFn } from '@vueuse/core';
 defineOptions({
   name: 'Notification',
 });
 const props = withDefaults(defineProps<NotificationProps>(), {
+  type: 'info',
+  title: '',
+  content: '',
+  icon: undefined,
   id: '',
+  style: () => {
+    return {};
+  },
+  class: '',
   showIcon: true,
   closable: false,
-  duration: 1000,
-  type: 'info',
-  resetFlag: false,
+  duration: 3000,
+  footer: undefined,
+  closeIcon: undefined,
+  closeIconElement: undefined,
+  onClose: undefined,
 });
-const emits = defineEmits<{
-  (e: 'close'): void;
-}>();
+const { type, id, duration, class: className } = toRefs(props);
+const { onClose, onDestory } = props;
+// 倒计时
 const { start, stop } = useTimeoutFn(
   () => {
-    emits('close');
+    onDestory?.(id.value);
+    onClose?.(id.value);
   },
-  () => props.duration,
+  () => duration.value,
   {
     immediate: false,
   }
 );
-const resetFlag = ref(props.resetFlag);
-
-const slots = useSlots();
-onUpdated(() => {
-  if (props.duration === 0) return;
-  if (props.resetFlag === resetFlag.value) return;
-  resetFlag.value = props.resetFlag;
+// 检测props
+watch(props, () => {
+  if (duration.value <= 0) return;
   stop();
   start();
 });
-onMounted(async () => {
-  if (props.duration === 0) return;
+onMounted(() => {
+  if (duration.value <= 0) return;
   start();
 });
-
-const hasIcon = computed(() => {
-  return true || props.showIcon || slots.icon;
-});
 </script>
-<style scoped lang="less">
-@import './style/natification.less';
+
+<style lang="less" scoped>
+@import './style/notification.less';
 </style>

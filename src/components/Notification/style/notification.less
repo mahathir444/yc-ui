@@ -1,56 +1,66 @@
-.yc-notification-box {
-  padding: 20px;
+.yc-notification {
+  overflow: hidden;
+  position: relative;
   width: 340px;
+  padding: 20px;
   background-color: #fff;
   border: 1px solid rgb(229, 230, 235);
+  border-radius: 4px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  opacity: 1;
+  transition: opacity 0.2s cubic-bezier(0, 0, 1, 1);
   display: flex;
   gap: 16px;
-  position: relative;
   .yc-notification-left {
-    display: flex;
-    align-items: start;
     .yc-notification-icon {
+      font-size: 24px;
       display: flex;
       align-items: center;
-      justify-content: center;
-      font-size: 24px;
     }
   }
   .yc-notification-right {
-    flex: 1;
     color: rgb(29, 33, 41);
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+
     .yc-notification-title {
       font-weight: 500;
       font-size: 16px;
     }
     .yc-notification-content {
       margin-top: 4px;
+      font-size: 14px;
     }
     .yc-notification-footer {
-      margin-top: 16px;
+      margin-top: 12px;
       text-align: right;
     }
   }
-  .yc-close-btn {
+  .yc-notification-close-btn {
     position: absolute;
     top: 12px;
     right: 12px;
+    color: rgb(29, 33, 41);
+    font-size: 12px;
   }
 }
-
-// icon-color
+// type
 @type: {
   info: rgb(22, 93, 255);
-  success: rgb(0, 180, 42);
   warning: rgb(255, 125, 0);
+  success: rgb(0, 180, 42);
   error: rgb(245, 63, 63);
   loading: rgb(22, 93, 255);
 };
-each(@type, {
-    .yc-notification-box-@{key}  {
-      .yc-notification-icon {
-        color: @value;
-      }
-    }
-  });
+each(@type,{
+      .yc-notification-@{key}{
+        & when not(@key = normal){
+          background-color: #fff;
+          border-color: rgb(229,230,235);
+        }
+        .yc-notification-icon{
+          color: @value;
+        }
+      };
+    });
