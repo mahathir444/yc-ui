@@ -20,7 +20,7 @@
         <component :is="footer" />
       </div>
     </div>
-    <div v-if="closable" class="yc-notification-close-btn">
+    <div v-if="closable" class="yc-notification-close-btn" @click="handleClose">
       <component v-if="closeIconElement" :is="closeIconElement" />
       <icon-button v-else :size="12" :hover-size="20">
         <component v-if="closeIcon" :is="closeIcon" />
@@ -65,23 +65,27 @@ const { start, stop } = useTimeoutFn(
   () => {
     onDestory?.(id.value);
     onClose?.(id.value);
-    console.log(id.value, 'notification关闭了');
   },
   () => duration.value,
   {
     immediate: false,
   }
 );
-// 检测props
+// 检测是否重置
 watch(
   () => isReset.value,
   (newVal) => {
-    console.log('isReset改变了', isReset.value);
     if (duration.value <= 0 || !newVal) return;
     stop();
     start();
   }
 );
+// 处理关闭
+const handleClose = () => {
+  stop();
+  onDestory?.(id.value);
+  onClose?.(id.value);
+};
 onMounted(() => {
   if (duration.value <= 0) return;
   start();

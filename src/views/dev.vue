@@ -4,7 +4,6 @@
 
 <script lang="ts" setup>
 import { ref, h } from 'vue';
-import { Notification } from '@arco-design/web-vue';
 </script>
 
 <style lang="less" scoped>
