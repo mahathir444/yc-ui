@@ -1,4 +1,4 @@
-import { App, ref, h, render, reactive } from 'vue';
+import { App, ref, nextTick, h, render, reactive } from 'vue';
 import _Notification from './Notification.vue';
 import _NotificationList from './NotificationList.vue';
 import {
@@ -8,7 +8,7 @@ import {
   NotificationType,
   NotificationPosition,
 } from './type';
-import { isString, sleep } from '@shared/utils';
+import { isString } from '@shared/utils';
 
 export type NotificationInstance = InstanceType<typeof _Notification>;
 export * from './type';
@@ -78,7 +78,11 @@ const open = (
     list[index] = {
       ...list[index],
       ...notification,
+      isReset: true,
     };
+    nextTick().then(() => {
+      list[index].isReset = false;
+    });
   } else {
     list.push(notification);
   }

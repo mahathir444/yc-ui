@@ -1,31 +1,10 @@
 <template>
-  <div class="test">
-    <div>
-      <a-button type="primary" @click="handleNotification">
-        Open Notification
-      </a-button>
-    </div>
-    <div class="">
-      <a-button type="primary" @click="$message.info('测的是')">
-        Open Message
-      </a-button>
-    </div>
-  </div>
+  <div class="test"></div>
 </template>
 
 <script lang="ts" setup>
 import { ref, h } from 'vue';
-import Notification from '@/components/Notification';
-let id = 0;
-const handleNotification = () => {
-  id++;
-  Notification.info({
-    title: `notification${id}`,
-    content: 'This is a notification!',
-    closable: true,
-    style: { width: '500px' },
-  });
-};
+import { Notification } from '@arco-design/web-vue';
 </script>
 
 <style lang="less" scoped>

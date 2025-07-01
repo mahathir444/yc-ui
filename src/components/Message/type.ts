@@ -9,6 +9,7 @@ export interface MessageProps {
   showIcon?: boolean;
   closable?: boolean;
   duration?: number;
+  isReset?: boolean;
   onClose?: (id: string | number) => void;
   onDestory?: (id: string | number) => void;
   resetOnHover?: boolean;

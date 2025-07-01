@@ -52,12 +52,13 @@ const props = withDefaults(defineProps<NotificationProps>(), {
   showIcon: true,
   closable: false,
   duration: 3000,
+  isReset: false,
   footer: undefined,
   closeIcon: undefined,
   closeIconElement: undefined,
   onClose: undefined,
 });
-const { type, id, duration, class: className } = toRefs(props);
+const { type, id, duration, class: className, isReset } = toRefs(props);
 const { onClose, onDestory } = props;
 // 倒计时
 const { start, stop } = useTimeoutFn(
@@ -72,16 +73,18 @@ const { start, stop } = useTimeoutFn(
   }
 );
 // 检测props
-// watch(props, () => {
-//   console.log('watch触发了', id.value);
-//   if (duration.value <= 0) return;
-//   stop();
-//   start();
-// });
+watch(
+  () => isReset.value,
+  (newVal) => {
+    console.log('isReset改变了', isReset.value);
+    if (duration.value <= 0 || !newVal) return;
+    stop();
+    start();
+  }
+);
 onMounted(() => {
   if (duration.value <= 0) return;
   start();
-  console.log('onMounted触发了', id.value);
 });
 </script>
 

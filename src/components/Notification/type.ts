@@ -12,6 +12,7 @@ export interface NotificationProps {
   showIcon?: boolean;
   closable?: boolean;
   duration?: number;
+  isReset?: boolean;
   footer?: RenderFunction;
   closeIcon?: RenderFunction;
   closeIconElement?: RenderFunction;

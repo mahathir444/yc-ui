@@ -1,4 +1,4 @@
-import { App, ref, reactive, h, render } from 'vue';
+import { App, nextTick, reactive, h, render } from 'vue';
 import _Message from './Message.vue';
 import _MessageList from './MessageList.vue';
 import {
@@ -68,8 +68,12 @@ const open = (props: string | MessageConfig, type: MessageType = 'info') => {
   if (index != -1) {
     list[index] = {
       ...list[index],
-      ...messageList,
+      ...message,
+      isReset: true,
     };
+    nextTick().then(() => {
+      list[index].isReset = false;
+    });
   } else {
     list.push(message);
   }

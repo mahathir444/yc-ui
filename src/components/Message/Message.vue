@@ -38,11 +38,12 @@ const props = withDefaults(defineProps<MessageProps>(), {
   closable: false,
   icon: undefined,
   duration: 3000,
+  isReset: false,
   onClose: undefined,
   onDestory: undefined,
   resetOnHover: false,
 });
-const { type, id, duration, resetOnHover } = toRefs(props);
+const { type, id, duration, resetOnHover, isReset } = toRefs(props);
 const { onClose, onDestory } = props;
 // 倒计时
 const { start, stop } = useTimeoutFn(
@@ -72,11 +73,14 @@ const handleMouseleave = () => {
   start();
 };
 // 检测props
-watch(props, () => {
-  if (duration.value <= 0) return;
-  stop();
-  start();
-});
+watch(
+  () => isReset.value,
+  (val) => {
+    if (duration.value <= 0 || !val) return;
+    stop();
+    start();
+  }
+);
 onMounted(() => {
   if (duration.value <= 0) return;
   start();
