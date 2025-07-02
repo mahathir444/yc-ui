@@ -161,7 +161,7 @@ export const components: Record<string, Plugin> = {
   Watermark,
 };
 
-const result = {
+export default {
   ...components,
   AnchorLink,
   AvatarGroup,
@@ -210,5 +210,3 @@ const result = {
     }
   },
 };
-
-export default result;

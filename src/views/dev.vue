@@ -1,12 +1,18 @@
 <template>
   <div class="test">
-    <div class="resize-left"></div>
-    <yc-resize-box
-      :directions="['left', 'top', 'right', 'bottom']"
-      style="min-width: 100px; height: fit-content"
-    >
-      <div style="width: 500px; height: 500px; background-color: skyblue"></div>
-    </yc-resize-box>
+    <a-time-picker>
+      <template #prefix> dsads </template>
+      <template #suffix-icon>
+        <IconApps />
+      </template>
+      <template #extra> sdasdsa </template>
+    </a-time-picker>
+    <yc-time-picker>
+      <template #prefix> dsads </template>
+      <template #suffix-icon>
+        <IconApps />
+      </template>
+    </yc-time-picker>
   </div>
 </template>
 

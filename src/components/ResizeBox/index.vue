@@ -2,7 +2,7 @@
   <component :is="component" class="yc-resizebox" ref="boxRef">
     <slot />
     <div
-      v-for="dir in directions"
+      v-for="(dir, i) in directions"
       :key="dir"
       :class="[
         'yc-resizebox-trigger',
@@ -10,7 +10,7 @@
         `yc-resizebox-trigger-${['left', 'right'].includes(dir) ? 'vertical' : 'horizontal'}`,
       ]"
       :dir="dir"
-      :ref="(el) => triggerMap.set(dir, el as HTMLDivElement)"
+      :ref="(el) => (triggeDoms[i] = el as HTMLDivElement)"
       @mousedown="handleMovingStart(dir, $event)"
     >
       <slot name="resize-trigger" :direction="dir">
@@ -56,9 +56,9 @@ const computedHeight = useControlValue<number>(height, 0, (val) => {
   emits('update:height', val);
 });
 // triggerMap
-const triggerMap = reactive<Map<string, HTMLDivElement>>(new Map());
+const triggeDoms = reactive<HTMLDivElement[]>([]);
 // boxPadding
-const triggerSize = reactive<Record<string, number>>({
+const triggerSize = reactive({
   left: 0,
   right: 0,
   bottom: 0,
@@ -149,11 +149,11 @@ useEventListener('mouseup', handleMovingEnd);
 onMounted(() => {
   useResizeObserver(
     () => {
-      return [...triggerMap.values()];
+      return triggeDoms;
     },
     (entries) => {
       entries.forEach((item) => {
-        const direction = item.target.getAttribute('dir') as string;
+        const direction = item.target.getAttribute('dir') as ResizeBoxDirection;
         const {
           contentRect: { width, height },
         } = item;

@@ -1,7 +1,5 @@
-import { Size } from '@arco-design/web-vue';
+import { PopupContainer, Size } from '@shared/type';
 import { TriggerProps } from '../Trigger';
-import { PopupContainer } from '@shared/type';
-import { DropdownPosition } from '../Dropdown';
 
 export interface TimePickerProps {
   type?: 'time' | 'time-range';
@@ -15,21 +13,14 @@ export interface TimePickerProps {
   placeholder?: string | string[];
   size?: Size;
   popupContainer?: PopupContainer;
-  // use12Hours?: boolean;
-  step?: {
-    hour?: number;
-    minute?: number;
-    second?: number;
-  };
-  disabledHours?: () => number[];
-  disabledMinutes?: (selectedHour?: number) => number[];
-  disabledSeconds?: (
-    selectedHour?: number,
-    selectedMinute?: number
-  ) => number[];
+  use12Hours?: boolean;
+  step?: { hour?: number; minute?: number; second?: number };
+  disabledHours?: number[];
+  disabledMinutes?: number[];
+  disabledSeconds?: number[];
   hideDisabledOptions?: boolean;
   disableConfirm?: boolean;
-  position?: DropdownPosition;
+  position?: 'top' | 'tl' | 'tr' | 'bottom' | 'bl' | 'br';
   popupVisible?: boolean;
   defaultPopupVisible?: boolean;
   triggerProps?: TriggerProps;
@@ -37,15 +28,28 @@ export interface TimePickerProps {
 }
 
 export interface TimePickerEmits {
-  (e: 'update:modelValue', value: TimePickerProps['modelValue']): void;
-  (e: 'change', value: TimePickerProps['modelValue']): void;
+  (e: 'update:modelValue', value: TimePickerValue): void;
+  (e: 'update:popupVisible', value: boolean): void;
+  (
+    e: 'change',
+    timeString: string | Array<string | undefined> | undefined,
+    time: Date | Array<Date | undefined> | undefined
+  ): void;
+  (
+    e: 'select',
+    timeString: string | Array<string | undefined> | undefined,
+    time: Date | Array<Date | undefined> | undefined
+  ): void;
   (e: 'clear'): void;
-  (e: 'popup-visible-change', visible: boolean): void;
-  (e: 'update:popupVisible', visible: boolean): void;
-  (e: 'select', value: TimePickerProps['modelValue']): void;
+  (e: 'popup-visible-change', value: boolean): void;
 }
 
-export type TimeType = 'hours' | 'minutes' | 'seconds' | 'meridiems';
+export interface TimePickerSlots {
+  prefix(): void;
+  ['suffix-icon'](): void;
+  extra(): void;
+}
+
 export type TimePickerValue =
   | string
   | number

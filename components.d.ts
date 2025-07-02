@@ -17,6 +17,7 @@ declare module 'vue' {
     AResizeBox: typeof import('@arco-design/web-vue')['ResizeBox']
     ASlider: typeof import('@arco-design/web-vue')['Slider']
     ASplit: typeof import('@arco-design/web-vue')['Split']
+    ATimePicker: typeof import('@arco-design/web-vue')['TimePicker']
     AutoComplete: typeof import('./src/components/AutoComplete/index.vue')['default']
     Avatar: typeof import('./src/components/Avatar/Avatar.vue')['default']
     AvatarGroup: typeof import('./src/components/Avatar/AvatarGroup.vue')['default']
@@ -206,6 +207,7 @@ declare module 'vue' {
     Timeline: typeof import('./src/components/Timeline/Timeline.vue')['default']
     TimelineItem: typeof import('./src/components/Timeline/TimelineItem.vue')['default']
     TimePicker: typeof import('./src/components/TimePicker/index.vue')['default']
+    TimePickerYc: typeof import('./src/components/TimePickerYc/index.vue')['default']
     Tooltip: typeof import('./src/components/Tooltip/index.vue')['default']
     Transfer: typeof import('./src/components/Transfer/Transfer.vue')['default']
     TransferPanel: typeof import('./src/components/Transfer/TransferPanel.vue')['default']
@@ -221,5 +223,6 @@ declare module 'vue' {
     VerificationCode: typeof import('./src/components/VerificationCode/index.vue')['default']
     Watermark: typeof import('./src/components/Watermark/index.vue')['default']
     YcResizeBox: typeof import('./src/components/YcResizeBox/index.vue')['default']
+    YcTimePicker: typeof import('./src/components/YcTimePicker/index.vue')['default']
   }
 }
