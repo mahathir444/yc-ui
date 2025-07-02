@@ -164,6 +164,7 @@ declare module 'vue' {
     RadioGroup: typeof import('./src/components/Radio/RadioGroup.vue')['default']
     Rate: typeof import('./src/components/Rate/index.vue')['default']
     ResizeBox: typeof import('./src/components/ResizeBox/index.vue')['default']
+    ResizeBoxYc: typeof import('./src/components/ResizeBoxYc/index.vue')['default']
     ResizeBoxYc1: typeof import('./src/components/ResizeBoxYc1/index.vue')['default']
     Result: typeof import('./src/components/Result/index.vue')['default']
     ReuseItem: typeof import('./src/components/Descriptions/ReuseItem.vue')['default']
