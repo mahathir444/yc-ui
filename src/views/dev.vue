@@ -1,13 +1,8 @@
 <template>
   <div class="test">
-    <a-resize-box
-      :directions="['right', 'bottom']"
-      style="min-width: 100px; height: fit-content"
-    >
-      <div style="width: 500px; height: 500px; background-color: skyblue"></div>
-    </a-resize-box>
+    <div class="resize-left"></div>
     <yc-resize-box
-      :directions="['right', 'bottom']"
+      :directions="['left', 'top', 'right', 'bottom']"
       style="min-width: 100px; height: fit-content"
     >
       <div style="width: 500px; height: 500px; background-color: skyblue"></div>
@@ -24,7 +19,11 @@ import { ref, h } from 'vue';
   height: 100%;
   width: 100%;
   display: flex;
-  flex-direction: column;
   gap: 10px;
+  .resize-left {
+    flex: 1;
+    height: 500px;
+    background-color: blueviolet;
+  }
 }
 </style>

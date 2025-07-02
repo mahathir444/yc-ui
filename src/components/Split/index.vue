@@ -26,8 +26,7 @@
         <div class="yc-split-trigger-icon-wrapper">
           <div class="yc-split-trigger-icon">
             <slot name="resize-trigger-icon">
-              <icon-drag-dot-vertical v-if="direction == 'horizontal'" />
-              <icon-drag-dot v-else />
+              <icon-drag-dot :rotate="direction == 'horizontal' ? 90 : 0" />
             </slot>
           </div>
         </div>
@@ -43,7 +42,7 @@
 <script lang="ts" setup>
 import { ref, toRefs, computed, watch, onMounted } from 'vue';
 import { SplitProps, SplitEmits, SplitSlots } from './type';
-import { IconDragDotVertical, IconDragDot } from '@shared/icons';
+import { IconDragDot } from '@shared/icons';
 import { useControlValue, sleep, valueToPx } from '@shared/utils';
 import { useElementBounding, useDraggable } from '@vueuse/core';
 defineOptions({
