@@ -1,6 +1,5 @@
 ## 待实现的组件
-Form Upload TreeSelect DatePicker Table Tree  
-TimePicker ResizeBox
+TimePicker DatePicker Form Upload TreeSelect Table Tree  
 ## 待完善的功能
 1. configProvider prefix-cls locale
 2. Typography的省略功能

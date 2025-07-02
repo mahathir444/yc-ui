@@ -11,7 +11,7 @@
       ]"
       :dir="dir"
       :ref="(el) => triggerMap.set(dir, el as HTMLDivElement)"
-      @mousedown="handleDragStart(dir, $event)"
+      @mousedown="handleMovingStart(dir, $event)"
     >
       <slot name="resize-trigger" :direction="dir">
         <div class="yc-resizebox-trigger-icon-wrapper">
@@ -34,7 +34,7 @@ import {
   ResizeBoxDirection,
 } from './type';
 import { IconDragDot } from '@shared/icons';
-import { useControlValue, isUndefined, valueToPx } from '@shared/utils';
+import { useControlValue, valueToPx } from '@shared/utils';
 defineOptions({
   name: 'ResizeBox',
 });
@@ -58,60 +58,65 @@ const computedHeight = useControlValue<number>(height, 0, (val) => {
 // triggerMap
 const triggerMap = reactive<Map<string, HTMLDivElement>>(new Map());
 // boxPadding
-const triggerSize = reactive<Record<string, number>>({});
+const triggerSize = reactive<Record<string, number>>({
+  left: 0,
+  right: 0,
+  bottom: 0,
+  top: 0,
+});
 // boxRef
 const boxRef = ref<HTMLDivElement>();
-// 当前拖拽状态
-const isDragging = ref(false);
 // 拖拽方向
 const dragDirection = ref<ResizeBoxDirection | null>(null);
 // 初始位置和尺寸
-const position = ref({
-  x: 0,
-  y: 0,
-});
+const x = ref<number>(0);
+const y = ref<number>(0);
+// 记录拖拽之前body的光标
+let cursor: string;
 // 处理拖拽开始
-const handleDragStart = (dir: ResizeBoxDirection, e: MouseEvent) => {
+const handleMovingStart = (dir: ResizeBoxDirection, e: MouseEvent) => {
   // 防止文本选中等副作用
   e.preventDefault();
-  isDragging.value = true;
   dragDirection.value = dir;
   const { width, height } = boxRef.value!.getBoundingClientRect();
   const { clientX, clientY } = e;
   computedWidth.value = width;
   computedHeight.value = height;
-  position.value = {
-    x: clientX,
-    y: clientY,
-  };
+  x.value = clientX;
+  y.value = clientY;
+  cursor = getComputedStyle(document.body).cursor;
+  document.body.style.cursor = ['left', 'right'].includes(dir)
+    ? 'col-resize'
+    : 'row-resize';
   emits('moving-start', e);
 };
-// 处理鼠标移动
-useEventListener('mousemove', async (e) => {
-  if (!isDragging.value || !dragDirection.value || !boxRef.value) return;
-  const dir = dragDirection.value;
+// 处理拖拽中
+const handleMoving = async (e: MouseEvent) => {
+  if (!dragDirection.value || !boxRef.value) {
+    return;
+  }
   const { clientX, clientY } = e;
-  const { x, y } = position.value;
-  const movementX = dragDirection.value == 'left' ? x - clientX : clientX - x;
-  const movementY = dragDirection.value == 'top' ? y - clientY : clientY - y;
-  position.value = {
-    x: clientX,
-    y: clientY,
-  };
+  // 计算鼠标偏移量
+  const movementX =
+    dragDirection.value == 'left' ? x.value - clientX : clientX - x.value;
+  const movementY =
+    dragDirection.value == 'top' ? y.value - clientY : clientY - y.value;
+  // 计算临界最小宽高
+  const minWidth = triggerSize.left + triggerSize.right;
+  const minHeight = triggerSize.top + triggerSize.bottom;
+  // 赋值
+  x.value = clientX;
+  y.value = clientY;
+  // 计算宽高
   if (['left', 'right'].includes(dragDirection.value)) {
     computedWidth.value += movementX;
-    const minWidth = triggerSize.left + triggerSize.right;
     computedWidth.value =
       computedWidth.value <= minWidth ? minWidth : computedWidth.value;
-  } else {
-    computedHeight.value += movementY;
-    const minHeight = triggerSize.top + triggerSize.bottom;
-    computedHeight.value =
-      computedHeight.value <= minHeight ? minHeight : computedHeight.value;
-  }
-  if (['left', 'right'].includes(dir)) {
     boxRef.value.style.width = valueToPx(computedWidth.value);
   } else {
+    computedHeight.value += movementY;
+    computedHeight.value =
+      computedHeight.value <= minHeight ? minHeight : computedHeight.value;
     boxRef.value.style.height = valueToPx(computedHeight.value);
   }
   await nextTick();
@@ -128,14 +133,18 @@ useEventListener('mousemove', async (e) => {
     },
     e
   );
-});
-// 处理鼠标抬起
-useEventListener('mouseup', (e) => {
-  if (!isDragging.value || !dragDirection.value) return;
-  isDragging.value = false;
+};
+// 处理拖拽结束
+const handleMovingEnd = (e: MouseEvent) => {
+  if (!dragDirection.value) return;
   dragDirection.value = null;
+  document.body.style.cursor = cursor;
   emits('moving-end', e);
-});
+};
+// 处理鼠标移动
+useEventListener('mousemove', handleMoving);
+// 处理鼠标抬起
+useEventListener('mouseup', handleMovingEnd);
 // 监听各个trigger的宽高
 onMounted(() => {
   useResizeObserver(

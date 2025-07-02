@@ -9,6 +9,7 @@ declare module 'vue' {
   export interface GlobalComponents {
     _Icon: typeof import('./src/components/_shared/icons/_Icon.vue')['default']
     AButton: typeof import('@arco-design/web-vue')['Button']
+    ADivider: typeof import('@arco-design/web-vue')['Divider']
     Affix: typeof import('./src/components/Affix/index.vue')['default']
     Alert: typeof import('./src/components/Alert/index.vue')['default']
     Anchor: typeof import('./src/components/Anchor/Anchor.vue')['default']
