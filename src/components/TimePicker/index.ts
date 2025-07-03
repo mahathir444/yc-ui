@@ -1,5 +1,5 @@
 import { App } from 'vue';
-import _TimePicker from './index.vue';
+import _TimePicker from './TimePicker.vue';
 
 export type TimePickerInstance = InstanceType<typeof _TimePicker>;
 export * from './type';

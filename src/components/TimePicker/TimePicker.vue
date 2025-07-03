@@ -20,6 +20,7 @@
           'yc-picker-error': error,
           'yc-picker-focus': computedVisible,
           'yc-picker-has-prefix': $slots.prefix,
+          'yc-picker-allow-clear': showClearBtn,
         },
       ]"
     >
@@ -28,6 +29,7 @@
       </div>
       <div class="yc-picker-input">
         <input
+          :value="computedValue"
           :placeholder="isArray(placeholder) ? placeholder[0] : placeholder"
           :disabled="disabled"
           :readonly="readonly"
@@ -39,6 +41,7 @@
           v-if="showClearBtn"
           :size="14"
           class="yc-picker-clear-icon"
+          @click="handleClear"
         />
         <span class="yc-picker-suffix-icon">
           <slot name="suffix-icon">
@@ -48,19 +51,19 @@
       </div>
     </div>
     <template #content>
-      <div class="yc-timepicker-container"></div>
+      <time-picker-panel />
     </template>
   </yc-trigger>
 </template>
 
 <script lang="ts" setup>
-import { ref, toRefs, computed } from 'vue';
 import { TimePickerProps, TimePickerEmits, TimePickerSlots } from './type';
-import { getGlobalConfig, useControlValue, isArray } from '@shared/utils';
+import { getGlobalConfig, isArray } from '@shared/utils';
+import useContext from './hooks/useContext';
 import { IconButton } from '@shared/components';
 import { IconTime } from '@shared/icons';
 import { default as YcTrigger } from '@/components/Trigger';
-
+import TimePickerPanel from './TimePickerPanel.vue';
 defineOptions({
   name: 'TimePicker',
 });
@@ -92,51 +95,25 @@ const props = withDefaults(defineProps<TimePickerProps>(), {
   unmountOnClose: false,
 });
 const emits = defineEmits<TimePickerEmits>();
-const {
-  modelValue,
-  defaultValue,
-  popupVisible,
-  defaultPopupVisible,
-  disabled,
-  readonly,
-  allowClear,
-} = toRefs(props);
 // 获取全局注入配置
 const { popupContainer, size } = getGlobalConfig(props);
-// 计算的值
-const computedValue = useControlValue(modelValue, defaultValue.value, (val) => {
-  emits('update:modelValue', val);
-});
-// 计算的visible
-const computedVisible = useControlValue<boolean>(
-  popupVisible,
-  defaultPopupVisible.value,
-  (val) => {
-    emits('update:popupVisible', val);
-    emits('popup-visible-change', val);
-  }
-);
-// 允许清除
-const showClearBtn = computed(() => {
-  const base = !disabled.value && !readonly.value && allowClear.value;
-  if (isArray(computedValue.value)) {
-    return computedValue.value[0] && computedValue.value[1] && base;
-  } else {
-    return computedValue.value && base;
-  }
-});
+// 注入数据
+const {
+  computedValue,
+  computedVisible,
+  showClearBtn,
+  readonly,
+  disabled,
+  type,
+} = useContext().provide(props, emits);
+// 处理清除
+const handleClear = () => {
+  computedValue.value = type.value == 'time-range' ? [] : '';
+  emits('clear');
+};
 </script>
 
 <style lang="less" scoped>
 // container
 @import './style/time-picker.less';
-.yc-timepicker-container {
-  overflow: hidden;
-  background-color: #fff;
-  border: 1px solid rgb(229, 230, 235);
-  border-radius: 4px;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-  height: 267px;
-  width: 192px;
-}
 </style>

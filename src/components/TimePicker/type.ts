@@ -2,7 +2,7 @@ import { PopupContainer, Size } from '@shared/type';
 import { TriggerProps } from '../Trigger';
 
 export interface TimePickerProps {
-  type?: 'time' | 'time-range';
+  type?: TimePickerType;
   modelValue?: TimePickerValue;
   defaultValue?: TimePickerValue;
   disabled?: boolean;
@@ -13,6 +13,7 @@ export interface TimePickerProps {
   placeholder?: string | string[];
   size?: Size;
   popupContainer?: PopupContainer;
+  //
   use12Hours?: boolean;
   step?: { hour?: number; minute?: number; second?: number };
   disabledHours?: number[];
@@ -20,7 +21,8 @@ export interface TimePickerProps {
   disabledSeconds?: number[];
   hideDisabledOptions?: boolean;
   disableConfirm?: boolean;
-  position?: 'top' | 'tl' | 'tr' | 'bottom' | 'bl' | 'br';
+  //
+  position?: TimePickerPosition;
   popupVisible?: boolean;
   defaultPopupVisible?: boolean;
   triggerProps?: TriggerProps;
@@ -50,8 +52,11 @@ export interface TimePickerSlots {
   extra(): void;
 }
 
+export type TimeUnit = 'hour' | 'minute' | 'second';
 export type TimePickerValue =
   | string
   | number
   | Date
-  | Array<string | number | Date>;
+  | (string | number | Date)[];
+export type TimePickerType = 'time' | 'time-range';
+export type TimePickerPosition = 'top' | 'tl' | 'tr' | 'bottom' | 'bl' | 'br';

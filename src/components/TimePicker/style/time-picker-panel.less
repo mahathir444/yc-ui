@@ -1,0 +1,52 @@
+.yc-timepicker-container {
+  overflow: hidden;
+  background-color: #fff;
+  border: 1px solid rgb(229, 230, 235);
+  border-radius: 4px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  .yc-timepicker {
+    position: relative;
+    display: flex;
+    padding: 0;
+    .yc-timepicker-column {
+      overflow: hidden;
+      width: 64px;
+      height: 224px;
+      &:not(:last-child) {
+        border-right: 1px solid rgb(229, 230, 235);
+      }
+      ul {
+        .yc-timepicker-cell {
+          padding: 4px 0;
+          color: rgb(29, 33, 41);
+          font-weight: 500;
+          cursor: pointer;
+          .yc-timepicker-cell-inner {
+            height: 24px;
+            padding-left: 24px;
+            font-size: 14px;
+            line-height: 24px;
+          }
+        }
+        .yc-timepicker-cell-selected {
+          .yc-timepicker-cell-inner {
+            font-weight: 500;
+            background-color: rgb(242, 243, 245);
+          }
+        }
+        &::after {
+          display: block;
+          width: 100%;
+          height: 192px;
+          content: '';
+        }
+      }
+    }
+  }
+  .yc-timepicker-footer-btn-wrapper {
+    padding: 8px;
+    border-top: 1px solid rgb(229, 230, 235);
+    display: flex;
+    justify-content: space-between;
+  }
+}

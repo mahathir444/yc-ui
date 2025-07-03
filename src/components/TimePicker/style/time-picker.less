@@ -40,6 +40,9 @@
   .yc-picker-suffix {
     display: flex;
     align-items: center;
+    .yc-icon-button {
+      display: none;
+    }
     .yc-picker-suffix-icon {
       display: flex;
       justify-content: center;
@@ -50,6 +53,16 @@
 // has-prefix
 .yc-picker-has-prefix {
   padding-left: 12px;
+}
+.yc-picker-allow-clear {
+  &:hover .yc-picker-suffix {
+    .yc-icon-button {
+      display: flex;
+    }
+    .yc-picker-suffix-icon {
+      display: none;
+    }
+  }
 }
 // focus
 .yc-picker-focus {
