@@ -13,14 +13,19 @@
     background-color: rgb(229, 230, 235);
     border-color: transparent;
   }
+  .yc-picker-has-prefix,
+  .yc-picker-input.yc-picker-suffix,
+  .yc-picker-separator {
+    flex-shrink: 0;
+  }
   .yc-picker-prefix {
     margin-right: 4px;
     font-size: 14px;
     color: rgb(78, 89, 105);
   }
   .yc-picker-input {
-    flex-shrink: 0;
     flex: 1;
+    height: 100%;
     display: flex;
     align-items: center;
     input {

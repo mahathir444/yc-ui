@@ -1,7 +1,8 @@
 <template>
   <div class="test">
     <a-time-picker type="time-range" disable-confirm> </a-time-picker>
-    <yc-time-picker type="time-range" disable-confirm> </yc-time-picker>
+    <yc-time-picker type="time-range" disable-confirm allow-clear>
+    </yc-time-picker>
   </div>
 </template>
 

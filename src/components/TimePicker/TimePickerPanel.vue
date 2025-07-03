@@ -77,7 +77,9 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, watch, computed } from 'vue';
+import { ref, computed } from 'vue';
+import BTween from 'b-tween';
+import { default as dayjs, UnitType } from 'dayjs';
 import { TimeUnit } from './type';
 import { isUndefined, isArray, sleep } from '@shared/utils';
 import useContext from './hooks/useContext';
@@ -86,8 +88,6 @@ import {
   default as YcScrollbar,
   ScrollbarInstance,
 } from '@/components/Scrollbar';
-import BTween from 'b-tween';
-import dayjs, { UnitType } from 'dayjs';
 // 接收注入
 const {
   timeColumn,
@@ -96,13 +96,13 @@ const {
   format,
   computedValue,
   computedVisible,
+  disableConfirm,
+  hideDisabledOptions,
+  curIndex,
+  inputRefs,
   disabledHours,
   disabledMinutes,
   disabledSeconds,
-  disableConfirm,
-  curIndex,
-  inputRefs,
-  hideDisabledOptions,
 } = useContext().inject();
 // 滚动的refs
 const scrollRefs = ref<ScrollbarInstance[]>([]);
@@ -123,20 +123,15 @@ const disabledTime = (value: number, unit: TimeUnit) => {
 // 处理点击
 const handleClick = (val: number, i: number, target: HTMLLIElement) => {
   curValue.value[i] = val;
-  timeColumn.value.forEach((_, index) => {
-    curValue.value[index] = isUndefined(curValue.value[index])
+  timeColumn.value.forEach((_, i1) => {
+    curValue.value[i1] = isUndefined(curValue.value[i1])
       ? 0
-      : curValue.value[index];
+      : curValue.value[i1];
   });
   const scrollContainer = scrollRefs.value[i]!.getScrollRef();
-  // 计算目标滚动位置（使元素滚动到容器顶部）
-  const { top: containerTop } = scrollContainer.getBoundingClientRect();
-  const { top: itemTop } = target.getBoundingClientRect();
-  const scrollTop = scrollContainer.scrollTop;
-  // 使用BTween实现平滑滚动
   new BTween({
-    from: { scroll: scrollTop },
-    to: { scroll: scrollTop + itemTop - containerTop },
+    from: { scroll: scrollContainer.scrollTop },
+    to: { scroll: target.offsetTop },
     duration: 300,
     easing: 'quadOut',
     onUpdate: (current: { scroll: number }) => {
@@ -146,7 +141,9 @@ const handleClick = (val: number, i: number, target: HTMLLIElement) => {
       });
     },
   }).start();
-  if (!disableConfirm.value) return;
+  if (!disableConfirm.value) {
+    return;
+  }
   handleConfirm();
 };
 // 处理跳转
