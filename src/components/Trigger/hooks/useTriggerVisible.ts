@@ -42,6 +42,7 @@ export default (params: {
     onTriggerMouseleave,
     onTriggerBlur,
     onTriggerFocus,
+    onClickOutSide,
   } = props;
   // visible
   const computedVisible = useControlValue<boolean>(
@@ -181,6 +182,7 @@ export default (params: {
           return;
         }
         computedVisible.value = false;
+        onClickOutSide?.();
       },
       {
         ignore: [triggerRef],

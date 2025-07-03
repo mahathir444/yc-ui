@@ -14,18 +14,27 @@ import {
   TimePickerType,
   TimePickerValue,
   TimeUnit,
+  DisabledHours,
+  DisabledMinutes,
+  DisabledSeconds,
 } from '../type';
 
 export const TIME_PICKER_CONTEXT_KEY = 'time-picker-context';
 
 export type TimePickerContext = {
+  type: Ref<TimePickerType>;
+  format: Ref<string>;
   computedValue: Ref<TimePickerValue>;
   computedVisible: Ref<boolean>;
+  curIndex: Ref<number>;
+  curValue: Ref<number[]>;
   timeColumn: Ref<TimeUnit[]>;
   timeColumnCells: Ref<{ unit: TimeUnit; cells: TimePickerCell[] }[]>;
-  curValue: Ref<number[]>;
-  format: Ref<string>;
-  type: Ref<TimePickerType>;
+  inputRefs: Ref<HTMLInputElement[]>;
+  disableConfirm: Ref<boolean>;
+  disabledHours: DisabledHours;
+  disabledMinutes: DisabledMinutes;
+  disabledSeconds: DisabledSeconds;
 };
 
 export type TimePickerCell = { label: string; value: number };
@@ -42,7 +51,9 @@ export default () => {
       allowClear,
       format,
       type,
+      disableConfirm,
     } = toRefs(props as RequiredDeep<TimePickerProps>);
+    const { disabledHours, disabledMinutes, disabledSeconds } = props;
     // 计算的值
     const computedValue = useControlValue(
       modelValue,
@@ -76,56 +87,28 @@ export default () => {
     // 渲染column
     const timeColumn = computed<TimeUnit[]>(() => {
       const formatStr = format.value.toLowerCase().replace(/[^a-z]/g, '');
-      const hasHour = formatStr.includes('h');
-      const hasMinute = formatStr.includes('m');
-      const hasSecond = formatStr.includes('s');
-      const hour = 'hour';
-      const minute = 'minute';
-      const second = 'second';
-      if (hasHour && hasMinute && hasSecond) {
-        return [hour, minute, second];
-      } else if (hasHour && hasMinute) {
-        return [hour, minute];
-      } else if (hasHour && hasSecond) {
-        return [hour, second];
-      } else if (hasMinute && hasSecond) {
-        return [minute, second];
-      } else if (hasHour) {
-        return [hour];
-      } else if (hasMinute) {
-        return [minute];
-      } else if (hasSecond) {
-        return [second];
-      } else {
-        return [hour, minute, second];
-      }
+      const units: TimeUnit[] = [];
+      if (formatStr.includes('h')) units.push('hour');
+      if (formatStr.includes('m')) units.push('minute');
+      if (formatStr.includes('s')) units.push('second');
+      return units.length > 0 ? units : ['hour', 'minute', 'second'];
     });
     // 渲染columnsvalue
     const timeColumnCells = computed(() => {
-      const hourArray = new Array(24).fill(0).map((_, i) => {
-        return {
-          label: `${i <= 9 ? 0 : ''}${i}`,
-          value: i,
-        };
-      });
-      const minteArray = new Array(60).fill(0).map((_, i) => {
-        return {
-          label: `${i <= 9 ? 0 : ''}${i}`,
-          value: i,
-        };
-      });
-      const timeMap = {
-        hour: hourArray,
-        minute: minteArray,
-        second: minteArray,
-      };
       return timeColumn.value.map((unit) => {
         return {
           unit,
-          cells: timeMap[unit],
+          cells: new Array(unit == 'hour' ? 24 : 60).fill(0).map((_, i) => {
+            return {
+              label: `${i <= 9 ? 0 : ''}${i}`,
+              value: i,
+            };
+          }),
         };
       });
     });
+    // inputRefs
+    const inputRefs = ref<HTMLInputElement[]>([]);
     _provide<TimePickerContext>(TIME_PICKER_CONTEXT_KEY, {
       computedValue,
       computedVisible,
@@ -134,27 +117,40 @@ export default () => {
       curValue,
       format,
       type,
+      curIndex,
+      inputRefs,
+      disableConfirm,
+      disabledHours,
+      disabledMinutes,
+      disabledSeconds,
     });
     return {
       computedValue,
       computedVisible,
-      timeColumn,
       showClearBtn,
       curValue,
       readonly,
       disabled,
       type,
+      curIndex,
+      inputRefs,
     };
   };
   const inject = () => {
     return _inject<TimePickerContext>(TIME_PICKER_CONTEXT_KEY, {
+      type: ref('time'),
+      format: ref('HH:mm:ss'),
+      curValue: ref([]),
       computedValue: ref(''),
       computedVisible: ref(false),
-      timeColumn: ref(['hour', 'minute', 'second']),
+      curIndex: ref(0),
+      timeColumn: ref([]),
       timeColumnCells: ref([]),
-      curValue: ref([]),
-      format: ref('HH:mm:ss'),
-      type: ref('time'),
+      inputRefs: ref([]),
+      disableConfirm: ref(false),
+      disabledHours: () => [],
+      disabledMinutes: () => [],
+      disabledSeconds: () => [],
     });
   };
   return {

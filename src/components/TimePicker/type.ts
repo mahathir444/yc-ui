@@ -16,9 +16,9 @@ export interface TimePickerProps {
   //
   use12Hours?: boolean;
   step?: { hour?: number; minute?: number; second?: number };
-  disabledHours?: number[];
-  disabledMinutes?: number[];
-  disabledSeconds?: number[];
+  disabledHours?: DisabledHours;
+  disabledMinutes?: DisabledMinutes;
+  disabledSeconds?: DisabledSeconds;
   hideDisabledOptions?: boolean;
   disableConfirm?: boolean;
   //
@@ -60,3 +60,9 @@ export type TimePickerValue =
   | (string | number | Date)[];
 export type TimePickerType = 'time' | 'time-range';
 export type TimePickerPosition = 'top' | 'tl' | 'tr' | 'bottom' | 'bl' | 'br';
+export type DisabledHours = () => number[];
+export type DisabledMinutes = (selectedHour?: number) => number[];
+export type DisabledSeconds = (
+  selectedHour?: number,
+  selectedMinute?: number
+) => number[];

@@ -43,6 +43,7 @@ export interface TriggerProps {
   onTriggerMouseclick?: () => void;
   onTriggerFocus?: () => void;
   onTriggerBlur?: () => void;
+  onClickOutSide?: () => void;
 }
 
 export interface TriggerEmits {

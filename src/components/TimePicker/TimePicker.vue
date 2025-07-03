@@ -1,11 +1,12 @@
 <template>
   <yc-trigger
-    v-model:popup-visible="computedVisible"
+    :popup-visible="computedVisible"
     :position="position"
     :popup-container="popupContainer"
     :popup-offset="4"
     :unmount-on-close="unmountOnClose"
     :disabled="disabled || readonly"
+    :on-click-out-side="() => (computedVisible = false)"
     trigger="click"
     animation-name="slide-dynamic-origin"
     prevent-focus
@@ -24,19 +25,38 @@
         },
       ]"
     >
+      <!-- prefix -->
       <div v-if="$slots.prefix" class="yc-picker-prefix">
         <slot name="prefix" />
       </div>
-      <div class="yc-picker-input">
+      <!-- input -->
+      <div class="yc-picker-input" @click.stop="handleOpenPicker(0)">
         <input
-          :value="computedValue"
+          :value="isArray(computedValue) ? computedValue[0] : computedValue"
           :placeholder="isArray(placeholder) ? placeholder[0] : placeholder"
           :disabled="disabled"
           :readonly="readonly"
+          :ref="(el) => (inputRefs[0] = el as HTMLInputElement)"
           class="yc-picker-start-time"
         />
       </div>
-      <div class="yc-picker-suffix" @click.stop="">
+      <template v-if="type == 'time-range'">
+        <!-- separator -->
+        <span class="yc-picker-separator"> - </span>
+        <!-- input -->
+        <div class="yc-picker-input" @click.stop="handleOpenPicker(1)">
+          <input
+            :value="isArray(computedValue) ? computedValue[1] : computedValue"
+            :placeholder="isArray(placeholder) ? placeholder[1] : placeholder"
+            :disabled="disabled"
+            :readonly="readonly"
+            :ref="(el) => (inputRefs[1] = el as HTMLInputElement)"
+            class="yc-picker-start-time"
+          />
+        </div>
+      </template>
+      <!-- suffix -->
+      <div class="yc-picker-suffix">
         <icon-button
           v-if="showClearBtn"
           :size="14"
@@ -51,12 +71,13 @@
       </div>
     </div>
     <template #content>
-      <time-picker-panel />
+      <time-picker-panel ref="panelRef" />
     </template>
   </yc-trigger>
 </template>
 
 <script lang="ts" setup>
+import { ref } from 'vue';
 import { TimePickerProps, TimePickerEmits, TimePickerSlots } from './type';
 import { getGlobalConfig, isArray } from '@shared/utils';
 import useContext from './hooks/useContext';
@@ -71,7 +92,9 @@ defineSlots<TimePickerSlots>();
 const props = withDefaults(defineProps<TimePickerProps>(), {
   type: 'time',
   modelValue: undefined,
-  defaultValue: '',
+  defaultValue: (props) => {
+    return props.type == 'time-range' ? [] : '';
+  },
   disabled: false,
   allowClear: true,
   readonly: false,
@@ -99,17 +122,29 @@ const emits = defineEmits<TimePickerEmits>();
 const { popupContainer, size } = getGlobalConfig(props);
 // 注入数据
 const {
+  type,
   computedValue,
   computedVisible,
   showClearBtn,
   readonly,
   disabled,
-  type,
+  curIndex,
+  inputRefs,
 } = useContext().provide(props, emits);
+// panelRef
+const panelRef = ref<InstanceType<typeof TimePickerPanel>>();
 // 处理清除
 const handleClear = () => {
   computedValue.value = type.value == 'time-range' ? [] : '';
   emits('clear');
+};
+// 处理打开
+const handleOpenPicker = (i: number) => {
+  curIndex.value = i;
+  computedVisible.value = true;
+  panelRef.value?.scroll(
+    isArray(computedValue.value) ? computedValue.value[i] : computedValue.value
+  );
 };
 </script>
 

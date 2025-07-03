@@ -9,12 +9,12 @@
   line-height: 1.5715;
   display: inline-flex;
   align-items: center;
-  gap: 4px;
   &:not(.yc-picker-disabled):hover {
     background-color: rgb(229, 230, 235);
     border-color: transparent;
   }
   .yc-picker-prefix {
+    margin-right: 4px;
     font-size: 14px;
     color: rgb(78, 89, 105);
   }
@@ -37,7 +37,13 @@
       }
     }
   }
+  .yc-picker-separator {
+    min-width: 10px;
+    padding: 0 8px;
+    color: rgb(134, 144, 156);
+  }
   .yc-picker-suffix {
+    margin-left: 4px;
     display: flex;
     align-items: center;
     .yc-icon-button {
