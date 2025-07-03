@@ -13,15 +13,13 @@ export interface TimePickerProps {
   placeholder?: string | string[];
   size?: Size;
   popupContainer?: PopupContainer;
-  //
-  use12Hours?: boolean;
-  step?: { hour?: number; minute?: number; second?: number };
+  // use12Hours?: boolean;
+  // step?: { hour?: number; minute?: number; second?: number };
   disabledHours?: DisabledHours;
   disabledMinutes?: DisabledMinutes;
   disabledSeconds?: DisabledSeconds;
   hideDisabledOptions?: boolean;
   disableConfirm?: boolean;
-  //
   position?: TimePickerPosition;
   popupVisible?: boolean;
   defaultPopupVisible?: boolean;

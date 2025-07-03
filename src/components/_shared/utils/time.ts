@@ -1,6 +1,11 @@
-import dayjs, { Dayjs } from 'dayjs';
+import dayjs from 'dayjs';
+import 'dayjs/locale/en'; // 引入本地化配置
 import duration from 'dayjs/plugin/duration';
 import toObject from 'dayjs/plugin/toObject';
+import isSameOrAfter from 'dayjs/plugin/isSameOrAfter';
+import isSameOrBefore from 'dayjs/plugin/isSameOrBefore';
+dayjs.extend(isSameOrAfter);
+dayjs.extend(isSameOrBefore);
 dayjs.extend(toObject);
 dayjs.extend(duration);
 type options = { value: string; disabled: boolean }[];
@@ -183,6 +188,17 @@ export function timeObjToStr(
 
   return time.format(format);
 }
+
+// 时间是否合法
+export const isValidTimeRange = (
+  beginDate: string,
+  endDate: string,
+  format: string
+): boolean => {
+  const begin = dayjs(beginDate, format).locale('en', { weekStart: 1 });
+  const end = dayjs(endDate, format).locale('en', { weekStart: 1 });
+  return begin.isBefore(end);
+};
 
 //生成月份日历数组
 export interface CalendarCellData {

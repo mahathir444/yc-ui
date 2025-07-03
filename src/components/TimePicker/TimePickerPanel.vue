@@ -20,6 +20,9 @@
             <li
               v-for="cell in column.cells"
               :key="cell.value"
+              v-show="
+                !hideDisabledOptions || !disabledTime(cell.value, column.unit)
+              "
               :class="[
                 'yc-timepicker-cell',
                 {
@@ -43,10 +46,25 @@
         </yc-scrollbar>
       </div>
     </div>
-    <div class="yc-timepicker-footer-btn-wrapper">
-      <yc-button size="mini" @click="handleSetNow">此刻</yc-button>
+    <div v-if="$slots.extra" class="yc-timepicker-footer-extra-wrapper">
+      <slot name="extra" />
+    </div>
+    <div v-if="!disableConfirm" class="yc-timepicker-footer-btn-wrapper">
       <yc-button
-        v-if="!disableConfirm"
+        size="mini"
+        @click="
+          () => {
+            const date = new Date();
+            hanldeJump({
+              hour: date.getHours(),
+              minute: date.getMinutes(),
+              second: date.getSeconds(),
+            });
+          }
+        "
+        >此刻</yc-button
+      >
+      <yc-button
         type="primary"
         size="mini"
         :disabled="disabled"
@@ -78,13 +96,13 @@ const {
   format,
   computedValue,
   computedVisible,
-  type,
   disabledHours,
   disabledMinutes,
   disabledSeconds,
   disableConfirm,
   curIndex,
   inputRefs,
+  hideDisabledOptions,
 } = useContext().inject();
 // 滚动的refs
 const scrollRefs = ref<ScrollbarInstance[]>([]);
@@ -145,27 +163,21 @@ const hanldeJump = (timeMap: Record<TimeUnit, number>) => {
     handleClick(time, i, Array.from(cells[i])[time]);
   });
 };
-// 处理设置此刻
-const handleSetNow = () => {
-  const date = new Date();
-  hanldeJump({
-    hour: date.getHours(),
-    minute: date.getMinutes(),
-    second: date.getSeconds(),
-  });
-};
 // 处理确定
 const handleConfirm = () => {
   let date = dayjs();
   timeColumn.value.forEach((v, i) => {
     date = date.set(v as UnitType, curValue.value[i]);
   });
-  const value = date.format(format.value);
+  const formatValue = date.format(format.value);
   if (!isArray(computedValue.value)) {
     computedVisible.value = false;
-    computedValue.value = value;
+    computedValue.value = formatValue;
   } else {
-    computedValue.value[curIndex.value] = value;
+    computedValue.value[curIndex.value] = formatValue;
+    if (disableConfirm.value) {
+      return;
+    }
     if (curIndex.value || computedValue.value[curIndex.value + 1]) {
       return (computedVisible.value = false);
     }

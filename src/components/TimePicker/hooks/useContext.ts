@@ -32,6 +32,7 @@ export type TimePickerContext = {
   timeColumnCells: Ref<{ unit: TimeUnit; cells: TimePickerCell[] }[]>;
   inputRefs: Ref<HTMLInputElement[]>;
   disableConfirm: Ref<boolean>;
+  hideDisabledOptions: Ref<boolean>;
   disabledHours: DisabledHours;
   disabledMinutes: DisabledMinutes;
   disabledSeconds: DisabledSeconds;
@@ -52,6 +53,7 @@ export default () => {
       format,
       type,
       disableConfirm,
+      hideDisabledOptions,
     } = toRefs(props as RequiredDeep<TimePickerProps>);
     const { disabledHours, disabledMinutes, disabledSeconds } = props;
     // 计算的值
@@ -120,6 +122,7 @@ export default () => {
       curIndex,
       inputRefs,
       disableConfirm,
+      hideDisabledOptions,
       disabledHours,
       disabledMinutes,
       disabledSeconds,
@@ -134,6 +137,7 @@ export default () => {
       type,
       curIndex,
       inputRefs,
+      format,
     };
   };
   const inject = () => {
@@ -148,6 +152,7 @@ export default () => {
       timeColumnCells: ref([]),
       inputRefs: ref([]),
       disableConfirm: ref(false),
+      hideDisabledOptions: ref(false),
       disabledHours: () => [],
       disabledMinutes: () => [],
       disabledSeconds: () => [],
