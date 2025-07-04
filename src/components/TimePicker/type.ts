@@ -14,7 +14,7 @@ export interface TimePickerProps {
   size?: Size;
   popupContainer?: PopupContainer;
   // use12Hours?: boolean;
-  // step?: { hour?: number; minute?: number; second?: number };
+  step?: { hour?: number; minute?: number; second?: number };
   disabledHours?: DisabledHours;
   disabledMinutes?: DisabledMinutes;
   disabledSeconds?: DisabledSeconds;

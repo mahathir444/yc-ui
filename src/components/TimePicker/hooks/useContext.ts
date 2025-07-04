@@ -54,6 +54,7 @@ export default () => {
       type,
       disableConfirm,
       hideDisabledOptions,
+      step,
     } = toRefs(props as RequiredDeep<TimePickerProps>);
     const { disabledHours, disabledMinutes, disabledSeconds } = props;
     // 计算的值
@@ -98,12 +99,15 @@ export default () => {
     // 渲染columnsvalue
     const timeColumnCells = computed(() => {
       return timeColumn.value.map((unit) => {
+        const unitStep = step.value?.[unit] || 1;
+        const cellCount = Math.ceil((unit === 'hour' ? 24 : 60) / unitStep);
         return {
           unit,
-          cells: new Array(unit == 'hour' ? 24 : 60).fill(0).map((_, i) => {
+          cells: Array.from({ length: cellCount }, (_, i) => {
+            const value = i * unitStep;
             return {
-              label: `${i <= 9 ? 0 : ''}${i}`,
-              value: i,
+              label: `${value <= 9 ? '0' : ''}${value}`,
+              value: value,
             };
           }),
         };
