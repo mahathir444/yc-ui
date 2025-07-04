@@ -18,7 +18,7 @@
 </template>
 
 <script lang="ts" setup>
-import { default as useContext } from './hooks/useContext';
+import useContext from './hooks/useContext';
 import { getGlobalConfig } from '@shared/utils';
 import { SlotRender } from '@shared/components';
 import YcCascaderOption from './CascaderOption.vue';

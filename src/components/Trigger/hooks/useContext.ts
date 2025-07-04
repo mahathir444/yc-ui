@@ -1,6 +1,7 @@
 import { ref, watch, Ref, provide, inject } from 'vue';
 import { nanoid } from 'nanoid';
 import { TriggerType, TriggerProps as _TriggerProps } from '../type';
+import { RequiredDeep } from '@shared/type';
 import { sleep, unrefElement } from '@shared/utils';
 
 const TRIGGER_CONTEXT_KEY = 'trigger-context';
@@ -12,6 +13,7 @@ type TriggerContext = {
   hoverTimeout: Ref<NodeJS.Timeout | undefined>;
   hide?: () => void;
 };
+export type TriggerProps = RequiredDeep<_TriggerProps>;
 
 /**
  *  depth 记录组件内部嵌套的层级,当curHoverLevel小于level关闭

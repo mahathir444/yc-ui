@@ -1,7 +1,7 @@
 import { nextTick, Ref, ref, toRefs, computed, watch } from 'vue';
 import { onClickOutside } from '@vueuse/core';
 import { TriggerEmits } from '../type';
-import useContext, { TriggerProps } from './useContext';
+import { default as useContext, TriggerProps } from './useContext';
 import { Props } from '@shared/type';
 import {
   findFirstScrollableParent,

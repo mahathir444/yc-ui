@@ -55,7 +55,7 @@ type MenuContext = {
   max: Ref<number>;
   emits: MenuEmits;
 };
-type MenuTreeNode = {
+export type MenuTreeNode = {
   id: string;
   type: 'submenu' | 'menuitem';
   path: string;
