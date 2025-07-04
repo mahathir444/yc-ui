@@ -3,9 +3,8 @@
     <!-- 渲染默认插槽 -->
     <template v-if="$slots.default">
       <template v-for="(node, i) in breadcrumbItems" :key="i">
-        <condition-render :render="node">
-          <breadcrumb-more v-if="node?.type == 'more-icon'" :slots="slots" />
-        </condition-render>
+        <breadcrumb-more v-if="node?.type == 'more-icon'" :slots="slots" />
+        <component v-else :is="node" />
         <!-- 分隔符 -->
         <breadcrumb-separator
           v-if="i < breadcrumbItems.length - 1"
@@ -54,7 +53,6 @@
 <script lang="ts" setup>
 import { toRefs, computed, useSlots } from 'vue';
 import { BreadcrumbProps, BreadcrumbSlots } from './type';
-import { ConditionRender } from '@shared/components';
 import { findComponentsFromVnodes, isString } from '@shared/utils';
 import { BreadcrumbItem as YcBreadcrumbItem } from './index';
 import BreadcrumbSeparator from './BreadcrumbSeparator.vue';

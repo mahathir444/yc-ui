@@ -7,19 +7,14 @@
   </yc-spin>
   <template v-else>
     <!-- default -->
-    <div class="yc-select-suffix-icon">
-      <condition-render :render="renderIcon('arrow-icon')">
-        <icon-arrow-down
-          v-if="!slots['arrow-icon']"
-          :rotate="popupVisible ? 180 : 0"
-        />
-      </condition-render>
+    <div class="yc-cascader-suffix-icon">
+      <component v-if="slots['arrow-icon']" :is="renderIcon('arrow-icon')" />
+      <icon-arrow-down v-else :rotate="popupVisible ? 180 : 0" />
     </div>
     <!-- search -->
-    <div v-if="allowSearch" class="yc-select-search-icon">
-      <condition-render :render="renderIcon('search-icon')">
-        <icon-search v-if="!slots['search-icon']" />
-      </condition-render>
+    <div v-if="allowSearch" class="yc-cascader-search-icon">
+      <component v-if="slots['search-icon']" :is="renderIcon('search-icon')" />
+      <icon-search v-else />
     </div>
     <!-- clear -->
     <icon-button
@@ -33,7 +28,7 @@
 <script lang="ts" setup>
 import useContext from './hooks/useContext';
 import { IconArrowDown } from '@shared/icons';
-import { IconButton, ConditionRender } from '@shared/components';
+import { IconButton } from '@shared/components';
 import YcSpin from '@/components/Spin';
 defineProps<{
   loading: boolean;

@@ -15,11 +15,10 @@
         }"
       >
         <slot name="icon">
-          <condition-render :render="renderLoading()">
-            <div v-if="dot" class="yc-dot-loading">
-              <div v-for="i in 5" :key="i" class="yc-dot-loading-item"></div>
-            </div>
-          </condition-render>
+          <div v-if="dot" class="yc-dot-loading">
+            <div v-for="i in 5" :key="i" class="yc-dot-loading-item"></div>
+          </div>
+          <component :is="renderLoading" />
         </slot>
       </div>
       <div v-if="tip" class="yc-spin-tip">
@@ -46,7 +45,6 @@
 import { SpinProps, SpinSlots } from './type';
 import { createReusableTemplate } from '@vueuse/core';
 import { getGlobalConfig, valueToPx } from '@shared/utils';
-import { ConditionRender } from '@shared/components';
 defineOptions({
   name: 'Spin',
 });

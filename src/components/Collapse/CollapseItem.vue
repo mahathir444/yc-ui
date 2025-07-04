@@ -16,7 +16,8 @@
           :disabled="disabled"
           :position="expandIconPosition"
         >
-          <condition-render
+          <component
+            v-if="slots['expand-icon']"
             :render="
               () =>
                 slots['expand-icon']?.({
@@ -25,12 +26,11 @@
                   position: expandIconPosition,
                 })
             "
-          >
-            <icon-right
-              v-if="!slots['expand-icon']"
-              :rotate="computedActiveKey.includes(path) ? 90 : 0"
-            />
-          </condition-render>
+          />
+          <icon-right
+            v-else
+            :rotate="computedActiveKey.includes(path) ? 90 : 0"
+          />
         </slot>
       </icon-button>
       <div class="yc-collapse-item-header-title text-ellipsis">
@@ -63,7 +63,6 @@ import { CollapseItemProps, CollapseItemSlots } from './type';
 import useContext from './hooks/useContext';
 import { IconRight } from '@shared/icons';
 import { IconButton, ExpandTransition } from '@shared/components';
-import { ConditionRender } from '@shared/components';
 defineOptions({
   name: 'CollapseItem',
 });

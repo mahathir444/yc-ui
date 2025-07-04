@@ -45,9 +45,8 @@
       <yc-tooltip position="top" v-bind="copyTooltiProps">
         <span>
           <slot name="copy-icon" :copied="isCopied">
-            <condition-render :render="IconCopy">
-              <icon-info v-if="isCopied" color="rgb(0, 180, 42)" />
-            </condition-render>
+            <icon-info v-if="isCopied" color="rgb(0, 180, 42)" />
+            <icon-copy v-else />
           </slot>
         </span>
         <template #content>
@@ -70,7 +69,6 @@ import {
   VNode,
   onMounted,
 } from 'vue';
-import { ConditionRender } from '@shared/components';
 import {
   TypographyBaseProps,
   TypographyBaseEmits,

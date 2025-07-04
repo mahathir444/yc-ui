@@ -21,21 +21,20 @@
       </div>
     </div>
     <div v-if="closable" class="yc-notification-close-btn" @click="handleClose">
-      <condition-render :render="closeIconElement">
-        <icon-button v-if="!closeIconElement">
-          <component v-if="closeIcon" :is="closeIcon" />
-        </icon-button>
-      </condition-render>
+      <component v-if="closeIconElement" :is="closeIconElement" />
+      <icon-button v-else>
+        <component v-if="closeIcon" :is="closeIcon" />
+      </icon-button>
     </div>
   </li>
 </template>
 
 <script lang="ts" setup>
-import { ref, toRefs, onMounted, watch } from 'vue';
+import { toRefs, onMounted, watch } from 'vue';
 import { NotificationProps } from './type';
 import { TYPE_ICON_MAP } from '@shared/constants';
 import { getSlotFunction, isFunction, isUndefined } from '@shared/utils';
-import { IconButton, ConditionRender } from '@shared/components';
+import { IconButton } from '@shared/components';
 import { useTimeoutFn } from '@vueuse/core';
 defineOptions({
   name: 'Notification',
