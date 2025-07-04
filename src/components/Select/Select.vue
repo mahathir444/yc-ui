@@ -168,12 +168,7 @@ const props = withDefaults(defineProps<SelectProps>(), {
   },
   limit: 0,
   fieldNames: () => {
-    return {
-      label: 'label',
-      value: 'value',
-      disabled: 'disabled',
-      tagProps: 'tagProps',
-    };
+    return {};
   },
   scrollbar: true,
   searchDelay: 500,
