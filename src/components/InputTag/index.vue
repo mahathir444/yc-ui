@@ -34,7 +34,6 @@
             :bordered="item[fieldKey.tagProps].bordered"
             :nowrap="item[fieldKey.tagProps].nowrap"
             :checked="false"
-            prevent-focus
             @close="(ev) => handleEvent('close', ev, item?.[fieldKey.id])"
           >
             {{ formatTag ? formatTag(item) : item[fieldKey.label] }}
@@ -46,7 +45,6 @@
         :nowrap="tagNowrap"
         :checked="false"
         bordered
-        prevent-focus
         key="yc-select-value-tag"
       >
         +{{ curList.hideList.length }}...

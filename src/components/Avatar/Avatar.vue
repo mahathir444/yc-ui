@@ -10,7 +10,7 @@
     @click="$emit('click', $event)"
   >
     <span
-      v-if="$slots.default && !imageUrl"
+      v-if="$slots.default"
       class="yc-avatar-text"
       :style="{
         transform: `scale(${scale}) translateX(-50%)`,
@@ -19,7 +19,8 @@
     >
       <slot />
     </span>
-    <span v-if="imageUrl" class="yc-avatar-image">
+
+    <span v-else-if="imageUrl" class="yc-avatar-image">
       <img
         v-if="!isLoadError"
         :src="imageUrl"

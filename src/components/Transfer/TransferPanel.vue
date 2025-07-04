@@ -2,7 +2,7 @@
   <div class="yc-transfer-view">
     <!-- header -->
     <div class="yc-transfer-view-header">
-      <slot-render :render="renderTitle">
+      <condition-render :render="renderTitle">
         <template v-if="!slots[`${type}-title`]">
           <span class="yc-transfer-view-header-title">
             <yc-checkbox
@@ -30,7 +30,7 @@
             </icon-button>
           </span>
         </template>
-      </slot-render>
+      </condition-render>
     </div>
     <!-- search -->
     <div v-if="showSearch" class="yc-transfer-view-search">
@@ -47,7 +47,7 @@
     <!--body-->
     <div class="yc-transfer-view-body">
       <yc-scrollbar v-if="curData.length" auto-fill>
-        <slot-render :render="renderList">
+        <condition-render :render="renderList">
           <div v-if="!slots[type]" role="list" class="yc-transfer-list">
             <template v-for="item in curData" :key="item.value">
               <div
@@ -70,19 +70,19 @@
                       handleCheck(isSelected, item.value as string)
                   "
                 >
-                  <slot-render :render="renderItem(item)">
+                  <condition-render :render="renderItem(item)">
                     <template v-if="!slots.item">
                       {{ item.label }}
                     </template>
-                  </slot-render>
+                  </condition-render>
                 </yc-checkbox>
                 <template v-else>
                   <span class="yc-transfer-list-item-content text-ellipsis">
-                    <slot-render :render="renderItem(item)">
+                    <condition-render :render="renderItem(item)">
                       <template v-if="!slots.item">
                         {{ item.label }}
                       </template>
-                    </slot-render>
+                    </condition-render>
                   </span>
                   <icon-button
                     v-if="type == 'target' && !simple"
@@ -94,10 +94,10 @@
               </div>
             </template>
           </div>
-        </slot-render>
+        </condition-render>
       </yc-scrollbar>
       <!-- 渲染empty -->
-      <slot-render :render="renderEmpty('Transfer')" />
+      <condition-render :render="renderEmpty('Transfer')" />
     </div>
   </div>
 </template>
@@ -111,7 +111,7 @@ import { getGlobalConfig } from '@shared/utils';
 import YcCheckbox from '@/components/Checkbox';
 import YcScrollbar from '@/components/Scrollbar';
 import YcInput from '@/components/Input';
-import { IconButton, SlotRender } from '@shared/components';
+import { IconButton, ConditionRender } from '@shared/components';
 defineSlots<TransferPanelSlots>();
 const props = defineProps<{
   type: 'source' | 'target';

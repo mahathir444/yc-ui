@@ -46,7 +46,7 @@
 </template>
 
 <script lang="ts" setup>
-import { toRefs, computed, ref } from 'vue';
+import { toRefs, computed } from 'vue';
 import { TagProps, TagEmits, TagSlots } from './type';
 import { TAG_PRESET_COLORS } from '@shared/constants';
 import { useControlValue, getGlobalConfig } from '@shared/utils';

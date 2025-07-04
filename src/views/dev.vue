@@ -1,14 +1,24 @@
 <template>
   <div class="test">
-    <a-time-picker type="time-range" disable-confirm> </a-time-picker>
-    <yc-time-picker type="time-range" disable-confirm allow-clear>
-    </yc-time-picker>
-    <yc-spin :size="30" />
+    <div style="width: 300px">
+      <a-select :options="options" multiple allow-clear />
+    </div>
+    <div style="width: 300px">
+      <yc-select :options="options" multiple allow-clear />
+    </div>
   </div>
 </template>
 
 <script lang="ts" setup>
 import { ref, h } from 'vue';
+const options = ref<any[]>(
+  new Array(30).fill('').map((_v, i) => {
+    return {
+      label: '选项' + i,
+      value: i,
+    };
+  })
+);
 </script>
 
 <style lang="less" scoped>

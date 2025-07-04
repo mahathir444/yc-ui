@@ -1,4 +1,5 @@
 import {
+  ref,
   toRefs,
   Ref,
   provide as _provide,
@@ -32,9 +33,9 @@ export default () => {
       size: _size,
       autoFixFontSize: _autoFixFontSize,
     } = _inject<AvatarContext>(AVATAR_GROUP_CONTEXT_KEY, {
-      shape,
-      size,
-      autoFixFontSize,
+      shape: ref('round'),
+      size: ref(40),
+      autoFixFontSize: ref(true),
     });
     return {
       shape: computed(() => {

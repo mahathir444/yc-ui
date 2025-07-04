@@ -7,8 +7,7 @@
       },
     ]"
   >
-    <slot v-if="loading" />
-    <slot v-else name="content" />
+    <slot :name="loading ? 'default' : 'content'" />
   </div>
 </template>
 

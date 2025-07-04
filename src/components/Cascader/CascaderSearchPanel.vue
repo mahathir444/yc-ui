@@ -1,9 +1,9 @@
 <template>
   <div class="yc-cascader-panel yc-cascader-search-panel">
     <!-- empty -->
-    <slot-render
+    <component
       v-if="!searchOptions.length"
-      :render="slots.empty || renderEmpty('Select')"
+      :is="slots.empty || renderEmpty('Select')"
     />
     <yc-scrollbar class="yc-cascader-column-content">
       <ul role="menu" class="yc-cascader-list">
@@ -20,7 +20,7 @@
 <script lang="ts" setup>
 import useContext from './hooks/useContext';
 import { getGlobalConfig } from '@shared/utils';
-import { SlotRender } from '@shared/components';
+
 import YcCascaderOption from './CascaderOption.vue';
 import YcScrollbar from '@/components/Scrollbar';
 // configProvider

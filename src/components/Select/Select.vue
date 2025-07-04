@@ -148,7 +148,9 @@ const props = withDefaults(defineProps<SelectProps>(), {
   disabled: false,
   error: false,
   allowClear: false,
-  allowSearch: false,
+  allowSearch: (props) => {
+    return props.multiple as boolean;
+  },
   allowCreate: false,
   maxTagCount: 0,
   popupContainer: undefined,

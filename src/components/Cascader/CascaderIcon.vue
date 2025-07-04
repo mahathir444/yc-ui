@@ -8,19 +8,24 @@
   <template v-else>
     <!-- default -->
     <div class="yc-cascader-suffix-icon">
-      <component v-if="slots['arrow-icon']" :is="renderIcon('arrow-icon')" />
-      <icon-arrow-down v-else :rotate="popupVisible ? 180 : 0" />
+      <condition-render :render="renderIcon('arrow-icon')">
+        <icon-arrow-down
+          v-if="!slots['arrow-icon']"
+          :rotate="popupVisible ? 180 : 0"
+        />
+      </condition-render>
     </div>
     <!-- search -->
     <div v-if="allowSearch" class="yc-cascader-search-icon">
-      <component v-if="slots['search-icon']" :is="renderIcon('search-icon')" />
-      <icon-search v-else />
+      <condition-render :render="renderIcon('search-icon')">
+        <icon-search v-if="!slots['search-icon']" />
+      </condition-render>
     </div>
     <!-- clear -->
     <icon-button
       v-if="showClearBtn"
       class="yc-cascader-clear-icon"
-      @click.stop="$emit('clear')"
+      @click="$emit('clear')"
     />
   </template>
 </template>
@@ -28,7 +33,7 @@
 <script lang="ts" setup>
 import useContext from './hooks/useContext';
 import { IconArrowDown } from '@shared/icons';
-import { IconButton } from '@shared/components';
+import { IconButton, ConditionRender } from '@shared/components';
 import YcSpin from '@/components/Spin';
 defineProps<{
   loading: boolean;

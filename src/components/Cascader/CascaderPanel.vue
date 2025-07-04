@@ -4,9 +4,9 @@
     <!-- loading -->
     <yc-spin v-if="loading" :loading="loading" />
     <!-- empty -->
-    <slot-render
+    <component
       v-else-if="!options.length"
-      :render="slots.empty || renderEmpty('Select')"
+      :is="slots.empty || renderEmpty('Select')"
     />
     <!-- 渲染panel -->
     <template v-else>
@@ -42,7 +42,6 @@ import { default as useContext, findOptions } from './hooks/useContext';
 import YcCascaderOption from './CascaderOption.vue';
 import YcScrollbar from '@/components/Scrollbar';
 import { getGlobalConfig } from '@shared/utils';
-import { SlotRender } from '@shared/components';
 import YcSpin from '@/components/Spin';
 // configProvider
 const { renderEmpty } = getGlobalConfig();

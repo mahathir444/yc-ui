@@ -24,7 +24,7 @@
         ></div>
       </transition>
       <!-- modal-wrapper -->
-      <div class="yc-modal-wrapper" @click="handleClose('mask', $event)">
+      <div class="yc-modal-wrapper" @click.self="handleClose('mask', $event)">
         <transition
           :name="modalAnimationName"
           @before-enter="$emit('beforeOpen')"
@@ -51,7 +51,6 @@
               ...($attrs.style ?? {}),
             }"
             ref="modalRef"
-            @click.stop=""
           >
             <!-- header -->
             <slot name="header">

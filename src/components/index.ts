@@ -188,8 +188,8 @@ export { default as Timeline } from './Timeline';
 export * from './Textarea';
 export { default as Textarea } from './Textarea';
 
-export * from './TimePickerYc';
-export { default as TimePicker } from './TimePickerYc';
+export * from './TimePicker';
+export { default as TimePicker } from './TimePicker';
 
 export * from './Tooltip';
 export { default as Tooltip } from './Tooltip';

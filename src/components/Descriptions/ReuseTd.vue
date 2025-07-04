@@ -16,26 +16,19 @@
     :colspan="colspan"
   >
     <component
-      v-if="type == 'label'"
       :is="
         getSlotFunction(
-          slots.label?.({
-            label: data.label,
-            index,
-            data,
-          }) ?? data.label
-        )
-      "
-    />
-    <component
-      v-else
-      :is="
-        getSlotFunction(
-          slots.value?.({
-            value: data.value,
-            index,
-            data,
-          }) ?? data.value
+          type == 'label'
+            ? (slots.label?.({
+                label: data.label,
+                index,
+                data,
+              }) ?? data.label)
+            : (slots.value?.({
+                value: data.value,
+                index,
+                data,
+              }) ?? data.value)
         )
       "
     />

@@ -6,7 +6,8 @@
 
 <script lang="ts" setup>
 import { VNode } from 'vue';
+import { ObjectData } from '@shared/type';
 defineProps<{
-  render?: ((...args: any) => any) | VNode;
+  render?: ((...args: any) => any) | VNode | ObjectData;
 }>();
 </script>

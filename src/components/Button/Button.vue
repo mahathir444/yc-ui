@@ -23,8 +23,9 @@
     @contextmenu="handleEvent('contextmenu', $event)"
   >
     <span v-if="$slots.icon || loading" class="yc-button-icon">
-      <slot v-if="!loading" name="icon" />
-      <yc-spin v-else is-size-inherit />
+      <condition-render :render="$slots.icon">
+        <yc-spin v-if="loading" is-size-inherit />
+      </condition-render>
     </span>
     <slot />
   </a>
@@ -53,8 +54,9 @@
     @contextmenu="handleEvent('contextmenu', $event)"
   >
     <span v-if="$slots.icon || loading" class="yc-button-icon">
-      <slot v-if="!loading" name="icon" />
-      <yc-spin v-else is-size-inherit />
+      <condition-render :render="$slots.icon">
+        <yc-spin v-if="loading" is-size-inherit />
+      </condition-render>
     </span>
     <slot />
   </button>
@@ -64,6 +66,7 @@
 import { toRefs } from 'vue';
 import { ButtonProps, ButtonEmits, ButtonSlots } from './type';
 import useContext from './hooks/useContext';
+import { ConditionRender } from '@shared/components';
 import YcSpin from '@/components/Spin';
 defineOptions({
   name: 'Button',

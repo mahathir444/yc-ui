@@ -34,7 +34,11 @@
       </yc-select>
     </div>
     <div style="width: 300px">
-      <yc-cascader :options="options" :multiple="true" placeholder="cascader" />
+      <yc-cascader
+        :options="option1s"
+        :multiple="true"
+        placeholder="cascader"
+      />
     </div>
     <div style="width: 300px">
       <yc-mention
@@ -108,24 +112,14 @@
 
 <script lang="ts" setup>
 import { ref } from 'vue';
-import { isUndefined } from '@shared/utils';
-const options = ref<any[]>([]);
-for (let i = 0; i < 30; i++) {
-  options.value.push({
-    label: '选项' + i,
-    value: i,
-  });
-}
-
-const handleClick = () => {
-  const pre = options.value.length;
-  for (let i = 0; i < 10; i++) {
-    options.value.push({
-      label: '选项' + (pre + i),
-      value: pre + i,
-    });
-  }
-};
+const options = ref<any[]>(
+  new Array(30).fill('').map((_v, i) => {
+    return {
+      label: '选项' + i,
+      value: i,
+    };
+  })
+);
 const option1s = [
   {
     value: 'beijing',

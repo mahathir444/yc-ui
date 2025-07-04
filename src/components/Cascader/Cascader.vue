@@ -4,10 +4,10 @@
     :popup-offset="4"
     :popup-container="popupContainer"
     :disabled="disabled"
-    prevent-focus
     position="bl"
     trigger="focus"
     animation-name="slide-dynamic-origin"
+    prevent-focus
     v-bind="triggerProps"
   >
     <div

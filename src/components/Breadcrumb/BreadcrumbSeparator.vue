@@ -1,13 +1,15 @@
 <template>
   <span class="yc-breadcrumb-item-separator">
-    <component v-if="showSeparator" :is="renderSeparator" />
-    <icon-separator v-else />
+    <condition-render :render="renderSeparator">
+      <icon-separator v-if="!showSeparator" />
+    </condition-render>
   </span>
 </template>
 
 <script lang="ts" setup>
 import { computed } from 'vue';
 import { BreadcrumbSeparator } from './type';
+import { ConditionRender } from '@shared/components';
 import { IconSeparator } from '@shared/icons';
 import { isUndefined } from '@shared/utils';
 const props = defineProps<{
@@ -28,7 +30,6 @@ const showSeparator = computed(() => {
     );
   }
 });
-
 const renderSeparator = () => {
   if (isUndefined(props.itemSeparatorSlots)) {
     return props.separatorSlots?.() || props.separator;

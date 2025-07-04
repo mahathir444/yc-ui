@@ -26,10 +26,7 @@
       <!-- list -->
       <select-real-list v-else :scrollbar="scrollbar" />
       <!-- empty -->
-      <slot-render
-        v-if="isEmpty"
-        :render="slots.empty || renderEmpty('Select')"
-      />
+      <component v-if="isEmpty" :is="slots.empty || renderEmpty('Select')" />
       <!-- footer -->
       <div
         v-if="slots.footer && (showFooterOnEmpty || !isEmpty)"
@@ -49,7 +46,6 @@ import useContext from './hooks/useContext';
 import SelectVirtualList from './SelectVirtualList.vue';
 import SelectRealList from './SelectRealList.vue';
 import YcSpin from '@/components/Spin';
-import { SlotRender } from '@shared/components';
 const props = defineProps<{
   loading: boolean;
   scrollbar: boolean;

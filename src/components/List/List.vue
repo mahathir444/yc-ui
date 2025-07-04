@@ -60,9 +60,9 @@
             </template>
           </div>
           <!-- empty -->
-          <slot-render
+          <component
             v-if="!$slots.default && !curList.length"
-            :render="$slots.empty || renderEmpty('List')"
+            :is="$slots.empty || renderEmpty('List')"
           />
           <!-- footer -->
           <div v-if="$slots.footer" class="yc-list-footer">
@@ -97,7 +97,6 @@ import YcScrollbar from '@/components/Scrollbar';
 import YcPagination from '@/components/Pagination';
 import { default as YcGrid, GridItem as YcGridItem } from '@/components/Grid';
 import VirtualList from './ListVirtual.vue';
-import { SlotRender } from '@shared/components';
 defineOptions({
   name: 'List',
 });

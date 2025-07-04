@@ -8,7 +8,7 @@
 <script lang="ts" setup>
 import { computed, toRefs, CSSProperties } from 'vue';
 import { IconProps, IconSlots } from './type';
-import { isUndefined, isString, isNumber, valueToPx } from '@shared/utils';
+import { isUndefined, valueToPx } from '@shared/utils';
 defineOptions({
   name: 'Icon',
 });
