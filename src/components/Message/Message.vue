@@ -15,7 +15,7 @@
       {{ content }}
     </span>
     <span v-if="closable" class="yc-message-close-btn" @click="handleClose">
-      <icon-button :size="12" />
+      <icon-button />
     </span>
   </li>
 </template>

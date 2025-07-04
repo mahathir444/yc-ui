@@ -1,7 +1,6 @@
 <template>
   <icon-button
     :size="14"
-    :hover-size="20"
     :class="[
       `yc-tabs-nav-${type ? `${type}-` : ''}button`,
       {

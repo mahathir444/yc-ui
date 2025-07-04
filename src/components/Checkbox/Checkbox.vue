@@ -9,7 +9,6 @@
         'yc-checkbox-checked': computedChecked,
       },
     ]"
-    @mousedown="(e) => preventFocus && e.preventDefault()"
   >
     <input
       type="checkbox"
@@ -60,7 +59,6 @@ const props = withDefaults(defineProps<CheckboxProps>(), {
   disabled: false,
   value: '',
   indeterminate: false,
-  preventFocus: false,
 });
 const emits = defineEmits<CheckboxEmits>();
 const {

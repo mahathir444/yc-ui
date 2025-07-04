@@ -8,7 +8,6 @@
         'yc-radio-disabled': computedDisabled,
       },
     ]"
-    @mousedown="(e) => preventFocus && e.preventDefault()"
     @click="handleChange"
   >
     <input
@@ -55,7 +54,6 @@ const props = withDefaults(defineProps<RadioProps>(), {
   disabled: false,
   value: true,
   type: undefined,
-  preventFocus: false,
 });
 const emits = defineEmits<RadioEmits>();
 const {

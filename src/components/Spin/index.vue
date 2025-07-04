@@ -1,5 +1,5 @@
 <template>
-  <div class="yc-spin" @mousedown="(e) => preventFocus && e.preventDefault()">
+  <div class="yc-spin">
     <!-- 定义通用模板 -->
     <define-template>
       <div
@@ -55,7 +55,6 @@ withDefaults(defineProps<SpinProps>(), {
   dot: false,
   tip: '',
   hideIcon: false,
-  preventFocus: false,
   isSizeInherit: false,
 });
 const { define: DefineTemplate, reuse: ReuseTemplate } =

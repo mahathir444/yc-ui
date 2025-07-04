@@ -5,7 +5,6 @@ export interface SpinProps {
   tip?: string;
   hideIcon?: boolean;
   // 是否阻止焦点
-  preventFocus?: boolean;
   isSizeInherit?: boolean;
 }
 

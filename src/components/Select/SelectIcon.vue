@@ -1,26 +1,21 @@
 <template>
   <!-- loading -->
-  <yc-spin
-    v-if="loading"
-    :size="12"
-    prevent-focus
-    class="yc-select-loading-icon"
-  >
+  <yc-spin v-if="loading" :size="12" class="yc-select-loading-icon">
     <template v-if="$slots['loading-icon']" #icon>
       <component :is="renderIcon('loading-icon')" />
     </template>
   </yc-spin>
   <template v-else>
     <!-- default -->
-    <prevent-focus class="yc-select-suffix-icon">
+    <div class="yc-select-suffix-icon">
       <component v-if="slots['arrow-icon']" :is="renderIcon('arrow-icon')" />
       <icon-arrow-down v-else :rotate="popupVisible ? 180 : 0" />
-    </prevent-focus>
+    </div>
     <!-- search -->
-    <prevent-focus v-if="allowSearch" class="yc-select-search-icon">
+    <div v-if="allowSearch" class="yc-select-search-icon">
       <component v-if="slots['search-icon']" :is="renderIcon('search-icon')" />
       <icon-search v-else />
-    </prevent-focus>
+    </div>
     <!-- clear -->
     <icon-button
       v-if="showClearBtn"
@@ -33,7 +28,7 @@
 <script lang="ts" setup>
 import useContext from './hooks/useContext';
 import { IconArrowDown } from '@shared/icons';
-import { IconButton, PreventFocus } from '@shared/components';
+import { IconButton } from '@shared/components';
 import YcSpin from '@/components/Spin';
 defineProps<{
   loading: boolean;

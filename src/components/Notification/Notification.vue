@@ -22,7 +22,7 @@
     </div>
     <div v-if="closable" class="yc-notification-close-btn" @click="handleClose">
       <component v-if="closeIconElement" :is="closeIconElement" />
-      <icon-button v-else :size="12" :hover-size="20">
+      <icon-button v-else>
         <component v-if="closeIcon" :is="closeIcon" />
       </icon-button>
     </div>

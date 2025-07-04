@@ -1,10 +1,20 @@
 <template>
   <div class="form">
     <div style="width: 300px">
-      <yc-input allow-clear placeholder="input" show-word-limit />
+      <yc-input
+        allow-clear
+        placeholder="input"
+        show-word-limit
+        :max-length="100"
+      />
     </div>
     <div style="width: 300px">
-      <yc-textarea allow-clear show-word-limit placeholder="textarea" />
+      <yc-textarea
+        allow-clear
+        show-word-limit
+        :max-length="100"
+        placeholder="textarea"
+      />
     </div>
     <div style="width: 300px">
       <yc-input-tag placeholder="input-tag" allow-clear />

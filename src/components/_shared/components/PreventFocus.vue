@@ -1,7 +1,6 @@
 <template>
   <component
     :is="tag"
-    class="yc-prevent-focus"
     @mousedown="(e: MouseEvent) => preventFocus && e.preventDefault()"
   >
     <slot />

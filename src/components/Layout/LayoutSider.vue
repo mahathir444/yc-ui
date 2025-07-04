@@ -34,7 +34,6 @@
     <slot v-if="!hideTrigger" name="trigger" :collapsed="computedCollapsed">
       <icon-button
         :size="14"
-        :hover-size="24"
         class="yc-collapse-button"
         @click="handleCollapse"
       >

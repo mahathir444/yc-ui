@@ -6,7 +6,7 @@
         'yc-icon-button-disabled': disabled,
       },
     ]"
-    @mousedown="(e) => e.preventDefault()"
+    @mousedown="(e) => preventFocus && e.preventDefault()"
   >
     <slot>
       <icon-close :size="size" />
@@ -24,12 +24,14 @@ const props = withDefaults(
     hoverColor?: string;
     hoverSize?: number;
     disabled?: boolean;
+    preventFocus?: boolean;
   }>(),
   {
     size: 12,
     hoverColor: 'rgb(242, 243, 245)',
     hoverSize: 20,
     disabled: false,
+    preventFocus: true,
   }
 );
 const { hoverSize: _hoverSize } = toRefs(props);

@@ -21,7 +21,6 @@
       background,
     }"
     @click="handleEvent('check', $event)"
-    @mousedown="(e) => preventFocus && e.preventDefault()"
   >
     <!-- icon -->
     <div v-if="$slots.icon" class="yc-tag-icon">
@@ -69,19 +68,10 @@ const props = withDefaults(defineProps<TagProps>(), {
   checked: undefined,
   defaultChecked: true,
   nowrap: false,
-  preventFocus: false,
-  isOverflow: false,
 });
 const emits = defineEmits<TagEmits>();
-const {
-  visible,
-  defaultVisible,
-  checked,
-  defaultChecked,
-  checkable,
-  preventFocus,
-  color,
-} = toRefs(props);
+const { visible, defaultVisible, checked, defaultChecked, checkable, color } =
+  toRefs(props);
 // 获取全局配置
 const { size } = getGlobalConfig(props);
 // visible

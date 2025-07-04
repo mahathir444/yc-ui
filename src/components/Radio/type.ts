@@ -6,7 +6,6 @@ export interface RadioProps {
   value?: RadioValue;
   type?: RadioType;
   disabled?: boolean;
-  preventFocus?: boolean;
 }
 
 export interface RadioEmits {

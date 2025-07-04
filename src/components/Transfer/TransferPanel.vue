@@ -24,7 +24,6 @@
             <icon-button
               v-else-if="type == 'target'"
               :size="14"
-              :hover-size="20"
               @click="handleClear"
             >
               <icon-delete />

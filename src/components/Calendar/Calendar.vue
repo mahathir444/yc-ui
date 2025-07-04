@@ -75,12 +75,13 @@ import {
   CalendarSlots,
   CalendarMode,
 } from './type';
+import { ObjectData } from '@shared/type';
 import { useControlValue } from '@shared/utils';
-import YcButton from '@/components/Button';
-import { RadioGroup as YcRadioGroup } from '@/components/Radio';
 import { IconArrowRight } from '@shared/icons';
 import { IconButton } from '@shared/components';
 import { CalendarCellData } from '@shared/utils';
+import YcButton from '@/components/Button';
+import { RadioGroup as YcRadioGroup, RadioOption } from '@/components/Radio';
 import MonthCalendar from './CalendarMonth.vue';
 import YearCalendar from './CalendarYear.vue';
 defineOptions({
@@ -147,7 +148,7 @@ const modes = computed(() => {
       label: map[item],
       value: item,
     };
-  });
+  }) as ObjectData[] as RadioOption[];
 });
 // 处理点击
 const handleClick = (col: CalendarCellData) => {
