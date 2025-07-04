@@ -72,8 +72,8 @@ const props = withDefaults(defineProps<CollapseItemProps>(), {
   path: '',
   header: '',
   disabled: false,
-  showExpandIcon: true,
-  destroyOnHide: false,
+  showExpandIcon: undefined,
+  destroyOnHide: undefined,
 });
 const { path, disabled } = toRefs(props);
 // 注入数据

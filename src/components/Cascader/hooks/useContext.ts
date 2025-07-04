@@ -46,7 +46,7 @@ type CascaderContext = {
   expandChild: Ref<boolean>;
   slots: Slots;
   blur: () => void;
-  getValueKey: (value?: CascaderOptionValue | CascaderOptionValue[]) => string;
+  getValueKey: (value: any) => string;
   loadMore?: LoadMore;
   getOption: (
     value: CascaderOptionValue | CascaderOptionValue[]

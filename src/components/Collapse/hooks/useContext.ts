@@ -6,6 +6,7 @@ import {
   Slots,
   provide as _provide,
   inject as _inject,
+  computed,
 } from 'vue';
 import {
   CollapseItemProps as _CollapseItemProps,
@@ -15,7 +16,7 @@ import {
   ExpandIconPosition,
 } from '../type';
 import { Props, RequiredDeep } from '@shared/type';
-import { useControlValue } from '@shared/utils';
+import { isUndefined, useControlValue } from '@shared/utils';
 
 export const COLLAPSE_CONTEXT_KEY = 'collapse-context';
 export type CollapseContext = {
@@ -60,17 +61,29 @@ export default () => {
     });
   };
   const inject = (props: Props) => {
-    const { showExpandIcon: _showExpandIcon, destroyOnHide: _destroyOnHide } =
-      toRefs(props as CollapseItemProps);
+    const { showExpandIcon, destroyOnHide } = toRefs(
+      props as CollapseItemProps
+    );
     // 接收的值
-    return _inject<CollapseContext>(COLLAPSE_CONTEXT_KEY, {
+    const injection = _inject<CollapseContext>(COLLAPSE_CONTEXT_KEY, {
       computedActiveKey: ref([]),
       accordion: ref(false),
       expandIconPosition: ref('left'),
-      showExpandIcon: _showExpandIcon,
-      destroyOnHide: _destroyOnHide,
+      showExpandIcon: ref(true),
+      destroyOnHide: ref(false),
       slots: {},
     });
+    const { showExpandIcon: _showExpandIcon, destroyOnHide: _destroyOnHide } =
+      injection;
+    return {
+      ...injection,
+      showExpandIcon: computed(() => {
+        return showExpandIcon.value ?? _showExpandIcon.value;
+      }),
+      destroyOnHide: computed(() => {
+        return destroyOnHide.value ?? _destroyOnHide.value;
+      }),
+    };
   };
   return {
     provide,

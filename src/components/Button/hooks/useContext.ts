@@ -48,22 +48,21 @@ export default () => {
   };
   const inject = (props: Props) => {
     const { size: globalSize } = getGlobalConfig(props);
+    const { type, status, shape, size, disabled } = toRefs(
+      props as ButtonProps
+    );
     const {
       type: _type,
       status: _status,
       shape: _shape,
       disabled: _disabled,
       size: _size,
-    } = toRefs(props as ButtonProps);
-    const { type, status, shape, size, disabled } = _inject<ButtonContext>(
-      BUTTON_GROUP_CONTEXT_KEY,
-      {
-        type: ref('secondary'),
-        status: ref('normal'),
-        shape: ref('square'),
-        disabled: ref(false),
-      }
-    );
+    } = _inject<ButtonContext>(BUTTON_GROUP_CONTEXT_KEY, {
+      type: ref('secondary'),
+      status: ref('normal'),
+      shape: ref('square'),
+      disabled: ref(false),
+    });
     // 获取field
     const getField = (
       value: FieldValue,
@@ -79,12 +78,12 @@ export default () => {
       return !isUndefined(injectValue) ? injectValue : globalValue;
     };
     return {
-      disabled: computed(() => getField(_disabled.value, disabled.value)),
-      type: computed(() => getField(_type.value, type.value)),
-      status: computed(() => getField(_status.value, status.value)),
-      shape: computed(() => getField(_shape.value, shape.value)),
+      disabled: computed(() => disabled.value ?? _disabled.value),
+      type: computed(() => type.value ?? _type.value),
+      status: computed(() => status.value ?? _status.value),
+      shape: computed(() => shape.value ?? _shape.value),
       size: computed(() =>
-        getField(_size.value, size?.value, globalSize.value)
+        getField(size.value, _size?.value, globalSize.value)
       ),
     };
   };

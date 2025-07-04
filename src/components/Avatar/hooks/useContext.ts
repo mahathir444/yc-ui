@@ -1,4 +1,10 @@
-import { toRefs, Ref, provide as _provide, inject as _inject } from 'vue';
+import {
+  toRefs,
+  Ref,
+  provide as _provide,
+  inject as _inject,
+  computed,
+} from 'vue';
 import { AvatarGroupProps as _AvatarGroupProps, AvatarShape } from '../type';
 import { Props, RequiredDeep } from '@shared/type';
 
@@ -21,11 +27,26 @@ export default () => {
   };
   const inject = (props: Props) => {
     const { shape, size, autoFixFontSize } = toRefs(props);
-    return _inject<AvatarContext>(AVATAR_GROUP_CONTEXT_KEY, {
+    const {
+      shape: _shape,
+      size: _size,
+      autoFixFontSize: _autoFixFontSize,
+    } = _inject<AvatarContext>(AVATAR_GROUP_CONTEXT_KEY, {
       shape,
       size,
       autoFixFontSize,
     });
+    return {
+      shape: computed(() => {
+        return shape.value ?? _shape.value;
+      }),
+      size: computed(() => {
+        return size.value ?? _size.value;
+      }),
+      autoFixFontSize: computed(() => {
+        return autoFixFontSize.value ?? _autoFixFontSize.value;
+      }),
+    };
   };
   return {
     provide,

@@ -62,10 +62,10 @@ defineOptions({
 });
 defineSlots<AvatarSlots>();
 const props = withDefaults(defineProps<AvatarProps>(), {
-  shape: 'round',
+  shape: undefined,
   imageUrl: '',
-  size: 40,
-  autoFixFontSize: true,
+  size: undefined,
+  autoFixFontSize: undefined,
   triggerType: 'button',
   triggerIconStyle: () => {
     return {};
