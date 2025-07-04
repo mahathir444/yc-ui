@@ -3,21 +3,24 @@ import {
   Ref,
   useSlots,
   computed,
+  toRefs,
   provide as _provide,
   inject as _inject,
-  toRefs,
 } from 'vue';
-import { Props } from '@shared/type';
+import {
+  ImagePreviewGroupProps as _ImagePreviewGroupProps,
+  ImagePreviewGroupEmits,
+} from '../type';
+import { Props, RequiredDeep } from '@shared/type';
 import { findComponentsFromVnodes, useControlValue } from '@shared/utils';
 import Image from '../Image.vue';
-import { ImagePreviewGroupEmits } from '../type';
 
-export const IMAGE_CONTEXT_KEY = 'image-context';
-
-export type ImageContext = {
+const IMAGE_CONTEXT_KEY = 'image-context';
+type ImageContext = {
   hasGroupFather: Ref<boolean>;
   handleClick: (src: string) => void;
 };
+type ImagePreviewGroupProps = RequiredDeep<_ImagePreviewGroupProps>;
 
 export default () => {
   const provide = (props: Props, emits: ImagePreviewGroupEmits) => {
@@ -27,7 +30,7 @@ export default () => {
       defaultCurrent,
       visible,
       defaultVisible,
-    } = toRefs(props);
+    } = toRefs(props as ImagePreviewGroupProps);
     // 插槽
     const slots = useSlots();
     // srcList
@@ -70,7 +73,6 @@ export default () => {
       hasGroupFather: ref(true),
       handleClick,
     });
-
     return {
       src,
       srcList,

@@ -1,26 +1,26 @@
 import {
   computed,
   ref,
-  provide as _provide,
-  inject as _inject,
   Ref,
   toRefs,
   reactive,
   Reactive,
   onBeforeUnmount,
+  provide as _provide,
+  inject as _inject,
 } from 'vue';
-import { Props, Direction, RequiredDeep } from '@shared/type';
 import {
   StepsProps as _StepsProps,
   StepsEmits,
   StepStatus,
   StepType,
 } from '../type';
-import { isUndefined, useControlValue } from '@shared/utils';
+import { Props, Direction, RequiredDeep } from '@shared/type';
 import { nanoid } from 'nanoid';
-export const STEPS_CONTEXT_KEY = 'card-context';
+import { isUndefined, useControlValue } from '@shared/utils';
 
-export interface StepsContext {
+const STEPS_CONTEXT_KEY = 'card-context';
+type StepsContext = {
   stepMap: Reactive<Map<string, string>>;
   computedCurrent: Ref<number>;
   lineLess: Ref<boolean>;
@@ -32,8 +32,7 @@ export interface StepsContext {
   type: Ref<StepType>;
   changeable: Ref<boolean>;
   emits: StepsEmits;
-}
-
+};
 type StepsProps = RequiredDeep<_StepsProps>;
 
 export default () => {

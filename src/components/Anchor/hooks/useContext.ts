@@ -3,29 +3,30 @@ import {
   toRefs,
   Ref,
   computed,
+  useSlots,
   provide as _provide,
   inject as _inject,
-  useSlots,
 } from 'vue';
+import { AnchorProps as _AnchorProps } from '../type';
+import { Props, RequiredDeep } from '@shared/type';
 import {
   getElement,
   findFirstScrollableParent,
   isUndefined,
   findComponentsFromVnodes,
 } from '@shared/utils';
-import { Props } from '@shared/type';
 import AnchorLink from '../AnchorLink.vue';
 
-export const ANCHOR_CONTEXT_KEY = 'anchor-context';
-
-export interface AnchorContext {
+const ANCHOR_CONTEXT_KEY = 'anchor-context';
+type AnchorContext = {
   changeHash: Ref<boolean>;
   smooth: Ref<boolean>;
   boundary: Ref<string | number>;
   lineLess: Ref<boolean>;
   curHref: Ref<string>;
   scrollContainer: Ref<HTMLElement | undefined>;
-}
+};
+type AnchorProps = RequiredDeep<_AnchorProps>;
 
 export default () => {
   const provide = (props: Props, listRef: Ref<HTMLDivElement | undefined>) => {
@@ -35,7 +36,8 @@ export default () => {
       boundary,
       lineLess,
       scrollContainer: _scrollContainer,
-    } = toRefs(props);
+    } = toRefs(props as AnchorProps);
+    // 插槽
     const slots = useSlots();
     // 当前的link
     const curHref = ref<string>('');

@@ -1,8 +1,7 @@
 import { Ref, provide as _provide, inject as _inject, ref } from 'vue';
 
-export const SCROLLBAR_CONTEXT_KEY = 'scrollbar-context';
-
-export interface ScrollbarContext {
+const SCROLLBAR_CONTEXT_KEY = 'scrollbar-context';
+type ScrollbarContext = {
   curTop: Ref<number>;
   curLeft: Ref<number>;
   movableLeft: Ref<number>;
@@ -11,7 +10,7 @@ export interface ScrollbarContext {
   thumbWidth: Ref<number>;
   isDragging: Ref<boolean>;
   scrollRef: Ref<HTMLDivElement | undefined>;
-}
+};
 
 export default () => {
   const provide = (params: ScrollbarContext) => {

@@ -11,11 +11,10 @@ import {
 } from 'vue';
 import { nanoid } from 'nanoid';
 
-export const COMMENT_CONTEXT_KEY = 'comment-context';
-
-export interface CommentContext {
+const COMMENT_CONTEXT_KEY = 'comment-context';
+type CommentContext = {
   depths: Reactive<Map<string, string>>;
-}
+};
 
 export default () => {
   const { depths } = inject<CommentContext>(COMMENT_CONTEXT_KEY, {

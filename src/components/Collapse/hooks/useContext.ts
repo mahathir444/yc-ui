@@ -2,17 +2,22 @@ import {
   ref,
   toRefs,
   Ref,
-  provide as _provide,
-  inject as _inject,
   useSlots,
   Slots,
+  provide as _provide,
+  inject as _inject,
 } from 'vue';
-import { CollapseEmits, CollapseValue, ExpandIconPosition } from '../type';
-import { Props } from '@shared/type';
+import {
+  CollapseItemProps as _CollapseItemProps,
+  CollapseProps as _CollapseProps,
+  CollapseEmits,
+  CollapseValue,
+  ExpandIconPosition,
+} from '../type';
+import { Props, RequiredDeep } from '@shared/type';
 import { useControlValue } from '@shared/utils';
 
 export const COLLAPSE_CONTEXT_KEY = 'collapse-context';
-
 export type CollapseContext = {
   computedActiveKey: Ref<CollapseValue[]>;
   accordion: Ref<boolean>;
@@ -21,6 +26,8 @@ export type CollapseContext = {
   destroyOnHide: Ref<boolean>;
   slots: Slots;
 };
+export type CollapseProps = RequiredDeep<_CollapseProps>;
+export type CollapseItemProps = RequiredDeep<_CollapseItemProps>;
 
 export default () => {
   const provide = (props: Props, emits: CollapseEmits) => {
@@ -31,7 +38,8 @@ export default () => {
       expandIconPosition,
       showExpandIcon,
       destroyOnHide,
-    } = toRefs(props);
+    } = toRefs(props as CollapseProps);
+    // 插槽对象
     const slots = useSlots();
     // 受控的key
     const computedActiveKey = useControlValue<CollapseValue[]>(
@@ -53,7 +61,7 @@ export default () => {
   };
   const inject = (props: Props) => {
     const { showExpandIcon: _showExpandIcon, destroyOnHide: _destroyOnHide } =
-      toRefs(props);
+      toRefs(props as CollapseItemProps);
     // 接收的值
     return _inject<CollapseContext>(COLLAPSE_CONTEXT_KEY, {
       computedActiveKey: ref([]),

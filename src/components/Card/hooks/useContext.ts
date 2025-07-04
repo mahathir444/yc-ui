@@ -1,10 +1,9 @@
-import { useSlots, provide as _provide, inject as _inject, Slots } from 'vue';
+import { useSlots, Slots, provide as _provide, inject as _inject } from 'vue';
 
-export const CARD_CONTEXT_KEY = 'card-context';
-
-export interface CardContext {
+const CARD_CONTEXT_KEY = 'card-context';
+type CardContext = {
   slots: Slots;
-}
+};
 
 export default () => {
   const provide = () => {
@@ -17,12 +16,9 @@ export default () => {
     };
   };
   const inject = () => {
-    const { slots } = _inject<CardContext>(CARD_CONTEXT_KEY, {
+    return _inject<CardContext>(CARD_CONTEXT_KEY, {
       slots: {},
     });
-    return {
-      slots,
-    };
   };
   return {
     provide,

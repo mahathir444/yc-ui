@@ -1,23 +1,22 @@
 import {
   ref,
   Ref,
-  inject as _inject,
-  provide as _provide,
   toRefs,
   computed,
+  inject as _inject,
+  provide as _provide,
 } from 'vue';
-import { Direction, Props, RequiredDeep } from '@shared/type';
 import {
   FormatTooltip,
   SliderEmits,
-  SliderProps as _SliderProps,
   SliderValue,
+  SliderProps as _SliderProps,
 } from '../type';
+import { Direction, Props, RequiredDeep } from '@shared/type';
 import { useControlValue, isArray } from '@shared/utils';
 
-export const SLIDER_CONTEXT_KEY = 'slider-context';
-
-export interface SliderContext {
+const SLIDER_CONTEXT_KEY = 'slider-context';
+type SliderContext = {
   startValue: Ref<number>;
   endValue: Ref<number>;
   tempStartValue: Ref<number>;
@@ -33,9 +32,8 @@ export interface SliderContext {
   formatTooltip?: FormatTooltip;
   normalizeValue: (value: number) => number;
   denormalizeValue: (value: number) => number;
-}
-
-export type SliderProp = RequiredDeep<_SliderProps>;
+};
+type SliderProp = RequiredDeep<_SliderProps>;
 
 export default () => {
   const provide = (

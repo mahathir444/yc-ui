@@ -2,25 +2,24 @@ import {
   ref,
   toRefs,
   Ref,
-  provide as _provide,
-  inject as _inject,
   computed,
   useSlots,
   Slots,
+  provide as _provide,
+  inject as _inject,
 } from 'vue';
-import { InputProps } from '@/components/Input';
 import {
   TransferEmits,
   TransferItem,
-  TransferProps as _TransferProps,
   TransferItemValue,
+  TransferProps as _TransferProps,
 } from '../type';
+import { InputProps } from '@/components/Input';
 import { RequiredDeep, Props } from '@shared/type';
 import { useControlValue } from '@shared/utils';
 
-export const TRANSFER_CONTEXT_KEY = 'transfer-context';
-
-export interface TransferContext {
+const TRANSFER_CONTEXT_KEY = 'transfer-context';
+type TransferContext = {
   computedValue: Ref<TransferItemValue[]>;
   computedSelected: Ref<TransferItemValue[]>;
   targetChecked: Ref<TransferItemValue[]>;
@@ -37,9 +36,8 @@ export interface TransferContext {
   simple: Ref<boolean>;
   slots: Slots;
   emits: TransferEmits;
-}
-
-export type TransferProps = RequiredDeep<_TransferProps>;
+};
+type TransferProps = RequiredDeep<_TransferProps>;
 
 export default () => {
   const provide = (props: Props, emits: TransferEmits) => {

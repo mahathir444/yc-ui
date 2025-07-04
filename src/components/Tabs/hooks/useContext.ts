@@ -7,8 +7,6 @@ import {
   computed,
   Slots,
 } from 'vue';
-import { useControlValue, getGlobalConfig } from '@shared/utils';
-import { Direction, Props, RequiredDeep, Size } from '@shared/type';
 import {
   TabPaneProps as _TabPaneProps,
   TabsProps as _TabsProps,
@@ -18,10 +16,11 @@ import {
   TabType,
   TabPositon,
 } from '../type';
+import { Direction, Props, RequiredDeep, Size } from '@shared/type';
+import { useControlValue, getGlobalConfig } from '@shared/utils';
 
-export const TABS_CONTEXT_KEY = 'tabs-context';
-
-export interface TabsContext {
+const TABS_CONTEXT_KEY = 'tabs-context';
+type TabsContext = {
   computedActiveKey: Ref<TabKey>;
   type: Ref<TabType>;
   trigger: Ref<TabTrigger>;
@@ -35,12 +34,9 @@ export interface TabsContext {
   headerPadding: Ref<boolean>;
   size: Ref<Size>;
   emits: TabsEmits;
-}
-
-export type TabsProps = RequiredDeep<_TabsProps>;
-
-export type TabPaneProps = RequiredDeep<_TabPaneProps>;
-
+};
+type TabsProps = RequiredDeep<_TabsProps>;
+type TabPaneProps = RequiredDeep<_TabPaneProps>;
 export type PaneNode = {
   slots: Slots;
 } & TabPaneProps;

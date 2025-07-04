@@ -2,17 +2,22 @@ import {
   ref,
   toRefs,
   Ref,
+  computed,
   provide as _provide,
   inject as _inject,
-  computed,
 } from 'vue';
-import { RadioType, RadioGroupEmits, RadioValue, RadioOption } from '../type';
-import { Size, Props } from '@shared/type';
+import {
+  RadioGroupProps as _RadioGroupProps,
+  RadioType,
+  RadioGroupEmits,
+  RadioValue,
+  RadioOption,
+} from '../type';
+import { Size, Props, RequiredDeep } from '@shared/type';
 import { useControlValue, getGlobalConfig, isObject } from '@shared/utils';
 
-export const RADIO_GROUP_CONTEXT_KEY = 'radio-group-context';
-
-export interface RadioContext {
+const RADIO_GROUP_CONTEXT_KEY = 'radio-group-context';
+interface RadioContext {
   computedValue: Ref<RadioValue | undefined>;
   type: Ref<RadioType>;
   disabled: Ref<boolean>;
@@ -20,6 +25,7 @@ export interface RadioContext {
   hasGroup: Ref<boolean>;
   emits: RadioGroupEmits;
 }
+type RadioGroupProps = RequiredDeep<_RadioGroupProps>;
 
 export default () => {
   const provide = (props: Props, emits: RadioGroupEmits) => {
@@ -29,7 +35,7 @@ export default () => {
       disabled,
       type,
       options: _options,
-    } = toRefs(props);
+    } = toRefs(props as RadioGroupProps);
     // 获取全局配置
     const { size } = getGlobalConfig(props);
     // 受控值

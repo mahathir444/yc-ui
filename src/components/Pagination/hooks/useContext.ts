@@ -2,18 +2,17 @@ import {
   ref,
   toRefs,
   Ref,
-  provide as _provide,
-  inject as _inject,
   computed,
   CSSProperties,
+  provide as _provide,
+  inject as _inject,
 } from 'vue';
 import { PaginationProps as _PaginationProps, PaginationEmits } from '../type';
 import { Props, RequiredDeep } from '@shared/type';
 import { useControlValue, getGlobalConfig } from '@shared/utils';
 
-export const PAGINATION_CONTEXT_KEY = 'pagination-context';
-
-export interface PaginationContext {
+const PAGINATION_CONTEXT_KEY = 'pagination-context';
+interface PaginationContext {
   computedCurrent: Ref<number>;
   computedPageSize: Ref<number>;
   disabled: Ref<boolean>;
@@ -23,8 +22,7 @@ export interface PaginationContext {
   baseSize: Ref<number>;
   bufferSize: Ref<number>;
 }
-
-export type PaginationProps = RequiredDeep<_PaginationProps>;
+type PaginationProps = RequiredDeep<_PaginationProps>;
 
 export default () => {
   const provide = (props: Props, emits: PaginationEmits) => {

@@ -3,12 +3,11 @@ import { DoptionValue, DropdownEmits } from '../type';
 import { Props, Theme } from '@shared/type';
 import { useControlValue } from '@shared/utils';
 
-export const DROPDOWN_CONTEXT_KEY = 'dropdown-context';
-
-export interface DropdownContext {
+const DROPDOWN_CONTEXT_KEY = 'dropdown-context';
+type DropdownContext = {
   theme: Ref<Theme>;
   select: (value: DoptionValue, ev: MouseEvent) => void;
-}
+};
 
 export default () => {
   const provide = (props: Props, emits: DropdownEmits) => {

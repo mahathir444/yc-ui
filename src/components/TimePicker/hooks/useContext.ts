@@ -2,15 +2,13 @@ import {
   ref,
   Ref,
   toRefs,
+  computed,
   provide as _provide,
   inject as _inject,
-  computed,
 } from 'vue';
-import { Props, RequiredDeep } from '@shared/type';
-import { useControlValue, isArray } from '@shared/utils';
 import {
   TimePickerEmits,
-  TimePickerProps,
+  TimePickerProps as _TimePickerProps,
   TimePickerType,
   TimePickerValue,
   TimeUnit,
@@ -18,10 +16,11 @@ import {
   DisabledMinutes,
   DisabledSeconds,
 } from '../type';
+import { Props, RequiredDeep } from '@shared/type';
+import { useControlValue, isArray } from '@shared/utils';
 
-export const TIME_PICKER_CONTEXT_KEY = 'time-picker-context';
-
-export type TimePickerContext = {
+const TIME_PICKER_CONTEXT_KEY = 'time-picker-context';
+type TimePickerContext = {
   type: Ref<TimePickerType>;
   format: Ref<string>;
   computedValue: Ref<TimePickerValue>;
@@ -37,8 +36,8 @@ export type TimePickerContext = {
   disabledMinutes: DisabledMinutes;
   disabledSeconds: DisabledSeconds;
 };
-
-export type TimePickerCell = { label: string; value: number };
+type TimePickerProps = RequiredDeep<_TimePickerProps>;
+type TimePickerCell = { label: string; value: number };
 
 export default () => {
   const provide = (props: Props, emits: TimePickerEmits) => {
@@ -55,8 +54,9 @@ export default () => {
       disableConfirm,
       hideDisabledOptions,
       step,
-    } = toRefs(props as RequiredDeep<TimePickerProps>);
-    const { disabledHours, disabledMinutes, disabledSeconds } = props;
+    } = toRefs(props as TimePickerProps);
+    const { disabledHours, disabledMinutes, disabledSeconds } =
+      props as TimePickerProps;
     // 计算的值
     const computedValue = useControlValue(
       modelValue,

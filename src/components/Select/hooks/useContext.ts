@@ -3,10 +3,10 @@ import {
   computed,
   toRefs,
   Ref,
-  provide as _provide,
-  inject as _inject,
   useSlots,
   Slots,
+  provide as _provide,
+  inject as _inject,
 } from 'vue';
 import {
   SelectValue,
@@ -14,20 +14,14 @@ import {
   SelectEmits,
   SelectProps as _SelectProps,
 } from '../type';
-import { ObjectData, RequiredDeep, Props } from '@shared/type';
 import { InputInstance } from '@/components/Input';
-import {
-  isBoolean,
-  isFunction,
-  isUndefined,
-  useControlValue,
-} from '@shared/utils';
+import { ObjectData, RequiredDeep, Props } from '@shared/type';
+import { isBoolean, isFunction, useControlValue } from '@shared/utils';
 import useSelectOptions from './useSelectOptions';
 import useSelectHotkeys from './useSelectHotkeys';
 
-export const SELECT_CONTEXT_KEY = 'select-context';
-
-export interface SelectContext {
+const SELECT_CONTEXT_KEY = 'select-context';
+type SelectContext = {
   computedValue: Ref<SelectValue | SelectValue[] | undefined>;
   computedInputValue: Ref<string>;
   multiple: Ref<boolean>;
@@ -41,10 +35,9 @@ export interface SelectContext {
   blur: () => void;
   filterOption: (option: SelectOptionData) => boolean;
   getValue: (value: SelectValue | ObjectData) => SelectValue;
-  emits: SelectEmits;
   collectOption: (props: Props, optionLabel: Ref<string>) => void;
-}
-
+  emits: SelectEmits;
+};
 type SelectProps = RequiredDeep<_SelectProps>;
 
 export default () => {

@@ -14,25 +14,26 @@ import {
   DescData,
   DescriptionsProps as _DescriptionsProps,
 } from '../type';
-import { mediaQueryHandler, getBreakpointValue } from '@shared/utils';
 import { BreakpointName } from '@/components/Grid/type';
 import { Props, RequiredDeep, Size } from '@shared/type';
-import { getGlobalConfig } from '@shared/utils';
-import { findComponentsFromVnodes } from '@shared/utils';
+import {
+  getGlobalConfig,
+  findComponentsFromVnodes,
+  mediaQueryHandler,
+  getBreakpointValue,
+} from '@shared/utils';
 import YcDescriptionsItem from '../DescriptionsItem.vue';
 
-export const DESCRIPTIONS_CONTEXT_KEY = 'radio-group-context';
-
-export interface DescriptionsContext {
+const DESCRIPTIONS_CONTEXT_KEY = 'radio-group-context';
+type DescriptionsContext = {
   labelStyle: Ref<CSSProperties>;
   valueStyle: Ref<CSSProperties>;
   align: Ref<DescriptionsAlign>;
   bordered: Ref<boolean>;
   size: Ref<Size>;
   slots: Slots;
-}
-
-export type DescriptionsProps = RequiredDeep<_DescriptionsProps>;
+};
+type DescriptionsProps = RequiredDeep<_DescriptionsProps>;
 
 export default () => {
   const provide = (props: Props) => {

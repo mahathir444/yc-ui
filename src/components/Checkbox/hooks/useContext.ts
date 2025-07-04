@@ -2,22 +2,26 @@ import {
   ref,
   toRefs,
   Ref,
+  computed,
   provide as _provide,
   inject as _inject,
-  computed,
 } from 'vue';
-import { CheckboxValue, CheckboxEmits, CheckboxGroupEmits } from '../type';
-import { ObjectData, Props } from '@shared/type';
+import {
+  CheckboxGroupProps as _CheckboxGroupProps,
+  CheckboxValue,
+  CheckboxGroupEmits,
+} from '../type';
+import { Props, RequiredDeep } from '@shared/type';
 import { isObject, useControlValue } from '@shared/utils';
 
-export const CHECKBOX_GROUP_CONTEXT_KEY = 'checkbox-group-context';
-
-interface CheckboxContext {
+const CHECKBOX_GROUP_CONTEXT_KEY = 'checkbox-group-context';
+type CheckboxContext = {
   computedValue: Ref<CheckboxValue[]>;
   max: Ref<number>;
   disabled: Ref<boolean>;
   hasGroup: Ref<boolean>;
-}
+};
+type CheckboxGroupProps = RequiredDeep<_CheckboxGroupProps>;
 
 export default () => {
   const provide = (props: Props, emits: CheckboxGroupEmits) => {
@@ -27,7 +31,7 @@ export default () => {
       disabled,
       max,
       options: _options,
-    } = toRefs(props);
+    } = toRefs(props as CheckboxGroupProps);
     // 受控值
     const computedValue = useControlValue<CheckboxValue[]>(
       modelValue,
@@ -39,7 +43,7 @@ export default () => {
     );
     // options
     const options = computed(() => {
-      return _options.value.map((item: ObjectData) => {
+      return _options.value.map((item) => {
         return isObject(item) ? item : { label: item, value: item };
       });
     });

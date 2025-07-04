@@ -2,17 +2,16 @@ import {
   ref,
   toRefs,
   Ref,
-  provide as _provide,
-  inject as _inject,
   computed,
   useSlots,
   Slots,
   watch,
+  provide as _provide,
+  inject as _inject,
 } from 'vue';
-import { Props, RequiredDeep } from '@shared/type';
 import {
   CascaderEmits,
-  CascaderProps,
+  CascaderProps as _CascaderProps,
   CascaderValue,
   CascaderOption,
   CascaderOptionValue,
@@ -21,6 +20,7 @@ import {
   LoadMore,
 } from '../type';
 import { InputInstance } from '@/components/Input';
+import { Props, RequiredDeep } from '@shared/type';
 import {
   isObject,
   useControlValue,
@@ -29,9 +29,8 @@ import {
   isFunction,
 } from '@shared/utils';
 
-export const CASCADER_CONTEXT_KEY = 'cascader-context';
-
-export type CascaderContext = {
+const CASCADER_CONTEXT_KEY = 'cascader-context';
+type CascaderContext = {
   computedValue: Ref<CascaderValue>;
   computedInputValue: Ref<string>;
   totalOptions: Ref<CascaderOption[]>;
@@ -47,13 +46,13 @@ export type CascaderContext = {
   expandChild: Ref<boolean>;
   slots: Slots;
   blur: () => void;
-  getValueKey: (...arg: any) => any;
+  getValueKey: (value: CascaderOptionValue | CascaderOptionValue[]) => string;
   loadMore?: LoadMore;
   getOption: (
     value: CascaderOptionValue | CascaderOptionValue[]
   ) => CascaderOptionProps;
 };
-
+type CascaderProps = RequiredDeep<_CascaderProps>;
 // 增强option添加indexPath,valuePath,level,labelPath
 export const transformOptions = (
   options: CascaderOption[],
@@ -232,9 +231,9 @@ export default () => {
       expandChild,
       searchOptionOnlyLabel,
       options: _options,
-    } = toRefs(props as RequiredDeep<CascaderProps>);
+    } = toRefs(props as CascaderProps);
     const { formatLabel, fallback, filterOption, loadMore } =
-      props as RequiredDeep<CascaderProps>;
+      props as CascaderProps;
     // 受控的值
     const computedValue = useControlValue<CascaderValue>(
       modelValue,
@@ -441,8 +440,8 @@ export default () => {
       loading: ref(false),
       slots: {},
       blur: () => {},
-      getValueKey: () => {},
-      getOption: (_) => {
+      getValueKey: () => '',
+      getOption: () => {
         return {};
       },
     });

@@ -1,18 +1,18 @@
 import { toRefs, Ref, provide as _provide, inject as _inject } from 'vue';
-import { Props } from '@shared/type';
-import { AvatarShape } from '../type';
+import { AvatarGroupProps as _AvatarGroupProps, AvatarShape } from '../type';
+import { Props, RequiredDeep } from '@shared/type';
 
-export const AVATAR_GROUP_CONTEXT_KEY = 'radio-group-context';
-
-export interface AvatarContext {
+const AVATAR_GROUP_CONTEXT_KEY = 'radio-group-context';
+type AvatarContext = {
   shape: Ref<AvatarShape>;
   size: Ref<number>;
   autoFixFontSize: Ref<boolean>;
-}
+};
+type AvatarGroupProps = RequiredDeep<_AvatarGroupProps>;
 
 export default () => {
   const provide = (props: Props) => {
-    const { shape, size, autoFixFontSize } = toRefs(props);
+    const { shape, size, autoFixFontSize } = toRefs(props as AvatarGroupProps);
     _provide<AvatarContext>(AVATAR_GROUP_CONTEXT_KEY, {
       shape,
       size,

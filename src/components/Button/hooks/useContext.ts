@@ -2,9 +2,9 @@ import {
   ref,
   toRefs,
   Ref,
+  computed,
   provide as _provide,
   inject as _inject,
-  computed,
 } from 'vue';
 import {
   ButtonType,
@@ -17,19 +17,15 @@ import { Size, RequiredDeep, Props } from '@shared/type';
 import { getGlobalConfig, isUndefined } from '@shared/utils';
 
 const BUTTON_GROUP_CONTEXT_KEY = 'button-group-context';
-
-export interface ButtonContext {
+type ButtonContext = {
   type: Ref<ButtonType>;
   status: Ref<ButtonStatus>;
   size?: Ref<Size>;
   shape: Ref<ButtonShape>;
   disabled: Ref<boolean>;
-}
-
-export type ButtonProps = RequiredDeep<_ButtonProps>;
-
-export type ButtonGroupProps = RequiredDeep<_ButtonGroupProps>;
-
+};
+type ButtonProps = RequiredDeep<_ButtonProps>;
+type ButtonGroupProps = RequiredDeep<_ButtonGroupProps>;
 type FieldValue =
   | ButtonShape
   | ButtonStatus
@@ -58,7 +54,7 @@ export default () => {
       shape: _shape,
       disabled: _disabled,
       size: _size,
-    } = toRefs(props);
+    } = toRefs(props as ButtonProps);
     const { type, status, shape, size, disabled } = _inject<ButtonContext>(
       BUTTON_GROUP_CONTEXT_KEY,
       {

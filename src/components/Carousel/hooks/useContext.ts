@@ -1,38 +1,42 @@
 import {
   ref,
   toRefs,
-  provide as _provide,
-  inject as _inject,
   Ref,
   computed,
   useSlots,
+  provide as _provide,
+  inject as _inject,
 } from 'vue';
-import { CarouselEmits, CarouselShowArrow } from '../type';
+import {
+  CarouselProps as _CarouselProps,
+  CarouselAnimationName,
+  CarouselEmits,
+  CarouselShowArrow,
+} from '../type';
+import { ClassName, Direction, Props, RequiredDeep } from '@shared/type';
 import {
   useControlValue,
   sleep,
   findComponentsFromVnodes,
 } from '@shared/utils';
-import { ClassName, Direction, Props } from '@shared/type';
 import CarouselItem from '../CarouselItem.vue';
 
-export const CAROUSEL_CONTEXT_KEY = 'carousel-context';
-
-export type MoveType = 'positive' | 'negative';
-
-export interface CarouselContext {
+const CAROUSEL_CONTEXT_KEY = 'carousel-context';
+type CarouselContext = {
   length: Ref<number>;
   computedCurrent: Ref<number>;
   transitionTimingFunction: Ref<string>;
-  animationName: Ref<'slide' | 'fade'>;
+  animationName: Ref<CarouselAnimationName>;
   moveType: Ref<MoveType>;
   preIndex: Ref<number>;
   moveSpeed: Ref<number>;
   direction: Ref<Direction>;
   showArrow: Ref<CarouselShowArrow>;
   arrowClass: Ref<ClassName>;
-  getValidIndex: (...args: any) => any;
-}
+  getValidIndex: (val: number) => number;
+};
+type MoveType = 'positive' | 'negative';
+type CarouselProps = RequiredDeep<_CarouselProps>;
 
 export default () => {
   const provide = (props: Props, emits: CarouselEmits) => {
@@ -46,7 +50,8 @@ export default () => {
       showArrow,
       arrowClass,
       autoPlay,
-    } = toRefs(props);
+    } = toRefs(props as CarouselProps);
+    // 插槽对象
     const slots = useSlots();
     // 插槽元素
     const carouselItems = computed(() => {
@@ -55,6 +60,7 @@ export default () => {
         CarouselItem.name as string
       );
     });
+    // 总共的轮播图数量
     const length = computed(() => {
       return carouselItems.value.length;
     });
@@ -115,7 +121,6 @@ export default () => {
     };
   };
   const inject = () => {
-    // 接收的值
     return _inject<CarouselContext>(CAROUSEL_CONTEXT_KEY, {
       length: ref(0),
       computedCurrent: ref(1),
@@ -127,7 +132,7 @@ export default () => {
       arrowClass: ref(''),
       preIndex: ref(0),
       moveType: ref('positive'),
-      getValidIndex: () => {},
+      getValidIndex: () => 0,
     });
   };
   return {

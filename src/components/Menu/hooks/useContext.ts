@@ -12,8 +12,13 @@ import {
 } from 'vue';
 import { TooltipProps } from '@/components/Tooltip';
 import { TriggerProps } from '@/components/Trigger';
-import { MenuMode, PopupMaxHeight, MenuEmits } from '../type';
-import { Props, ObjectData } from '@shared/type';
+import {
+  MenuProps as _MenuProps,
+  MenuMode,
+  PopupMaxHeight,
+  MenuEmits,
+} from '../type';
+import { Props, ObjectData, RequiredDeep } from '@shared/type';
 import {
   useControlValue,
   isObject,
@@ -28,9 +33,8 @@ import { SubMenu, MenuItem } from '../index';
 import { nanoid } from 'nanoid';
 import { useResizeObserver } from '@vueuse/core';
 
-export const MENU_CONTEXT_KEY = 'menu-context';
-
-export interface MenuContext {
+const MENU_CONTEXT_KEY = 'menu-context';
+type MenuContext = {
   computedSelectedKeys: Ref<string>;
   computedOpenKeys: Ref<string[]>;
   computedCollapsed: Ref<boolean>;
@@ -50,9 +54,8 @@ export interface MenuContext {
   menuItemWidths: Ref<number[]>;
   max: Ref<number>;
   emits: MenuEmits;
-}
-
-export interface MenuTreeNode {
+};
+type MenuTreeNode = {
   id: string;
   type: 'submenu' | 'menuitem';
   path: string;
@@ -60,8 +63,8 @@ export interface MenuTreeNode {
   level: number;
   label: () => any;
   children?: MenuTreeNode[];
-}
-
+};
+type MenuProps = RequiredDeep<_MenuProps>;
 // 扁平化nodetree
 export function FlattenMenuTree(vnodes: VNode[], componentName: string[]) {
   const result: MenuTreeNode[] = [];
@@ -204,11 +207,11 @@ export default () => {
       autoOpenSelected,
       mode,
       theme,
-      popupMaxHeight: _popupMaxHeight,
       autoScrollIntoView,
       scrollConfig,
       collapsedWidth,
-    } = toRefs(props);
+      popupMaxHeight: _popupMaxHeight,
+    } = toRefs(props as MenuProps);
     // 选中的key
     const computedSelectedKeys = useControlValue<string>(
       selectedKeys,

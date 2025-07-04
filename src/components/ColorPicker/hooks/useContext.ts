@@ -1,22 +1,14 @@
-import {
-  ref,
-  toRefs,
-  Ref,
-  provide as _provide,
-  inject as _inject,
-  watch,
-} from 'vue';
-import { RequiredDeep, Props } from '@shared/type';
+import { ref, toRefs, Ref, provide as _provide, inject as _inject } from 'vue';
 import {
   ColorPickerProps as _ColorPickerProps,
   ColorPickerEmits,
   ColorFormat,
 } from '../type';
+import { RequiredDeep, Props } from '@shared/type';
 import { useControlValue, parseColor, getGlobalConfig } from '@shared/utils';
 
-export const COLOR_PICKER_CONTEXT_KEY = 'color-picker-context';
-
-export type ColorPickerContext = {
+const COLOR_PICKER_CONTEXT_KEY = 'color-picker-context';
+type ColorPickerContext = {
   popupVisible: Ref<boolean>;
   computedColor: Ref<string>;
   baseColor: Ref<string>;
@@ -31,8 +23,7 @@ export type ColorPickerContext = {
   presetColors: Ref<string[]>;
   emits: ColorPickerEmits;
 };
-
-export type ColorPickerProps = RequiredDeep<_ColorPickerProps>;
+type ColorPickerProps = RequiredDeep<_ColorPickerProps>;
 
 export default () => {
   const provide = (props: Props, emits: ColorPickerEmits) => {

@@ -2,13 +2,13 @@ import {
   ref,
   toRefs,
   Ref,
-  provide as _provide,
-  inject as _inject,
   computed,
   onBeforeUnmount,
   reactive,
   Reactive,
   watchEffect,
+  provide as _provide,
+  inject as _inject,
 } from 'vue';
 import { BreakpointName, Gutter, ResponsiveValue } from '../type';
 import { Props } from '@shared/type';
@@ -16,7 +16,6 @@ import { getBreakpointValue, isArray } from '@shared/utils';
 import { nanoid } from 'nanoid';
 
 export const GRID_CONTEXT_KEY = 'grid-context';
-
 export type GridContext = {
   breakpoint: Ref<BreakpointName>;
   div: Ref<boolean>;
@@ -27,7 +26,6 @@ export type GridContext = {
   collapsed: Ref<boolean>;
   collapsedRows: Ref<number>;
 };
-
 export type SpanMap = Map<
   string,
   {
@@ -36,7 +34,6 @@ export type SpanMap = Map<
     suffix: boolean;
   }
 >;
-
 export type GutterValue = Gutter | [Gutter, Gutter];
 
 export default () => {
