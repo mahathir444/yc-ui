@@ -18,7 +18,7 @@
         >
           <component
             v-if="slots['expand-icon']"
-            :render="
+            :is="
               () =>
                 slots['expand-icon']?.({
                   active: computedActiveKey.includes(path),
