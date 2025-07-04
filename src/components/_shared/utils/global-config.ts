@@ -3,6 +3,7 @@ import { ConfigconfigSlots, EmptyComponent } from '@/components/ConfigProvider';
 import { PopupContainer, Props, Size } from '@shared/type';
 import { isString, isUndefined } from '../utils';
 import YcEmpty from '@/components/Empty';
+import { IconLoading } from '@shared/icons';
 
 export const CONFIG_PROVIDER_PROVIDE_KEY = 'config-props';
 
@@ -51,6 +52,9 @@ export const getGlobalConfig = (props: Props = {}) => {
           })
       : (YcEmpty as VNode);
   };
+  const renderLoading = () => {
+    return slots.loading ? slots.loading : (IconLoading as VNode);
+  };
   // 接收属性
   const { size, updateAtScroll, scrollToClose, exchangeTime, popupContainer } =
     toRefs(isReactive(props) ? props : reactive(props));
@@ -63,5 +67,6 @@ export const getGlobalConfig = (props: Props = {}) => {
     popupContainer: getVar(popupContainer, _popupContainer),
     exchangeTime: getVar(exchangeTime, _exchangeTime),
     renderEmpty,
+    renderLoading,
   };
 };

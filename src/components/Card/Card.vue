@@ -66,7 +66,7 @@ const props = withDefaults(defineProps<CardProps>(), {
   bordered: true,
   loading: false,
   hoverable: false,
-  size: 'medium',
+  size: undefined,
   headerStyle: () => {
     return {};
   },

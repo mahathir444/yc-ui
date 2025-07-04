@@ -3,6 +3,7 @@
     <a-time-picker type="time-range" disable-confirm> </a-time-picker>
     <yc-time-picker type="time-range" disable-confirm allow-clear>
     </yc-time-picker>
+    <yc-spin :size="30" />
   </div>
 </template>
 
