@@ -124,6 +124,7 @@
         background-color: rgb(201, 205, 212);
       }
     }
+
     &.yc-carousel-indicator-shape-slider {
       background-color: rgba(201, 205, 212, 0.5);
       .yc-carousel-indicator-item-slider {
@@ -197,7 +198,8 @@
     }
   }
   &.yc-carousel-indicator-position-top,
-  &.yc-carousel-indicator-position-bottom {
+  &.yc-carousel-indicator-position-bottom,
+  &.yc-carousel-indicator-position-outer {
     .yc-carousel-indicator-item {
       width: 12px;
       height: 4px;
@@ -212,15 +214,18 @@
   &.yc-carousel-indicator-position-right {
     height: 48px;
     width: 4px;
+    .yc-carousel-indicator-item-slider,
     .yc-carousel-indicator-item-slider {
       width: 100%;
     }
   }
   &.yc-carousel-indicator-position-top,
-  &.yc-carousel-indicator-position-bottom {
+  &.yc-carousel-indicator-position-bottom,
+  &.yc-carousel-indicator-position-outer {
     width: 48px;
     height: 4px;
-    .yc-carousel-indicator-item {
+    .yc-carousel-indicator-item,
+    .yc-carousel-indicator-item-slider {
       height: 100%;
     }
   }

@@ -23,6 +23,11 @@ const router = createRouter({
               component: () => import('@/views/dev.vue'),
             },
             {
+              path: 'test',
+              name: 'test',
+              component: () => import('@/views/scanner.vue'),
+            },
+            {
               path: 'common',
               name: 'common',
               component: () => import('@/views/demo/Common.vue'),

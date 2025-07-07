@@ -19,6 +19,8 @@ declare module 'vue' {
     ACard: typeof import('@arco-design/web-vue')['Card']
     ACardGrid: typeof import('@arco-design/web-vue')['CardGrid']
     ACardMeta: typeof import('@arco-design/web-vue')['CardMeta']
+    ACarousel: typeof import('@arco-design/web-vue')['Carousel']
+    ACarouselItem: typeof import('@arco-design/web-vue')['CarouselItem']
     ACol: typeof import('@arco-design/web-vue')['Col']
     ADivider: typeof import('@arco-design/web-vue')['Divider']
     Affix: typeof import('./src/components/Affix/index.vue')['default']

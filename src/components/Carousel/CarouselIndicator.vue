@@ -25,13 +25,13 @@
       v-if="indicatorType == 'slider'"
       class="yc-carousel-indicator-item-slider"
       :style="{
-        width: ['top', 'bottom'].includes(indicatorPosition)
+        width: ['top', 'bottom', 'outer'].includes(indicatorPosition)
           ? valueToPx(48 / length)
           : '',
         height: ['left', 'right'].includes(indicatorPosition)
           ? valueToPx(48 / length)
           : '',
-        transform: ['top', 'bottom'].includes(indicatorPosition)
+        transform: ['top', 'bottom', 'outer'].includes(indicatorPosition)
           ? `translateX(calc(${valueToPx((48 / length) * computedCurrent)} - 100%))`
           : `translateY(calc(${valueToPx((48 / length) * computedCurrent)} - 100%))`,
       }"

@@ -24,6 +24,10 @@ const menus = [
     path: 'dev',
   },
   {
+    title: '扫描仪',
+    path: 'test',
+  },
+  {
     title: '通用(4/4)',
     path: 'common',
   },
