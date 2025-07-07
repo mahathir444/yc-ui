@@ -9,3 +9,6 @@ DatePicker Form Upload TreeSelect Table Tree
 3. Menu在递归组件下无法获取vnode层级的问题（后期尝试解决）
 ## 二轮测试
 1. 通用所有组件(4个)完成测试
+
+## 二轮测试bug
+1. resize-box部分场景下无法拖动的问题

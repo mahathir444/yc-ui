@@ -93,7 +93,11 @@ each(@theme, .(@value,@name){
       }
     }
     &.yc-menu-item-disabled{
-      color: @value[disabled-color];
+      cursor: not-allowed;
+      .yc-menu-item-title {
+        color: @value[disabled-color];
+      }
+
     }
   }
 });

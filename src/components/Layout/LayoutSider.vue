@@ -3,6 +3,7 @@
   <yc-resize-box
     v-if="resizeDirections.length"
     v-model:width="width"
+    :directions="resizeDirections"
     :class="[
       'yc-layout-sider',
       `yc-layout-sider-${theme}`,
@@ -79,7 +80,8 @@ const {
   collapsedWidth: _collapsedWidth,
 } = toRefs(props);
 // 宽度
-const width = useControlValue<number>(ref(), _width.value);
+const width = ref<number>(_width.value);
+// 计算的宽度
 const computedWidth = computed(() => valueToPx(width.value));
 // 计算width
 const collapsedWidth = computed(() => valueToPx(_collapsedWidth.value));
@@ -91,6 +93,7 @@ const computedCollapsed = useControlValue<boolean>(
     emits('update:collapsed', val);
   }
 );
+// 展示trigger
 const showTrigger = computed(() => {
   return !hideTrigger.value && collapsible.value;
 });
