@@ -1,24 +1,21 @@
 <template>
   <div class="test">
-    <div style="width: 300px">
-      <a-select :options="options" multiple allow-clear />
-    </div>
-    <div style="width: 300px">
-      <yc-select :options="options" multiple allow-clear />
+    <div class="layout-demo">
+      <yc-layout>
+        <yc-layout-header>Header</yc-layout-header>
+        <yc-layout>
+          <yc-layout-sider breakpoint="lg"> Sider </yc-layout-sider>
+          <yc-layout-content>Content</yc-layout-content>
+        </yc-layout>
+        <yc-layout-footer>Footer</yc-layout-footer>
+      </yc-layout>
     </div>
   </div>
 </template>
 
 <script lang="ts" setup>
 import { ref, h } from 'vue';
-const options = ref<any[]>(
-  new Array(30).fill('').map((_v, i) => {
-    return {
-      label: '选项' + i,
-      value: i,
-    };
-  })
-);
+import { Message } from '@/components';
 </script>
 
 <style lang="less" scoped>
@@ -26,11 +23,37 @@ const options = ref<any[]>(
   height: 100%;
   width: 100%;
   display: flex;
-  gap: 10px;
-  .resize-left {
-    flex: 1;
-    height: 500px;
-    background-color: blueviolet;
-  }
+  flex-direction: column;
+}
+
+.layout-demo :deep(.yc-layout-header),
+.layout-demo :deep(.yc-layout-footer),
+.layout-demo :deep(.yc-layout-sider-children),
+.layout-demo :deep(.yc-layout-content) {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  color: var(--color-white);
+  font-size: 16px;
+  font-stretch: condensed;
+  text-align: center;
+}
+
+.layout-demo :deep(.yc-layout-header),
+.layout-demo :deep(.yc-layout-footer) {
+  height: 64px;
+  background-color: var(--color-primary-light-4);
+}
+
+.layout-demo :deep(.yc-layout-sider) {
+  width: 206px;
+  background-color: var(--color-primary-light-3);
+  min-width: 150px;
+  max-width: 500px;
+  height: 200px;
+}
+
+.layout-demo :deep(.yc-layout-content) {
+  background-color: rgb(var(--arcoblue-6));
 }
 </style>

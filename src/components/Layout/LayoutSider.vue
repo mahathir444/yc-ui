@@ -3,20 +3,22 @@
   <yc-resize-box
     v-if="resizeDirections.length"
     v-model:width="width"
-    :class="['yc-layout-sider', `yc-layout-sider-${theme}`]"
+    :class="[
+      'yc-layout-sider',
+      `yc-layout-sider-${theme}`,
+      {
+        'yc-layout-sider-has-trigger': showTrigger,
+      },
+    ]"
   >
     <slot />
-    <slot v-if="!hideTrigger" name="trigger" :collapsed="computedCollapsed">
-      <icon-button
-        :hover-size="24"
-        class="yc-collapse-button"
-        @click="handleCollapse"
-      >
+    <div v-if="showTrigger" class="yc-collapse-button" @click="handleCollapse">
+      <slot name="trigger" :collapsed="computedCollapsed">
         <icon-arrow-right
           :rotate="computedCollapsed && !reverseArrow ? 0 : 180"
         />
-      </icon-button>
-    </slot>
+      </slot>
+    </div>
   </yc-resize-box>
   <!-- 默认元素 -->
   <aside
@@ -27,21 +29,18 @@
       `yc-layout-sider-${theme}`,
       {
         'yc-layout-sider-collapsed': computedCollapsed,
+        'yc-layout-sider-has-trigger': showTrigger,
       },
     ]"
   >
     <slot />
-    <slot v-if="!hideTrigger" name="trigger" :collapsed="computedCollapsed">
-      <icon-button
-        :size="14"
-        class="yc-collapse-button"
-        @click="handleCollapse"
-      >
+    <div v-if="showTrigger" class="yc-collapse-button" @click="handleCollapse">
+      <slot name="trigger" :collapsed="computedCollapsed">
         <icon-arrow-right
           :rotate="computedCollapsed && !reverseArrow ? 0 : 180"
         />
-      </icon-button>
-    </slot>
+      </slot>
+    </div>
   </aside>
 </template>
 
@@ -50,7 +49,6 @@ import { ref, toRefs, computed } from 'vue';
 import { LayoutSiderProps, LayoutSiderEmits, LayoutSiderSlots } from './type';
 import { useControlValue, mediaQueryHandler, valueToPx } from '@shared/utils';
 import { IconArrowRight } from '@shared/icons';
-import { IconButton } from '@shared/components';
 import YcResizeBox from '@/components/ResizeBox';
 defineOptions({
   name: 'LayoutSider',
@@ -65,7 +63,7 @@ const props = withDefaults(defineProps<LayoutSiderProps>(), {
   collapsedWidth: 48,
   reverseArrow: false,
   breakpoint: undefined,
-  hideTrigger: true,
+  hideTrigger: false,
   resizeDirections: () => {
     return [];
   },
@@ -76,13 +74,15 @@ const {
   defaultCollapsed,
   collapsible,
   breakpoint,
+  hideTrigger,
   width: _width,
-  collapsedWidth,
+  collapsedWidth: _collapsedWidth,
 } = toRefs(props);
 // 宽度
 const width = useControlValue<number>(ref(), _width.value);
-// 计算width
 const computedWidth = computed(() => valueToPx(width.value));
+// 计算width
+const collapsedWidth = computed(() => valueToPx(_collapsedWidth.value));
 // 受控的收缩
 const computedCollapsed = useControlValue<boolean>(
   collapsed,
@@ -91,18 +91,21 @@ const computedCollapsed = useControlValue<boolean>(
     emits('update:collapsed', val);
   }
 );
+const showTrigger = computed(() => {
+  return !hideTrigger.value && collapsible.value;
+});
 // 处理点击收缩
 const handleCollapse = () => {
   if (!collapsible.value) return;
   computedCollapsed.value = !computedCollapsed.value;
-  width.value = computedCollapsed.value ? collapsedWidth.value : _width.value;
+  width.value = computedCollapsed.value ? _collapsedWidth.value : _width.value;
   emits('collapse', computedCollapsed.value, 'clickTrigger');
 };
 // 处理媒体查询搜索
 mediaQueryHandler((_, order, i) => {
   if (!collapsible.value || !breakpoint.value) return;
   computedCollapsed.value = i <= order[breakpoint.value];
-  width.value = computedCollapsed.value ? collapsedWidth.value : _width.value;
+  width.value = computedCollapsed.value ? _collapsedWidth.value : _width.value;
   emits('collapse', computedCollapsed.value, 'responsive');
   emits('breakpoint', computedCollapsed.value);
 });
@@ -110,7 +113,10 @@ mediaQueryHandler((_, order, i) => {
 
 <style lang="less" scoped>
 @import './style/layout.less';
+.yc-layout-sider {
+  width: v-bind(computedWidth);
+}
 .yc-layout-sider-collapsed {
-  width: v-bind(computedWidth) !important;
+  width: v-bind(collapsedWidth) !important;
 }
 </style>
