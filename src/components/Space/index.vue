@@ -31,19 +31,19 @@
 <script lang="ts" setup>
 import { toRefs, computed, useSlots, VNode } from 'vue';
 import { SpaceProps, SpaceSlots } from './type';
-import { isNumber, valueToPx } from '@shared/utils';
+import { isNumber, valueToPx, isUndefined } from '@shared/utils';
 defineOptions({
   name: 'Space',
 });
 defineSlots<SpaceSlots>();
 const props = withDefaults(defineProps<SpaceProps>(), {
-  align: 'center',
   direction: 'horizontal',
+  align: undefined,
   size: 'small',
   wrap: false,
   fill: false,
 });
-const { size } = toRefs(props);
+const { size, direction, align: _align } = toRefs(props);
 // slots
 const slots = useSlots();
 // 计算gap
@@ -55,6 +55,13 @@ const gap = computed(() => {
     large: 24,
   };
   return valueToPx(isNumber(size.value) ? size.value : map[size.value]);
+});
+// align
+const align = computed(() => {
+  if (!isUndefined(_align.value)) {
+    return _align.value;
+  }
+  return direction.value == 'horizontal' ? 'center' : 'start';
 });
 // node
 const nodes = computed(() => {

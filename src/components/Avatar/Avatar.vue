@@ -4,7 +4,6 @@
     :style="{
       width: valueToPx(size),
       height: valueToPx(size),
-      fontSize: valueToPx(size),
     }"
     ref="avatarRef"
     @click="$emit('click', $event)"
