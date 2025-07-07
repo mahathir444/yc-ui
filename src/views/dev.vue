@@ -209,6 +209,7 @@ const onCollapse = (val: boolean, type: any) => {
     duration: 2000,
   });
   collapsed.value = val;
+  console.log(val, 'val');
 };
 function onClickMenuItem(key: string) {
   Message.info({ content: `You select ${key}`, showIcon: true });

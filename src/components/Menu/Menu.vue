@@ -70,14 +70,16 @@ const { computedCollapsed, collapsedWidth, breakpoint, menuTree, max } =
   useContext().provide(props, emits, menuRef);
 // 处理点击
 const handleClick = () => {
-  computedCollapsed.value = !computedCollapsed.value;
-  emits('collapse', computedCollapsed.value, 'clickTrigger');
+  const value = !computedCollapsed.value;
+  computedCollapsed.value = value;
+  emits('collapse', value, 'clickTrigger');
 };
 // 媒体查询
 mediaQueryHandler((_, order, i) => {
   if (!breakpoint.value) return;
-  computedCollapsed.value = i <= order[breakpoint.value];
-  emits('collapse', computedCollapsed.value, 'responsive');
+  const value = i <= order[breakpoint.value];
+  computedCollapsed.value = value;
+  emits('collapse', value, 'responsive');
 });
 </script>
 

@@ -71,7 +71,7 @@
   @dark: {
     color: rgb(201, 205, 212);
     selected-color: #fff;
-    disabled-color: rgb(201, 205, 212);
+    disabled-color: rgb(78, 89, 105);
     hover-bg: rgba(255, 255, 255, 0.04);
   };
 };
@@ -94,10 +94,7 @@ each(@theme, .(@value,@name){
     }
     &.yc-menu-item-disabled{
       cursor: not-allowed;
-      .yc-menu-item-title {
-        color: @value[disabled-color];
-      }
-
+      color: @value[disabled-color];
     }
   }
 });

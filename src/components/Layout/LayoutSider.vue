@@ -100,17 +100,19 @@ const showTrigger = computed(() => {
 // 处理点击收缩
 const handleCollapse = () => {
   if (!collapsible.value) return;
-  computedCollapsed.value = !computedCollapsed.value;
-  width.value = computedCollapsed.value ? _collapsedWidth.value : _width.value;
-  emits('collapse', computedCollapsed.value, 'clickTrigger');
+  const value = !computedCollapsed.value;
+  computedCollapsed.value = value;
+  width.value = value ? _collapsedWidth.value : _width.value;
+  emits('collapse', value, 'clickTrigger');
 };
 // 处理媒体查询搜索
 mediaQueryHandler((_, order, i) => {
   if (!collapsible.value || !breakpoint.value) return;
-  computedCollapsed.value = i <= order[breakpoint.value];
-  width.value = computedCollapsed.value ? _collapsedWidth.value : _width.value;
-  emits('collapse', computedCollapsed.value, 'responsive');
-  emits('breakpoint', computedCollapsed.value);
+  const value = i <= order[breakpoint.value];
+  computedCollapsed.value = value;
+  width.value = value ? _collapsedWidth.value : _width.value;
+  emits('collapse', value, 'responsive');
+  emits('breakpoint', value);
 });
 </script>
 
