@@ -1,5 +1,5 @@
 .yc-avatar {
-  overflow: hidden;
+  cursor: default;
   position: relative;
   color: #fff;
   font-size: 20px;
@@ -15,6 +15,10 @@
   &:hover .yc-avatar-trigger-icon-mask {
     opacity: 1;
   }
+  &:deep(img) {
+    width: 100%;
+    height: 100%;
+  }
   .yc-avatar-text {
     position: absolute;
     left: 50%;
@@ -27,10 +31,6 @@
     display: inline-block;
     width: 100%;
     height: 100%;
-    img {
-      width: 100%;
-      height: 100%;
-    }
     .yc-avatar-image-icon {
       width: 100%;
       height: 100%;
@@ -40,13 +40,14 @@
     }
   }
   .yc-avatar-trigger-icon-button {
-    cursor: pointer;
     position: absolute;
     right: -4px;
     bottom: -4px;
     z-index: 1001;
+    cursor: pointer;
     width: 20px;
     height: 20px;
+    border-radius: 50%;
     color: rgb(201, 205, 212);
     font-size: 12px;
     line-height: 20px;
@@ -55,10 +56,10 @@
     transition: background-color 0.1s cubic-bezier(0, 0, 1, 1);
   }
   .yc-avatar-trigger-icon-mask {
-    cursor: pointer;
     z-index: 1001;
     position: absolute;
     inset: 0 0 0 0;
+    cursor: pointer;
     background-color: #1d212999;
     opacity: 0;
     color: #fff;
@@ -73,15 +74,15 @@
 // shape
 .yc-avatar-shape-round {
   border-radius: 50%;
-  .yc-avatar-trigger-icon-mask,
-  .yc-avatar-image {
+  .yc-avatar-image,
+  .yc-avatar-trigger-icon-mask {
     border-radius: 50%;
   }
 }
 .yc-avatar-shape-square {
   border-radius: 4px;
-  .yc-avatar-trigger-icon-mask,
-  .yc-avatar-image {
+  .yc-avatar-image,
+  .yc-avatar-trigger-icon-mask {
     border-radius: 4px;
   }
 }

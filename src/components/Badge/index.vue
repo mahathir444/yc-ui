@@ -1,11 +1,11 @@
 <template>
   <div :class="['yc-badge', { 'yc-badge-no-children': !$slots.default }]">
     <slot />
+    <!-- status -->
     <div v-if="className == 'yc-badge-status'" class="yc-badge-stauts-wrapper">
       <div
         :class="[
           'yc-badge-stauts-dot',
-
           {
             [`yc-badge-color-${color}`]: color,
             [`yc-badge-status-${status}`]: status,
@@ -20,6 +20,7 @@
         {{ badgeText }}
       </div>
     </div>
+    <!-- number -->
     <div
       v-else-if="className != 'yc-badge-number' || count > 0"
       :class="[className]"
@@ -49,7 +50,7 @@ const props = withDefaults(defineProps<BadgeProps>(), {
   },
   maxCount: 99,
   offset: () => {
-    return [2, 2];
+    return [0, 0];
   },
   color: undefined,
   status: undefined,
@@ -62,8 +63,7 @@ const slots = useSlots();
 // style
 const style = computed(() => {
   return {
-    right: slots.default ? valueToPx(offset.value[0]) : '',
-    top: slots.default ? valueToPx(offset.value[1]) : '',
+    margin: `${valueToPx(offset.value[1])} ${valueToPx(-offset.value[0])} 0 0`,
     ...dotStyle.value,
   };
 });

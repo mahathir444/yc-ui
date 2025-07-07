@@ -6,6 +6,7 @@
       :is="node"
       :style="{
         zIndex: zIndexAscend ? index + 1 : nodes.visible.length - index,
+        marginLeft: index ? valueToPx(-size / 4) : '',
       }"
     />
     <yc-popover
@@ -15,6 +16,7 @@
       <yc-avatar
         :style="{
           zIndex: zIndexAscend ? nodes.visible.length : 0,
+          marginLeft: valueToPx(-size / 4),
           ...maxStyle,
         }"
       >
@@ -28,7 +30,7 @@
           :style="{
             border: '2px solid #fff',
             zIndex: zIndexAscend ? index + 1 : nodes.hide.length - index,
-            marginLeft: '-10px',
+            marginLeft: index ? valueToPx(-size / 4) : '',
           }"
         />
       </template>
@@ -39,7 +41,7 @@
 <script lang="ts" setup>
 import { toRefs, computed, useSlots } from 'vue';
 import { AvatarGroupProps, AvatarGroupSlots } from './type';
-import { findComponentsFromVnodes } from '@shared/utils';
+import { findComponentsFromVnodes, valueToPx } from '@shared/utils';
 import useContext from './hooks/useContext';
 import YcAvatar from './index';
 import YcPopover from '@/components/Popover';
@@ -86,7 +88,6 @@ const nodes = computed(() => {
   &:deep(.yc-avatar) {
     flex-shrink: 0;
     border: 2px solid #fff;
-    margin-left: -10px;
   }
 }
 </style>

@@ -49,7 +49,7 @@ const props = withDefaults(defineProps<PopoverProps>(), {
   defaultPopupVisible: false,
   title: '',
   content: '',
-  trigger: 'click',
+  trigger: 'hover',
   position: 'bottom',
   contentClass: '',
   contentStyle: () => {

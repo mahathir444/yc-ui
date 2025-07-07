@@ -10,15 +10,14 @@
   >
     <span
       v-if="$slots.default"
-      class="yc-avatar-text"
+      :class="[textWithImage ? 'yc-avatar-image' : 'yc-avatar-text']"
       :style="{
-        transform: `scale(${scale}) translateX(-50%)`,
+        transform: textWithImage ? '' : `scale(${scale}) translateX(-50%)`,
       }"
       ref="textRef"
     >
       <slot />
     </span>
-
     <span v-else-if="imageUrl" class="yc-avatar-image">
       <img
         v-if="!isLoadError"
@@ -51,7 +50,7 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, onBeforeUnmount } from 'vue';
+import { ref, onBeforeUnmount, computed } from 'vue';
 import { useResizeObserver } from '@vueuse/core';
 import { IconImageClose } from '@shared/icons';
 import { valueToPx } from '@shared/utils';
@@ -83,22 +82,27 @@ const scale = ref(1);
 const textRef = ref<HTMLDivElement>();
 // avatart
 const avatarRef = ref<HTMLDivElement>();
-// 检测text的大小从而动态计算字体大小
-const { stop } = useResizeObserver(textRef, () => {
-  if (!autoFixFontSize.value) return;
-  const avatarWidth = size.value ?? avatarRef.value!.offsetWidth;
-  const textWidth = textRef.value!.offsetWidth;
-  const textScale = avatarWidth / (textWidth + 8);
-  scale.value = avatarWidth && textScale < 1 ? textScale : 1;
-});
+// text中有image
+const textWithImage = computed(() => textRef.value?.querySelector('img'));
 // 处理错误情况
 const handleError = () => {
   isLoadError.value = true;
   emits('error');
 };
-onBeforeUnmount(() => {
-  stop();
-});
+// 检测text的大小从而动态计算字体大小
+const initOvserver = () => {
+  if (!autoFixFontSize.value) return;
+  const { stop } = useResizeObserver(textRef, () => {
+    const avatarWidth = size.value ?? avatarRef.value!.offsetWidth;
+    const textWidth = textRef.value!.offsetWidth;
+    const textScale = avatarWidth / (textWidth + 8);
+    scale.value = avatarWidth && textScale < 1 ? textScale : 1;
+  });
+  onBeforeUnmount(() => {
+    stop();
+  });
+};
+initOvserver();
 </script>
 
 <style lang="less" scoped>
