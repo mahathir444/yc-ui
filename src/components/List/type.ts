@@ -31,7 +31,7 @@ export interface ListSlots {
   footer(): void;
   default(): void;
   ['scroll-loading'](): void;
-  item(params: { index: number; item: ObjectData }): void;
+  item(scope: { index: number; item: ObjectData }): void;
 }
 
 export interface ListItemProps {

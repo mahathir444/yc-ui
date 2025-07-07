@@ -25,19 +25,19 @@ export interface TransferEmits {
 }
 
 export interface TransferSlots {
-  source(params: DefaultSlots): void;
-  target(params: DefaultSlots): void;
-  ['source-title'](params: TitleSlots): void;
-  ['target-title'](params: TitleSlots): void;
+  source(scope: DefaultSlots): void;
+  target(scope: DefaultSlots): void;
+  ['source-title'](scope: TitleSlots): void;
+  ['target-title'](scope: TitleSlots): void;
   ['to-source-icon'](): void;
   ['to-target-icon'](): void;
-  item(params: { value: string; label: string }): void;
+  item(scope: { value: string; label: string }): void;
 }
 
 export interface TransferPanelSlots {
-  default(params: DefaultSlots): void;
-  ['title'](params: TitleSlots): void;
-  item(params: { value: string; label: string }): void;
+  default(scope: DefaultSlots): void;
+  ['title'](scope: TitleSlots): void;
+  item(scope: { value: string; label: string }): void;
 }
 
 export interface TransferItem {

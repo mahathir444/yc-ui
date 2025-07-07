@@ -11,7 +11,7 @@ export interface ConfigProviderProps {
 export interface ConfigconfigSlots {
   default(): void;
   loading(): void;
-  empty(params: { component: EmptyComponent }): void;
+  empty(scope: { component: EmptyComponent }): void;
 }
 
 export type EmptyComponent = 'Select' | 'List' | 'Transfer';

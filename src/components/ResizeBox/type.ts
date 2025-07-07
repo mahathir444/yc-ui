@@ -15,8 +15,8 @@ export interface ResizeBoxEmits {
 
 export interface ResizeBoxSlots {
   default(): void;
-  ['resize-trigger'](params: { direction: ResizeBoxDirection }): void;
-  ['resize-trigger-icon'](params: { direction: ResizeBoxDirection }): void;
+  ['resize-trigger'](scope: { direction: ResizeBoxDirection }): void;
+  ['resize-trigger-icon'](scope: { direction: ResizeBoxDirection }): void;
 }
 
 export type ResizeBoxDirection = 'left' | 'right' | 'top' | 'bottom';

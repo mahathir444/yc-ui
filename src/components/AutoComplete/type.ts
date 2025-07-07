@@ -38,7 +38,7 @@ export interface AutoCompleteEmits {
 }
 
 export interface AutoCompleteSlots {
-  option(data: ObjectData): void;
+  option(scope: { data: ObjectData }): void;
   footer(): void;
   trigger(): void;
 }

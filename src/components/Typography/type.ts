@@ -35,9 +35,9 @@ export interface TypographyBaseEmits {
 
 export interface TypographyBaseSlots {
   default(): void;
-  ['expand-node'](params: { expanded: boolean }): void;
-  ['copy-icon'](params: { copied: boolean }): void;
-  ['copy-tooltip'](params: { copied: boolean }): void;
+  ['expand-node'](scope: { expanded: boolean }): void;
+  ['copy-icon'](scope: { copied: boolean }): void;
+  ['copy-tooltip'](scope: { copied: boolean }): void;
 }
 
 export interface TypographyParagraphProps {

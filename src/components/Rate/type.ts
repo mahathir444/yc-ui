@@ -17,5 +17,5 @@ export interface RateEmits {
 }
 
 export interface RateSlots {
-  character(params: { index: number }): void;
+  character(scope: { index: number }): void;
 }

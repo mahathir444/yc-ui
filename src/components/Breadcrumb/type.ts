@@ -8,7 +8,7 @@ export interface BreadcrumbProps {
 
 export interface BreadcrumbSlots {
   default(): void;
-  ['item-render'](params: {
+  ['item-render'](scope: {
     route: BreadcrumbRoute;
     routes: BreadcrumbRoute[];
     paths: string[];

@@ -33,8 +33,8 @@ export interface PaginationEmits {
 }
 
 export interface PaginationSlots {
-  total(params: { total: number }): void;
+  total(scope: { total: number }): void;
   ['page-item-ellipsis'](): void;
-  ['page-item-step'](params: { type: 'previous' | 'next' }): void;
-  ['page-item'](params: { page: number }): void;
+  ['page-item-step'](scope: { type: 'previous' | 'next' }): void;
+  ['page-item'](scope: { page: number }): void;
 }

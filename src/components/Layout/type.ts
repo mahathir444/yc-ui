@@ -46,7 +46,7 @@ export interface LayoutSiderEmits {
 
 export interface LayoutSiderSlots {
   default(): void;
-  trigger(params: { collapsed: boolean }): void;
+  trigger(scope: { collapsed: boolean }): void;
 }
 
 export type ResizeDirections = Array<'left' | 'right' | 'top' | 'bottom'>;

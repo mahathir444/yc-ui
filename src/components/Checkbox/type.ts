@@ -15,7 +15,7 @@ export interface CheckboxEmits {
 
 export interface CheckboxSlots {
   default(): void;
-  checkbox(params: { checked: boolean; disabled: boolean }): void;
+  checkbox(scope: { checked: boolean; disabled: boolean }): void;
 }
 
 export interface CheckboxGroupProps {
@@ -34,8 +34,8 @@ export interface CheckboxGroupEmits {
 
 export interface CheckboxGroupSlots {
   default(): void;
-  checkbox(checked: boolean, disabled: boolean): void;
-  label(data: ObjectData): void;
+  checkbox(scope: { checked: boolean; disabled: boolean }): void;
+  label(scope: { data: ObjectData }): void;
 }
 
 export type CheckboxOption = (

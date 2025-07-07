@@ -15,7 +15,7 @@ export interface RadioEmits {
 
 export interface RadioSlots {
   default(): void;
-  radio(params: { checked: boolean; disabled: boolean }): void;
+  radio(scope: { checked: boolean; disabled: boolean }): void;
 }
 
 export interface RadioGroupProps {
@@ -35,8 +35,8 @@ export interface RadioGroupEmits {
 
 export interface RadioGroupSlots {
   default(): void;
-  radio(params: { checked: boolean; disabled: boolean }): void;
-  label(data: ObjectData): void;
+  radio(scope: { checked: boolean; disabled: boolean }): void;
+  label(scope: { data: ObjectData }): void;
 }
 
 export type RadioOption = (

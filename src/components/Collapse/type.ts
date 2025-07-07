@@ -15,7 +15,7 @@ export interface CollapseEmits {
 
 export interface CollapseSlots {
   default(): void;
-  ['expand-icon'](params: {
+  ['expand-icon'](scope: {
     active: boolean;
     disabled: boolean;
     position: 'left' | 'right';
@@ -34,7 +34,7 @@ export interface CollapseItemSlots {
   default(): void;
   header(): void;
   extra(): void;
-  ['expand-icon'](params: {
+  ['expand-icon'](scope: {
     active: boolean;
     disabled: boolean;
     position: 'left' | 'right';

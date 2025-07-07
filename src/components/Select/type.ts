@@ -69,8 +69,8 @@ export interface SelectSlots {
   ['arrow-icon'](): void;
   footer(): void;
   header(): void;
-  label(data: ObjectData): void;
-  option(data: ObjectData): void;
+  label(scope: { data: ObjectData }): void;
+  option(scope: { data: ObjectData }): void;
   empty(): void;
 }
 

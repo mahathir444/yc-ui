@@ -17,7 +17,7 @@ export interface GridItemProps {
 }
 
 export interface GridItemSlots {
-  default(params: { overflow: boolean }): void;
+  default(scope: { overflow: boolean }): void;
 }
 
 export interface GridRowProps {

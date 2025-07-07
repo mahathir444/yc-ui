@@ -29,8 +29,8 @@ export interface StepProps {
 }
 
 export interface StepSlots {
-  node(params: { step: number; status: StepStatus }): void;
-  icon(params: { step: number; status: StepStatus }): void;
+  node(scope: { step: number; status: StepStatus }): void;
+  icon(scope: { step: number; status: StepStatus }): void;
   description(): void;
   default(): void;
 }

@@ -17,8 +17,8 @@ export interface DescriptionsProps {
 
 export interface DescriptionsSlots {
   default(): void;
-  value(params: { value: string; index: number; data: DescData }): void;
-  label(params: { label: string; index: number; data: DescData }): void;
+  value(scope: { value: string; index: number; data: DescData }): void;
+  label(scope: { label: string; index: number; data: DescData }): void;
   title(): void;
 }
 

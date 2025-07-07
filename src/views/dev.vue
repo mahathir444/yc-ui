@@ -202,7 +202,7 @@
 import { ref, h } from 'vue';
 import { Message } from '@/components';
 const collapsed = ref(false);
-const onCollapse = (val, type) => {
+const onCollapse = (val: boolean, type: any) => {
   const content = type === 'responsive' ? '触发响应式收缩' : '点击触发收缩';
   Message.info({
     content,

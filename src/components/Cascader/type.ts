@@ -52,13 +52,13 @@ export interface CascaderEmits {
 }
 
 export interface CascaderSlots {
-  label(params: { data: CascaderOption }): void;
+  label(scope: { data: CascaderOption }): void;
   prefix(): void;
   ['arrow-icon'](): void;
   ['loading-icon'](): void;
   ['search-icon'](): void;
   empty(): void;
-  option(params: { data: CascaderOption }): void;
+  option(scope: { data: CascaderOption }): void;
 }
 
 export type CascaderValue =

@@ -29,5 +29,5 @@ export interface MentionExpose {
 }
 
 export interface MentionSlots {
-  option(data: ObjectData): void;
+  option(scope: { data: ObjectData }): void;
 }
