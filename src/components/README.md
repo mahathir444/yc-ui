@@ -10,6 +10,7 @@ DatePicker Form Upload TreeSelect Table Tree
 ## 二轮测试
 1. 通用所有组件(4)完成测试
 2. 布局所有组件(4)完成测试
+3. 数据展示(19)测试到collapse
 
 ## 二轮测试bug
 1. resize-box部分场景下无法拖动的问题
