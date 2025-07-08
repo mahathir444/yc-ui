@@ -37,11 +37,11 @@
       v-if="(showLoader || $slots.loader) && loading"
       class="yc-image-overlay"
     >
-      <slot name="loader">
-        <div class="yc-image-loader">
-          <yc-spin :size="60" />
-        </div>
-      </slot>
+      <div class="yc-image-loader">
+        <slot name="loader">
+          <yc-spin :size="30" tip="加载中" />
+        </slot>
+      </div>
     </div>
     <!-- error -->
     <div v-if="isError" class="yc-image-overlay">

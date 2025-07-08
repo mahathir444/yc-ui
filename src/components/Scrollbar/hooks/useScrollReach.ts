@@ -1,6 +1,7 @@
 import { Ref } from 'vue';
 
 type ScrollParams = {
+  e: Event;
   scrollLeft: number;
   scrollTop: number;
   isBottomReached: boolean;
@@ -61,6 +62,7 @@ export default (params: {
     lastScrollTop = scrollTop;
     lastScrollLeft = scrollLeft;
     scrolCb?.({
+      e,
       scrollLeft,
       scrollTop,
       isBottomReached,

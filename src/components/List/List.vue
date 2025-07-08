@@ -19,7 +19,7 @@
         :offset-bottom="bottomOffset"
         :scrollbar="scrollbar"
         class="yc-list"
-        @scroll="(_v, _v1, _v2, v) => handleScroll(v)"
+        @scroll="({ isBottomReached: v, e }) => handleScroll(v, e)"
         @reach-bottom="$emit('reach-bottom')"
       >
         <div class="yc-list-content-wrapper">
@@ -160,7 +160,7 @@ const isVirtualList = computed(() => {
   );
 });
 // 处理滚动
-const handleScroll = (v: boolean) => {
+const handleScroll = (v: boolean, _e: Event) => {
   isBottomReached.value = v;
   emits('scroll');
 };

@@ -33,9 +33,13 @@
       }
       .yc-list-scroll-loading {
         position: absolute;
-        left: 0;
-        right: 0;
-        bottom: 0;
+        left: 1px;
+        right: 1px;
+        bottom: 1px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background-color: #fff;
       }
     }
   }
@@ -52,8 +56,8 @@
   .yc-list-header {
     border-bottom: 1px solid rgb(229, 230, 235);
   }
-  .yc-list-content {
-    &:deep(.yc-list-item) {
+  &:deep(.yc-list-content) {
+    .yc-list-item {
       &:not(:last-child) {
         border-bottom: 1px solid rgb(229, 230, 235);
       }

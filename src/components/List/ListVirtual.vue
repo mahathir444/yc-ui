@@ -27,7 +27,7 @@ const props = defineProps<{
   virtualListProps: VirtualListProps;
 }>();
 const emits = defineEmits<{
-  (e: 'scroll', isBottomReached: boolean): void;
+  (e: 'scroll', isBottomReached: boolean, ev: Event): void;
   (e: 'reachBottom'): void;
 }>();
 const { data, virtualListProps, offsetBottom } = toRefs(props);
@@ -43,8 +43,8 @@ const { isReach } = useScrollReach({
   offsetBottom,
   offsetRight: ref(0),
   scrolCb: (params) => {
-    const { isBottomReached } = params;
-    emits('scroll', isBottomReached);
+    const { isBottomReached, e } = params;
+    emits('scroll', isBottomReached, e);
   },
   reachBottomCb: () => emits('reachBottom'),
 });

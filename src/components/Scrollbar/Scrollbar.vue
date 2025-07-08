@@ -84,8 +84,15 @@ const { isReach } = useScrollReach({
   offsetBottom,
   offsetRight,
   scrolCb: (params) => {
-    const { scrollLeft, scrollTop, isBottomReached, isRightReached } = params;
-    emits('scroll', scrollLeft, scrollTop, isRightReached, isBottomReached);
+    const { scrollLeft, scrollTop, isBottomReached, isRightReached, e } =
+      params;
+    emits('scroll', {
+      left: scrollLeft,
+      top: scrollTop,
+      isRightReached,
+      isBottomReached,
+      e,
+    });
   },
   reachBottomCb: () => {
     emits('reachBottom');
