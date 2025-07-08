@@ -90,7 +90,7 @@
     padding 0.2s cubic-bezier(0, 0, 1, 1),
     color 0.2s cubic-bezier(0, 0, 1, 1);
   &.yc-tabs-tab {
-    &:not(.yc-tabs-tab-disabled):hover {
+    &:not(.yc-tabs-tab-disabled):not(.yc-tabs-tab-active):hover {
       background-color: rgb(229, 230, 235);
     }
   }
@@ -109,14 +109,14 @@
       &:last-child {
         border-top-right-radius: 2px;
       }
-      &.yc-tabs-tab-active {
-        background-color: transparent;
-        border-bottom-color: #fff;
+    }
+    &.yc-tabs-tab-active {
+      background-color: transparent;
+      border-bottom-color: #fff;
 
-        &.yc-tabs-tab-bottom {
-          border-top-color: #fff;
-          border-bottom-color: rgb(229, 230, 235);
-        }
+      &.yc-tabs-tab-bottom {
+        border-top-color: #fff;
+        border-bottom-color: rgb(229, 230, 235);
       }
     }
   }

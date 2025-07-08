@@ -29,7 +29,8 @@ withDefaults(
 </script>
 
 <style lang="less" scoped>
-.yc-tabs-nav-button {
+.yc-icon-button {
+  color: inherit;
   &.yc-tabs-nav-button-left {
     margin: 0 6px 0 10px;
   }
@@ -42,11 +43,11 @@ withDefaults(
   &.yc-tabs-nav-button-down {
     margin-top: 10px;
   }
-  &.yc-tabs-tab-close-btn {
+  &.yc-tabs-tab-close-button {
     user-select: none;
     color: inherit;
   }
-  &.yc-tabs-nav-add-btn {
+  &.yc-tabs-nav-add-button {
     padding: 0 8px;
   }
 }
