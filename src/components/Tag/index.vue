@@ -1,5 +1,6 @@
 <template>
   <label
+    v-if="computedVisible"
     :class="[
       'yc-tag',
       `yc-tag-color-${color}`,

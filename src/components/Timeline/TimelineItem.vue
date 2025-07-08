@@ -3,7 +3,7 @@
     role="listitem"
     :class="[
       'yc-timeline-item',
-      `yc-timeline-item-${mode}`,
+      `yc-timeline-item-${$attrs.mode}`,
       `yc-timeline-item-direction-${direction}`,
       {
         'yc-timeline-item-label-is-relative': labelPosition == 'relative',
@@ -70,7 +70,7 @@ withDefaults(defineProps<TimelineItemProps>(), {
   isGhost: false,
 });
 // 注入数据
-const { direction, mode, labelPosition, reverse } = useContext().inject();
+const { direction, labelPosition, reverse } = useContext().inject();
 </script>
 
 <style lang="less" scoped>

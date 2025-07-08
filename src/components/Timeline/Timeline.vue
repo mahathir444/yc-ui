@@ -10,7 +10,12 @@
       },
     ]"
   >
-    <slot />
+    <component
+      v-for="(node, i) in timelineItems"
+      :key="i"
+      :is="node"
+      :mode="getPoistion(i)"
+    />
     <yc-timeline-item v-if="pending" is-ghost>
       <template #dot>
         <slot name="dot">
@@ -42,7 +47,18 @@ const props = withDefaults(defineProps<TimelineProps>(), {
   labelPosition: 'same',
 });
 // 注入数据
-const { direction, mode } = useContext().provide(props);
+const { direction, mode, timelineItems } = useContext().provide(props);
+// 获取position
+const getPoistion = (i: number) => {
+  if (mode.value != 'alternate') {
+    return mode.value;
+  }
+  if (direction.value == 'horizontal') {
+    return i % 2 == 0 ? 'top' : 'bottom';
+  } else {
+    return i % 2 == 0 ? 'left' : 'right';
+  }
+};
 </script>
 
 <style lang="less" scoped>

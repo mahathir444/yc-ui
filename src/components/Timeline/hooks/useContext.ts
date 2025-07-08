@@ -3,6 +3,7 @@ import {
   Ref,
   toRefs,
   computed,
+  useSlots,
   provide as _provide,
   inject as _inject,
 } from 'vue';
@@ -12,6 +13,8 @@ import {
   TimelineMode,
 } from '../type';
 import { Props, Direction, RequiredDeep } from '@shared/type';
+import { findComponentsFromVnodes } from '@shared/utils';
+import TimelineItem from '../TimelineItem.vue';
 
 const TIMELINE_CONTEXT_KEY = 'timeline-context';
 type TimelineContext = {
@@ -30,6 +33,7 @@ export default () => {
       reverse,
       mode: _mode,
     } = toRefs(props as TimelineProps);
+    const slots = useSlots();
     // 动态计算mode
     const mode = computed(() => {
       if (direction.value == 'vertical') {
@@ -43,6 +47,13 @@ export default () => {
           : 'bottom';
       }
     });
+    // timelineitem
+    const timelineItems = computed(() => {
+      return findComponentsFromVnodes(
+        slots.default?.() || [],
+        TimelineItem.name
+      );
+    });
     _provide<TimelineContext>(TIMELINE_CONTEXT_KEY, {
       direction,
       mode,
@@ -52,6 +63,7 @@ export default () => {
     return {
       direction,
       mode,
+      timelineItems,
     };
   };
   const inject = () => {

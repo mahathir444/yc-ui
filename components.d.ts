@@ -67,6 +67,8 @@ declare module 'vue' {
     ATabPane: typeof import('@arco-design/web-vue')['TabPane']
     ATabs: typeof import('@arco-design/web-vue')['Tabs']
     ATag: typeof import('@arco-design/web-vue')['Tag']
+    ATimeline: typeof import('@arco-design/web-vue')['Timeline']
+    ATimelineItem: typeof import('@arco-design/web-vue')['TimelineItem']
     ATimePicker: typeof import('@arco-design/web-vue')['TimePicker']
     ATooltip: typeof import('@arco-design/web-vue')['Tooltip']
     ATypography: typeof import('@arco-design/web-vue')['Typography']

@@ -2,9 +2,16 @@
   display: flex;
   flex-direction: column;
 }
-
+// dir
+.yc-timeline-direction-horizontal {
+  flex-direction: row;
+}
+// reverse
 .yc-timeline-reverse {
   flex-direction: column-reverse;
+  &.yc-timeline-direction-horizontal {
+    flex-direction: row-reverse;
+  }
   &:deep(.yc-timeline-item-direction-vertical) {
     &:first-child {
       .yc-timeline-item-dot-line {
@@ -25,10 +32,28 @@
     }
   }
 }
-
-.yc-timeline-direction-horizontal {
-  flex-direction: row;
-  &.yc-timeline-reverse {
-    flex-direction: row-reverse;
+// alternate
+.yc-timeline-alternate {
+  &.yc-timeline-direction-vertical {
+    &:deep(.yc-timeline-item) {
+      &:nth-child(2n) {
+        margin-right: calc(50% - 6px);
+      }
+      &:nth-child(2n + 1) {
+        margin-left: 50%;
+      }
+    }
+  }
+  &.yc-timeline-direction-horizontal {
+    min-height: 200px;
+    align-items: center;
+    &:deep(.yc-timeline-item) {
+      &:nth-child(2n) {
+        transform: translateY(calc(-50% + 6px));
+      }
+      &:nth-child(2n + 1) {
+        transform: translateY(calc(50%));
+      }
+    }
   }
 }
