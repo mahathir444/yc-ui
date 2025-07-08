@@ -22,17 +22,9 @@
 </template>
 
 <script lang="ts" setup>
-import {
-  ref,
-  toRefs,
-  computed,
-  onMounted,
-  CSSProperties,
-  onBeforeUnmount,
-  watch,
-} from 'vue';
+import { ref, toRefs, computed, CSSProperties, watch } from 'vue';
 import { AffixProps, AffixEmits, AffixSlots, AffixExpose } from './type';
-import { useResizeObserver } from '@vueuse/core';
+import { useResizeObserver, useEventListener } from '@vueuse/core';
 import {
   isUndefined,
   findFirstScrollableParent,
@@ -81,7 +73,7 @@ const style = ref<CSSProperties>({});
 const width = ref<number>(0);
 const height = ref<number>(0);
 // 监听改变
-const { stop } = useResizeObserver(
+useResizeObserver(
   affixRef,
   () => {
     const { width: w, height: h } = affixRef.value!.getBoundingClientRect();
@@ -118,13 +110,9 @@ const handleScroll = throttleByRaf(() => {
     style.value = {};
   }
 });
-onMounted(() => {
-  target.value?.addEventListener('scroll', handleScroll);
-});
-onBeforeUnmount(() => {
-  target.value?.removeEventListener('scroll', handleScroll);
-  stop();
-});
+// 注册滚动
+useEventListener(target, 'scroll', handleScroll);
+
 defineExpose<AffixExpose>({
   updatePosition() {
     handleScroll();

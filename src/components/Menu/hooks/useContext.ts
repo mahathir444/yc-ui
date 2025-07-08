@@ -8,7 +8,6 @@ import {
   computed,
   useSlots,
   isVNode,
-  onBeforeUnmount,
 } from 'vue';
 import { TooltipProps } from '@/components/Tooltip';
 import { TriggerProps } from '@/components/Trigger';
@@ -260,7 +259,7 @@ export default () => {
     const max = ref<number>(1000000);
     // 横向宽度检测
     if (mode.value == 'horizontal') {
-      const { stop } = useResizeObserver(
+      useResizeObserver(
         menuRef,
         throttle(() => {
           const menuWidth = menuRef.value!.offsetWidth - 52;
@@ -279,9 +278,6 @@ export default () => {
           console.log(max.value, 'max');
         }, 200)
       );
-      onBeforeUnmount(() => {
-        stop();
-      });
     }
     // 注入
     _provide<MenuContext>(MENU_CONTEXT_KEY, {

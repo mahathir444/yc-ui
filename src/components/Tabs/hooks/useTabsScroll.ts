@@ -1,4 +1,4 @@
-import { ref, computed, Ref, onBeforeUnmount, watch } from 'vue';
+import { ref, computed, Ref, watch } from 'vue';
 import { useResizeObserver } from '@vueuse/core';
 import { Direction, ObjectData } from '@shared/type';
 import { sleep } from '@shared/utils';
@@ -33,11 +33,7 @@ export default (params: {
       : Math.abs(scrollDis.value) + containerHeight.value >= listHeight.value;
   });
   // 检测List的宽度
-  const { stop } = useResizeObserver(listRef, () => calcScrollable());
-  // 卸载时停止监听
-  onBeforeUnmount(() => {
-    stop();
-  });
+  useResizeObserver(listRef, () => calcScrollable());
   // 检测panes的变化重新计算滚动
   watch(
     () => panes.value.length,

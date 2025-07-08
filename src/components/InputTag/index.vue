@@ -28,7 +28,7 @@
       class="yc-input-tag-inner"
     >
       <template v-for="item in curList.visibleList" :key="item?.[fieldKey.id]">
-        <slot name="tag" :data="item">
+        <slot name="tag" :tag="item">
           <yc-tag
             :closable="item[fieldKey.closable]"
             :bordered="item[fieldKey.tagProps].bordered"

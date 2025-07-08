@@ -19,7 +19,7 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, toRefs, computed, onMounted, onBeforeUnmount } from 'vue';
+import { ref, toRefs, computed } from 'vue';
 import { BackTopProps, BackTopSlots } from './type';
 import { IconToTop } from '@shared/icons';
 import {
@@ -29,6 +29,7 @@ import {
   getGlobalConfig,
 } from '@shared/utils';
 import BTween from 'b-tween';
+import { useEventListener } from '@vueuse/core';
 import YcButton from '@/components/Button';
 defineOptions({
   name: 'BackTop',
@@ -53,10 +54,6 @@ const targetContainer = computed(() => {
     ? findFirstScrollableParent(buttonRef.value)
     : getElement(_targetContainer.value);
 });
-// 处理滚动
-const handleScroll = () => {
-  curScroll.value = targetContainer.value!.scrollTop;
-};
 // 处理回到顶部
 const handleTop = () => {
   if (!targetContainer.value) return;
@@ -70,11 +67,9 @@ const handleTop = () => {
     },
   }).start();
 };
-onMounted(() => {
-  targetContainer.value?.addEventListener('scroll', handleScroll);
-});
-onBeforeUnmount(() => {
-  targetContainer.value?.removeEventListener('scroll', handleScroll);
+// 处理滚动
+useEventListener(targetContainer, 'scroll', () => {
+  curScroll.value = targetContainer.value!.scrollTop;
 });
 </script>
 

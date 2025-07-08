@@ -1,5 +1,5 @@
 import { nextTick, Ref, ref, toRefs, computed, watch } from 'vue';
-import { onClickOutside } from '@vueuse/core';
+import { onClickOutside, useEventListener } from '@vueuse/core';
 import { TriggerEmits } from '../type';
 import { default as useContext, TriggerProps } from './useContext';
 import { Props } from '@shared/type';
@@ -194,7 +194,8 @@ export default (params: {
     await nextTick();
     // 检测滚动关闭
     if (!scrollToClose.value || !scrollContainer.value) return;
-    scrollContainer.value.addEventListener('scroll', () => {
+    // 处理scroll
+    useEventListener(scrollContainer, 'scroll', () => {
       if (!computedVisible.value) return;
       const { scrollTop, scrollLeft } = scrollContainer.value!;
       if (

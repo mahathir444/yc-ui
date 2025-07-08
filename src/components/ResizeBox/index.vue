@@ -73,6 +73,7 @@ const x = ref<number>(0);
 const y = ref<number>(0);
 // 记录拖拽之前body的光标
 let cursor: string;
+let observer: { stop: () => void };
 // 处理拖拽开始
 const handleMovingStart = (dir: ResizeBoxDirection, e: MouseEvent) => {
   // 防止文本选中等副作用

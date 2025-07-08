@@ -42,7 +42,7 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, computed, toRefs, onBeforeUnmount, StyleValue } from 'vue';
+import { ref, computed, toRefs, StyleValue } from 'vue';
 import {
   ScrollbarProps,
   ScrollbarEmits,
@@ -104,7 +104,7 @@ const { isReach } = useScrollReach({
 // 获取内容的高度
 const contentWidth = ref(0);
 const contentHeight = ref(0);
-const { stop } = useResizeObserver(contentRef, () => {
+useResizeObserver(contentRef, () => {
   const { offsetWidth, offsetHeight } = contentRef.value as HTMLDivElement;
   contentWidth.value = offsetWidth;
   contentHeight.value = offsetHeight;
@@ -284,10 +284,6 @@ function initScrollbar() {
     curLeft,
   };
 }
-// 取消检测
-onBeforeUnmount(() => {
-  stop();
-});
 // 暴露方法
 defineExpose<ScrollbarExpose>({
   scrollTo(options: ScrollOptions) {

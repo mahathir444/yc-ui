@@ -26,7 +26,7 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, toRefs, computed, onBeforeUnmount, watchEffect } from 'vue';
+import { ref, toRefs, computed, watchEffect } from 'vue';
 import { useDraggable, useResizeObserver } from '@vueuse/core';
 import { Direction } from '@shared/type';
 import { valueToPx } from '@shared/utils';
@@ -71,7 +71,7 @@ const thmubStyle = computed(() => {
 });
 // 获取轨道的宽度
 const trackRef = ref<HTMLDivElement>();
-const { stop } = useResizeObserver(trackRef, () => {
+useResizeObserver(trackRef, () => {
   const { width, height } = trackRef.value!.getBoundingClientRect();
   emits('resize', isVertical.value ? width : height);
 });
@@ -124,10 +124,6 @@ const handleClick = (e: MouseEvent) => {
     emits('drag', false, value);
   }
 };
-
-onBeforeUnmount(() => {
-  stop();
-});
 </script>
 
 <style lang="less" scoped>

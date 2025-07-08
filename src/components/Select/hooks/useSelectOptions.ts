@@ -1,4 +1,4 @@
-import { ref, computed, Ref, onMounted, reactive, onBeforeUnmount } from 'vue';
+import { ref, computed, Ref, onMounted, reactive } from 'vue';
 import { nanoid } from 'nanoid';
 import { ObjectData, Props } from '@shared/type';
 import {

@@ -50,7 +50,7 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, onBeforeUnmount, computed } from 'vue';
+import { ref, computed } from 'vue';
 import { useResizeObserver } from '@vueuse/core';
 import { IconImageClose } from '@shared/icons';
 import { valueToPx } from '@shared/utils';
@@ -92,14 +92,11 @@ const handleError = () => {
 // 检测text的大小从而动态计算字体大小
 const initOvserver = () => {
   if (!autoFixFontSize.value) return;
-  const { stop } = useResizeObserver(textRef, () => {
+  useResizeObserver(textRef, () => {
     const avatarWidth = size.value ?? avatarRef.value!.offsetWidth;
     const textWidth = textRef.value!.offsetWidth;
     const textScale = avatarWidth / (textWidth + 8);
     scale.value = avatarWidth && textScale < 1 ? textScale : 1;
-  });
-  onBeforeUnmount(() => {
-    stop();
   });
 };
 initOvserver();

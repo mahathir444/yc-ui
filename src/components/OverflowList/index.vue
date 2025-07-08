@@ -25,7 +25,7 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, watch, toRefs, computed, onBeforeUnmount, useSlots } from 'vue';
+import { ref, watch, toRefs, computed, useSlots } from 'vue';
 import {
   OverflowListProps,
   OverflowListEmits,
@@ -79,7 +79,7 @@ const overflowNumber = computed(() => {
   return tags.value.length - max.value;
 });
 // 动态计算
-const { stop } = useResizeObserver(
+useResizeObserver(
   listRef,
   throttle(async () => {
     await sleep(0);
@@ -120,9 +120,6 @@ watch(
     immediate: true,
   }
 );
-onBeforeUnmount(() => {
-  stop();
-});
 </script>
 
 <style lang="less" scoped>
