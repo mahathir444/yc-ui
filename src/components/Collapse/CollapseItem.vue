@@ -29,7 +29,14 @@
           />
           <icon-right
             v-else
-            :rotate="computedActiveKey.includes(path) ? 90 : 0"
+            color="rgb(107, 119, 133)"
+            :rotate="
+              computedActiveKey.includes(path)
+                ? 90
+                : expandIconPosition == 'left'
+                  ? 0
+                  : 180
+            "
           />
         </slot>
       </icon-button>
