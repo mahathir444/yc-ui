@@ -1,9 +1,13 @@
 import { RenderContent } from '../type';
-import { Comment, Fragment, Text, h, VNode, isVNode } from 'vue';
+import { Comment, Fragment, Text, h, VNode, isVNode, toValue } from 'vue';
 import { isFunction, isObject } from './is';
-import { ObjectData } from '../type';
-import type { ComponentPublicInstance, MaybeRef, MaybeRefOrGetter } from 'vue';
-import { toValue } from 'vue';
+import {
+  ObjectData,
+  MaybeElement,
+  MaybeComputedElementRef,
+  UnRefElementReturn,
+  VueInstance,
+} from '../type';
 
 // 获取renderFunction
 export const getSlotFunction = (param: RenderContent | undefined) => {
@@ -59,11 +63,11 @@ export function findComponentsFromVnodes(vnodes: VNode[], name: string) {
     const nodeList = Array.isArray(nodes) ? nodes : [nodes];
     for (const node of nodeList) {
       if (!isVNode(node)) continue;
-      const type = node.type as ObjectData;
+      const type = node.type;
       const children = node.children;
       const subTree = node.component?.subTree;
       // 查找
-      if (type.name == name) {
+      if (isObject(type) && type.name === name) {
         result.push(node);
       }
       // 处理subtree的情况
@@ -76,7 +80,7 @@ export function findComponentsFromVnodes(vnodes: VNode[], name: string) {
       }
       // 处理children是slot的情况
       else if (isObject(children)) {
-        for (let key of Object.keys(children)) {
+        for (const key of Object.keys(children)) {
           if (!isFunction(children[key])) continue;
           traverse(children[key]?.() || []);
         }
@@ -87,20 +91,7 @@ export function findComponentsFromVnodes(vnodes: VNode[], name: string) {
   return result;
 }
 
-// unrefek
-export type VueInstance = ComponentPublicInstance;
-export type MaybeElementRef<T extends MaybeElement = MaybeElement> =
-  MaybeRef<T>;
-export type MaybeComputedElementRef<T extends MaybeElement = MaybeElement> =
-  MaybeRefOrGetter<T>;
-export type MaybeElement =
-  | HTMLElement
-  | SVGElement
-  | VueInstance
-  | undefined
-  | null;
-export type UnRefElementReturn<T extends MaybeElement = MaybeElement> =
-  T extends VueInstance ? Exclude<MaybeElement, VueInstance> : T | undefined;
+// unrefe
 export function unrefElement<T extends MaybeElement>(
   elRef: MaybeComputedElementRef<T>
 ): UnRefElementReturn<T> {

@@ -1,10 +1,9 @@
 <template>
   <div class="yc-cascader-panel yc-cascader-search-panel">
     <!-- empty -->
-    <component
-      v-if="!searchOptions.length"
-      :is="slots.empty || renderEmpty('Select')"
-    />
+    <div v-if="!searchOptions.length" class="yc-cascader-empty">
+      <component :is="slots.empty || renderEmpty('Select')" />
+    </div>
     <yc-scrollbar class="yc-cascader-column-content">
       <ul role="menu" class="yc-cascader-list">
         <yc-cascader-option

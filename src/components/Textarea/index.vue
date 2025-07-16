@@ -31,9 +31,7 @@
       @compositionend="handleComposition"
       @keydown="
         (ev) => {
-          if (ev.keyCode == 13 && enterPrevent) {
-            ev.preventDefault();
-          }
+          ev.key == 'Enter' && enterPrevent && ev.preventDefault();
           $emit('keydown', ev);
         }
       "

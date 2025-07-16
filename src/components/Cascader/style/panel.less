@@ -36,8 +36,16 @@
 }
 
 .yc-cascader-search-panel {
+  position: relative;
   width: 100%;
   .yc-scrollbar {
     width: 100%;
+  }
+  .yc-cascader-empty {
+    position: absolute;
+    inset: 0 0 0 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
   }
 }

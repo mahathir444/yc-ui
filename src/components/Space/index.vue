@@ -13,25 +13,29 @@
       gap,
     }"
   >
-    <slot />
-    <!-- <template v-for="(node, index) in nodes" :key="index">
+    <!-- 无split直接渲染 -->
+    <slot v-if="!$slots.split" />
+    <!--有split分开渲染 -->
+    <template v-for="(node, i) in nodes" :key="i">
       <div class="yc-space-item">
         <component :is="getSlotFunction(node as any as string)" />
       </div>
-      <div
-        v-if="$slots.split && index < nodes.length - 1"
-        class="yc-space-split"
-      >
+      <div v-if="i < nodes.length - 1" class="yc-space-split">
         <slot name="split" />
       </div>
-    </template> -->
+    </template>
   </div>
 </template>
 
 <script lang="ts" setup>
-import { toRefs, computed, useSlots, VNode } from 'vue';
+import { toRefs, computed, useSlots, VNode, Fragment, Comment } from 'vue';
 import { SpaceProps, SpaceSlots } from './type';
-import { isNumber, valueToPx, isUndefined } from '@shared/utils';
+import {
+  isNumber,
+  valueToPx,
+  isUndefined,
+  getSlotFunction,
+} from '@shared/utils';
 defineOptions({
   name: 'Space',
 });
@@ -65,12 +69,16 @@ const align = computed(() => {
 });
 // node
 const nodes = computed(() => {
-  const nodeArr = slots.default?.() || [];
-  // 处理vfor的情况
-  if (nodeArr.length == 1 && nodeArr[0].shapeFlag == 16) {
-    return nodeArr[0].children as VNode[];
-  }
-  return nodeArr;
+  if (!slots.split) return [];
+  const result: VNode[] = [];
+  (slots.default?.() || []).forEach((node) => {
+    if (node.type === Fragment) {
+      result.push(...(node.children as VNode[]));
+    } else if (node.type !== Comment) {
+      result.push(node);
+    }
+  });
+  return result;
 });
 </script>
 

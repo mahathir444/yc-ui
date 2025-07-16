@@ -184,8 +184,7 @@ const handleEvent = async (type: string, e: Event) => {
       {
         const ev = e as KeyboardEvent;
         emits('keydown', ev);
-        if (ev.keyCode != 13) return;
-        emits('pressEnter', ev);
+        ev.key == 'Enter' && emits('pressEnter', ev);
       }
       break;
   }

@@ -104,11 +104,11 @@ const showPopup = async (value: string, ev: Event) => {
   // 计算光标
   const { selectionStart } = ev.target as HTMLInputElement;
   cursor.value = (getCursor() ?? selectionStart) as number;
-  if (isNull(cursor) || !data.value.length) {
+  if (isNull(cursor.value) || !data.value.length) {
     return;
   }
   // 处理光标匹配的字符
-  const ch = value[cursor.value - 1];
+  const ch = !cursor.value ? '' : value[cursor.value - 1];
   // 判断是否能显示
   popupVisible.value = isArray(prefix.value)
     ? prefix.value.includes(ch)
@@ -185,7 +185,10 @@ const handleEvent = async (
       if (!['Backspace'].includes(e.key)) {
         return;
       }
-      showPopup(value, ev as Event);
+      showPopup(
+        e.key == 'Backspace' ? value : computedValue.value,
+        ev as Event
+      );
     }
   }
 };

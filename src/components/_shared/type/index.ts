@@ -1,4 +1,10 @@
-import { RenderFunction, Reactive } from 'vue';
+import {
+  RenderFunction,
+  Reactive,
+  ComponentPublicInstance,
+  MaybeRef,
+  MaybeRefOrGetter,
+} from 'vue';
 
 export type Size = 'mini' | 'small' | 'medium' | 'large';
 
@@ -24,3 +30,21 @@ export type ObjectData = Record<string, any>;
 export type RequiredDeep<T> = {
   [P in keyof T]-?: T[P] extends object ? RequiredDeep<T[P]> : T[P];
 };
+
+export type VueInstance = ComponentPublicInstance;
+
+export type MaybeElementRef<T extends MaybeElement = MaybeElement> =
+  MaybeRef<T>;
+
+export type MaybeComputedElementRef<T extends MaybeElement = MaybeElement> =
+  MaybeRefOrGetter<T>;
+
+export type MaybeElement =
+  | HTMLElement
+  | SVGElement
+  | VueInstance
+  | undefined
+  | null;
+
+export type UnRefElementReturn<T extends MaybeElement = MaybeElement> =
+  T extends VueInstance ? Exclude<MaybeElement, VueInstance> : T | undefined;

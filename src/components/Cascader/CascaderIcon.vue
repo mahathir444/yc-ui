@@ -20,7 +20,7 @@
     <icon-button
       v-if="showClearBtn"
       class="yc-cascader-clear-icon"
-      @click="$emit('clear')"
+      @click.stop="$emit('clear')"
     />
   </template>
 </template>
