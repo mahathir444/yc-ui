@@ -20,7 +20,7 @@
         :style="{
           color:
             (i - 0.5 <= computedValue && !curHover) || i - 0.5 <= curHover
-              ? (getColor(i) as string)
+              ? color
               : '',
         }"
         @click.stop="handleClick(i - 0.5)"
@@ -36,9 +36,7 @@
         class="yc-rate-character-right"
         :style="{
           color:
-            (i <= computedValue && !curHover) || i <= curHover
-              ? (getColor(i) as string)
-              : '',
+            (i <= computedValue && !curHover) || i <= curHover ? color : '',
         }"
         @click="handleClick(i)"
         @mouseenter="handleMouseenter(i)"
@@ -54,7 +52,7 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, toRefs } from 'vue';
+import { ref, toRefs, computed } from 'vue';
 import { RateProps, RateEmits, RateSlots } from './type';
 import { useControlValue, isObject, sleep } from '@shared/utils';
 import { IconStar, IconFaceSmile } from '@shared/icons';
@@ -78,9 +76,9 @@ const {
   defaultValue,
   readonly,
   disabled,
-  color,
   count,
   allowClear,
+  color: _color,
 } = toRefs(props);
 // char对应的el
 const chars = ref<HTMLDivElement[]>([]);
@@ -96,17 +94,16 @@ const computedValue = useControlValue<number>(
     emits('update:modelValue', val);
   }
 );
-// 获取颜色
-const getColor = (i: number) => {
-  if (isObject(color.value)) {
-    return (
-      Object.entries(color.value).find(([key]) => i <= +key)?.[1] ??
-      'rgb(247, 186, 30)'
-    );
+// 颜色
+const color = computed(() => {
+  if (isObject(_color.value)) {
+    return (Object.entries(_color.value).find(
+      ([key]) => curHover.value <= +key
+    )?.[1] ?? 'rgb(247, 186, 30)') as string;
   } else {
-    return color.value ?? 'rgb(247, 186, 30)';
+    return _color.value ?? 'rgb(247, 186, 30)';
   }
-};
+});
 // 点击评分
 const handleClick = async (index: number) => {
   if (readonly.value || disabled.value || loading) {

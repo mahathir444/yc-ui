@@ -34,7 +34,7 @@ export interface InputTagEmits {
 }
 
 export interface InputTagSlots {
-  tag(scope: { tag: TagData }): void;
+  tag(scope: { tag: ObjectData }): void;
   prefix(): void;
   suffix(): void;
 }

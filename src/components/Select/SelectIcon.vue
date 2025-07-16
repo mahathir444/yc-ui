@@ -7,12 +7,12 @@
   </yc-spin>
   <template v-else>
     <!-- default -->
-    <div class="yc-cascader-suffix-icon">
+    <div class="yc-select-suffix-icon">
       <component v-if="slots['arrow-icon']" :is="renderIcon('arrow-icon')" />
       <icon-arrow-down v-else :rotate="popupVisible ? 180 : 0" />
     </div>
     <!-- search -->
-    <div v-if="allowSearch" class="yc-cascader-search-icon">
+    <div v-if="allowSearch" class="yc-select-search-icon">
       <component v-if="slots['search-icon']" :is="renderIcon('search-icon')" />
       <icon-search v-else />
     </div>
@@ -20,7 +20,7 @@
     <icon-button
       v-if="showClearBtn"
       class="yc-select-clear-icon"
-      @click="$emit('clear')"
+      @click.stop="$emit('clear')"
     />
   </template>
 </template>

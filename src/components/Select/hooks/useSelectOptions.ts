@@ -9,7 +9,13 @@ import {
   FormatLabel,
   SelectOptionData,
 } from '../index';
-import { isObject } from '@shared/utils';
+import {
+  isNull,
+  isNumber,
+  isObject,
+  isString,
+  isUndefined,
+} from '@shared/utils';
 
 export default (params: {
   multiple: Ref<boolean>;
@@ -70,10 +76,10 @@ export default (params: {
   });
   // 选中的value
   const selectValue = computed(() => {
-    const value = multiple.value
-      ? computedValue.value
-      : [computedValue.value].map((item) => `${item}`);
-    return (value as ObjectData[]).map((item) => getValue(item));
+    const value = multiple.value ? computedValue.value : [computedValue.value];
+    return (value as ObjectData[])
+      .map((item) => getValue(item))
+      .filter((v) => !isEmpty(v));
   });
   // 选中的值
   const selectOptions = computed(() => {
@@ -89,6 +95,10 @@ export default (params: {
       };
     });
   });
+  // 一个值是否是空
+  const isEmpty = (val: any) => {
+    return isUndefined(val) || isNull(val) || (isString(val) && !val.length);
+  };
   // 收集option
   const collectOption = (props: Props, optionLabel: Ref<string>) => {
     if (props.isFallbackOption) return;

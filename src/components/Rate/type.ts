@@ -7,7 +7,7 @@ export interface RateProps {
   grading?: boolean;
   readonly?: boolean;
   disabled?: boolean;
-  color?: string;
+  color?: string | Record<number, string>;
 }
 
 export interface RateEmits {
