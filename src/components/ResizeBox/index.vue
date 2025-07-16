@@ -25,7 +25,7 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, toRefs, reactive, onMounted, nextTick } from 'vue';
+import { ref, toRefs, reactive, nextTick } from 'vue';
 import { useResizeObserver, useEventListener } from '@vueuse/core';
 import {
   ResizeBoxProps,
@@ -73,7 +73,6 @@ const x = ref<number>(0);
 const y = ref<number>(0);
 // 记录拖拽之前body的光标
 let cursor: string;
-let observer: { stop: () => void };
 // 处理拖拽开始
 const handleMovingStart = (dir: ResizeBoxDirection, e: MouseEvent) => {
   // 防止文本选中等副作用
@@ -147,27 +146,25 @@ useEventListener('mousemove', handleMoving);
 // 处理鼠标抬起
 useEventListener('mouseup', handleMovingEnd);
 // 监听各个trigger的宽高
-onMounted(() => {
-  useResizeObserver(
-    () => {
-      return triggeDoms;
-    },
-    (entries) => {
-      entries.forEach((item) => {
-        const direction = item.target.getAttribute('dir') as ResizeBoxDirection;
-        const {
-          contentRect: { width, height },
-        } = item;
-        triggerSize[direction] = ['right', 'left'].includes(direction)
-          ? width
-          : height;
-      });
-    },
-    {
-      box: 'border-box',
-    }
-  );
-});
+useResizeObserver(
+  () => {
+    return triggeDoms;
+  },
+  (entries) => {
+    entries.forEach((item) => {
+      const direction = item.target.getAttribute('dir') as ResizeBoxDirection;
+      const {
+        contentRect: { width, height },
+      } = item;
+      triggerSize[direction] = ['right', 'left'].includes(direction)
+        ? width
+        : height;
+    });
+  },
+  {
+    box: 'border-box',
+  }
+);
 </script>
 
 <style lang="less" scoped>

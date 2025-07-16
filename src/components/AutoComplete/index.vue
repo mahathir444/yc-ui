@@ -48,8 +48,8 @@
         </yc-textarea>
       </slot>
     </template>
-    <template v-if="$slots.option" #option>
-      <slot name="option" />
+    <template v-if="$slots.option" #option="scope">
+      <slot name="option" v-bind="scope" />
     </template>
     <template v-if="$slots.footer" #footer>
       <slot name="footer" />
@@ -131,6 +131,7 @@ const handleEvent = async (
     case 'input':
       {
         emits('input', value, ev as Event);
+        emits('search', value);
         const oldOptions = [...data.value];
         await nextTick();
         if (

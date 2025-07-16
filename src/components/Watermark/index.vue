@@ -237,14 +237,15 @@ const handleMutations = (mutations: MutationRecord[]) => {
 
 watch(props, renderWatermark, { deep: true, flush: 'post' });
 
+useMutationObserver(containerRef, handleMutations, {
+  attributes: true,
+  childList: true,
+  characterData: true,
+  subtree: true,
+});
+
 onMounted(() => {
   renderWatermark();
-  useMutationObserver(containerRef.value, handleMutations, {
-    attributes: true,
-    childList: true,
-    characterData: true,
-    subtree: true,
-  });
 });
 </script>
 
