@@ -22,7 +22,7 @@
             {{ curSeleced.length }} / {{ curData.length }}
           </template>
           <icon-button
-            v-else-if="type == 'target'"
+            v-else-if="type == 'target' && !simple"
             :size="14"
             @click="handleClear"
           >
