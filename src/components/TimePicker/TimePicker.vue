@@ -7,6 +7,8 @@
     :unmount-on-close="unmountOnClose"
     :disabled="disabled || readonly"
     :on-click-out-side="handleClickOutSide"
+    :auto-fit-popup-min-width="false"
+    :auto-fit-popup-width="false"
     trigger="click"
     animation-name="slide-dynamic-origin"
     prevent-focus
@@ -16,6 +18,7 @@
       :class="[
         'yc-picker',
         `yc-picker-size-${size}`,
+        $attrs.class,
         {
           'yc-picker-disabled': disabled,
           'yc-picker-error': error,
@@ -24,6 +27,9 @@
           'yc-picker-allow-clear': showClearBtn,
         },
       ]"
+      :style="{
+        ...($attrs.style || {}),
+      }"
     >
       <!-- prefix -->
       <div v-if="$slots.prefix" class="yc-picker-prefix">
@@ -107,6 +113,7 @@ import { default as YcTrigger } from '@/components/Trigger';
 import TimePickerPanel from './TimePickerPanel.vue';
 defineOptions({
   name: 'TimePicker',
+  inheritAttrs: false,
 });
 defineSlots<TimePickerSlots>();
 const props = withDefaults(defineProps<TimePickerProps>(), {

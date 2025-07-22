@@ -3,7 +3,9 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, reactive } from 'vue';
+import { ref } from 'vue';
+const size = ref('small');
+const defaultValue = ref('09:24');
 </script>
 
 <style lang="less" scoped>
