@@ -7,12 +7,12 @@ DatePicker Form Upload TreeSelect Table Tree
 1. trigger里面不能放入vif元素的问题
 2. trigger边界检测过后不能重新计算恢复的问题
 3. Menu在递归组件下无法获取vnode层级的问题（后期尝试解决）
+4. menu和layout-sider收缩联动的问题
 ## 二轮测试
 1. 通用所有组件(4)完成测试
 2. 布局所有组件(3,Grid未测试)完成测试
 3. 数据展示(19)完成测试
-4. 数据输入(21)测试到Slider
+4. 数据输入(21)完成测试
 ## 二轮测试bug
 1. resize-box部分场景下无法拖动的问题
-2. menu和layout-sider收缩联动的问题
-3. list的loading判断问题
+2. list的loading判断问题

@@ -30,15 +30,26 @@
       color: rgb(29, 33, 41);
     }
     .yc-alert-content {
-      // color: rgb(78, 89, 105);
       color: rgb(29, 33, 41);
     }
   }
   .yc-alert-close-btn {
+    cursor: pointer;
     height: 22px;
+    color: rgb(78, 89, 105);
+    font-size: 12px;
+    transition: color 0.1s cubic-bezier(0, 0, 1, 1);
     display: flex;
     justify-content: center;
     align-items: center;
+
+    .yc-icon-button {
+      color: inherit;
+    }
+
+    &:hover {
+      color: rgb(29, 33, 41);
+    }
   }
 }
 // title
@@ -77,7 +88,7 @@
     icon-color: rgb(22, 93, 255);
   };
   @success: {
-    bg: rgb(232, 243, 255);
+    bg: rgb(232, 255, 234);
     icon-color: rgb(0, 180, 42);
   };
   @warning: {

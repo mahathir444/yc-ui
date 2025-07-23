@@ -35,10 +35,11 @@
         class="yc-alert-close-btn"
         role="button"
         aria-label="Close"
+        @click="handleClose"
       >
-        <icon-button @click="handleClose">
-          <slot v-if="$slots['close-element']" name="close-element" />
-        </icon-button>
+        <slot name="close-element">
+          <icon-button />
+        </slot>
       </div>
     </div>
   </transition>

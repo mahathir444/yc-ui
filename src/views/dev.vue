@@ -1,5 +1,8 @@
 <template>
-  <div class="test"></div>
+  <div class="test">
+    <a-alert banner center>This is an info alert.</a-alert>
+    <yc-alert banner center>This is an info alert.</yc-alert>
+  </div>
 </template>
 
 <script lang="ts" setup>

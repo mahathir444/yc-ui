@@ -8,6 +8,7 @@ export {}
 declare module 'vue' {
   export interface GlobalComponents {
     _Icon: typeof import('./src/components/_shared/icons/_Icon.vue')['default']
+    AAlert: typeof import('@arco-design/web-vue')['Alert']
     AAutoComplete: typeof import('@arco-design/web-vue')['AutoComplete']
     AAvatar: typeof import('@arco-design/web-vue')['Avatar']
     AAvatarGroup: typeof import('@arco-design/web-vue')['AvatarGroup']
