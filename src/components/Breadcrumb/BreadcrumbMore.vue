@@ -1,6 +1,6 @@
 <template>
   <yc-breadcrumb-item>
-    <component v-if="$slots['more-icon']" :is="slots['more-icon']" />
+    <component v-if="slots['more-icon']" :is="slots['more-icon']" />
     <icon-more v-else />
   </yc-breadcrumb-item>
 </template>
