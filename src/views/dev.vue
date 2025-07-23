@@ -1,12 +1,10 @@
 <template>
-  <div class="test">
-    <a-alert banner center>This is an info alert.</a-alert>
-    <yc-alert banner center>This is an info alert.</yc-alert>
-  </div>
+  <div class="test"></div>
 </template>
 
 <script lang="ts" setup>
 import { ref } from 'vue';
+const animation = ref(true);
 </script>
 
 <style lang="less" scoped>

@@ -18,7 +18,7 @@
           <div v-if="dot" class="yc-dot-loading">
             <div v-for="i in 5" :key="i" class="yc-dot-loading-item"></div>
           </div>
-          <component :is="renderLoading()" />
+          <component v-else :is="renderLoading()" />
         </slot>
       </div>
       <div v-if="tip" class="yc-spin-tip">
