@@ -2,8 +2,8 @@
   <component
     :is="vNode"
     ref="triggerRef"
-    @click="handleClickEvent"
-    @contextmenu.prevent="handleClickEvent"
+    @click="handleClickEvent($event, 'click')"
+    @contextmenu.prevent="handleClickEvent($event, 'contextMenu')"
     @mouseenter="handleMouseenter"
     @mouseleave="handleMouseleave"
     @focus="handleFocus"

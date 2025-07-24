@@ -81,7 +81,7 @@ const className = computed(() => {
       'yc-button-long': long.value,
       'yc-button-loading': loading.value,
       'yc-button-disabled': disabled.value,
-      'yc-button-only-icon': slots.default,
+      'yc-button-only-icon': !slots.default,
     },
   ];
 });

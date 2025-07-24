@@ -74,8 +74,8 @@ export default (params: {
       : null;
   });
   // 点击
-  const handleClickEvent = (e: MouseEvent) => {
-    if (!['click', 'contextMenu'].includes(trigger.value) || disabled.value) {
+  const handleClickEvent = (e: MouseEvent, type: 'click' | 'contextMenu') => {
+    if (trigger.value != type || disabled.value) {
       return;
     }
     if (timeout.value) {

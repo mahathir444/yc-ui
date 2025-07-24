@@ -4,6 +4,9 @@
 
 <script lang="ts" setup>
 import { ref } from 'vue';
+const handleSelect = (v) => {
+  console.log(v);
+};
 </script>
 
 <style lang="less" scoped>
