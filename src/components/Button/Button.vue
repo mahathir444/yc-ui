@@ -2,19 +2,7 @@
   <a
     v-if="href"
     :href="href"
-    :class="[
-      'yc-button',
-      `yc-button-size-${size}`,
-      `yc-button-${type}`,
-      `yc-button-status-${status}`,
-      `yc-button-shape-${shape}`,
-      {
-        'yc-button-long': long,
-        'yc-button-loading': loading,
-        'yc-button-disabled': disabled,
-        'yc-button-only-icon': !$slots.default,
-      },
-    ]"
+    :class="className"
     v-bind="$attrs"
     @mousedown="handleEvent('mousedown', $event)"
     @mouseup="handleEvent('mouseup', $event)"
@@ -32,19 +20,7 @@
     v-else
     :type="htmlType"
     :disabled="disabled"
-    :class="[
-      'yc-button',
-      `yc-button-size-${size}`,
-      `yc-button-${type}`,
-      `yc-button-status-${status}`,
-      `yc-button-shape-${shape}`,
-      {
-        'yc-button-long': long,
-        'yc-button-loading': loading,
-        'yc-button-disabled': disabled,
-        'yc-button-only-icon': !$slots.default,
-      },
-    ]"
+    :class="className"
     v-bind="$attrs"
     @mousedown="handleEvent('mousedown', $event)"
     @mouseup="handleEvent('mouseup', $event)"
@@ -61,7 +37,7 @@
 </template>
 
 <script lang="ts" setup>
-import { toRefs } from 'vue';
+import { toRefs, computed, useSlots } from 'vue';
 import { ButtonProps, ButtonEmits, ButtonSlots } from './type';
 import useContext from './hooks/useContext';
 import YcSpin from '@/components/Spin';
@@ -91,6 +67,24 @@ const {
 } = toRefs(props);
 // 呼求注入
 const { size, disabled, type, status, shape } = useContext().inject(props);
+// slots
+const slots = useSlots();
+// class-name
+const className = computed(() => {
+  return [
+    'yc-button',
+    `yc-button-size-${size.value}`,
+    `yc-button-${type.value}`,
+    `yc-button-status-${status.value}`,
+    `yc-button-shape-${shape.value}`,
+    {
+      'yc-button-long': long.value,
+      'yc-button-loading': loading.value,
+      'yc-button-disabled': disabled.value,
+      'yc-button-only-icon': slots.default,
+    },
+  ];
+});
 // 拦截事件
 const handleEvent = (type: string, e: MouseEvent) => {
   if (disabled.value || loading.value) return;
