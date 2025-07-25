@@ -2,7 +2,7 @@
   <yc-scrollbar
     :scrollbar="scrollbar"
     class="yc-select-dropdown-list-wrapper"
-    @scroll="(_, _1, e) => emits('dropdownScroll', e)"
+    @scroll="(_, _1, e) => emits('dropdown-scroll', e)"
   >
     <div class="yc-select-dropdown-list">
       <!-- default -->

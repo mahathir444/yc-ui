@@ -20,7 +20,7 @@ export interface ListProps {
 
 export interface ListEmits {
   (e: 'scroll', ev: Event): void;
-  (e: 'reach-bottom'): void;
+  (e: 'reach-bottom', ev: Event): void;
   (e: 'page-change', value: number): void;
   (e: 'page-size-change', value: number): void;
 }

@@ -23,10 +23,15 @@
 import { ref, reactive } from 'vue';
 const current = ref(1);
 const bottom = ref(false);
-const data = reactive([]);
+const data = reactive([
+  `Beijing Bytedance Technology Co., Ltd. ${1}`,
+  `Bytedance Technology Co., Ltd. ${2}`,
+  `Beijing Toutiao Technology Co., Ltd. ${3}`,
+  `Beijing Volcengine Technology Co., Ltd. ${4}`,
+  `China Beijing Bytedance Technology Co., Ltd. ${5}`,
+]);
 const scrollbar = ref(true);
 const fetchData = () => {
-  console.log('reach bottom!');
   if (current.value <= 5) {
     window.setTimeout(() => {
       const index = data.length;

@@ -90,11 +90,13 @@
 <script lang="ts" setup>
 import { ref, toRefs, computed } from 'vue';
 import { ListProps, ListEmits, ListSlots } from './type';
+import { useInfiniteScroll, useScroll } from '@vueuse/core';
 import {
   getGlobalConfig,
   useControlValue,
   valueToPx,
   unrefElement,
+  debounce,
 } from '@shared/utils';
 import YcSpin from '@/components/Spin';
 import {
@@ -134,12 +136,33 @@ const isBottomReached = ref<boolean>(false);
 const realListRef = ref<ScrollbarInstance>();
 // virtualListRef
 const virtualListRef = ref<HTMLDivElement>();
+// 是否是虚拟列表
+const isVirtualList = computed(() => {
+  if (!virtualListProps.value || paginationProps.value || gridProps.value) {
+    return false;
+  }
+  return (
+    virtualListProps.value.itemHeight &&
+    (!virtualListProps.value.threshold ||
+      (virtualListProps.value.threshold as number) > data.value.length)
+  );
+});
 // scrollRef
 const scrollRef = computed(() =>
   isVirtualList.value
     ? unrefElement(virtualListRef)
     : realListRef.value?.getScrollRef()
 );
+// 处理滚动
+const { arrivedState } = useScroll(scrollRef, {
+  onScroll: debounce((e) => {
+    isBottomReached.value = arrivedState.bottom;
+    emits('reach-bottom', e);
+  }, 50),
+  offset: {
+    bottom: bottomOffset.value,
+  },
+});
 // current
 const current = computed(() => paginationProps.value?.current);
 // 计算的current
@@ -167,17 +190,6 @@ const curList = computed(() => {
   return data.value.slice(
     (computedCurrent.value - 1) * computedPageSize.value,
     computedCurrent.value * computedPageSize.value
-  );
-});
-// 是否是虚拟列表
-const isVirtualList = computed(() => {
-  if (!virtualListProps.value || paginationProps.value || gridProps.value) {
-    return false;
-  }
-  return (
-    virtualListProps.value.itemHeight &&
-    (!virtualListProps.value.threshold ||
-      (virtualListProps.value.threshold as number) > data.value.length)
   );
 });
 </script>

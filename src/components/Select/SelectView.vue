@@ -42,7 +42,8 @@
 <script lang="ts" setup>
 import { ref, toRefs, computed } from 'vue';
 import { VirtualListProps } from './type';
-import { getGlobalConfig, unrefElement } from '@shared/utils';
+import { useScroll } from '@vueuse/core';
+import { getGlobalConfig, unrefElement, debounce } from '@shared/utils';
 import useContext from './hooks/useContext';
 import SelectVirtualList from './SelectVirtualList.vue';
 import SelectRealList from './SelectRealList.vue';
@@ -56,7 +57,7 @@ const props = defineProps<{
 }>();
 const { virtualListProps } = toRefs(props);
 // 接收注入
-const { slots, options, isEmpty } = useContext().inject();
+const { slots, options, isEmpty, emits } = useContext().inject();
 // configProvider
 const { renderEmpty } = getGlobalConfig();
 // realList
@@ -68,6 +69,15 @@ const scrollRef = computed(() => {
   return isVirtualList.value
     ? unrefElement(virtualListRef)
     : realListRef.value?.getScrollRef();
+});
+// 处理滚动
+useScroll(scrollRef, {
+  onScroll: debounce((e) => {
+    emits('dropdown-reach-bottom', e);
+  }, 50),
+  offset: {
+    bottom: 0,
+  },
 });
 // 是否是虚拟列表
 const isVirtualList = computed(() => {

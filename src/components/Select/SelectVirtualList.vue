@@ -2,7 +2,7 @@
   <div
     class="yc-select-dropdown-virtual-list"
     v-bind="containerProps"
-    @scroll="(e) => emits('dropdownScroll', e)"
+    @scroll="(e) => emits('dropdown-scroll', e)"
   >
     <!-- 渲染虚拟列表 -->
     <div class="yc-select-dropdown-list" v-bind="wrapperProps">

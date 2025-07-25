@@ -74,7 +74,7 @@ export default () => {
       defaultPopupVisible.value,
       (val) => {
         emits('update:popupVisible', val);
-        emits('popupVisibleChange', val);
+        emits('popup-visible-change', val);
       }
     );
     // 当前选项
