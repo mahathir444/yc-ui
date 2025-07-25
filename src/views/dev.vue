@@ -8,6 +8,14 @@
       </template>
       <yc-list-item v-for="item of data">{{ item }}</yc-list-item>
     </yc-list>
+    <a-list :max-height="240" @reach-bottom="fetchData" :scrollbar="scrollbar">
+      <template #header> List title </template>
+      <template #scroll-loading>
+        <div v-if="bottom">No more data</div>
+        <yc-spin v-else />
+      </template>
+      <a-list-item v-for="item of data">{{ item }}</a-list-item>
+    </a-list>
   </div>
 </template>
 

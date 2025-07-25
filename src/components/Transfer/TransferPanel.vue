@@ -45,7 +45,7 @@
     </div>
     <!--body-->
     <div class="yc-transfer-view-body">
-      <yc-scrollbar v-if="curData.length" auto-fill>
+      <yc-scrollbar v-if="curData.length">
         <component v-if="slots[type]" :is="renderList" />
         <div v-else role="list" class="yc-transfer-list">
           <template v-for="item in curData" :key="item.value">

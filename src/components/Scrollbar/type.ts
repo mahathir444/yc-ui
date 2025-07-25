@@ -5,8 +5,6 @@ export interface ScrollbarProps {
   type?: TackType;
   outerClass?: ClassName;
   outerStyle?: CSSProperties;
-  // 是否自动继承高度
-  autoFill?: boolean;
   // 是否真实srollbar
   scrollbar?: boolean;
 }

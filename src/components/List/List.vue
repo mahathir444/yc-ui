@@ -68,12 +68,12 @@
             <slot name="footer" />
           </div>
           <!-- loading -->
-          <div
+          <yc-list-item
             v-if="$slots['scroll-loading'] && isBottomReached"
             class="yc-list-scroll-loading"
           >
             <slot name="scroll-loading" />
-          </div>
+          </yc-list-item>
         </div>
       </yc-scrollbar>
       <!-- 分页 -->
@@ -104,6 +104,7 @@ import {
 import YcPagination from '@/components/Pagination';
 import { default as YcGrid, GridItem as YcGridItem } from '@/components/Grid';
 import VirtualList from './ListVirtual.vue';
+import YcListItem from './ListItem.vue';
 defineOptions({
   name: 'List',
 });

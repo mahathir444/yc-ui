@@ -4,7 +4,6 @@
       'yc-scrollbar',
       outerClass,
       {
-        'yc-scrollbar-auto-fill': autoFill,
         'yc-scrollbar-both-track':
           type == 'track' && hasVerticalBar && hashorizontalBar,
         'yc-scrollbar-vertical-track': type == 'track' && hasVerticalBar,
@@ -70,8 +69,6 @@ const props = withDefaults(defineProps<ScrollbarProps>(), {
   style: () => {
     return {};
   },
-  autoFill: false,
-  offsetBottom: 0,
   scrollbar: true,
 });
 const emits = defineEmits<ScrollbarEmits>();
