@@ -9,4 +9,6 @@
 - **响应式设计**：所有组件均支持移动端和桌面端。
 - **TypeScript 支持**：提供完整的类型定义，提升开发体验。
 - **轻量高效**：按需加载，减少打包体积。
-```
+
+## 说明
+`yc-ui` 的是对 [Arco Design Vue](https://arco.design/vue/docs/start) 的升级，组件api可以参考 [Arco Design Vue](https://arco.design/vue/docs/start) 的文档。
