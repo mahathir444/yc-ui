@@ -56,8 +56,6 @@ defineProps<{
 const { fieldKey, renderOptions, slots, emits } = useContext().inject();
 // scrollbar
 const scrollbarRef = ref<ScrollbarInstance>();
-// scrollRef
-const scrollRef = computed(() => scrollbarRef.value?.getScrollRef());
 // 渲染label
 const renderLabel = (option: ObjectData) => {
   if (slots.option) {
@@ -69,6 +67,11 @@ const renderLabel = (option: ObjectData) => {
   const { render, label } = fieldKey.value;
   return getSlotFunction(option[render] ? option[render] : option[label]);
 };
+defineExpose({
+  getScrollRef() {
+    return scrollbarRef.value?.getScrollRef();
+  },
+});
 </script>
 
 <style lang="less" scoped>

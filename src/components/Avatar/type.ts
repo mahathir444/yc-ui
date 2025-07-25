@@ -13,8 +13,8 @@ export interface AvatarProps {
 
 export interface AvatarEmits {
   (e: 'click', ev: MouseEvent): void;
-  (e: 'error'): void;
-  (e: 'load'): void;
+  (e: 'error', ev: Event): void;
+  (e: 'load', ev: Event): void;
 }
 
 export interface AvatarSlots {

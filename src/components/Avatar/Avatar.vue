@@ -26,7 +26,7 @@
           objectFit,
         }"
         alt="avatar"
-        @load="$emit('load')"
+        @load="$emit('load', $event)"
         @error="handleError"
       />
       <div v-else class="yc-avatar-image-icon">
@@ -85,9 +85,9 @@ const avatarRef = ref<HTMLDivElement>();
 // text中有image
 const textWithImage = computed(() => textRef.value?.querySelector('img'));
 // 处理错误情况
-const handleError = () => {
+const handleError = (e: Event) => {
   isLoadError.value = true;
-  emits('error');
+  emits('error', e);
 };
 // 检测text的大小从而动态计算字体大小
 const initOvserver = () => {

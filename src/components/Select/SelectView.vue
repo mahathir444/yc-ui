@@ -22,9 +22,10 @@
       <select-virtual-list
         v-if="isVirtualList"
         :virtual-list-props="virtualListProps!"
+        ref="virtualListRef"
       />
       <!-- list -->
-      <select-real-list v-else :scrollbar="scrollbar" />
+      <select-real-list v-else :scrollbar="scrollbar" ref="realListRef" />
       <!-- empty -->
       <component v-if="isEmpty" :is="slots.empty || renderEmpty('Select')" />
       <!-- footer -->
@@ -39,9 +40,9 @@
 </template>
 
 <script lang="ts" setup>
-import { toRefs, computed } from 'vue';
+import { ref, toRefs, computed } from 'vue';
 import { VirtualListProps } from './type';
-import { getGlobalConfig } from '@shared/utils';
+import { getGlobalConfig, unrefElement } from '@shared/utils';
 import useContext from './hooks/useContext';
 import SelectVirtualList from './SelectVirtualList.vue';
 import SelectRealList from './SelectRealList.vue';
@@ -58,6 +59,16 @@ const { virtualListProps } = toRefs(props);
 const { slots, options, isEmpty } = useContext().inject();
 // configProvider
 const { renderEmpty } = getGlobalConfig();
+// realList
+const realListRef = ref<InstanceType<typeof SelectRealList>>();
+// virtualList
+const virtualListRef = ref<HTMLDivElement>();
+// 滚动ref
+const scrollRef = computed(() => {
+  return isVirtualList.value
+    ? unrefElement(virtualListRef)
+    : realListRef.value?.getScrollRef();
+});
 // 是否是虚拟列表
 const isVirtualList = computed(() => {
   if (!virtualListProps.value) {

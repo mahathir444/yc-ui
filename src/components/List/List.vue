@@ -18,7 +18,7 @@
           maxHeight: isVirtualList ? '' : valueToPx(maxHeight),
         }"
         class="yc-list"
-        ref="scrollbarRef"
+        ref="realListRef"
         @scroll="(_, _1, e) => emits('scroll', e)"
       >
         <div class="yc-list-content-wrapper">
@@ -34,6 +34,7 @@
             :style="{
               maxHeight: valueToPx(maxHeight),
             }"
+            ref="virtualListRef"
             @scroll="(e) => emits('scroll', e)"
           >
             <template v-if="$slots.item" #item="scope">
@@ -89,7 +90,12 @@
 <script lang="ts" setup>
 import { ref, toRefs, computed } from 'vue';
 import { ListProps, ListEmits, ListSlots } from './type';
-import { getGlobalConfig, useControlValue, valueToPx } from '@shared/utils';
+import {
+  getGlobalConfig,
+  useControlValue,
+  valueToPx,
+  unrefElement,
+} from '@shared/utils';
 import YcSpin from '@/components/Spin';
 import {
   default as YcScrollbar,
@@ -124,9 +130,15 @@ const { size, renderEmpty } = getGlobalConfig(props);
 // 是否触底
 const isBottomReached = ref<boolean>(false);
 // scrollbar
-const scrollbarRef = ref<ScrollbarInstance>();
+const realListRef = ref<ScrollbarInstance>();
+// virtualListRef
+const virtualListRef = ref<HTMLDivElement>();
 // scrollRef
-const scrollRef = computed(() => scrollbarRef.value?.getScrollRef());
+const scrollRef = computed(() =>
+  isVirtualList.value
+    ? unrefElement(virtualListRef)
+    : realListRef.value?.getScrollRef()
+);
 // current
 const current = computed(() => paginationProps.value?.current);
 // 计算的current

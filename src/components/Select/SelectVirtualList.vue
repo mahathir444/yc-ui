@@ -2,7 +2,7 @@
   <div
     class="yc-select-dropdown-virtual-list"
     v-bind="containerProps"
-    @scroll="handleScroll"
+    @scroll="(e) => emits('dropdownScroll', e)"
   >
     <!-- 渲染虚拟列表 -->
     <div class="yc-select-dropdown-list" v-bind="wrapperProps">
@@ -49,10 +49,6 @@ const renderLabel = (option: ObjectData) => {
   return option[render]
     ? getSlotFunction(option[render])
     : getSlotFunction(option[label]);
-};
-// 处理滚动
-const handleScroll = (e: Event) => {
-  emits('dropdownScroll', e);
 };
 </script>
 
