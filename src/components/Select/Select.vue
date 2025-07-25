@@ -87,8 +87,8 @@
           @press-enter="handleEvent('create')"
           @update:model-value="(v) => handleEvent('updateValue', v)"
         >
-          <template #tag="scope">
-            <slot v-if="$slots.label" name="label" v-bind="scope" />
+          <template #tag="{ tag }">
+            <slot v-if="$slots.label" name="label" :data="tag" />
           </template>
           <!-- suffix -->
           <template #suffix>

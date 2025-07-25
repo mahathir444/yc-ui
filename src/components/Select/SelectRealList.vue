@@ -1,5 +1,4 @@
 <template>
-  <!-- @reach-bottom="emits('dropdownReachBottom')" -->
   <yc-scrollbar
     :scrollbar="scrollbar"
     class="yc-select-dropdown-list-wrapper"
@@ -40,17 +39,25 @@
 </template>
 
 <script lang="ts" setup>
+import { ref, computed } from 'vue';
 import { ObjectData } from '@shared/type';
 import { getSlotFunction } from '@shared/utils';
 import useContext from './hooks/useContext';
 import YcOption from './Option.vue';
 import YcOptgroup from './Optgroup.vue';
-import YcScrollbar from '@/components/Scrollbar';
+import {
+  default as YcScrollbar,
+  ScrollbarInstance,
+} from '@/components/Scrollbar';
 defineProps<{
   scrollbar: boolean;
 }>();
 // 接收注入
 const { fieldKey, renderOptions, slots, emits } = useContext().inject();
+// scrollbar
+const scrollbarRef = ref<ScrollbarInstance>();
+// scrollRef
+const scrollRef = computed(() => scrollbarRef.value?.getScrollRef());
 // 渲染label
 const renderLabel = (option: ObjectData) => {
   if (slots.option) {
@@ -60,9 +67,7 @@ const renderLabel = (option: ObjectData) => {
       }) || [];
   }
   const { render, label } = fieldKey.value;
-  return option[render]
-    ? getSlotFunction(option[render])
-    : getSlotFunction(option[label]);
+  return getSlotFunction(option[render] ? option[render] : option[label]);
 };
 </script>
 

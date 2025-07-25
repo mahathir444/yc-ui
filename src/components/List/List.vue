@@ -13,11 +13,12 @@
     <yc-spin :loading="loading" class="yc-list-spin">
       <!-- 渲染真实列表 -->
       <yc-scrollbar
+        :scrollbar="scrollbar"
         :style="{
           maxHeight: isVirtualList ? '' : valueToPx(maxHeight),
         }"
-        :scrollbar="scrollbar"
         class="yc-list"
+        ref="scrollbarRef"
         @scroll="(_, _1, e) => emits('scroll', e)"
       >
         <div class="yc-list-content-wrapper">
@@ -90,7 +91,10 @@ import { ref, toRefs, computed } from 'vue';
 import { ListProps, ListEmits, ListSlots } from './type';
 import { getGlobalConfig, useControlValue, valueToPx } from '@shared/utils';
 import YcSpin from '@/components/Spin';
-import YcScrollbar from '@/components/Scrollbar';
+import {
+  default as YcScrollbar,
+  ScrollbarInstance,
+} from '@/components/Scrollbar';
 import YcPagination from '@/components/Pagination';
 import { default as YcGrid, GridItem as YcGridItem } from '@/components/Grid';
 import VirtualList from './ListVirtual.vue';
@@ -113,11 +117,16 @@ const props = withDefaults(defineProps<ListProps>(), {
   scrollbar: true,
 });
 const emits = defineEmits<ListEmits>();
-const { data, paginationProps, virtualListProps, gridProps } = toRefs(props);
+const { data, paginationProps, virtualListProps, gridProps, bottomOffset } =
+  toRefs(props);
 // 注入全局属性
 const { size, renderEmpty } = getGlobalConfig(props);
 // 是否触底
 const isBottomReached = ref<boolean>(false);
+// scrollbar
+const scrollbarRef = ref<ScrollbarInstance>();
+// scrollRef
+const scrollRef = computed(() => scrollbarRef.value?.getScrollRef());
 // current
 const current = computed(() => paginationProps.value?.current);
 // 计算的current
@@ -158,11 +167,6 @@ const isVirtualList = computed(() => {
       (virtualListProps.value.threshold as number) > data.value.length)
   );
 });
-// 处理到达底部
-const handleReachBottom = () => {
-  isBottomReached.value = true;
-  emits('reach-bottom');
-};
 </script>
 
 <style lang="less" scoped>

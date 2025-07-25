@@ -24,7 +24,7 @@ import { toRefs, ref, watch, nextTick } from 'vue';
 import { useVirtualList } from '@vueuse/core';
 import { VirtualListProps } from '@/components/Select';
 import { ObjectData } from '@shared/type';
-import useScrollReach from '@/components/Scrollbar/hooks/useScrollReach';
+
 const props = defineProps<{
   data: ObjectData[];
   offsetBottom: number;
@@ -41,13 +41,6 @@ const listRef = ref<HTMLDivElement>();
 const { list, containerProps, wrapperProps } = useVirtualList(data, {
   itemHeight: virtualListProps.value?.itemHeight || 40,
   overscan: virtualListProps.value?.buffer || 10,
-});
-// 处理触底逻辑
-useScrollReach({
-  target: listRef,
-  offsetBottom,
-  offsetRight: ref(0),
-  onReachBottom: () => emits('reachBottom'),
 });
 </script>
 
