@@ -49,9 +49,12 @@ import {
   ScrollbarSlots,
   ScrollbarExpose,
 } from './type';
-import { useElementSize, useResizeObserver } from '@vueuse/core';
+import {
+  useElementSize,
+  useResizeObserver,
+  useInfiniteScroll,
+} from '@vueuse/core';
 import ScrollbarTrack from './ScrollbarTrack.vue';
-import useScrollReach from './hooks/useScrollReach';
 import useContext from './hooks/useContext';
 defineOptions({
   name: 'Scrollbar',
@@ -69,38 +72,15 @@ const props = withDefaults(defineProps<ScrollbarProps>(), {
   },
   autoFill: false,
   offsetBottom: 0,
-  offsetRight: 0,
   scrollbar: true,
 });
 const emits = defineEmits<ScrollbarEmits>();
 // 解构属性
-const { type, offsetBottom, offsetRight, scrollbar } = toRefs(props);
+const { type, scrollbar } = toRefs(props);
 // contentRef
 const contentRef = ref<HTMLElement>();
 // scrollRef
 const scrollRef = ref<HTMLDivElement>();
-// 判断是否触底
-const { isReach } = useScrollReach({
-  offsetBottom,
-  offsetRight,
-  scrolCb: (params) => {
-    const { scrollLeft, scrollTop, isBottomReached, isRightReached, e } =
-      params;
-    emits('scroll', {
-      left: scrollLeft,
-      top: scrollTop,
-      isRightReached,
-      isBottomReached,
-      e,
-    });
-  },
-  reachBottomCb: () => {
-    emits('reachBottom');
-  },
-  reachRightCb: () => {
-    emits('reachRight');
-  },
-});
 // 获取内容的高度
 const contentWidth = ref(0);
 const contentHeight = ref(0);
@@ -108,9 +88,6 @@ useResizeObserver(contentRef, () => {
   const { offsetWidth, offsetHeight } = contentRef.value as HTMLDivElement;
   contentWidth.value = offsetWidth;
   contentHeight.value = offsetHeight;
-  isReach({
-    target: contentRef.value as HTMLDivElement,
-  } as unknown as Event);
 });
 // 初始化bar
 const {
@@ -133,8 +110,8 @@ const handleScroll = (e: Event) => {
     scrollWidth: _scrollWidth,
     scrollHeight: _scrollHeight,
   } = e.target as HTMLDivElement;
-  // 处理触底逻辑
-  isReach(e);
+  // 触发滚动
+  emits('scroll', scrollLeft, scrollTop, e);
   if (!scrollbar.value) {
     return;
   }

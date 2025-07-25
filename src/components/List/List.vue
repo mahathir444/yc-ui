@@ -16,11 +16,9 @@
         :style="{
           maxHeight: isVirtualList ? '' : valueToPx(maxHeight),
         }"
-        :offset-bottom="bottomOffset"
         :scrollbar="scrollbar"
         class="yc-list"
-        @scroll="({ isBottomReached: v, e }) => handleScroll(v, e)"
-        @reach-bottom="$emit('reach-bottom')"
+        @scroll="(_, _1, e) => emits('scroll', e)"
       >
         <div class="yc-list-content-wrapper">
           <div v-if="$slots.header" class="yc-list-header">
@@ -35,8 +33,7 @@
             :style="{
               maxHeight: valueToPx(maxHeight),
             }"
-            @reach-bottom="$emit('reach-bottom')"
-            @scroll="handleScroll"
+            @scroll="(e) => emits('scroll', e)"
           >
             <template v-if="$slots.item" #item="scope">
               <slot name="item" v-bind="scope" />
@@ -123,6 +120,7 @@ const { size, renderEmpty } = getGlobalConfig(props);
 const isBottomReached = ref<boolean>(false);
 // current
 const current = computed(() => paginationProps.value?.current);
+// 计算的current
 const computedCurrent = useControlValue<number>(
   current,
   paginationProps.value?.current || 1,
@@ -132,6 +130,7 @@ const computedCurrent = useControlValue<number>(
 );
 // page-size
 const pageSize = computed(() => paginationProps.value?.pageSize);
+// 计算的pageSize
 const computedPageSize = useControlValue<number>(
   pageSize,
   paginationProps.value?.defaultPageSize || 10,
@@ -159,10 +158,10 @@ const isVirtualList = computed(() => {
       (virtualListProps.value.threshold as number) > data.value.length)
   );
 });
-// 处理滚动
-const handleScroll = (v: boolean, _e: Event) => {
-  isBottomReached.value = v;
-  emits('scroll');
+// 处理到达底部
+const handleReachBottom = () => {
+  isBottomReached.value = true;
+  emits('reach-bottom');
 };
 </script>
 

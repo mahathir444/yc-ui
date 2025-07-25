@@ -8,6 +8,7 @@ export {}
 declare module 'vue' {
   export interface GlobalComponents {
     _Icon: typeof import('./src/components/_shared/icons/_Icon.vue')['default']
+    AAffix: typeof import('@arco-design/web-vue')['Affix']
     AAlert: typeof import('@arco-design/web-vue')['Alert']
     AAutoComplete: typeof import('@arco-design/web-vue')['AutoComplete']
     AAvatar: typeof import('@arco-design/web-vue')['Avatar']
@@ -71,6 +72,8 @@ declare module 'vue' {
     AnchorLink: typeof import('./src/components/Anchor/AnchorLink.vue')['default']
     AOptgroup: typeof import('@arco-design/web-vue')['Optgroup']
     AOption: typeof import('@arco-design/web-vue')['Option']
+    APageHeader: typeof import('@arco-design/web-vue')['PageHeader']
+    APagination: typeof import('@arco-design/web-vue')['Pagination']
     APopconfirm: typeof import('@arco-design/web-vue')['Popconfirm']
     APopover: typeof import('@arco-design/web-vue')['Popover']
     AProgress: typeof import('@arco-design/web-vue')['Progress']
@@ -89,6 +92,8 @@ declare module 'vue' {
     ASpin: typeof import('@arco-design/web-vue')['Spin']
     ASplit: typeof import('@arco-design/web-vue')['Split']
     AStatistic: typeof import('@arco-design/web-vue')['Statistic']
+    AStep: typeof import('@arco-design/web-vue')['Step']
+    ASteps: typeof import('@arco-design/web-vue')['Steps']
     ASubMenu: typeof import('@arco-design/web-vue')['SubMenu']
     ASwitch: typeof import('@arco-design/web-vue')['Switch']
     ATabPane: typeof import('@arco-design/web-vue')['TabPane']

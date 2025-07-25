@@ -1,9 +1,9 @@
 <template>
+  <!-- @reach-bottom="emits('dropdownReachBottom')" -->
   <yc-scrollbar
     :scrollbar="scrollbar"
     class="yc-select-dropdown-list-wrapper"
-    @scroll="emits('dropdownScroll')"
-    @reach-bottom="emits('dropdownReachBottom')"
+    @scroll="(_, _1, e) => emits('dropdownScroll', e)"
   >
     <div class="yc-select-dropdown-list">
       <!-- default -->

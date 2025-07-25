@@ -1,5 +1,9 @@
 <template>
-  <div class="yc-virtual-list" @scroll="isReach" v-bind="containerProps">
+  <div
+    class="yc-virtual-list"
+    @scroll="(e) => $emit('scroll', e)"
+    v-bind="containerProps"
+  >
     <div
       class="yc-list-content"
       :el="
@@ -27,7 +31,7 @@ const props = defineProps<{
   virtualListProps: VirtualListProps;
 }>();
 const emits = defineEmits<{
-  (e: 'scroll', isBottomReached: boolean, ev: Event): void;
+  (e: 'scroll', ev: Event): void;
   (e: 'reachBottom'): void;
 }>();
 const { data, virtualListProps, offsetBottom } = toRefs(props);
@@ -39,25 +43,12 @@ const { list, containerProps, wrapperProps } = useVirtualList(data, {
   overscan: virtualListProps.value?.buffer || 10,
 });
 // 处理触底逻辑
-const { isReach } = useScrollReach({
+useScrollReach({
+  target: listRef,
   offsetBottom,
   offsetRight: ref(0),
-  scrolCb: (params) => {
-    const { isBottomReached, e } = params;
-    emits('scroll', isBottomReached, e);
-  },
-  reachBottomCb: () => emits('reachBottom'),
+  onReachBottom: () => emits('reachBottom'),
 });
-
-watch(
-  () => data.value.length,
-  async () => {
-    await nextTick();
-    isReach({
-      e: listRef.value as HTMLDivElement,
-    } as unknown as Event);
-  }
-);
 </script>
 
 <style lang="less">

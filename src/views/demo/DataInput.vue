@@ -94,13 +94,12 @@
     <div>
       <yc-transfer :data="options" show-search />
     </div>
-    <div style="width: 300px">
+    <div style="width: 700px">
       <yc-slider
         show-input
-        :min="30"
+        :min="0"
         :max="100"
         :marks="{
-          10: '10km',
           30: '30km',
           60: '60km',
           90: '90km',

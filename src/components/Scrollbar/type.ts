@@ -7,26 +7,12 @@ export interface ScrollbarProps {
   outerStyle?: CSSProperties;
   // 是否自动继承高度
   autoFill?: boolean;
-  // 触底偏移量
-  offsetBottom?: number;
-  offsetRight?: number;
   // 是否真实srollbar
   scrollbar?: boolean;
 }
 
 export interface ScrollbarEmits {
-  (
-    e: 'scroll',
-    params: {
-      left: number;
-      top: number;
-      isRightReached: boolean;
-      isBottomReached: boolean;
-      e: Event;
-    }
-  ): void;
-  (e: 'reachBottom'): void;
-  (e: 'reachRight'): void;
+  (e: 'scroll', left: number, top: number, ev: Event): void;
 }
 
 export interface ScrollbarSlots {

@@ -20,12 +20,11 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, toRefs } from 'vue';
+import { toRefs } from 'vue';
 import { useVirtualList } from '@vueuse/core';
 import { ObjectData } from '@shared/type';
 import { getSlotFunction } from '@shared/utils';
 import useContext from './hooks/useContext';
-import useScrollReach from '@/components/Scrollbar/hooks/useScrollReach';
 import { Option as YcOption, VirtualListProps } from './index';
 const props = defineProps<{
   virtualListProps: VirtualListProps;
@@ -33,12 +32,6 @@ const props = defineProps<{
 const { virtualListProps } = toRefs(props);
 // 接收注入
 const { fieldKey, renderOptions, slots, emits } = useContext().inject();
-// 处理触底逻辑
-const { isReach } = useScrollReach({
-  offsetBottom: ref(0),
-  offsetRight: ref(0),
-  reachBottomCb: () => emits('dropdownReachBottom'),
-});
 // 初始化虚拟滚动
 const { list, wrapperProps, containerProps } = useVirtualList(renderOptions, {
   overscan: virtualListProps.value?.buffer ?? 10,
@@ -59,8 +52,7 @@ const renderLabel = (option: ObjectData) => {
 };
 // 处理滚动
 const handleScroll = (e: Event) => {
-  emits('dropdownScroll');
-  isReach(e);
+  emits('dropdownScroll', e);
 };
 </script>
 

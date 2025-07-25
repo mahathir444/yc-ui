@@ -56,7 +56,7 @@ export interface SelectEmits {
   (e: 'search', value: string): void;
   (e: 'exceedLimit', value: SelectValue, ev?: MouseEvent): void;
   (e: 'popupVisibleChange', value: boolean): void;
-  (e: 'dropdownScroll'): void;
+  (e: 'dropdownScroll', ev: Event): void;
   (e: 'dropdownReachBottom'): void;
   (e: 'select', value: SelectValue): void;
 }
